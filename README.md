@@ -1,4 +1,1 @@
-lugajs
-======
-
-Luga JS
+Luga JS is a data-centric JavaScript library
