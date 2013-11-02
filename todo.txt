@@ -1,3 +1,5 @@
 - Add string format and use it for throw messages
-- Add unit tests for CSI
+- Try unit tests for CSI
 - Add support for fixtures
+- Add license
+- Start validator
