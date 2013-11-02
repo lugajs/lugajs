@@ -6,4 +6,5 @@ describe("Luga core", function() {
 	it("Luga root namespace must should be defined", function() {
 		expect(luga).toBeDefined();
 	});
+
 });
