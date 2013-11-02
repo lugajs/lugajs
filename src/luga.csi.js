@@ -1,9 +1,13 @@
-"use strict";
+/**
+ * Copyright 2013 massimocorner.com
+ * @author      Massimo Foti (massimo@massimocorner.com)
+ * @require     luga.js
+ */
 
+"use strict";
 if(typeof(luga) === "undefined") {
 	throw("Unable to find luga.js");
 }
-
 luga.namespace("luga.csi");
 
 luga.csi.CONST = {

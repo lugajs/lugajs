@@ -1,5 +1,10 @@
-"use strict";
+/**
+ * Copyright 2013 massimocorner.com
+ * @author      Massimo Foti (massimo@massimocorner.com)
+ * @require     tmt_form.js
+ */
 
+"use strict";
 if(typeof(luga) === "undefined") {
 	var luga = {};
 }
