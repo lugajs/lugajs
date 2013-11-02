@@ -26,7 +26,7 @@ luga.validator.CONST = {
  *                                   This prevents multiple submits but also prevents the value of the submit buttons from being passed as part of the HTTP request.
  *                                   Set this options to false to keep the submit buttons enabled. Optional
  */
-luga.validator.form = function(options) {
+luga.validator.formValidator = function(options) {
 
 	this.options = {
 		blocksubmit: jQuery(options.formNode).attr(luga.validator.CONST.ATTRIBUTES.BLOCK_SUBMIT) || true
