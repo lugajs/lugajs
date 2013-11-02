@@ -8,6 +8,7 @@
 if(typeof(luga) === "undefined") {
 	var luga = {};
 }
+luga.version = 0.1;
 
 // Based on Nicholas C. Zakas's code
 luga.namespace = function(ns, rootObject) {
