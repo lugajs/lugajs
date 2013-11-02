@@ -9,6 +9,7 @@ describe("Luga core", function() {
 
 	it("luga.namespace() method must be defined", function() {
 		expect(luga.namespace).toBeDefined();
+		expect(jQuery.isFunction(luga.namespace)).toBeTruthy();
 	});
 
 	it("luga.namespace() method works on arbitrary root object", function() {
