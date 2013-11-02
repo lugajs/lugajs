@@ -22,13 +22,13 @@ luga.validator.CONST = {
  * Form validator widget
  *
  * @param options.formNode:          Root node for widget (DOM reference). Required
- * @param options.url:               Url to be be included. Optional. Default to the value of the form's "action" attribute
+ * @param options.blocksubmit:       Disable submit buttons if the form isn't valid.
+ *                                   This prevents multiple submits but also prevents the value of the submit buttons from being passed as part of the HTTP request.
+ *                                   Set this options to false to keep the submit buttons enabled. Optional
  */
 luga.validator.form = function(options) {
 
 	this.options = {
-		url: jQuery(options.formNode).attr("action"),
-		method: this.onSuccess,
 		blocksubmit: jQuery(options.formNode).attr(luga.validator.CONST.ATTRIBUTES.BLOCK_SUBMIT) || true
 	};
 	jQuery.extend(this.options, options);
