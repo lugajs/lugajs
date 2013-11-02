@@ -1,10 +1,13 @@
 /**
  * Copyright 2013 massimocorner.com
  * @author      Massimo Foti (massimo@massimocorner.com)
- * @require     tmt_form.js
+ * @require     jQuery
  */
 
 "use strict";
+if(typeof(jQuery) === "undefined") {
+	throw("Unable to find jQuery");
+}
 if(typeof(luga) === "undefined") {
 	var luga = {};
 }

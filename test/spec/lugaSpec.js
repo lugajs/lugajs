@@ -1,5 +1,9 @@
 describe("Luga core", function() {
 
+	it("jQuery be defined", function() {
+		expect(jQuery).toBeDefined();
+	});
+
 	it("luga root namespace must be defined", function() {
 		expect(luga).toBeDefined();
 	});
