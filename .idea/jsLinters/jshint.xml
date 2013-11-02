@@ -7,7 +7,7 @@
     <option eqeqeq="true" />
     <option forin="true" />
     <option immed="false" />
-    <option latedef="true" />
+    <option latedef="false" />
     <option newcap="true" />
     <option noarg="true" />
     <option noempty="true" />

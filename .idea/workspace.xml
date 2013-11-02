@@ -12,7 +12,7 @@
     <file path="/SpecRunner.html" changelist="5008c05a-a271-4b8f-8289-11566125ec88" time="1383401062734" ignored="false" />
     <file path="/Dummy.txt" changelist="5008c05a-a271-4b8f-8289-11566125ec88" time="1383401173115" ignored="false" />
     <file path="/core.js" changelist="5008c05a-a271-4b8f-8289-11566125ec88" time="1383401673063" ignored="false" />
-    <file path="/luga.js" changelist="5008c05a-a271-4b8f-8289-11566125ec88" time="1383401921964" ignored="false" />
+    <file path="/luga.js" changelist="5008c05a-a271-4b8f-8289-11566125ec88" time="1383402247404" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +94,7 @@
       <file leaf-file-name="luga.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/luga.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="19" selection-start="48" selection-end="48" vertical-scroll-proportion="0.01988304">
+            <state line="5" column="6" selection-start="95" selection-end="104" vertical-scroll-proportion="0.099415205">
               <folding />
             </state>
           </provider>
@@ -733,7 +733,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/luga.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="19" selection-start="48" selection-end="48" vertical-scroll-proportion="0.01988304">
+        <state line="5" column="6" selection-start="95" selection-end="104" vertical-scroll-proportion="0.099415205">
           <folding />
         </state>
       </provider>
