@@ -1,3 +1,5 @@
+"use strict";
+
 if(typeof(luga) === "undefined") {
 	var luga = {};
 }
