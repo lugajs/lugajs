@@ -19,7 +19,7 @@ luga.csi.CONST = {
  * Client-side include widget
  *
  * @param options.rootNode:          Root node for widget (DOM reference). Required
- * @param options.url:               Url to be be included. Optional. Default to the value of the "data-luga-csi" attribute inside rootNode
+ * @param options.url:               Url to be included. Optional. Default to the value of the "data-luga-csi" attribute inside rootNode
  * @param options.success:           Callback invoked once the url is successfully fetched. Optional, default to the internal "onSuccess" method
  * @param options.error:             Callback invoked if the url request fails. Optional, default to the internal "onError" method
  * @param options.context            Context to be used for success and error callbacks. Optional
