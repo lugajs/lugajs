@@ -29,7 +29,7 @@ luga.validator.form = function(options) {
 	this.options = {
 		url: jQuery(options.formNode).attr("action"),
 		method: this.onSuccess,
-		blocksubmit: true || jQuery(options.formNode).attr(luga.validator.CONST.ATTRIBUTES.BLOCK_SUBMIT)
+		blocksubmit: jQuery(options.formNode).attr(luga.validator.CONST.ATTRIBUTES.BLOCK_SUBMIT) || true
 	};
 	jQuery.extend(this.options, options);
 	var self = this;
@@ -37,18 +37,18 @@ luga.validator.form = function(options) {
 
 	// Execute multiple validators. Returns an array of validators containing errors
 	// Returns and empty array if no errors
-	this.executeValidators = function(){
+	this.executeValidators = function() {
 		var validatedFields = {};
 		// Store all the field validators that contains errors
 		var activeValidators = [];
 		// Validate all the fields
-		for(var i=0; i<self.validators.length; i++){
-			if(self.validators[i].validate){
-				if(validatedFields[self.validators[i].name]){
+		for(var i=0; i<self.validators.length; i++) {
+			if(self.validators[i].validate) {
+				if(validatedFields[self.validators[i].name]) {
 					// Already validated checkbox or radio, skip it
 					continue;
 				}
-				if(self.validators[i].validate()){
+				if(self.validators[i].validate()) {
 					activeValidators[activeValidators.length] = self.validators[i];
 				}
 				// Keep track of already validated fields (to skip already validated checkboxes or radios)
