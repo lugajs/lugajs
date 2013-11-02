@@ -1,4 +1,4 @@
-if(typeof(luga) === "undefined"){
+if(typeof(luga) === "undefined") {
 	var luga = {};
 }
 
