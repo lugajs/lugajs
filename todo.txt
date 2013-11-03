@@ -4,6 +4,6 @@
 - Add support for fixtures in tests
 - Add license
 
-- Move on with form validator
+- Move on with field validator (base validator is done)
 
 - Add docs for csi

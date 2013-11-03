@@ -147,10 +147,10 @@ luga.validator.baseFieldValidator = function(options) {
 		self.node.removeAttr("title");
 	};
 
-	this.validate = function(){
-		// If the field contains error, flag it as invalid and return false
+	// Be careful, this method returns a boolean but also has side-effects
+	this.validate = function() {
+		// Disabled fields are always valid
 		if(self.node.prop("disabled")) {
-			// Disabled fields are always valid
 			self.flagValid();
 			return false;
 		}
