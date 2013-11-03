@@ -168,6 +168,15 @@ luga.validator.textValidator = function(options) {
 	jQuery.extend(this.options, options);
 	jQuery.extend(this, new luga.validator.baseFieldValidator(this.options));
 	var self = this;
+	self.node = options.fieldNode;
+	self.name = "";
+
+	if(jQuery(self.node).attr("name")) {
+		self.name = jQuery(self.node).attr("name");
+	}
+	else if(jQuery(self.node).attr("id")) {
+		self.name = jQuery(self.node).attr("id");
+	}
 };
 
 luga.validator.selectValidator = function(options) {
@@ -177,6 +186,7 @@ luga.validator.selectValidator = function(options) {
 	jQuery.extend(this.options, options);
 	jQuery.extend(this, new luga.validator.baseFieldValidator(this.options));
 	var self = this;
+	self.node = options.fieldNode;
 };
 
 luga.validator.radioValidator = function(options) {
