@@ -17,7 +17,16 @@ luga.validator.CONST = {
 		BLOCK_SUBMIT: "data-luga-blocksubmit",
 		MESSAGE: "data-luga-message",
 		ERROR_CLASS: "data-luga-errorclass",
-		REQUIRED: "data-luga-required"
+		REQUIRED: "data-luga-required",
+		PATTERN: "data-luga-pattern",
+		MIN_LENGTH: "data-luga-minlength",
+		MAX_LENGTH: "data-luga-maxlength",
+		MIN_NUMBER: "data-luga-minnumber",
+		MAX_NUMBER: "data-luga-maxnumber",
+		DATE_PATTERN: "data-luga-datepattern",
+		MIN_DATE: "data-luga-mindate",
+		MAX_DATE: "data-luga-maxdate",
+		EQUAL_TO: "data-luga-equalto"
 	},
 	FAKE_INPUT_TYPES: {
 		fieldset: true,
@@ -109,8 +118,8 @@ luga.validator.getFieldValidatorInstance = function(options) {
  * Abstract field validator class. To be extended for different kind of fields
  *
  * @param options.fieldNode:          Root node for widget (DOM reference). Required
- * @param options.message:            Error message. Value can also be set using the "data-luga-message" attribute. Optional
- * @param options.errorclass:         CSS class to apply for invalid state. Value can also be set using the "data-luga-errorclass" attribute. Optional
+ * @param options.message:            Error message. Can also be set using the "data-luga-message" attribute. Optional
+ * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
  * @param.options                     Additional options can be used, but are specific to certain kind of input fields. Check their implementation for details
  */
 luga.validator.baseFieldValidator = function(options) {
@@ -122,12 +131,42 @@ luga.validator.baseFieldValidator = function(options) {
 	var self = this;
 };
 
+/**
+ * Text field validator class
+ *
+ * @param options.fieldNode:          Root node for widget (DOM reference). Required
+ * @param options.required:           Set it to true to flag the field as required.
+ *                                    In case you need conditional validation, set it to the name of a custom function that will handle the condition.
+ *                                    Can also be set using the "data-luga-required" attribute. Optional
+ * @param options.pattern:            Validation pattern to be applied, either built-in or custom.
+ *                                    Can also be set using the "data-luga-pattern" attribute. Optional
+ * @param options.minlength:          Enforce a minimum length. Can also be set using the "data-luga-minlength" attribute. Optional
+ * @param options.maxlength:          Enforce a maximum length. Can also be set using the "data-luga-maxlength" attribute. Optional
+ * @param options.minnumber:          Enforce a minimum numeric value. Can also be set using the "data-luga-minnumber" attribute. Optional
+ * @param options.maxnumber:          Enforce a maximum numeric value. Can also be set using the "data-luga-maxnumber" attribute. Optional
+ * @param options.datepattern:        Date format pattern to be applied, either built-in or custom.. Can also be set using the "data-luga-datepattern" attribute. Optional
+ * @param options.mindate:            Enforce a minimum date. Can also be set using the "data-luga-mindate" attribute. Optional
+ * @param options.maxdate:            Enforce a maximum date. Can also be set using the "data-luga-maxdate" attribute. Optional
+ * @param options.equalto:            Id of another field who's values will be compared for equality. Can also be set using the "data-luga-equalto" attribute. Optional
+ * @param options.message:            Error message. Can also be set using the "data-luga-message" attribute. Optional
+ * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
+
+ */
 luga.validator.textValidator = function(options) {
 	this.options = {
-		required: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.REQUIRED)
+		required: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.REQUIRED),
+		pattern: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.PATTERN),
+		minlength: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MIN_LENGTH),
+		maxlength: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MAX_LENGTH),
+		minnumber: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MIN_NUMBER),
+		maxnumber: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MAX_NUMBER),
+		datepattern: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.DATE_PATTERN),
+		mindate: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MIN_DATE),
+		maxdate: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MAX_DATE),
+		equalto: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.EQUAL_TO)
 	};
 	jQuery.extend(this.options, options);
-	jQuery.extend(this, new luga.validator.baseFieldValidator(options));
+	jQuery.extend(this, new luga.validator.baseFieldValidator(this.options));
 	var self = this;
 };
 
@@ -136,7 +175,7 @@ luga.validator.selectValidator = function(options) {
 
 	};
 	jQuery.extend(this.options, options);
-	jQuery.extend(this, new luga.validator.baseFieldValidator(options));
+	jQuery.extend(this, new luga.validator.baseFieldValidator(this.options));
 	var self = this;
 };
 
@@ -145,7 +184,7 @@ luga.validator.radioValidator = function(options) {
 
 	};
 	jQuery.extend(this.options, options);
-	jQuery.extend(this, new luga.validator.baseFieldValidator(options));
+	jQuery.extend(this, new luga.validator.baseFieldValidator(this.options));
 	var self = this;
 };
 
@@ -154,7 +193,7 @@ luga.validator.checkboxValidator = function(options) {
 
 	};
 	jQuery.extend(this.options, options);
-	jQuery.extend(this, new luga.validator.baseFieldValidator(options));
+	jQuery.extend(this, new luga.validator.baseFieldValidator(this.options));
 	var self = this;
 };
 
