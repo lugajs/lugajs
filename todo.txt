@@ -5,5 +5,9 @@
 - Add license
 
 - Move on with field validator (base validator is done)
+- Test custom pattern
+- Test/implement built-in rules
+- Test custom rule
+- Implement better, simpler, email validation (regexp for email is silly)
 
 - Add docs for csi
