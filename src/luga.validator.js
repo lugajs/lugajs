@@ -215,6 +215,24 @@ luga.validator.textValidator = function(options) {
 	this.isEmpty = function() {
 		return self.node.val() === "";
 	};
+
+	this.isRequired = function() {
+		var requiredAtt = this.options.required;
+		if(requiredAtt){
+			if(requiredAtt === "true") {
+				return true;
+			}
+			if(requiredAtt === "false") {
+				return false;
+			}
+			// It's a conditional validation. Invoke the relevant function if available
+			var functionReference = eval(requiredAtt);
+			if(jQuery.isFunction(functionReference)) {
+				return functionReference.apply(null, self.node);
+			}
+		}
+		return false;
+	};
 };
 
 luga.validator.selectValidator = function(options) {

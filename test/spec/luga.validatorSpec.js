@@ -1,3 +1,17 @@
+"use strict";
+
+function mocktruthyfunction(fieldNode) {
+	return true;
+}
+
+function mockfalsyfunction(fieldNode) {
+	return false;
+}
+
+var mock = {};
+mock.mocktruthyfunction = mocktruthyfunction;
+mock.mockfalsyfunction = mockfalsyfunction;
+
 describe("luga validator", function() {
 
 	it("luga.validator namespaces must be defined", function() {
@@ -183,11 +197,55 @@ describe("luga validator", function() {
 	});
 
 	it("Text validator detects empty field", function() {
-		var textNode = jQuery('<input type="text" data-luga-required="true" data-luga-errorclass="invalid">');
+		var textNode = jQuery('<input type="text" data-luga-required="true">');
 		var textValidator = new luga.validator.getFieldValidatorInstance({
 			fieldNode: textNode
 		});
 		expect(textValidator.isEmpty()).toBeTruthy();
+	});
+
+	it("Text validator detects if field is required on simple validation", function() {
+
+		var textNode = jQuery('<input type="text" data-luga-required="true">');
+		var textValidator = new luga.validator.getFieldValidatorInstance({
+			fieldNode: textNode
+		});
+		expect(textValidator.isRequired()).toBeTruthy();
+
+		textNode = jQuery('<input type="text" data-luga-required="false">');
+		textValidator = new luga.validator.getFieldValidatorInstance({
+			fieldNode: textNode
+		});
+		expect(textValidator.isRequired()).toBeFalsy();
+
+	});
+
+	it("Text validator detects if field is required on conditional validation. Even if functions are inside namespace", function() {
+
+		var textNode = jQuery('<input type="text" data-luga-required="mocktruthyfunction">');
+		var textValidator = new luga.validator.getFieldValidatorInstance({
+			fieldNode: textNode
+		});
+		expect(textValidator.isRequired()).toBeTruthy();
+
+		textNode = jQuery('<input type="text" data-luga-required="mockfalsyfunction">');
+		textValidator = new luga.validator.getFieldValidatorInstance({
+			fieldNode: textNode
+		});
+		expect(textValidator.isRequired()).toBeFalsy();
+
+		textNode = jQuery('<input type="text" data-luga-required="mock.mocktruthyfunction">');
+		textValidator = new luga.validator.getFieldValidatorInstance({
+			fieldNode: textNode
+		});
+		expect(textValidator.isRequired()).toBeTruthy();
+
+		textNode = jQuery('<input type="text" data-luga-required="mock.mockfalsyfunction">');
+		textValidator = new luga.validator.getFieldValidatorInstance({
+			fieldNode: textNode
+		});
+		expect(textValidator.isRequired()).toBeFalsy();
+
 	});
 
 });
