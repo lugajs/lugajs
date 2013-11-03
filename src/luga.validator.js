@@ -12,6 +12,7 @@ luga.namespace("luga.validator");
 
 luga.validator.CONST = {
 	FORM_SELECTOR: "form[data-luga-validate]",
+	RULE_PREFIX: "data-luga-",
 	CUSTOM_ATTRIBUTES: {
 		VALIDATE: "data-luga-validate",
 		BLOCK_SUBMIT: "data-luga-blocksubmit",
@@ -228,10 +229,34 @@ luga.validator.textValidator = function(options) {
 			// It's a conditional validation. Invoke the relevant function if available
 			var functionReference = eval(requiredAtt);
 			if(jQuery.isFunction(functionReference)) {
-				return functionReference.apply(null, self.node);
+				return functionReference.apply(null, [self.node]);
 			}
 		}
 		return false;
+	};
+
+	// Check if the field satisfy the rules associated with it
+	// Be careful, this method contains multiple exit points!!!
+	this.isValid = function() {
+		if(self.isEmpty()) {
+			if(self.isRequired()) {
+				return false;
+			}
+			else{
+				return true;
+			}
+		}
+		else{
+			// It's empty. Loop over all the available rules
+			for(var rule in luga.validator.rules) {
+				// Check if the current rule is required for the field
+				if(self.node.attr(luga.validator.CONST.RULE_PREFIX + rule)) {
+					// Invoke the rule
+					return luga.validator.rules[rule].apply(null, [self.node, self]);
+				}
+			}
+		}
+		return true;
 	};
 };
 
@@ -262,6 +287,34 @@ luga.validator.checkboxValidator = function(options) {
 	jQuery.extend(this, new luga.validator.baseFieldValidator(this.options));
 	var self = this;
 };
+
+/* Rules */
+
+luga.validator.rules = {};
+
+luga.validator.rules.pattern = function(fieldNode, validator){
+	var regExpObj = luga.validator.patterns[validator.options.pattern];
+	if(regExpObj) {
+		return regExpObj.test(fieldNode.val());
+	}
+	else{
+		// The pattern is missing
+		throw("luga.validator failed to retrieve pattern: " + validator.options.pattern);
+	}
+};
+
+/* Patterns */
+
+luga.validator.patterns = {};
+luga.validator.patterns.lettersonly = new RegExp("^[a-zA-Z]*$");
+luga.validator.patterns.alphanumeric = new RegExp("^\\w*$");
+luga.validator.patterns.integer = new RegExp("^-?\\d\\d*$");
+luga.validator.patterns.positiveinteger = new RegExp("^\\d\\d*$");
+luga.validator.patterns.number = new RegExp("^-?(\\d\\d*\\.\\d*$)|(^-?\\d\\d*$)|(^-?\\.\\d\\d*$)");
+luga.validator.patterns.filepath_pdf = new RegExp("[\\w_]*\\.([pP][dD][fF])$");
+luga.validator.patterns.filepath_jpg = new RegExp("[\\w_]*\\.([jJ][pP][eE]?[gG])$");
+luga.validator.patterns.filepath_zip = new RegExp("[\\w_]*\\.([zZ][iI][pP])$");
+luga.validator.patterns.filepath = new RegExp("[\\w_]*\\.\\w{3}$");
 
 /* Utilities */
 
