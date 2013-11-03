@@ -4,7 +4,7 @@
 - Add support for fixtures in tests
 - Add license
 
-- Move on with field validator (base validator is done)
+- Move on with field validators (base validator and text validator are done)
 - Test custom pattern
 - Test/implement built-in rules
 - Test custom rule
