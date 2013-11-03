@@ -1,7 +1,8 @@
 describe("luga validator", function() {
 
-	it("luga.validator namespace must be defined", function() {
+	it("luga.validator namespaces must be defined", function() {
 		expect(luga.validator).toBeDefined();
+		expect(luga.validator.util).toBeDefined();
 	});
 
 	it("Empty form must be valid", function() {

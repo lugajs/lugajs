@@ -9,6 +9,7 @@ if(typeof(luga) === "undefined") {
 	throw("Unable to find luga.js");
 }
 luga.namespace("luga.validator");
+luga.namespace("luga.validator.util");
 
 luga.validator.CONST = {
 	FORM_SELECTOR: "form[data-luga-validate]",
