@@ -84,7 +84,7 @@ luga.validator.formValidator = function(options) {
 };
 
 /**
- * Field validator factory
+ * Field validator factory. Use this to instantiate a field validator without worrying about the specific implementation
  *
  * @param options.fieldNode:          Root node for widget (DOM reference). Required
  * @param.options                     Additional options can be used, but are specific to different kind of input fields. Check their implementation for details
@@ -93,7 +93,7 @@ luga.validator.getFieldValidatorInstance = function(options) {
 	this.options = {};
 	jQuery.extend(this.options, options);
 	var self = this;
-	// Early exit point
+	// Abort if the field isn't suitable to validation
 	if(!luga.validator.util.isInputField(self.options.fieldNode)) {
 		return null;
 	}
@@ -129,6 +129,23 @@ luga.validator.baseFieldValidator = function(options) {
 	};
 	jQuery.extend(this.options, options);
 	var self = this;
+	self.node = options.fieldNode;
+	self.message = self.options.message;
+
+	this.isValid = function() {
+		throw("luga.validator.baseFieldValidator.isValid() is an abstract method");
+	};
+
+	this.flagInvalid = function(){
+		jQuery(self.node).addClass(self.options.errorclass);
+		// Set the title attribute in order to show a tooltip
+		jQuery(self.node).attr("title", self.message);
+	};
+
+	this.flagValid = function() {
+		jQuery(self.node).removeClass(self.options.errorclass);
+		jQuery(self.node).removeAttr("title");
+	};
 };
 
 /**

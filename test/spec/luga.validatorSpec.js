@@ -159,4 +159,18 @@ describe("luga validator", function() {
 		expect(textValidator.name).toEqual("myId");
 	});
 
+	it("Base validator add/remove error class and title attribute", function() {
+		var textNode = jQuery('<input type="text" data-luga-errorclass="invalid"  data-luga-message="Invalid field!">');
+		var textValidator = new luga.validator.getFieldValidatorInstance({
+			fieldNode: textNode
+		});
+		expect(textNode.hasClass("invalid")).toBeFalsy();
+		textValidator.flagInvalid();
+		expect(textNode.hasClass("invalid")).toBeTruthy();
+		expect(textNode.attr("title")).toEqual("Invalid field!");
+		textValidator.flagValid();
+		expect(textNode.hasClass("invalid")).toBeFalsy();
+		expect(textNode.attr("title")).toBeUndefined();
+	});
+
 });
