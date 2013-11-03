@@ -16,6 +16,12 @@ luga.validator.CONST = {
 	ATTRIBUTES: {
 		VALIDATE: "data-luga-validate",
 		BLOCK_SUBMIT: "data-luga-blocksubmit"
+	},
+	FAKE_INPUT_TYPES: {
+		fieldset: true,
+		reset: true,
+		button: true,
+		submit: true
 	}
 };
 
@@ -64,4 +70,14 @@ luga.validator.formValidator = function(options) {
 		return activeValidators.length === 0;
 	};
 
+};
+
+luga.validator.util.isInputField = function(fieldNode) {
+	if(!jQuery(fieldNode).prop("type")) {
+		return false;
+	}
+	if(luga.validator.CONST.FAKE_INPUT_TYPES[jQuery(fieldNode).prop("type")] === true) {
+		return false;
+	}
+	return true;
 };
