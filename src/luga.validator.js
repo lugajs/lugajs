@@ -75,6 +75,7 @@ luga.validator.util.isInputField = function(fieldNode) {
 	if(!jQuery(fieldNode).prop("type")) {
 		return false;
 	}
+	// It belongs to the kind of nodes that are considered form fields, but can't be validated
 	if(luga.validator.CONST.FAKE_INPUT_TYPES[jQuery(fieldNode).prop("type")] === true) {
 		return false;
 	}
