@@ -129,7 +129,7 @@ luga.validator.baseFieldValidator = function(options) {
 	};
 	jQuery.extend(this.options, options);
 	var self = this;
-	self.node = options.fieldNode;
+	self.node = jQuery(options.fieldNode);
 	self.message = self.options.message;
 
 	this.isValid = function() {
@@ -137,14 +137,31 @@ luga.validator.baseFieldValidator = function(options) {
 	};
 
 	this.flagInvalid = function(){
-		jQuery(self.node).addClass(self.options.errorclass);
+		self.node.addClass(self.options.errorclass);
 		// Set the title attribute in order to show a tooltip
-		jQuery(self.node).attr("title", self.message);
+		self.node.attr("title", self.message);
 	};
 
 	this.flagValid = function() {
-		jQuery(self.node).removeClass(self.options.errorclass);
-		jQuery(self.node).removeAttr("title");
+		self.node.removeClass(self.options.errorclass);
+		self.node.removeAttr("title");
+	};
+
+	this.validate = function(){
+		// If the field contains error, flag it as invalid and return false
+		if(self.node.prop("disabled")) {
+			// Disabled fields are always valid
+			self.flagValid();
+			return false;
+		}
+		if(!self.isValid()) {
+			self.flagInvalid();
+			return true;
+		}
+		else{
+			self.flagValid();
+			return false;
+		}
 	};
 };
 
@@ -185,14 +202,14 @@ luga.validator.textValidator = function(options) {
 	jQuery.extend(this.options, options);
 	jQuery.extend(this, new luga.validator.baseFieldValidator(this.options));
 	var self = this;
-	self.node = options.fieldNode;
+	self.node = jQuery(options.fieldNode);
 	self.name = "";
 
-	if(jQuery(self.node).attr("name")) {
-		self.name = jQuery(self.node).attr("name");
+	if(self.node.attr("name")) {
+		self.name = self.node.attr("name");
 	}
-	else if(jQuery(self.node).attr("id")) {
-		self.name = jQuery(self.node).attr("id");
+	else if(self.node.attr("id")) {
+		self.name = self.node.attr("id");
 	}
 };
 
@@ -203,7 +220,7 @@ luga.validator.selectValidator = function(options) {
 	jQuery.extend(this.options, options);
 	jQuery.extend(this, new luga.validator.baseFieldValidator(this.options));
 	var self = this;
-	self.node = options.fieldNode;
+	self.node = jQuery(options.fieldNode);
 };
 
 luga.validator.radioValidator = function(options) {

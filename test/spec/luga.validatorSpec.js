@@ -160,7 +160,7 @@ describe("luga validator", function() {
 	});
 
 	it("Base validator add/remove error class and title attribute", function() {
-		var textNode = jQuery('<input type="text" data-luga-errorclass="invalid"  data-luga-message="Invalid field!">');
+		var textNode = jQuery('<input type="text" data-luga-required="true" data-luga-errorclass="invalid" data-luga-message="Invalid field!">');
 		var textValidator = new luga.validator.getFieldValidatorInstance({
 			fieldNode: textNode
 		});
@@ -171,6 +171,15 @@ describe("luga validator", function() {
 		textValidator.flagValid();
 		expect(textNode.hasClass("invalid")).toBeFalsy();
 		expect(textNode.attr("title")).toBeUndefined();
+	});
+
+	it("Disabled fields are always valid", function() {
+		var textNode = jQuery('<input type="text" data-luga-required="true" disabled="disabled" data-luga-errorclass="invalid">');
+		var textValidator = new luga.validator.getFieldValidatorInstance({
+			fieldNode: textNode
+		});
+		expect(textValidator.validate()).toBeFalsy();
+		expect(textNode.hasClass("invalid")).toBeFalsy();
 	});
 
 });
