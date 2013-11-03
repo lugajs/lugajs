@@ -211,6 +211,10 @@ luga.validator.textValidator = function(options) {
 	else if(self.node.attr("id")) {
 		self.name = self.node.attr("id");
 	}
+
+	this.isEmpty = function() {
+		return self.node.val() === "";
+	};
 };
 
 luga.validator.selectValidator = function(options) {

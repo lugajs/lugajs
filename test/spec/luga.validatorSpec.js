@@ -182,4 +182,12 @@ describe("luga validator", function() {
 		expect(textNode.hasClass("invalid")).toBeFalsy();
 	});
 
+	it("Text validator detects empty field", function() {
+		var textNode = jQuery('<input type="text" data-luga-required="true" data-luga-errorclass="invalid">');
+		var textValidator = new luga.validator.getFieldValidatorInstance({
+			fieldNode: textNode
+		});
+		expect(textValidator.isEmpty()).toBeTruthy();
+	});
+
 });
