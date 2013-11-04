@@ -34,7 +34,7 @@ describe("luga js", function() {
 	});
 
 	describe("namespace()", function() {
-		it("Must be defined", function() {
+		it("Method must be defined", function() {
 			expect(luga.namespace).toBeDefined();
 			expect(jQuery.isFunction(luga.namespace)).toBeTruthy();
 		});
