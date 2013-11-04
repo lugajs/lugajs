@@ -1,13 +1,14 @@
-- Add string format and use it for throw messages
-
 - Try async unit tests for CSI
 - Add support for fixtures in tests
 - Add license
 
-- Move on with field validators (base validator and text validator are done)
-- Test custom pattern
-- Test/implement built-in rules
+textFieldValidator:
+- Test/implement date related and equalto rules
 - Test custom rule
+- Test custom pattern
+- Test custom date patterns
 - Implement better, simpler, email validation (regexp for email is silly)
+
+- Implement radio, checkbox and select validators
 
 - Add docs for csi
