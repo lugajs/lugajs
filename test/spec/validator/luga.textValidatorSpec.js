@@ -14,6 +14,13 @@ mock.mockfalsyfunction = mockfalsyfunction;
 
 describe("luga.validator.textValidator", function() {
 
+	it("If not specified, date pattern is set to default value", function() {
+		var textValidator = new luga.validator.getFieldValidatorInstance({
+			fieldNode: jQuery("<input type='text'>")
+		});
+		expect(textValidator.options.datepattern).toEqual(luga.validator.CONST.DEFAULT_DATE_PATTERN);
+	});
+
 	it("Options can be set programmatically", function() {
 		var textValidator = new luga.validator.getFieldValidatorInstance({
 			fieldNode: jQuery("<input type='text'>"),

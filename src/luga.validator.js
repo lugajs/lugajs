@@ -13,6 +13,7 @@ luga.namespace("luga.validator");
 luga.validator.CONST = {
 	FORM_SELECTOR: "form[data-luga-validate]",
 	RULE_PREFIX: "data-luga-",
+	DEFAULT_DATE_PATTERN: "YYYY-MM-DD",
 	CUSTOM_ATTRIBUTES: {
 		VALIDATE: "data-luga-validate",
 		BLOCK_SUBMIT: "data-luga-blocksubmit",
@@ -199,7 +200,7 @@ luga.validator.textValidator = function(options) {
 		maxlength: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MAX_LENGTH),
 		minnumber: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MIN_NUMBER),
 		maxnumber: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MAX_NUMBER),
-		datepattern: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.DATE_PATTERN),
+		datepattern: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.DATE_PATTERN) || luga.validator.CONST.DEFAULT_DATE_PATTERN,
 		mindate: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MIN_DATE),
 		maxdate: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MAX_DATE),
 		equalto: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.EQUAL_TO)
