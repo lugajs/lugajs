@@ -370,6 +370,25 @@ luga.validator.createDatePattern = function(rex, year, month, day, separator) {
 	return infoObj;
 };
 
+// Create a Date object out of a string, based on a given pattern's id
+luga.validator.dateStrToObj = function(dateStr, dateId){
+	var globalObj = luga.validator.datePatterns[dateId];
+	if(globalObj){
+		// Split the date into 3 different bits using the separator
+		var dateBits = dateStr.split(globalObj.s);
+		// First try to create a new date out of the bits
+		var testDate = new Date(dateBits[globalObj.y], (dateBits[globalObj.m]-1), dateBits[globalObj.d]);
+		// Make sure values match after conversion
+		var isDate = ((testDate.getFullYear() === dateBits[globalObj.y])) && (testDate.getMonth() === dateBits[globalObj.m]-1) && (testDate.getDate() === dateBits[globalObj.d]);
+		// If it's a date and it matches the RegExp, it's a go
+		if(isDate && globalObj.rex.test(dateStr)){
+			return testDate;
+		}
+		return null;
+	}
+	return null;
+};
+
 luga.validator.datePatterns["YYYY-MM-DD"] = luga.validator.createDatePattern("^\([0-9]{4}\)\\-\([0-1][0-9]\)\\-\([0-3][0-9]\)$", 0, 1, 2, "-");
 luga.validator.datePatterns["YYYY-M-D"] = luga.validator.createDatePattern("^\([0-9]{4}\)\\-\([0-1]?[0-9]\)\\-\([0-3]?[0-9]\)$", 0, 1, 2, "-");
 luga.validator.datePatterns["MM.DD.YYYY"] = luga.validator.createDatePattern("^\([0-1][0-9]\)\\.\([0-3][0-9]\)\\.\([0-9]{4}\)$", 2, 0, 1, ".");
