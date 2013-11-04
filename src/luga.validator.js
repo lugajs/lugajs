@@ -296,6 +296,13 @@ luga.validator.checkboxValidator = function(options) {
 
 luga.namespace("luga.validator.rules");
 
+luga.validator.rules.minlength = function(fieldNode, validator) {
+	if(fieldNode.val().length < validator.options.minlength) {
+		return false;
+	}
+	return true;
+};
+
 luga.validator.rules.maxnumber = function(fieldNode, validator) {
 	if(!jQuery.isNumeric(fieldNode.val())) {
 		return false;
