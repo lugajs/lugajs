@@ -355,6 +355,36 @@ luga.validator.patterns.filepath_jpg = new RegExp("[\\w_]*\\.([jJ][pP][eE]?[gG])
 luga.validator.patterns.filepath_zip = new RegExp("[\\w_]*\\.([zZ][iI][pP])$");
 luga.validator.patterns.filepath = new RegExp("[\\w_]*\\.\\w{3}$");
 
+/* Date patterns */
+
+luga.namespace("luga.validator.datePatterns");
+
+// Create an object that stores date validation's info
+luga.validator.createDatePattern = function(rex, year, month, day, separator) {
+	var infoObj = {};
+	infoObj.rex = new RegExp(rex);
+	infoObj.y = year;
+	infoObj.m = month;
+	infoObj.d = day;
+	infoObj.s = separator;
+	return infoObj;
+};
+
+luga.validator.datePatterns["YYYY-MM-DD"] = luga.validator.createDatePattern("^\([0-9]{4}\)\\-\([0-1][0-9]\)\\-\([0-3][0-9]\)$", 0, 1, 2, "-");
+luga.validator.datePatterns["YYYY-M-D"] = luga.validator.createDatePattern("^\([0-9]{4}\)\\-\([0-1]?[0-9]\)\\-\([0-3]?[0-9]\)$", 0, 1, 2, "-");
+luga.validator.datePatterns["MM.DD.YYYY"] = luga.validator.createDatePattern("^\([0-1][0-9]\)\\.\([0-3][0-9]\)\\.\([0-9]{4}\)$", 2, 0, 1, ".");
+luga.validator.datePatterns["M.D.YYYY"] = luga.validator.createDatePattern("^\([0-1]?[0-9]\)\\.\([0-3]?[0-9]\)\\.\([0-9]{4}\)$", 2, 0, 1, ".");
+luga.validator.datePatterns["MM/DD/YYYY"] = luga.validator.createDatePattern("^\([0-1][0-9]\)\/\([0-3][0-9]\)\/\([0-9]{4}\)$", 2, 0, 1, "/");
+luga.validator.datePatterns["M/D/YYYY"] = luga.validator.createDatePattern("^\([0-1]?[0-9]\)\/\([0-3]?[0-9]\)\/\([0-9]{4}\)$", 2, 0, 1, "/");
+luga.validator.datePatterns["MM-DD-YYYY"] = luga.validator.createDatePattern("^\([0-21][0-9]\)\\-\([0-3][0-9]\)\\-\([0-9]{4}\)$", 2, 0, 1, "-");
+luga.validator.datePatterns["M-D-YYYY"] = luga.validator.createDatePattern("^\([0-1]?[0-9]\)\\-\([0-3]?[0-9]\)\\-\([0-9]{4}\)$", 2, 0, 1, "-");
+luga.validator.datePatterns["DD.MM.YYYY"] = luga.validator.createDatePattern("^\([0-3][0-9]\)\\.\([0-1][0-9]\)\\.\([0-9]{4}\)$", 2, 1, 0, ".");
+luga.validator.datePatterns["D.M.YYYY"] = luga.validator.createDatePattern("^\([0-3]?[0-9]\)\\.\([0-1]?[0-9]\)\\.\([0-9]{4}\)$", 2, 1, 0, ".");
+luga.validator.datePatterns["DD/MM/YYYY"] = luga.validator.createDatePattern("^\([0-3][0-9]\)\/\([0-1][0-9]\)\/\([0-9]{4}\)$", 2, 1, 0, "/");
+luga.validator.datePatterns["D/M/YYYY"] = luga.validator.createDatePattern("^\([0-3]?[0-9]\)\/\([0-1]?[0-9]\)\/\([0-9]{4}\)$", 2, 1, 0, "/");
+luga.validator.datePatterns["DD-MM-YYYY"] = luga.validator.createDatePattern("^\([0-3][0-9]\)\\-\([0-1][0-9]\)\\-\([0-9]{4}\)$", 2, 1, 0, "-");
+luga.validator.datePatterns["D-M-YYYY"] = luga.validator.createDatePattern("^\([0-3]?[0-9]\)\\-\([0-1]?[0-9]\)\\-\([0-9]{4}\)$", 2, 1, 0, "-");
+
 /* Utilities */
 
 luga.namespace("luga.validator.util");
