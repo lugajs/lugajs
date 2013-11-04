@@ -122,7 +122,7 @@ describe("luga.validator.textValidator", function() {
 
 	});
 
-	it("Detects if field is required on conditional validation. Even if functions are inside namespace", function() {
+	it("Detects if field is required on conditional validation. Even if conditional validation functions are inside namespace", function() {
 		var textNode, textValidator;
 
 		textNode = jQuery('<input type="text" data-luga-required="mocktruthyfunction">');
@@ -151,196 +151,205 @@ describe("luga.validator.textValidator", function() {
 
 	});
 
-	it("Patterns validation", function() {
+	describe("Validate patterns:", function() {
 		var textNode, textValidator;
 
-		// lettersonly
-		textNode = jQuery('<input type="text" value="test" data-luga-required="true" data-luga-pattern="lettersonly">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
+		it("lettersonly", function() {
+			textNode = jQuery('<input type="text" value="test" data-luga-required="true" data-luga-pattern="lettersonly">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+			textNode = jQuery('<input type="text" value="test123" data-luga-required="true" data-luga-pattern="lettersonly">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
 		});
-		expect(textValidator.isValid()).toBeTruthy();
-		textNode = jQuery('<input type="text" value="test123" data-luga-required="true" data-luga-pattern="lettersonly">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeFalsy();
 
-		// alphanumeric
-		textNode = jQuery('<input type="text" value="test" data-luga-required="true" data-luga-pattern="alphanumeric">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
+		it("alphanumeric", function() {
+			textNode = jQuery('<input type="text" value="test" data-luga-required="true" data-luga-pattern="alphanumeric">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+			textNode = jQuery('<input type="text" value="test123" data-luga-required="true" data-luga-pattern="alphanumeric">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+			textNode = jQuery('<input type="text" value="test-123" data-luga-required="true" data-luga-pattern="alphanumeric">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
 		});
-		expect(textValidator.isValid()).toBeTruthy();
-		textNode = jQuery('<input type="text" value="test123" data-luga-required="true" data-luga-pattern="alphanumeric">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeTruthy();
-		textNode = jQuery('<input type="text" value="test-123" data-luga-required="true" data-luga-pattern="alphanumeric">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeFalsy();
 
-		// integer
-		textNode = jQuery('<input type="text" value="1" data-luga-required="true" data-luga-pattern="integer">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
+		it("integer", function() {
+			textNode = jQuery('<input type="text" value="1" data-luga-required="true" data-luga-pattern="integer">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+			textNode = jQuery('<input type="text" value="-1" data-luga-required="true" data-luga-pattern="integer">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+			textNode = jQuery('<input type="text" value="test123" data-luga-required="true" data-luga-pattern="integer">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+			textNode = jQuery('<input type="text" value="1.5" data-luga-required="true" data-luga-pattern="integer">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
 		});
-		expect(textValidator.isValid()).toBeTruthy();
-		textNode = jQuery('<input type="text" value="-1" data-luga-required="true" data-luga-pattern="integer">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeTruthy();
-		textNode = jQuery('<input type="text" value="test123" data-luga-required="true" data-luga-pattern="integer">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeFalsy();
-		textNode = jQuery('<input type="text" value="1.5" data-luga-required="true" data-luga-pattern="integer">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeFalsy();
 
-		// positiveinteger
-		textNode = jQuery('<input type="text" value="1" data-luga-required="true" data-luga-pattern="positiveinteger">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
+		it("positiveinteger", function() {
+			textNode = jQuery('<input type="text" value="1" data-luga-required="true" data-luga-pattern="positiveinteger">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+			textNode = jQuery('<input type="text" value="-1" data-luga-required="true" data-luga-pattern="positiveinteger">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+			textNode = jQuery('<input type="text" value="test123" data-luga-required="true" data-luga-pattern="positiveinteger">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+			textNode = jQuery('<input type="text" value="1.5" data-luga-required="true" data-luga-pattern="positiveinteger">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
 		});
-		expect(textValidator.isValid()).toBeTruthy();
-		textNode = jQuery('<input type="text" value="-1" data-luga-required="true" data-luga-pattern="positiveinteger">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeFalsy();
-		textNode = jQuery('<input type="text" value="test123" data-luga-required="true" data-luga-pattern="positiveinteger">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeFalsy();
-		textNode = jQuery('<input type="text" value="1.5" data-luga-required="true" data-luga-pattern="positiveinteger">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeFalsy();
 
-		// number
-		textNode = jQuery('<input type="text" value="1" data-luga-required="true" data-luga-pattern="number">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
+		it("number", function() {
+			textNode = jQuery('<input type="text" value="1" data-luga-required="true" data-luga-pattern="number">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+			textNode = jQuery('<input type="text" value="-1" data-luga-required="true" data-luga-pattern="number">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+			textNode = jQuery('<input type="text" value="test123" data-luga-required="true" data-luga-pattern="number">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+			textNode = jQuery('<input type="text" value="1.5" data-luga-required="true" data-luga-pattern="number">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
 		});
-		expect(textValidator.isValid()).toBeTruthy();
-		textNode = jQuery('<input type="text" value="-1" data-luga-required="true" data-luga-pattern="number">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeTruthy();
-		textNode = jQuery('<input type="text" value="test123" data-luga-required="true" data-luga-pattern="number">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeFalsy();
-		textNode = jQuery('<input type="text" value="1.5" data-luga-required="true" data-luga-pattern="number">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeTruthy();
 
-		// filepath_pdf
-		textNode = jQuery('<input type="text" value="/file.pdf" data-luga-required="true" data-luga-pattern="filepath_pdf">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
+		it("filepath_pdf", function() {
+			textNode = jQuery('<input type="text" value="/file.pdf" data-luga-required="true" data-luga-pattern="filepath_pdf">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+			textNode = jQuery('<input type="text" value="/file.jpg" data-luga-required="true" data-luga-pattern="filepath_pdf">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+			textNode = jQuery('<input type="text" value="/file.zip" data-luga-required="true" data-luga-pattern="filepath_pdf">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+			textNode = jQuery('<input type="text" value="/file.doc" data-luga-required="true" data-luga-pattern="filepath_pdf">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
 		});
-		expect(textValidator.isValid()).toBeTruthy();
-		textNode = jQuery('<input type="text" value="/file.jpg" data-luga-required="true" data-luga-pattern="filepath_pdf">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeFalsy();
-		textNode = jQuery('<input type="text" value="/file.zip" data-luga-required="true" data-luga-pattern="filepath_pdf">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeFalsy();
-		textNode = jQuery('<input type="text" value="/file.doc" data-luga-required="true" data-luga-pattern="filepath_pdf">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeFalsy();
 
-		// filepath_jpg
-		textNode = jQuery('<input type="text" value="/file.pdf" data-luga-required="true" data-luga-pattern="filepath_jpg">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
+		it("filepath_jpg", function() {
+			textNode = jQuery('<input type="text" value="/file.pdf" data-luga-required="true" data-luga-pattern="filepath_jpg">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+			textNode = jQuery('<input type="text" value="/file.jpg" data-luga-required="true" data-luga-pattern="filepath_jpg">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+			textNode = jQuery('<input type="text" value="/file.zip" data-luga-required="true" data-luga-pattern="filepath_jpg">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+			textNode = jQuery('<input type="text" value="/file.doc" data-luga-required="true" data-luga-pattern="filepath_jpg">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
 		});
-		expect(textValidator.isValid()).toBeFalsy();
-		textNode = jQuery('<input type="text" value="/file.jpg" data-luga-required="true" data-luga-pattern="filepath_jpg">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeTruthy();
-		textNode = jQuery('<input type="text" value="/file.zip" data-luga-required="true" data-luga-pattern="filepath_jpg">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeFalsy();
-		textNode = jQuery('<input type="text" value="/file.doc" data-luga-required="true" data-luga-pattern="filepath_jpg">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeFalsy();
 
-		// filepath_zip
-		textNode = jQuery('<input type="text" value="/file.pdf" data-luga-required="true" data-luga-pattern="filepath_zip">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
+		it("filepath_zip", function() {
+			textNode = jQuery('<input type="text" value="/file.pdf" data-luga-required="true" data-luga-pattern="filepath_zip">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+			textNode = jQuery('<input type="text" value="/file.jpg" data-luga-required="true" data-luga-pattern="filepath_zip">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+			textNode = jQuery('<input type="text" value="/file.zip" data-luga-required="true" data-luga-pattern="filepath_zip">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+			textNode = jQuery('<input type="text" value="/file.doc" data-luga-required="true" data-luga-pattern="filepath_zip">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
 		});
-		expect(textValidator.isValid()).toBeFalsy();
-		textNode = jQuery('<input type="text" value="/file.jpg" data-luga-required="true" data-luga-pattern="filepath_zip">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeFalsy();
-		textNode = jQuery('<input type="text" value="/file.zip" data-luga-required="true" data-luga-pattern="filepath_zip">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeTruthy();
-		textNode = jQuery('<input type="text" value="/file.doc" data-luga-required="true" data-luga-pattern="filepath_zip">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeFalsy();
 
-		// filepath
-		textNode = jQuery('<input type="text" value="/file.pdf" data-luga-required="true" data-luga-pattern="filepath">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
+		it("filepath", function() {
+			textNode = jQuery('<input type="text" value="/file.pdf" data-luga-required="true" data-luga-pattern="filepath">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+			textNode = jQuery('<input type="text" value="/file.jpg" data-luga-required="true" data-luga-pattern="filepath">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+			textNode = jQuery('<input type="text" value="/file.zip" data-luga-required="true" data-luga-pattern="filepath">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+			textNode = jQuery('<input type="text" value="/file.doc" data-luga-required="true" data-luga-pattern="filepath">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+			textNode = jQuery('<input type="text" value="test" data-luga-required="true" data-luga-pattern="filepath">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
 		});
-		expect(textValidator.isValid()).toBeTruthy();
-		textNode = jQuery('<input type="text" value="/file.jpg" data-luga-required="true" data-luga-pattern="filepath">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeTruthy();
-		textNode = jQuery('<input type="text" value="/file.zip" data-luga-required="true" data-luga-pattern="filepath">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeTruthy();
-		textNode = jQuery('<input type="text" value="/file.doc" data-luga-required="true" data-luga-pattern="filepath">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeTruthy();
-		textNode = jQuery('<input type="text" value="test" data-luga-required="true" data-luga-pattern="filepath">');
-		textValidator = new luga.validator.getFieldValidatorInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isValid()).toBeFalsy();
 
 	});
 

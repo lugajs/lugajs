@@ -64,7 +64,7 @@ describe("luga.validator", function() {
 
 	});
 
-	describe("luga.validator.util.isInputField()", function() {
+	describe("util.isInputField()", function() {
 
 		it("Accepts nodes that can be validated", function() {
 			expect(luga.validator.util.isInputField(jQuery("<textarea>"))).toBeTruthy();
