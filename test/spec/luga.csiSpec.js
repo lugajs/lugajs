@@ -1,6 +1,6 @@
-describe("luga csi", function() {
+describe("luga.csi", function() {
 
-	it("luga.csi namespace must be defined", function() {
+	it("Namespace must be defined", function() {
 		expect(luga.csi).toBeDefined();
 	});
 
