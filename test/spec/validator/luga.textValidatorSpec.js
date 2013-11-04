@@ -446,4 +446,35 @@ describe("luga.validator.textValidator", function() {
 
 	});
 
+	describe("data-luga-maxlength:", function() {
+		var textNode, textValidator;
+
+		it("Enforce a maximum string length", function() {
+			textNode = jQuery('<input type="text" value="4" data-luga-required="true" data-luga-maxlength="3">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+
+			textNode = jQuery('<input type="text" value="long string" data-luga-required="true" data-luga-maxlength="3">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+
+			textNode = jQuery('<input type="text" value="st" data-luga-required="true" data-luga-maxlength="3">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+
+			textNode = jQuery('<input type="text" value="str" data-luga-required="true" data-luga-maxlength="3">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+		});
+
+	});
+
 });

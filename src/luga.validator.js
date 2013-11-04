@@ -296,6 +296,13 @@ luga.validator.checkboxValidator = function(options) {
 
 luga.namespace("luga.validator.rules");
 
+luga.validator.rules.maxlength = function(fieldNode, validator) {
+	if(fieldNode.val().length > validator.options.maxlength) {
+		return false;
+	}
+	return true;
+};
+
 luga.validator.rules.minlength = function(fieldNode, validator) {
 	if(fieldNode.val().length < validator.options.minlength) {
 		return false;
