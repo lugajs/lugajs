@@ -12,7 +12,10 @@ luga.namespace("luga.csi");
 
 luga.csi.CONST = {
 	NODE_SELECTOR: "section[data-luga-csi]",
-	URL_ATTRIBUTE: "data-luga-csi"
+	URL_ATTRIBUTE: "data-luga-csi",
+	MESSAGES: {
+		FILE_NOT_FOUND: "luga.csi failed to retrieve text from: {0}"
+	}
 };
 
 /**
@@ -46,7 +49,7 @@ luga.csi.include = function(options) {
 	};
 
 	this.onError = function(qXHR, textStatus, errorThrown) {
-		throw("luga.csi failed to retrieve text from: " + self.options.url);
+		throw(luga.util.formatString(luga.csi.CONST.MESSAGES.FILE_NOT_FOUND, [self.options.url]));
 	};
 
 	this.options = {

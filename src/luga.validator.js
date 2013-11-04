@@ -29,6 +29,10 @@ luga.validator.CONST = {
 		MAX_DATE: "data-luga-maxdate",
 		EQUAL_TO: "data-luga-equalto"
 	},
+	MESSAGES: {
+		ABSTRACT_IS_VALID: "luga.validator.baseFieldValidator.isValid() is an abstract method",
+		PATTERN_NOT_FOUND: "luga.validator failed to retrieve pattern: {0}"
+	},
 	FAKE_INPUT_TYPES: {
 		fieldset: true,
 		reset: true,
@@ -134,7 +138,7 @@ luga.validator.baseFieldValidator = function(options) {
 	self.message = self.options.message;
 
 	this.isValid = function() {
-		throw("luga.validator.baseFieldValidator.isValid() is an abstract method");
+		throw(luga.validator.CONST.MESSAGES.ABSTRACT_IS_VALID);
 	};
 
 	this.flagInvalid = function(){
@@ -299,7 +303,7 @@ luga.validator.rules.pattern = function(fieldNode, validator){
 	}
 	else{
 		// The pattern is missing
-		throw("luga.validator failed to retrieve pattern: " + validator.options.pattern);
+		throw(luga.util.formatString(luga.validator.CONST.MESSAGES.PATTERN_NOT_FOUND, [validator.options.pattern]));
 	}
 };
 
