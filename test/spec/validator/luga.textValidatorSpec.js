@@ -151,7 +151,7 @@ describe("luga.validator.textValidator", function() {
 
 	});
 
-	describe("Validate patterns:", function() {
+	describe("data-luga-pattern enforce input matches the following patterns:", function() {
 		var textNode, textValidator;
 
 		it("lettersonly", function() {
@@ -345,6 +345,37 @@ describe("luga.validator.textValidator", function() {
 			});
 			expect(textValidator.isValid()).toBeTruthy();
 			textNode = jQuery('<input type="text" value="test" data-luga-required="true" data-luga-pattern="filepath">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+		});
+
+	});
+
+	describe("data-luga-minnumber:", function() {
+		var textNode, textValidator;
+
+		it("Enforce a minimum numeric value", function() {
+			textNode = jQuery('<input type="text" value="test" data-luga-required="true" data-luga-minnumber="18">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+
+			textNode = jQuery('<input type="text" value="5" data-luga-required="true" data-luga-minnumber="18">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+
+			textNode = jQuery('<input type="text" value="20" data-luga-required="true" data-luga-minnumber="18">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+
+			textNode = jQuery('<input type="text" value="-25" data-luga-required="true" data-luga-minnumber="18">');
 			textValidator = new luga.validator.getFieldValidatorInstance({
 				fieldNode: textNode
 			});

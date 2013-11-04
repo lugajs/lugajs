@@ -296,7 +296,17 @@ luga.validator.checkboxValidator = function(options) {
 
 luga.namespace("luga.validator.rules");
 
-luga.validator.rules.pattern = function(fieldNode, validator){
+luga.validator.rules.minnumber = function(fieldNode, validator) {
+	if(!jQuery.isNumeric(fieldNode.val())) {
+		return false;
+	}
+	if(parseFloat(fieldNode.val()) > parseFloat(validator.options.minnumber)) {
+		return true;
+	}
+	return false;
+};
+
+luga.validator.rules.pattern = function(fieldNode, validator) {
 	var regExpObj = luga.validator.patterns[validator.options.pattern];
 	if(regExpObj) {
 		return regExpObj.test(fieldNode.val());
