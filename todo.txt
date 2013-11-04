@@ -3,7 +3,8 @@
 - Add license
 
 textFieldValidator:
-- Test/implement date related and equalto rules
+- Test/implement date related rules
+- Test/implement equalto rule
 - Test custom rule
 - Test custom pattern
 - Test custom date patterns
