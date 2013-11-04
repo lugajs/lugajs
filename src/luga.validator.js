@@ -290,7 +290,7 @@ luga.validator.checkboxValidator = function(options) {
 
 /* Rules */
 
-luga.validator.rules = {};
+luga.namespace("luga.validator.rules");
 
 luga.validator.rules.pattern = function(fieldNode, validator){
 	var regExpObj = luga.validator.patterns[validator.options.pattern];
@@ -305,7 +305,8 @@ luga.validator.rules.pattern = function(fieldNode, validator){
 
 /* Patterns */
 
-luga.validator.patterns = {};
+luga.namespace("luga.validator.patterns");
+
 luga.validator.patterns.lettersonly = new RegExp("^[a-zA-Z]*$");
 luga.validator.patterns.alphanumeric = new RegExp("^\\w*$");
 luga.validator.patterns.integer = new RegExp("^-?\\d\\d*$");
