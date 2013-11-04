@@ -4,8 +4,9 @@ describe("Luga core", function() {
 		expect(jQuery).toBeDefined();
 	});
 
-	it("luga root namespace must be defined", function() {
+	it("luga root namespaces must be defined", function() {
 		expect(luga).toBeDefined();
+		expect(luga.util).toBeDefined();
 	});
 
 	it("luga.namespace() method must be defined", function() {
@@ -49,6 +50,13 @@ describe("Luga core", function() {
 
 		expect(nicole.getGender()).toEqual("female");
 		expect(nicole.getName()).toEqual("Nicole Kidman");
+	});
+
+	it("luga.util.formatString()", function() {
+		expect(luga.util.formatString("My name is {0} {1}", ["Ciccio", "Pasticcio"])).toEqual("My name is Ciccio Pasticcio");
+		expect(luga.util.formatString("This {0} is just a {0}", ["test"])).toEqual("This test is just a test");
+		expect(luga.util.formatString("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"})).toEqual("My name is Ciccio Pasticcio");
+		expect(luga.util.formatString("This {str} is just a {str}", { str:"test"} )).toEqual("This test is just a test");
 	});
 
 });
