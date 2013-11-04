@@ -356,12 +356,12 @@ luga.validator.patterns.filepath_jpg = new RegExp("[\\w_]*\\.([jJ][pP][eE]?[gG])
 luga.validator.patterns.filepath_zip = new RegExp("[\\w_]*\\.([zZ][iI][pP])$");
 luga.validator.patterns.filepath = new RegExp("[\\w_]*\\.\\w{3}$");
 
-/* Date patterns */
+/* Date specifications */
 
-luga.namespace("luga.validator.datePatterns");
+luga.namespace("luga.validator.dateSpecs");
 
 // Create an object that stores date validation's info
-luga.validator.createDatePattern = function(rex, year, month, day, separator) {
+luga.validator.createDateSpecObj = function(rex, year, month, day, separator) {
 	var infoObj = {};
 	infoObj.rex = new RegExp(rex);
 	infoObj.y = year;
@@ -371,16 +371,16 @@ luga.validator.createDatePattern = function(rex, year, month, day, separator) {
 	return infoObj;
 };
 
-// Create a Date object out of a string, based on a given pattern's id
-luga.validator.dateStrToObj = function(dateStr, dateId){
-	var globalObj = luga.validator.datePatterns[dateId];
-	if(globalObj){
+// Create a Date object out of a string, based on a given date spec
+luga.validator.dateStrToObj = function(dateStr, dateSpecName){
+	var dateSpecObj = luga.validator.dateSpecs[dateSpecName];
+	if(dateSpecObj){
 		// Split the date into 3 different bits using the separator
-		var dateBits = dateStr.split(globalObj.s);
+		var dateBits = dateStr.split(dateSpecObj.s);
 		// First try to create a new date out of the bits
-		var testDate = new Date(dateBits[globalObj.y], (dateBits[globalObj.m]-1), dateBits[globalObj.d]);
+		var testDate = new Date(dateBits[dateSpecObj.y], (dateBits[dateSpecObj.m]-1), dateBits[dateSpecObj.d]);
 		// Make sure values match after conversion
-		var isDate = ((testDate.getFullYear() === dateBits[globalObj.y])) && (testDate.getMonth() === dateBits[globalObj.m]-1) && (testDate.getDate() === dateBits[globalObj.d]);
+		var isDate = ((testDate.getFullYear() === dateBits[dateSpecObj.y])) && (testDate.getMonth() === dateBits[dateSpecObj.m]-1) && (testDate.getDate() === dateBits[dateSpecObj.d]);
 		// If it's a date and it matches the RegExp, it's a go
 		if(isDate && globalObj.rex.test(dateStr)){
 			return testDate;
@@ -390,20 +390,20 @@ luga.validator.dateStrToObj = function(dateStr, dateId){
 	return null;
 };
 
-luga.validator.datePatterns["YYYY-MM-DD"] = luga.validator.createDatePattern("^\([0-9]{4}\)\\-\([0-1][0-9]\)\\-\([0-3][0-9]\)$", 0, 1, 2, "-");
-luga.validator.datePatterns["YYYY-M-D"] = luga.validator.createDatePattern("^\([0-9]{4}\)\\-\([0-1]?[0-9]\)\\-\([0-3]?[0-9]\)$", 0, 1, 2, "-");
-luga.validator.datePatterns["MM.DD.YYYY"] = luga.validator.createDatePattern("^\([0-1][0-9]\)\\.\([0-3][0-9]\)\\.\([0-9]{4}\)$", 2, 0, 1, ".");
-luga.validator.datePatterns["M.D.YYYY"] = luga.validator.createDatePattern("^\([0-1]?[0-9]\)\\.\([0-3]?[0-9]\)\\.\([0-9]{4}\)$", 2, 0, 1, ".");
-luga.validator.datePatterns["MM/DD/YYYY"] = luga.validator.createDatePattern("^\([0-1][0-9]\)\/\([0-3][0-9]\)\/\([0-9]{4}\)$", 2, 0, 1, "/");
-luga.validator.datePatterns["M/D/YYYY"] = luga.validator.createDatePattern("^\([0-1]?[0-9]\)\/\([0-3]?[0-9]\)\/\([0-9]{4}\)$", 2, 0, 1, "/");
-luga.validator.datePatterns["MM-DD-YYYY"] = luga.validator.createDatePattern("^\([0-21][0-9]\)\\-\([0-3][0-9]\)\\-\([0-9]{4}\)$", 2, 0, 1, "-");
-luga.validator.datePatterns["M-D-YYYY"] = luga.validator.createDatePattern("^\([0-1]?[0-9]\)\\-\([0-3]?[0-9]\)\\-\([0-9]{4}\)$", 2, 0, 1, "-");
-luga.validator.datePatterns["DD.MM.YYYY"] = luga.validator.createDatePattern("^\([0-3][0-9]\)\\.\([0-1][0-9]\)\\.\([0-9]{4}\)$", 2, 1, 0, ".");
-luga.validator.datePatterns["D.M.YYYY"] = luga.validator.createDatePattern("^\([0-3]?[0-9]\)\\.\([0-1]?[0-9]\)\\.\([0-9]{4}\)$", 2, 1, 0, ".");
-luga.validator.datePatterns["DD/MM/YYYY"] = luga.validator.createDatePattern("^\([0-3][0-9]\)\/\([0-1][0-9]\)\/\([0-9]{4}\)$", 2, 1, 0, "/");
-luga.validator.datePatterns["D/M/YYYY"] = luga.validator.createDatePattern("^\([0-3]?[0-9]\)\/\([0-1]?[0-9]\)\/\([0-9]{4}\)$", 2, 1, 0, "/");
-luga.validator.datePatterns["DD-MM-YYYY"] = luga.validator.createDatePattern("^\([0-3][0-9]\)\\-\([0-1][0-9]\)\\-\([0-9]{4}\)$", 2, 1, 0, "-");
-luga.validator.datePatterns["D-M-YYYY"] = luga.validator.createDatePattern("^\([0-3]?[0-9]\)\\-\([0-1]?[0-9]\)\\-\([0-9]{4}\)$", 2, 1, 0, "-");
+luga.validator.dateSpecs["YYYY-MM-DD"] = luga.validator.createDateSpecObj("^\([0-9]{4}\)\\-\([0-1][0-9]\)\\-\([0-3][0-9]\)$", 0, 1, 2, "-");
+luga.validator.dateSpecs["YYYY-M-D"] = luga.validator.createDateSpecObj("^\([0-9]{4}\)\\-\([0-1]?[0-9]\)\\-\([0-3]?[0-9]\)$", 0, 1, 2, "-");
+luga.validator.dateSpecs["MM.DD.YYYY"] = luga.validator.createDateSpecObj("^\([0-1][0-9]\)\\.\([0-3][0-9]\)\\.\([0-9]{4}\)$", 2, 0, 1, ".");
+luga.validator.dateSpecs["M.D.YYYY"] = luga.validator.createDateSpecObj("^\([0-1]?[0-9]\)\\.\([0-3]?[0-9]\)\\.\([0-9]{4}\)$", 2, 0, 1, ".");
+luga.validator.dateSpecs["MM/DD/YYYY"] = luga.validator.createDateSpecObj("^\([0-1][0-9]\)\/\([0-3][0-9]\)\/\([0-9]{4}\)$", 2, 0, 1, "/");
+luga.validator.dateSpecs["M/D/YYYY"] = luga.validator.createDateSpecObj("^\([0-1]?[0-9]\)\/\([0-3]?[0-9]\)\/\([0-9]{4}\)$", 2, 0, 1, "/");
+luga.validator.dateSpecs["MM-DD-YYYY"] = luga.validator.createDateSpecObj("^\([0-21][0-9]\)\\-\([0-3][0-9]\)\\-\([0-9]{4}\)$", 2, 0, 1, "-");
+luga.validator.dateSpecs["M-D-YYYY"] = luga.validator.createDateSpecObj("^\([0-1]?[0-9]\)\\-\([0-3]?[0-9]\)\\-\([0-9]{4}\)$", 2, 0, 1, "-");
+luga.validator.dateSpecs["DD.MM.YYYY"] = luga.validator.createDateSpecObj("^\([0-3][0-9]\)\\.\([0-1][0-9]\)\\.\([0-9]{4}\)$", 2, 1, 0, ".");
+luga.validator.dateSpecs["D.M.YYYY"] = luga.validator.createDateSpecObj("^\([0-3]?[0-9]\)\\.\([0-1]?[0-9]\)\\.\([0-9]{4}\)$", 2, 1, 0, ".");
+luga.validator.dateSpecs["DD/MM/YYYY"] = luga.validator.createDateSpecObj("^\([0-3][0-9]\)\/\([0-1][0-9]\)\/\([0-9]{4}\)$", 2, 1, 0, "/");
+luga.validator.dateSpecs["D/M/YYYY"] = luga.validator.createDateSpecObj("^\([0-3]?[0-9]\)\/\([0-1]?[0-9]\)\/\([0-9]{4}\)$", 2, 1, 0, "/");
+luga.validator.dateSpecs["DD-MM-YYYY"] = luga.validator.createDateSpecObj("^\([0-3][0-9]\)\\-\([0-1][0-9]\)\\-\([0-9]{4}\)$", 2, 1, 0, "-");
+luga.validator.dateSpecs["D-M-YYYY"] = luga.validator.createDateSpecObj("^\([0-3]?[0-9]\)\\-\([0-1]?[0-9]\)\\-\([0-9]{4}\)$", 2, 1, 0, "-");
 
 /* Utilities */
 
