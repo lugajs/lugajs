@@ -297,6 +297,14 @@ luga.validator.checkboxValidator = function(options) {
 
 luga.namespace("luga.validator.rules");
 
+luga.validator.rules.datepattern = function(fieldNode, validator) {
+	var datObj = luga.validator.dateStrToObj(fieldNode.val(), validator.options.datepattern);
+	if(datObj) {
+		return true;
+	}
+	return false;
+};
+
 luga.validator.rules.maxlength = function(fieldNode, validator) {
 	if(fieldNode.val().length > validator.options.maxlength) {
 		return false;
@@ -375,14 +383,22 @@ luga.validator.createDateSpecObj = function(rex, year, month, day, separator) {
 luga.validator.dateStrToObj = function(dateStr, dateSpecName){
 	var dateSpecObj = luga.validator.dateSpecs[dateSpecName];
 	if(dateSpecObj){
+
+		// If it doesn't matches the RegExp, abort
+		if(!dateSpecObj.rex.test(dateStr)) {
+			return null;
+		}
+
+		// String's value matches the pattern, check if it's a valida date
 		// Split the date into 3 different bits using the separator
 		var dateBits = dateStr.split(dateSpecObj.s);
 		// First try to create a new date out of the bits
 		var testDate = new Date(dateBits[dateSpecObj.y], (dateBits[dateSpecObj.m]-1), dateBits[dateSpecObj.d]);
 		// Make sure values match after conversion
-		var isDate = ((testDate.getFullYear() === dateBits[dateSpecObj.y])) && (testDate.getMonth() === dateBits[dateSpecObj.m]-1) && (testDate.getDate() === dateBits[dateSpecObj.d]);
-		// If it's a date and it matches the RegExp, it's a go
-		if(isDate && globalObj.rex.test(dateStr)){
+		var yearMatches = testDate.getFullYear() === parseInt(dateBits[dateSpecObj.y]);
+		var monthMatches = testDate.getMonth() === parseInt(dateBits[dateSpecObj.m]-1);
+		var dayMatches = testDate.getDate() === parseInt(dateBits[dateSpecObj.d]);
+		if(yearMatches && monthMatches && dayMatches) {
 			return testDate;
 		}
 		return null;
