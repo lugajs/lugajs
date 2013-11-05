@@ -3,9 +3,6 @@
 - Add license
 
 textFieldValidator:
-- Test/implement mindate and maxdate rules
-- Test implication of custom default date pattern with mindate and maxdate
-
 - Test/implement equalto rule
 - Test custom rule
 - Test custom pattern

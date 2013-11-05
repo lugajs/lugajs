@@ -307,6 +307,16 @@ luga.validator.rules.datepattern = function(fieldNode, validator) {
 	return false;
 };
 
+luga.validator.rules.maxdate = function(fieldNode, validator) {
+	var pattern = validator.options.datepattern;
+	var valueDate = luga.validator.dateStrToObj(fieldNode.val(), pattern);
+	var maxDate = luga.validator.dateStrToObj(validator.options.maxdate, pattern);
+	if(valueDate && maxDate) {
+		return valueDate <= maxDate;
+	}
+	return false;
+};
+
 luga.validator.rules.mindate = function(fieldNode, validator) {
 	var pattern = validator.options.datepattern;
 	var valueDate = luga.validator.dateStrToObj(fieldNode.val(), pattern);

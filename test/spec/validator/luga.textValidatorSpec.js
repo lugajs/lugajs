@@ -996,7 +996,7 @@ describe("luga.validator.textValidator", function() {
 			});
 			expect(textValidator.isValid()).toBeFalsy();
 
-			textNode = jQuery('<input type="text" value="2005-01-01" data-luga-required="true" data-luga-mindate="2010/01/01">');
+			textNode = jQuery('<input type="text" value="2005-01-01" data-luga-required="true" data-luga-mindate="2010-01-01">');
 			textValidator = new luga.validator.getFieldValidatorInstance({
 				fieldNode: textNode
 			});
@@ -1036,6 +1036,81 @@ describe("luga.validator.textValidator", function() {
 				fieldNode: textNode
 			});
 			expect(textValidator.isValid()).toBeFalsy();
+		});
+
+	});
+
+	describe("data-luga-maxdate enforce a maximum date", function() {
+		var textNode, textValidator;
+
+		it("If no data-luga-datepattern is specified, default pattern (YYYY-MM-DD) will be used to parse and compare dates", function() {
+			// Not a date
+			textNode = jQuery('<input type="text" value="test" data-luga-required="true" data-luga-maxdate="2010-01-01">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+
+			// Matches pattern, but it's not a date
+			textNode = jQuery('<input type="text" value="2011-02-31" data-luga-required="true" data-luga-maxdate="2010-01-01">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+
+			textNode = jQuery('<input type="text" value="2010-01-02" data-luga-required="true" data-luga-maxdate="2010-01-01">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+
+			// valid, but date pattern doesn't match
+			textNode = jQuery('<input type="text" value="2011-1-1" data-luga-required="true" data-luga-maxdate="2010-01-01">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+
+			textNode = jQuery('<input type="text" value="2005-01-01" data-luga-required="true" data-luga-maxdate="2010-01-01">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+		});
+
+		it("Using data-luga-datepattern overrides default", function() {
+			// Not a date
+			textNode = jQuery('<input type="text" value="test" data-luga-required="true" data-luga-datepattern="DD/MM/YYYY" data-luga-maxdate="01/01/2010">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+
+			// Matches pattern, but it's not a date
+			textNode = jQuery('<input type="text" value="31/02/2011" data-luga-required="true" data-luga-datepattern="DD/MM/YYYY" data-luga-maxdate="01/01/2010">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+
+			textNode = jQuery('<input type="text" value="02/02/2010" data-luga-required="true" data-luga-datepattern="DD/MM/YYYY" data-luga-maxdate="01/01/2010">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+
+			// valid, but date pattern doesn't match
+			textNode = jQuery('<input type="text" value="2011-01-01" data-luga-required="true" data-luga-datepattern="DD/MM/YYYY" data-luga-maxdate="01/01/2010">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+
+			textNode = jQuery('<input type="text" value="02/02/2005" data-luga-required="true" data-luga-datepattern="DD/MM/YYYY" data-luga-maxdate="01/01/2010">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
 		});
 
 	});
