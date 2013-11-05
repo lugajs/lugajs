@@ -257,7 +257,9 @@ luga.validator.textValidator = function(options) {
 				// Check if the current rule is required for the field
 				if(self.node.attr(luga.validator.CONST.RULE_PREFIX + rule)) {
 					// Invoke the rule
-					return luga.validator.rules[rule].apply(null, [self.node, self]);
+					if(!luga.validator.rules[rule].apply(null, [self.node, self])) {
+						return false;
+					};
 				}
 			}
 		}
@@ -301,6 +303,16 @@ luga.validator.rules.datepattern = function(fieldNode, validator) {
 	var datObj = luga.validator.dateStrToObj(fieldNode.val(), validator.options.datepattern);
 	if(datObj) {
 		return true;
+	}
+	return false;
+};
+
+luga.validator.rules.mindate = function(fieldNode, validator) {
+	var pattern = validator.options.datepattern;
+	var valueDate = luga.validator.dateStrToObj(fieldNode.val(), pattern);
+	var minDate = luga.validator.dateStrToObj(validator.options.mindate, pattern);
+	if(valueDate && minDate) {
+		return valueDate >= minDate;
 	}
 	return false;
 };
