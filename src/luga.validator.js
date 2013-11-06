@@ -368,7 +368,7 @@ luga.validator.rules.pattern = function(fieldNode, validator) {
 	}
 	else{
 		// The pattern is missing
-		throw(luga.util.formatString(luga.validator.CONST.MESSAGES.PATTERN_NOT_FOUND, [validator.options.pattern]));
+		throw(luga.utils.formatString(luga.validator.CONST.MESSAGES.PATTERN_NOT_FOUND, [validator.options.pattern]));
 	}
 };
 

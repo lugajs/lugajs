@@ -30,7 +30,7 @@ describe("luga js", function() {
 
 	it("Root namespaces must be defined", function() {
 		expect(luga).toBeDefined();
-		expect(luga.util).toBeDefined();
+		expect(luga.utils).toBeDefined();
 	});
 
 	describe("namespace()", function() {
@@ -54,12 +54,12 @@ describe("luga js", function() {
 		});
 	});
 
-	describe("util.formatString()", function() {
+	describe("utils.formatString()", function() {
 		it("Given a string containing placeholders, it assembles a new string", function() {
-			expect(luga.util.formatString("My name is {0} {1}", ["Ciccio", "Pasticcio"])).toEqual("My name is Ciccio Pasticcio");
-			expect(luga.util.formatString("This {0} is just a {0}", ["test"])).toEqual("This test is just a test");
-			expect(luga.util.formatString("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"})).toEqual("My name is Ciccio Pasticcio");
-			expect(luga.util.formatString("This {str} is just a {str}", { str:"test"} )).toEqual("This test is just a test");
+			expect(luga.utils.formatString("My name is {0} {1}", ["Ciccio", "Pasticcio"])).toEqual("My name is Ciccio Pasticcio");
+			expect(luga.utils.formatString("This {0} is just a {0}", ["test"])).toEqual("This test is just a test");
+			expect(luga.utils.formatString("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"})).toEqual("My name is Ciccio Pasticcio");
+			expect(luga.utils.formatString("This {str} is just a {str}", { str:"test"} )).toEqual("This test is just a test");
 		});
 	});
 

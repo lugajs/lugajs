@@ -49,7 +49,7 @@ luga.csi.include = function(options) {
 	};
 
 	this.onError = function(qXHR, textStatus, errorThrown) {
-		throw(luga.util.formatString(luga.csi.CONST.MESSAGES.FILE_NOT_FOUND, [self.options.url]));
+		throw(luga.utils.formatString(luga.csi.CONST.MESSAGES.FILE_NOT_FOUND, [self.options.url]));
 	};
 
 	this.options = {
