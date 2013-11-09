@@ -43,7 +43,8 @@ luga.validator.CONST = {
 		INVALID_VALUE: "data-luga-invalidvalue"
 	},
 	MESSAGES: {
-		ABSTRACT_IS_VALID: "luga.validator.BaseFieldValidator.isValid() is an abstract method",
+		FIELD_ABSTRACT_IS_VALID: "luga.validator.BaseFieldValidator.isValid() is an abstract method",
+		GROUP_ABSTRACT_IS_VALID: "luga.validator.BaseGroupValidator.isValid() is an abstract method",
 		PATTERN_NOT_FOUND: "luga.validator failed to retrieve pattern: {0}",
 		INVALID_INDEX_NOT_NUMERIC: "data-luga-invalidindex accept only numbers"
 	},
@@ -73,26 +74,39 @@ luga.validator.FormValidator = function(options) {
 	var self = this;
 	self.validators = [];
 
+	this.init = function() {
+		self.validators = [];
+		var formDom = self.options.formNode[0];
+		for(var i = 0; i < formDom.elements.length; i++) {
+			if(luga.validator.utils.isInputField(formDom.elements[i])) {
+				self.validators.push(luga.validator.FieldValidatorGetInstance({
+					fieldNode: formDom.elements[i],
+					formNode: self.options.formNode
+				}));
+			}
+		}
+	};
+
 	// Execute all field validators. Returns an array of field validators that are in invalid state
 	// Returns and empty array if no errors
 	this.executeValidators = function() {
+		self.init();
+		var dirtyValidators = [];
 		// Keep track of already validated fields (to skip already validated checkboxes or radios)
-		var validatedFields = {};
-		var activeValidators = [];
-		// Validate all the fields
+		var validatorsNames = {};
 		for(var i=0; i<self.validators.length; i++) {
-			if(self.validators[i].validate) {
-				if(validatedFields[self.validators[i].name]) {
+			if(self.validators[i] && self.validators[i].validate) {
+				if(validatorsNames[self.validators[i].name]) {
 					// Already validated checkbox or radio, skip it
 					continue;
 				}
 				if(self.validators[i].validate()) {
-					activeValidators[activeValidators.length] = self.validators[i];
+					dirtyValidators.push(self.validators[i]);
 				}
-				validatedFields[self.validators[i].name] = true;
+				validatorsNames[self.validators[i].name] = true;
 			}
 		}
-		return activeValidators;
+		return dirtyValidators;
 	};
 
 	this.isValid = function() {
@@ -122,17 +136,26 @@ luga.validator.FieldValidatorGetInstance = function(options) {
 	var fieldType = jQuery(self.options.fieldNode).prop("type");
 	// Get relevant validator based on field type
 	switch(fieldType){
+
 		case "select-multiple":
-			return new luga.validator.SelectValidator(options);
+			return new luga.validator.SelectValidator(this.options);
+
 		case "select-one":
-			return new luga.validator.SelectValidator(options);
+			return new luga.validator.SelectValidator(this.options);
+
 		case "radio":
-			return new luga.validator.RadioValidator(options, self.options.formNode);
+			if(jQuery(this.options.fieldNode).attr("name")) {
+				return new luga.validator.RadioValidator({
+					inputGroup: luga.validator.utils.getFieldGroup(jQuery(this.options.fieldNode).attr("name"), this.options.formNode)
+				});
+			}
+			break;
+
 		case "checkbox":
-			return new luga.validator.CheckboxValidator(options, self.options.formNode);
-		// Default. Handle anything else as text field
+			return new luga.validator.CheckboxValidator(this.options, self.options.formNode);
+
 		default:
-			return new luga.validator.TextValidator(options);
+			return new luga.validator.TextValidator(this.options);
 	}
 };
 
@@ -157,7 +180,7 @@ luga.validator.BaseFieldValidator = function(options) {
 
 	this.isValid = function() {
 		// Abstract method. Must return a boolean
-		throw(luga.validator.CONST.MESSAGES.ABSTRACT_IS_VALID);
+		throw(luga.validator.CONST.MESSAGES.FIELD_ABSTRACT_IS_VALID);
 	};
 
 	this.flagInvalid = function(){
@@ -227,6 +250,7 @@ luga.validator.TextValidator = function(options) {
 	jQuery.extend(this, new luga.validator.BaseFieldValidator(this.options));
 	var self = this;
 	self.node = jQuery(options.fieldNode);
+	self.type = "text";
 	self.name = "";
 
 	if(self.node.attr("name")) {
@@ -293,6 +317,7 @@ luga.validator.SelectValidator = function(options) {
 	jQuery.extend(this.options, options);
 	jQuery.extend(this, new luga.validator.BaseFieldValidator(this.options));
 	var self = this;
+	self.type = "select";
 	self.node = jQuery(options.fieldNode);
 
 	// Ensure invalidindex is numeric
@@ -332,13 +357,100 @@ luga.validator.SelectValidator = function(options) {
 
 };
 
-luga.validator.RadioValidator = function(options) {
-	this.options = {
-
-	};
+luga.validator.BaseGroupValidator = function(options) {
+	this.options = {};
 	jQuery.extend(this.options, options);
-	jQuery.extend(this, new luga.validator.BaseFieldValidator(this.options));
+	this.inputGroup = this.options.inputGroup;
+	this.name = jQuery(this.options.inputGroup).attr("name");
+	this.message = "";
+	this.errorclass = "";
+
+	// Since fields from the same group can have conflicting attribute values, the last one win
+	for(var i=0; i<this.inputGroup.length; i++) {
+		var field = jQuery(this.inputGroup[i]);
+		if(field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MESSAGE)) {
+			this.message = field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MESSAGE);
+		}
+		if(field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.ERROR_CLASS)) {
+			this.errorclass = field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.ERROR_CLASS);
+		}
+	}
+
+	this.isValid = function() {
+		// Abstract method. Must return a boolean
+		throw(luga.validator.CONST.MESSAGES.GROUP_ABSTRACT_IS_VALID);
+	};
+
+	this.flagInvalid = function(){
+		if(this.errorclass !== "") {
+			for(var i=0; i<this.inputGroup.length; i++) {
+				var field = jQuery(this.inputGroup[i]);
+				field.addClass(this.errorclass);
+				field.attr("title", this.message);
+			}
+		}
+	};
+
+	this.flagValid = function(){
+		if(this.errorclass !== "") {
+			for(var i=0; i<this.inputGroup.length; i++) {
+				var field = jQuery(this.inputGroup[i]);
+				field.removeClass(this.errorclass);
+				field.removeAttr("title");
+			}
+		}
+	};
+
+	// Be careful, this method returns a boolean but also has side-effects
+	this.validate = function(){
+		if(this.isValid()) {
+			this.flagValid();
+			return false;
+		}
+		else{
+			this.flagInvalid();
+			return true;
+		}
+	};
+
+};
+
+luga.validator.RadioValidator = function(options) {
+	this.options = {};
+	jQuery.extend(this.options, options);
+	jQuery.extend(this, new luga.validator.BaseGroupValidator(this.options));
 	var self = this;
+	self.type = "radio";
+
+	this.isRequired = function() {
+		var requiredFlag = false;
+		var fieldGroup = this.options.inputGroup;
+		// Since radios from the same group can have conflicting attribute values, the last one win
+		for(var i=0; i<fieldGroup.length; i++) {
+			var field = jQuery(fieldGroup[i]);
+			if(field.prop("disabled") === false) {
+				if(field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.REQUIRED)){
+					requiredFlag = field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.REQUIRED);
+				}
+			}
+		}
+		return requiredFlag;
+	};
+
+	this.isValid = function(){
+		if(self.isRequired() === "true") {
+			var fieldGroup = this.options.inputGroup;
+			for(var i=0; i<fieldGroup.length; i++){
+				var field = jQuery(fieldGroup[i]);
+				// As long as only one is checked, we are fine
+				if(field.prop("checked") === true){
+					return true;
+				}
+			}
+			return false;
+		}
+		return true;
+	};
 };
 
 luga.validator.CheckboxValidator = function(options) {
@@ -348,6 +460,7 @@ luga.validator.CheckboxValidator = function(options) {
 	jQuery.extend(this.options, options);
 	jQuery.extend(this, new luga.validator.BaseFieldValidator(this.options));
 	var self = this;
+	self.type = "checkbox";
 };
 
 /* Rules */
@@ -521,4 +634,9 @@ luga.validator.utils.isInputField = function(fieldNode) {
 		return false;
 	}
 	return true;
+};
+
+luga.validator.utils.getFieldGroup = function(name, formNode) {
+	var selector = "input[name=" + name + "]";
+	return jQuery(selector, formNode);
 };

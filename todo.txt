@@ -5,8 +5,12 @@
 - TextFieldValidator:
   Implement equalto rule
 
-- Implement RadioValidator (test for disabled fields)
 - Implement CheckboxValidator (test for disabled fields)
+
+- Test direct calls to FieldValidatorGetInstance()? We need fixtures for this
+
+- Use fixtures to add more tests on FormValidator
+- Use fixtures to test error classes
 
 - Add docs for csi
 

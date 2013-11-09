@@ -4,7 +4,6 @@ describe("luga.validator", function() {
 
 	it("Namespaces must be defined", function() {
 		expect(luga.validator).toBeDefined();
-		expect(luga.validator.utils).toBeDefined();
 	});
 
 	describe("FieldValidatorGetInstance()", function() {
@@ -14,17 +13,6 @@ describe("luga.validator", function() {
 			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<button>") })).toBeNull();
 			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<input type='reset'>") })).toBeNull();
 			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<fieldset>") })).toBeNull();
-		});
-
-		it("Return relevant validator object for the given field type", function() {
-			var textValidator = luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<input type='text'>") });
-			expect(textValidator.constructor).toEqual(luga.validator.TextValidator);
-			var selectValidator = luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<select>") });
-			expect(selectValidator.constructor).toEqual(luga.validator.SelectValidator);
-			var radioValidator = luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<input type='radio'>") });
-			expect(radioValidator.constructor).toEqual(luga.validator.RadioValidator);
-			var checkboxValidator = luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<input type='checkbox'>") });
-			expect(checkboxValidator.constructor).toEqual(luga.validator.CheckboxValidator);
 		});
 
 	});
@@ -76,7 +64,15 @@ describe("luga.validator", function() {
 
 	});
 
-	describe("utils.isInputField()", function() {
+});
+
+describe("luga.validator.utils", function() {
+
+	it("Namespaces must be defined", function() {
+		expect(luga.validator.utils).toBeDefined();
+	});
+
+	describe("isInputField()", function() {
 
 		it("Accepts nodes that can be validated", function() {
 			expect(luga.validator.utils.isInputField(jQuery("<textarea>"))).toBeTruthy();
@@ -96,6 +92,24 @@ describe("luga.validator", function() {
 			expect(luga.validator.utils.isInputField(jQuery("<input type='reset'>"))).toBeFalsy();
 			expect(luga.validator.utils.isInputField(jQuery("<input type='button'>"))).toBeFalsy();
 			expect(luga.validator.utils.isInputField(jQuery("<fieldset>"))).toBeFalsy();
+		});
+
+	});
+
+	describe("getFieldGroup()", function() {
+
+		describe("Extract group of related radio buttons", function() {
+
+			it("Within a given form", function() {
+				loadFixtures("validator/RadioValidator/required.htm");
+				expect(luga.validator.utils.getFieldGroup("lady", jQuery("#single")).length).toEqual(4);
+			});
+
+			it("Or not", function() {
+				loadFixtures("validator/RadioValidator/required.htm");
+				expect(luga.validator.utils.getFieldGroup("lady").length).toEqual(12);
+			});
+
 		});
 
 	});
