@@ -4,7 +4,7 @@ describe("luga.validator", function() {
 
 	it("Namespaces must be defined", function() {
 		expect(luga.validator).toBeDefined();
-		expect(luga.validator.util).toBeDefined();
+		expect(luga.validator.utils).toBeDefined();
 	});
 
 	describe("fieldValidatorGetInstance()", function() {
@@ -76,26 +76,26 @@ describe("luga.validator", function() {
 
 	});
 
-	describe("util.isInputField()", function() {
+	describe("utils.isInputField()", function() {
 
 		it("Accepts nodes that can be validated", function() {
-			expect(luga.validator.util.isInputField(jQuery("<textarea>"))).toBeTruthy();
-			expect(luga.validator.util.isInputField(jQuery("<input type='text'>"))).toBeTruthy();
-			expect(luga.validator.util.isInputField(jQuery("<input type='radio'>"))).toBeTruthy();
-			expect(luga.validator.util.isInputField(jQuery("<input type='checkbox'>"))).toBeTruthy();
-			expect(luga.validator.util.isInputField(jQuery("<input type='email'>"))).toBeTruthy();
-			expect(luga.validator.util.isInputField(jQuery("<input type='date'>"))).toBeTruthy();
-			expect(luga.validator.util.isInputField(jQuery("<select>"))).toBeTruthy();
+			expect(luga.validator.utils.isInputField(jQuery("<textarea>"))).toBeTruthy();
+			expect(luga.validator.utils.isInputField(jQuery("<input type='text'>"))).toBeTruthy();
+			expect(luga.validator.utils.isInputField(jQuery("<input type='radio'>"))).toBeTruthy();
+			expect(luga.validator.utils.isInputField(jQuery("<input type='checkbox'>"))).toBeTruthy();
+			expect(luga.validator.utils.isInputField(jQuery("<input type='email'>"))).toBeTruthy();
+			expect(luga.validator.utils.isInputField(jQuery("<input type='date'>"))).toBeTruthy();
+			expect(luga.validator.utils.isInputField(jQuery("<select>"))).toBeTruthy();
 		});
 
 		it("Refuses nodes that can't be validated", function() {
-			expect(luga.validator.util.isInputField(jQuery("<div>"))).toBeFalsy();
-			expect(luga.validator.util.isInputField(jQuery("<form>"))).toBeFalsy();
-			expect(luga.validator.util.isInputField(jQuery("<button>"))).toBeFalsy();
-			expect(luga.validator.util.isInputField(jQuery("<input type='submit'>"))).toBeFalsy();
-			expect(luga.validator.util.isInputField(jQuery("<input type='reset'>"))).toBeFalsy();
-			expect(luga.validator.util.isInputField(jQuery("<input type='button'>"))).toBeFalsy();
-			expect(luga.validator.util.isInputField(jQuery("<fieldset>"))).toBeFalsy();
+			expect(luga.validator.utils.isInputField(jQuery("<div>"))).toBeFalsy();
+			expect(luga.validator.utils.isInputField(jQuery("<form>"))).toBeFalsy();
+			expect(luga.validator.utils.isInputField(jQuery("<button>"))).toBeFalsy();
+			expect(luga.validator.utils.isInputField(jQuery("<input type='submit'>"))).toBeFalsy();
+			expect(luga.validator.utils.isInputField(jQuery("<input type='reset'>"))).toBeFalsy();
+			expect(luga.validator.utils.isInputField(jQuery("<input type='button'>"))).toBeFalsy();
+			expect(luga.validator.utils.isInputField(jQuery("<fieldset>"))).toBeFalsy();
 		});
 
 	});

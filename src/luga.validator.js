@@ -110,7 +110,7 @@ luga.validator.fieldValidatorGetInstance = function(options) {
 	jQuery.extend(this.options, options);
 	var self = this;
 	// Abort if the field isn't suitable to validation
-	if(!luga.validator.util.isInputField(self.options.fieldNode)) {
+	if(!luga.validator.utils.isInputField(self.options.fieldNode)) {
 		return null;
 	}
 	var fieldType = jQuery(self.options.fieldNode).prop("type");
@@ -467,9 +467,9 @@ luga.validator.dateSpecs["D-M-YYYY"] = luga.validator.createDateSpecObj("^\([0-3
 
 /* Utilities */
 
-luga.namespace("luga.validator.util");
+luga.namespace("luga.validator.utils");
 
-luga.validator.util.isInputField = function(fieldNode) {
+luga.validator.utils.isInputField = function(fieldNode) {
 	if(!jQuery(fieldNode).prop("type")) {
 		return false;
 	}
