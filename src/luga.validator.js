@@ -106,7 +106,10 @@ luga.validator.FormValidator = function(options) {
  * Field validator factory. Use this to instantiate a field validator without worrying about the specific implementation
  *
  * @param options.fieldNode:          Root node for widget (DOM reference). Required
- * @param.options                     Additional options can be used, but are specific to different kind of input fields. Check their implementation for details
+ * @param options.formNode:           Form node containing the field (DOM reference).
+ *                                    Required in case of radio and checkboxes (that are validated as group), optional in all other cases
+ * @param.options                     Additional options can be used, but are specific to different kind of input fields.
+ *                                    Check their implementation for details
  */
 luga.validator.FieldValidatorGetInstance = function(options) {
 	this.options = {};
@@ -124,9 +127,9 @@ luga.validator.FieldValidatorGetInstance = function(options) {
 		case "select-one":
 			return new luga.validator.SelectValidator(options);
 		case "radio":
-			return new luga.validator.RadioValidator(options);
+			return new luga.validator.RadioValidator(options, self.options.formNode);
 		case "checkbox":
-			return new luga.validator.CheckboxValidator(options);
+			return new luga.validator.CheckboxValidator(options, self.options.formNode);
 		// Default. Handle anything else as text field
 		default:
 			return new luga.validator.TextValidator(options);

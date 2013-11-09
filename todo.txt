@@ -5,8 +5,8 @@
 - TextFieldValidator:
   Implement equalto rule
 
-- Implement RadioValidator
-- Implement CheckboxValidator
+- Implement RadioValidator (test for disabled fields)
+- Implement CheckboxValidator (test for disabled fields)
 
 - Add docs for csi
 
