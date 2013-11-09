@@ -1118,7 +1118,7 @@ describe("luga.validator.textValidator", function() {
 	describe("Custom rules can be added", function() {
 		var textNode, textValidator;
 
-		it("By adding them to the luga.validator.rules", function() {
+		it("By adding them to luga.validator.rules", function() {
 
 			luga.validator.rules.lowercase = function(fieldNode, validator) {
 				var lowerStr = fieldNode.val().toLowerCase();
@@ -1132,6 +1132,28 @@ describe("luga.validator.textValidator", function() {
 			expect(textValidator.isValid()).toBeTruthy();
 
 			textNode = jQuery('<input type="text" value="Mixed Case" data-luga-required="true" data-luga-lowercase="true">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+
+		});
+
+	});
+
+	describe("Custom pattern can be added", function() {
+		var textNode, textValidator;
+
+		it("By adding them to luga.validator.patterns", function() {
+
+			luga.validator.patterns.httpstart = new RegExp("^http://");
+
+			textNode = jQuery('<input type="text" value="http://www.lugajs.org" data-luga-required="true" data-luga-pattern="httpstart">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+
+			textNode = jQuery('<input type="text" value="www.lugajs.org" data-luga-required="true" data-luga-pattern="httpstart">');
 			textValidator = new luga.validator.getFieldValidatorInstance({
 				fieldNode: textNode
 			});
