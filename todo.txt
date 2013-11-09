@@ -1,3 +1,5 @@
+- Add basic info to readme file
+
 - Try async unit tests for CSI
 - Add support for fixtures in tests
 
@@ -10,6 +12,7 @@
 
 - Add docs for csi
 
+-------------
 
 - Use call(this, superClass) for inheritance? If yes, wrap into a core's method
 - Wrap jQuery's extend into luga.merge() to make it less ambiguous?
