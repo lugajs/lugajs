@@ -1140,7 +1140,7 @@ describe("luga.validator.textValidator", function() {
 
 	});
 
-	describe("Custom pattern can be added", function() {
+	describe("Custom patterns can be added", function() {
 		var textNode, textValidator;
 
 		it("By adding them to luga.validator.patterns", function() {
@@ -1157,6 +1157,49 @@ describe("luga.validator.textValidator", function() {
 			textValidator = new luga.validator.getFieldValidatorInstance({
 				fieldNode: textNode
 			});
+
+		});
+
+	});
+
+	describe("Custom date patterns can be added", function() {
+		var textNode, textValidator;
+
+		it("By adding them to luga.validator.dateSpecs using the luga.validator.createDateSpecObj() utility", function() {
+
+			luga.validator.dateSpecs["D M YYYY"] = luga.validator.createDateSpecObj("^\([0-3]?[0-9]\)\\s\([0-2]?[0-9]\)\\s\([0-9]{4}\)$", 2, 1, 0, " ");
+
+			// Not a date
+			textNode = jQuery('<input type="text" value="test" data-luga-required="true" data-luga-datepattern="D M YYYY">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+
+			// Matches pattern, but it's not a date
+			textNode = jQuery('<input type="text" value="31 2 2005" data-luga-required="true" data-luga-datepattern="D M YYYY">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+
+			textNode = jQuery('<input type="text" value="31 12 2005" data-luga-required="true" data-luga-datepattern="D M YYYY">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+
+			textNode = jQuery('<input type="text" value="5 9 2005" data-luga-required="true" data-luga-datepattern="D M YYYY">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+
+			textNode = jQuery('<input type="text" value="05 09 2005" data-luga-required="true" data-luga-datepattern="D M YYYY">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
 
 		});
 
