@@ -129,6 +129,7 @@ luga.validator.getFieldValidatorInstance = function(options) {
  * @param.options                     Additional options can be used, but are specific to certain kind of input fields. Check their implementation for details
  */
 luga.validator.baseFieldValidator = function(options) {
+
 	this.options = {
 		message: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MESSAGE) || "",
 		errorclass: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.ERROR_CLASS) || ""
@@ -139,6 +140,7 @@ luga.validator.baseFieldValidator = function(options) {
 	self.message = self.options.message;
 
 	this.isValid = function() {
+		// Abstract method. Must return a boolean
 		throw(luga.validator.CONST.MESSAGES.ABSTRACT_IS_VALID);
 	};
 

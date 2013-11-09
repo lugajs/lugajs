@@ -29,7 +29,19 @@ describe("luga.validator", function() {
 
 	});
 
-	describe("baseFieldValidator", function() {
+	describe("baseFieldValidator is an abstract class", function() {
+		it("Its isValid() method is abstract and can't be invoked", function() {
+			var textNode = jQuery('<input type="text" data-luga-required="true" disabled="disabled" data-luga-errorclass="invalid">');
+			var baseValidator = new luga.validator.baseFieldValidator({
+				fieldNode: textNode
+			});
+			expect(function(){
+				baseValidator.isValid();
+			}).toThrow();
+		});
+	});
+
+	describe("All validators share some common capabilities", function() {
 
 		it("Message and errorclass properties are empty strings by default", function() {
 			var textValidator = new luga.validator.getFieldValidatorInstance({
