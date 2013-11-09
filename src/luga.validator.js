@@ -95,7 +95,7 @@ luga.validator.formValidator = function(options) {
  * @param options.fieldNode:          Root node for widget (DOM reference). Required
  * @param.options                     Additional options can be used, but are specific to different kind of input fields. Check their implementation for details
  */
-luga.validator.getFieldValidatorInstance = function(options) {
+luga.validator.fieldValidatorGetInstance = function(options) {
 	this.options = {};
 	jQuery.extend(this.options, options);
 	var self = this;
