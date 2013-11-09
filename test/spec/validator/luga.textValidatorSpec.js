@@ -158,6 +158,57 @@ describe("luga.validator.textValidator", function() {
 
 	});
 
+	describe("Trying to validate email address with RegExp these days makes very little sense (too many variations and silly domain names)", function() {
+		var textNode, textValidator;
+
+		it("So data-luga-email only check that one @ and a dot are there", function() {
+			textNode = jQuery('<input type="text" value="4" data-luga-required="true" data-luga-email="true">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+
+			textNode = jQuery('<input type="text" value="name" data-luga-required="true" data-luga-email="true">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+
+			textNode = jQuery('<input type="text" value="name@" data-luga-required="true" data-luga-email="true">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+
+			textNode = jQuery('<input type="text" value="name." data-luga-required="true" data-luga-email="true">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+
+			textNode = jQuery('<input type="text" value="name@ciccio.pasticcio" data-luga-required="true" data-luga-email="true">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+
+			textNode = jQuery('<input type="text" value="ciccio@pasticcio.com" data-luga-required="true" data-luga-email="true">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+		});
+
+		it("Please keep in mind this simplistic approach is not fool-proof", function() {
+			textNode = jQuery('<input type="text" value="ciccio@more@pasticcio.com" data-luga-required="true" data-luga-email="true">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+		});
+
+	});
+
 	describe("data-luga-pattern enforce input matches the following patterns:", function() {
 		var textNode, textValidator;
 

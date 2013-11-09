@@ -301,6 +301,16 @@ luga.validator.checkboxValidator = function(options) {
 
 luga.namespace("luga.validator.rules");
 
+luga.validator.rules.email = function(fieldNode, validator) {
+	var fieldValue = fieldNode.val();
+	var containsAt = (fieldValue.indexOf("@") !== -1);
+	var containDot = (fieldValue.indexOf(".") !== -1);
+	if(containsAt && containDot) {
+		return true;
+	}
+	return false;
+};
+
 luga.validator.rules.datepattern = function(fieldNode, validator) {
 	var datObj = luga.validator.dateStrToObj(fieldNode.val(), validator.options.datepattern);
 	if(datObj) {
