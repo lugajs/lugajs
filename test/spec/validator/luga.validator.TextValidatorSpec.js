@@ -1166,7 +1166,7 @@ describe("luga.validator.TextValidator", function() {
 
 	});
 
-	describe("Custom rules can be added", function() {
+	describe("Custom rules can be defined", function() {
 		var textNode, textValidator;
 
 		it("By adding them to luga.validator.rules", function() {
@@ -1191,7 +1191,7 @@ describe("luga.validator.TextValidator", function() {
 
 	});
 
-	describe("Custom patterns can be added", function() {
+	describe("Custom patterns can be defined", function() {
 		var textNode, textValidator;
 
 		it("By adding them to luga.validator.patterns", function() {
@@ -1213,7 +1213,7 @@ describe("luga.validator.TextValidator", function() {
 
 	});
 
-	describe("Custom date patterns can be added", function() {
+	describe("Custom date patterns can be defined", function() {
 		var textNode, textValidator;
 
 		it("By adding them to luga.validator.dateSpecs using the luga.validator.createDateSpecObj() utility", function() {
