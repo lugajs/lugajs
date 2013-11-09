@@ -29,7 +29,7 @@ luga.csi.CONST = {
 };
 
 /**
- * Client-side include widget
+ * Client-side Include widget
  *
  * @param options.rootNode:          Root node for widget (DOM reference). Required
  * @param options.url:               Url to be included. Optional. Default to the value of the "data-luga-csi" attribute inside rootNode
@@ -38,7 +38,7 @@ luga.csi.CONST = {
  * @param options.context            Context to be used for success and error callbacks. Optional
  * @param options.xhrTimeout:        Timeout for XHR call. Optional
  */
-luga.csi.include = function(options) {
+luga.csi.Include = function(options) {
 	var self = this;
 
 	this.init = function() {
@@ -73,7 +73,7 @@ luga.csi.include = function(options) {
 
 luga.csi.loadIncludes = function() {
 	jQuery(luga.csi.CONST.NODE_SELECTOR).each(function(index, item) {
-		var includeObj = new luga.csi.include({rootNode: item});
+		var includeObj = new luga.csi.Include({rootNode: item});
 		includeObj.init();
 	});
 };
