@@ -7,32 +7,32 @@ describe("luga.validator", function() {
 		expect(luga.validator.utils).toBeDefined();
 	});
 
-	describe("fieldValidatorGetInstance()", function() {
+	describe("FieldValidatorGetInstance()", function() {
 
 		it("Return null if the passed HTML node can't be validated", function() {
-			expect(luga.validator.fieldValidatorGetInstance({ fieldNode: jQuery("<div>") })).toBeNull();
-			expect(luga.validator.fieldValidatorGetInstance({ fieldNode: jQuery("<button>") })).toBeNull();
-			expect(luga.validator.fieldValidatorGetInstance({ fieldNode: jQuery("<input type='reset'>") })).toBeNull();
-			expect(luga.validator.fieldValidatorGetInstance({ fieldNode: jQuery("<fieldset>") })).toBeNull();
+			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<div>") })).toBeNull();
+			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<button>") })).toBeNull();
+			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<input type='reset'>") })).toBeNull();
+			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<fieldset>") })).toBeNull();
 		});
 
 		it("Return relevant validator object for the given field type", function() {
-			var textValidator = luga.validator.fieldValidatorGetInstance({ fieldNode: jQuery("<input type='text'>") });
-			expect(textValidator.constructor).toEqual(luga.validator.textValidator);
-			var selectValidator = luga.validator.fieldValidatorGetInstance({ fieldNode: jQuery("<select>") });
-			expect(selectValidator.constructor).toEqual(luga.validator.selectValidator);
-			var radioValidator = luga.validator.fieldValidatorGetInstance({ fieldNode: jQuery("<input type='radio'>") });
-			expect(radioValidator.constructor).toEqual(luga.validator.radioValidator);
-			var checkboxValidator = luga.validator.fieldValidatorGetInstance({ fieldNode: jQuery("<input type='checkbox'>") });
-			expect(checkboxValidator.constructor).toEqual(luga.validator.checkboxValidator);
+			var textValidator = luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<input type='text'>") });
+			expect(textValidator.constructor).toEqual(luga.validator.TextValidator);
+			var selectValidator = luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<select>") });
+			expect(selectValidator.constructor).toEqual(luga.validator.SelectValidator);
+			var radioValidator = luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<input type='radio'>") });
+			expect(radioValidator.constructor).toEqual(luga.validator.RadioValidator);
+			var checkboxValidator = luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<input type='checkbox'>") });
+			expect(checkboxValidator.constructor).toEqual(luga.validator.CheckboxValidator);
 		});
 
 	});
 
-	describe("baseFieldValidator is an abstract class", function() {
+	describe("BaseFieldValidator is an abstract class", function() {
 		it("Its isValid() method is abstract and can't be invoked", function() {
 			var textNode = jQuery('<input type="text" data-luga-required="true" disabled="disabled" data-luga-errorclass="invalid">');
-			var baseValidator = new luga.validator.baseFieldValidator({
+			var baseValidator = new luga.validator.BaseFieldValidator({
 				fieldNode: textNode
 			});
 			expect(function(){
@@ -44,7 +44,7 @@ describe("luga.validator", function() {
 	describe("All validators share some common capabilities", function() {
 
 		it("Message and errorclass properties are empty strings by default", function() {
-			var textValidator = new luga.validator.fieldValidatorGetInstance({
+			var textValidator = new luga.validator.FieldValidatorGetInstance({
 				fieldNode: jQuery("<input type='text'>")
 			});
 			expect(textValidator.options.message).toEqual("");
@@ -53,7 +53,7 @@ describe("luga.validator", function() {
 
 		it("Add/remove error class and title attribute", function() {
 			var textNode = jQuery('<input type="text" data-luga-required="true" data-luga-errorclass="invalid" data-luga-message="Invalid field!">');
-			var textValidator = new luga.validator.fieldValidatorGetInstance({
+			var textValidator = new luga.validator.FieldValidatorGetInstance({
 				fieldNode: textNode
 			});
 			expect(textNode.hasClass("invalid")).toBeFalsy();
@@ -67,7 +67,7 @@ describe("luga.validator", function() {
 
 		it("Handle disabled fields as always valid", function() {
 			var textNode = jQuery('<input type="text" data-luga-required="true" disabled="disabled" data-luga-errorclass="invalid">');
-			var textValidator = new luga.validator.fieldValidatorGetInstance({
+			var textValidator = new luga.validator.FieldValidatorGetInstance({
 				fieldNode: textNode
 			});
 			expect(textValidator.validate()).toBeFalsy();

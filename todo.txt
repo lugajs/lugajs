@@ -3,12 +3,12 @@
 - Try async unit tests for CSI
 - Add support for fixtures in tests
 
-- textFieldValidator:
+- TextFieldValidator:
   Implement equalto rule
 
-- Implement radioValidator
-- Implement checkboxValidator
-- Implement selectValidator
+- Implement RadioValidator
+- Implement CheckboxValidator
+- Implement SelectValidator
 
 - Add docs for csi
 

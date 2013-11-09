@@ -41,7 +41,7 @@ luga.validator.CONST = {
 		EQUAL_TO: "data-luga-equalto"
 	},
 	MESSAGES: {
-		ABSTRACT_IS_VALID: "luga.validator.baseFieldValidator.isValid() is an abstract method",
+		ABSTRACT_IS_VALID: "luga.validator.BaseFieldValidator.isValid() is an abstract method",
 		PATTERN_NOT_FOUND: "luga.validator failed to retrieve pattern: {0}"
 	},
 	FAKE_INPUT_TYPES: {
@@ -61,7 +61,7 @@ luga.validator.CONST = {
  *                                   Set this options to false to keep the submit buttons enabled.
  *                                   Value can also be set using the "data-luga-blocksubmit" attribute. Optional
  */
-luga.validator.formValidator = function(options) {
+luga.validator.FormValidator = function(options) {
 
 	this.options = {
 		blocksubmit: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.BLOCK_SUBMIT) || true
@@ -105,7 +105,7 @@ luga.validator.formValidator = function(options) {
  * @param options.fieldNode:          Root node for widget (DOM reference). Required
  * @param.options                     Additional options can be used, but are specific to different kind of input fields. Check their implementation for details
  */
-luga.validator.fieldValidatorGetInstance = function(options) {
+luga.validator.FieldValidatorGetInstance = function(options) {
 	this.options = {};
 	jQuery.extend(this.options, options);
 	var self = this;
@@ -117,16 +117,16 @@ luga.validator.fieldValidatorGetInstance = function(options) {
 	// Get relevant validator based on field type
 	switch(fieldType){
 		case "select-multiple":
-			return new luga.validator.selectValidator(options);
+			return new luga.validator.SelectValidator(options);
 		case "select-one":
-			return new luga.validator.selectValidator(options);
+			return new luga.validator.SelectValidator(options);
 		case "radio":
-			return new luga.validator.radioValidator(options);
+			return new luga.validator.RadioValidator(options);
 		case "checkbox":
-			return new luga.validator.checkboxValidator(options);
+			return new luga.validator.CheckboxValidator(options);
 		// Default. Handle anything else as text field
 		default:
-			return new luga.validator.textValidator(options);
+			return new luga.validator.TextValidator(options);
 	}
 };
 
@@ -138,7 +138,7 @@ luga.validator.fieldValidatorGetInstance = function(options) {
  * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
  * @param.options                     Additional options can be used, but are specific to certain kind of input fields. Check their implementation for details
  */
-luga.validator.baseFieldValidator = function(options) {
+luga.validator.BaseFieldValidator = function(options) {
 
 	this.options = {
 		message: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MESSAGE) || "",
@@ -204,7 +204,7 @@ luga.validator.baseFieldValidator = function(options) {
  * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
 
  */
-luga.validator.textValidator = function(options) {
+luga.validator.TextValidator = function(options) {
 	this.options = {
 		required: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.REQUIRED),
 		pattern: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.PATTERN),
@@ -218,7 +218,7 @@ luga.validator.textValidator = function(options) {
 		equalto: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.EQUAL_TO)
 	};
 	jQuery.extend(this.options, options);
-	jQuery.extend(this, new luga.validator.baseFieldValidator(this.options));
+	jQuery.extend(this, new luga.validator.BaseFieldValidator(this.options));
 	var self = this;
 	self.node = jQuery(options.fieldNode);
 	self.name = "";
@@ -279,31 +279,31 @@ luga.validator.textValidator = function(options) {
 	};
 };
 
-luga.validator.selectValidator = function(options) {
+luga.validator.SelectValidator = function(options) {
 	this.options = {
 
 	};
 	jQuery.extend(this.options, options);
-	jQuery.extend(this, new luga.validator.baseFieldValidator(this.options));
+	jQuery.extend(this, new luga.validator.BaseFieldValidator(this.options));
 	var self = this;
 	self.node = jQuery(options.fieldNode);
 };
 
-luga.validator.radioValidator = function(options) {
+luga.validator.RadioValidator = function(options) {
 	this.options = {
 
 	};
 	jQuery.extend(this.options, options);
-	jQuery.extend(this, new luga.validator.baseFieldValidator(this.options));
+	jQuery.extend(this, new luga.validator.BaseFieldValidator(this.options));
 	var self = this;
 };
 
-luga.validator.checkboxValidator = function(options) {
+luga.validator.CheckboxValidator = function(options) {
 	this.options = {
 
 	};
 	jQuery.extend(this.options, options);
-	jQuery.extend(this, new luga.validator.baseFieldValidator(this.options));
+	jQuery.extend(this, new luga.validator.BaseFieldValidator(this.options));
 	var self = this;
 };
 
