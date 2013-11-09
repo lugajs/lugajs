@@ -23,6 +23,12 @@ if(typeof(luga) === "undefined") {
 }
 luga.version = 0.1;
 
+luga.CONST = {
+	MESSAGES: {
+		INVALID_EXTEND_PARAM: "luga.extend only accept functions as arguments"
+	}
+};
+
 // Based on Nicholas C. Zakas's code
 luga.namespace = function(ns, rootObject) {
 	var parts = ns.split(".");
@@ -37,6 +43,12 @@ luga.namespace = function(ns, rootObject) {
 		rootObject = rootObject[parts[i]];
 	}
 	return rootObject;
+};
+
+luga.extend = function(func, baseFunc) {
+	if((!jQuery.isFunction(func)) || (!jQuery.isFunction(baseFunc))) {
+		throw(luga.CONST.MESSAGES.INVALID_EXTEND_PARAM);
+	}
 };
 
 /* Utilities */
