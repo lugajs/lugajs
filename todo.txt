@@ -2,13 +2,15 @@
 - Add support for fixtures in tests
 - Add license
 
-textFieldValidator:
-- Test/implement equalto rule
-- Test custom rule
-- Test custom pattern
-- Test custom date patterns
-- Implement better, simpler, email validation (regexp for email is silly)
+- textFieldValidator:
+  Implement equalto rule
 
-- Implement radio, checkbox and select validators
+- Implement radioValidator
+- Implement checkboxValidator
+- Implement selectValidator
 
 - Add docs for csi
+
+
+- Use call(this, superClass) for inheritance? If yes, wrap into a core's method
+- Wrap jQuery's extend into luga.merge() to make it less ambiguous?
