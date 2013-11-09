@@ -1,6 +1,5 @@
 - Try async unit tests for CSI
 - Add support for fixtures in tests
-- Add license
 
 - textFieldValidator:
   Implement equalto rule
