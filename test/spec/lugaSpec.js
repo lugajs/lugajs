@@ -1,6 +1,6 @@
-describe("luga js", function() {
+describe("luga", function() {
 
-	it("jQuery must be defined", function() {
+	it("Require jQuery in order to work", function() {
 		expect(jQuery).toBeDefined();
 	});
 
@@ -28,7 +28,7 @@ describe("luga js", function() {
 		expect(nicole.getName()).toEqual("Nicole Kidman");
 	});
 
-	it("Root namespaces must be defined", function() {
+	it("luga root namespaces must be defined", function() {
 		expect(luga).toBeDefined();
 		expect(luga.utils).toBeDefined();
 	});
