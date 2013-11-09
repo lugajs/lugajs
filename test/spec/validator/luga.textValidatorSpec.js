@@ -1115,4 +1115,29 @@ describe("luga.validator.textValidator", function() {
 
 	});
 
+	describe("Custom rules can be added", function() {
+		var textNode, textValidator;
+
+		it("By adding them to the luga.validator.rules", function() {
+
+			luga.validator.rules.lowercase = function(fieldNode, validator) {
+				var lowerStr = fieldNode.val().toLowerCase();
+				return (lowerStr === fieldNode.val());
+			};
+
+			textNode = jQuery('<input type="text" value="all lower" data-luga-required="true" data-luga-lowercase="true">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+
+			textNode = jQuery('<input type="text" value="Mixed Case" data-luga-required="true" data-luga-lowercase="true">');
+			textValidator = new luga.validator.getFieldValidatorInstance({
+				fieldNode: textNode
+			});
+
+		});
+
+	});
+
 });
