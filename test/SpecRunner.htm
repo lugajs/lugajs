@@ -15,9 +15,10 @@
 			padding-left: 25px;
 		}
 	</style>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script type="text/javascript" src="../lib/jasmine/jasmine.js"></script>
 	<script type="text/javascript" src="../lib/jasmine/jasmine-html.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script type="text/javascript" src="../lib/jasmine/jasmine-jquery.js"></script>
 
 	<!-- Include source files here... -->
 	<script type="text/javascript" src="../src/luga.js"></script>
@@ -29,10 +30,12 @@
 	<script type="text/javascript" src="spec/csi/luga.csiSpec.js"></script>
 	<script type="text/javascript" src="spec/validator/luga.validatorSpec.js"></script>
 	<script type="text/javascript" src="spec/validator/luga.validator.FormValidatorSpec.js"></script>
+	<script type="text/javascript" src="spec/validator/luga.validator.SelectValidatorSpec.js"></script>
 	<script type="text/javascript" src="spec/validator/luga.validator.TextValidatorSpec.js"></script>
 
 	<script type="text/javascript">
 		jQuery(document).ready(function () {
+			jasmine.getFixtures().fixturesPath = "fixtures";
 			var jasmineEnv = jasmine.getEnv();
 			jasmineEnv.updateInterval = 1000;
 
@@ -42,6 +45,7 @@
 			jasmineEnv.specFilter = function(spec) {
 				return htmlReporter.specFilter(spec);
 			};
+
 			jasmineEnv.execute();
 		});
 	  </script>

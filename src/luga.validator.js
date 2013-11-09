@@ -38,11 +38,14 @@ luga.validator.CONST = {
 		DATE_PATTERN: "data-luga-datepattern",
 		MIN_DATE: "data-luga-mindate",
 		MAX_DATE: "data-luga-maxdate",
-		EQUAL_TO: "data-luga-equalto"
+		EQUAL_TO: "data-luga-equalto",
+		INVALID_INDEX: "data-luga-invalidindex",
+		INVALID_VALUE: "data-luga-invalidvalue"
 	},
 	MESSAGES: {
 		ABSTRACT_IS_VALID: "luga.validator.BaseFieldValidator.isValid() is an abstract method",
-		PATTERN_NOT_FOUND: "luga.validator failed to retrieve pattern: {0}"
+		PATTERN_NOT_FOUND: "luga.validator failed to retrieve pattern: {0}",
+		INVALID_INDEX_NOT_NUMERIC: "data-luga-invalidindex accept only numbers"
 	},
 	FAKE_INPUT_TYPES: {
 		fieldset: true,
@@ -271,7 +274,7 @@ luga.validator.TextValidator = function(options) {
 					// Invoke the rule
 					if(!luga.validator.rules[rule].apply(null, [self.node, self])) {
 						return false;
-					};
+					}
 				}
 			}
 		}
@@ -281,12 +284,49 @@ luga.validator.TextValidator = function(options) {
 
 luga.validator.SelectValidator = function(options) {
 	this.options = {
-
+		invalidindex: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.INVALID_INDEX),
+		invalidvalue: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.INVALID_VALUE)
 	};
 	jQuery.extend(this.options, options);
 	jQuery.extend(this, new luga.validator.BaseFieldValidator(this.options));
 	var self = this;
 	self.node = jQuery(options.fieldNode);
+
+	// Ensure invalidindex is numeric
+	if((self.options.invalidindex !== undefined) && (!jQuery.isNumeric(self.options.invalidindex))) {
+		throw(luga.validator.CONST.MESSAGES.INVALID_INDEX_NOT_NUMERIC);
+	}
+
+	// Whenever a "size" attribute is available, the browser reports -1 as selectedIndex
+	// Fix this weirdness
+	var currentIndex = self.node.prop("selectedIndex");
+	if(currentIndex === -1) {
+		currentIndex = 0;
+	}
+	currentIndex = parseInt(currentIndex);
+
+	this.isValid = function() {
+		// Check for index
+		if(currentIndex === parseInt(self.options.invalidindex)) {
+			return false;
+		}
+		// Check for value
+		if(self.node.val() === self.options.invalidvalue) {
+			return false;
+		}
+		// Loop over all the available rules
+		for(var rule in luga.validator.rules) {
+			// Check if the current rule is required for the field
+			if(self.node.attr(luga.validator.CONST.RULE_PREFIX + rule)) {
+				// Invoke the rule
+				if(!luga.validator.rules[rule].apply(null, [self.node, self])) {
+					return false;
+				}
+			}
+		}
+		return true;
+	};
+
 };
 
 luga.validator.RadioValidator = function(options) {
