@@ -11,7 +11,7 @@ describe("luga.validator.RadioValidator", function() {
 
 		expect(formValidator.executeValidators().length).toEqual(1);
 		expect(formValidator.executeValidators()[0].message).toEqual("Select a Lady");
-		expect(formValidator.isValid()).toBeFalsy()
+		expect(formValidator.isValid()).toBeFalsy();
 		expect(jQuery("#Nicole")).toHaveClass("invalid");
 
 		// Check one radio
