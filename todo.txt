@@ -1,16 +1,18 @@
 - Add basic info to readme file
 
+- Stop pointing to Google CDN for jQuery?
+
 - Try async unit tests for CSI
 
 - TextFieldValidator:
   Implement equalto rule
 
-- Implement CheckboxValidator (test for disabled fields)
-
 - Test direct calls to FieldValidatorGetInstance()? We need fixtures for this
 
-- Use fixtures to add more tests on FormValidator
+- Use fixtures to add complete tests on FormValidator
 - Use fixtures to test error classes
+
+- Implement callback
 
 - Implement API
 

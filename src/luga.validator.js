@@ -39,6 +39,8 @@ luga.validator.CONST = {
 		MIN_DATE: "data-luga-mindate",
 		MAX_DATE: "data-luga-maxdate",
 		EQUAL_TO: "data-luga-equalto",
+		MIN_CHECKED: "data-luga-minchecked",
+		MAX_CHECKED: "data-luga-maxchecked",
 		INVALID_INDEX: "data-luga-invalidindex",
 		INVALID_VALUE: "data-luga-invalidvalue"
 	},
@@ -152,7 +154,12 @@ luga.validator.FieldValidatorGetInstance = function(options) {
 			break;
 
 		case "checkbox":
-			return new luga.validator.CheckboxValidator(this.options, self.options.formNode);
+			if(jQuery(this.options.fieldNode).attr("name")) {
+				return new luga.validator.CheckboxValidator({
+					inputGroup: luga.validator.utils.getFieldGroup(jQuery(this.options.fieldNode).attr("name"), this.options.formNode)
+				});
+			}
+			break;
 
 		default:
 			return new luga.validator.TextValidator(this.options);
@@ -419,17 +426,17 @@ luga.validator.RadioValidator = function(options) {
 	this.options = {};
 	jQuery.extend(this.options, options);
 	jQuery.extend(this, new luga.validator.BaseGroupValidator(this.options));
+	this.type = "radio";
 	var self = this;
-	self.type = "radio";
 
 	this.isRequired = function() {
 		var requiredFlag = false;
-		var fieldGroup = this.options.inputGroup;
+		var fieldGroup = this.inputGroup;
 		// Since radios from the same group can have conflicting attribute values, the last one win
 		for(var i=0; i<fieldGroup.length; i++) {
 			var field = jQuery(fieldGroup[i]);
 			if(field.prop("disabled") === false) {
-				if(field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.REQUIRED)){
+				if(field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.REQUIRED)) {
 					requiredFlag = field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.REQUIRED);
 				}
 			}
@@ -438,12 +445,12 @@ luga.validator.RadioValidator = function(options) {
 	};
 
 	this.isValid = function(){
-		if(self.isRequired() === "true") {
-			var fieldGroup = this.options.inputGroup;
-			for(var i=0; i<fieldGroup.length; i++){
+		if(this.isRequired() === "true") {
+			var fieldGroup = this.inputGroup;
+			for(var i=0; i<fieldGroup.length; i++) {
 				var field = jQuery(fieldGroup[i]);
 				// As long as only one is checked, we are fine
-				if(field.prop("checked") === true){
+				if(field.prop("checked") === true) {
 					return true;
 				}
 			}
@@ -454,13 +461,42 @@ luga.validator.RadioValidator = function(options) {
 };
 
 luga.validator.CheckboxValidator = function(options) {
-	this.options = {
-
-	};
+	this.options = {};
 	jQuery.extend(this.options, options);
-	jQuery.extend(this, new luga.validator.BaseFieldValidator(this.options));
+	jQuery.extend(this, new luga.validator.BaseGroupValidator(this.options));
+	this.type = "checkbox";
+	this.minchecked = 0;
+	this.maxchecked = this.options.inputGroup.length;
 	var self = this;
-	self.type = "checkbox";
+
+	// Since checkboxes from the same group can have conflicting attribute values, the last one win
+	for(var i=0; i<this.inputGroup.length; i++) {
+		var field = jQuery(this.inputGroup[i]);
+		if(field.prop("disabled") === false) {
+			if(field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MIN_CHECKED)) {
+				this.minchecked = field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MIN_CHECKED);
+			}
+			if(field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MAX_CHECKED)) {
+				this.maxchecked = field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MAX_CHECKED);
+			}
+		}
+	}
+
+	this.isValid = function(){
+		var checkCounter = 0;
+		var fieldGroup = this.inputGroup;
+		for(var i=0; i<fieldGroup.length; i++) {
+			// For each checked box, increase the counter
+			var field = jQuery(this.inputGroup[i]);
+			if(field.prop("disabled") === false) {
+				if(field.prop("checked") === true) {
+					checkCounter++;
+				}
+			}
+		}
+		return ((checkCounter >=  this.minchecked) && (checkCounter <= this.maxchecked));
+	};
+
 };
 
 /* Rules */
