@@ -2,6 +2,9 @@
 
 - Stop pointing to Google CDN for jQuery?
 
+- Wrap jQuery.extend() into luga.merge()?
+- Create dedicated luga.extend()?
+
 - Try async unit tests for CSI
 
 - TextFieldValidator:
