@@ -1,9 +1,11 @@
 - Add basic info to readme file
 
-- Stop pointing to Google CDN for jQuery?
+-------------
 
-- Wrap jQuery.extend() into luga.merge()?
+- Wrap jQuery's extend into luga.merge() to make it less ambiguous?
 - Create dedicated luga.extend()?
+
+-------------
 
 - Try async unit tests for CSI
 
@@ -22,5 +24,3 @@
 - Add docs for csi
 
 -------------
-
-- Wrap jQuery's extend into luga.merge() to make it less ambiguous?
