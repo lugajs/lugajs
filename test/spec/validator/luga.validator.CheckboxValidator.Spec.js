@@ -23,7 +23,7 @@ describe("luga.validator.CheckboxValidator", function() {
 
 	it("In case of conflicting requirements among fields. The last one wins", function() {
 
-/*		loadFixtures("validator/CheckboxValidator/required.htm");
+		loadFixtures("validator/CheckboxValidator/required.htm");
 		var formValidator = new luga.validator.FormValidator({
 			formNode: jQuery("#multiple")
 		});
@@ -32,7 +32,7 @@ describe("luga.validator.CheckboxValidator", function() {
 		expect(formValidator.isValid()).toBeTruthy();
 		jQuery("#Nicole").prop("checked", true);
 		expect(formValidator.executeValidators().length).toEqual(0);
-		expect(formValidator.isValid()).toBeTruthy();*/
+		expect(formValidator.isValid()).toBeTruthy();
 	});
 
 	it("Disabled fields are skipped", function() {
