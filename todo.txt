@@ -11,10 +11,13 @@
 
 - Test direct calls to FieldValidatorGetInstance()? We need fixtures for this
 
-- Use fixtures to add complete tests on FormValidator
-- Use fixtures to test error classes
+- Implement following callbacks
+  succes
+  failure
+  before
 
-- Implement callback
+- Use fixtures to add complete tests on FormValidator
+- Use fixtures to DOM changes
 
 - Implement API
 
