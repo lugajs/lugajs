@@ -209,6 +209,56 @@ describe("luga.validator.TextValidator", function() {
 
 	});
 
+	describe("data-luga-equalto:", function() {
+		var textNode, textValidator;
+
+		it("Throw an exception if the second field does not exist", function() {
+			textNode = jQuery('<input type="text" value="myStr" data-luga-required="true" data-luga-equalto="missing">');
+			textValidator = new luga.validator.FieldValidatorGetInstance({
+				fieldNode: textNode
+			});
+			expect(function(){
+				textValidator.isValid();
+			}).toThrow();
+		});
+
+		it("Validate if the two fields are the same", function() {
+			loadFixtures("validator/TextValidator/equalto.htm");
+			textValidator = new luga.validator.FieldValidatorGetInstance({
+				fieldNode: jQuery("#password3")
+			});
+			textValidator.validate();
+			expect(textValidator.isValid()).toBeTruthy();
+			expect(jQuery("#password3")).not.toHaveClass("invalid");
+		});
+
+		it("Fail if they are not", function() {
+			loadFixtures("validator/TextValidator/equalto.htm");
+			textValidator = new luga.validator.FieldValidatorGetInstance({
+				fieldNode: jQuery("#password1")
+			});
+			textValidator.validate();
+			expect(textValidator.isValid()).toBeFalsy();
+			expect(jQuery("#password1")).toHaveClass("invalid");
+		});
+
+		it("It works on whole form too", function() {
+			loadFixtures("validator/TextValidator/equalto.htm");
+			var formValidator = new luga.validator.FormValidator({
+				formNode: jQuery("#equal")
+			});
+			expect(formValidator.executeValidators().length).toEqual(0);
+			expect(formValidator.isValid()).toBeTruthy();
+			expect(jQuery("#password3")).not.toHaveClass("invalid");
+			jQuery("#password4").val("Kate");
+			expect(formValidator.executeValidators().length).toEqual(1);
+			expect(formValidator.isValid()).toBeFalsy();
+			expect(jQuery("#password3")).toHaveClass("invalid");
+
+		});
+
+	});
+
 	describe("data-luga-pattern enforce input matches the following patterns:", function() {
 		var textNode, textValidator;
 

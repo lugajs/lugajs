@@ -9,9 +9,6 @@
 
 - Try async unit tests for CSI
 
-- TextFieldValidator:
-  Implement equalto rule
-
 - Test direct calls to FieldValidatorGetInstance()? We need fixtures for this
 
 - Use fixtures to add complete tests on FormValidator

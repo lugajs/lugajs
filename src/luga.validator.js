@@ -45,10 +45,12 @@ luga.validator.CONST = {
 		INVALID_VALUE: "data-luga-invalidvalue"
 	},
 	MESSAGES: {
+		FORM_MISSING: "luga.validator is unable to load form",
 		FIELD_ABSTRACT_IS_VALID: "luga.validator.BaseFieldValidator.isValid() is an abstract method",
 		GROUP_ABSTRACT_IS_VALID: "luga.validator.BaseGroupValidator.isValid() is an abstract method",
 		PATTERN_NOT_FOUND: "luga.validator failed to retrieve pattern: {0}",
-		INVALID_INDEX_NOT_NUMERIC: "data-luga-invalidindex accept only numbers"
+		INVALID_INDEX_NOT_NUMERIC: "data-luga-invalidindex accept only numbers",
+		MISSING_EQUAL_TO_FIELD: "data-luga-equalto unable to fiend field with id = {0}"
 	},
 	FAKE_INPUT_TYPES: {
 		fieldset: true,
@@ -75,6 +77,10 @@ luga.validator.FormValidator = function(options) {
 	jQuery.extend(this.options, options);
 	var self = this;
 	self.validators = [];
+
+	if(jQuery(self.options.formNode).length === 0) {
+		throw(luga.validator.CONST.MESSAGES.FORM_MISSING);
+	}
 
 	this.init = function() {
 		self.validators = [];
@@ -181,9 +187,8 @@ luga.validator.BaseFieldValidator = function(options) {
 		errorclass: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.ERROR_CLASS) || ""
 	};
 	jQuery.extend(this.options, options);
-	var self = this;
-	self.node = jQuery(options.fieldNode);
-	self.message = self.options.message;
+	this.node = jQuery(options.fieldNode);
+	this.message = this.options.message;
 
 	this.isValid = function() {
 		// Abstract method. Must return a boolean
@@ -191,29 +196,29 @@ luga.validator.BaseFieldValidator = function(options) {
 	};
 
 	this.flagInvalid = function(){
-		self.node.addClass(self.options.errorclass);
+		this.node.addClass(this.options.errorclass);
 		// Set the title attribute in order to show a tooltip
-		self.node.attr("title", self.message);
+		this.node.attr("title", this.message);
 	};
 
 	this.flagValid = function() {
-		self.node.removeClass(self.options.errorclass);
-		self.node.removeAttr("title");
+		this.node.removeClass(this.options.errorclass);
+		this.node.removeAttr("title");
 	};
 
 	// Be careful, this method returns a boolean but also has side-effects
 	this.validate = function() {
 		// Disabled fields are always valid
-		if(self.node.prop("disabled")) {
-			self.flagValid();
+		if(this.node.prop("disabled")) {
+			this.flagValid();
 			return false;
 		}
-		if(!self.isValid()) {
-			self.flagInvalid();
+		if(!this.isValid()) {
+			this.flagInvalid();
 			return true;
 		}
 		else{
-			self.flagValid();
+			this.flagValid();
 			return false;
 		}
 	};
@@ -511,6 +516,14 @@ luga.validator.rules.email = function(fieldNode, validator) {
 		return true;
 	}
 	return false;
+};
+
+luga.validator.rules.equalto = function(fieldNode, validator) {
+	var secondFieldNode = jQuery("#" + validator.options.equalto);
+	if(secondFieldNode.length === 0) {
+		throw(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_EQUAL_TO_FIELD, [validator.options.equalto]));
+	}
+	return (fieldNode.val() === secondFieldNode.val());
 };
 
 luga.validator.rules.datepattern = function(fieldNode, validator) {
