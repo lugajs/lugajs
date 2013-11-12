@@ -12,7 +12,7 @@
 - Test direct calls to FieldValidatorGetInstance()? We need fixtures for this
 
 - Implement following callbacks
-  succes
+  success
   failure
   before
 
