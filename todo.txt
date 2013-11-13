@@ -21,7 +21,8 @@ VALIDATOR:
 - FormValidator
   Implement mechanisms for callbacks (success, failure, before)
   Implement default callbacks
-  Finalize
+  Implement blocksubmit
+  Finalize it
 
 - Use fixtures to add complete tests on FormValidator
 - Use fixtures to test complete forms, including DOM changes
