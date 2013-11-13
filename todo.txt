@@ -1,6 +1,7 @@
 CORE:
 
 - Add basic info to readme file
+  https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 
 - Wrap jQuery's extend into luga.merge() to make it less ambiguous?
 - Create dedicated luga.extend()?
