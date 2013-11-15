@@ -1216,6 +1216,38 @@ describe("luga.validator.TextValidator", function() {
 
 	});
 
+	describe("Rules can be mixed", function() {
+
+		it("Like data-luga-minlength and data-luga-maxlength", function() {
+			loadFixtures("validator/FormValidator/generic.htm");
+			var textValidator;
+			textValidator = new luga.validator.FieldValidatorGetInstance({
+				fieldNode: jQuery("#comments")
+			});
+
+			textValidator.validate();
+			expect(textValidator.isValid()).toBeFalsy();
+			expect(jQuery("#comments")).toHaveClass("invalid");
+
+			jQuery("#comments").val("x");
+			textValidator.validate()
+			expect(textValidator.isValid()).toBeFalsy();
+			expect(jQuery("#comments")).toHaveClass("invalid");
+
+			jQuery("#comments").val("Very long piece of text");
+			textValidator.validate()
+			expect(textValidator.isValid()).toBeFalsy();
+			expect(jQuery("#comments")).toHaveClass("invalid");
+
+			jQuery("#comments").val("five");
+			textValidator.validate()
+			expect(textValidator.isValid()).toBeTruthy();
+			expect(jQuery("#comments")).not.toHaveClass("invalid");
+
+		});
+
+	});
+
 	describe("Custom rules can be defined", function() {
 		var textNode, textValidator;
 
