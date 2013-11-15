@@ -17,18 +17,16 @@ CSI:
 
 VALIDATOR:
 
-- Test direct calls to FieldValidatorGetInstance() to ensure it returns correct type?
-
 - FormValidator
   Implement/test mechanisms for callbacks (success, failure, before)
   Implement/test default callbacks
-  Implement/test data-luga-blocksubmit with data-luga-waitmessage for submit
+  Implement/test data-luga-blocksubmit with data-luga-waitmessage for submit buttons
   Implement/test init()
   Finalize it
 
 - Test HTML 5 fields
 
-- Implement API
+- Implement/test API
 
 - Add docs and samples
 
