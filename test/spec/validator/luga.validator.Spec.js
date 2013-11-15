@@ -15,6 +15,18 @@ describe("luga.validator", function() {
 			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<fieldset>") })).toBeNull();
 		});
 
+		it("Return relevant validator, depending on the kind of field", function() {
+
+			loadFixtures("validator/FormValidator/generic.htm");
+
+			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("#age") }).constructor).toEqual(luga.validator.TextValidator);
+			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("#comments") }).constructor).toEqual(luga.validator.TextValidator);
+			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("#boxNicole") }).constructor).toEqual(luga.validator.CheckboxValidator);
+			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("#radioNicole") }).constructor).toEqual(luga.validator.RadioValidator);
+			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("#food") }).constructor).toEqual(luga.validator.SelectValidator);
+
+		});
+
 	});
 
 	describe("BaseFieldValidator is an abstract class", function() {
