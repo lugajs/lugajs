@@ -26,6 +26,8 @@ VALIDATOR:
   Implement/test init()
   Finalize it
 
+- Test HTML 5 fields
+
 - Implement API
 
 - Add docs and samples
