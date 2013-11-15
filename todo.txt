@@ -17,18 +17,14 @@ CSI:
 
 VALIDATOR:
 
-- Test direct calls to FieldValidatorGetInstance() to ensure it returns correct type? We need fixtures for this
+- Test direct calls to FieldValidatorGetInstance() to ensure it returns correct type?
 
 - FormValidator
-  Implement mechanisms for callbacks (success, failure, before)
-  Implement default callbacks
-  Implement blocksubmit
+  Implement/test mechanisms for callbacks (success, failure, before)
+  Implement/test default callbacks
+  Implement/test data-luga-blocksubmit with data-luga-waitmessage for submit
+  Implement/test init()
   Finalize it
-
-- Use fixtures to add complete tests on FormValidator
-- Use fixtures to test complete forms, including DOM changes
-
-- Implement init()
 
 - Implement API
 
