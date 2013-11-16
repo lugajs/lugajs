@@ -773,8 +773,8 @@ luga.validator.initForms = function() {
 				var formValidator = new luga.validator.FormValidator({
 					formNode: formNode
 				});
+				formValidator.validate(event);
 			});
-			formValidator.validate(event);
 		}
 	});
 };
