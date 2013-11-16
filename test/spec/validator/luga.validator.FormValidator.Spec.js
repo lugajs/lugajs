@@ -137,9 +137,6 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 				afterCalled: false
 			};
 			customBeforeHandler = function(formNode) {
-
-				console.info("custom before")
-
 				flags.beforeCalled = true;
 			};
 			customErrorHandler = function(formNode, validators) {
