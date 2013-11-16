@@ -20,7 +20,6 @@ VALIDATOR:
 
 - FormValidator
   Implement/test data-luga-blocksubmit with data-luga-waitmessage for submit buttons
-  Implement luga.validator.errorBox()
 
 - Test HTML 5 fields
 

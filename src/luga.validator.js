@@ -66,7 +66,7 @@ if(typeof(luga) === "undefined") {
 			submit: true
 		},
 		HANDLERS: {
-			FORM_ERROR: function(){}
+			FORM_ERROR: luga.utils.errorAlert
 		}
 	};
 
@@ -755,29 +755,6 @@ if(typeof(luga) === "undefined") {
 		var selector = "input[name=" + name + "]";
 		return jQuery(selector, formNode);
 	};
-
-	/* Callbacks for handling validation and display messages */
-
-	// Default failure handler. Display error messages inside alert
-	luga.validator.errorAlert = function(formNode, validators) {
-		var errorMsg = "";
-		var focusGiven = false;
-		for(var i=0; i<validators.length; i++) {
-			// Append to the error string
-			errorMsg += validators[i].message + "\n";
-			// Give focus to the first invalid text field
-			if(!focusGiven && (validators[i].getFocus)) {
-				validators[i].getFocus();
-				focusGiven = true;
-			}
-		}
-		if(errorMsg !== "") {
-			alert(errorMsg);
-		}
-	};
-
-	// Register default failure handler
-	luga.validator.CONST.HANDLERS.FORM_ERROR = luga.validator.errorAlert;
 
 	/* Attach form validators to onSubmit events */
 
