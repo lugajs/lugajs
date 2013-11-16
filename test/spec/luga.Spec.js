@@ -36,16 +36,6 @@ describe("luga", function() {
 	});
 
 	describe("namespace()", function() {
-		it("Must be defined", function() {
-			expect(luga.namespace).toBeDefined();
-			expect(jQuery.isFunction(luga.namespace)).toBeTruthy();
-		});
-
-		it("Works on arbitrary root object", function() {
-			var testRoot = {};
-			luga.namespace("child", testRoot);
-			expect(testRoot.child).toBeDefined();
-		});
 
 		it("Doesn't overwrite existing namespace", function() {
 			var testRoot = {};
@@ -54,6 +44,23 @@ describe("luga", function() {
 			luga.namespace("child", testRoot);
 			expect(testRoot.child.grandChild).toBeDefined();
 		});
+
+		it("Must be defined", function() {
+			expect(luga.namespace).toBeDefined();
+			expect(jQuery.isFunction(luga.namespace)).toBeTruthy();
+		});
+
+		it("By default use window as root object", function() {
+			luga.namespace("ciccio");
+			expect(ciccio).toBeDefined();
+		});
+
+		it("But works on any arbitrary root object", function() {
+			var testRoot = {};
+			luga.namespace("child", testRoot);
+			expect(testRoot.child).toBeDefined();
+		});
+
 	});
 
 	describe("utils.formatString()", function() {
