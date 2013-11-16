@@ -5,13 +5,11 @@ CORE:
 
 - Wrap jQuery's extend into luga.merge() to make it less ambiguous?
 - Create dedicated luga.extend()?
-- Use immediate function to use strict-mode
 
 -------------
 
 CSI:
 
-- Try async unit tests
 - Add docs
 
 -------------

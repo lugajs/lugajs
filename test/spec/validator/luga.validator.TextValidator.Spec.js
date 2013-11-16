@@ -1,3 +1,5 @@
+"use strict";
+
 function mocktruthyfunction(fieldNode) {
 	return true;
 }

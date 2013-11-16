@@ -1,3 +1,5 @@
+"use strict";
+
 describe("luga.validator.SelectValidator", function() {
 
 	it("Accept two validation attributes", function() {

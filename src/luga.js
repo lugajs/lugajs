@@ -20,6 +20,10 @@ if(typeof(jQuery) === "undefined") {
 if(typeof(luga) === "undefined") {
 	var luga = {};
 }
+
+(function() {
+	"use strict";
+
 luga.version = 0.1;
 
 // Based on Nicholas C. Zakas's code
@@ -89,3 +93,5 @@ luga.utils.stringToFunction = function(str) {
 	}
 	return null;
 };
+
+}());

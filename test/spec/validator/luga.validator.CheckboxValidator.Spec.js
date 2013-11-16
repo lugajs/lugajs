@@ -1,3 +1,5 @@
+"use strict";
+
 describe("luga.validator.CheckboxValidator", function() {
 
 	it("Each group of checkboxes is validated as a single unit", function() {

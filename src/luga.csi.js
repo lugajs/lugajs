@@ -17,6 +17,10 @@
 if(typeof(luga) === "undefined") {
 	throw("Unable to find luga.js");
 }
+
+(function() {
+	"use strict";
+
 luga.namespace("luga.csi");
 
 luga.csi.CONST = {
@@ -80,3 +84,5 @@ luga.csi.loadIncludes = function() {
 jQuery(document).ready(function () {
 	luga.csi.loadIncludes();
 });
+
+}());

@@ -1,3 +1,5 @@
+"use strict";
+
 // Override the default error handler to avoid triggering alert messages
 luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 

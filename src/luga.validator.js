@@ -17,6 +17,10 @@
 if(typeof(luga) === "undefined") {
 	throw("Unable to find luga.js");
 }
+
+(function() {
+	"use strict";
+
 luga.namespace("luga.validator");
 
 luga.validator.CONST = {
@@ -784,3 +788,5 @@ luga.validator.initForms = function() {
 jQuery(document).ready(function () {
 	luga.validator.initForms();
 });
+
+}());
