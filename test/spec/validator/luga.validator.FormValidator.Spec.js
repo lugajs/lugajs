@@ -180,6 +180,29 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 
 			});
 
+			it("Custom handlers can be defined inside their own namespaces too", function() {
+
+				var handlers = {};
+				handlers.before = customBeforeHandler;
+				handlers.error = customErrorHandler;
+				handlers.after = customAfterHandler;
+
+				formValidator = new luga.validator.FormValidator({
+					formNode: jQuery("#basic"),
+					before: customBeforeHandler,
+					error: customErrorHandler,
+					after: customAfterHandler
+				});
+
+				formValidator.validate();
+				expect(formValidator.isValid()).toBeFalsy();
+				expect(flags.beforeCalled).toBeTruthy();
+				expect(flags.errorCalled).toBeTruthy();
+				expect(flags.afterCalled).toBeFalsy();
+
+			});
+
+
 		});
 
 	});
