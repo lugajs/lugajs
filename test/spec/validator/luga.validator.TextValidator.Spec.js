@@ -212,7 +212,7 @@ describe("luga.validator.TextValidator", function() {
 	describe("data-luga-equalto:", function() {
 		var textNode, textValidator;
 
-		it("Throw an exception if the second field does not exist", function() {
+		it("Throw an exception if the second field does not exists", function() {
 			textNode = jQuery('<input type="text" value="myStr" data-luga-required="true" data-luga-equalto="missing">');
 			textValidator = new luga.validator.FieldValidatorGetInstance({
 				fieldNode: textNode
@@ -242,7 +242,7 @@ describe("luga.validator.TextValidator", function() {
 			expect(jQuery("#password1")).toHaveClass("invalid");
 		});
 
-		it("It works on whole form too", function() {
+		it("Work on whole form too", function() {
 			loadFixtures("validator/TextValidator/equalto.htm");
 			var formValidator = new luga.validator.FormValidator({
 				formNode: jQuery("#equal")
@@ -1104,7 +1104,7 @@ describe("luga.validator.TextValidator", function() {
 			expect(textValidator.isValid()).toBeFalsy();
 		});
 
-		it("Using data-luga-datepattern overrides default", function() {
+		it("Using data-luga-datepattern override default", function() {
 			// Not a date
 			textNode = jQuery('<input type="text" value="test" data-luga-required="true" data-luga-datepattern="DD/MM/YYYY" data-luga-mindate="01/01/2010">');
 			textValidator = new luga.validator.FieldValidatorGetInstance({
@@ -1179,7 +1179,7 @@ describe("luga.validator.TextValidator", function() {
 			expect(textValidator.isValid()).toBeTruthy();
 		});
 
-		it("Using data-luga-datepattern overrides default", function() {
+		it("Using data-luga-datepattern override default", function() {
 			// Not a date
 			textNode = jQuery('<input type="text" value="test" data-luga-required="true" data-luga-datepattern="DD/MM/YYYY" data-luga-maxdate="01/01/2010">');
 			textValidator = new luga.validator.FieldValidatorGetInstance({

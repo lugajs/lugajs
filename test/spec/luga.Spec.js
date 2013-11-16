@@ -64,7 +64,7 @@ describe("luga", function() {
 	});
 
 	describe("utils.formatString()", function() {
-		it("Given a string containing placeholders, it assembles a new string", function() {
+		it("Given a string containing placeholders, assemble a new string", function() {
 			expect(luga.utils.formatString("My name is {0} {1}", ["Ciccio", "Pasticcio"])).toEqual("My name is Ciccio Pasticcio");
 			expect(luga.utils.formatString("This {0} is just a {0}", ["test"])).toEqual("This test is just a test");
 			expect(luga.utils.formatString("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"})).toEqual("My name is Ciccio Pasticcio");
