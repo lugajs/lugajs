@@ -3,28 +3,6 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 
 	describe("luga.validator.FormValidator", function() {
 
-	it("Blocksubmit option is true by default", function() {
-		var formValidator = new luga.validator.FormValidator({
-			formNode: jQuery("<form></form>")
-		});
-		expect(formValidator.options.blocksubmit).toBeTruthy();
-	});
-
-	it("Blocksubmit option can be set with custom HTML attribute", function() {
-		var formValidator = new luga.validator.FormValidator({
-			formNode: jQuery('<form data-luga-blocksubmit="false"></form>')
-		});
-		expect(formValidator.options.blocksubmit).toEqual("false");
-	});
-
-	it("Blocksubmit option can be set programmatically", function() {
-		var formValidator = new luga.validator.FormValidator({
-			formNode: jQuery("<form></form>"),
-			blocksubmit: false
-		});
-		expect(formValidator.options.blocksubmit).toEqual(false);
-	});
-
 	it("Empty form must be valid", function() {
 		var formValidator = new luga.validator.FormValidator({
 			formNode: jQuery("<form></form>")
@@ -125,7 +103,33 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 
 	});
 
-	describe("Exposes three handlers (before, error, after), functions that will be called at different times after the onSubmit event is triggered", function() {
+	describe("By default disable submit buttons as soon as the form is submitted. This prevents duplicated requests", function() {
+
+		it("Blocksubmit option is true by default", function() {
+			var formValidator = new luga.validator.FormValidator({
+				formNode: jQuery("<form></form>")
+			});
+			expect(formValidator.options.blocksubmit).toBeTruthy();
+		});
+
+		it("Blocksubmit option can be set with custom HTML attribute", function() {
+			var formValidator = new luga.validator.FormValidator({
+				formNode: jQuery('<form data-luga-blocksubmit="false"></form>')
+			});
+			expect(formValidator.options.blocksubmit).toEqual("false");
+		});
+
+		it("Blocksubmit option can be set programmatically", function() {
+			var formValidator = new luga.validator.FormValidator({
+				formNode: jQuery("<form></form>"),
+				blocksubmit: false
+			});
+			expect(formValidator.options.blocksubmit).toEqual(false);
+		});
+
+	});
+
+	describe("Expose three handlers (before, error, after), functions that will be called at different times after the onSubmit event is triggered", function() {
 
 		var formValidator, flags, customBeforeHandler, customErrorHandler, customAfterHandler, handlers;
 		beforeEach(function() {
@@ -160,45 +164,41 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 
 		});
 
-		describe("Handlers can be passed programmatically as params", function() {
+		it("In case the form is invalid, 'before' 'is called, then 'error'", function() {
 
-			it("In case the form is invalid, 'before' 'is called, then 'error'", function() {
+			formValidator.validate();
+			expect(formValidator.isValid()).toBeFalsy();
+			expect(flags.beforeCalled).toBeTruthy();
+			expect(flags.errorCalled).toBeTruthy();
+			expect(flags.afterCalled).toBeFalsy();
 
-				formValidator.validate();
-				expect(formValidator.isValid()).toBeFalsy();
-				expect(flags.beforeCalled).toBeTruthy();
-				expect(flags.errorCalled).toBeTruthy();
-				expect(flags.afterCalled).toBeFalsy();
+		});
 
+		it("If validation is okay, 'before' 'is called, then 'after'", function() {
+
+			jQuery("#myName").val("filled");
+			formValidator.validate();
+			expect(formValidator.isValid()).toBeTruthy();
+			expect(flags.beforeCalled).toBeTruthy();
+			expect(flags.errorCalled).toBeFalsy();
+			expect(flags.afterCalled).toBeTruthy();
+
+		});
+
+		it("Custom handlers can be defined inside their own namespaces too", function() {
+
+			formValidator = new luga.validator.FormValidator({
+				formNode: jQuery("#basic"),
+				before: handlers.before,
+				error: handlers.error,
+				after: handlers.after
 			});
 
-			it("If validation is okay, 'before' 'is called, then 'after'", function() {
-
-				jQuery("#myName").val("filled");
-				formValidator.validate();
-				expect(formValidator.isValid()).toBeTruthy();
-				expect(flags.beforeCalled).toBeTruthy();
-				expect(flags.errorCalled).toBeFalsy();
-				expect(flags.afterCalled).toBeTruthy();
-
-			});
-
-			it("Custom handlers can be defined inside their own namespaces too", function() {
-
-				formValidator = new luga.validator.FormValidator({
-					formNode: jQuery("#basic"),
-					before: handlers.before,
-					error: handlers.error,
-					after: handlers.after
-				});
-
-				formValidator.validate();
-				expect(formValidator.isValid()).toBeFalsy();
-				expect(flags.beforeCalled).toBeTruthy();
-				expect(flags.errorCalled).toBeTruthy();
-				expect(flags.afterCalled).toBeFalsy();
-
-			});
+			formValidator.validate();
+			expect(formValidator.isValid()).toBeFalsy();
+			expect(flags.beforeCalled).toBeTruthy();
+			expect(flags.errorCalled).toBeTruthy();
+			expect(flags.afterCalled).toBeFalsy();
 
 		});
 
