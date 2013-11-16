@@ -19,7 +19,7 @@ CSI:
 VALIDATOR:
 
 - FormValidator
-  Implement/test data-luga-blocksubmit with data-luga-waitmessage for submit buttons
+  Test data-luga-disabledlabel for submit buttons
 
 - Add demoronizer option?
 

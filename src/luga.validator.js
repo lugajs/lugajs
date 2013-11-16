@@ -48,7 +48,8 @@ if(typeof(luga) === "undefined") {
 			MIN_CHECKED: "data-luga-minchecked",
 			MAX_CHECKED: "data-luga-maxchecked",
 			INVALID_INDEX: "data-luga-invalidindex",
-			INVALID_VALUE: "data-luga-invalidvalue"
+			INVALID_VALUE: "data-luga-invalidvalue",
+			DISABLED_MESSAGE: "data-luga-disabledlabel"
 		},
 		MESSAGES: {
 			FORM_MISSING: "luga.validator is unable to load form",
@@ -85,7 +86,7 @@ if(typeof(luga) === "undefined") {
 	 */
 	luga.validator.FormValidator = function(options) {
 		this.options = {
-			blocksubmit: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.BLOCK_SUBMIT) || true,
+			blocksubmit: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.BLOCK_SUBMIT) || "true",
 			error: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.ERROR) || luga.validator.CONST.HANDLERS.FORM_ERROR,
 			before: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.BEFORE) || null,
 			after: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.AFTER) || null
@@ -139,9 +140,23 @@ if(typeof(luga) === "undefined") {
 				}
 			}
 			else {
+				if(this.options.blocksubmit === "true") {
+					// Disable submit buttons to avoid multiple submits
+					self.disableSubmit();
+				}
 				self.after();
 			}
 			return self.dirtyValidators;
+		};
+
+		this.disableSubmit = function() {
+			var buttons = jQuery("input[type=submit]", self.options.formNode);
+			jQuery(buttons).each(function(index, item) {
+				var buttonNode = jQuery(item);
+				if(buttonNode.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.DISABLED_MESSAGE)) {
+					buttonNode.val(buttonNode.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.DISABLED_MESSAGE));
+				}
+			});
 		};
 
 		this.isValid = function() {
