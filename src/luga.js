@@ -14,7 +14,6 @@
  limitations under the License.
  */
 
-"use strict";
 if(typeof(jQuery) === "undefined") {
 	throw("Unable to find jQuery");
 }
@@ -73,4 +72,20 @@ luga.utils.formatString = function(str, args) {
 		}
 	}
 	return str;
+};
+
+luga.utils.stringToFunction = function(str) {
+	if(jQuery.isFunction(str)) {
+		return str;
+	}
+	// It may be a global function
+	if(window[str] && jQuery.isFunction(window[str])) {
+		return window[str];
+	}
+	// If it lives inside a namespace, try to eval it
+	var evaluated = eval(str);
+	if(jQuery.isFunction(evaluated)) {
+		return evaluated;
+	}
+	return null;
 };

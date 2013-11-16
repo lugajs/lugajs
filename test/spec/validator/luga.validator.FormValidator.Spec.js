@@ -1,5 +1,3 @@
-"use strict";
-
 // Override the default error handler to avoid triggering alert messages
 luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 
@@ -165,7 +163,7 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 
 		});
 
-		describe("All the handlers can be passed programmatically as params", function() {
+		describe("Handlers can be passed programmatically as params", function() {
 
 			it("In case the form is invalid, 'before' 'is called, then 'error'", function() {
 
@@ -204,10 +202,6 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 				expect(flags.afterCalled).toBeFalsy();
 
 			});
-
-		});
-
-		describe("All the handlers can be passed as HTML attributes too", function() {
 
 		});
 

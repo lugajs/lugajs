@@ -5,6 +5,7 @@ CORE:
 
 - Wrap jQuery's extend into luga.merge() to make it less ambiguous?
 - Create dedicated luga.extend()?
+- Use immediate function to use strict-mode
 
 -------------
 
@@ -18,7 +19,8 @@ CSI:
 VALIDATOR:
 
 - FormValidator
-  More test for handlers (success, error, before). Test handlers inside namespaces
+  Fix custom form attribute!!!
+
   Implement/test data-luga-blocksubmit with data-luga-waitmessage for submit buttons
   Test init() on multiple forms
   Implement errorBox()

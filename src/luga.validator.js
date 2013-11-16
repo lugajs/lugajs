@@ -14,7 +14,6 @@
  limitations under the License.
  */
 
-"use strict";
 if(typeof(luga) === "undefined") {
 	throw("Unable to find luga.js");
 }
@@ -145,20 +144,23 @@ luga.validator.FormValidator = function(options) {
 	};
 
 	this.before = function() {
-		if(self.options.before && jQuery.isFunction(self.options.before)) {
-			self.options.before.apply(null, [self.options.formNode[0]]);
+		var callBack = luga.utils.stringToFunction(self.options.before);
+		if(callBack) {
+			callBack.apply(null, [self.options.formNode[0]]);
 		}
 	};
 
 	this.error = function() {
-		if(jQuery.isFunction(self.options.error)) {
-			self.options.error.apply(null, [self.options.formNode[0], self.dirtyValidators]);
+		var callBack = luga.utils.stringToFunction(self.options.error);
+		if(callBack) {
+			callBack.apply(null, [self.options.formNode[0], self.dirtyValidators]);
 		}
 	};
 
 	this.after = function() {
-		if(self.options.after && jQuery.isFunction(self.options.after)) {
-			self.options.after.apply(null, [self.options.formNode[0]]);
+		var callBack = luga.utils.stringToFunction(self.options.after);
+		if(callBack) {
+			callBack.apply(null, [self.options.formNode[0]]);
 		}
 	};
 

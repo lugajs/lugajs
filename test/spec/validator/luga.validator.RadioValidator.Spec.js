@@ -1,5 +1,3 @@
-"use strict";
-
 describe("luga.validator.RadioValidator", function() {
 
 	it("Each group of radio buttons is validated as a single unit", function() {

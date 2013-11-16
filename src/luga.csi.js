@@ -14,7 +14,6 @@
  limitations under the License.
  */
 
-"use strict";
 if(typeof(luga) === "undefined") {
 	throw("Unable to find luga.js");
 }

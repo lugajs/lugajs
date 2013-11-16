@@ -1,5 +1,3 @@
-"use strict";
-
 describe("luga", function() {
 
 	it("Require jQuery in order to work", function() {

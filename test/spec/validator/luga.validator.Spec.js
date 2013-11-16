@@ -1,5 +1,3 @@
-"use strict";
-
 describe("luga.validator", function() {
 
 	it("Namespaces must be defined", function() {
