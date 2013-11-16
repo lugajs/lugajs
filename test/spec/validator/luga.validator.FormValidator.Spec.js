@@ -169,6 +169,17 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 
 			});
 
+			it("Is validation is okay, 'before' 'is called, then 'after'", function() {
+
+				jQuery("#myName").val("filled");
+				formValidator.validate();
+				expect(formValidator.isValid()).toBeTruthy();
+				expect(flags.beforeCalled).toBeTruthy();
+				expect(flags.errorCalled).toBeFalsy();
+				expect(flags.afterCalled).toBeTruthy();
+
+			});
+
 		});
 
 	});
