@@ -1,7 +1,5 @@
 CORE:
 
-- Stop using Google's CDN for jQuery?
-
 - Add basic info to readme file
   https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 
