@@ -129,7 +129,7 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 
 	describe("Exposes three handlers (before, error, after), functions that will be called at different times after the onSubmit event is triggered", function() {
 
-		var formValidator, flags, customBeforeHandler, customErrorHandler, customAfterHandler;
+		var formValidator, flags, customBeforeHandler, customErrorHandler, customAfterHandler, handlers;
 		beforeEach(function() {
 
 			loadFixtures("validator/FormValidator/basic.htm");
@@ -138,15 +138,23 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 				errorCalled: false,
 				afterCalled: false
 			};
-			customBeforeHandler = function(formNode, validators) {
+			customBeforeHandler = function(formNode) {
+
+				console.info("custom before")
+
 				flags.beforeCalled = true;
 			};
 			customErrorHandler = function(formNode, validators) {
 				flags.errorCalled = true;
 			};
-			customAfterHandler = function(formNode, validators) {
+			customAfterHandler = function(formNode) {
 				flags.afterCalled = true;
 			};
+
+			handlers = {};
+			handlers.before = customBeforeHandler;
+			handlers.error = customErrorHandler;
+			handlers.after = customAfterHandler;
 
 			formValidator = new luga.validator.FormValidator({
 				formNode: jQuery("#basic"),
@@ -169,7 +177,7 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 
 			});
 
-			it("Is validation is okay, 'before' 'is called, then 'after'", function() {
+			it("If validation is okay, 'before' 'is called, then 'after'", function() {
 
 				jQuery("#myName").val("filled");
 				formValidator.validate();
@@ -182,16 +190,11 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 
 			it("Custom handlers can be defined inside their own namespaces too", function() {
 
-				var handlers = {};
-				handlers.before = customBeforeHandler;
-				handlers.error = customErrorHandler;
-				handlers.after = customAfterHandler;
-
 				formValidator = new luga.validator.FormValidator({
 					formNode: jQuery("#basic"),
-					before: customBeforeHandler,
-					error: customErrorHandler,
-					after: customAfterHandler
+					before: handlers.before,
+					error: handlers.error,
+					after: handlers.after
 				});
 
 				formValidator.validate();
@@ -202,6 +205,9 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 
 			});
 
+		});
+
+		describe("All the handlers can be passed as HTML attributes too", function() {
 
 		});
 
