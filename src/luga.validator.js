@@ -95,6 +95,7 @@ if(typeof(luga) === "undefined") {
 		var self = this;
 		self.validators = [];
 		self.dirtyValidators = [];
+		self.options.formNode = jQuery(self.options.formNode);
 
 		if(jQuery(self.options.formNode).length === 0) {
 			throw(luga.validator.CONST.MESSAGES.FORM_MISSING);
