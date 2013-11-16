@@ -26,6 +26,9 @@ luga.validator.CONST = {
 	DEFAULT_DATE_PATTERN: "YYYY-MM-DD",
 	CUSTOM_ATTRIBUTES: {
 		VALIDATE: "data-luga-validate",
+		ERROR: "data-luga-error",
+		BEFORE: "data-luga-before",
+		AFTER: "data-luga-after",
 		BLOCK_SUBMIT: "data-luga-blocksubmit",
 		MESSAGE: "data-luga-message",
 		ERROR_CLASS: "data-luga-errorclass",
@@ -57,6 +60,9 @@ luga.validator.CONST = {
 		reset: true,
 		button: true,
 		submit: true
+	},
+	HANDLERS: {
+		FORM_ERROR: function(){}
 	}
 };
 
@@ -64,19 +70,26 @@ luga.validator.CONST = {
  * Form validator class
  *
  * @param options.formNode:          Root node for widget (DOM reference). Required
- * @param options.blocksubmit:       Disable submit buttons if the form isn't valid.
+ * @param options.error:             Function that will be invoked to handle/display validation messages.
+ *                                   Default to luga.validator.errorAlert (display plain alert messages)
+ * @param options.before:            Function that will be invoked before validation is performed. Default to none
+ * @param options.after:             Function that will be invoked after the form is successfully validated. Default to none
+ * @param options.blocksubmit:       Disable submit buttons if the form isn't valid
  *                                   This prevents multiple submits but also prevents the value of the submit buttons from being passed as part of the HTTP request.
  *                                   Set this options to false to keep the submit buttons enabled.
  *                                   Value can also be set using the "data-luga-blocksubmit" attribute. Optional
  */
 luga.validator.FormValidator = function(options) {
-
 	this.options = {
-		blocksubmit: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.BLOCK_SUBMIT) || true
+		blocksubmit: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.BLOCK_SUBMIT) || true,
+		error: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.ERROR) || luga.validator.CONST.HANDLERS.FORM_ERROR,
+		before: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.BEFORE) || null,
+		after: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.AFTER) || null
 	};
 	jQuery.extend(this.options, options);
 	var self = this;
 	self.validators = [];
+	self.dirtyValidators = [];
 
 	if(jQuery(self.options.formNode).length === 0) {
 		throw(luga.validator.CONST.MESSAGES.FORM_MISSING);
@@ -84,6 +97,7 @@ luga.validator.FormValidator = function(options) {
 
 	this.init = function() {
 		self.validators = [];
+		self.dirtyValidators = [];
 		var formDom = self.options.formNode[0];
 		for(var i = 0; i < formDom.elements.length; i++) {
 			if(luga.validator.utils.isInputField(formDom.elements[i])) {
@@ -97,9 +111,9 @@ luga.validator.FormValidator = function(options) {
 
 	// Execute all field validators. Returns an array of field validators that are in invalid state
 	// Returns and empty array if no errors
-	this.executeValidators = function() {
+	this.validate = function(event) {
 		self.init();
-		var dirtyValidators = [];
+		self.before();
 		// Keep track of already validated fields (to skip already validated checkboxes or radios)
 		var validatorsNames = {};
 		for(var i=0; i<self.validators.length; i++) {
@@ -109,17 +123,43 @@ luga.validator.FormValidator = function(options) {
 					continue;
 				}
 				if(self.validators[i].validate()) {
-					dirtyValidators.push(self.validators[i]);
+					self.dirtyValidators.push(self.validators[i]);
 				}
 				validatorsNames[self.validators[i].name] = true;
 			}
 		}
-		return dirtyValidators;
+		if(!self.isValid()) {
+			self.error();
+			if(event) {
+				event.preventDefault();
+			}
+		}
+		else {
+			self.after();
+		}
+		return self.dirtyValidators;
 	};
 
 	this.isValid = function() {
-		var activeValidators = this.executeValidators();
-		return activeValidators.length === 0;
+		return self.dirtyValidators.length === 0;
+	};
+
+	this.before = function() {
+		if(self.options.before && jQuery.isFunction(self.options.before)) {
+			self.options.before.apply(null, [self.options.formNode[0]]);
+		}
+	};
+
+	this.error = function() {
+		if(jQuery.isFunction(self.options.error)) {
+			self.options.error.apply(null, [self.options.formNode[0], self.dirtyValidators]);
+		}
+	};
+
+	this.after = function() {
+		if(self.options.after && jQuery.isFunction(self.options.after)) {
+			self.options.after.apply(null, [self.options.formNode[0]]);
+		}
 	};
 
 };
@@ -271,6 +311,16 @@ luga.validator.TextValidator = function(options) {
 	else if(self.node.attr("id")) {
 		self.name = self.node.attr("id");
 	}
+
+	// Put focus and cursor inside the field
+	this.getFocus = function() {
+		// This try block is required to solve an obscure issue with IE and hidden fields
+		try{
+			self.node.focus();
+			self.node.select();
+		}
+		catch(e) {}
+	};
 
 	this.isEmpty = function() {
 		return self.node.val() === "";
@@ -572,7 +622,7 @@ luga.validator.rules.maxnumber = function(fieldNode, validator) {
 	if(!jQuery.isNumeric(fieldNode.val())) {
 		return false;
 	}
-	if(parseFloat(fieldNode.val()) < parseFloat(validator.options.maxnumber)) {
+	if(parseFloat(fieldNode.val()) <= parseFloat(validator.options.maxnumber)) {
 		return true;
 	}
 	return false;
@@ -582,7 +632,7 @@ luga.validator.rules.minnumber = function(fieldNode, validator) {
 	if(!jQuery.isNumeric(fieldNode.val())) {
 		return false;
 	}
-	if(parseFloat(fieldNode.val()) > parseFloat(validator.options.minnumber)) {
+	if(parseFloat(fieldNode.val()) >= parseFloat(validator.options.minnumber)) {
 		return true;
 	}
 	return false;
@@ -689,3 +739,46 @@ luga.validator.utils.getFieldGroup = function(name, formNode) {
 	var selector = "input[name=" + name + "]";
 	return jQuery(selector, formNode);
 };
+
+/* Callbacks for handling validation and display messages */
+
+// Default failure handler. Display error messages inside alert
+luga.validator.errorAlert = function(formNode, validators) {
+	var errorMsg = "";
+	var focusGiven = false;
+	for(var i=0; i<validators.length; i++) {
+		// Append to the error string
+		errorMsg += validators[i].message + "\n";
+		// Give focus to the first invalid text field
+		if(!focusGiven && (validators[i].getFocus)) {
+			validators[i].getFocus();
+			focusGiven = true;
+		}
+	}
+	if(errorMsg !== "") {
+		alert(errorMsg);
+	}
+};
+
+// Register default failure handler
+luga.validator.CONST.HANDLERS.FORM_ERROR = luga.validator.errorAlert;
+
+/* Attach form validators to onSubmit events */
+
+luga.validator.initForms = function() {
+	jQuery(luga.validator.CONST.FORM_SELECTOR).each(function(index, item) {
+		var formNode = jQuery(item);
+		if(formNode.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.VALIDATE) === "true") {
+			formNode.submit(function(event) {
+				var formValidator = new luga.validator.FormValidator({
+					formNode: formNode
+				});
+			});
+			formValidator.validate(event);
+		}
+	});
+};
+
+jQuery(document).ready(function () {
+	luga.validator.initForms();
+});

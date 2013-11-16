@@ -247,11 +247,11 @@ describe("luga.validator.TextValidator", function() {
 			var formValidator = new luga.validator.FormValidator({
 				formNode: jQuery("#equal")
 			});
-			expect(formValidator.executeValidators().length).toEqual(0);
+			expect(formValidator.validate().length).toEqual(0);
 			expect(formValidator.isValid()).toBeTruthy();
 			expect(jQuery("#password3")).not.toHaveClass("invalid");
 			jQuery("#password4").val("Kate");
-			expect(formValidator.executeValidators().length).toEqual(1);
+			expect(formValidator.validate().length).toEqual(1);
 			expect(formValidator.isValid()).toBeFalsy();
 			expect(jQuery("#password3")).toHaveClass("invalid");
 

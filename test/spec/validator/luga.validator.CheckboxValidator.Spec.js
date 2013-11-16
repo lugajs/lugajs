@@ -9,14 +9,14 @@ describe("luga.validator.CheckboxValidator", function() {
 			formNode: jQuery("#single")
 		});
 
-		expect(formValidator.executeValidators().length).toEqual(1);
-		expect(formValidator.executeValidators()[0].message).toEqual("Select a Lady");
+		expect(formValidator.validate().length).toEqual(1);
+		expect(formValidator.validate()[0].message).toEqual("Select a Lady");
 		expect(formValidator.isValid()).toBeFalsy();
 		expect(jQuery("#Nicole")).toHaveClass("invalid");
 
 		// Check one box
 		jQuery("#Nicole").prop("checked", true);
-		expect(formValidator.executeValidators().length).toEqual(0);
+		expect(formValidator.validate().length).toEqual(0);
 		expect(formValidator.isValid()).toBeTruthy();
 		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
 	});
@@ -28,10 +28,10 @@ describe("luga.validator.CheckboxValidator", function() {
 			formNode: jQuery("#multiple")
 		});
 
-		expect(formValidator.executeValidators().length).toEqual(0);
+		expect(formValidator.validate().length).toEqual(0);
 		expect(formValidator.isValid()).toBeTruthy();
 		jQuery("#Nicole").prop("checked", true);
-		expect(formValidator.executeValidators().length).toEqual(0);
+		expect(formValidator.validate().length).toEqual(0);
 		expect(formValidator.isValid()).toBeTruthy();
 	});
 
@@ -42,12 +42,12 @@ describe("luga.validator.CheckboxValidator", function() {
 			formNode: jQuery("#disabled")
 		});
 
-		expect(formValidator.executeValidators().length).toEqual(0);
+		expect(formValidator.validate().length).toEqual(0);
 		expect(formValidator.isValid()).toBeTruthy();
 		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
 
 		jQuery("#Nicole").prop("checked", true);
-		expect(formValidator.executeValidators().length).toEqual(0);
+		expect(formValidator.validate().length).toEqual(0);
 		expect(formValidator.isValid()).toBeTruthy();
 		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
 	});
@@ -59,12 +59,12 @@ describe("luga.validator.CheckboxValidator", function() {
 			formNode: jQuery("#noNames")
 		});
 
-		expect(formValidator.executeValidators().length).toEqual(0);
+		expect(formValidator.validate().length).toEqual(0);
 		expect(formValidator.isValid()).toBeTruthy();
 		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
 
 		jQuery("#Nicole").prop("checked", true);
-		expect(formValidator.executeValidators().length).toEqual(0);
+		expect(formValidator.validate().length).toEqual(0);
 		expect(formValidator.isValid()).toBeTruthy();
 		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
 	});
@@ -76,14 +76,14 @@ describe("luga.validator.CheckboxValidator", function() {
 			formNode: jQuery("#minMaxChecked")
 		});
 
-		expect(formValidator.executeValidators().length).toEqual(1);
-		expect(formValidator.executeValidators()[0].message).toEqual("Select a Lady");
+		expect(formValidator.validate().length).toEqual(1);
+		expect(formValidator.validate()[0].message).toEqual("Select a Lady");
 		expect(formValidator.isValid()).toBeFalsy();
 		expect(jQuery("#maxNicole")).toHaveClass("invalid");
 
 		// Check one box
 		jQuery("#maxNicole").prop("checked", true);
-		expect(formValidator.executeValidators().length).toEqual(0);
+		expect(formValidator.validate().length).toEqual(0);
 		expect(formValidator.isValid()).toBeTruthy();
 		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
 
@@ -91,8 +91,8 @@ describe("luga.validator.CheckboxValidator", function() {
 		jQuery("#maxNicole").prop("checked", true);
 		jQuery("#maxKate").prop("checked", true);
 		jQuery("#maxJennifer").prop("checked", true);
-		expect(formValidator.executeValidators().length).toEqual(1);
-		expect(formValidator.executeValidators()[0].message).toEqual("Select a Lady");
+		expect(formValidator.validate().length).toEqual(1);
+		expect(formValidator.validate()[0].message).toEqual("Select a Lady");
 		expect(formValidator.isValid()).toBeFalsy();
 		expect(jQuery("#maxNicole")).toHaveClass("invalid");
 	});
@@ -104,7 +104,7 @@ describe("luga.validator.CheckboxValidator", function() {
 			formNode: jQuery("#maxChecked")
 		});
 
-		expect(formValidator.executeValidators().length).toEqual(0);
+		expect(formValidator.validate().length).toEqual(0);
 		expect(formValidator.isValid()).toBeTruthy();
 		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
 

@@ -1,5 +1,7 @@
 CORE:
 
+- Stop using Google's CDN for jQuery?
+
 - Add basic info to readme file
   https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 
@@ -18,11 +20,10 @@ CSI:
 VALIDATOR:
 
 - FormValidator
-  Implement/test mechanisms for callbacks (success, failure, before)
-  Implement/test default callbacks
+  More test for handlers (success, error, before). Test handlers inside namespaces
   Implement/test data-luga-blocksubmit with data-luga-waitmessage for submit buttons
-  Implement/test init()
-  Finalize it
+  Test init() on multiple forms
+  Implement errorBox()
 
 - Test HTML 5 fields
 
@@ -33,3 +34,5 @@ VALIDATOR:
 - Review/add JavaDocs
 
 -------------
+
+Try to document Jasmine's spies failures with apply()
