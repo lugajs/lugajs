@@ -24,7 +24,6 @@ luga.validator.CONST = {
 	RULE_PREFIX: "data-luga-",
 	DEFAULT_DATE_PATTERN: "YYYY-MM-DD",
 	CUSTOM_ATTRIBUTES: {
-		VALIDATE: "data-luga-validate",
 		ERROR: "data-luga-error",
 		BEFORE: "data-luga-before",
 		AFTER: "data-luga-after",
