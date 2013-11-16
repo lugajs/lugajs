@@ -5,14 +5,14 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 
 	describe("luga.validator.FormValidator", function() {
 
-	it("Empty form must be valid", function() {
+	it("Alway validate empty forms", function() {
 		var formValidator = new luga.validator.FormValidator({
 			formNode: jQuery("<form></form>")
 		});
 		expect(formValidator.isValid()).toBeTruthy();
 	});
 
-	it("Missing form will throw an exception", function() {
+	it("Will throw an exception if the form node does not exists", function() {
 		expect(function(){
 			var formValidator = new luga.validator.FormValidator({
 				formNode: jQuery("#missing")

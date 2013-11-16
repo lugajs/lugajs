@@ -30,13 +30,13 @@ describe("luga", function() {
 		expect(nicole.getName()).toEqual("Nicole Kidman");
 	});
 
-	it("luga root namespaces must be defined", function() {
+	it("Expect root namespaces to be defined", function() {
 		expect(luga).toBeDefined();
 		expect(luga.utils).toBeDefined();
 	});
 
 	describe("namespace()", function() {
-		it("Method must be defined", function() {
+		it("Must be defined", function() {
 			expect(luga.namespace).toBeDefined();
 			expect(jQuery.isFunction(luga.namespace)).toBeTruthy();
 		});
