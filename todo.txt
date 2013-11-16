@@ -19,8 +19,6 @@ CSI:
 VALIDATOR:
 
 - FormValidator
-  Fix custom form attribute!!!
-
   Implement/test data-luga-blocksubmit with data-luga-waitmessage for submit buttons
   Test init() on multiple forms
   Implement errorBox()
