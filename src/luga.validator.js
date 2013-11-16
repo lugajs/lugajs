@@ -52,6 +52,7 @@ luga.validator.CONST = {
 	},
 	MESSAGES: {
 		FORM_MISSING: "luga.validator is unable to load form",
+		MISSING_FUNCTION: "luga.validator is unable to find a function named: {0}",
 		FIELD_ABSTRACT_IS_VALID: "luga.validator.BaseFieldValidator.isValid() is an abstract method",
 		GROUP_ABSTRACT_IS_VALID: "luga.validator.BaseGroupValidator.isValid() is an abstract method",
 		PATTERN_NOT_FOUND: "luga.validator failed to retrieve pattern: {0}",
@@ -152,6 +153,9 @@ luga.validator.FormValidator = function(options) {
 		if(callBack) {
 			callBack.apply(null, [self.options.formNode[0]]);
 		}
+		else if(self.options.before) {
+			alert(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.options.before]));
+		}
 	};
 
 	this.error = function() {
@@ -159,12 +163,18 @@ luga.validator.FormValidator = function(options) {
 		if(callBack) {
 			callBack.apply(null, [self.options.formNode[0], self.dirtyValidators]);
 		}
+		else if(self.options.error) {
+			alert(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.options.error]));
+		}
 	};
 
 	this.after = function() {
 		var callBack = luga.utils.stringToFunction(self.options.after);
 		if(callBack) {
 			callBack.apply(null, [self.options.formNode[0]]);
+		}
+		else if(self.options.after) {
+			alert(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.options.after]));
 		}
 	};
 
