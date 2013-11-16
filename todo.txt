@@ -21,6 +21,8 @@ VALIDATOR:
 - FormValidator
   Implement/test data-luga-blocksubmit with data-luga-waitmessage for submit buttons
 
+- Add demoronizer option?
+
 - Test HTML 5 fields
 
 - Implement/test API
