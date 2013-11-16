@@ -342,8 +342,8 @@ luga.validator.TextValidator = function(options) {
 				return false;
 			}
 			// It's a conditional validation. Invoke the relevant function if available
-			var functionReference = eval(requiredAtt);
-			if(jQuery.isFunction(functionReference)) {
+			var functionReference = luga.utils.stringToFunction(requiredAtt);
+			if(functionReference) {
 				return functionReference.apply(null, [self.node]);
 			}
 		}
