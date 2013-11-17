@@ -41,8 +41,8 @@ input[type="radio"]:focus {
 }
 
 input[type="submit"] {
-	background-color: #6E86D4;
-	border: 0.1em solid #7C93BA;
+	background-color: #7C93BA;
+	border: 0.1em solid #AAAAAA;
 	border-radius: 1em;
 	box-shadow: rgba(0, 0, 0, .75) 0 2px 6px;
 	color: #FFFFFF;

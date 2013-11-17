@@ -30,6 +30,7 @@ td {
 }
 
 form,
+nav,
 section,
 h1 {
 	border: 0.1em solid #7C93BA;
@@ -92,4 +93,35 @@ code ol li {
 	list-style: decimal outside none;
 	padding:0.2em;
 	white-space: pre;
+}
+
+nav {
+	background: #FFFFFF;
+	display: inline-block;
+	margin-bottom: 3em;
+	padding: 0;
+}
+
+nav li a,
+nav li a:link,
+nav li a:active,
+nav li a:visited {
+	color: #3362B4;
+	display: block;
+	padding: 0.6em 1em;
+	text-decoration: none;
+}
+
+nav li a:hover {
+	background: #7C93BA;
+	color: #FFFFFF;
+}
+
+nav li {
+	font-size: 1.2em;
+	float: left;
+}
+
+nav li + li {
+	border-left: 1px solid #3362B4;
 }
