@@ -2,11 +2,11 @@
 
 describe("luga", function() {
 
-	it("Require jQuery in order to work", function() {
+	it("Requires jQuery in order to work", function() {
 		expect(jQuery).toBeDefined();
 	});
 
-	it("Use jQuery.extend() as simple/crude inheritance solution", function() {
+	it("Uses jQuery.extend() as simple/crude inheritance solution", function() {
 
 		/* Class Person. */
 		function Person(gender) {
@@ -30,14 +30,23 @@ describe("luga", function() {
 		expect(nicole.getName()).toEqual("Nicole Kidman");
 	});
 
-	it("Expect root namespaces to be defined", function() {
+	it("Lives inside its own namespace", function() {
+		expect(luga).toBeDefined();
+	});
+
+	it("Uses a separated namespace to store utility methods", function() {
 		expect(luga).toBeDefined();
 		expect(luga.utils).toBeDefined();
 	});
 
 	describe("namespace()", function() {
 
-		it("Doesn't overwrite existing namespace", function() {
+		it("Must be defined", function() {
+			expect(luga.namespace).toBeDefined();
+			expect(jQuery.isFunction(luga.namespace)).toBeTruthy();
+		});
+
+		it("Does not overwrite existing namespaces", function() {
 			var testRoot = {};
 			testRoot.child = {};
 			testRoot.child.grandChild = {};
@@ -45,12 +54,7 @@ describe("luga", function() {
 			expect(testRoot.child.grandChild).toBeDefined();
 		});
 
-		it("Must be defined", function() {
-			expect(luga.namespace).toBeDefined();
-			expect(jQuery.isFunction(luga.namespace)).toBeTruthy();
-		});
-
-		it("By default use window as root object", function() {
+		it("By default uses window as root object", function() {
 			luga.namespace("ciccio");
 			expect(ciccio).toBeDefined();
 		});
@@ -64,7 +68,7 @@ describe("luga", function() {
 	});
 
 	describe("utils.formatString()", function() {
-		it("Given a string containing placeholders, assemble a new string", function() {
+		it("Given a string containing placeholders, assembles a new string", function() {
 			expect(luga.utils.formatString("My name is {0} {1}", ["Ciccio", "Pasticcio"])).toEqual("My name is Ciccio Pasticcio");
 			expect(luga.utils.formatString("This {0} is just a {0}", ["test"])).toEqual("This test is just a test");
 			expect(luga.utils.formatString("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"})).toEqual("My name is Ciccio Pasticcio");

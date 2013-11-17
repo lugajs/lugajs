@@ -5,14 +5,14 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 
 	describe("luga.validator.FormValidator", function() {
 
-	it("Alway validate empty forms", function() {
+	it("Always validates empty forms", function() {
 		var formValidator = new luga.validator.FormValidator({
 			formNode: jQuery("<form></form>")
 		});
 		expect(formValidator.isValid()).toBeTruthy();
 	});
 
-	it("Will throw an exception if the form node does not exists", function() {
+	it("Will throws an exception if the form node does not exists", function() {
 		expect(function(){
 			var formValidator = new luga.validator.FormValidator({
 				formNode: jQuery("#missing")
@@ -105,7 +105,7 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 
 	});
 
-	describe("By default disable submit buttons as soon as the form is submitted. This prevents duplicated requests", function() {
+	describe("By default disables submit buttons as soon as the form is submitted. This prevents duplicated requests", function() {
 
 		it("Blocksubmit option is true by default", function() {
 			var formValidator = new luga.validator.FormValidator({
@@ -114,14 +114,14 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 			expect(formValidator.options.blocksubmit).toBeTruthy();
 		});
 
-		it("Blocksubmit option can be set with custom HTML attribute", function() {
+		it("It can be set with custom HTML attribute", function() {
 			var formValidator = new luga.validator.FormValidator({
 				formNode: jQuery('<form data-luga-blocksubmit="false"></form>')
 			});
 			expect(formValidator.options.blocksubmit).toEqual("false");
 		});
 
-		it("Blocksubmit option can be set programmatically", function() {
+		it("Or programmatically", function() {
 			var formValidator = new luga.validator.FormValidator({
 				formNode: jQuery("<form></form>"),
 				blocksubmit: false
@@ -131,7 +131,7 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 
 	});
 
-	describe("Expose three handlers (before, error, after), functions that will be called at different times after the onSubmit event is triggered", function() {
+	describe("Exposes three handlers (before, error, after), functions that will be called at different times after the onSubmit event is triggered", function() {
 
 		var formValidator, flags, customBeforeHandler, customErrorHandler, customAfterHandler, handlers;
 		beforeEach(function() {
@@ -176,7 +176,7 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 
 		});
 
-		it("If validation is okay, 'before' 'is called, then 'after'", function() {
+		it("If validation is passed, 'before' 'is called, then 'after'", function() {
 
 			jQuery("#myName").val("filled");
 			formValidator.validate();

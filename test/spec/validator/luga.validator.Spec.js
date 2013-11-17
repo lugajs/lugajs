@@ -2,20 +2,20 @@
 
 describe("luga.validator", function() {
 
-	it("Namespaces must be defined", function() {
+	it("Lives inside its own namespace", function() {
 		expect(luga.validator).toBeDefined();
 	});
 
 	describe("FieldValidatorGetInstance()", function() {
 
-		it("Return null if the passed HTML node can't be validated", function() {
+		it("Returns null if the passed HTML node can't be validated", function() {
 			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<div>") })).toBeNull();
 			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<button>") })).toBeNull();
 			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<input type='reset'>") })).toBeNull();
 			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<fieldset>") })).toBeNull();
 		});
 
-		it("Return relevant validator, depending on the kind of field", function() {
+		it("Returns relevant validator, depending on the kind of field", function() {
 
 			loadFixtures("validator/FormValidator/generic.htm");
 
@@ -43,7 +43,7 @@ describe("luga.validator", function() {
 
 	describe("All validators share some common capabilities", function() {
 
-		it("Message and errorclass properties are empty strings by default", function() {
+		it("Their message and errorclass properties are empty strings by default", function() {
 			var textValidator = new luga.validator.FieldValidatorGetInstance({
 				fieldNode: jQuery("<input type='text'>")
 			});
@@ -51,7 +51,7 @@ describe("luga.validator", function() {
 			expect(textValidator.options.errorclass).toEqual("");
 		});
 
-		it("Add/remove error class and title attribute", function() {
+		it("They add/remove error class and title attribute", function() {
 			var textNode = jQuery('<input type="text" data-luga-required="true" data-luga-errorclass="invalid" data-luga-message="Invalid field!">');
 			var textValidator = new luga.validator.FieldValidatorGetInstance({
 				fieldNode: textNode
@@ -80,7 +80,7 @@ describe("luga.validator", function() {
 
 describe("luga.validator.utils", function() {
 
-	it("Namespaces must be defined", function() {
+	it("Lives inside its own namespace", function() {
 		expect(luga.validator.utils).toBeDefined();
 	});
 
@@ -110,7 +110,7 @@ describe("luga.validator.utils", function() {
 
 	describe("getFieldGroup()", function() {
 
-		describe("Extract group of related radio buttons", function() {
+		describe("Extracts group of related radio buttons", function() {
 
 			it("Within a given form", function() {
 				loadFixtures("validator/RadioValidator/required.htm");

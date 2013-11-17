@@ -2,7 +2,7 @@
 
 describe("luga.validator.RadioValidator", function() {
 
-	it("Each group of radio buttons is validated as a single unit", function() {
+	it("Validates each group of radio buttons as a single unit", function() {
 
 		loadFixtures("validator/RadioValidator/required.htm");
 		var formValidator = new luga.validator.FormValidator({
@@ -21,7 +21,7 @@ describe("luga.validator.RadioValidator", function() {
 		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
 	});
 
-	it("In case of conflicting requirements among fields. The last one wins", function() {
+	it("In case of conflicting options/attributes among fields. The last one wins", function() {
 
 		loadFixtures("validator/RadioValidator/required.htm");
 		var formValidator = new luga.validator.FormValidator({
@@ -35,7 +35,7 @@ describe("luga.validator.RadioValidator", function() {
 		expect(formValidator.isValid()).toBeTruthy();
 	});
 
-	it("Disabled fields are skipped", function() {
+	it("Skips disabled fields", function() {
 
 		loadFixtures("validator/RadioValidator/required.htm");
 		var formValidator = new luga.validator.FormValidator({
@@ -52,7 +52,7 @@ describe("luga.validator.RadioValidator", function() {
 		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
 	});
 
-	it("Fields without name attribute are skipped too", function() {
+	it("Skips fields without name too", function() {
 
 		loadFixtures("validator/RadioValidator/required.htm");
 		var formValidator = new luga.validator.FormValidator({

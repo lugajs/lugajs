@@ -14,14 +14,14 @@ mock.mockfalsyfunction = mockfalsyfunction;
 
 describe("luga.validator.TextValidator", function() {
 
-	it("If not specified, date pattern is set to default value", function() {
+	it("If not specified, uses a default date pattern", function() {
 		var textValidator = new luga.validator.FieldValidatorGetInstance({
 			fieldNode: jQuery("<input type='text'>")
 		});
 		expect(textValidator.options.datepattern).toEqual(luga.validator.CONST.DEFAULT_DATE_PATTERN);
 	});
 
-	it("Options can be set programmatically", function() {
+	it("Allows options to be set programmatically", function() {
 		var textValidator = new luga.validator.FieldValidatorGetInstance({
 			fieldNode: jQuery("<input type='text'>"),
 			required: "true",
@@ -51,7 +51,7 @@ describe("luga.validator.TextValidator", function() {
 		expect(textValidator.options.errorclass).toEqual("invalid");
 	});
 
-	it("Options can be set with custom HTML attributes", function() {
+	it("Or using custom HTML attributes", function() {
 		var textValidator = new luga.validator.FieldValidatorGetInstance({
 			fieldNode: jQuery('' +
 				'<input type="text" ' +
@@ -212,7 +212,7 @@ describe("luga.validator.TextValidator", function() {
 	describe("data-luga-equalto:", function() {
 		var textNode, textValidator;
 
-		it("Throw an exception if the second field does not exists", function() {
+		it("Throws an exception if the second field does not exists", function() {
 			textNode = jQuery('<input type="text" value="myStr" data-luga-required="true" data-luga-equalto="missing">');
 			textValidator = new luga.validator.FieldValidatorGetInstance({
 				fieldNode: textNode
@@ -222,7 +222,7 @@ describe("luga.validator.TextValidator", function() {
 			}).toThrow();
 		});
 
-		it("Validate if the two fields are the same", function() {
+		it("Validates if the two fields are the same", function() {
 			loadFixtures("validator/TextValidator/equalto.htm");
 			textValidator = new luga.validator.FieldValidatorGetInstance({
 				fieldNode: jQuery("#password3")
@@ -232,7 +232,7 @@ describe("luga.validator.TextValidator", function() {
 			expect(jQuery("#password3")).not.toHaveClass("invalid");
 		});
 
-		it("Fail if they are not", function() {
+		it("Fails if they are not", function() {
 			loadFixtures("validator/TextValidator/equalto.htm");
 			textValidator = new luga.validator.FieldValidatorGetInstance({
 				fieldNode: jQuery("#password1")
@@ -242,7 +242,7 @@ describe("luga.validator.TextValidator", function() {
 			expect(jQuery("#password1")).toHaveClass("invalid");
 		});
 
-		it("Work on whole form too", function() {
+		it("Works on whole form too", function() {
 			loadFixtures("validator/TextValidator/equalto.htm");
 			var formValidator = new luga.validator.FormValidator({
 				formNode: jQuery("#equal")
@@ -259,7 +259,7 @@ describe("luga.validator.TextValidator", function() {
 
 	});
 
-	describe("data-luga-pattern enforce input matches the following patterns:", function() {
+	describe("data-luga-pattern enforces input matches the following patterns:", function() {
 		var textNode, textValidator;
 
 		it("lettersonly", function() {
@@ -464,7 +464,7 @@ describe("luga.validator.TextValidator", function() {
 	describe("data-luga-minnumber:", function() {
 		var textNode, textValidator;
 
-		it("Enforce a minimum numeric value", function() {
+		it("Enforces a minimum numeric value", function() {
 			textNode = jQuery('<input type="text" value="test" data-luga-required="true" data-luga-minnumber="18">');
 			textValidator = new luga.validator.FieldValidatorGetInstance({
 				fieldNode: textNode
@@ -495,7 +495,7 @@ describe("luga.validator.TextValidator", function() {
 	describe("data-luga-maxnumber:", function() {
 		var textNode, textValidator;
 
-		it("Enforce a maximum numeric value", function() {
+		it("Enforces a maximum numeric value", function() {
 			textNode = jQuery('<input type="text" value="test" data-luga-required="true" data-luga-maxnumber="18">');
 			textValidator = new luga.validator.FieldValidatorGetInstance({
 				fieldNode: textNode
@@ -526,7 +526,7 @@ describe("luga.validator.TextValidator", function() {
 	describe("data-luga-minlength:", function() {
 		var textNode, textValidator;
 
-		it("Enforce a minimum string length", function() {
+		it("Enforces a minimum string length", function() {
 			textNode = jQuery('<input type="text" value="4" data-luga-required="true" data-luga-minlength="3">');
 			textValidator = new luga.validator.FieldValidatorGetInstance({
 				fieldNode: textNode
@@ -557,7 +557,7 @@ describe("luga.validator.TextValidator", function() {
 	describe("data-luga-maxlength:", function() {
 		var textNode, textValidator;
 
-		it("Enforce a maximum string length", function() {
+		it("Enforces a maximum string length", function() {
 			textNode = jQuery('<input type="text" value="4" data-luga-required="true" data-luga-maxlength="3">');
 			textValidator = new luga.validator.FieldValidatorGetInstance({
 				fieldNode: textNode
@@ -1066,7 +1066,7 @@ describe("luga.validator.TextValidator", function() {
 
 	});
 
-	describe("data-luga-mindate enforce a minimum date", function() {
+	describe("data-luga-mindate enforces a minimum date", function() {
 		var textNode, textValidator;
 
 		it("If no data-luga-datepattern is specified, default pattern (YYYY-MM-DD) will be used to parse and compare dates", function() {
@@ -1141,7 +1141,7 @@ describe("luga.validator.TextValidator", function() {
 
 	});
 
-	describe("data-luga-maxdate enforce a maximum date", function() {
+	describe("data-luga-maxdate enforces a maximum date", function() {
 		var textNode, textValidator;
 
 		it("If no data-luga-datepattern is specified, default pattern (YYYY-MM-DD) will be used to parse and compare dates", function() {
