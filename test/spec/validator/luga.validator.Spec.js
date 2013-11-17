@@ -6,6 +6,18 @@ describe("luga.validator", function() {
 		expect(luga.validator).toBeDefined();
 	});
 
+	describe("Uses separated namespace for storing:", function() {
+		it("Rules", function() {
+			expect(luga.validator.rules).toBeDefined();
+		});
+		it("Patterns", function() {
+			expect(luga.validator.patterns).toBeDefined();
+		});
+		it("DateSpecs", function() {
+			expect(luga.validator.dateSpecs).toBeDefined();
+		});
+	});
+
 	describe("FieldValidatorGetInstance()", function() {
 
 		it("Returns null if the passed HTML node can't be validated", function() {
