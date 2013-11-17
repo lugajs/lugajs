@@ -74,7 +74,12 @@ code ol {
 	padding: 0.5em 2.5em;
 }
 
+code ol + ol {
+	margin-top: 1.5em;
+}
+
 code ol li {
 	list-style: decimal outside none;
-	padding: 0.5em 0.2em;
+	padding:0.2em;
+	white-space: pre;
 }

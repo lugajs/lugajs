@@ -11,23 +11,43 @@
 	<script src="../../../src/luga.validator.js"></script>
 	<script>
 		handlers = {};
-		handlers.before = function(){
-			alert("I am a custom before handler")
+		handlers.before = function() {
+			alert("I am a custom before handler");
 		};
-		handlers.error = function(){
-			alert("I am a custom error handler")
+		handlers.error = function() {
+			alert("I am a custom error handler");
 		};
-		handlers.after = function(){
-			alert("I am a custom after handler")
+		handlers.after = function() {
+			alert("I am a custom after handler");
 		};
 	</script>
 </head>
 <body>
-
+};
 <form data-luga-validate="true" data-luga-before="handlers.before" data-luga-error="handlers.error"  data-luga-after="handlers.after">
 	<input type="text" name="name" data-luga-required="true" data-luga-errorclass="invalid" data-luga-message="Invalid!"/>
 	<input type="submit" value="Submit"/>
 </form>
+
+<code>
+	<ol>
+		<li>&lt;script&gt;</li>
+		<li>handlers = {};</li>
+		<li>handlers.before = function() {</li>
+		<li>	alert("I am a custom before handler");</li>
+		<li>};</li>
+		<li>handlers.error = function() {</li>
+		<li>	alert("I am a custom error handler");</li>
+		<li>};</li>
+		<li>handlers.after = function() {</li>
+		<li>	alert("I am a custom after handler");</li>
+		<li>};</li>
+		<li>&lt;/script&gt;</li>
+	</ol>
+	<ol>
+		<li>&lt;form data-luga-before="handlers.before" data-luga-error="handlers.error"  data-luga-after="handlers.after"&gt;</li>
+	</ol>
+</code>
 
 </body>
 </html>
