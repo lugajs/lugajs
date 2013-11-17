@@ -78,6 +78,7 @@ div.luga_error_message {
 
 div.luga_error_message em {
 	font-weight: bold;
+	padding-right: 0.5em;
 }
 
 td.boxes label {
