@@ -66,10 +66,9 @@ input[data-luga-required="true"] {
 	background-repeat: no-repeat;
 }
 
-form,
 div.luga_error_message {
-	max-width: 800px;
-	min-width: 400px;
+	max-width: 80em;
+	min-width: 40em;
 }
 
 div.luga_error_message {

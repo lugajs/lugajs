@@ -28,13 +28,16 @@ td {
 	vertical-align: top;
 }
 
-section,
 form,
+section,
 h1 {
 	border: 0.1em solid #7C93BA;
 	border-radius: 0.4em;
 	box-shadow: rgba(0, 0, 0, .25) 0.15em 0.15em 0.15em;
 	padding: 2em;
+	margin-bottom: 2em;
+	max-width: 80em;
+	min-width: 40em;
 }
 
 form h1 {
@@ -48,4 +51,24 @@ form h1 {
 	padding: 0.3em 1em;
 	white-space: nowrap;
 	width: 50%;
+}
+
+code {
+	color: #333333;
+	display: block;
+	font-family: Consolas, "Liberation Mono", Courier, monospace;
+	margin-bottom: 2em;
+	width: 90em;
+}
+
+code ol {
+	background: linear-gradient(to right, #DDDDDD 0%, #DDDDDD 2.2em, #FFFFFF 1em, #FFFFFF 1em);
+	border: 0.1em solid #333333;
+	border-radius: 0.4em;
+	padding: 0.5em 2.5em;
+}
+
+code ol li {
+	list-style: decimal outside none;
+	padding: 0.5em 0.2em;
 }
