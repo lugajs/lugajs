@@ -15,6 +15,7 @@ CORE:
 CSI:
 
 - Add docs
+- Add after handler
 
 -------------
 
@@ -25,7 +26,7 @@ VALIDATOR:
 
 - Add demoronizer option?
 
-- Test HTML 5 fields
+- Test/demo HTML 5 fields
 
 - Implement/test API
   validateFields(fields[], [errorHandler]) return boolean

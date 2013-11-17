@@ -1,0 +1,29 @@
+/* Barebone reset */
+.dl, .dt, .dd, .ol, .ul, .li,
+.fieldset, .form, .label, .legend {
+	border: 0;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+/* HTML5 elements */
+.article, .aside,.details, .figcaption, .figure,
+.footer, .header, .hgroup, .menu, .nav, .section {
+	border: 0;
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+
+html, body {
+	background-color: #F1F1F1;
+	box-sizing: border-box;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 0.9em;
+	margin: 1em;
+}
+
+td {
+	vertical-align: top;
+}

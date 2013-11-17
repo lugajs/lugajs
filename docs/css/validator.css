@@ -1,0 +1,48 @@
+input, textarea {
+	margin: 0.2em;
+}
+
+input.invalid,
+textarea.invalid {
+	background-color: #FFE813;
+	border: 0.2em #BB0000 solid;
+}
+
+input.invalid:focus,
+textarea.invalid:focus {
+	background-color: #FFE813;
+	border: 0.2em #BB0000 solid;
+}
+
+input:focus,
+textarea:focus {
+	background-image: none;
+	border: 0.2em #7E9FDA solid;
+}
+
+input[type="checkbox"].invalid,
+input[type="radio"].invalid,
+input[type="checkbox"]:focus,
+input[type="radio"]:focus {
+	background: none;
+	border: 0;
+}
+
+input[type="submit"] {
+	border:  0.2em outset;
+	padding: 0.2em 0.8em;
+}
+
+input[type="submit"]:active {
+	border:  0.2em inset;
+}
+
+input[type="submit"]:focus {
+	border:  0.2em outset;
+}
+
+div.luga_error_message {
+	background-color: #FFE813;
+	border: 0.2em #BB0000 solid;
+	border-radius: 0.3em;
+}
