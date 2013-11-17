@@ -39,14 +39,14 @@ h1 {
 	margin-bottom: 2em;
 }
 
-form {
+form,
+section {
 	max-width: 70em;
 	min-width: 40em;
 }
 
-section {
-	max-width: 77.5em;
-	min-width: 40em;
+code + section {
+	margin-top: 2.8em;
 }
 
 section p {
@@ -57,7 +57,7 @@ section h1,
 form h1 {
 	background: #FFFFFF;
 	color: #3362B4;
-	font-size: 1.2em;
+	font-size: 1.1em;
 	font-weight: 700;
 	margin-bottom: 1.5em;
 	margin-left: 1em;
@@ -73,7 +73,7 @@ code {
 	font-family: Consolas, "Liberation Mono", Courier, monospace;
 	margin-bottom: 2em;
 	width: 92.5em;
-	max-width: 82.5em;
+	max-width: 74.5em;
 	min-width: 40em;
 }
 
