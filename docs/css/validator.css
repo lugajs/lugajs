@@ -66,10 +66,21 @@ input[data-luga-required="true"] {
 	background-repeat: no-repeat;
 }
 
+form,
+div.luga_error_message {
+	max-width: 800px;
+	min-width: 400px;
+}
+
 div.luga_error_message {
 	background-color: #FFE813;
 	border: 0.2em #BB0000 solid;
 	border-radius: 0.4em;
+	margin-bottom: 3em;
+}
+
+div.luga_error_message em {
+	font-weight: bold;
 }
 
 td.boxes label {

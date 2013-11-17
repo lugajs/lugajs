@@ -27,3 +27,23 @@ html, body {
 td {
 	vertical-align: top;
 }
+
+form,
+h1 {
+	border: 0.1em solid #7C93BA;
+	border-radius: 0.4em;
+	padding: 2em;
+}
+
+form h1 {
+	background: #FFFFFF;
+	color: #3362B4;
+	font-size: 1.2em;
+	font-weight: bold;
+	margin-bottom: 1.5em;
+	margin-left: 1em;
+	margin-top: -2.7em;
+	padding: 0.3em 1em;
+	white-space: nowrap;
+	width: 50%;
+}
