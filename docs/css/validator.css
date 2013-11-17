@@ -76,7 +76,9 @@ div.luga_error_message {
 	background-color: #FFE813;
 	border: 0.2em #BB0000 solid;
 	border-radius: 0.4em;
+	box-shadow: rgba(0, 0, 0, .25) 0.15em 0.15em 0.15em;
 	margin-bottom: 3em;
+	padding: 1em 2em;
 }
 
 div.luga_error_message em {

@@ -1,6 +1,6 @@
 /* Barebone reset */
-.dl, .dt, .dd, .ol, .ul, .li,
-.fieldset, .form, .label, .legend {
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend {
 	border: 0;
 	list-style: none;
 	margin: 0;
@@ -8,8 +8,8 @@
 }
 
 /* HTML5 elements */
-.article, .aside,.details, .figcaption, .figure,
-.footer, .header, .hgroup, .menu, .nav, .section {
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
 	border: 0;
 	display: block;
 	margin: 0;
@@ -28,6 +28,7 @@ td {
 	vertical-align: top;
 }
 
+section,
 form,
 h1 {
 	border: 0.1em solid #7C93BA;
