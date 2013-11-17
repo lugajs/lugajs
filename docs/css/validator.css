@@ -1,5 +1,5 @@
 input, textarea {
-	margin: 0.2em;
+	margin: 0.4em;
 }
 
 input.invalid,
@@ -29,16 +29,24 @@ input[type="radio"]:focus {
 }
 
 input[type="submit"] {
-	border:  0.2em outset;
-	padding: 0.2em 0.8em;
+	background-color: #6B6DBB; /*required for browsers that don't support gradients*/
+	background: linear-gradient(top, #88ADD7, #6B6DBB);
+	border: 0.2em groove #7C93BA;
+	border-radius: 1em;
+	box-shadow: rgba(0, 0, 0, .75) 0 2px 6px;
+	color: #FFFFFF;
+	cursor: pointer;
+	font-size: 1.1em;
+	font-variant: small-caps;
+	letter-spacing: 0.1em;
+	padding: 0.3em 1.5em;
 }
 
-input[type="submit"]:active {
-	border:  0.2em inset;
-}
-
+input[type="submit"]:hover,
+input[type="submit"]:active,
 input[type="submit"]:focus {
-	border:  0.2em outset;
+	color: #EDEBDA;
+	box-shadow: rgba(0, 0, 0, .25) 0 1px 0px;
 }
 
 div.luga_error_message {
