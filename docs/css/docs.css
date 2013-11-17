@@ -108,6 +108,7 @@ nav li a:active,
 nav li a:visited {
 	color: #3362B4;
 	display: block;
+	outline: none;
 	padding: 0.6em 1em;
 	text-decoration: none;
 }
