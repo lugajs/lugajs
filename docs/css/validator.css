@@ -29,9 +29,8 @@ input[type="radio"]:focus {
 }
 
 input[type="submit"] {
-	background-color: #6B6DBB; /*required for browsers that don't support gradients*/
-	background: linear-gradient(top, #88ADD7, #6B6DBB);
-	border: 0.2em groove #7C93BA;
+	background-color: #6E86D4;
+	border: 0.1em solid #7C93BA;
 	border-radius: 1em;
 	box-shadow: rgba(0, 0, 0, .75) 0 2px 6px;
 	color: #FFFFFF;
