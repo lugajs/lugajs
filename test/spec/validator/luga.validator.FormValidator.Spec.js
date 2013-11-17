@@ -5,7 +5,7 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 
 	describe("luga.validator.FormValidator", function() {
 
-	it("Always validates empty forms", function() {
+	it("Always positively validates empty forms", function() {
 		var formValidator = new luga.validator.FormValidator({
 			formNode: jQuery("<form></form>")
 		});

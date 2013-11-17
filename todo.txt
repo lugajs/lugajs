@@ -28,8 +28,8 @@ VALIDATOR:
 - Test HTML 5 fields
 
 - Implement/test API
-  validateFields(fields[], [error]) return boolean
-  validateField(field, [error]) return boolean
+  validateFields(fields[], [errorHandler]) return boolean
+  validateField(field, [errorHandler]) return boolean
   validateForm(formNode) return boolean
 
 - Add docs and samples
