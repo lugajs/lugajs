@@ -71,3 +71,11 @@ div.luga_error_message {
 	border: 0.2em #BB0000 solid;
 	border-radius: 0.4em;
 }
+
+td.boxes label {
+	display: block;
+}
+
+td.boxes label input {
+	margin-right: 0.5em;
+}
