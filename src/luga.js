@@ -26,7 +26,11 @@ if(typeof(luga) === "undefined") {
 
 	luga.version = 0.1;
 
-	// Based on Nicholas C. Zakas's code
+	/**
+	 * Creates namespaces to be used for scoping variables and classes so that they are not global.
+	 * Specifying the last node of a namespace implicitly creates all other nodes.
+	 * Based on Nicholas C. Zakas's code
+	 */
 	luga.namespace = function(ns, rootObject) {
 		var parts = ns.split(".");
 		if (!rootObject) {
@@ -86,6 +90,9 @@ if(typeof(luga) === "undefined") {
 		return str;
 	};
 
+	/**
+	 * Given the name of a function as a string, return the relevant function, if any
+	 */
 	luga.utils.stringToFunction = function(str) {
 		if(jQuery.isFunction(str)) {
 			return str;
@@ -198,7 +205,7 @@ if(typeof(luga) === "undefined") {
 		var htmlStr = "<ul>";
 		// Create a <ul> for each error
 		for(var i=0;i<validators.length;i++) {
-			htmlStr += "<li><em>" + validators[i].name + ": </em> "+ validators[i].message + "</li>";
+			htmlStr += "<li><em>" + validators[i].name + ": </em> " + validators[i].message + "</li>";
 			// Give focus to the first invalid text field
 			if(!focusGiven && (validators[i].getFocus)) {
 				validators[i].getFocus();
