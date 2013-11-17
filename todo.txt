@@ -8,7 +8,10 @@ CORE:
 
 - Write tests for luga.utils methods
 
-- Complete CSS for layout and navigation in docs/samples
+- CSS
+  Complete layout and navigation in docs/samples
+  Documentation
+  Code samples
 
 -------------
 
