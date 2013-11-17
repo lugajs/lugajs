@@ -30,7 +30,7 @@ textarea.invalid:focus {
 
 input:focus,
 textarea:focus {
-	background-image: none;
+	background-image: none !important;
 	border: 0.2em #BB0000 solid;
 }
 
