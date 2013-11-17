@@ -131,6 +131,28 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 
 	});
 
+	describe("If a data-luga-disabledlabel attribute is specified for a button", function() {
+
+		it("It overrides the value of the disabled button once the form is validated", function() {
+
+			loadFixtures("validator/FormValidator/basic.htm");
+			var formValidator = new luga.validator.FormValidator({
+				formNode: jQuery("#basic")
+			});
+
+			formValidator.validate();
+			expect(formValidator.isValid()).toBeFalsy();
+			expect(jQuery("#submit").val()).toEqual("Submit");
+
+			jQuery("#myName").val("str");
+			formValidator.validate();
+			expect(formValidator.isValid()).toBeTruthy();
+			expect(jQuery("#submit").val()).toEqual("I am disabled");
+
+		});
+
+	});
+
 	describe("Exposes three handlers (before, error, after), functions that will be called at different times after the onSubmit event is triggered", function() {
 
 		var formValidator, flags, customBeforeHandler, customErrorHandler, customAfterHandler, handlers;
