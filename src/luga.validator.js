@@ -116,7 +116,7 @@ if(typeof(luga) === "undefined") {
 		};
 
 		// Execute all field validators. Returns an array of field validators that are in invalid state
-		// Returns and empty array if no errors
+		// Returns array is empty if ther are no errors
 		this.validate = function(event) {
 			self.init();
 			self.before();
