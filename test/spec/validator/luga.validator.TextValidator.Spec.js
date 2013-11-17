@@ -83,25 +83,6 @@ describe("luga.validator.TextValidator", function() {
 		expect(textValidator.options.errorclass).toEqual("invalid");
 	});
 
-	it("Name property maps to either name or id. If none is passed, it's empty by default", function() {
-		var textValidator;
-
-		textValidator = new luga.validator.FieldValidatorGetInstance({
-			fieldNode: jQuery("<input type='text'>")
-		});
-		expect(textValidator.name).toEqual("");
-
-		textValidator = new luga.validator.FieldValidatorGetInstance({
-			fieldNode: jQuery("<input type='text' name='myName'>")
-		});
-		expect(textValidator.name).toEqual("myName");
-
-		textValidator = new luga.validator.FieldValidatorGetInstance({
-			fieldNode: jQuery("<input type='text' id='myId'>")
-		});
-		expect(textValidator.name).toEqual("myId");
-	});
-
 	it("Detects empty field", function() {
 		var textNode, textValidator;
 

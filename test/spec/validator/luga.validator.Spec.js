@@ -86,6 +86,25 @@ describe("luga.validator", function() {
 			expect(textNode.hasClass("invalid")).toBeFalsy();
 		});
 
+		it("They have a 'name' property derived from the field's name or id. If none is available, it defaults to an empty string", function() {
+			var textValidator;
+
+			textValidator = new luga.validator.FieldValidatorGetInstance({
+				fieldNode: jQuery("<input type='text'>")
+			});
+			expect(textValidator.name).toEqual("");
+
+			textValidator = new luga.validator.FieldValidatorGetInstance({
+				fieldNode: jQuery("<input type='text' name='myName'>")
+			});
+			expect(textValidator.name).toEqual("myName");
+
+			textValidator = new luga.validator.FieldValidatorGetInstance({
+				fieldNode: jQuery("<input type='text' id='myId'>")
+			});
+			expect(textValidator.name).toEqual("myId");
+		});
+
 	});
 
 });
