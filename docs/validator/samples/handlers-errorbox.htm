@@ -13,7 +13,7 @@
 <body>
 
 <form data-luga-validate="true" data-luga-error="luga.utils.errorBox">
-	<h1>Errorbox handler</h1>
+	<h1>Better UI for validation</h1>
 	<table>
 		<tr>
 			<td><label for="age">Age (required, positive integer, min 18, max 75)</label></td>
@@ -64,9 +64,29 @@
 	</table>
 </form>
 
+<section>
+	<h1>Use luga.utils.errorBox as error handler</h1>
+	<p>By default the validator uses JavaScript alert boxes to display errors to the user. If we want to display errors in a custom, more user friendly way, use "luga.utils.errorBox" as error handler</p>
+	<p>If you need more flexibility, you can create a custom handler.</p>
+	<p>Styling and formatting for error box is specified inside an <a href="../../css/docs.css">external CSS file</a>. You can tweak and modify it to suit your needs.</p>
+</section>
+
 <code>
     <ol>
 		<li>&lt;form data-luga-validate="true" data-luga-error="luga.utils.errorBox"&gt;</li>
+	</ol>
+</code>
+
+<section>
+	<h1>Override default error handler</h1>
+	<p>The value for the default error handler is stored inside luga.validator.CONST.HANDLERS.FORM_ERROR. You can override it with something that fits your needs</p>
+</section>
+
+<code>
+	<ol>
+		<li>&lt;script&gt;</li>
+		<li>	luga.validator.CONST.HANDLERS.FORM_ERROR = "luga.utils.errorBox";</li>
+		<li>&lt;/script&gt;</li>
 	</ol>
 </code>
 
