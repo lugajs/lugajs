@@ -1,5 +1,15 @@
-input, textarea {
-	margin: 0.4em;
+form {
+	font-size: 1.1em;
+}
+
+input,
+textarea {
+	background: #E8E7DF;
+	border: 0.2em solid #7C93BA;
+	border-radius: 0.4em;
+	margin-bottom: 1em;
+	margin-top: 0.3em;
+	padding: 0.3em;
 }
 
 input.invalid,
@@ -17,9 +27,11 @@ textarea.invalid:focus {
 input:focus,
 textarea:focus {
 	background-image: none;
-	border: 0.2em #7E9FDA solid;
+	border: 0.2em #BB0000 solid;
 }
 
+input[type="checkbox"],
+input[type="radio"],
 input[type="checkbox"].invalid,
 input[type="radio"].invalid,
 input[type="checkbox"]:focus,
@@ -38,7 +50,7 @@ input[type="submit"] {
 	font-size: 1.1em;
 	font-variant: small-caps;
 	letter-spacing: 0.1em;
-	padding: 0.3em 1.5em;
+	padding: 0.2em 1em;
 }
 
 input[type="submit"]:hover,
@@ -48,8 +60,14 @@ input[type="submit"]:focus {
 	box-shadow: rgba(0, 0, 0, .25) 0 1px 0px;
 }
 
+input[data-luga-required="true"] {
+	background-image: url("required.png");
+	background-position: right center;
+	background-repeat: no-repeat;
+}
+
 div.luga_error_message {
 	background-color: #FFE813;
 	border: 0.2em #BB0000 solid;
-	border-radius: 0.3em;
+	border-radius: 0.4em;
 }
