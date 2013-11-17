@@ -58,7 +58,7 @@ if(typeof(luga) === "undefined") {
 		};
 
 		this.onSuccess = function(response, textStatus, jqXHR) {
-			jQuery(options.rootNode).html(response);
+			jQuery(options.rootNode).replaceWith(response);
 		};
 
 		this.onError = function(qXHR, textStatus, errorThrown) {
