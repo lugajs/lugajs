@@ -18,7 +18,7 @@ footer, header, hgroup, menu, nav, section {
 
 html, body {
 	background-color: #F1F1F1;
-	box-sizing: border-box;
+	/*box-sizing: border-box;*/
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 0.9em;
 	margin: 1em;
@@ -36,6 +36,10 @@ h1 {
 	box-shadow: rgba(0, 0, 0, .25) 0.15em 0.15em 0.15em;
 	padding: 2em;
 	margin-bottom: 2em;
+}
+
+form,
+section {
 	max-width: 80em;
 	min-width: 40em;
 }
@@ -58,7 +62,9 @@ code {
 	display: block;
 	font-family: Consolas, "Liberation Mono", Courier, monospace;
 	margin-bottom: 2em;
-	width: 90em;
+	width: 92.5em;
+	max-width: 92.5em;
+	min-width: 40em;
 }
 
 code ol {
