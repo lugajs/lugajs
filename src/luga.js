@@ -102,10 +102,12 @@ if(typeof(luga) === "undefined") {
 			return window[str];
 		}
 		// If it lives inside a namespace, try to eval it
-		var evaluated = eval(str);
-		if(jQuery.isFunction(evaluated)) {
-			return evaluated;
-		}
+		try {
+			var evaluated = eval(str);
+			if(evaluated && jQuery.isFunction(evaluated)) {
+				return evaluated;
+			}
+		} catch(e) {}
 		return null;
 	};
 
