@@ -111,7 +111,10 @@ if(typeof(luga) === "undefined") {
 		return null;
 	};
 
-	// Private helper function
+	/**
+	 * Private helper function
+	 * Generate node's id
+	 */
 	var generateBoxId = function(node) {
 		var boxId = luga.utils.CONST.MSG_BOX_ID;
 		if(node.attr("id")) {
@@ -121,6 +124,19 @@ if(typeof(luga) === "undefined") {
 			boxId += node.attr("name");
 		}
 		return boxId;
+	};
+
+	/**
+	 * Private helper function
+	 * Remove a message box (if any) associated with a given node
+	 */
+	var removeDisplayBox = function(node) {
+		var boxId = generateBoxId(jQuery(node));
+		var oldBox = jQuery("#" + boxId);
+		// If an error display is already there, get rid of it
+		if(oldBox.length > 0) {
+			oldBox.remove();
+		}
 	};
 
 	/**
@@ -160,18 +176,6 @@ if(typeof(luga) === "undefined") {
 		}
 	};
 
-	/**
-	 * Remove a message box (if any) associated with a given node
-	 */
-	luga.utils.removeDisplayBox = function(node) {
-		var boxId = generateBoxId(jQuery(node));
-		var oldBox = jQuery("#" + boxId);
-		// If an error display is already there, get rid of it
-		if(oldBox.length > 0) {
-			oldBox.remove();
-		}
-	};
-
 	/* Validation handlers */
 
 	/**
@@ -200,7 +204,7 @@ if(typeof(luga) === "undefined") {
 	luga.utils.errorBox = function(formNode, validators) {
 		// Clean-up any existing box
 		if(validators.length === 0) {
-			luga.utils.removeDisplayBox(formNode);
+			removeDisplayBox(formNode);
 			return;
 		}
 		var focusGiven = false;
