@@ -6,6 +6,10 @@ describe("luga", function() {
 		expect(jQuery).toBeDefined();
 	});
 
+	it("Lives inside its own namespace", function() {
+		expect(luga).toBeDefined();
+	});
+
 	it("Uses jQuery.extend() as simple/crude inheritance solution", function() {
 
 		/* Class Person. */
@@ -28,15 +32,6 @@ describe("luga", function() {
 
 		expect(nicole.getGender()).toEqual("female");
 		expect(nicole.getName()).toEqual("Nicole Kidman");
-	});
-
-	it("Lives inside its own namespace", function() {
-		expect(luga).toBeDefined();
-	});
-
-	it("Uses a separated namespace to store utility methods", function() {
-		expect(luga).toBeDefined();
-		expect(luga.utils).toBeDefined();
 	});
 
 	describe(".namespace()", function() {
@@ -67,7 +62,15 @@ describe("luga", function() {
 
 	});
 
-	describe(".utils.formatString()", function() {
+});
+
+describe("luga.utils stores generic, utilities and static methods", function() {
+
+	it("Lives inside its own namespace", function() {
+		expect(luga.utils).toBeDefined();
+	});
+
+	describe(".formatString()", function() {
 		it("Given a string containing placeholders, assembles a new string", function() {
 			expect(luga.utils.formatString("My name is {0} {1}", ["Ciccio", "Pasticcio"])).toEqual("My name is Ciccio Pasticcio");
 			expect(luga.utils.formatString("This {0} is just a {0}", ["test"])).toEqual("This test is just a test");
