@@ -39,7 +39,7 @@ describe("luga", function() {
 		expect(luga.utils).toBeDefined();
 	});
 
-	describe("namespace()", function() {
+	describe(".namespace()", function() {
 
 		it("Must be defined", function() {
 			expect(luga.namespace).toBeDefined();
@@ -67,7 +67,7 @@ describe("luga", function() {
 
 	});
 
-	describe("utils.formatString()", function() {
+	describe(".utils.formatString()", function() {
 		it("Given a string containing placeholders, assembles a new string", function() {
 			expect(luga.utils.formatString("My name is {0} {1}", ["Ciccio", "Pasticcio"])).toEqual("My name is Ciccio Pasticcio");
 			expect(luga.utils.formatString("This {0} is just a {0}", ["test"])).toEqual("This test is just a test");
