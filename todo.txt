@@ -6,7 +6,9 @@ CORE:
 - Wrap jQuery's extend into luga.merge() to make it less ambiguous?
 - Create dedicated luga.extend()?
 
-- Write tests for luga.utils methods
+- Write tests for:
+  luga.utils.displayMessage()
+  luga.utils.displayErrorMessage()
 
 -  Complete layout and navigation in docs/samples
 -  Add documentation
