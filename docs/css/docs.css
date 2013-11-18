@@ -90,9 +90,14 @@ code ol + ol {
 }
 
 code ol li {
+	border: 1px solid #FFFFFF;
 	list-style: decimal outside none;
 	padding:0.2em;
 	white-space: pre;
+}
+
+code ol li:hover {
+	border: 1px dotted #333333;
 }
 
 nav {
