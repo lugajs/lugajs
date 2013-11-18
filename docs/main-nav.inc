@@ -10,7 +10,7 @@
 			<a href="../../csi/index.htm" title="Client-side include">:: CSI ::</a>
 		</li>
 		<li>
-			<a href="../../dataset/index.htm" title="Store and display">:: Dataset ::</a>
+			<a href="../../dataset/index.htm" title="Store and display data">:: Dataset ::</a>
 		</li>
 	</ul>
 </nav>
