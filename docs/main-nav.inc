@@ -1,16 +1,16 @@
-<nav>
+<nav class="mainNav">
 	<ul>
 		<li>
-			<a href="../../index.htm">Luga JS</a>
+			<a href="../../index.htm" title="Home">:: Luga JS ::</a>
 		</li>
 		<li>
-			<a href="../../validator/index.htm">Validator</a>
+			<a href="../../validator/index.htm" title="Client-side form validation">:: Validator ::</a>
 		</li>
 		<li>
-			<a href="../../csi/index.htm">CSI</a>
+			<a href="../../csi/index.htm" title="Client-side include">:: CSI ::</a>
 		</li>
 		<li>
-			<a href="../../dataset/index.htm">Dataset</a>
+			<a href="../../dataset/index.htm" title="Store and display">:: Dataset ::</a>
 		</li>
 	</ul>
 </nav>
