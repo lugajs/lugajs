@@ -79,9 +79,9 @@ describe("luga.utils stores generic, utilities and static methods", function() {
 		});
 	});
 
-	describe(".stringToFunction(). Given the name of a function as a string, return the relevant function", function() {
+	describe(".stringToFunction(). Given the name of a function as a string", function() {
 
-		it("It returns the function if it finds it inside the window/global scope", function() {
+		it("Returns the relevant function if it finds it inside the window/global scope", function() {
 			window.myFunc = function(){};
 			var result = luga.utils.stringToFunction("myFunc");
 			expect(result).not.toBeNull();
