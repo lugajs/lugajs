@@ -140,14 +140,14 @@ if(typeof(luga) === "undefined") {
 	};
 
 	/**
-	 * Display a message a message associated with a given node
+	 * Display a message box above a given node
 	 */
 	luga.utils.displayMessage = function(node, html) {
 		luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.MESSAGE);
 	};
 
 	/**
-	 * Display a message an error message associated with a given node
+	 * Display an error box above a given node
 	 */
 	luga.utils.displayErrorMessage = function(node, html) {
 		luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.ERROR_MESSAGE);
