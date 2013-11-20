@@ -36,11 +36,6 @@ describe("luga", function() {
 
 	describe(".namespace()", function() {
 
-		it("Must be defined", function() {
-			expect(luga.namespace).toBeDefined();
-			expect(jQuery.isFunction(luga.namespace)).toBeTruthy();
-		});
-
 		it("Does not override existing namespaces", function() {
 			var testRoot = {};
 			testRoot.child = {};
