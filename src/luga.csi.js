@@ -46,13 +46,13 @@ if(typeof(luga) === "undefined") {
 
 		this.init = function() {
 			jQuery.ajax({
-				url: self.options.url,
-				timeout: self.options.XHR_TIMEOUT,
+				url: self.config.url,
+				timeout: self.config.XHR_TIMEOUT,
 				success: function (response, textStatus, jqXHR) {
-					self.options.success.apply(self.options.context, [response, textStatus, jqXHR]);
+					self.config.success.apply(self.config.context, [response, textStatus, jqXHR]);
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
-					self.options.error.apply(self.options.context, [jqXHR, textStatus, errorThrown]);
+					self.config.error.apply(self.config.context, [jqXHR, textStatus, errorThrown]);
 				}
 			});
 		};
@@ -62,16 +62,16 @@ if(typeof(luga) === "undefined") {
 		};
 
 		this.onError = function(qXHR, textStatus, errorThrown) {
-			throw(luga.utils.formatString(luga.csi.CONST.MESSAGES.FILE_NOT_FOUND, [self.options.url]));
+			throw(luga.utils.formatString(luga.csi.CONST.MESSAGES.FILE_NOT_FOUND, [self.config.url]));
 		};
 
-		this.options = {
+		this.config = {
 			url: jQuery(options.rootNode).attr(luga.csi.CONST.URL_ATTRIBUTE),
 			success: this.onSuccess,
 			error: this.onError,
 			xhrTimeout: 5000
 		};
-		jQuery.extend(this.options, options);
+		jQuery.extend(this.config, options);
 	};
 
 	luga.csi.loadIncludes = function() {

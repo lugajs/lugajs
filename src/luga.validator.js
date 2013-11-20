@@ -87,31 +87,31 @@ if(typeof(luga) === "undefined") {
 	 *                                   Value can also be set using the "data-luga-blocksubmit" attribute. Optional
 	 */
 	luga.validator.FormValidator = function(options) {
-		this.options = {
+		this.config = {
 			blocksubmit: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.BLOCK_SUBMIT) || "true",
 			error: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.ERROR) || luga.validator.CONST.HANDLERS.FORM_ERROR,
 			before: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.BEFORE) || null,
 			after: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.AFTER) || null
 		};
-		jQuery.extend(this.options, options);
+		jQuery.extend(this.config, options);
 		var self = this;
 		self.validators = [];
 		self.dirtyValidators = [];
-		self.options.formNode = jQuery(self.options.formNode);
+		self.config.formNode = jQuery(self.config.formNode);
 
-		if(jQuery(self.options.formNode).length === 0) {
+		if(jQuery(self.config.formNode).length === 0) {
 			throw(luga.validator.CONST.MESSAGES.FORM_MISSING);
 		}
 
 		this.init = function() {
 			self.validators = [];
 			self.dirtyValidators = [];
-			var formDom = self.options.formNode[0];
+			var formDom = self.config.formNode[0];
 			for(var i = 0; i < formDom.elements.length; i++) {
 				if(luga.validator.utils.isInputField(formDom.elements[i])) {
 					self.validators.push(luga.validator.FieldValidatorGetInstance({
 						fieldNode: formDom.elements[i],
-						formNode: self.options.formNode
+						formNode: self.config.formNode
 					}));
 				}
 			}
@@ -143,7 +143,7 @@ if(typeof(luga) === "undefined") {
 				}
 			}
 			else {
-				if(this.options.blocksubmit === "true") {
+				if(this.config.blocksubmit === "true") {
 					// Disable submit buttons to avoid multiple submits
 					self.disableSubmit();
 				}
@@ -153,7 +153,7 @@ if(typeof(luga) === "undefined") {
 		};
 
 		this.disableSubmit = function() {
-			var buttons = jQuery("input[type=submit]", self.options.formNode);
+			var buttons = jQuery("input[type=submit]", self.config.formNode);
 			jQuery(buttons).each(function(index, item) {
 				var buttonNode = jQuery(item);
 				if(buttonNode.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.DISABLED_MESSAGE)) {
@@ -167,32 +167,32 @@ if(typeof(luga) === "undefined") {
 		};
 
 		this.before = function() {
-			var callBack = luga.utils.stringToFunction(self.options.before);
+			var callBack = luga.utils.stringToFunction(self.config.before);
 			if(callBack) {
-				callBack.apply(null, [self.options.formNode[0]]);
+				callBack.apply(null, [self.config.formNode[0]]);
 			}
-			else if(self.options.before) {
-				alert(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.options.before]));
+			else if(self.config.before) {
+				alert(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.before]));
 			}
 		};
 
 		this.error = function() {
-			var callBack = luga.utils.stringToFunction(self.options.error);
+			var callBack = luga.utils.stringToFunction(self.config.error);
 			if(callBack) {
-				callBack.apply(null, [self.options.formNode[0], self.dirtyValidators]);
+				callBack.apply(null, [self.config.formNode[0], self.dirtyValidators]);
 			}
-			else if(self.options.error) {
-				alert(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.options.error]));
+			else if(self.config.error) {
+				alert(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.error]));
 			}
 		};
 
 		this.after = function() {
-			var callBack = luga.utils.stringToFunction(self.options.after);
+			var callBack = luga.utils.stringToFunction(self.config.after);
 			if(callBack) {
-				callBack.apply(null, [self.options.formNode[0]]);
+				callBack.apply(null, [self.config.formNode[0]]);
 			}
-			else if(self.options.after) {
-				alert(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.options.after]));
+			else if(self.config.after) {
+				alert(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.after]));
 			}
 		};
 
@@ -208,41 +208,41 @@ if(typeof(luga) === "undefined") {
 	 *                                    Check their implementation for details
 	 */
 	luga.validator.FieldValidatorGetInstance = function(options) {
-		this.options = {};
-		jQuery.extend(this.options, options);
+		this.config = {};
+		jQuery.extend(this.config, options);
 		var self = this;
 		// Abort if the field isn't suitable to validation
-		if(!luga.validator.utils.isInputField(self.options.fieldNode)) {
+		if(!luga.validator.utils.isInputField(self.config.fieldNode)) {
 			return null;
 		}
-		var fieldType = jQuery(self.options.fieldNode).prop("type");
+		var fieldType = jQuery(self.config.fieldNode).prop("type");
 		// Get relevant validator based on field type
 		switch(fieldType){
 
 			case "select-multiple":
-				return new luga.validator.SelectValidator(this.options);
+				return new luga.validator.SelectValidator(this.config);
 
 			case "select-one":
-				return new luga.validator.SelectValidator(this.options);
+				return new luga.validator.SelectValidator(this.config);
 
 			case "radio":
-				if(jQuery(this.options.fieldNode).attr("name")) {
+				if(jQuery(this.config.fieldNode).attr("name")) {
 					return new luga.validator.RadioValidator({
-						inputGroup: luga.validator.utils.getFieldGroup(jQuery(this.options.fieldNode).attr("name"), this.options.formNode)
+						inputGroup: luga.validator.utils.getFieldGroup(jQuery(this.config.fieldNode).attr("name"), this.config.formNode)
 					});
 				}
 				break;
 
 			case "checkbox":
-				if(jQuery(this.options.fieldNode).attr("name")) {
+				if(jQuery(this.config.fieldNode).attr("name")) {
 					return new luga.validator.CheckboxValidator({
-						inputGroup: luga.validator.utils.getFieldGroup(jQuery(this.options.fieldNode).attr("name"), this.options.formNode)
+						inputGroup: luga.validator.utils.getFieldGroup(jQuery(this.config.fieldNode).attr("name"), this.config.formNode)
 					});
 				}
 				break;
 
 			default:
-				return new luga.validator.TextValidator(this.options);
+				return new luga.validator.TextValidator(this.config);
 		}
 	};
 
@@ -256,13 +256,13 @@ if(typeof(luga) === "undefined") {
 	 */
 	luga.validator.BaseFieldValidator = function(options) {
 
-		this.options = {
+		this.config = {
 			message: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MESSAGE) || "",
 			errorclass: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.ERROR_CLASS) || ""
 		};
-		jQuery.extend(this.options, options);
+		jQuery.extend(this.config, options);
 		this.node = jQuery(options.fieldNode);
-		this.message = this.options.message;
+		this.message = this.config.message;
 
 		this.isValid = function() {
 			// Abstract method. Must return a boolean
@@ -270,13 +270,13 @@ if(typeof(luga) === "undefined") {
 		};
 
 		this.flagInvalid = function(){
-			this.node.addClass(this.options.errorclass);
+			this.node.addClass(this.config.errorclass);
 			// Set the title attribute in order to show a tooltip
 			this.node.attr("title", this.message);
 		};
 
 		this.flagValid = function() {
-			this.node.removeClass(this.options.errorclass);
+			this.node.removeClass(this.config.errorclass);
 			this.node.removeAttr("title");
 		};
 
@@ -320,7 +320,7 @@ if(typeof(luga) === "undefined") {
 
 	 */
 	luga.validator.TextValidator = function(options) {
-		this.options = {
+		this.config = {
 			required: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.REQUIRED),
 			pattern: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.PATTERN),
 			minlength: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MIN_LENGTH),
@@ -332,8 +332,8 @@ if(typeof(luga) === "undefined") {
 			maxdate: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MAX_DATE),
 			equalto: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.EQUAL_TO)
 		};
-		jQuery.extend(this.options, options);
-		jQuery.extend(this, new luga.validator.BaseFieldValidator(this.options));
+		jQuery.extend(this.config, options);
+		jQuery.extend(this, new luga.validator.BaseFieldValidator(this.config));
 		var self = this;
 		self.node = jQuery(options.fieldNode);
 		self.type = "text";
@@ -361,7 +361,7 @@ if(typeof(luga) === "undefined") {
 		};
 
 		this.isRequired = function() {
-			var requiredAtt = this.options.required;
+			var requiredAtt = this.config.required;
 			if(requiredAtt){
 				if(requiredAtt === "true") {
 					return true;
@@ -406,18 +406,18 @@ if(typeof(luga) === "undefined") {
 	};
 
 	luga.validator.SelectValidator = function(options) {
-		this.options = {
+		this.config = {
 			invalidindex: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.INVALID_INDEX),
 			invalidvalue: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.INVALID_VALUE)
 		};
-		jQuery.extend(this.options, options);
-		jQuery.extend(this, new luga.validator.BaseFieldValidator(this.options));
+		jQuery.extend(this.config, options);
+		jQuery.extend(this, new luga.validator.BaseFieldValidator(this.config));
 		var self = this;
 		self.type = "select";
 		self.node = jQuery(options.fieldNode);
 
 		// Ensure invalidindex is numeric
-		if((self.options.invalidindex !== undefined) && (!jQuery.isNumeric(self.options.invalidindex))) {
+		if((self.config.invalidindex !== undefined) && (!jQuery.isNumeric(self.config.invalidindex))) {
 			throw(luga.validator.CONST.MESSAGES.INVALID_INDEX_NOT_NUMERIC);
 		}
 
@@ -431,11 +431,11 @@ if(typeof(luga) === "undefined") {
 
 		this.isValid = function() {
 			// Check for index
-			if(currentIndex === parseInt(self.options.invalidindex)) {
+			if(currentIndex === parseInt(self.config.invalidindex)) {
 				return false;
 			}
 			// Check for value
-			if(self.node.val() === self.options.invalidvalue) {
+			if(self.node.val() === self.config.invalidvalue) {
 				return false;
 			}
 			// Loop over all the available rules
@@ -454,10 +454,10 @@ if(typeof(luga) === "undefined") {
 	};
 
 	luga.validator.BaseGroupValidator = function(options) {
-		this.options = {};
-		jQuery.extend(this.options, options);
-		this.inputGroup = this.options.inputGroup;
-		this.name = jQuery(this.options.inputGroup).attr("name");
+		this.config = {};
+		jQuery.extend(this.config, options);
+		this.inputGroup = this.config.inputGroup;
+		this.name = jQuery(this.config.inputGroup).attr("name");
 		this.message = "";
 		this.errorclass = "";
 
@@ -512,9 +512,9 @@ if(typeof(luga) === "undefined") {
 	};
 
 	luga.validator.RadioValidator = function(options) {
-		this.options = {};
-		jQuery.extend(this.options, options);
-		jQuery.extend(this, new luga.validator.BaseGroupValidator(this.options));
+		this.config = {};
+		jQuery.extend(this.config, options);
+		jQuery.extend(this, new luga.validator.BaseGroupValidator(this.config));
 		this.type = "radio";
 		var self = this;
 
@@ -550,12 +550,12 @@ if(typeof(luga) === "undefined") {
 	};
 
 	luga.validator.CheckboxValidator = function(options) {
-		this.options = {};
-		jQuery.extend(this.options, options);
-		jQuery.extend(this, new luga.validator.BaseGroupValidator(this.options));
+		this.config = {};
+		jQuery.extend(this.config, options);
+		jQuery.extend(this, new luga.validator.BaseGroupValidator(this.config));
 		this.type = "checkbox";
 		this.minchecked = 0;
-		this.maxchecked = this.options.inputGroup.length;
+		this.maxchecked = this.config.inputGroup.length;
 		var self = this;
 
 		// Since checkboxes from the same group can have conflicting attribute values, the last one win
@@ -603,15 +603,15 @@ if(typeof(luga) === "undefined") {
 	};
 
 	luga.validator.rules.equalto = function(fieldNode, validator) {
-		var secondFieldNode = jQuery("#" + validator.options.equalto);
+		var secondFieldNode = jQuery("#" + validator.config.equalto);
 		if(secondFieldNode.length === 0) {
-			throw(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_EQUAL_TO_FIELD, [validator.options.equalto]));
+			throw(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_EQUAL_TO_FIELD, [validator.config.equalto]));
 		}
 		return (fieldNode.val() === secondFieldNode.val());
 	};
 
 	luga.validator.rules.datepattern = function(fieldNode, validator) {
-		var datObj = luga.validator.dateStrToObj(fieldNode.val(), validator.options.datepattern);
+		var datObj = luga.validator.dateStrToObj(fieldNode.val(), validator.config.datepattern);
 		if(datObj) {
 			return true;
 		}
@@ -619,9 +619,9 @@ if(typeof(luga) === "undefined") {
 	};
 
 	luga.validator.rules.maxdate = function(fieldNode, validator) {
-		var pattern = validator.options.datepattern;
+		var pattern = validator.config.datepattern;
 		var valueDate = luga.validator.dateStrToObj(fieldNode.val(), pattern);
-		var maxDate = luga.validator.dateStrToObj(validator.options.maxdate, pattern);
+		var maxDate = luga.validator.dateStrToObj(validator.config.maxdate, pattern);
 		if(valueDate && maxDate) {
 			return valueDate <= maxDate;
 		}
@@ -629,9 +629,9 @@ if(typeof(luga) === "undefined") {
 	};
 
 	luga.validator.rules.mindate = function(fieldNode, validator) {
-		var pattern = validator.options.datepattern;
+		var pattern = validator.config.datepattern;
 		var valueDate = luga.validator.dateStrToObj(fieldNode.val(), pattern);
-		var minDate = luga.validator.dateStrToObj(validator.options.mindate, pattern);
+		var minDate = luga.validator.dateStrToObj(validator.config.mindate, pattern);
 		if(valueDate && minDate) {
 			return valueDate >= minDate;
 		}
@@ -639,14 +639,14 @@ if(typeof(luga) === "undefined") {
 	};
 
 	luga.validator.rules.maxlength = function(fieldNode, validator) {
-		if(fieldNode.val().length > validator.options.maxlength) {
+		if(fieldNode.val().length > validator.config.maxlength) {
 			return false;
 		}
 		return true;
 	};
 
 	luga.validator.rules.minlength = function(fieldNode, validator) {
-		if(fieldNode.val().length < validator.options.minlength) {
+		if(fieldNode.val().length < validator.config.minlength) {
 			return false;
 		}
 		return true;
@@ -656,7 +656,7 @@ if(typeof(luga) === "undefined") {
 		if(!jQuery.isNumeric(fieldNode.val())) {
 			return false;
 		}
-		if(parseFloat(fieldNode.val()) <= parseFloat(validator.options.maxnumber)) {
+		if(parseFloat(fieldNode.val()) <= parseFloat(validator.config.maxnumber)) {
 			return true;
 		}
 		return false;
@@ -666,20 +666,20 @@ if(typeof(luga) === "undefined") {
 		if(!jQuery.isNumeric(fieldNode.val())) {
 			return false;
 		}
-		if(parseFloat(fieldNode.val()) >= parseFloat(validator.options.minnumber)) {
+		if(parseFloat(fieldNode.val()) >= parseFloat(validator.config.minnumber)) {
 			return true;
 		}
 		return false;
 	};
 
 	luga.validator.rules.pattern = function(fieldNode, validator) {
-		var regExpObj = luga.validator.patterns[validator.options.pattern];
+		var regExpObj = luga.validator.patterns[validator.config.pattern];
 		if(regExpObj) {
 			return regExpObj.test(fieldNode.val());
 		}
 		else{
 			// The pattern is missing
-			throw(luga.utils.formatString(luga.validator.CONST.MESSAGES.PATTERN_NOT_FOUND, [validator.options.pattern]));
+			throw(luga.utils.formatString(luga.validator.CONST.MESSAGES.PATTERN_NOT_FOUND, [validator.config.pattern]));
 		}
 	};
 

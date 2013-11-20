@@ -18,10 +18,10 @@ describe("luga.validator.TextValidator", function() {
 		var textValidator = new luga.validator.FieldValidatorGetInstance({
 			fieldNode: jQuery("<input type='text'>")
 		});
-		expect(textValidator.options.datepattern).toEqual(luga.validator.CONST.DEFAULT_DATE_PATTERN);
+		expect(textValidator.config.datepattern).toEqual(luga.validator.CONST.DEFAULT_DATE_PATTERN);
 	});
 
-	it("Allows options to be set programmatically", function() {
+	it("Allows config to be set programmatically", function() {
 		var textValidator = new luga.validator.FieldValidatorGetInstance({
 			fieldNode: jQuery("<input type='text'>"),
 			required: "true",
@@ -37,18 +37,18 @@ describe("luga.validator.TextValidator", function() {
 			message: "Invalid field!",
 			errorclass: "invalid"
 		});
-		expect(textValidator.options.required).toBeTruthy();
-		expect(textValidator.options.pattern).toEqual("lettersonly");
-		expect(textValidator.options.minlength).toEqual("4");
-		expect(textValidator.options.maxlength).toEqual("10");
-		expect(textValidator.options.minnumber).toEqual("5");
-		expect(textValidator.options.maxnumber).toEqual("20");
-		expect(textValidator.options.datepattern).toEqual("YYYY-MM-DD");
-		expect(textValidator.options.mindate).toEqual("2000-01-01");
-		expect(textValidator.options.maxdate).toEqual("2009-12-31");
-		expect(textValidator.options.equalto).toEqual("seconField");
-		expect(textValidator.options.message).toEqual("Invalid field!");
-		expect(textValidator.options.errorclass).toEqual("invalid");
+		expect(textValidator.config.required).toBeTruthy();
+		expect(textValidator.config.pattern).toEqual("lettersonly");
+		expect(textValidator.config.minlength).toEqual("4");
+		expect(textValidator.config.maxlength).toEqual("10");
+		expect(textValidator.config.minnumber).toEqual("5");
+		expect(textValidator.config.maxnumber).toEqual("20");
+		expect(textValidator.config.datepattern).toEqual("YYYY-MM-DD");
+		expect(textValidator.config.mindate).toEqual("2000-01-01");
+		expect(textValidator.config.maxdate).toEqual("2009-12-31");
+		expect(textValidator.config.equalto).toEqual("seconField");
+		expect(textValidator.config.message).toEqual("Invalid field!");
+		expect(textValidator.config.errorclass).toEqual("invalid");
 	});
 
 	it("Or using custom HTML attributes", function() {
@@ -69,18 +69,18 @@ describe("luga.validator.TextValidator", function() {
 				'data-luga-errorclass="invalid"' +
 				'>')
 		});
-		expect(textValidator.options.required).toBeTruthy();
-		expect(textValidator.options.pattern).toEqual("lettersonly");
-		expect(textValidator.options.minlength).toEqual("4");
-		expect(textValidator.options.maxlength).toEqual("10");
-		expect(textValidator.options.minnumber).toEqual("5");
-		expect(textValidator.options.maxnumber).toEqual("20");
-		expect(textValidator.options.datepattern).toEqual("YYYY-MM-DD");
-		expect(textValidator.options.mindate).toEqual("2000-01-01");
-		expect(textValidator.options.maxdate).toEqual("2009-12-31");
-		expect(textValidator.options.equalto).toEqual("seconField");
-		expect(textValidator.options.message).toEqual("Invalid field!");
-		expect(textValidator.options.errorclass).toEqual("invalid");
+		expect(textValidator.config.required).toBeTruthy();
+		expect(textValidator.config.pattern).toEqual("lettersonly");
+		expect(textValidator.config.minlength).toEqual("4");
+		expect(textValidator.config.maxlength).toEqual("10");
+		expect(textValidator.config.minnumber).toEqual("5");
+		expect(textValidator.config.maxnumber).toEqual("20");
+		expect(textValidator.config.datepattern).toEqual("YYYY-MM-DD");
+		expect(textValidator.config.mindate).toEqual("2000-01-01");
+		expect(textValidator.config.maxdate).toEqual("2009-12-31");
+		expect(textValidator.config.equalto).toEqual("seconField");
+		expect(textValidator.config.message).toEqual("Invalid field!");
+		expect(textValidator.config.errorclass).toEqual("invalid");
 	});
 
 	it("Detects empty field", function() {

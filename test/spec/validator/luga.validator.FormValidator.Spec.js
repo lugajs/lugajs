@@ -111,14 +111,14 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 			var formValidator = new luga.validator.FormValidator({
 				formNode: jQuery("<form></form>")
 			});
-			expect(formValidator.options.blocksubmit).toBeTruthy();
+			expect(formValidator.config.blocksubmit).toBeTruthy();
 		});
 
 		it("It can be set with custom HTML attribute", function() {
 			var formValidator = new luga.validator.FormValidator({
 				formNode: jQuery('<form data-luga-blocksubmit="false"></form>')
 			});
-			expect(formValidator.options.blocksubmit).toEqual("false");
+			expect(formValidator.config.blocksubmit).toEqual("false");
 		});
 
 		it("Or programmatically", function() {
@@ -126,7 +126,7 @@ luga.validator.CONST.HANDLERS.FORM_ERROR = function() {};
 				formNode: jQuery("<form></form>"),
 				blocksubmit: false
 			});
-			expect(formValidator.options.blocksubmit).toEqual(false);
+			expect(formValidator.config.blocksubmit).toEqual(false);
 		});
 
 	});

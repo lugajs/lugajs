@@ -59,8 +59,8 @@ describe("luga.validator", function() {
 			var textValidator = new luga.validator.FieldValidatorGetInstance({
 				fieldNode: jQuery("<input type='text'>")
 			});
-			expect(textValidator.options.message).toEqual("");
-			expect(textValidator.options.errorclass).toEqual("");
+			expect(textValidator.config.message).toEqual("");
+			expect(textValidator.config.errorclass).toEqual("");
 		});
 
 		it("They add/remove error class and title attribute", function() {

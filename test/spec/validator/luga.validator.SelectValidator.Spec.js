@@ -7,9 +7,9 @@ describe("luga.validator.SelectValidator", function() {
 		var selectValidator = new luga.validator.FieldValidatorGetInstance({
 			fieldNode: selectNode
 		});
-		expect(selectValidator.options.invalidindex).toEqual("1");
-		expect(selectValidator.options.invalidvalue).toEqual("Crepes");
-		expect(selectValidator.options.message).toEqual("Invalid!");
+		expect(selectValidator.config.invalidindex).toEqual("1");
+		expect(selectValidator.config.invalidvalue).toEqual("Crepes");
+		expect(selectValidator.config.message).toEqual("Invalid!");
 	});
 
 	describe("data-luga-invalidindex", function() {
