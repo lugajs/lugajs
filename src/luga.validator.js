@@ -54,13 +54,13 @@ if(typeof(luga) === "undefined") {
 			DISABLED_MESSAGE: "data-luga-disabledlabel"
 		},
 		MESSAGES: {
-			FORM_MISSING: "luga.validator is unable to load form",
-			MISSING_FUNCTION: "luga.validator is unable to find a function named: {0}",
+			FORM_MISSING: "luga.validator was unable to load form",
+			MISSING_FUNCTION: "luga.validator was unable to find a function named: {0}",
 			FIELD_ABSTRACT_IS_VALID: "luga.validator.BaseFieldValidator.isValid() is an abstract method",
 			GROUP_ABSTRACT_IS_VALID: "luga.validator.BaseGroupValidator.isValid() is an abstract method",
 			PATTERN_NOT_FOUND: "luga.validator failed to retrieve pattern: {0}",
 			INVALID_INDEX_NOT_NUMERIC: "data-luga-invalidindex accept only numbers",
-			MISSING_EQUAL_TO_FIELD: "data-luga-equalto unable to fiend field with id = {0}"
+			MISSING_EQUAL_TO_FIELD: "data-luga-equalto was unable to find field with id = {0}"
 		},
 		FAKE_INPUT_TYPES: {
 			fieldset: true,
