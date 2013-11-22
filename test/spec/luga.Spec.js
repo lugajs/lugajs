@@ -91,7 +91,6 @@ describe("luga", function() {
 			var config = {letter: "a", number: 1};
 			var params = {number: 2, symbol: "@"};
 			luga.merge(config, params);
-			console.info(config)
 			expect(config).toEqual({letter: "a", number: 2, symbol: "@"});
 		});
 
