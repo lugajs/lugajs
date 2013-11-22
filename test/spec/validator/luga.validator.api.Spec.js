@@ -16,9 +16,15 @@ describe("luga.validator.api", function() {
 			expect(jQuery("#myName")).toHaveClass("invalid");
 
 			jQuery("#myName").val("filled");
-			//expect(formValidator.validate().length).toEqual(0);
 			expect(luga.validator.api.validateForm({formNode: jQuery("#basic")})).toBeTruthy();
 			expect(jQuery("#myName")).not.toHaveClass("invalid");
+
+		});
+
+		it("And returns a boolean", function() {
+
+			loadFixtures("validator/FormValidator/basic.htm");
+			expect(luga.validator.api.validateForm({formNode: jQuery("#basic")})).toBeFalsy();
 
 		});
 
