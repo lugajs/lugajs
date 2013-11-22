@@ -19,16 +19,16 @@ CSI:
 VALIDATOR:
 
 - Add demoronizer option?
-
 - Test/demo HTML 5 fields
 
-- Implement/test API
+- API
+  More tests for luga.validator.api.validateForm(). Like:
+  luga.validator.api.validateForm({formNode: jQuery("form"), error: "luga.utils.errorAlert"})
+
   validateFields(fields[], [errorHandler]) return boolean
   validateField(field, [errorHandler]) return boolean
-  validateForm(formNode) return boolean
 
 - Add docs and samples
-
 - Review/add JavaDocs
 
 -------------

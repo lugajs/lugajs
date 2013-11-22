@@ -118,7 +118,7 @@ if(typeof(luga) === "undefined") {
 		};
 
 		// Execute all field validators. Returns an array of field validators that are in invalid state
-		// Returns array is empty if ther are no errors
+		// Returns array is empty if there are no errors
 		this.validate = function(event) {
 			self.init();
 			self.before();
@@ -797,6 +797,16 @@ if(typeof(luga) === "undefined") {
 				});
 			}
 		});
+	};
+
+	/* API */
+
+	luga.namespace("luga.validator.api");
+
+	luga.validator.api.validateForm = function(options) {
+		var formValidator = new luga.validator.FormValidator(options);
+		formValidator.validate(null);
+		return formValidator.isValid();
 	};
 
 	jQuery(document).ready(function () {
