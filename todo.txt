@@ -18,6 +18,8 @@ CSI:
 
 VALIDATOR:
 
+- Add JavaDocs to: SelectValidator, BaseGroupValidator, RadioValidator, CheckboxValidator
+
 - Add demoronizer option?
 - Test/demo HTML 5 fields
 

@@ -806,7 +806,6 @@ if(typeof(luga) === "undefined") {
 
 	/**
 	 * Allows to programmatically validate a form
-	 *
 	 */
 	luga.validator.api.validateForm = function(options) {
 		var formValidator = new luga.validator.FormValidator(options);
@@ -816,7 +815,6 @@ if(typeof(luga) === "undefined") {
 
 	/**
 	 * Allows to programmatically validate a field
-	 *
 	 */
 	luga.validator.api.validateField = function(options) {
 		if(!luga.validator.utils.isInputField(options.fieldNode)) {
