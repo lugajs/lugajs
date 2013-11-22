@@ -46,6 +46,13 @@ if(typeof(luga) === "undefined") {
 		return rootObject;
 	};
 
+	/**
+	 * Merge the contents of two objects together into the first object
+	 */
+	luga.merge = function(target, obj) {
+		jQuery.extend(target, obj);
+	};
+
 	/* Utilities */
 
 	luga.namespace("luga.utils");

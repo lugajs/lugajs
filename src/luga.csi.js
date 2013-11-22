@@ -71,7 +71,7 @@ if(typeof(luga) === "undefined") {
 			error: this.onError,
 			xhrTimeout: 5000
 		};
-		jQuery.extend(this.config, options);
+		luga.merge(this.config, options);
 	};
 
 	luga.csi.loadIncludes = function() {

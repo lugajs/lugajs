@@ -93,7 +93,7 @@ if(typeof(luga) === "undefined") {
 			before: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.BEFORE) || null,
 			after: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.AFTER) || null
 		};
-		jQuery.extend(this.config, options);
+		luga.merge(this.config, options);
 		var self = this;
 		self.validators = [];
 		self.dirtyValidators = [];
@@ -209,7 +209,7 @@ if(typeof(luga) === "undefined") {
 	 */
 	luga.validator.FieldValidatorGetInstance = function(options) {
 		this.config = {};
-		jQuery.extend(this.config, options);
+		luga.merge(this.config, options);
 		var self = this;
 		// Abort if the field isn't suitable to validation
 		if(!luga.validator.utils.isInputField(self.config.fieldNode)) {
@@ -260,7 +260,7 @@ if(typeof(luga) === "undefined") {
 			message: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MESSAGE) || "",
 			errorclass: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.ERROR_CLASS) || ""
 		};
-		jQuery.extend(this.config, options);
+		luga.merge(this.config, options);
 		this.node = jQuery(options.fieldNode);
 		this.message = this.config.message;
 
@@ -332,7 +332,7 @@ if(typeof(luga) === "undefined") {
 			maxdate: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MAX_DATE),
 			equalto: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.EQUAL_TO)
 		};
-		jQuery.extend(this.config, options);
+		luga.merge(this.config, options);
 		jQuery.extend(this, new luga.validator.BaseFieldValidator(this.config));
 		var self = this;
 		self.node = jQuery(options.fieldNode);
@@ -410,7 +410,7 @@ if(typeof(luga) === "undefined") {
 			invalidindex: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.INVALID_INDEX),
 			invalidvalue: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.INVALID_VALUE)
 		};
-		jQuery.extend(this.config, options);
+		luga.merge(this.config, options);
 		jQuery.extend(this, new luga.validator.BaseFieldValidator(this.config));
 		var self = this;
 		self.type = "select";
@@ -455,7 +455,7 @@ if(typeof(luga) === "undefined") {
 
 	luga.validator.BaseGroupValidator = function(options) {
 		this.config = {};
-		jQuery.extend(this.config, options);
+		luga.merge(this.config, options);
 		this.inputGroup = this.config.inputGroup;
 		this.name = jQuery(this.config.inputGroup).attr("name");
 		this.message = "";
@@ -513,7 +513,7 @@ if(typeof(luga) === "undefined") {
 
 	luga.validator.RadioValidator = function(options) {
 		this.config = {};
-		jQuery.extend(this.config, options);
+		luga.merge(this.config, options);
 		jQuery.extend(this, new luga.validator.BaseGroupValidator(this.config));
 		this.type = "radio";
 		var self = this;
@@ -551,7 +551,7 @@ if(typeof(luga) === "undefined") {
 
 	luga.validator.CheckboxValidator = function(options) {
 		this.config = {};
-		jQuery.extend(this.config, options);
+		luga.merge(this.config, options);
 		jQuery.extend(this, new luga.validator.BaseGroupValidator(this.config));
 		this.type = "checkbox";
 		this.minchecked = 0;

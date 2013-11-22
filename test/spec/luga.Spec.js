@@ -57,6 +57,18 @@ describe("luga", function() {
 
 	});
 
+	describe(".merge() is just a wrapper around jQuery.extend()", function() {
+
+		it("That merge the contents of two objects together into the first object", function() {
+			var config = {letter: "a", number: 1};
+			var params = {number: 2, symbol: "@"};
+			luga.merge(config, params);
+			console.info(config)
+			expect(config).toEqual({letter: "a", number: 2, symbol: "@"});
+		});
+
+	});
+
 });
 
 describe("luga.utils stores generic, utilities and static methods", function() {
