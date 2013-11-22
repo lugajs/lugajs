@@ -47,7 +47,15 @@ if(typeof(luga) === "undefined") {
 	};
 
 	/**
+	 * Offers a simple solution for inheritance among classes
+	 */
+	luga.extend = function(baseFunc, func, args) {
+		baseFunc.apply(func, args);
+	};
+
+	/**
 	 * Merge the contents of two objects together into the first object
+	 * It wraps jQuery's extend to make names less ambiguous
 	 */
 	luga.merge = function(target, obj) {
 		jQuery.extend(target, obj);

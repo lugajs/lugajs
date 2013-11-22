@@ -42,13 +42,23 @@ describe("luga.validator", function() {
 	});
 
 	describe(".BaseFieldValidator is an abstract class", function() {
-		it("Its isValid() method is abstract and can't be invoked", function() {
+		it("That can't be invoked directly", function() {
 			var textNode = jQuery('<input type="text" data-luga-required="true" disabled="disabled" data-luga-errorclass="invalid">');
-			var baseValidator = new luga.validator.BaseFieldValidator({
-				fieldNode: textNode
-			});
 			expect(function(){
-				baseValidator.isValid();
+				new luga.validator.BaseFieldValidator({
+					fieldNode: textNode
+				});
+			}).toThrow();
+		});
+	});
+
+	describe(".BaseGroupValidator is an abstract class", function() {
+		it("That can't be invoked directly", function() {
+			var boxNode = jQuery('<input type="checkbox">');
+			expect(function(){
+				new luga.validator.BaseGroupValidator({
+					fieldNode: boxNode
+				});
 			}).toThrow();
 		});
 	});

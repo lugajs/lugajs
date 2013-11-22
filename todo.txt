@@ -3,8 +3,6 @@ CORE:
 - Add basic info to readme file
   https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 
-- Create dedicated luga.extend(). This should allow real abstract classes (baseValidator)
-
 -  Complete layout and navigation in docs/samples
 -  Add documentation
 -  Add more samples

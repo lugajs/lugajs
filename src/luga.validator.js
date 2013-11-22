@@ -56,8 +56,8 @@ if(typeof(luga) === "undefined") {
 		MESSAGES: {
 			FORM_MISSING: "luga.validator was unable to load form",
 			MISSING_FUNCTION: "luga.validator was unable to find a function named: {0}",
-			FIELD_ABSTRACT_IS_VALID: "luga.validator.BaseFieldValidator.isValid() is an abstract method",
-			GROUP_ABSTRACT_IS_VALID: "luga.validator.BaseGroupValidator.isValid() is an abstract method",
+			BASE_VALIDATOR_ABSTRACT: "luga.validator.BaseFieldValidator is an abstract class",
+			GROUP_VALIDATOR_ABSTRACT: "luga.validator.BaseGroupValidator is an abstract class",
 			PATTERN_NOT_FOUND: "luga.validator failed to retrieve pattern: {0}",
 			INVALID_INDEX_NOT_NUMERIC: "data-luga-invalidindex accept only numbers",
 			MISSING_EQUAL_TO_FIELD: "data-luga-equalto was unable to find field with id = {0}"
@@ -256,6 +256,10 @@ if(typeof(luga) === "undefined") {
 	 */
 	luga.validator.BaseFieldValidator = function(options) {
 
+		if(this.constructor === luga.validator.BaseFieldValidator) {
+			throw(luga.validator.CONST.MESSAGES.BASE_VALIDATOR_ABSTRACT);
+		}
+
 		this.config = {
 			message: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MESSAGE) || "",
 			errorclass: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.ERROR_CLASS) || ""
@@ -266,7 +270,6 @@ if(typeof(luga) === "undefined") {
 
 		this.isValid = function() {
 			// Abstract method. Must return a boolean
-			throw(luga.validator.CONST.MESSAGES.FIELD_ABSTRACT_IS_VALID);
 		};
 
 		this.flagInvalid = function(){
@@ -320,6 +323,7 @@ if(typeof(luga) === "undefined") {
 
 	 */
 	luga.validator.TextValidator = function(options) {
+
 		this.config = {
 			required: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.REQUIRED),
 			pattern: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.PATTERN),
@@ -333,8 +337,9 @@ if(typeof(luga) === "undefined") {
 			equalto: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.EQUAL_TO)
 		};
 		luga.merge(this.config, options);
-		jQuery.extend(this, new luga.validator.BaseFieldValidator(this.config));
+		luga.extend(luga.validator.BaseFieldValidator, this, [this.config]);
 		var self = this;
+
 		self.node = jQuery(options.fieldNode);
 		self.type = "text";
 		self.name = "";
@@ -411,7 +416,7 @@ if(typeof(luga) === "undefined") {
 			invalidvalue: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.INVALID_VALUE)
 		};
 		luga.merge(this.config, options);
-		jQuery.extend(this, new luga.validator.BaseFieldValidator(this.config));
+		luga.extend(luga.validator.BaseFieldValidator, this, [this.config]);
 		var self = this;
 		self.type = "select";
 		self.node = jQuery(options.fieldNode);
@@ -454,6 +459,11 @@ if(typeof(luga) === "undefined") {
 	};
 
 	luga.validator.BaseGroupValidator = function(options) {
+
+		if(this.constructor === luga.validator.BaseFieldValidator) {
+			throw(luga.validator.CONST.MESSAGES.GROUP_VALIDATOR_ABSTRACT);
+		}
+
 		this.config = {};
 		luga.merge(this.config, options);
 		this.inputGroup = this.config.inputGroup;
@@ -474,7 +484,6 @@ if(typeof(luga) === "undefined") {
 
 		this.isValid = function() {
 			// Abstract method. Must return a boolean
-			throw(luga.validator.CONST.MESSAGES.GROUP_ABSTRACT_IS_VALID);
 		};
 
 		this.flagInvalid = function(){
@@ -514,7 +523,7 @@ if(typeof(luga) === "undefined") {
 	luga.validator.RadioValidator = function(options) {
 		this.config = {};
 		luga.merge(this.config, options);
-		jQuery.extend(this, new luga.validator.BaseGroupValidator(this.config));
+		luga.extend(luga.validator.BaseGroupValidator, this, [this.config]);
 		this.type = "radio";
 		var self = this;
 
@@ -552,7 +561,7 @@ if(typeof(luga) === "undefined") {
 	luga.validator.CheckboxValidator = function(options) {
 		this.config = {};
 		luga.merge(this.config, options);
-		jQuery.extend(this, new luga.validator.BaseGroupValidator(this.config));
+		luga.extend(luga.validator.BaseGroupValidator, this, [this.config]);
 		this.type = "checkbox";
 		this.minchecked = 0;
 		this.maxchecked = this.config.inputGroup.length;

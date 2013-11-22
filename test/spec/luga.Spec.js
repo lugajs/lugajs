@@ -57,9 +57,37 @@ describe("luga", function() {
 
 	});
 
-	describe(".merge() is just a wrapper around jQuery.extend()", function() {
+	describe(".extend()", function() {
 
-		it("That merge the contents of two objects together into the first object", function() {
+		it("Offers a simple solution for inheritance among classes", function() {
+
+			/* Class Person. */
+			function Person(gender) {
+				this.gender = gender;
+				this.getGender = function() {
+					return this.gender;
+				};
+			}
+			/* Class Superstar */
+			function Superstar(gender, name) {
+				luga.extend(Person, this, arguments);
+				this.gender = gender;
+				this.name = name;
+				this.getName = function() {
+					return this.name;
+				};
+			}
+			var nicole = new Superstar("female", "Nicole Kidman");
+
+			expect(nicole.getGender()).toEqual("female");
+			expect(nicole.getName()).toEqual("Nicole Kidman")
+		});
+
+	});
+
+	describe(".merge()", function() {
+
+		it("Merges the contents of two objects together into the first object", function() {
 			var config = {letter: "a", number: 1};
 			var params = {number: 2, symbol: "@"};
 			luga.merge(config, params);
