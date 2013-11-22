@@ -22,9 +22,6 @@ VALIDATOR:
 - Test/demo HTML 5 fields
 
 - API
-  More tests for luga.validator.api.validateForm(). Like:
-  luga.validator.api.validateForm({formNode: jQuery("form"), error: "luga.utils.errorAlert"})
-
   validateFields(fields[], [errorHandler]) return boolean
   validateField(field, [errorHandler]) return boolean
 
