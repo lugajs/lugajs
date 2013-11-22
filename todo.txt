@@ -23,7 +23,6 @@ VALIDATOR:
 
 - API
   validateFields(fields[], [errorHandler]) return boolean
-  validateField(field, [errorHandler]) return boolean
 
 - Add docs and samples
 - Review/add JavaDocs

@@ -58,6 +58,7 @@ if(typeof(luga) === "undefined") {
 			MISSING_FUNCTION: "luga.validator was unable to find a function named: {0}",
 			BASE_VALIDATOR_ABSTRACT: "luga.validator.BaseFieldValidator is an abstract class",
 			GROUP_VALIDATOR_ABSTRACT: "luga.validator.BaseGroupValidator is an abstract class",
+			FIELD_CANT_BE_VALIDATED: "This field can't be validated",
 			PATTERN_NOT_FOUND: "luga.validator failed to retrieve pattern: {0}",
 			INVALID_INDEX_NOT_NUMERIC: "data-luga-invalidindex accept only numbers",
 			MISSING_EQUAL_TO_FIELD: "data-luga-equalto was unable to find field with id = {0}"
@@ -803,10 +804,27 @@ if(typeof(luga) === "undefined") {
 
 	luga.namespace("luga.validator.api");
 
+	/**
+	 * Allows to programmatically validate a form
+	 *
+	 */
 	luga.validator.api.validateForm = function(options) {
 		var formValidator = new luga.validator.FormValidator(options);
 		formValidator.validate(null);
 		return formValidator.isValid();
+	};
+
+	/**
+	 * Allows to programmatically validate a field
+	 *
+	 */
+	luga.validator.api.validateField = function(options) {
+		if(!luga.validator.utils.isInputField(options.fieldNode)) {
+			throw(luga.validator.CONST.MESSAGES.FIELD_CANT_BE_VALIDATED);
+		}
+		var fieldValidator = new luga.validator.FieldValidatorGetInstance(options);
+		fieldValidator.validate(null);
+		return fieldValidator.isValid();
 	};
 
 	jQuery(document).ready(function () {
