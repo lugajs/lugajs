@@ -80,12 +80,19 @@ describe("luga.utils stores generic, utilities and static methods", function() {
 		expect(luga.utils).toBeDefined();
 	});
 
-	describe(".formatString()", function() {
-		it("Given a string containing placeholders, assembles a new string", function() {
-			expect(luga.utils.formatString("My name is {0} {1}", ["Ciccio", "Pasticcio"])).toEqual("My name is Ciccio Pasticcio");
-			expect(luga.utils.formatString("This {0} is just a {0}", ["test"])).toEqual("This test is just a test");
-			expect(luga.utils.formatString("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"})).toEqual("My name is Ciccio Pasticcio");
-			expect(luga.utils.formatString("This {str} is just a {str}", { str:"test"} )).toEqual("This test is just a test");
+	describe(".formatString() Given a string containing placeholders, assembles a new string replacing the placeholders with the strings contained inside the second argument", function() {
+
+		describe("The second argument can be either:", function() {
+
+			it("An array", function() {
+				expect(luga.utils.formatString("My name is {0} {1}", ["Ciccio", "Pasticcio"])).toEqual("My name is Ciccio Pasticcio");
+				expect(luga.utils.formatString("This {0} is just a {0}", ["test"])).toEqual("This test is just a test");
+			});
+			it("An object", function() {
+				expect(luga.utils.formatString("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"})).toEqual("My name is Ciccio Pasticcio");
+				expect(luga.utils.formatString("This {str} is just a {str}", { str:"test"} )).toEqual("This test is just a test");
+			});
+
 		});
 	});
 

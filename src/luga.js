@@ -75,7 +75,7 @@ if(typeof(luga) === "undefined") {
 
 	/**
 	 * Given a string containing placeholders, it assembles a new string
-	 * replacing the placeholders with the strings contained inside the second argument
+	 * replacing the placeholders with the strings contained inside the second argument (either an object or an array)
 	 * Loosely based on the .NET implementation: http://msdn.microsoft.com/en-us/library/system.string.format.aspx
 	 *
 	 * Example passing strings inside an array:
