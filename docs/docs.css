@@ -38,7 +38,7 @@ body nav.main {
 	margin-bottom: 3em;
 	margin-left: 15em;
 	padding: 0;
-	width: 50.3em;
+	width: 50.27em;
 }
 
 nav.main:after {
@@ -211,6 +211,19 @@ table.syntax td + td {
 	background: #FCFCFC;
 	font-weight: normal;
 	white-space: normal;
+}
+
+table.syntax td p {
+	margin-top: 0;
+}
+
+ul.list {
+	margin-top: 1.5em;
+}
+
+ul.list li {
+	list-style: disc inside none;
+	padding-bottom: 0.5em;
 }
 
 /* Code listings */

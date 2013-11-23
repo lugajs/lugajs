@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta charset="utf-8" />
-	<title>Luga Validator :: Errorbox handler</title>
+	<title>Luga Validator :: Generic form</title>
 	<link rel="stylesheet" href="../../../src/luga.css" />
 	<link rel="stylesheet" href="../../docs.css" />
 	<script src="../../../lib/jquery/jquery.min.js"></script>
@@ -13,14 +13,13 @@
 </head>
 <body>
 
-
 <div data-luga-csi="../../main-nav.inc"></div>
 <div data-luga-csi="../sidebar.inc"></div>
 
 <div class="content">
 
-	<form data-luga-validate="true" data-luga-error="luga.validationHandlers.errorBox">
-		<h1>Better UI for validation</h1>
+	<form data-luga-validate="true">
+		<h1>Complete Form</h1>
 		<table>
 			<tr>
 				<td><label for="age">Age (required, positive integer, min 18, max 75)</label></td>
@@ -58,7 +57,7 @@
 					You would like to take a drink with? (You can pick only one, sorry):
 				</td>
 				<td class="boxes">
-					<label><input type="radio" name="lady" data-luga-required="true" value="Nicole Kidman" id="Nicole" data-luga-errorclass="invalid" data-luga-message="Please select a Lady"/>Nicole Kidman</label>
+					<label><input type="radio" name="lady" data-luga-required="true" value="Nicole Kidman" id="Nicole" data-luga-errorclass="invalid" data-luga-message="Select a Lady"/>Nicole Kidman</label>
 					<label><input type="radio" name="lady" value="Kate Beckinsale"/>Kate Beckinsale</label>
 					<label><input type="radio" name="lady" value="Jennifer Connelly"/>Jennifer Connelly</label>
 					<label><input type="radio" name="lady" value="Liz Hurley"/>Liz Hurley</label>
@@ -70,32 +69,6 @@
 			</tr>
 		</table>
 	</form>
-
-	<section>
-		<h1>Use luga.validationHandlers.errorBox as error handler</h1>
-		<p>By default the validator uses JavaScript alert boxes to display errors to the user. If we want to display errors in a more user friendly way, use "luga.validationHandlers.errorBox" as error handler</p>
-		<p>If you need more flexibility, you can create a custom handler.</p>
-		<p>Styling and formatting for error box are specified inside an <a href="../../../src/luga.css">external CSS file</a>. You can tweak and modify it to suit your needs.</p>
-	</section>
-
-	<code>
-		<ol>
-			<li>&lt;form data-luga-validate="true" data-luga-error="luga.validationHandlers.errorBox"&gt;</li>
-		</ol>
-	</code>
-
-	<section>
-		<h1>Override default error handler</h1>
-		<p>The value for the default error handler is stored inside luga.validator.CONST.HANDLERS.FORM_ERROR. You can override it with something that fits your needs</p>
-	</section>
-
-	<code>
-		<ol>
-			<li>&lt;script&gt;</li>
-			<li>	luga.validator.CONST.HANDLERS.FORM_ERROR = "luga.validationHandlers.errorBox";</li>
-			<li>&lt;/script&gt;</li>
-		</ol>
-	</code>
 
 </div>
 

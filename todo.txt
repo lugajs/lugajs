@@ -21,7 +21,8 @@ VALIDATOR:
   validateChildFields()
   They need luga.validator.utils.getChildFields(rootNode)
 
-- Add docs and samples
+- Complete syntax reference
+- Add more docs and samples
 - Review/add JavaDocs
 
 -------------

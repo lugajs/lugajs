@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>Luga Validator :: Syntax reference</title>
+	<link rel="stylesheet" href="../../../src/luga.css" />
+	<link rel="stylesheet" href="../../docs.css" />
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../src/luga.js"></script>
+	<script src="../../../src/luga.csi.js"></script>
+	<script src="../../docs.js"></script>
+</head>
+<body>
+
+	<div data-luga-csi="../../main-nav.inc"></div>
+	<div data-luga-csi="../sidebar.inc"></div>
+
+	<div class="content">
+
+		<section>
+			<h1>Syntax reference</h1>
+			<p>The complete syntax reference for HTML5 custom data attributes is included below</p>
+		</section>
+
+		<table class="syntax">
+			<th colspan="2">The &lt;form&gt; tag</th>
+			<tr>
+				<td>data-luga-validate</td>
+				<td>
+					Required. This attribute is required in order to enable validation on the current form
+				</td>
+			</tr>
+			<tr>
+				<td>data-luga-blocksubmit</td>
+				<td>
+					<p>
+					Optional (default to true). By default submit buttons are disabled after the form is submitted.
+					This prevents multiple submits but also prevents the value of the submit buttons from being passed as part of the HTTP request.
+					Set this attribute to false to keep the submit buttons enabled.
+					</p>
+					<p>
+					If you expect your users to be able to use the "back" button and resubmit the form, you will need to set data-luga-blocksubmit="false" or take other steps to re-enable the submit buttons when returning to the form
+					</p>
+				</td>
+			</tr>
+		</table>
+
+	</div>
+
+</body>
+</html>
