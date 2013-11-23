@@ -26,6 +26,7 @@ if(typeof(luga) === "undefined") {
 	luga.csi.CONST = {
 		NODE_SELECTOR: "section[data-luga-csi]",
 		URL_ATTRIBUTE: "data-luga-csi",
+		AFTER_ATTRIBUTE: "data-luga-after",
 		MESSAGES: {
 			FILE_NOT_FOUND: "luga.csi failed to retrieve text from: {0}"
 		}
@@ -36,9 +37,10 @@ if(typeof(luga) === "undefined") {
 	 *
 	 * @param options.rootNode:          Root node for widget (DOM reference). Required
 	 * @param options.url:               Url to be included. Optional. Default to the value of the "data-luga-csi" attribute inside rootNode
-	 * @param options.success:           Callback invoked once the url is successfully fetched. Optional, default to the internal "onSuccess" method
-	 * @param options.error:             Callback invoked if the url request fails. Optional, default to the internal "onError" method
-	 * @param options.context            Context to be used for success and error callbacks. Optional
+	 * @param options.success:           Function that will be invoked once the url is successfully fetched. Optional, default to the internal "onSuccess" method
+	 * @param options.after  :           Function that will be invoked once the include is successfully performed.
+	 *                                   It will be called with the handler(rootNode, url, response) signature. Optional, it can be set using the "data-luga-after" attribute
+	 * @param options.error:             Function that will be invoked if the url request fails. Optional, default to the internal "onError" method
 	 * @param options.xhrTimeout:        Timeout for XHR call. Optional
 	 */
 	luga.csi.Include = function(options) {
@@ -49,16 +51,20 @@ if(typeof(luga) === "undefined") {
 				url: self.config.url,
 				timeout: self.config.XHR_TIMEOUT,
 				success: function (response, textStatus, jqXHR) {
-					self.config.success.apply(self.config.context, [response, textStatus, jqXHR]);
+					self.config.success.apply(null, [response, textStatus, jqXHR]);
+					var afterHandler = luga.utils.stringToFunction(self.config.after);
+					if(afterHandler) {
+						afterHandler.apply(null, [self.config.rootNode, self.config.url, response]);
+					}
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
-					self.config.error.apply(self.config.context, [jqXHR, textStatus, errorThrown]);
+					self.config.error.apply(null, [jqXHR, textStatus, errorThrown]);
 				}
 			});
 		};
 
 		this.onSuccess = function(response, textStatus, jqXHR) {
-			jQuery(options.rootNode).replaceWith(response);
+			jQuery(self.config.rootNode).replaceWith(response);
 		};
 
 		this.onError = function(qXHR, textStatus, errorThrown) {
@@ -67,6 +73,7 @@ if(typeof(luga) === "undefined") {
 
 		this.config = {
 			url: jQuery(options.rootNode).attr(luga.csi.CONST.URL_ATTRIBUTE),
+			after: jQuery(options.rootNode).attr(luga.csi.CONST.AFTER_ATTRIBUTE),
 			success: this.onSuccess,
 			error: this.onError,
 			xhrTimeout: 5000
