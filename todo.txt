@@ -7,6 +7,8 @@ CORE:
 -  Add documentation
 -  Add more samples
 
+- Add luga.utils.demoronizeString()
+
 -------------
 
 CSI:
@@ -18,12 +20,13 @@ CSI:
 
 VALIDATOR:
 
-- Add demoronizer option?
+- Add auto-demoronize option?
 - Test/demo HTML 5 fields
 
 - API
   validateFields(fields[], [errorHandler]) return boolean
   validateChildFields()
+  They need luga.validator.utils.getChildFields(rootNode)
 
 - Add docs and samples
 - Review/add JavaDocs
