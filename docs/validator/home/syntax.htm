@@ -23,11 +23,31 @@
 		</section>
 
 		<table class="syntax">
-			<th colspan="2">The &lt;form&gt; tag</th>
+			<th colspan="2">Form tag</th>
 			<tr>
 				<td>data-luga-validate</td>
 				<td>
 					Required. This attribute is required in order to enable validation on the current form
+				</td>
+			</tr>
+			<tr>
+				<td>data-luga-error</td>
+				<td>
+					<p>Optional. Function that will be invoked to handle/display validation messages</p>
+					<p>Default to luga.validator.errorAlert (display plain alert messages)</p>
+					<p>A more sophisticated handler is also <a href="../samples/handlers-errorbox.htm">available</a></p>
+				</td>
+			</tr>
+			<tr>
+				<td>data-luga-before</td>
+				<td>
+					Optional. Function that will be invoked before validation is performed. <a href="../samples/handlers-custom.htm">See sample</a>
+				</td>
+			</tr>
+			<tr>
+				<td>data-luga-after</td>
+				<td>
+					Optional. Function that will be invoked after the form is successfully validated. <a href="../samples/handlers-custom.htm">See sample</a>
 				</td>
 			</tr>
 			<tr>
@@ -36,11 +56,219 @@
 					<p>
 					Optional (default to true). By default submit buttons are disabled after the form is submitted.
 					This prevents multiple submits but also prevents the value of the submit buttons from being passed as part of the HTTP request.
-					Set this attribute to false to keep the submit buttons enabled.
+					Set this attribute to false to keep the submit buttons enabled
 					</p>
 					<p>
 					If you expect your users to be able to use the "back" button and resubmit the form, you will need to set data-luga-blocksubmit="false" or take other steps to re-enable the submit buttons when returning to the form
 					</p>
+				</td>
+			</tr>
+		</table>
+
+		<table class="syntax">
+			<th colspan="2">Text fields and textarea tags</th>
+			<tr>
+				<td>data-luga-required</td>
+				<td>
+					<p>The single most important attributes, set it to true to flag the field as required</p>
+					<p>In case you need conditional validation, set it to the name of a custom function</p>
+				</td>
+			</tr>
+			<tr>
+				<td>data-luga-message</td>
+				<td>
+					Optional. The error message associated with the field
+				</td>
+			</tr>
+			<tr>
+				<td>data-luga-errorclass</td>
+				<td>
+					Optional. CSS class that will be applied to the field if invalid
+				</td>
+			</tr>
+			<tr>
+				<td>data-luga-pattern</td>
+				<td>
+					<p>Optional. Validation pattern to be applied, either built-in or custom. There are 9 generic built-in patterns:</p>
+					<ul class="list">
+						<li>lettersonly</li>
+						<li>alphanumeric</li>
+						<li>integer</li>
+						<li>positiveinteger</li>
+						<li>number</li>
+						<li>filepath_pdf</li>
+						<li>filepath_jpg</li>
+						<li>filepath_zip</li>
+						<li>filepath</li>
+					</ul>
+					<p>Custom patterns can be added too</p>
+				</td>
+			</tr>
+			<tr>
+				<td>data-luga-minlength</td>
+				<td>
+					Optional. Enforce a minimum text length
+				</td>
+			</tr>
+			<tr>
+				<td>data-luga-maxlength</td>
+				<td>
+					Optional. Enforce a maximum text length
+				</td>
+			</tr>
+
+			<tr>
+				<td>data-luga-minnumber</td>
+				<td>
+					Optional. Enforce a minimum numeric value
+				</td>
+			</tr>
+			<tr>
+				<td>data-luga-maxnumber</td>
+				<td>
+					Optional. Enforce a maximum numeric value
+				</td>
+			</tr>
+
+			<tr>
+				<td>data-luga-datepattern</td>
+				<td>
+					<p>Optional. Date format pattern to be applied, either built-in or custom. There are 14 built-in date patterns:</p>
+					<ul class="list">
+						<li>YYYY-MM-DD</li>
+						<li>YYYY-M-D</li>
+						<li>MM.DD.YYYY</li>
+						<li>M.D.YYYY</li>
+						<li>MM/DD/YYYY</li>
+						<li>M/D/YYYY</li>
+						<li>MM-DD-YYYY</li>
+						<li>M-D-YYYY</li>
+						<li>DD.MM.YYYY</li>
+						<li>D.M.YYYY</li>
+						<li>DD/MM/YYYY</li>
+						<li>D/M/YYYY</li>
+						<li>DD-MM-YYYY</li>
+						<li>D-M-YYYY</li>
+					</ul>
+					<p>Custom date patterns can be added too</p>
+				</td>
+			</tr>
+
+			<tr>
+				<td>data-luga-mindate</td>
+				<td>
+					<p>Optional. Enforce a minimum date</p>
+					<p>If no data-luga-datepattern is specified, default pattern (YYYY-MM-DD) will be used to parse and compare dates</p>
+				</td>
+			</tr>
+			<tr>
+				<td>data-luga-maxdate</td>
+				<td>
+					<p>Optional. Enforce a maximum date</p>
+					<p>If no data-luga-datepattern is specified, default pattern (YYYY-MM-DD) will be used to parse and compare dates</p>
+				</td>
+			</tr>
+			<tr>
+				<td>data-luga-equalto</td>
+				<td>
+					<p>Optional. Id of another field who's values will be compared for equality</p>
+
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					Text fields can also trigger custom validation
+				</td>
+			</tr>
+		</table>
+
+		<table class="syntax">
+			<th colspan="2">Checkboxes</th>
+			<tr>
+				<td>data-luga-minchecked</td>
+				<td>
+					Specify a minimum  number of boxes that can be checked in a group. Set it to 1 to allow only one choice
+				</td>
+			</tr>
+			<tr>
+				<td>data-luga-maxchecked</td>
+				<td>
+					Specify a maximum number of boxes that can be checked within a group
+				</td>
+			</tr>
+			<tr>
+				<td>data-luga-message</td>
+				<td>
+					Optional. The error message associated with the field
+				</td>
+			</tr>
+			<tr>
+				<td>data-luga-errorclass</td>
+				<td>
+					Optional. CSS class that will be applied to the field if invalid
+				</td>
+			</tr>
+		</table>
+
+		<table class="syntax">
+			<th colspan="2">Radio buttons</th>
+			<tr>
+				<td>data-luga-required</td>
+				<td>
+					Set it to true to flag group of buttons as required
+				</td>
+			</tr>
+			<tr>
+				<td>data-luga-message</td>
+				<td>
+					Optional. The error message associated with the field
+				</td>
+			</tr>
+			<tr>
+				<td>data-luga-errorclass</td>
+				<td>
+					Optional. CSS class that will be applied to the field if invalid
+				</td>
+			</tr>
+		</table>
+
+		<table class="syntax">
+			<th colspan="2">Select tags</th>
+			<tr>
+				<td>data-luga-invalidindex</td>
+				<td>
+					Optional. Prevents selection of an entry on a given position (zero based)
+				</td>
+			</tr>
+			<tr>
+				<td>data-luga-invalidvalue</td>
+				<td>
+					Optional. Prevents selection of an entry with a given value
+				</td>
+			</tr>
+			<tr>
+				<td>data-luga-message</td>
+				<td>
+					Optional. The error message associated with the field
+				</td>
+			</tr>
+			<tr>
+				<td>data-luga-errorclass</td>
+				<td>
+					Optional. CSS class that will be applied to the field if invalid
+				</td>
+			</tr>
+		</table>
+
+		<table class="syntax">
+			<th colspan="2">Submit buttons</th>
+			<tr>
+				<td>data-luga-disabledlabel</td>
+				<td>
+					<p>Optional. Display this string as the button's label during form processing, after successful validation</p>
+					<p>Large forms, especially the ones with file upload, can require some processing time, during this process it's better to avoid multiple submits from the user.
+						That's why the validator automatically disables all the submit buttons after a form successfully passes the validation process</p>
 				</td>
 			</tr>
 		</table>

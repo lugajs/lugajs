@@ -222,6 +222,7 @@ table.syntax td p {
 }
 
 ul.list {
+	margin-bottom: 1em;
 	margin-top: 1.5em;
 }
 
