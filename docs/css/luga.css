@@ -65,15 +65,26 @@ input[data-luga-required="true"] {
 	background-repeat: no-repeat;
 }
 
+div.luga_message,
 div.luga_error_message {
-	background-color: #FFE813;
-	border: 0.2em #BB0000 solid;
 	border-radius: 0.4em;
 	box-shadow: rgba(0, 0, 0, .25) 0.15em 0.15em 0.15em;
 	margin-bottom: 3em;
 	max-width: 70em;
 	min-width: 40em;
 	padding: 1em 2em;
+}
+
+div.luga_message {
+	background-color: #FFFFFF;
+	border: 0.1em solid #7C93BA;
+	color: #3362B4;
+}
+
+div.luga_error_message {
+	background-color: #FFE813;
+	border: 0.1em #BB0000 solid;
+	color: #333333;
 }
 
 div.luga_error_message em {
