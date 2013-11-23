@@ -248,7 +248,7 @@ code ol {
 	background: linear-gradient(to right, #DDDDDD 0%, #DDDDDD 2.2em, #FFFFFF 1em, #FFFFFF 1em);
 	border: 0.1em solid #333333;
 	border-radius: 0.4em;
-	padding: 0.5em 2.5em;
+	padding: 0.5em 0 0.5em 2.5em;
 }
 
 code ol + ol {
