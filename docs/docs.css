@@ -228,7 +228,8 @@ ul.list {
 }
 
 ul.list li {
-	list-style: disc inside none;
+	list-style: disc outside none;
+	margin-left: 1em;
 	padding-bottom: 0.5em;
 }
 
