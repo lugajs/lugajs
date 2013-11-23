@@ -123,6 +123,7 @@ nav.local li a,
 nav.local li a:link,
 nav.local li a:active,
 nav.local li a:visited {
+	background-color: #FFFFFF;
 	color: #3362B4;
 	display: block;
 	padding: 0.2em 0.4em;
