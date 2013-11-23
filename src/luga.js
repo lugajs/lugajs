@@ -193,10 +193,12 @@ if(typeof(luga) === "undefined") {
 
 	/* Validation handlers */
 
+	luga.namespace("luga.validationHandlers");
+
 	/**
 	 * Display error messages inside alert
 	 */
-	luga.utils.errorAlert = function(formNode, validators) {
+	luga.validationHandlers.errorAlert = function(formNode, validators) {
 		var errorMsg = "";
 		var focusGiven = false;
 		for(var i=0; i<validators.length; i++) {
@@ -216,7 +218,7 @@ if(typeof(luga) === "undefined") {
 	/**
 	 * Display errors inside a box above the form
 	 */
-	luga.utils.errorBox = function(formNode, validators) {
+	luga.validationHandlers.errorBox = function(formNode, validators) {
 		// Clean-up any existing box
 		if(validators.length === 0) {
 			removeDisplayBox(formNode);

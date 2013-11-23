@@ -70,7 +70,7 @@ if(typeof(luga) === "undefined") {
 			submit: true
 		},
 		HANDLERS: {
-			FORM_ERROR: luga.utils.errorAlert
+			FORM_ERROR: luga.validationHandlers.errorAlert
 		}
 	};
 
