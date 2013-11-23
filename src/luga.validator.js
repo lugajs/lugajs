@@ -311,11 +311,11 @@ if(typeof(luga) === "undefined") {
 	 *                                    Can also be set using the "data-luga-required" attribute. Optional
 	 * @param options.pattern:            Validation pattern to be applied, either built-in or custom.
 	 *                                    Can also be set using the "data-luga-pattern" attribute. Optional
-	 * @param options.minlength:          Enforce a minimum length. Can also be set using the "data-luga-minlength" attribute. Optional
-	 * @param options.maxlength:          Enforce a maximum length. Can also be set using the "data-luga-maxlength" attribute. Optional
+	 * @param options.minlength:          Enforce a minimum text length. Can also be set using the "data-luga-minlength" attribute. Optional
+	 * @param options.maxlength:          Enforce a maximum text length. Can also be set using the "data-luga-maxlength" attribute. Optional
 	 * @param options.minnumber:          Enforce a minimum numeric value. Can also be set using the "data-luga-minnumber" attribute. Optional
 	 * @param options.maxnumber:          Enforce a maximum numeric value. Can also be set using the "data-luga-maxnumber" attribute. Optional
-	 * @param options.datepattern:        Date format pattern to be applied, either built-in or custom.. Can also be set using the "data-luga-datepattern" attribute. Optional
+	 * @param options.datepattern:        Date format pattern to be applied, either built-in or custom. Can also be set using the "data-luga-datepattern" attribute. Optional
 	 * @param options.mindate:            Enforce a minimum date. Can also be set using the "data-luga-mindate" attribute. Optional
 	 * @param options.maxdate:            Enforce a maximum date. Can also be set using the "data-luga-maxdate" attribute. Optional
 	 * @param options.equalto:            Id of another field who's values will be compared for equality. Can also be set using the "data-luga-equalto" attribute. Optional
