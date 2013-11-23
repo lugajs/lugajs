@@ -86,6 +86,11 @@ nav.main li a:hover {
 	font-style: italic;
 }
 
+nav.main li a.current {
+	background: #7C93BA;
+	color: #FFFFFF;
+}
+
 nav.local {
 	background: #FFFFFF;
 	border: 0.1em;
