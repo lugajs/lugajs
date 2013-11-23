@@ -10,30 +10,6 @@ describe("luga", function() {
 		expect(luga).toBeDefined();
 	});
 
-	it("Uses jQuery.extend() as simple/crude inheritance solution", function() {
-
-		/* Class Person. */
-		function Person(gender) {
-			this.gender = gender;
-			this.getGender = function() {
-				return this.gender;
-			};
-		}
-		/* Class Superstar */
-		function Superstar(gender, name) {
-			jQuery.extend(this, new Person());
-			this.gender = gender;
-			this.name = name;
-			this.getName = function() {
-				return this.name;
-			};
-		}
-		var nicole = new Superstar("female", "Nicole Kidman");
-
-		expect(nicole.getGender()).toEqual("female");
-		expect(nicole.getName()).toEqual("Nicole Kidman");
-	});
-
 	describe(".namespace()", function() {
 
 		it("Does not override existing namespaces", function() {
