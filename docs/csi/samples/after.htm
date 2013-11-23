@@ -2,20 +2,46 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta charset="utf-8" />
-	<title>Luga CSI :: Sample</title>
-	<link rel="stylesheet" href="../../css/validator.css" />
+	<title>Luga CSI :: data-luga-after sample</title>
+	<link rel="stylesheet" href="../../css/luga.css" />
 	<link rel="stylesheet" href="../../css/docs.css" />
 	<script src="../../../lib/jquery/jquery.min.js"></script>
 	<script src="../../../src/luga.js"></script>
 	<script src="../../../src/luga.csi.js"></script>
 	<script>
 		function afterDemo(rootNode, url, response) {
-			alert("CSI performed successfully");
+			luga.utils.displayMessage(rootNode, "CSI performed successfully. After handler executed as expected");
 		}
 	</script>
 </head>
 <body>
-	<section data-luga-csi="../../main-nav.inc"></section>
-	<section data-luga-csi="include1.inc" data-luga-after="afterDemo"></section>
+	<div data-luga-csi="../../main-nav.inc"></div>
+	<div data-luga-csi="../sidebar.inc"></div>
+
+	<div class="content">
+		<div data-luga-csi="include1.inc" data-luga-after="afterDemo"></div>
+
+		<section>
+			<h1>The "data-luga-after" attribute</h1>
+			<p>This attribute allows to specify a function that will be invoked once the include is successfully performed.</p>
+			<code>
+				<ol>
+					<li>&lt;div data-luga-csi="include1.inc" data-luga-after="afterDemo"&gt;&lt;/div&gt;</li>
+				</ol>
+			</code>
+			<p>luga.csi will pass three parameters: func(rootNode, url, response)</p>
+			<code>
+				<ol>
+					<li>&lt;script&gt;</li>
+					<li>function afterDemo(rootNode, url, response) {</li>
+					<li>	luga.utils.displayMessage(rootNode, "CSI performed successfully. After handler executed as expected");</li>
+					<li>}</li>
+					<li>&lt;/script&gt;</li>
+				</ol>
+			</code>
+		</section>
+
+	</div>
+
 </body>
 </html>

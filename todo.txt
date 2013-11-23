@@ -3,17 +3,11 @@ CORE:
 - Add basic info to readme file
   https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 
--  Complete layout and navigation in docs/samples
--  Add documentation
--  Add more samples
+- Add license and support info (footer?)
 
 - Add luga.utils.demoronizeString()
 
--------------
-
-CSI:
-
-- Add docs
+- Add after handler for top navigation
 
 -------------
 
@@ -33,3 +27,5 @@ VALIDATOR:
 -------------
 
 DATASET:
+
+- Start super basic

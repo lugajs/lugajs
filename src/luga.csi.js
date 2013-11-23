@@ -24,7 +24,7 @@ if(typeof(luga) === "undefined") {
 	luga.namespace("luga.csi");
 
 	luga.csi.CONST = {
-		NODE_SELECTOR: "section[data-luga-csi]",
+		NODE_SELECTOR: "div[data-luga-csi]",
 		URL_ATTRIBUTE: "data-luga-csi",
 		AFTER_ATTRIBUTE: "data-luga-after",
 		MESSAGES: {
@@ -64,7 +64,7 @@ if(typeof(luga) === "undefined") {
 		};
 
 		this.onSuccess = function(response, textStatus, jqXHR) {
-			jQuery(self.config.rootNode).replaceWith(response);
+			jQuery(self.config.rootNode).html(response);
 		};
 
 		this.onError = function(qXHR, textStatus, errorThrown) {

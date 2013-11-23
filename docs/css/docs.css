@@ -29,6 +29,116 @@ td {
 	vertical-align: top;
 }
 
+/* Navigation */
+
+body nav.main {
+	background: #FFFFFF;
+	font-size: 1.2em;
+	font-weight: 700;
+	margin-bottom: 3em;
+	padding: 0;
+	width: 50.3em;
+}
+
+nav.main:after {
+	clear: both;
+	content: " ";
+	display: block;
+	font-size: 0;
+	height: 0;
+	visibility: hidden;
+}
+
+nav.main li a:before {
+	content: ":: ";
+}
+
+nav.main li a:after {
+	content: " ::";
+}
+
+nav.main li {
+	float: left;
+	width: 10em;
+}
+
+nav.main li + li {
+	border-left: 1px solid #3362B4;
+}
+
+nav.main li a,
+nav.main li a:link,
+nav.main li a:active,
+nav.main li a:visited {
+	color: #3362B4;
+	display: block;
+	padding: 0.6em 1em;
+	outline: none;
+	text-decoration: none;
+	text-shadow: rgba(0, 0, 0, .1) 0.1em 0.1em 0.1em;
+}
+
+nav.main li a:hover {
+	background: #7C93BA;
+	color: #FFFFFF;
+	font-style: italic;
+}
+
+nav.local {
+	background: #FFFFFF;
+	border: 0.1em;
+	border-bottom: 1em;
+	border-color: #7C93BA;
+	border-radius: 0.4em;
+	border-style: solid;
+	float: left;
+	margin-right: 2em;
+	padding: 0;
+	width: 16em;
+}
+
+nav.local h2 {
+	background: #7C93BA;
+	color: #FFFFFF;
+	font-size: 1.1em;
+	font-weight: 700;
+	margin: 0;
+	padding: 0.3em 3em;
+	text-align: center;
+	text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.1);
+}
+
+nav.local li {
+	background-color: #FFFFFF;
+	padding: 0.3em;
+}
+
+nav.local li + li {
+	border-top: 0.1em solid #7C93BA;
+}
+
+nav.local li a,
+nav.local li a:link,
+nav.local li a:active,
+nav.local li a:visited {
+	color: #3362B4;
+	display: block;
+	padding: 0.2em 0.4em;
+	outline: none;
+	text-decoration: none;
+	text-shadow: rgba(0, 0, 0, .1) 0.1em 0.1em 0.1em;
+}
+
+nav.local li a:hover {
+	font-style: italic;
+}
+
+nav.local li a:before {
+	content: ":: ";
+}
+
+/* Content */
+
 form,
 nav,
 section,
@@ -43,11 +153,12 @@ h1 {
 form,
 section {
 	max-width: 70em;
-	min-width: 40em;
+	min-width: 50em;
 }
-
-code + section {
-	margin-top: 2.8em;
+code,
+table.syntax {
+	max-width: 74.5em;
+	min-width: 54em;
 }
 
 section p {
@@ -68,14 +179,50 @@ form h1 {
 	width: 50%;
 }
 
+div.content {
+	margin-left: 18em;
+}
+
+table.syntax {
+	background: #7C93BA;
+	border-radius: 0.4em;
+	box-shadow: rgba(0, 0, 0, .25) 0.15em 0.15em 0.15em;
+	margin-bottom: 2.8em;
+}
+
+table.syntax th {
+	color: #FFFFFF;
+	font-size: 1.1em;
+	font-weight: 700;
+	padding: 0.8em;
+	text-align: left;
+}
+
+table.syntax td {
+	background: #EBEBEB;
+	color: #494949;
+	font-weight: 600;
+	padding: 0.8em;
+	white-space: nowrap;
+}
+
+table.syntax td + td {
+	background: #FCFCFC;
+	font-weight: normal;
+	white-space: normal;
+}
+
+/* Code listings */
+
+code + section {
+	margin-top: 2.8em;
+}
+
 code {
 	color: #333333;
 	display: block;
 	font-family: Consolas, "Liberation Mono", Courier, monospace;
 	margin-bottom: 2em;
-	width: 92.5em;
-	max-width: 74.5em;
-	min-width: 40em;
 }
 
 code ol {
@@ -90,7 +237,7 @@ code ol + ol {
 }
 
 code ol li {
-	border: 1px solid #FFFFFF;
+	border: 1px solid #FCFCFC;
 	list-style: decimal outside none;
 	padding:0.2em;
 	white-space: pre;
@@ -100,45 +247,13 @@ code ol li:hover {
 	border: 1px dotted #333333;
 }
 
-nav {
-	background: #FFFFFF;
-	display: inline-block;
-	font-size: 1.2em;
-	font-weight: 700;
-	margin-bottom: 3em;
-	padding: 0;
+section code {
+	margin-bottom: 1.2em;
+	margin-top: 1.5em;
+	width: 100%;
 }
 
-nav li a,
-nav li a:link,
-nav li a:active,
-nav li a:visited {
-	color: #3362B4;
-	display: block;
-	outline: none;
-	padding: 0.6em 1em;
-	text-decoration: none;
-	text-shadow: rgba(0, 0, 0, .1) 0.1em 0.1em 0.1em;
-}
-
-nav li a:hover {
-	background: #7C93BA;
-	color: #FFFFFF;
-}
-
-nav li {
-	float: left;
-}
-
-nav li + li {
-	border-left: 1px solid #3362B4;
-}
-
-nav.mainNav:after {
-	clear: both;
-	content: " ";
-	display: block;
-	font-size: 0;
-	height: 0;
-	visibility: hidden;
+section code ol {
+	border: 0;
+	border-radius: 0;
 }

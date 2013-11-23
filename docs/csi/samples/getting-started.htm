@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>Luga CSI :: Basic sample</title>
+	<link rel="stylesheet" href="../../css/luga.css" />
+	<link rel="stylesheet" href="../../css/docs.css" />
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../src/luga.js"></script>
+	<script src="../../../src/luga.csi.js"></script>
+</head>
+<body>
+	<div data-luga-csi="../../main-nav.inc"></div>
+	<div data-luga-csi="../sidebar.inc"></div>
+
+	<div class="content">
+
+		<section>
+			<h1>Basic usage</h1>
+			<p>Here some basic samples, the text below comes from two external files: <a href="include1.inc">include1.inc</a> and <a href="include2.inc">include2.inc</a></p>
+		</section>
+
+		<div data-luga-csi="include1.inc"></div>
+		<div data-luga-csi="include2.inc"></div>
+
+		<code>
+			<ol>
+				<li>&lt;div data-luga-csi="include1.inc"&gt;&lt;/div&gt;</li>
+				<li>&lt;div data-luga-csi="include2.inc"&gt;&lt;/div&gt;</li>
+			</ol>
+		</code>
+
+	</div>
+
+</body>
+</html>
