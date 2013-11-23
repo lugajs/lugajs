@@ -411,6 +411,16 @@ if(typeof(luga) === "undefined") {
 		};
 	};
 
+	/**
+	 * Select field validator class
+	 *
+	 * @param options.fieldNode:          Root node for widget (DOM reference). Required
+	 * @param options.invalidindex:       Prevents selection of an entry on a given position (zero based). Can also be set using the "data-luga-invalidindex" attribute. Optional
+	 * @param options.invalidvalue:       Prevents selection of an entry with a given value. Can also be set using the "data-luga-invalidvalue" attribute. Optional
+	 * @param options.message:            Error message. Can also be set using the "data-luga-message" attribute. Optional
+	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
+	 * @param.options                     Additional options can be used, but are specific to certain kind of input fields. Check their implementation for details
+	 */
 	luga.validator.SelectValidator = function(options) {
 		this.config = {
 			invalidindex: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.INVALID_INDEX),
@@ -459,6 +469,14 @@ if(typeof(luga) === "undefined") {
 
 	};
 
+	/**
+	 * Abstract validator class for grouped fields (checkboxes, radio buttons). To be extended for different kind of fields
+	 *
+	 * @param options.inputGroup:         A group of input fields that share the same name. Use luga.validator.utils.getFieldGroup() to obtain it. Required
+	 * @param options.message:            Error message. Can also be set using the "data-luga-message" attribute. Optional
+	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
+	 * @param.options                     Additional options can be used, but are specific to certain kind of input fields. Check their implementation for details
+	 */
 	luga.validator.BaseGroupValidator = function(options) {
 
 		if(this.constructor === luga.validator.BaseFieldValidator) {
@@ -521,6 +539,14 @@ if(typeof(luga) === "undefined") {
 
 	};
 
+	/**
+	 * Validator class for radio buttons
+	 *
+	 * @param options.inputGroup:         A group of input fields that share the same name. Use luga.validator.utils.getFieldGroup() to obtain it. Required
+	 * @param options.message:            Error message. Can also be set using the "data-luga-message" attribute. Optional
+	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
+	 * @param.options                     Additional options can be used, but are specific to certain kind of input fields. Check their implementation for details
+	 */
 	luga.validator.RadioValidator = function(options) {
 		this.config = {};
 		luga.merge(this.config, options);
@@ -531,7 +557,7 @@ if(typeof(luga) === "undefined") {
 		this.isRequired = function() {
 			var requiredFlag = false;
 			var fieldGroup = this.inputGroup;
-			// Since radios from the same group can have conflicting attribute values, the last one win
+			// Since fields from the same group can have conflicting attribute values, the last one win
 			for(var i=0; i<fieldGroup.length; i++) {
 				var field = jQuery(fieldGroup[i]);
 				if(field.prop("disabled") === false) {
@@ -559,6 +585,14 @@ if(typeof(luga) === "undefined") {
 		};
 	};
 
+	/**
+	 * Validator class for checkboxes
+	 *
+	 * @param options.inputGroup:         A group of input fields that share the same name. Use luga.validator.utils.getFieldGroup() to obtain it. Required
+	 * @param options.message:            Error message. Can also be set using the "data-luga-message" attribute. Optional
+	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
+	 * @param.options                     Additional options can be used, but are specific to certain kind of input fields. Check their implementation for details
+	 */
 	luga.validator.CheckboxValidator = function(options) {
 		this.config = {};
 		luga.merge(this.config, options);

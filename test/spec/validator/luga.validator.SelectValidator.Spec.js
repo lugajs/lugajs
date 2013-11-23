@@ -23,7 +23,7 @@ describe("luga.validator.SelectValidator", function() {
 			}).toThrow();
 		});
 
-		it("Prevents selecting an entry from a given position (zero based)", function() {
+		it("Prevents selection of an entry on a given position", function() {
 			loadFixtures("validator/SelectValidator/invalidindex.htm");
 			var selectValidator = null;
 
@@ -53,7 +53,7 @@ describe("luga.validator.SelectValidator", function() {
 
 	describe("data-luga-invalidvalue", function() {
 
-		it("Prevents the user from selecting an entry with a given value", function() {
+		it("Prevents selection of an entry with a given value", function() {
 			loadFixtures("validator/SelectValidator/invalidvalue.htm");
 			var selectValidator = null;
 

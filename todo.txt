@@ -18,13 +18,12 @@ CSI:
 
 VALIDATOR:
 
-- Add JavaDocs to: SelectValidator, BaseGroupValidator, RadioValidator, CheckboxValidator
-
 - Add demoronizer option?
 - Test/demo HTML 5 fields
 
 - API
   validateFields(fields[], [errorHandler]) return boolean
+  validateChildFields()
 
 - Add docs and samples
 - Review/add JavaDocs
