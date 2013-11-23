@@ -75,6 +75,7 @@ nav.main li a:visited {
 	display: block;
 	padding: 0.6em 1em;
 	outline: none;
+	text-align: center;
 	text-decoration: none;
 	text-shadow: rgba(0, 0, 0, .1) 0.1em 0.1em 0.1em;
 }
@@ -189,6 +190,7 @@ table.syntax {
 	border-radius: 0.4em;
 	box-shadow: rgba(0, 0, 0, .25) 0.15em 0.15em 0.15em;
 	margin-bottom: 2.8em;
+	width: 100%;
 }
 
 table.syntax th {
@@ -205,12 +207,14 @@ table.syntax td {
 	font-weight: 600;
 	padding: 0.8em;
 	white-space: nowrap;
+	width: 25%;
 }
 
 table.syntax td + td {
 	background: #FCFCFC;
 	font-weight: normal;
 	white-space: normal;
+	width: 75%;
 }
 
 table.syntax td p {
