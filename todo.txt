@@ -3,7 +3,8 @@ CORE:
 - Add basic info to readme file
   https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 
-- Add license and support info (footer?)
+- Write about section
+  Add license and support info (footer?)
 
 - Add luga.utils.demoronizeString()
 
