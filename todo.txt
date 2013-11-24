@@ -4,7 +4,8 @@ CORE:
   https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 
 - Finalize copy text for about page
-  Add support info (footer?)
+
+- Add footer with copyright
 
 - Add luga.utils.demoronizeString()
 
@@ -21,8 +22,8 @@ VALIDATOR:
   They need luga.validator.utils.getChildFields(rootNode)
 
 - Add more samples
-- Add FAQ
-- Add troubleshooting
+- Add FAQ (with good design/CSS)
+- Add troubleshooting page
 - Add API syntax doc
 - Cross-link syntax and samples
 - Review/add JavaDocs
