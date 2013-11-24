@@ -8,8 +8,6 @@ CORE:
 
 - Add luga.utils.demoronizeString()
 
-- Add after handler for top navigation
-
 -------------
 
 VALIDATOR:
