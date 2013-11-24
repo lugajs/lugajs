@@ -1,7 +1,7 @@
 <nav class="local">
 	<h2>CSI</h2>
 	<ul>
-		<li><a href="../home/index.htm">Home</a></li>
+		<li><a href="../docs/index.htm">About CSI</a></li>
 	</ul>
 	<h2>Samples</h2>
 	<ul>

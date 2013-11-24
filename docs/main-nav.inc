@@ -4,10 +4,10 @@
 			<a href="../../index.htm" title="Home">Luga JS</a>
 		</li>
 		<li>
-			<a href="../../validator/home/index.htm" title="Client-side form validation">Validator</a>
+			<a href="../../validator/docs/index.htm" title="Client-side form validation">Validator</a>
 		</li>
 		<li>
-			<a href="../../csi/home/index.htm" title="Client-side include">CSI</a>
+			<a href="../../csi/docs/index.htm" title="Client-side include">CSI</a>
 		</li>
 		<!--
 		<li>
