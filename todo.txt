@@ -5,8 +5,6 @@ CORE:
 
 - Finalize copy text for about page
 
-- Add footer with copyright
-
 - Add luga.utils.demoronizeString()
 
 -------------

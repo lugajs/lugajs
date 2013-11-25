@@ -145,6 +145,21 @@ nav.local li a:before {
 	content: ":: ";
 }
 
+/* Footer */
+
+footer {
+	margin-left: 18em;
+}
+
+footer:after {
+	clear: both;
+	content: " ";
+	display: block;
+	font-size: 0;
+	height: 0;
+	visibility: hidden;
+}
+
 /* Content */
 
 form,
