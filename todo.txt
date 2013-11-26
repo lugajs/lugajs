@@ -7,6 +7,8 @@ CORE:
 
 - Add luga.utils.demoronizeString()
 
+- Put docs online and add sitemap.xml
+
 -------------
 
 VALIDATOR:
