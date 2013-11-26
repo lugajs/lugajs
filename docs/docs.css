@@ -208,6 +208,10 @@ label {
 	display: block;
 }
 
+select {
+	margin-bottom: 1em;
+}
+
 div.content {
 	margin-left: 18em;
 }
