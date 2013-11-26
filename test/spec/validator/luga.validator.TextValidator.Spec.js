@@ -1195,8 +1195,12 @@ describe("luga.validator.TextValidator", function() {
 			expect(textValidator.isValid()).toBeTruthy();
 		});
 
-		it("You can override default date pattern programmatically too", function() {
-			// Ovveride const
+	});
+
+	describe("You can override default date pattern programmatically", function() {
+		var textNode, textValidator;
+		it("By changing the value of luga.validator.CONST.DEFAULT_DATE_PATTERN", function() {
+			// Override const
 			luga.validator.CONST.DEFAULT_DATE_PATTERN = "DD/MM/YYYY"
 
 			// Not a date
@@ -1233,8 +1237,6 @@ describe("luga.validator.TextValidator", function() {
 			expect(textValidator.isValid()).toBeTruthy();
 			luga.validator.CONST.DEFAULT_DATE_PATTERN = "YYYY-MM-DD";
 		});
-
-
 	});
 
 	describe("Rules can be mixed", function() {
