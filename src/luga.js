@@ -158,14 +158,14 @@ if(typeof(luga) === "undefined") {
 	 * Display a message box above a given node
 	 */
 	luga.utils.displayMessage = function(node, html) {
-		luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.MESSAGE);
+		return luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.MESSAGE);
 	};
 
 	/**
 	 * Display an error box above a given node
 	 */
 	luga.utils.displayErrorMessage = function(node, html) {
-		luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.ERROR_MESSAGE);
+		return luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.ERROR_MESSAGE);
 	};
 
 	/**
@@ -189,6 +189,7 @@ if(typeof(luga) === "undefined") {
 		else {
 			jQuery(node).before(box);
 		}
+		return box;
 	};
 
 	/* Validation handlers */

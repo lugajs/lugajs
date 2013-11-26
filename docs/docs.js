@@ -1,8 +1,13 @@
-if(location.protocol === "file:"){
-	alert("Large parts of the documentation will not be visible if you try to access it directly from the file system. Please use a web server instead");
-}
-
 luga.namespace("luga.docs");
+
+luga.docs.FILE_MESSAGE = "Large parts of the documentation will not be visible if you try to access it directly from the file system. </br>";
+luga.docs.FILE_MESSAGE += "Please use a web server or visit the <a href='http://www.massimocorner.com/lugajs/docs/index.htm'>online documentation</a> instead";
+
+jQuery(document).ready(function () {
+	if(location.protocol === "file:"){
+		luga.utils.displayErrorMessage(jQuery("section")[0], luga.docs.FILE_MESSAGE);
+	}
+});
 
 luga.docs.initMainNav = function(rootNode, url, response){
 	jQuery("a", rootNode).each(function(index, item){
@@ -17,3 +22,4 @@ luga.docs.belongsToCurrentSection = function(href){
 	var section = tokens[2];
 	return location.href.indexOf(section) > 0;
 };
+
