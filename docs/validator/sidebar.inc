@@ -8,6 +8,7 @@
 	<h2>Samples</h2>
 	<ul>
 		<li><a href="../samples/complete.htm">Complete form</a></li>
+		<li><a href="../samples/registration.htm">Registration form</a></li>
 	</ul>
 	<h2>Advanced</h2>
 	<ul>
