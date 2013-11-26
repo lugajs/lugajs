@@ -268,6 +268,14 @@ if(typeof(luga) === "undefined") {
 		luga.merge(this.config, options);
 		this.node = jQuery(options.fieldNode);
 		this.message = this.config.message;
+		this.name = "";
+
+		if(this.node.attr("name")) {
+			this.name = this.node.attr("name");
+		}
+		else if(this.node.attr("id")) {
+			this.name = this.node.attr("id");
+		}
 
 		this.isValid = function() {
 			// Abstract method. Must return a boolean
@@ -343,14 +351,6 @@ if(typeof(luga) === "undefined") {
 
 		self.node = jQuery(options.fieldNode);
 		self.type = "text";
-		self.name = "";
-
-		if(self.node.attr("name")) {
-			self.name = self.node.attr("name");
-		}
-		else if(self.node.attr("id")) {
-			self.name = self.node.attr("id");
-		}
 
 		// Put focus and cursor inside the field
 		this.getFocus = function() {

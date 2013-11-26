@@ -70,4 +70,20 @@ describe("luga.validator.SelectValidator", function() {
 
 	});
 
+	describe("Multiple select inside the same form can be validated too", function() {
+		// It's an obvious test, but check for a regression that happened once
+		it("Since the two field validators have different names", function() {
+
+			loadFixtures("validator/SelectValidator/both.htm");
+
+			var formValidator = new luga.validator.FormValidator({
+				formNode: jQuery("#twoSelect")
+			});
+			expect(formValidator.validate().length).toEqual(2);
+			expect(formValidator.isValid()).toBeFalsy();
+
+		});
+
+	});
+
 });
