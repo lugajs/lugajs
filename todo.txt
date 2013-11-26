@@ -13,6 +13,8 @@ CORE:
 
 VALIDATOR:
 
+- Test how changing default pattern
+
 - Add auto-demoronize option?
 - Test/demo HTML 5 fields
 
