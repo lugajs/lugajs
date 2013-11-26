@@ -204,6 +204,10 @@ form h1 {
 	width: 50%;
 }
 
+label {
+	display: block;
+}
+
 div.content {
 	margin-left: 18em;
 }
