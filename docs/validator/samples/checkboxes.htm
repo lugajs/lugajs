@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>Luga Validator :: Checkboxes validation</title>
+	<link rel="stylesheet" href="../../../src/luga.css" />
+	<link rel="stylesheet" href="../../docs.css" />
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../src/luga.js"></script>
+	<script src="../../../src/luga.csi.js"></script>
+	<script src="../../../src/luga.validator.js"></script>
+	<script src="../../docs.js"></script>
+</head>
+<body>
+
+	<div data-luga-csi="../../main-nav.inc" data-luga-after="luga.docs.initMainNav"></div>
+	<div data-luga-csi="../sidebar.inc"></div>
+
+	<div class="content">
+
+		<section>
+			<h1>Checkboxes</h1>
+
+			<p>
+				Checkboxes are a special kind of field, since they often come in groups, sharing the same name but having different values.
+			</p>
+			<p>
+				Luga Validator validates a set of checkboxes with the same name as a unique entity.
+				So, inside a set of checkboxes, you can define the validation attributes only once (if you specify attributes with conflicting values, the last one wins):
+			</p>
+			<code>
+				<ol>
+					<li>&lt;input type="checkbox" name="drink" data-luga-minchecked="2" value="Nicole" /&gt;</li>
+					<li>&lt;input type="checkbox" name="drink" value="Kate" /&gt;</li>
+				</ol>
+			</code>
+
+			<p>
+				There are two different attributes for checkboxes validation. data-luga-minchecked ensures that at least a minimum number of boxes are checked in a group:
+			</p>
+			<code>
+				<ol>
+					<li>&lt;input type="checkbox" name="drink" data-luga-minchecked="2" value="Nicole" /&gt;</li>
+				</ol>
+			</code>
+
+			<p>
+				luga-data-maxchecked specifies a maximum number of boxes that can be checked in a group:
+			</p>
+			<code>
+				<ol>
+					<li>&lt;input type="checkbox" name="drink" luga-data-maxchecked="3" value="Nicole" /&gt;</li>
+				</ol>
+			</code>
+
+			<p>You can use both attributes at the same time:</p>
+			<code>
+				<ol>
+					<li>&lt;input type="checkbox" name="drink" luga-data-minchecked="2" luga-data-maxchecked="3" value="Nicole" /&gt;</li>
+				</ol>
+			</code>
+
+			<p>If we want only one box checked, set both attributes to 1:</p>
+			<code>
+				<ol>
+					<li>&lt;input type="checkbox" name="pasta" luga-data-minchecked="1" luga-data-maxchecked="1" value="Penne" /&gt;</li>
+				</ol>
+			</code>
+
+		</section>
+
+		<form data-luga-validate="true">
+			<h1>First drink, then pasta</h1>
+
+			<p>You would like to take a drink with: (pick at least two, but no more than three)</p>
+			<table>
+				<tr>
+					<td><label>
+						<input name="drink" type="checkbox" class="boxes" value="Nicole" data-luga-minchecked="2" data-luga-maxchecked="3" data-luga-message="Please select at least two ladies, but no more than three" />
+						Nicole Kidman</label>
+						<br />
+						<label>
+							<input name="drink" type="checkbox" class="boxes" value="Kate" />
+							Kate Beckinsale</label>
+						<br />
+						<label>
+							<input name="drink" type="checkbox" class="boxes" value="Jennifer" />
+							Jennifer Connelly</label>
+						<br />
+						<label>
+							<input name="drink" type="checkbox" class="boxes" value="Salma" />
+							Salma Hayek</label>
+						<br />
+						<label>
+							<input name="drink" type="checkbox" class="boxes" value="Gisele" />
+							Gisele Bundchen</label>
+						<br />
+						<label>
+							<input name="drink" type="checkbox" class="boxes" value="Emmanuelle" />
+							Emmanuelle Beart</label>
+						<br />
+						<label>
+							<input name="drink" type="checkbox" class="boxes" value="Liz" />
+							Liz Hurley</label>
+						<br />
+					</td>
+				</tr>
+			</table>
+
+			<p>You can have pasta for dinner; pick one (only one)</p>
+			<table>
+				<tr>
+					<td><label>
+						<input name="pasta" type="checkbox" class="boxes" value="Penne" data-luga-minchecked="1" data-luga-maxchecked="1" data-luga-message="Please select only one kind of pasta" />
+						Penne</label>
+						<br />
+						<label>
+							<input name="pasta" type="checkbox" class="boxes" value="Rigatoni" />
+							Rigatoni</label>
+						<br />
+						<label>
+							<input name="pasta" type="checkbox" class="boxes" value="Tortellini" />
+							Tortellini</label>
+						<br />
+						<label>
+							<input name="pasta" type="checkbox" class="boxes" value="Fettuccine" />
+							Fettuccine</label>
+						<br />
+						<label>
+							<input name="pasta" type="checkbox" class="boxes" value="Lasagne" />
+							Lasagne</label>
+						<br />
+					</td>
+				</tr>
+				<tr>
+					<td><input type="submit" value="Submit" /></td>
+				</tr>
+			</table>
+
+		</form>
+
+	</div>
+
+	<div data-luga-csi="../../footer.inc"></div>
+
+</body>
+</html>

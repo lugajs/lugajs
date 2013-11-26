@@ -10,6 +10,7 @@
 		<li><a href="../samples/complete.htm">Complete form</a></li>
 		<li><a href="../samples/registration.htm">Registration form</a></li>
 		<li><a href="../samples/date.htm">Date validation</a></li>
+		<li><a href="../samples/checkboxes.htm">Checkboxes</a></li>
 	</ul>
 	<h2>Advanced</h2>
 	<ul>
