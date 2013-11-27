@@ -22,7 +22,6 @@ VALIDATOR:
   They need luga.validator.utils.getChildFields(rootNode)
 
 - Add more samples
-- Add history section inside about page (link to TMT)
 - Add FAQ (with good design/CSS)
 - Add troubleshooting page
 - Add API syntax doc
