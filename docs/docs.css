@@ -151,7 +151,7 @@ footer {
 	margin-left: 18em;
 }
 
-footer:after {
+footer:before {
 	clear: both;
 	content: " ";
 	display: block;
