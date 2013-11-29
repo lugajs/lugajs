@@ -442,6 +442,20 @@ describe("luga.validator.TextValidator", function(){
 
 	});
 
+	describe("Custom patterns can be added", function(){
+		it("Storing them inside luga.validator.patterns", function(){
+
+			luga.validator.patterns.httpstart = new RegExp("^http://");
+			var textNode = jQuery('<input type="text" value="test" data-luga-required="true" data-luga-pattern="httpstart">');
+			var textValidator = new luga.validator.FieldValidatorGetInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+			textNode.val("http://www.massimocorner.com")
+			expect(textValidator.isValid()).toBeTruthy();
+		});
+	});
+
 	describe("data-luga-minnumber:", function(){
 		var textNode, textValidator;
 
