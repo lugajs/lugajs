@@ -13,6 +13,7 @@
 		<li><a href="../samples/checkboxes.htm">Checkboxes</a></li>
 		<li><a href="../samples/radio.htm">Radio buttons</a></li>
 		<li><a href="../samples/select.htm">Drop-down (&lt;select&gt;)</a></li>
+		<li><a href="../samples/conditional-validation.htm">Conditional validation</a></li>
 	</ul>
 	<h2>Advanced</h2>
 	<ul>
