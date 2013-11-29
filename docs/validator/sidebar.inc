@@ -19,6 +19,7 @@
 	<ul>
 		<li><a href="../samples/custom-patterns.htm">Custom patterns</a></li>
 		<li><a href="../samples/custom-date-patterns.htm">Custom date patterns</a></li>
+		<li><a href="../samples/custom-validation.htm">Custom validation rules</a></li>
 	</ul>
 	<h2>Advanced</h2>
 	<ul>

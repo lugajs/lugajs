@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>Luga Validator :: Custom validation</title>
+	<link rel="stylesheet" href="../../../src/luga.css" />
+	<link rel="stylesheet" href="../../docs.css" />
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../src/luga.js"></script>
+	<script src="../../../src/luga.csi.js"></script>
+	<script src="../../../src/luga.validator.js"></script>
+	<script src="../../docs.js"></script>
+	<script>
+		// <![CDATA[
+		luga.validator.rules.lowercase = function(fieldNode){
+			var lowerStr = fieldNode.val().toLowerCase();
+			return (lowerStr === fieldNode.val());
+		}
+		// ]]>
+	</script>
+</head>
+<body>
+
+	<div data-luga-csi="../../main-nav.inc" data-luga-after="luga.docs.initMainNav"></div>
+	<div data-luga-csi="../sidebar.inc"></div>
+
+	<div class="content">
+
+		<section>
+
+			<h1>Custom validation</h1>
+			<p>
+				Luga Validator was designed with extensibility in mind. There will always be the need for custom validation.
+				Luga Validator stores all rules inside tmt.validator.rules, a JavaScript object, acting as a container for both built-in and custom validation rules.
+			</p>
+			<p>
+				In order to invoke the custom validation rule, we need to add a custom attribute to the field that exactly matches the name of the custom validation.
+				Then the validator will call our custom method passing the field's DOM node as an argument and expecting a boolean as return value:
+			</p>
+
+			<code>
+				<ol>
+					<li>&lt;script&gt;</li>
+					<li>luga.validator.rules.lowercase = function(fieldNode){</li>
+					<li>	var lowerStr = fieldNode.val().toLowerCase();</li>
+					<li>	return (lowerStr === fieldNode.val());</li>
+					<li>}</li>
+					<li>&lt;/script&gt;</li>
+				</ol>
+			</code>
+
+			<p>
+				The HTML will look like:
+			</p>
+
+			<code>
+				<ol>
+					<li>&lt;input type="text" name="mylowercase" data-luga-required="true" data-luga-lowercase="true" data-luga-message="Only lowercase!" value="MixedCase" /&gt;</li>
+				</ol>
+			</code>
+
+		</section>
+
+		<form data-luga-validate="true">
+			<h1>Lowercase</h1>
+				Lowercase (letters must be lowercase, required)
+				<input type="text" name="mylowercase" data-luga-required="true" data-luga-lowercase="true" data-luga-message="Only lowercase!" value="MixedCase" />
+				<input type="submit" value="Submit" />
+		</form>
+
+	</div>
+
+	<div data-luga-csi="../../footer.inc"></div>
+
+</body>
+</html>
