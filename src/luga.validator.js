@@ -444,11 +444,11 @@ if(typeof(luga) === "undefined"){
 		if(currentIndex === -1){
 			currentIndex = 0;
 		}
-		currentIndex = parseInt(currentIndex);
+		currentIndex = parseInt(currentIndex, 10);
 
 		this.isValid = function(){
 			// Check for index
-			if(currentIndex === parseInt(self.config.invalidindex)){
+			if(currentIndex === parseInt(self.config.invalidindex, 10)){
 				return false;
 			}
 			// Check for value
@@ -773,9 +773,9 @@ if(typeof(luga) === "undefined"){
 			// First try to create a new date out of the bits
 			var testDate = new Date(dateBits[dateSpecObj.y], (dateBits[dateSpecObj.m] - 1), dateBits[dateSpecObj.d]);
 			// Make sure values match after conversion
-			var yearMatches = testDate.getFullYear() === parseInt(dateBits[dateSpecObj.y]);
-			var monthMatches = testDate.getMonth() === parseInt(dateBits[dateSpecObj.m] - 1);
-			var dayMatches = testDate.getDate() === parseInt(dateBits[dateSpecObj.d]);
+			var yearMatches = testDate.getFullYear() === parseInt(dateBits[dateSpecObj.y], 10);
+			var monthMatches = testDate.getMonth() === parseInt(dateBits[dateSpecObj.m] - 1, 10);
+			var dayMatches = testDate.getDate() === parseInt(dateBits[dateSpecObj.d], 10);
 			if(yearMatches && monthMatches && dayMatches){
 				return testDate;
 			}
