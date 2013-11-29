@@ -14,20 +14,29 @@ VALIDATOR:
 - Add auto-demoronize option?
 - Test/demo HTML 5 fields
 
+- Samples:
+	- Customizing error display (inside labels)
+	- Add fields at run-time
+	- Alter validation rules at run-time
+
+- Add FAQ (with good design/CSS)
+- Add troubleshooting page
+
+- Cross-link syntax and samples
+- Review/add JavaDocs
+
 - API
   validateFields(fields[], [errorHandler]) return boolean
   validateChildFields()
   They need luga.validator.utils.getChildFields(rootNode)
 
-- Add more samples
-- Add FAQ (with good design/CSS)
-- Add troubleshooting page
 - Add API syntax doc
-- Cross-link syntax and samples
-- Review/add JavaDocs
+- Add API samples
+
+- Integration with jQuery UI Tab and/or Accordion?
 
 -------------
 
 DATASET:
 
-- Start super basic
+- Start basic implementation with TDD
