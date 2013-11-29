@@ -1,14 +1,14 @@
 "use strict";
 
-describe("luga.validator.api", function() {
+describe("luga.validator.api", function(){
 
-	it("Lives inside its own namespace", function() {
+	it("Lives inside its own namespace", function(){
 		expect(luga.validator.api).toBeDefined();
 	});
 
-	describe(".validateForm()", function() {
+	describe(".validateForm()", function(){
 
-		it("Allows to programmatically validate a form", function() {
+		it("Allows to programmatically validate a form", function(){
 
 			loadFixtures("validator/FormValidator/basic.htm");
 
@@ -21,7 +21,7 @@ describe("luga.validator.api", function() {
 
 		});
 
-		it("And returns a boolean", function() {
+		it("And returns a boolean", function(){
 
 			loadFixtures("validator/FormValidator/basic.htm");
 			expect(luga.validator.api.validateForm({formNode: jQuery("#basic")})).toBeFalsy();
@@ -30,9 +30,9 @@ describe("luga.validator.api", function() {
 
 	});
 
-	describe(".validateField()", function() {
+	describe(".validateField()", function(){
 
-		it("Thows an error if the field can't be validated", function() {
+		it("Thows an error if the field can't be validated", function(){
 
 			expect(function(){
 				luga.validator.api.validateField({fieldNode: jQuery("<input type='reset'>")});
@@ -40,7 +40,7 @@ describe("luga.validator.api", function() {
 
 		});
 
-		it("Allows to programmatically validate a field", function() {
+		it("Allows to programmatically validate a field", function(){
 
 			loadFixtures("validator/FormValidator/basic.htm");
 
@@ -53,7 +53,7 @@ describe("luga.validator.api", function() {
 
 		});
 
-		it("And returns a boolean", function() {
+		it("And returns a boolean", function(){
 
 			loadFixtures("validator/FormValidator/basic.htm");
 			expect(luga.validator.api.validateField({fieldNode: jQuery("#myName")})).toBeFalsy();

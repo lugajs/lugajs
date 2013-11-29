@@ -1,33 +1,33 @@
 "use strict";
 
-describe("luga.validator", function() {
+describe("luga.validator", function(){
 
-	it("Lives inside its own namespace", function() {
+	it("Lives inside its own namespace", function(){
 		expect(luga.validator).toBeDefined();
 	});
 
-	describe("Uses separated namespace for storing:", function() {
-		it("Rules", function() {
+	describe("Uses separated namespace for storing:", function(){
+		it("Rules", function(){
 			expect(luga.validator.rules).toBeDefined();
 		});
-		it("Patterns", function() {
+		it("Patterns", function(){
 			expect(luga.validator.patterns).toBeDefined();
 		});
-		it("DateSpecs", function() {
+		it("DateSpecs", function(){
 			expect(luga.validator.dateSpecs).toBeDefined();
 		});
 	});
 
-	describe(".FieldValidatorGetInstance()", function() {
+	describe(".FieldValidatorGetInstance()", function(){
 
-		it("Returns null if the passed HTML node can't be validated", function() {
+		it("Returns null if the passed HTML node can't be validated", function(){
 			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<div>") })).toBeNull();
 			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<button>") })).toBeNull();
 			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<input type='reset'>") })).toBeNull();
 			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<fieldset>") })).toBeNull();
 		});
 
-		it("Returns relevant validator, depending on the kind of field", function() {
+		it("Returns relevant validator, depending on the kind of field", function(){
 
 			loadFixtures("validator/FormValidator/generic.htm");
 
@@ -41,8 +41,8 @@ describe("luga.validator", function() {
 
 	});
 
-	describe(".BaseFieldValidator is an abstract class", function() {
-		it("That can't be invoked directly", function() {
+	describe(".BaseFieldValidator is an abstract class", function(){
+		it("That can't be invoked directly", function(){
 			var textNode = jQuery('<input type="text" data-luga-required="true" disabled="disabled" data-luga-errorclass="invalid">');
 			expect(function(){
 				new luga.validator.BaseFieldValidator({
@@ -52,8 +52,8 @@ describe("luga.validator", function() {
 		});
 	});
 
-	describe(".BaseGroupValidator is an abstract class", function() {
-		it("That can't be invoked directly", function() {
+	describe(".BaseGroupValidator is an abstract class", function(){
+		it("That can't be invoked directly", function(){
 			var boxNode = jQuery('<input type="checkbox">');
 			expect(function(){
 				new luga.validator.BaseGroupValidator({
@@ -63,9 +63,9 @@ describe("luga.validator", function() {
 		});
 	});
 
-	describe("All validators share some common capabilities", function() {
+	describe("All validators share some common capabilities", function(){
 
-		it("Their message and errorclass properties are empty strings by default", function() {
+		it("Their message and errorclass properties are empty strings by default", function(){
 			var textValidator = new luga.validator.FieldValidatorGetInstance({
 				fieldNode: jQuery("<input type='text'>")
 			});
@@ -73,7 +73,7 @@ describe("luga.validator", function() {
 			expect(textValidator.config.errorclass).toEqual("");
 		});
 
-		it("They add/remove error class and title attribute", function() {
+		it("They add/remove error class and title attribute", function(){
 			var textNode = jQuery('<input type="text" data-luga-required="true" data-luga-errorclass="invalid" data-luga-message="Invalid field!">');
 			var textValidator = new luga.validator.FieldValidatorGetInstance({
 				fieldNode: textNode
@@ -87,7 +87,7 @@ describe("luga.validator", function() {
 			expect(textNode.attr("title")).toBeUndefined();
 		});
 
-		it("Handle disabled fields as always valid", function() {
+		it("Handle disabled fields as always valid", function(){
 			var textNode = jQuery('<input type="text" data-luga-required="true" disabled="disabled" data-luga-errorclass="invalid">');
 			var textValidator = new luga.validator.FieldValidatorGetInstance({
 				fieldNode: textNode
@@ -96,7 +96,7 @@ describe("luga.validator", function() {
 			expect(textNode.hasClass("invalid")).toBeFalsy();
 		});
 
-		it("They have a 'name' property derived from the field's name or id. If none is available, it defaults to an empty string", function() {
+		it("They have a 'name' property derived from the field's name or id. If none is available, it defaults to an empty string", function(){
 			var textValidator;
 
 			textValidator = new luga.validator.FieldValidatorGetInstance({
@@ -119,15 +119,15 @@ describe("luga.validator", function() {
 
 });
 
-describe("luga.validator.utils", function() {
+describe("luga.validator.utils", function(){
 
-	it("Lives inside its own namespace", function() {
+	it("Lives inside its own namespace", function(){
 		expect(luga.validator.utils).toBeDefined();
 	});
 
-	describe(".isInputField()", function() {
+	describe(".isInputField()", function(){
 
-		it("Accepts nodes that can be validated", function() {
+		it("Accepts nodes that can be validated", function(){
 			expect(luga.validator.utils.isInputField(jQuery("<textarea>"))).toBeTruthy();
 			expect(luga.validator.utils.isInputField(jQuery("<input type='text'>"))).toBeTruthy();
 			expect(luga.validator.utils.isInputField(jQuery("<input type='radio'>"))).toBeTruthy();
@@ -137,7 +137,7 @@ describe("luga.validator.utils", function() {
 			expect(luga.validator.utils.isInputField(jQuery("<select>"))).toBeTruthy();
 		});
 
-		it("Refuses nodes that can't be validated", function() {
+		it("Refuses nodes that can't be validated", function(){
 			expect(luga.validator.utils.isInputField(jQuery("<div>"))).toBeFalsy();
 			expect(luga.validator.utils.isInputField(jQuery("<form>"))).toBeFalsy();
 			expect(luga.validator.utils.isInputField(jQuery("<button>"))).toBeFalsy();
@@ -149,16 +149,16 @@ describe("luga.validator.utils", function() {
 
 	});
 
-	describe(".getFieldGroup()", function() {
+	describe(".getFieldGroup()", function(){
 
-		describe("Extracts group of related radio buttons", function() {
+		describe("Extracts group of related radio buttons", function(){
 
-			it("Within a given form", function() {
+			it("Within a given form", function(){
 				loadFixtures("validator/RadioValidator/required.htm");
 				expect(luga.validator.utils.getFieldGroup("lady", jQuery("#single")).length).toEqual(4);
 			});
 
-			it("Or not", function() {
+			it("Or not", function(){
 				loadFixtures("validator/RadioValidator/required.htm");
 				expect(luga.validator.utils.getFieldGroup("lady").length).toEqual(12);
 			});

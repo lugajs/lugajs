@@ -14,11 +14,11 @@
  limitations under the License.
  */
 
-if(typeof(luga) === "undefined") {
+if(typeof(luga) === "undefined"){
 	throw("Unable to find luga.js");
 }
 
-(function() {
+(function(){
 	"use strict";
 
 	luga.namespace("luga.validator");
@@ -87,7 +87,7 @@ if(typeof(luga) === "undefined") {
 	 *                                   Set this options to false to keep the submit buttons enabled.
 	 *                                   Value can also be set using the "data-luga-blocksubmit" attribute. Optional
 	 */
-	luga.validator.FormValidator = function(options) {
+	luga.validator.FormValidator = function(options){
 		this.config = {
 			blocksubmit: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.BLOCK_SUBMIT) || "true",
 			error: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.ERROR) || luga.validator.CONST.HANDLERS.FORM_ERROR,
@@ -100,16 +100,16 @@ if(typeof(luga) === "undefined") {
 		self.dirtyValidators = [];
 		self.config.formNode = jQuery(self.config.formNode);
 
-		if(jQuery(self.config.formNode).length === 0) {
+		if(jQuery(self.config.formNode).length === 0){
 			throw(luga.validator.CONST.MESSAGES.FORM_MISSING);
 		}
 
-		this.init = function() {
+		this.init = function(){
 			self.validators = [];
 			self.dirtyValidators = [];
 			var formDom = self.config.formNode[0];
-			for(var i = 0; i < formDom.elements.length; i++) {
-				if(luga.validator.utils.isInputField(formDom.elements[i])) {
+			for(var i = 0; i < formDom.elements.length; i++){
+				if(luga.validator.utils.isInputField(formDom.elements[i])){
 					self.validators.push(luga.validator.FieldValidatorGetInstance({
 						fieldNode: formDom.elements[i],
 						formNode: self.config.formNode
@@ -120,31 +120,31 @@ if(typeof(luga) === "undefined") {
 
 		// Execute all field validators. Returns an array of field validators that are in invalid state
 		// Returns array is empty if there are no errors
-		this.validate = function(event) {
+		this.validate = function(event){
 			self.init();
 			self.before();
 			// Keep track of already validated fields (to skip already validated checkboxes or radios)
 			var validatorsNames = {};
-			for(var i=0; i<self.validators.length; i++) {
-				if(self.validators[i] && self.validators[i].validate) {
-					if(validatorsNames[self.validators[i].name]) {
+			for(var i = 0; i < self.validators.length; i++){
+				if(self.validators[i] && self.validators[i].validate){
+					if(validatorsNames[self.validators[i].name]){
 						// Already validated checkbox or radio, skip it
 						continue;
 					}
-					if(self.validators[i].validate()) {
+					if(self.validators[i].validate()){
 						self.dirtyValidators.push(self.validators[i]);
 					}
 					validatorsNames[self.validators[i].name] = true;
 				}
 			}
-			if(!self.isValid()) {
+			if(!self.isValid()){
 				self.error();
-				if(event) {
+				if(event){
 					event.preventDefault();
 				}
 			}
-			else {
-				if(this.config.blocksubmit === "true") {
+			else{
+				if(this.config.blocksubmit === "true"){
 					// Disable submit buttons to avoid multiple submits
 					self.disableSubmit();
 				}
@@ -153,46 +153,46 @@ if(typeof(luga) === "undefined") {
 			return self.dirtyValidators;
 		};
 
-		this.disableSubmit = function() {
+		this.disableSubmit = function(){
 			var buttons = jQuery("input[type=submit]", self.config.formNode);
-			jQuery(buttons).each(function(index, item) {
+			jQuery(buttons).each(function(index, item){
 				var buttonNode = jQuery(item);
-				if(buttonNode.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.DISABLED_MESSAGE)) {
+				if(buttonNode.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.DISABLED_MESSAGE)){
 					buttonNode.val(buttonNode.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.DISABLED_MESSAGE));
 				}
 			});
 		};
 
-		this.isValid = function() {
+		this.isValid = function(){
 			return self.dirtyValidators.length === 0;
 		};
 
-		this.before = function() {
+		this.before = function(){
 			var callBack = luga.utils.stringToFunction(self.config.before);
-			if(callBack) {
+			if(callBack){
 				callBack.apply(null, [self.config.formNode[0]]);
 			}
-			else if(self.config.before) {
+			else if(self.config.before){
 				alert(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.before]));
 			}
 		};
 
-		this.error = function() {
+		this.error = function(){
 			var callBack = luga.utils.stringToFunction(self.config.error);
-			if(callBack) {
+			if(callBack){
 				callBack.apply(null, [self.config.formNode[0], self.dirtyValidators]);
 			}
-			else if(self.config.error) {
+			else if(self.config.error){
 				alert(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.error]));
 			}
 		};
 
-		this.after = function() {
+		this.after = function(){
 			var callBack = luga.utils.stringToFunction(self.config.after);
-			if(callBack) {
+			if(callBack){
 				callBack.apply(null, [self.config.formNode[0]]);
 			}
-			else if(self.config.after) {
+			else if(self.config.after){
 				alert(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.after]));
 			}
 		};
@@ -208,12 +208,12 @@ if(typeof(luga) === "undefined") {
 	 * @param.options                     Additional options can be used, but are specific to different kind of input fields.
 	 *                                    Check their implementation for details
 	 */
-	luga.validator.FieldValidatorGetInstance = function(options) {
+	luga.validator.FieldValidatorGetInstance = function(options){
 		this.config = {};
 		luga.merge(this.config, options);
 		var self = this;
 		// Abort if the field isn't suitable to validation
-		if(!luga.validator.utils.isInputField(self.config.fieldNode)) {
+		if(!luga.validator.utils.isInputField(self.config.fieldNode)){
 			return null;
 		}
 		var fieldType = jQuery(self.config.fieldNode).prop("type");
@@ -227,7 +227,7 @@ if(typeof(luga) === "undefined") {
 				return new luga.validator.SelectValidator(this.config);
 
 			case "radio":
-				if(jQuery(this.config.fieldNode).attr("name")) {
+				if(jQuery(this.config.fieldNode).attr("name")){
 					return new luga.validator.RadioValidator({
 						inputGroup: luga.validator.utils.getFieldGroup(jQuery(this.config.fieldNode).attr("name"), this.config.formNode)
 					});
@@ -235,7 +235,7 @@ if(typeof(luga) === "undefined") {
 				break;
 
 			case "checkbox":
-				if(jQuery(this.config.fieldNode).attr("name")) {
+				if(jQuery(this.config.fieldNode).attr("name")){
 					return new luga.validator.CheckboxValidator({
 						inputGroup: luga.validator.utils.getFieldGroup(jQuery(this.config.fieldNode).attr("name"), this.config.formNode)
 					});
@@ -255,9 +255,9 @@ if(typeof(luga) === "undefined") {
 	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
 	 * @param.options                     Additional options can be used, but are specific to certain kind of input fields. Check their implementation for details
 	 */
-	luga.validator.BaseFieldValidator = function(options) {
+	luga.validator.BaseFieldValidator = function(options){
 
-		if(this.constructor === luga.validator.BaseFieldValidator) {
+		if(this.constructor === luga.validator.BaseFieldValidator){
 			throw(luga.validator.CONST.MESSAGES.BASE_VALIDATOR_ABSTRACT);
 		}
 
@@ -270,14 +270,14 @@ if(typeof(luga) === "undefined") {
 		this.message = this.config.message;
 		this.name = "";
 
-		if(this.node.attr("name")) {
+		if(this.node.attr("name")){
 			this.name = this.node.attr("name");
 		}
-		else if(this.node.attr("id")) {
+		else if(this.node.attr("id")){
 			this.name = this.node.attr("id");
 		}
 
-		this.isValid = function() {
+		this.isValid = function(){
 			// Abstract method. Must return a boolean
 		};
 
@@ -287,19 +287,19 @@ if(typeof(luga) === "undefined") {
 			this.node.attr("title", this.message);
 		};
 
-		this.flagValid = function() {
+		this.flagValid = function(){
 			this.node.removeClass(this.config.errorclass);
 			this.node.removeAttr("title");
 		};
 
 		// Be careful, this method returns a boolean but also has side-effects
-		this.validate = function() {
+		this.validate = function(){
 			// Disabled fields are always valid
-			if(this.node.prop("disabled")) {
+			if(this.node.prop("disabled")){
 				this.flagValid();
 				return false;
 			}
-			if(!this.isValid()) {
+			if(!this.isValid()){
 				this.flagInvalid();
 				return true;
 			}
@@ -331,7 +331,7 @@ if(typeof(luga) === "undefined") {
 	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
 
 	 */
-	luga.validator.TextValidator = function(options) {
+	luga.validator.TextValidator = function(options){
 
 		this.config = {
 			required: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.REQUIRED),
@@ -353,31 +353,32 @@ if(typeof(luga) === "undefined") {
 		self.type = "text";
 
 		// Put focus and cursor inside the field
-		this.getFocus = function() {
+		this.getFocus = function(){
 			// This try block is required to solve an obscure issue with IE and hidden fields
 			try{
 				self.node.focus();
 				self.node.select();
 			}
-			catch(e) {}
+			catch(e){
+			}
 		};
 
-		this.isEmpty = function() {
+		this.isEmpty = function(){
 			return self.node.val() === "";
 		};
 
-		this.isRequired = function() {
+		this.isRequired = function(){
 			var requiredAtt = this.config.required;
 			if(requiredAtt){
-				if(requiredAtt === "true") {
+				if(requiredAtt === "true"){
 					return true;
 				}
-				if(requiredAtt === "false") {
+				if(requiredAtt === "false"){
 					return false;
 				}
 				// It's a conditional validation. Invoke the relevant function if available
 				var functionReference = luga.utils.stringToFunction(requiredAtt);
-				if(functionReference) {
+				if(functionReference){
 					return functionReference.apply(null, [self.node]);
 				}
 			}
@@ -386,9 +387,9 @@ if(typeof(luga) === "undefined") {
 
 		// Check if the field satisfy the rules associated with it
 		// Be careful, this method contains multiple exit points!!!
-		this.isValid = function() {
-			if(self.isEmpty()) {
-				if(self.isRequired()) {
+		this.isValid = function(){
+			if(self.isEmpty()){
+				if(self.isRequired()){
 					return false;
 				}
 				else{
@@ -397,11 +398,11 @@ if(typeof(luga) === "undefined") {
 			}
 			else{
 				// It's empty. Loop over all the available rules
-				for(var rule in luga.validator.rules) {
+				for(var rule in luga.validator.rules){
 					// Check if the current rule is required for the field
-					if(self.node.attr(luga.validator.CONST.RULE_PREFIX + rule)) {
+					if(self.node.attr(luga.validator.CONST.RULE_PREFIX + rule)){
 						// Invoke the rule
-						if(!luga.validator.rules[rule].apply(null, [self.node, self])) {
+						if(!luga.validator.rules[rule].apply(null, [self.node, self])){
 							return false;
 						}
 					}
@@ -421,7 +422,7 @@ if(typeof(luga) === "undefined") {
 	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
 	 * @param.options                     Additional options can be used, but are specific to certain kind of input fields. Check their implementation for details
 	 */
-	luga.validator.SelectValidator = function(options) {
+	luga.validator.SelectValidator = function(options){
 		this.config = {
 			invalidindex: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.INVALID_INDEX),
 			invalidvalue: jQuery(options.fieldNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.INVALID_VALUE)
@@ -433,33 +434,33 @@ if(typeof(luga) === "undefined") {
 		self.node = jQuery(options.fieldNode);
 
 		// Ensure invalidindex is numeric
-		if((self.config.invalidindex !== undefined) && (!jQuery.isNumeric(self.config.invalidindex))) {
+		if((self.config.invalidindex !== undefined) && (!jQuery.isNumeric(self.config.invalidindex))){
 			throw(luga.validator.CONST.MESSAGES.INVALID_INDEX_NOT_NUMERIC);
 		}
 
 		// Whenever a "size" attribute is available, the browser reports -1 as selectedIndex
 		// Fix this weirdness
 		var currentIndex = self.node.prop("selectedIndex");
-		if(currentIndex === -1) {
+		if(currentIndex === -1){
 			currentIndex = 0;
 		}
 		currentIndex = parseInt(currentIndex);
 
-		this.isValid = function() {
+		this.isValid = function(){
 			// Check for index
-			if(currentIndex === parseInt(self.config.invalidindex)) {
+			if(currentIndex === parseInt(self.config.invalidindex)){
 				return false;
 			}
 			// Check for value
-			if(self.node.val() === self.config.invalidvalue) {
+			if(self.node.val() === self.config.invalidvalue){
 				return false;
 			}
 			// Loop over all the available rules
-			for(var rule in luga.validator.rules) {
+			for(var rule in luga.validator.rules){
 				// Check if the current rule is required for the field
-				if(self.node.attr(luga.validator.CONST.RULE_PREFIX + rule)) {
+				if(self.node.attr(luga.validator.CONST.RULE_PREFIX + rule)){
 					// Invoke the rule
-					if(!luga.validator.rules[rule].apply(null, [self.node, self])) {
+					if(!luga.validator.rules[rule].apply(null, [self.node, self])){
 						return false;
 					}
 				}
@@ -477,9 +478,9 @@ if(typeof(luga) === "undefined") {
 	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
 	 * @param.options                     Additional options can be used, but are specific to certain kind of input fields. Check their implementation for details
 	 */
-	luga.validator.BaseGroupValidator = function(options) {
+	luga.validator.BaseGroupValidator = function(options){
 
-		if(this.constructor === luga.validator.BaseFieldValidator) {
+		if(this.constructor === luga.validator.BaseFieldValidator){
 			throw(luga.validator.CONST.MESSAGES.GROUP_VALIDATOR_ABSTRACT);
 		}
 
@@ -491,23 +492,23 @@ if(typeof(luga) === "undefined") {
 		this.errorclass = "";
 
 		// Since fields from the same group can have conflicting attribute values, the last one win
-		for(var i=0; i<this.inputGroup.length; i++) {
+		for(var i = 0; i < this.inputGroup.length; i++){
 			var field = jQuery(this.inputGroup[i]);
-			if(field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MESSAGE)) {
+			if(field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MESSAGE)){
 				this.message = field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MESSAGE);
 			}
-			if(field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.ERROR_CLASS)) {
+			if(field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.ERROR_CLASS)){
 				this.errorclass = field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.ERROR_CLASS);
 			}
 		}
 
-		this.isValid = function() {
+		this.isValid = function(){
 			// Abstract method. Must return a boolean
 		};
 
 		this.flagInvalid = function(){
-			if(this.errorclass !== "") {
-				for(var i=0; i<this.inputGroup.length; i++) {
+			if(this.errorclass !== ""){
+				for(var i = 0; i < this.inputGroup.length; i++){
 					var field = jQuery(this.inputGroup[i]);
 					field.addClass(this.errorclass);
 					field.attr("title", this.message);
@@ -516,8 +517,8 @@ if(typeof(luga) === "undefined") {
 		};
 
 		this.flagValid = function(){
-			if(this.errorclass !== "") {
-				for(var i=0; i<this.inputGroup.length; i++) {
+			if(this.errorclass !== ""){
+				for(var i = 0; i < this.inputGroup.length; i++){
 					var field = jQuery(this.inputGroup[i]);
 					field.removeClass(this.errorclass);
 					field.removeAttr("title");
@@ -527,7 +528,7 @@ if(typeof(luga) === "undefined") {
 
 		// Be careful, this method returns a boolean but also has side-effects
 		this.validate = function(){
-			if(this.isValid()) {
+			if(this.isValid()){
 				this.flagValid();
 				return false;
 			}
@@ -547,21 +548,21 @@ if(typeof(luga) === "undefined") {
 	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
 	 * @param.options                     Additional options can be used, but are specific to certain kind of input fields. Check their implementation for details
 	 */
-	luga.validator.RadioValidator = function(options) {
+	luga.validator.RadioValidator = function(options){
 		this.config = {};
 		luga.merge(this.config, options);
 		luga.extend(luga.validator.BaseGroupValidator, this, [this.config]);
 		this.type = "radio";
 		var self = this;
 
-		this.isRequired = function() {
+		this.isRequired = function(){
 			var requiredFlag = false;
 			var fieldGroup = this.inputGroup;
 			// Since fields from the same group can have conflicting attribute values, the last one win
-			for(var i=0; i<fieldGroup.length; i++) {
+			for(var i = 0; i < fieldGroup.length; i++){
 				var field = jQuery(fieldGroup[i]);
-				if(field.prop("disabled") === false) {
-					if(field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.REQUIRED)) {
+				if(field.prop("disabled") === false){
+					if(field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.REQUIRED)){
 						requiredFlag = field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.REQUIRED);
 					}
 				}
@@ -570,12 +571,12 @@ if(typeof(luga) === "undefined") {
 		};
 
 		this.isValid = function(){
-			if(this.isRequired() === "true") {
+			if(this.isRequired() === "true"){
 				var fieldGroup = this.inputGroup;
-				for(var i=0; i<fieldGroup.length; i++) {
+				for(var i = 0; i < fieldGroup.length; i++){
 					var field = jQuery(fieldGroup[i]);
 					// As long as only one is checked, we are fine
-					if(field.prop("checked") === true) {
+					if(field.prop("checked") === true){
 						return true;
 					}
 				}
@@ -593,7 +594,7 @@ if(typeof(luga) === "undefined") {
 	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
 	 * @param.options                     Additional options can be used, but are specific to certain kind of input fields. Check their implementation for details
 	 */
-	luga.validator.CheckboxValidator = function(options) {
+	luga.validator.CheckboxValidator = function(options){
 		this.config = {};
 		luga.merge(this.config, options);
 		luga.extend(luga.validator.BaseGroupValidator, this, [this.config]);
@@ -603,13 +604,13 @@ if(typeof(luga) === "undefined") {
 		var self = this;
 
 		// Since checkboxes from the same group can have conflicting attribute values, the last one win
-		for(var i=0; i<this.inputGroup.length; i++) {
+		for(var i = 0; i < this.inputGroup.length; i++){
 			var field = jQuery(this.inputGroup[i]);
-			if(field.prop("disabled") === false) {
-				if(field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MIN_CHECKED)) {
+			if(field.prop("disabled") === false){
+				if(field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MIN_CHECKED)){
 					this.minchecked = field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MIN_CHECKED);
 				}
-				if(field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MAX_CHECKED)) {
+				if(field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MAX_CHECKED)){
 					this.maxchecked = field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MAX_CHECKED);
 				}
 			}
@@ -618,16 +619,16 @@ if(typeof(luga) === "undefined") {
 		this.isValid = function(){
 			var checkCounter = 0;
 			var fieldGroup = this.inputGroup;
-			for(var i=0; i<fieldGroup.length; i++) {
+			for(var i = 0; i < fieldGroup.length; i++){
 				// For each checked box, increase the counter
 				var field = jQuery(this.inputGroup[i]);
-				if(field.prop("disabled") === false) {
-					if(field.prop("checked") === true) {
+				if(field.prop("disabled") === false){
+					if(field.prop("checked") === true){
 						checkCounter++;
 					}
 				}
 			}
-			return ((checkCounter >=  this.minchecked) && (checkCounter <= this.maxchecked));
+			return ((checkCounter >= this.minchecked) && (checkCounter <= this.maxchecked));
 		};
 
 	};
@@ -636,89 +637,89 @@ if(typeof(luga) === "undefined") {
 
 	luga.namespace("luga.validator.rules");
 
-	luga.validator.rules.email = function(fieldNode, validator) {
+	luga.validator.rules.email = function(fieldNode, validator){
 		var fieldValue = fieldNode.val();
 		var containsAt = (fieldValue.indexOf("@") !== -1);
 		var containDot = (fieldValue.indexOf(".") !== -1);
-		if(containsAt && containDot) {
+		if(containsAt && containDot){
 			return true;
 		}
 		return false;
 	};
 
-	luga.validator.rules.equalto = function(fieldNode, validator) {
+	luga.validator.rules.equalto = function(fieldNode, validator){
 		var secondFieldNode = jQuery("#" + validator.config.equalto);
-		if(secondFieldNode.length === 0) {
+		if(secondFieldNode.length === 0){
 			throw(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_EQUAL_TO_FIELD, [validator.config.equalto]));
 		}
 		return (fieldNode.val() === secondFieldNode.val());
 	};
 
-	luga.validator.rules.datepattern = function(fieldNode, validator) {
+	luga.validator.rules.datepattern = function(fieldNode, validator){
 		var datObj = luga.validator.dateStrToObj(fieldNode.val(), validator.config.datepattern);
-		if(datObj) {
+		if(datObj){
 			return true;
 		}
 		return false;
 	};
 
-	luga.validator.rules.maxdate = function(fieldNode, validator) {
+	luga.validator.rules.maxdate = function(fieldNode, validator){
 		var pattern = validator.config.datepattern;
 		var valueDate = luga.validator.dateStrToObj(fieldNode.val(), pattern);
 		var maxDate = luga.validator.dateStrToObj(validator.config.maxdate, pattern);
-		if(valueDate && maxDate) {
+		if(valueDate && maxDate){
 			return valueDate <= maxDate;
 		}
 		return false;
 	};
 
-	luga.validator.rules.mindate = function(fieldNode, validator) {
+	luga.validator.rules.mindate = function(fieldNode, validator){
 		var pattern = validator.config.datepattern;
 		var valueDate = luga.validator.dateStrToObj(fieldNode.val(), pattern);
 		var minDate = luga.validator.dateStrToObj(validator.config.mindate, pattern);
-		if(valueDate && minDate) {
+		if(valueDate && minDate){
 			return valueDate >= minDate;
 		}
 		return false;
 	};
 
-	luga.validator.rules.maxlength = function(fieldNode, validator) {
-		if(fieldNode.val().length > validator.config.maxlength) {
+	luga.validator.rules.maxlength = function(fieldNode, validator){
+		if(fieldNode.val().length > validator.config.maxlength){
 			return false;
 		}
 		return true;
 	};
 
-	luga.validator.rules.minlength = function(fieldNode, validator) {
-		if(fieldNode.val().length < validator.config.minlength) {
+	luga.validator.rules.minlength = function(fieldNode, validator){
+		if(fieldNode.val().length < validator.config.minlength){
 			return false;
 		}
 		return true;
 	};
 
-	luga.validator.rules.maxnumber = function(fieldNode, validator) {
-		if(!jQuery.isNumeric(fieldNode.val())) {
+	luga.validator.rules.maxnumber = function(fieldNode, validator){
+		if(!jQuery.isNumeric(fieldNode.val())){
 			return false;
 		}
-		if(parseFloat(fieldNode.val()) <= parseFloat(validator.config.maxnumber)) {
+		if(parseFloat(fieldNode.val()) <= parseFloat(validator.config.maxnumber)){
 			return true;
 		}
 		return false;
 	};
 
-	luga.validator.rules.minnumber = function(fieldNode, validator) {
-		if(!jQuery.isNumeric(fieldNode.val())) {
+	luga.validator.rules.minnumber = function(fieldNode, validator){
+		if(!jQuery.isNumeric(fieldNode.val())){
 			return false;
 		}
-		if(parseFloat(fieldNode.val()) >= parseFloat(validator.config.minnumber)) {
+		if(parseFloat(fieldNode.val()) >= parseFloat(validator.config.minnumber)){
 			return true;
 		}
 		return false;
 	};
 
-	luga.validator.rules.pattern = function(fieldNode, validator) {
+	luga.validator.rules.pattern = function(fieldNode, validator){
 		var regExpObj = luga.validator.patterns[validator.config.pattern];
-		if(regExpObj) {
+		if(regExpObj){
 			return regExpObj.test(fieldNode.val());
 		}
 		else{
@@ -746,7 +747,7 @@ if(typeof(luga) === "undefined") {
 	luga.namespace("luga.validator.dateSpecs");
 
 	// Create an object that stores date validation's info
-	luga.validator.createDateSpecObj = function(rex, year, month, day, separator) {
+	luga.validator.createDateSpecObj = function(rex, year, month, day, separator){
 		var infoObj = {};
 		infoObj.rex = new RegExp(rex);
 		infoObj.y = year;
@@ -762,7 +763,7 @@ if(typeof(luga) === "undefined") {
 		if(dateSpecObj){
 
 			// If it doesn't matches the RegExp, abort
-			if(!dateSpecObj.rex.test(dateStr)) {
+			if(!dateSpecObj.rex.test(dateStr)){
 				return null;
 			}
 
@@ -770,12 +771,12 @@ if(typeof(luga) === "undefined") {
 			// Split the date into 3 different bits using the separator
 			var dateBits = dateStr.split(dateSpecObj.s);
 			// First try to create a new date out of the bits
-			var testDate = new Date(dateBits[dateSpecObj.y], (dateBits[dateSpecObj.m]-1), dateBits[dateSpecObj.d]);
+			var testDate = new Date(dateBits[dateSpecObj.y], (dateBits[dateSpecObj.m] - 1), dateBits[dateSpecObj.d]);
 			// Make sure values match after conversion
 			var yearMatches = testDate.getFullYear() === parseInt(dateBits[dateSpecObj.y]);
-			var monthMatches = testDate.getMonth() === parseInt(dateBits[dateSpecObj.m]-1);
+			var monthMatches = testDate.getMonth() === parseInt(dateBits[dateSpecObj.m] - 1);
 			var dayMatches = testDate.getDate() === parseInt(dateBits[dateSpecObj.d]);
-			if(yearMatches && monthMatches && dayMatches) {
+			if(yearMatches && monthMatches && dayMatches){
 				return testDate;
 			}
 			return null;
@@ -802,29 +803,29 @@ if(typeof(luga) === "undefined") {
 
 	luga.namespace("luga.validator.utils");
 
-	luga.validator.utils.isInputField = function(fieldNode) {
-		if(!jQuery(fieldNode).prop("type")) {
+	luga.validator.utils.isInputField = function(fieldNode){
+		if(!jQuery(fieldNode).prop("type")){
 			return false;
 		}
 		// It belongs to the kind of nodes that are considered form fields, but can't be validated
-		if(luga.validator.CONST.FAKE_INPUT_TYPES[jQuery(fieldNode).prop("type")] === true) {
+		if(luga.validator.CONST.FAKE_INPUT_TYPES[jQuery(fieldNode).prop("type")] === true){
 			return false;
 		}
 		return true;
 	};
 
-	luga.validator.utils.getFieldGroup = function(name, formNode) {
+	luga.validator.utils.getFieldGroup = function(name, formNode){
 		var selector = "input[name=" + name + "]";
 		return jQuery(selector, formNode);
 	};
 
 	/* Attach form validators to onSubmit events */
 
-	luga.validator.initForms = function() {
-		jQuery(luga.validator.CONST.FORM_SELECTOR).each(function(index, item) {
+	luga.validator.initForms = function(){
+		jQuery(luga.validator.CONST.FORM_SELECTOR).each(function(index, item){
 			var formNode = jQuery(item);
-			if(formNode.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.VALIDATE) === "true") {
-				formNode.submit(function(event) {
+			if(formNode.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.VALIDATE) === "true"){
+				formNode.submit(function(event){
 					var formValidator = new luga.validator.FormValidator({
 						formNode: formNode
 					});
@@ -841,7 +842,7 @@ if(typeof(luga) === "undefined") {
 	/**
 	 * Allows to programmatically validate a form
 	 */
-	luga.validator.api.validateForm = function(options) {
+	luga.validator.api.validateForm = function(options){
 		var formValidator = new luga.validator.FormValidator(options);
 		formValidator.validate(null);
 		return formValidator.isValid();
@@ -850,8 +851,8 @@ if(typeof(luga) === "undefined") {
 	/**
 	 * Allows to programmatically validate a field
 	 */
-	luga.validator.api.validateField = function(options) {
-		if(!luga.validator.utils.isInputField(options.fieldNode)) {
+	luga.validator.api.validateField = function(options){
+		if(!luga.validator.utils.isInputField(options.fieldNode)){
 			throw(luga.validator.CONST.MESSAGES.FIELD_CANT_BE_VALIDATED);
 		}
 		var fieldValidator = new luga.validator.FieldValidatorGetInstance(options);
@@ -859,7 +860,7 @@ if(typeof(luga) === "undefined") {
 		return fieldValidator.isValid();
 	};
 
-	jQuery(document).ready(function () {
+	jQuery(document).ready(function(){
 		luga.validator.initForms();
 	});
 

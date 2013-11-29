@@ -14,14 +14,14 @@
  limitations under the License.
  */
 
-if(typeof(jQuery) === "undefined") {
+if(typeof(jQuery) === "undefined"){
 	throw("Unable to find jQuery");
 }
-if(typeof(luga) === "undefined") {
+if(typeof(luga) === "undefined"){
 	var luga = {};
 }
 
-(function() {
+(function(){
 	"use strict";
 
 	luga.version = 0.1;
@@ -31,14 +31,14 @@ if(typeof(luga) === "undefined") {
 	 * Specifying the last node of a namespace implicitly creates all other nodes.
 	 * Based on Nicholas C. Zakas's code
 	 */
-	luga.namespace = function(ns, rootObject) {
+	luga.namespace = function(ns, rootObject){
 		var parts = ns.split(".");
-		if (!rootObject) {
+		if(!rootObject){
 			rootObject = window;
 		}
 		var len;
-		for (var i = 0, len = parts.length; i < len; i++) {
-			if (!rootObject[parts[i]]) {
+		for(var i = 0, len = parts.length; i < len; i++){
+			if(!rootObject[parts[i]]){
 				rootObject[parts[i]] = {};
 			}
 			rootObject = rootObject[parts[i]];
@@ -49,7 +49,7 @@ if(typeof(luga) === "undefined") {
 	/**
 	 * Offers a simple solution for inheritance among classes
 	 */
-	luga.extend = function(baseFunc, func, args) {
+	luga.extend = function(baseFunc, func, args){
 		baseFunc.apply(func, args);
 	};
 
@@ -57,7 +57,7 @@ if(typeof(luga) === "undefined") {
 	 * Merge the contents of two objects together into the first object
 	 * It wraps jQuery's extend to make names less ambiguous
 	 */
-	luga.merge = function(target, obj) {
+	luga.merge = function(target, obj){
 		jQuery.extend(target, obj);
 	};
 
@@ -88,16 +88,16 @@ if(typeof(luga) === "undefined") {
 	 * @param  args       Either an array of strings or an objects containing name/value pairs in string format
 	 * @return            The newly assembled string
 	 */
-	luga.utils.formatString = function(str, args) {
+	luga.utils.formatString = function(str, args){
 		var pattern = null;
-		if($.isArray(args)) {
-			for (var i = 0; i < args.length; i++) {
+		if($.isArray(args)){
+			for(var i = 0; i < args.length; i++){
 				pattern = new RegExp("\\{" + i + "\\}", "g");
 				str = str.replace(pattern, args[i]);
 			}
 		}
-		if($.isPlainObject(args)) {
-			for (var x in args) {
+		if($.isPlainObject(args)){
+			for(var x in args){
 				pattern = new RegExp("\\{" + x + "\\}", "g");
 				str = str.replace(pattern, args[x]);
 			}
@@ -108,21 +108,23 @@ if(typeof(luga) === "undefined") {
 	/**
 	 * Given the name of a function as a string, return the relevant function, if any
 	 */
-	luga.utils.stringToFunction = function(str) {
-		if(jQuery.isFunction(str)) {
+	luga.utils.stringToFunction = function(str){
+		if(jQuery.isFunction(str)){
 			return str;
 		}
 		// It may be a global function
-		if(window[str] && jQuery.isFunction(window[str])) {
+		if(window[str] && jQuery.isFunction(window[str])){
 			return window[str];
 		}
 		// If it lives inside a namespace, try to eval it
-		try {
+		try{
 			var evaluated = eval(str);
-			if(evaluated && jQuery.isFunction(evaluated)) {
+			if(evaluated && jQuery.isFunction(evaluated)){
 				return evaluated;
 			}
-		} catch(e) {}
+		}
+		catch(e){
+		}
 		return null;
 	};
 
@@ -130,12 +132,12 @@ if(typeof(luga) === "undefined") {
 	 * Private helper function
 	 * Generate node's id
 	 */
-	var generateBoxId = function(node) {
+	var generateBoxId = function(node){
 		var boxId = luga.utils.CONST.MSG_BOX_ID;
-		if(node.attr("id")) {
+		if(node.attr("id")){
 			boxId += node.attr("id");
 		}
-		else if(node.attr("name")) {
+		else if(node.attr("name")){
 			boxId += node.attr("name");
 		}
 		return boxId;
@@ -145,11 +147,11 @@ if(typeof(luga) === "undefined") {
 	 * Private helper function
 	 * Remove a message box (if any) associated with a given node
 	 */
-	var removeDisplayBox = function(node) {
+	var removeDisplayBox = function(node){
 		var boxId = generateBoxId(jQuery(node));
 		var oldBox = jQuery("#" + boxId);
 		// If an error display is already there, get rid of it
-		if(oldBox.length > 0) {
+		if(oldBox.length > 0){
 			oldBox.remove();
 		}
 	};
@@ -157,14 +159,14 @@ if(typeof(luga) === "undefined") {
 	/**
 	 * Display a message box above a given node
 	 */
-	luga.utils.displayMessage = function(node, html) {
+	luga.utils.displayMessage = function(node, html){
 		return luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.MESSAGE);
 	};
 
 	/**
 	 * Display an error box above a given node
 	 */
-	luga.utils.displayErrorMessage = function(node, html) {
+	luga.utils.displayErrorMessage = function(node, html){
 		return luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.ERROR_MESSAGE);
 	};
 
@@ -172,8 +174,8 @@ if(typeof(luga) === "undefined") {
 	 * Display a box with a message associated with a given node
 	 * Overwrite this method if you want to change the way luga.utils.displayMessage and luga.utils.displayErrorMessage behaves
 	 */
-	luga.utils.displayBox = function(node, html, cssClass) {
-		if(!cssClass) {
+	luga.utils.displayBox = function(node, html, cssClass){
+		if(!cssClass){
 			cssClass = luga.utils.CONST.CSS_CLASSES.MESSAGE;
 		}
 		var boxId = generateBoxId(jQuery(node));
@@ -183,10 +185,10 @@ if(typeof(luga) === "undefined") {
 		box.html(html);
 		var oldBox = jQuery("#" + boxId);
 		// If a box display is already there, replace it, if not, we create one from scratch
-		if(oldBox.length > 0) {
+		if(oldBox.length > 0){
 			oldBox.replaceWith(box);
 		}
-		else {
+		else{
 			jQuery(node).before(box);
 		}
 		return box;
@@ -199,19 +201,19 @@ if(typeof(luga) === "undefined") {
 	/**
 	 * Display error messages inside alert
 	 */
-	luga.validationHandlers.errorAlert = function(formNode, validators) {
+	luga.validationHandlers.errorAlert = function(formNode, validators){
 		var errorMsg = "";
 		var focusGiven = false;
-		for(var i=0; i<validators.length; i++) {
+		for(var i = 0; i < validators.length; i++){
 			// Append to the error string
 			errorMsg += validators[i].message + "\n";
 			// Give focus to the first invalid text field
-			if(!focusGiven && (validators[i].getFocus)) {
+			if(!focusGiven && (validators[i].getFocus)){
 				validators[i].getFocus();
 				focusGiven = true;
 			}
 		}
-		if(errorMsg !== "") {
+		if(errorMsg !== ""){
 			alert(errorMsg);
 		}
 	};
@@ -219,19 +221,19 @@ if(typeof(luga) === "undefined") {
 	/**
 	 * Display errors inside a box above the form
 	 */
-	luga.validationHandlers.errorBox = function(formNode, validators) {
+	luga.validationHandlers.errorBox = function(formNode, validators){
 		// Clean-up any existing box
-		if(validators.length === 0) {
+		if(validators.length === 0){
 			removeDisplayBox(formNode);
 			return;
 		}
 		var focusGiven = false;
 		var htmlStr = "<ul>";
 		// Create a <ul> for each error
-		for(var i=0;i<validators.length;i++) {
+		for(var i = 0; i < validators.length; i++){
 			htmlStr += "<li><em>" + validators[i].name + ": </em> " + validators[i].message + "</li>";
 			// Give focus to the first invalid text field
-			if(!focusGiven && (validators[i].getFocus)) {
+			if(!focusGiven && (validators[i].getFocus)){
 				validators[i].getFocus();
 				focusGiven = true;
 			}

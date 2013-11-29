@@ -14,11 +14,11 @@
  limitations under the License.
  */
 
-if(typeof(luga) === "undefined") {
+if(typeof(luga) === "undefined"){
 	throw("Unable to find luga.js");
 }
 
-(function() {
+(function(){
 	"use strict";
 
 	luga.namespace("luga.csi");
@@ -43,31 +43,31 @@ if(typeof(luga) === "undefined") {
 	 * @param options.error:             Function that will be invoked if the url request fails. Optional, default to the internal "onError" method
 	 * @param options.xhrTimeout:        Timeout for XHR call. Optional
 	 */
-	luga.csi.Include = function(options) {
+	luga.csi.Include = function(options){
 		var self = this;
 
-		this.init = function() {
+		this.init = function(){
 			jQuery.ajax({
 				url: self.config.url,
 				timeout: self.config.XHR_TIMEOUT,
-				success: function (response, textStatus, jqXHR) {
+				success: function(response, textStatus, jqXHR){
 					self.config.success.apply(null, [response, textStatus, jqXHR]);
 					var afterHandler = luga.utils.stringToFunction(self.config.after);
-					if(afterHandler) {
+					if(afterHandler){
 						afterHandler.apply(null, [self.config.rootNode, self.config.url, response]);
 					}
 				},
-				error: function (jqXHR, textStatus, errorThrown) {
+				error: function(jqXHR, textStatus, errorThrown){
 					self.config.error.apply(null, [jqXHR, textStatus, errorThrown]);
 				}
 			});
 		};
 
-		this.onSuccess = function(response, textStatus, jqXHR) {
+		this.onSuccess = function(response, textStatus, jqXHR){
 			jQuery(self.config.rootNode).html(response);
 		};
 
-		this.onError = function(qXHR, textStatus, errorThrown) {
+		this.onError = function(qXHR, textStatus, errorThrown){
 			throw(luga.utils.formatString(luga.csi.CONST.MESSAGES.FILE_NOT_FOUND, [self.config.url]));
 		};
 
@@ -81,14 +81,14 @@ if(typeof(luga) === "undefined") {
 		luga.merge(this.config, options);
 	};
 
-	luga.csi.loadIncludes = function() {
-		jQuery(luga.csi.CONST.NODE_SELECTOR).each(function(index, item) {
+	luga.csi.loadIncludes = function(){
+		jQuery(luga.csi.CONST.NODE_SELECTOR).each(function(index, item){
 			var includeObj = new luga.csi.Include({rootNode: item});
 			includeObj.init();
 		});
 	};
 
-	jQuery(document).ready(function () {
+	jQuery(document).ready(function(){
 		luga.csi.loadIncludes();
 	});
 

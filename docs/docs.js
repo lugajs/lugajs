@@ -3,7 +3,7 @@ luga.namespace("luga.docs");
 luga.docs.FILE_MESSAGE = "Large parts of the documentation may not be visible if you try to access it directly from the file system. </br>";
 luga.docs.FILE_MESSAGE += "Please use a web server or visit the <a href='http://www.massimocorner.com/lugajs/docs/index.htm'>online documentation</a> instead";
 
-jQuery(document).ready(function () {
+jQuery(document).ready(function(){
 	if(location.protocol === "file:"){
 		luga.utils.displayErrorMessage(jQuery("section")[0], luga.docs.FILE_MESSAGE);
 	}
