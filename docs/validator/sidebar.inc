@@ -15,6 +15,10 @@
 		<li><a href="../samples/select.htm">Drop-down (&lt;select&gt;)</a></li>
 		<li><a href="../samples/conditional-validation.htm">Conditional validation</a></li>
 	</ul>
+	<h2>Customization</h2>
+	<ul>
+		<li><a href="../samples/custom-patterns.htm">Custom patterns</a></li>
+	</ul>
 	<h2>Advanced</h2>
 	<ul>
 		<li><a href="../samples/handlers-errorbox.htm">Errorbox handler</a></li>
