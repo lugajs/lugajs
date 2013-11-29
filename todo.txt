@@ -3,8 +3,6 @@ CORE:
 - Add basic info to readme file
   https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 
-- Finalize copy text for about page
-
 - Add luga.utils.demoronizeString()
 
 - Put docs online and add sitemap.xml
