@@ -18,6 +18,7 @@
 	<h2>Customization</h2>
 	<ul>
 		<li><a href="../samples/custom-patterns.htm">Custom patterns</a></li>
+		<li><a href="../samples/custom-date-patterns.htm">Custom date patterns</a></li>
 	</ul>
 	<h2>Advanced</h2>
 	<ul>

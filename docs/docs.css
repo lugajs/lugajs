@@ -252,15 +252,24 @@ table.syntax td p {
 	margin-top: 0;
 }
 
-ul.list {
+ul.list,
+ol.list{
 	margin-bottom: 1em;
 	margin-top: 1.5em;
 }
 
-ul.list li {
-	list-style: disc outside none;
+ul.list li,
+ol.list li {
 	margin-left: 1em;
 	padding-bottom: 0.5em;
+}
+
+ul.list li {
+	list-style: disc outside none;
+}
+
+ol.list li {
+	list-style: decimal outside none;
 }
 
 /* Code listings */
@@ -291,7 +300,7 @@ code ol li {
 	border: 1px solid #FCFCFC;
 	list-style: decimal outside none;
 	padding:0.2em;
-	white-space: pre;
+	white-space: pre-wrap;
 }
 
 code ol li:hover {
