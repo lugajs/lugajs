@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>Luga Validator :: Custom error handler</title>
+	<link rel="stylesheet" href="../../../src/luga.css" />
+	<link rel="stylesheet" href="../../docs.css" />
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../src/luga.js"></script>
+	<script src="../../../src/luga.csi.js"></script>
+	<script src="../../../src/luga.validator.js"></script>
+	<script src="../../docs.js"></script>
+	<script>
+		// <![CDATA[
+		function errorOnLabels(formNode, validators){
+			var labels = jQuery(formNode).find("label");
+			// Reset all the labels
+			resetLabels(labels);
+			for(var i=0; i<validators.length; i++){
+				// Find the relevant label for this field validator
+				var fieldLabel = getLinkedLabel(labels, validators[i].name);
+				if(fieldLabel !== null){
+					// Flag the labels
+					flagLabel(fieldLabel, validators[i].message);
+				}
+			}
+		}
+
+		function flagLabel(label, message){
+			label.attr("data-orig-html", label.html());
+			label.html("<strong>" + message + "</strong>");
+		}
+
+		function getLinkedLabel(labels, fieldId){
+			for(var i=0; i<labels.length; i++){
+				if(jQuery(labels[i]).attr("for") === fieldId){
+					return jQuery(labels[i]);
+				}
+			}
+			return null;
+		}
+
+		function resetLabels(labels){
+			for(var i=0; i<labels.length; i++){
+				var node = jQuery(labels[i]);
+				if(node.attr("data-orig-html")){
+					node.html(node.attr("data-orig-html"));
+				}
+			}
+		}
+		// ]]>
+	</script>
+</head>
+<body>
+
+	<div data-luga-csi="../../main-nav.inc" data-luga-after="luga.docs.initMainNav"></div>
+	<div data-luga-csi="../sidebar.inc"></div>
+
+	<div class="content">
+
+		<section>
+
+			<h1>Customizing errors notification</h1>
+			<p>
+				By default Luga Validator uses JavaScript alert boxes to display errors to the user.
+				If we want to display errors in a custom, more user friendly way, we can take advantage of extensibility.
+			</p>
+			<p>
+				First of all we must attach a data-luga-error attribute to the &lt;form&gt; tag:
+			</p>
+			<code>
+				<ol>
+					<li>&lt;form data-luga-validate="true" data-luga-error="errorOnLabels"&gt;</li>
+				</ol>
+			</code>
+			<p>
+				The validator will invoke a JavaScript function based on the value of the data-luga-error attribute (errorOnLabels in this case).
+			</p>
+			<p>
+				The validator will pass two arguments to our custom JavaScript code:
+			</p>
+			<ol class="list">
+				<li>formNode: a reference to the form's tag DOM node</li>
+				<li>validators: an array of validator objects</li>
+			</ol>
+			<p>
+				We can iterate over the validators array (using a for loop) and, for each validator object, refer to its <strong>name</strong> and <strong>message</strong> properties.
+			</p>
+			<p>
+				This example shows error messages displayed as the field's label.
+				This solves the issue of error messages not being listed by the validator in the order in which they appear on the page layout, as each error message is displayed next to the relevant field.
+			</p>
+			<code>
+				<ol>
+					<li>&lt;script&gt;</li>
+					<li>function errorOnLabels(formNode, validators){</li>
+					<li>	var labels = jQuery(formNode).find("label");</li>
+					<li>	// Reset all the labels</li>
+					<li>	resetLabels(labels);</li>
+					<li>	for(var i=0; i&lt;validators.length; i++){</li>
+					<li>	// Find the relevant label for this field validator</li>
+					<li>	var fieldLabel = getLinkedLabel(labels, validators[i].name);</li>
+					<li>	if(fieldLabel !== null){</li>
+					<li>		// Flag the labels</li>
+					<li>		flagLabel(fieldLabel, validators[i].message);</li>
+					<li>	}</li>
+					<li>}</li>
+					<li></li>
+					<li>function flagLabel(label, message){</li>
+					<li>	label.attr("data-orig-html", label.html());</li>
+					<li>	label.html("&lt;strong&gt;" + message + "&lt;/strong&gt;");</li>
+					<li>}</li>
+					<li></li>
+					<li>function getLinkedLabel(labels, fieldId){</li>
+					<li>	for(var i=0; i&lt;labels.length; i++){</li>
+					<li>		if(jQuery(labels[i]).attr("for") === fieldId){</li>
+					<li>			return jQuery(labels[i]);</li>
+					<li>		}</li>
+					<li>	}</li>
+					<li>	return null;</li>
+					<li>}</li>
+					<li></li>
+					<li>function resetLabels(labels){</li>
+					<li>	for(var i=0; i&lt;labels.length; i++){</li>
+					<li>		var node = jQuery(labels[i]);</li>
+					<li>		if(node.attr("data-orig-html")){</li>
+					<li>			node.html(node.attr("data-orig-html"));</li>
+					<li>		}</li>
+					<li>	}</li>
+					<li>}</li>
+					<li>&lt;/script&gt;</li>
+				</ol>
+			</code>
+		</section>
+
+
+		<form data-luga-validate="true" data-luga-error="errorOnLabels">
+			<h1>Display error messages inside labels</h1>
+			<table>
+				<tr>
+					<td><label for="age">Age (required, positive integer, min 18, max 75)</label></td>
+					<td><input type="text" id="age" name="age" data-luga-required="true" data-luga-errorclass="invalid" data-luga-message="Please insert a valid age" data-luga-pattern="positiveinteger" data-luga-minnumber="18" data-luga-maxnumber="75" data-luga-filters="numbersonly" value="18"/></td>
+				</tr>
+				<tr>
+					<td><label for="name">Name (required)</label></td>
+					<td><input type="text" id="name" name="name" data-luga-required="true" data-luga-errorclass="invalid" data-luga-message="Please insert a name"/></td>
+				</tr>
+				<tr>
+					<td><label for="email">Email (required, email)</label></td>
+					<td><input type="text" id="email" name="email" data-luga-required="true" data-luga-errorclass="invalid" data-luga-message="Please insert a valid email" data-luga-email="true"/></td>
+				</tr>
+				<tr>
+					<td><label for="date">Date (not required, date, YYYY-MM-DD)</label></td>
+					<td><input type="text" id="date" name="date" data-luga-message="Please insert a date (YYYY-MM-DD) format" data-luga-errorclass="invalid" data-luga-datepattern="YYYY-MM-DD" value="2005-05-09"/></td>
+				</tr>
+				<tr>
+					<td><label for="comments">Comments (not required, min 3 chars, max 10)</label></td>
+					<td><textarea id="comments" name="comments" cols="20" rows="3" data-luga-message="Comments should be from 3 to 10 chars" data-luga-errorclass="invalid" data-luga-minlength="3" data-luga-maxlength="10"></textarea></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><input type="submit" value="Submit"/></td>
+				</tr>
+			</table>
+		</form>
+
+	</div>
+
+	<div data-luga-csi="../../footer.inc"></div>
+
+</body>
+</html>

@@ -14,16 +14,18 @@
 		<li><a href="../samples/radio.htm">Radio buttons</a></li>
 		<li><a href="../samples/select.htm">Drop-down (&lt;select&gt;)</a></li>
 		<li><a href="../samples/conditional-validation.htm">Conditional validation</a></li>
+		<li><a href="../samples/handlers-errorbox.htm">Errorbox handler</a></li>
 	</ul>
-	<h2>Customization</h2>
+	<h2>Extensibility</h2>
 	<ul>
 		<li><a href="../samples/custom-patterns.htm">Custom patterns</a></li>
 		<li><a href="../samples/custom-date-patterns.htm">Custom date patterns</a></li>
 		<li><a href="../samples/custom-validation.htm">Custom validation rules</a></li>
-	</ul>
-	<h2>Advanced</h2>
-	<ul>
-		<li><a href="../samples/handlers-errorbox.htm">Errorbox handler</a></li>
 		<li><a href="../samples/handlers-custom.htm">Custom handlers</a></li>
+		<li><a href="../samples/custom-error.htm">Custom error handler</a></li>
 	</ul>
+<!--	<h2>API</h2>
+	<ul>
+		<li><a href="../docs/api-syntax.htm">API syntax reference</a></li>
+	</ul>-->
 </nav>
