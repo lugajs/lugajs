@@ -12,13 +12,13 @@
 	<script src="../../docs.js"></script>
 	<script>
 		handlers = {};
-		handlers.before = function(){
+		handlers.before = function(formNode){
 			alert("I am a custom before handler");
 		};
-		handlers.error = function(){
+		handlers.error = function(formNode, validators){
 			alert("I am a custom error handler");
 		};
-		handlers.after = function(){
+		handlers.after = function(formNode){
 			alert("I am a custom after handler");
 		};
 	</script>
@@ -40,13 +40,13 @@
 			<ol>
 				<li>&lt;script&gt;</li>
 				<li>handlers = {};</li>
-				<li>handlers.before = function() {</li>
+				<li>handlers.before = function(formNode){</li>
 				<li>	alert("I am a custom before handler");</li>
 				<li>};</li>
-				<li>handlers.error = function() {</li>
+				<li>handlers.error = function(formNode, validators){</li>
 				<li>	alert("I am a custom error handler");</li>
 				<li>};</li>
-				<li>handlers.after = function() {</li>
+				<li>handlers.after = function(formNode){</li>
 				<li>	alert("I am a custom after handler");</li>
 				<li>};</li>
 				<li>&lt;/script&gt;</li>
