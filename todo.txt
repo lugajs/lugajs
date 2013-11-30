@@ -17,7 +17,6 @@ VALIDATOR:
 - Add FAQ (with good design/CSS)
 - Add troubleshooting page
 
-- Cross-link syntax and samples
 - Review/add JavaDocs
 
 - API
@@ -26,7 +25,7 @@ VALIDATOR:
   They need luga.validator.utils.getChildFields(rootNode)
 
 - Add API syntax doc
-- Add API samples
+- Add API sample pages
 
 - Integration with jQuery UI Tab and/or Accordion?
 
