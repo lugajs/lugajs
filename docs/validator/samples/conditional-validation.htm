@@ -33,11 +33,11 @@
 
 			<h1>Conditional validation</h1>
 			<p>
-				Out of the box, the Luga Validator doesn't provide a way to perform conditional validation. This was a design choice.
+				Out of the box, Luga Validator doesn't provide a way to perform conditional validation. This was a design choice.
 				Creating a flexible and generic solution would require a lot of code and would undoubtedly fail to cover all contingencies.
 			</p>
 			<p>
-				Whenever we need to perform conditional validation, all we need to do is write a custom JavaScript function and use its name as the value of the luga-data-required attribute
+				Whenever we need to perform conditional validation, all we need to do is write a custom JavaScript function and use its name as the value of the data-luga-required attribute
 			</p>
 			<p>
 				In this example we want to validate a text field only if the associated checkbox is checked. The HTML code will look like this:
@@ -45,7 +45,7 @@
 
 			<code>
 				<ol>
-					<li>&lt;input type="text" name="newmeal" id="newmeal" luga-data-required="dependonbox" luga-data-message="Meal's name?" /&gt;</li>
+					<li>&lt;input type="text" name="newmeal" id="newmeal" data-luga-required="dependonbox" luga-data-message="Meal's name?" /&gt;</li>
 				</ol>
 			</code>
 
