@@ -131,6 +131,10 @@
 					<li>&lt;/script&gt;</li>
 				</ol>
 			</code>
+			<p>
+				Please note the error handler function gets invoked even if the form doesn't contain errors. In this case the "validators" argument contains an empty array.
+				This way it can reset error display and clean-up the GUI. This is especially important for forms that get submitted using Ajax, without refreshing the page.
+			</p>
 		</section>
 
 
