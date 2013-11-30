@@ -14,11 +14,6 @@ VALIDATOR:
 - Add auto-demoronize option?
 - Test/demo HTML 5 fields
 
-- Samples:
-	- Customizing error display (inside labels)
-	- Add fields at run-time
-	- Alter validation rules at run-time
-
 - Add FAQ (with good design/CSS)
 - Add troubleshooting page
 

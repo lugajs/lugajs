@@ -14,7 +14,8 @@
 		<li><a href="../samples/radio.htm">Radio buttons</a></li>
 		<li><a href="../samples/select.htm">Drop-down (&lt;select&gt;)</a></li>
 		<li><a href="../samples/conditional-validation.htm">Conditional validation</a></li>
-		<li><a href="../samples/handlers-errorbox.htm">Errorbox handler</a></li>
+		<li><a href="../samples/handlers-errorbox.htm">Better error display</a></li>
+		<li><a href="../samples/dom-changes.htm">Alter DOM at run-time</a></li>
 	</ul>
 	<h2>Extensibility</h2>
 	<ul>

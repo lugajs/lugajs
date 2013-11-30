@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>Luga Validator :: Manipulating the DOM at run-time</title>
+	<link rel="stylesheet" href="../../../src/luga.css" />
+	<link rel="stylesheet" href="../../docs.css" />
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../src/luga.js"></script>
+	<script src="../../../src/luga.csi.js"></script>
+	<script src="../../../src/luga.validator.js"></script>
+	<script src="../../docs.js"></script>
+	<script>
+		// <![CDATA[
+		function checkMeal(){
+			var checkbox = jQuery("#specialmeal");
+			var textField = jQuery("#newmeal");
+			if(checkbox.prop("checked") === true){
+				textField.attr("data-luga-required", "true");
+				textField.addClass("required");
+			}
+			else{
+				textField.attr("data-luga-required", "false");
+				textField.removeClass("required");
+			}
+		}
+
+		function addMeal(){
+			var checkbox = jQuery("#specialmealAdd");
+			var tableCell = jQuery("#mealCell");
+			if(checkbox.prop("checked") === true){
+				var htmlStr = 'Specify the special meal\'s name:';
+				htmlStr += '<input type="text" name="dynamicMeal" id="dynamicMeal" data-luga-required="true" data-luga-message="Meal\'s name?" />';
+				tableCell.html(htmlStr);
+			}
+			else{
+				tableCell.html("");
+			}
+		}
+		// ]]>
+	</script>
+</head>
+<body>
+
+	<div data-luga-csi="../../main-nav.inc" data-luga-after="luga.docs.initMainNav"></div>
+	<div data-luga-csi="../sidebar.inc"></div>
+
+	<div class="content">
+
+		<section>
+
+			<h1>Manipulating the DOM at run-time</h1>
+			<p>
+				It's possible to add/remove form fields or add/remove/update validation criteria at run-time.
+			</p>
+
+		</section>
+
+		<form data-luga-validate="true">
+			<h1>Edit "data-luga-required" at run-time</h1>
+			<table>
+				<tr>
+					<td>
+						<label>
+							<input name="specialmeal" id="specialmeal" type="checkbox" value="true" onclick="checkMeal()" />
+							Yes, I want a special meal (clicking this will set data-luga-required on the text field below)
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td>Specify the special meal's name
+						<input type="text" name="newmeal" id="newmeal" data-luga-message="Meal's name?" />
+						<input type="submit" value="Submit" />
+					</td>
+				</tr>
+			</table>
+		</form>
+
+		<form data-luga-validate="true">
+			<h1>Add a field at run-time</h1>
+			<table>
+				<tr>
+					<td>
+						<label>
+							<input name="specialmealAdd" id="specialmealAdd" type="checkbox" value="true" onclick="addMeal()" />
+							Yes, I want a special meal (clicking this will add/remove a new text field to the form)
+						</label>
+					</td>
+				</tr>
+				<tr>
+					<td id="mealCell"></td>
+				</tr>
+				<tr>
+					<td>
+						<input type="submit" value="Submit" />
+					</td>
+				</tr>
+			</table>
+		</form>
+
+	</div>
+
+	<div data-luga-csi="../../footer.inc"></div>
+
+</body>
+</html>
