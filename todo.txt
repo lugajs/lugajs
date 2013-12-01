@@ -14,9 +14,6 @@ VALIDATOR:
 - Add auto-demoronize option?
 - Test/demo HTML 5 fields
 
-- Add FAQ (with good design/CSS)
-- Add troubleshooting page
-
 - Sample integration with jQuery UI Tab and/or Accordion form multi-section form?
 
 - Review test specs, improve engineering, reduce redundancy

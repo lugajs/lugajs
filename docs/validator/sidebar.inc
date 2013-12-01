@@ -4,6 +4,7 @@
 		<li><a href="../docs/index.htm">About</a></li>
 		<li><a href="../docs/getting-started.htm">Getting started</a></li>
 		<li><a href="../docs/syntax.htm">Syntax reference</a></li>
+		<li><a href="../docs/faq.htm">FAQ/troubleshooting</a></li>
 	</ul>
 	<h2>Samples</h2>
 	<ul>

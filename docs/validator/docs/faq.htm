@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>Luga Validator :: FAQ/troubleshooting</title>
+	<link rel="stylesheet" href="../../../src/luga.css" />
+	<link rel="stylesheet" href="../../docs.css" />
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../src/luga.js"></script>
+	<script src="../../../src/luga.csi.js"></script>
+	<script src="../../docs.js"></script>
+</head>
+<body>
+
+	<div data-luga-csi="../../main-nav.inc" data-luga-after="luga.docs.initMainNav"></div>
+	<div data-luga-csi="../sidebar.inc"></div>
+
+	<div class="content">
+
+		<section>
+
+			<h1>When things go wrong...</h1>
+
+			<div>
+				<p class="question">
+					Case sensitivity
+				</p>
+				<p class="answer">
+					Since it makes heavy use of DOM and JavaScript, everything inside Luga Validator is case sensitive.
+					The whole library has been designed with power users in mind, so it doesn't tolerate sloppy coding (most of the time it will fail silently instead of throwing JavaScript errors)
+				</p>
+			</div>
+
+			<div>
+				<p class="question">
+					The submit button's value isn't passed to the server-side script
+				</p>
+				<p class="answer">
+					By default submit buttons are disabled after the form is submitted. This prevents multiple submits but also prevents the value of the submit buttons from being passed as part of the HTTP request.
+					Set the data-luga-blocksubmit attribute of the &lt;form&gt; tag to false if you want prevent this behavior
+				</p>
+			</div>
+
+			<div>
+				<p class="question">
+					The onsubmit event
+				</p>
+				<p class="answer">
+					Whenever you set the data-luga-validate to true, the validation is automatically triggered by the form's onsubmit event.
+					In case you want to execute some other JavaScript code, please use the<a href="../samples/handlers-custom.htm"> custom handlers</a>.
+				If you attach other code to the onsubmit event, there is no guarantee about the order in which they will be executed and they could conflict with Luga Validator, preventing the validation to be executed at all </p>
+			</div>
+
+			<div>
+				<p class="question">
+					Error messages aren't listed in the correct order
+				</p>
+				<p class="answer">
+				Most of the times they will, sometimes they won't, you can't count on it. If you are concerned about this issue, you can display error messages <a href="../samples/custom-error.htm">next to their relevant field</a> </p>
+			</div>
+
+		</section>
+
+
+		<section>
+
+			<h1>FAQ</h1>
+
+			<div>
+				<p class="question">
+					Which browsers are supported?
+				</p>
+				<p class="answer">
+					The library is tested with FireFox, Chrome, Safari and IE8+
+				</p>
+			</div>
+
+			<div>
+				<p class="question">
+					I don't know JavaScript, can I still use it?
+				</p>
+				<p class="answer">
+					JavaScript programming knowledge isn't required in order to use the Validator. Some decent understanding of JavaScript can indeed help you out whenever you need to extend it
+				</p>
+			</div>
+
+			<div>
+				<p class="question">
+					Can I use images as my submit buttons?
+				</p>
+				<p class="answer">
+					You can use images or &lt;button&gt; tags as submit buttons, but unlike standard form buttons, the Validator will not disable them after successful validation
+				</p>
+			</div>
+
+			<div>
+				<p class="question">
+					Is it open source?
+				</p>
+				<p class="answer">
+				Yes, Luga Validator is distributed under the <a href="../../../../http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2 license</a> </p>
+			</div>
+
+		</section>
+
+	</div>
+
+	<div data-luga-csi="../../footer.inc"></div>
+
+</body>
+</html>

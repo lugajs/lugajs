@@ -303,14 +303,14 @@ code ol + ol {
 }
 
 code ol li {
-	border: 1px solid #FCFCFC;
+	border: 0.1em solid #FCFCFC;
 	list-style: decimal outside none;
 	padding:0.2em;
 	white-space: pre-wrap;
 }
 
 code ol li:hover {
-	border: 1px dotted #333333;
+	border: 0.1em dotted #333333;
 }
 
 section code {
@@ -322,4 +322,27 @@ section code {
 section code ol {
 	border: 0;
 	border-radius: 0;
+}
+
+/* FAQ */
+
+p.question {
+	background-color: #F1F1F1;
+	border: 0.1em solid #7C93BA;
+	border-top-left-radius: 0.4em;
+	border-top-right-radius: 0.4em;
+	color: #545454;
+	font-weight: 700;
+	margin-top: 2em;
+	padding: 0.5em 1em 1em 1em;
+	text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.1);
+}
+
+p.answer {
+	background-color: #FFFFFF;
+	border: 0.1em solid #7C93BA;
+	border-bottom-left-radius: 0.4em;
+	border-bottom-right-radius: 0.4em;
+	margin-top: 0;
+	padding: 0.5em 1em;
 }
