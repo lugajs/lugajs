@@ -1,3 +1,5 @@
+/* global luga, it, describe, expect, loadFixtures */
+
 "use strict";
 
 // Override the default error handler to avoid triggering alert messages

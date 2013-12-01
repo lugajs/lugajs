@@ -1,3 +1,5 @@
+/* global luga, it, describe, expect, loadFixtures */
+
 "use strict";
 
 function mocktruthyfunction(fieldNode){

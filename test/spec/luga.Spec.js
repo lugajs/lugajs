@@ -1,3 +1,5 @@
+/*global luga, it, describe, expect */
+
 "use strict";
 
 describe("luga", function(){
@@ -76,7 +78,7 @@ describe("luga", function(){
 
 });
 
-describe("luga.utils stores generic, utilities and static methods", function(){
+describe("luga.utils stores generic, static methods and utilities", function(){
 
 	it("Lives inside its own namespace", function(){
 		expect(luga.utils).toBeDefined();
