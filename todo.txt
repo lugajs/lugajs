@@ -18,7 +18,6 @@ VALIDATOR:
 - Add troubleshooting page
 
 - API
-  validateFields(fields[], errorHandler) return boolean
   validateChildFields(rootNode, errorHandler)
 
 - Add API syntax doc

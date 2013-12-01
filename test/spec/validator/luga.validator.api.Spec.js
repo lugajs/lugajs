@@ -64,4 +64,30 @@ describe("luga.validator.api", function(){
 
 	});
 
+	describe(".validateFields()", function(){
+
+		it("Allows to programmatically validate a collection of fields", function(){
+
+			loadFixtures("validator/FormValidator/generic.htm");
+			var fields = jQuery("#name,#age");
+
+			expect(luga.validator.api.validateFields({fields: fields})).toBe(false);
+			expect(jQuery("#name")).toHaveClass("invalid");
+
+		});
+
+		it("And return true if all fields are validated", function(){
+
+			loadFixtures("validator/FormValidator/generic.htm");
+			var fields = jQuery("#name,#age");
+
+			jQuery("#age").val("33");
+			jQuery("#name").val("filled");
+			expect(luga.validator.api.validateFields({fields: fields})).toBe(true);
+			expect(jQuery("#name")).not.toHaveClass("invalid");
+
+		});
+
+	});
+
 });
