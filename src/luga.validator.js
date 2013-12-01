@@ -27,6 +27,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.validator.CONST = {
 		FORM_SELECTOR: "form[data-luga-validate]",
+		CHILD_SELECTOR: "input,select,textarea",
 		RULE_PREFIX: "data-luga-",
 		DEFAULT_DATE_PATTERN: "YYYY-MM-DD",
 		CUSTOM_ATTRIBUTES: {
@@ -817,6 +818,17 @@ if(typeof(luga) === "undefined"){
 	luga.validator.utils.getFieldGroup = function(name, formNode){
 		var selector = "input[name=" + name + "]";
 		return jQuery(selector, formNode);
+	};
+
+	luga.validator.utils.getChildFields = function(rootNode){
+		var fields = [];
+		jQuery(rootNode).find(luga.validator.CONST.CHILD_SELECTOR).each(function(index, item){
+			if(luga.validator.utils.isInputField(item)){
+				fields.push(item);
+			}
+		});
+
+		return fields;
 	};
 
 	/* Attach form validators to onSubmit events */

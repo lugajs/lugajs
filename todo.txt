@@ -5,7 +5,7 @@ CORE:
 
 - Add luga.utils.demoronizeString()
 
-- Put docs online and add sitemap.xml
+- Put online sitemap.xml
 
 -------------
 
@@ -17,17 +17,16 @@ VALIDATOR:
 - Add FAQ (with good design/CSS)
 - Add troubleshooting page
 
-- Review/add JavaDocs
-
 - API
-  validateFields(fields[], [errorHandler]) return boolean
-  validateChildFields()
-  They need luga.validator.utils.getChildFields(rootNode)
+  validateFields(fields[], errorHandler) return boolean
+  validateChildFields(rootNode, errorHandler)
 
 - Add API syntax doc
 - Add API sample pages
 
-- Integration with jQuery UI Tab and/or Accordion?
+- Sample integration with jQuery UI Tab and/or Accordion form multi-section form?
+
+- Review test specs, improve engineering, reduce redundancy
 
 -------------
 

@@ -167,4 +167,18 @@ describe("luga.validator.utils", function(){
 
 	});
 
+	describe(".getChildFields()", function(){
+
+		it("Returns an array of input fields contained inside a given root node", function(){
+			loadFixtures("validator/FormValidator/generic.htm");
+			expect(luga.validator.utils.getChildFields(jQuery("#generic")).length).toEqual(14);
+		});
+
+		it("Returns an empty array if there are no suitable input fields", function(){
+			loadFixtures("validator/FormValidator/generic.htm");
+			expect(luga.validator.utils.getChildFields(jQuery("#food")).length).toEqual(0);
+		});
+
+	});
+
 });
