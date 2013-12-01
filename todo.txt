@@ -16,8 +16,6 @@ VALIDATOR:
 
 - Sample integration with jQuery UI Tab and/or Accordion form multi-section form?
 
-- Review test specs, improve engineering, reduce redundancy
-
 -------------
 
 DATASET:
