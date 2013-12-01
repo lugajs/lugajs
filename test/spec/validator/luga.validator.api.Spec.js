@@ -90,4 +90,30 @@ describe("luga.validator.api", function(){
 
 	});
 
+	describe(".validateChildFields()", function(){
+
+		it("Allows to programmatically validate all fields contained inside a given node", function(){
+
+			loadFixtures("validator/FormValidator/generic.htm");
+			var fieldset = jQuery("#fieldGroup");
+
+			expect(luga.validator.api.validateChildFields({rootNode: fieldset})).toBe(false);
+			expect(jQuery("#name")).toHaveClass("invalid");
+
+		});
+
+		it("And return true if all fields are validated", function(){
+
+			loadFixtures("validator/FormValidator/generic.htm");
+			var fieldset = jQuery("#fieldGroup");
+
+			jQuery("#age").val("33");
+			jQuery("#name").val("filled");
+			expect(luga.validator.api.validateChildFields({rootNode: fieldset})).toBe(true);
+			expect(jQuery("#name")).not.toHaveClass("invalid");
+
+		});
+
+	});
+
 });

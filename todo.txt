@@ -17,9 +17,6 @@ VALIDATOR:
 - Add FAQ (with good design/CSS)
 - Add troubleshooting page
 
-- API
-  validateChildFields(rootNode, errorHandler)
-
 - Add API syntax doc
 - Add API sample pages
 

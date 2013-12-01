@@ -911,6 +911,20 @@ if(typeof(luga) === "undefined"){
 		return dirtyValidators.length === 0;
 	};
 
+	/**
+	 * Programmatically validate all fields contained inside a given node
+	 * @param options.rootNode:        Container node (DOM references). Required
+	 * @param options.error:           Function that will be invoked to handle/display validation messages.
+	 *                                 Default to luga.validator.errorAlert (display plain alert messages)
+	 */
+	luga.validator.api.validateChildFields = function(options){
+		var fields = luga.validator.utils.getChildFields(options.rootNode);
+		return luga.validator.api.validateFields({
+			fields: fields,
+			error: options.error
+		});
+	};
+
 	jQuery(document).ready(function(){
 		luga.validator.initForms();
 	});
