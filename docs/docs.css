@@ -252,6 +252,11 @@ table.syntax td p {
 	margin-top: 0;
 }
 
+td pre {
+	font-family: Consolas, "Liberation Mono", Courier, monospace;
+	margin: -1em 0 0 0;
+}
+
 ul.list,
 ol.list{
 	margin-bottom: 1em;

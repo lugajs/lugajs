@@ -25,8 +25,9 @@
 		<li><a href="../samples/handlers-custom.htm">Custom handlers</a></li>
 		<li><a href="../samples/custom-error.htm">Custom error handler</a></li>
 	</ul>
-<!--	<h2>API</h2>
+	<h2>API</h2>
 	<ul>
 		<li><a href="../docs/api-syntax.htm">API syntax reference</a></li>
-	</ul>-->
+		<li><a href="../samples/api.htm">Samples</a></li>
+	</ul>
 </nav>

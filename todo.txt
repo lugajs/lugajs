@@ -17,9 +17,6 @@ VALIDATOR:
 - Add FAQ (with good design/CSS)
 - Add troubleshooting page
 
-- Add API syntax doc
-- Add API sample pages
-
 - Sample integration with jQuery UI Tab and/or Accordion form multi-section form?
 
 - Review test specs, improve engineering, reduce redundancy

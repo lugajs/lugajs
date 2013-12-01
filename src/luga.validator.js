@@ -854,24 +854,40 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Programmatically validate a form
-	 * @param options.formNode:          Form (DOM reference). Required
+	 * @param options.formNode:        Form (DOM reference). Required
+	 * @param options.error:           Function that will be invoked to handle/display validation messages.
+	 *                                 Default to luga.validator.errorAlert (display plain alert messages)
 	 */
 	luga.validator.api.validateForm = function(options){
+		if(!options.error){
+			options.error = luga.validator.CONST.HANDLERS.FORM_ERROR;
+		}
 		var formValidator = new luga.validator.FormValidator(options);
-		formValidator.validate(null);
+		var dirtyValidators = formValidator.validate(null);
+		if(dirtyValidators.length > 0){
+			options.error.apply(null, [options.formNode, dirtyValidators]);
+		}
 		return formValidator.isValid();
 	};
 
 	/**
 	 * Programmatically validate a field
-	 * @param options.fieldNode:          Input field (DOM reference). Required
+	 * @param options.fieldNode:       Input field (DOM reference). Required
+	 * @param options.error:           Function that will be invoked to handle/display validation messages.
+	 *                                 Default to luga.validator.errorAlert (display plain alert messages)
 	 */
 	luga.validator.api.validateField = function(options){
 		if(!luga.validator.utils.isInputField(options.fieldNode)){
 			throw(luga.validator.CONST.MESSAGES.FIELD_CANT_BE_VALIDATED);
 		}
+		if(!options.error){
+			options.error = luga.validator.CONST.HANDLERS.FORM_ERROR;
+		}
 		var fieldValidator = new luga.validator.FieldValidatorGetInstance(options);
 		fieldValidator.validate(null);
+		if(!fieldValidator.isValid()){
+			options.error.apply(null, [null, [fieldValidator]]);
+		}
 		return fieldValidator.isValid();
 	};
 
@@ -882,8 +898,8 @@ if(typeof(luga) === "undefined"){
 	 *                                 Default to luga.validator.errorAlert (display plain alert messages)
 	 */
 	luga.validator.api.validateFields = function(options){
-		if(!options.errorHandler){
-			options.errorHandler = luga.validator.CONST.HANDLERS.FORM_ERROR;
+		if(!options.error){
+			options.error = luga.validator.CONST.HANDLERS.FORM_ERROR;
 		}
 		var validators = [];
 		var executedValidators = [];
@@ -907,6 +923,9 @@ if(typeof(luga) === "undefined"){
 				}
 				executedValidators[validators[i].name] = true;
 			}
+		}
+		if(dirtyValidators.length > 0){
+			options.error.apply(null, [null, dirtyValidators]);
 		}
 		return dirtyValidators.length === 0;
 	};

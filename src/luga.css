@@ -40,7 +40,8 @@ input[type="radio"]:focus {
 	border: 0;
 }
 
-input[type="submit"] {
+input[type="submit"],
+input[type="button"]{
 	background-color: #7C93BA;
 	border: 0.1em solid #AAAAAA;
 	border-radius: 1em;
@@ -54,7 +55,10 @@ input[type="submit"] {
 
 input[type="submit"]:hover,
 input[type="submit"]:active,
-input[type="submit"]:focus {
+input[type="submit"]:focus,
+input[type="button"]:hover,
+input[type="button"]:active,
+input[type="button"]:focus{
 	box-shadow: rgba(0, 0, 0, .25) 0 1px 0px;
 	color: #EDEBDA;
 }
