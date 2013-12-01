@@ -125,17 +125,17 @@ if(typeof(luga) === "undefined"){
 			self.init();
 			self.before();
 			// Keep track of already validated fields (to skip already validated checkboxes or radios)
-			var validatorsNames = {};
+			var executedValidators = {};
 			for(var i = 0; i < self.validators.length; i++){
 				if(self.validators[i] && self.validators[i].validate){
-					if(validatorsNames[self.validators[i].name]){
+					if(executedValidators[self.validators[i].name]){
 						// Already validated checkbox or radio, skip it
 						continue;
 					}
 					if(self.validators[i].validate()){
 						self.dirtyValidators.push(self.validators[i]);
 					}
-					validatorsNames[self.validators[i].name] = true;
+					executedValidators[self.validators[i].name] = true;
 				}
 			}
 			if(!self.isValid()){
@@ -831,8 +831,9 @@ if(typeof(luga) === "undefined"){
 		return fields;
 	};
 
-	/* Attach form validators to onSubmit events */
-
+	/**
+	 * Attach form validators to onSubmit events
+	*/
 	luga.validator.initForms = function(){
 		jQuery(luga.validator.CONST.FORM_SELECTOR).each(function(index, item){
 			var formNode = jQuery(item);
@@ -852,7 +853,8 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.validator.api");
 
 	/**
-	 * Allows to programmatically validate a form
+	 * Programmatically validate a form
+	 * @param options.formNode:          Form (DOM reference). Required
 	 */
 	luga.validator.api.validateForm = function(options){
 		var formValidator = new luga.validator.FormValidator(options);
@@ -861,7 +863,8 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Allows to programmatically validate a field
+	 * Programmatically validate a field
+	 * @param options.fieldNode:          Input field (DOM reference). Required
 	 */
 	luga.validator.api.validateField = function(options){
 		if(!luga.validator.utils.isInputField(options.fieldNode)){
@@ -870,6 +873,42 @@ if(typeof(luga) === "undefined"){
 		var fieldValidator = new luga.validator.FieldValidatorGetInstance(options);
 		fieldValidator.validate(null);
 		return fieldValidator.isValid();
+	};
+
+	/**
+	 * Programmatically validate a collection of fields
+	 * @param options.fields:          A collection of input fields (DOM references). Required
+	 * @param options.error:           Function that will be invoked to handle/display validation messages.
+	 *                                 Default to luga.validator.errorAlert (display plain alert messages)
+	 */
+	luga.validator.api.validateFields = function(options){
+		if(!options.errorHandler){
+			options.errorHandler = luga.validator.CONST.HANDLERS.FORM_ERROR;
+		}
+		var validators = [];
+		var executedValidators = [];
+		var dirtyValidators = [];
+
+		for(var i = 0; i < options.fields.length; i++){
+			if(luga.validator.utils.isInputField(options.fields[i])){
+				validators.push(luga.validator.FieldValidatorGetInstance({
+					fieldNode: options.fields[i]
+				}));
+			}
+		}
+		for(var i = 0; i < validators.length; i++){
+			if(validators[i] && validators[i].validate){
+				if(executedValidators[validators[i].name]){
+					// Already validated checkbox or radio, skip it
+					continue;
+				}
+				if(validators[i].validate()){
+					dirtyValidators.push(validators[i]);
+				}
+				executedValidators[validators[i].name] = true;
+			}
+		}
+		return dirtyValidators.length === 0;
 	};
 
 	jQuery(document).ready(function(){
