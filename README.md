@@ -13,4 +13,4 @@ Right now the following production ready libraries are available:
 	  </li>
 </ul> 
 
-More libraries are in the work
+Additional libraries are in the work
