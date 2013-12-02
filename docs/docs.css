@@ -179,6 +179,7 @@ section {
 	max-width: 70em;
 	min-width: 50em;
 }
+
 code,
 table.syntax {
 	max-width: 74em;
@@ -259,7 +260,7 @@ td pre {
 }
 
 ul.list,
-ol.list{
+ol.list {
 	margin-bottom: 1em;
 	margin-top: 1.5em;
 }
@@ -305,7 +306,7 @@ code ol + ol {
 code ol li {
 	border: 0.1em solid #FCFCFC;
 	list-style: decimal outside none;
-	padding:0.2em;
+	padding: 0.2em;
 	white-space: pre-wrap;
 }
 

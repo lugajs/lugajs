@@ -16,7 +16,7 @@
 			var labels = jQuery(formNode).find("label");
 			// Reset all the labels
 			resetLabels(labels);
-			for(var i=0; i<validators.length; i++){
+			for(var i = 0; i < validators.length; i++){
 				// Find the relevant label for this field validator
 				var fieldLabel = getLinkedLabel(labels, validators[i].name);
 				if(fieldLabel !== null){
@@ -32,7 +32,7 @@
 		}
 
 		function getLinkedLabel(labels, fieldId){
-			for(var i=0; i<labels.length; i++){
+			for(var i = 0; i < labels.length; i++){
 				if(jQuery(labels[i]).attr("for") === fieldId){
 					return jQuery(labels[i]);
 				}
@@ -41,7 +41,7 @@
 		}
 
 		function resetLabels(labels){
-			for(var i=0; i<labels.length; i++){
+			for(var i = 0; i < labels.length; i++){
 				var node = jQuery(labels[i]);
 				if(node.attr("data-orig-html")){
 					node.html(node.attr("data-orig-html"));
