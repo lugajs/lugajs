@@ -8,7 +8,7 @@
     <option forin="true" />
     <option immed="false" />
     <option latedef="true" />
-    <option newcap="true" />
+    <option newcap="false" />
     <option noarg="true" />
     <option noempty="true" />
     <option nonew="true" />
