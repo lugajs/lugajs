@@ -121,6 +121,23 @@ describe("luga.utils stores generic, static methods and utilities", function(){
 
 	});
 
+	describe(".stringDemoronize(). Given a string", function(){
+
+		it("Replace MS Word's non-ISO characters with plausible substitutes", function(){
+			var crappyStr = String.fromCharCode(710);
+			crappyStr += String.fromCharCode(732);
+			crappyStr += String.fromCharCode(8216);
+			crappyStr += String.fromCharCode(8217);
+			crappyStr += String.fromCharCode(8220);
+			crappyStr += String.fromCharCode(8221);
+			crappyStr += String.fromCharCode(8211);
+			crappyStr += String.fromCharCode(8230);
+			var cleanStr = "^~''\"\"-...";
+			expect(luga.utils.demoronizeString(crappyStr)).toBe(cleanStr);
+		});
+
+	});
+
 	describe(".displayMessage()", function(){
 
 		it("Displays a message box above a given node", function(){

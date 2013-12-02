@@ -24,7 +24,7 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.version = 0.1;
+	luga.version = 0.2;
 
 	/**
 	 * Creates namespaces to be used for scoping variables and classes so that they are not global.
@@ -102,6 +102,29 @@ if(typeof(luga) === "undefined"){
 				str = str.replace(pattern, args[x]);
 			}
 		}
+		return str;
+	};
+
+	/**
+	 * Replace MS Word's non-ISO characters with plausible substitutes
+	 *
+	 * @param  str   String containing MS Word's garbage
+	 */
+	luga.utils.demoronizeString = function(str){
+		str = str.replace(new RegExp(String.fromCharCode(710), "g"), "^");
+		str = str.replace(new RegExp(String.fromCharCode(732), "g"), "~");
+		// Evil "smarty" quotes
+		str = str.replace(new RegExp(String.fromCharCode(8216), "g"), "'");
+		str = str.replace(new RegExp(String.fromCharCode(8217), "g"), "'");
+		str = str.replace(new RegExp(String.fromCharCode(8220), "g"), '"');
+		str = str.replace(new RegExp(String.fromCharCode(8221), "g"), '"');
+		// More garbage
+		str = str.replace(new RegExp(String.fromCharCode(8211), "g"), "-");
+		str = str.replace(new RegExp(String.fromCharCode(8212), "g"), "--");
+		str = str.replace(new RegExp(String.fromCharCode(8218), "g"), ",");
+		str = str.replace(new RegExp(String.fromCharCode(8222), "g"), ",,");
+		str = str.replace(new RegExp(String.fromCharCode(8226), "g"), "*");
+		str = str.replace(new RegExp(String.fromCharCode(8230), "g"), "...");
 		return str;
 	};
 

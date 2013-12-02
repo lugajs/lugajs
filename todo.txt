@@ -1,14 +1,10 @@
 CORE:
 
-- Add luga.utils.demoronizeString()
-
 - Put online sitemap.xml
 
 -------------
 
 VALIDATOR:
-
-- Add auto-demoronize option?
 
 - Sample integration with jQuery UI Tab and/or Accordion form multi-section form?
 

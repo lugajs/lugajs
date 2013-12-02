@@ -23,7 +23,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.validator");
 
-	luga.validator.version = 0.5;
+	luga.validator.version = 0.8;
 
 	luga.validator.CONST = {
 		FORM_SELECTOR: "form[data-luga-validate]",
