@@ -1,10 +1,16 @@
 CORE:
 
-- Put online sitemap.xml
+- Create sitemap.xml
+
+- Try Grunt for release automation and minification
+
+- Add list of root files/folders and explanations to README.md
 
 -------------
 
 VALIDATOR:
+
+- Improve format of API's syntax reference
 
 - Sample integration with jQuery UI Tab and/or Accordion form multi-section form?
 
