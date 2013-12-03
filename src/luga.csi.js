@@ -24,6 +24,8 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.csi");
 
+	luga.csi.version = 0.8;
+
 	luga.csi.CONST = {
 		NODE_SELECTOR: "div[data-luga-csi]",
 		URL_ATTRIBUTE: "data-luga-csi",
