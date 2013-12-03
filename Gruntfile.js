@@ -32,7 +32,22 @@ module.exports = function(grunt){
 					"src/luga.validator.min.js": ["src/luga.validator.js"]
 				}
 			}
+		},
+
+		compress: {
+			main: {
+				options: {
+					archive: "dist/luga-js.zip"
+				},
+				files: [
+					{src: ["docs/**"]},
+					{src: ["lib/**"]},
+					{src: ["src/**"]},
+					{src: ["test/**"]}
+				]
+			}
 		}
+
 	});
 
 	// Load plugins
@@ -40,6 +55,6 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks("grunt-contrib-compress");
 
 	// Default task(s).
-	grunt.registerTask("default", ["uglify:coreTarget", "uglify:csiTarget", "uglify:validatorTarget"]);
+	grunt.registerTask("default", ["uglify:coreTarget", "uglify:csiTarget", "uglify:validatorTarget", "compress"]);
 
 };
