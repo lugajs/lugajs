@@ -1,8 +1,16 @@
 {
-  "name": "luga-js",
-  "version": "0.1.0",
-  "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-contrib-uglify": "~0.2.2"
-  }
+	"name": "luga-js",
+	"license": "Apache 2",
+	"versionCore": "0.2",
+	"versionCsi": "0.8",
+	"versionValidator": "0.8",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/MassimoFoti/lugajs"
+	},
+	"devDependencies": {
+		"grunt": "~0.4.2",
+		"grunt-contrib-uglify": "~0.2.7",
+		"grunt-contrib-compress": "~0.5.3"
+	}
 }
