@@ -2,7 +2,7 @@ CORE:
 
 - Create sitemap.xml
 
-- Try Grunt for release automation and minification
+- Try Grunt creating zip files
 
 - Add list of root files/folders and explanations to README.md
 
