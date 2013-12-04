@@ -2,7 +2,7 @@ module.exports = function(grunt){
 
 	function assembleBanner(libData){
 		var str = "/*! ";
-		str += libData.name + " " + libData.version + "<%= grunt.template.today('yyyy-mm-dd HH:mm') %>\n";
+		str += libData.name + " " + libData.version + " <%= grunt.template.today('yyyy-mm-dd HH:mm') %>\n";
 		str += "Copyright 2013 Massimo Foti (massimo@massimocorner.com) \n";
 		str += "Licensed under the Apache License, Version 2.0|  http://www.apache.org/licenses/LICENSE-2.0 \n";
 		str += "*/  \n";
