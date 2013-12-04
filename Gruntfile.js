@@ -1,5 +1,11 @@
 module.exports = function(grunt){
 
+	function assembleBanner(libData){
+		return "/*! " + libData.name + " " + libData.version + " compiled: <%= grunt.template.today('yyyy-mm-dd HH:mm') %> */\n";
+	}
+
+	global.pkg = grunt.file.readJSON("package.json");
+
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON("package.json"),
@@ -10,7 +16,7 @@ module.exports = function(grunt){
 			},
 			coreTarget: {
 				options: {
-					banner: "/*! <%= pkg.name %> <%= pkg.versionCore %> compiled: <%= grunt.template.today('yyyy-mm-dd HH:mm') %> */\n"
+					banner: assembleBanner(global.pkg.libs.core)
 				},
 				files: {
 					"src/luga.min.js": ["src/luga.js"]
@@ -18,7 +24,7 @@ module.exports = function(grunt){
 			},
 			csiTarget: {
 				options: {
-					banner: "/*! <%= pkg.name %> <%= pkg.versionCsi %> compiled: <%= grunt.template.today('yyyy-mm-dd HH:mm') %> */\n"
+					banner: assembleBanner(global.pkg.libs.csi)
 				},
 				files: {
 					"src/luga.csi.min.js": ["src/luga.csi.js"]
@@ -26,7 +32,7 @@ module.exports = function(grunt){
 			},
 			validatorTarget: {
 				options: {
-					banner: "/*! <%= pkg.name %> <%= pkg.versionValidator %> compiled: <%= grunt.template.today('yyyy-mm-dd HH:mm') %> */\n"
+					banner: assembleBanner(global.pkg.libs.validator)
 				},
 				files: {
 					"src/luga.validator.min.js": ["src/luga.validator.js"]
@@ -51,8 +57,9 @@ module.exports = function(grunt){
 	});
 
 	// Load plugins
-	grunt.loadNpmTasks("grunt-contrib-uglify");
 	grunt.loadNpmTasks("grunt-contrib-compress");
+	grunt.loadNpmTasks("grunt-contrib-concat");
+	grunt.loadNpmTasks("grunt-contrib-uglify");
 
 	// Default task(s).
 	grunt.registerTask("default", ["uglify:coreTarget", "uglify:csiTarget", "uglify:validatorTarget", "compress"]);

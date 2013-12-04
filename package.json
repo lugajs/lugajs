@@ -1,16 +1,33 @@
 {
 	"name": "luga-js",
 	"license": "Apache 2",
-	"versionCore": "0.2",
-	"versionCsi": "0.8",
-	"versionValidator": "0.8",
+	"homepage": "http://www.massimocorner.com/lugajs/docs/",
+	"author": {
+		"name": "Massimo Foti",
+		"url": "http://www.massimocorner.com/"
+	},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/MassimoFoti/lugajs"
 	},
+	"libs": {
+		"core": {
+			"version": "0.2",
+			"name": "Luga Core"
+		},
+		"csi": {
+			"version": "0.8",
+			"name": "Luga CSI"
+		},
+		"validator": {
+			"version": "0.8",
+			"name": "Luga Validator"
+		}
+	},
 	"devDependencies": {
 		"grunt": "~0.4.2",
 		"grunt-contrib-uglify": "~0.2.7",
-		"grunt-contrib-compress": "~0.5.3"
+		"grunt-contrib-compress": "~0.5.3",
+		"grunt-contrib-concat": "~0.3.0"
 	}
 }
