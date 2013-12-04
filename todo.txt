@@ -2,8 +2,6 @@ CORE:
 
 - Create sitemap.xml
 
-- Build concatenated js file
-
 -------------
 
 VALIDATOR:

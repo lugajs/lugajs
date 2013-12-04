@@ -4,7 +4,7 @@ module.exports = function(grunt){
 		var str = "/*! ";
 		str += libData.name + " " + libData.version + " <%= grunt.template.today('yyyy-mm-dd HH:mm') %>\n";
 		str += "Copyright 2013 Massimo Foti (massimo@massimocorner.com) \n";
-		str += "Licensed under the Apache License, Version 2.0|  http://www.apache.org/licenses/LICENSE-2.0 \n";
+		str += "Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0 \n";
 		str += "*/  \n";
 		return str;
 	}
@@ -14,6 +14,23 @@ module.exports = function(grunt){
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON("package.json"),
+
+		concat: {
+			plain: {
+				options: {
+					separator: "\n\n"
+				},
+				src: ["src/luga.core.js", "src/luga.csi.js", "src/luga.validator.js"],
+				dest: "src/luga.js"
+			},
+			uglified: {
+				options: {
+					separator: "\n\n"
+				},
+				src: ["src/luga.core.min.js", "src/luga.csi.min.js", "src/luga.validator.min.js"],
+				dest: "src/luga.min.js"
+			}
+		},
 
 		uglify: {
 			options: {
@@ -67,6 +84,6 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks("grunt-contrib-uglify");
 
 	// Default task(s).
-	grunt.registerTask("default", ["uglify:coreTarget", "uglify:csiTarget", "uglify:validatorTarget", "compress"]);
+	grunt.registerTask("default", ["concat:plain", "uglify:coreTarget", "uglify:csiTarget", "uglify:validatorTarget", "concat:uglified", "compress"]);
 
 };
