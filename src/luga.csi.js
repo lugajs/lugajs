@@ -16,7 +16,7 @@
 /* global luga */
 
 if(typeof(luga) === "undefined"){
-	throw("Unable to find luga.js");
+	throw("Unable to find Luga JS Core");
 }
 
 (function(){
