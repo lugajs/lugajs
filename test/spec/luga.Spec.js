@@ -76,7 +76,7 @@ describe("luga", function(){
 
 	});
 
-	describe(".Notifier()", function(){
+	describe(".Notifier", function(){
 		var notifierObj, observerObj, uselessObj;
 
 		beforeEach(function(){
