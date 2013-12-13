@@ -107,7 +107,7 @@ describe("luga", function(){
 			}).toThrow();
 		});
 
-		it("Observers are stored inside .observers. A public property of type array", function(){
+		it("Observers are stored as an array inside the .observers property", function(){
 			expect(jQuery.isArray(notifierObj.observers)).toBeTruthy();
 			expect(notifierObj.observers.length).toEqual(0);
 		});
