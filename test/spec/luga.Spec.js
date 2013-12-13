@@ -1,4 +1,4 @@
-/*global luga, it, describe, expect */
+/*global luga, it, describe, expect, beforeEach, spyOn */
 
 "use strict";
 
@@ -72,6 +72,106 @@ describe("luga", function(){
 			var params = {number: 2, symbol: "@"};
 			luga.merge(config, params);
 			expect(config).toEqual({letter: "a", number: 2, symbol: "@"});
+		});
+
+	});
+
+	describe(".Notifier()", function(){
+		var notifierObj, observerObj, uselessObj;
+
+		beforeEach(function(){
+
+			var NotifierClass = function(){
+				luga.extend(luga.Notifier, this);
+			};
+			var ObserverClass = function(){
+				this.completeFlag = false;
+				this.onCompleteHandler = function(data){
+					this.completeFlag = data.flag;
+				};
+				this.onSomethingHandler = function(){
+				};
+			};
+			var UselessObserverClass = function(){
+			};
+			notifierObj = new NotifierClass();
+			observerObj = new ObserverClass();
+			uselessObj = new UselessObserverClass();
+		});
+
+		it("Is an interface class that cannot be instantiated directly, it can only be used as a base class", function(){
+			expect(jQuery.isFunction(luga.Notifier)).toBeTruthy();
+
+			expect(function(){
+				new luga.Notifier();
+			}).toThrow();
+		});
+
+		it("Observers are stored inside .observers. A public property of type array", function(){
+			expect(jQuery.isArray(notifierObj.observers)).toBeTruthy();
+			expect(notifierObj.observers.length).toEqual(0);
+		});
+
+		describe(".addObserver()", function(){
+
+			it("Adds an observer object to the list of observers", function(){
+				notifierObj.addObserver(observerObj);
+				expect(notifierObj.observers.length).toEqual(1);
+				notifierObj.addObserver(uselessObj);
+				expect(notifierObj.observers.length).toEqual(2);
+			});
+
+			it("Ensures that only objects are register as observers", function(){
+				expect(function(){
+					notifierObj.addObserver("test");
+				}).toThrow();
+			});
+
+		});
+
+		describe(".notifyObserver()", function(){
+
+			it("Is used to send a notification to all registered observers", function(){
+				notifierObj.addObserver(observerObj);
+				spyOn(observerObj, "onCompleteHandler").andCallFake(function(){
+				});
+
+				notifierObj.notifyObserver("complete", {});
+				expect(observerObj.onCompleteHandler).toHaveBeenCalled();
+			});
+
+			it("Requires two parameters: eventName and data. Both are required", function(){
+				expect(function(){
+					notifierObj.notifyObserver("complete");
+				}).toThrow();
+			});
+
+			it("The data parameter must be an object", function(){
+				expect(function(){
+					notifierObj.notifyObserver("complete", "ciao");
+				}).toThrow();
+			});
+
+			it("Observers must follow a naming convention. For an event named 'complete' they must implement a method named: 'onCompleteHandler'", function(){
+				notifierObj.addObserver(observerObj);
+				spyOn(observerObj, "onCompleteHandler").andCallFake(function(){
+				});
+				spyOn(observerObj, "onSomethingHandler").andCallFake(function(){
+				});
+
+				notifierObj.notifyObserver("complete", {});
+				expect(observerObj.onCompleteHandler).toHaveBeenCalled();
+				expect(observerObj.onSomethingHandler).not.toHaveBeenCalled();
+			});
+
+			it("The data parameter provides a means for passing data from the point of notification to all interested observers", function(){
+				notifierObj.addObserver(observerObj);
+				expect(observerObj.completeFlag).toEqual(false);
+
+				notifierObj.notifyObserver("complete", {flag: true});
+				expect(observerObj.completeFlag).toEqual(true);
+			});
+
 		});
 
 	});

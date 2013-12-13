@@ -24,12 +24,22 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.version = 0.2;
+	luga.version = "0.2.1";
+
+	luga.CONST = {
+		ERROR_MESSAGES: {
+			NOTIFIER_ABSTRACT: "It's forbidden to use luga.Notifier directly, it must be used as a base class instead",
+			OBSERVER_MUST_BE_OBJECT: "addObserver(): observer parameter must be an object",
+			DATA_PARAMETER_REQUIRED: "notifyObserver(): data parameter is required and must be an object"
+		}
+	};
 
 	/**
 	 * Creates namespaces to be used for scoping variables and classes so that they are not global.
 	 * Specifying the last node of a namespace implicitly creates all other nodes.
 	 * Based on Nicholas C. Zakas's code
+	 * @param  ns           Namespace as string
+	 * @param  rootObject   Optional root object. Default to window
 	 */
 	luga.namespace = function(ns, rootObject){
 		var parts = ns.split(".");
@@ -59,6 +69,66 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.merge = function(target, obj){
 		jQuery.extend(target, obj);
+	};
+
+	/**
+	 * Provides the base functionality necessary to maintain a list of observers and send notifications to them.
+	 * It's forbidden to use this class directly, it can only be used as a base class.
+	 * The Notifier class does not define any notification messages, so it is up to the developer to define the notifications sent via the Notifier.
+	 */
+	luga.Notifier = function(){
+		if(this.constructor === luga.Notifier){
+			throw(luga.CONST.ERROR_MESSAGES.NOTIFIER_ABSTRACT);
+		}
+		this.observers = [];
+		var prefix = "on";
+		var suffix = "Handler";
+
+		// Turns "complete" into "onComplete"
+		var generateMethodName = function(eventName){
+			var str = prefix;
+			str += eventName.charAt(0).toUpperCase();
+			str += eventName.substring(1);
+			str += suffix;
+			return str;
+		};
+
+		/**
+		 * Adds an observer object to the list of observers.
+		 * Observer objects should implement a method that matches a naming convention for the events they are interested in.
+		 * For an event named "complete" they must implement a method named: "onCompleteHandler"
+		 * The interface for this methods is as follows:
+		 * observer.onCompleteHandler = function(data){};
+		 * @param  observer  Observer object
+		 */
+		this.addObserver = function(observer){
+			if(jQuery.type(observer) !== "object"){
+				throw(luga.CONST.ERROR_MESSAGES.OBSERVER_MUST_BE_OBJECT);
+			}
+			this.observers.push(observer);
+		};
+
+		/**
+		 * Sends a notification to all interested observers registered with the notifier.
+		 *
+		 * @method
+		 * @param eventName  Name of the event
+		 * @param data       Object containing data to be passed from the point of notification to all interested observers.
+		 *                   If there is no relevant data to pass, use an empty object.
+		 */
+		this.notifyObserver = function(eventName, data){
+			if(jQuery.type(data) !== "object"){
+				throw(luga.CONST.ERROR_MESSAGES.DATA_PARAMETER_REQUIRED);
+			}
+			var method = generateMethodName(eventName);
+			for(var i = 0; i < this.observers.length; i++){
+				var observer = this.observers[i];
+				if(observer[method] && jQuery.isFunction(observer[method])){
+					observer[method](data);
+				}
+			}
+		};
+
 	};
 
 	/* Utilities */

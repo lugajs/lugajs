@@ -12,7 +12,7 @@
 	},
 	"libs": {
 		"core": {
-			"version": "0.2",
+			"version": "0.2.1",
 			"name": "Luga Core"
 		},
 		"csi": {
