@@ -129,7 +129,7 @@ describe("luga.validator.utils", function(){
 
 	describe(".isInputField()", function(){
 
-		it("Accepts nodes that can be validated", function(){
+		it("Returns true if the passed node can be validated", function(){
 			expect(luga.validator.utils.isInputField(jQuery("<textarea>"))).toBeTruthy();
 			expect(luga.validator.utils.isInputField(jQuery("<input type='text'>"))).toBeTruthy();
 			expect(luga.validator.utils.isInputField(jQuery("<input type='radio'>"))).toBeTruthy();
@@ -139,7 +139,7 @@ describe("luga.validator.utils", function(){
 			expect(luga.validator.utils.isInputField(jQuery("<select>"))).toBeTruthy();
 		});
 
-		it("Refuses nodes that can't be validated", function(){
+		it("False otherwise", function(){
 			expect(luga.validator.utils.isInputField(jQuery("<div>"))).toBeFalsy();
 			expect(luga.validator.utils.isInputField(jQuery("<form>"))).toBeFalsy();
 			expect(luga.validator.utils.isInputField(jQuery("<button>"))).toBeFalsy();
