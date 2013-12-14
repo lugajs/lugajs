@@ -40,7 +40,7 @@
 	<script src="spec/data/luga.data.Spec.js"></script>
 
 	<script>
-		jQuery(document).ready(function () {
+		jQuery(document).ready(function(){
 			jasmine.getFixtures().fixturesPath = "fixtures";
 			var jasmineEnv = jasmine.getEnv();
 			jasmineEnv.updateInterval = 1000;
@@ -48,7 +48,7 @@
 			var htmlReporter = new jasmine.HtmlReporter();
 			jasmineEnv.addReporter(htmlReporter);
 
-			jasmineEnv.specFilter = function(spec) {
+			jasmineEnv.specFilter = function(spec){
 				return htmlReporter.specFilter(spec);
 			};
 
