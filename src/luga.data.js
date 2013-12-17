@@ -27,4 +27,22 @@ if(typeof(luga) === "undefined"){
 	luga.data.version = 0.1;
 	luga.data.datasetRegistry = {};
 
+	luga.data.CONST = {
+		ERROR_MESSAGES: {
+			ID_PARAMETER_REQUIRED: "DataSet: id parameter is required"
+		}
+	};
+
+	luga.data.DataSet = function(options){
+		if(!options.id){
+			throw(luga.data.CONST.ERROR_MESSAGES.ID_PARAMETER_REQUIRED);
+		}
+		this.config = {};
+		luga.merge(this.config, options);
+		luga.extend(luga.Notifier, this);
+		var self = this;
+
+		luga.data.datasetRegistry[this.config.id] = self;
+	};
+
 }());
