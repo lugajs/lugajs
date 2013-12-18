@@ -1,5 +1,7 @@
 CORE:
 
+Try updating to Jasmine 2.0
+
 -------------
 
 VALIDATOR:
