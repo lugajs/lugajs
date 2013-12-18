@@ -133,7 +133,7 @@ describe("luga", function(){
 
 			it("Is used to send a notification to all registered observers", function(){
 				notifierObj.addObserver(observerObj);
-				spyOn(observerObj, "onCompleteHandler").andCallFake(function(){
+				spyOn(observerObj, "onCompleteHandler").and.callFake(function(){
 				});
 
 				notifierObj.notifyObserver("complete", {});
@@ -154,9 +154,9 @@ describe("luga", function(){
 
 			it("Observers must follow a naming convention. For an event named 'complete' they must implement a method named: 'onCompleteHandler'", function(){
 				notifierObj.addObserver(observerObj);
-				spyOn(observerObj, "onCompleteHandler").andCallFake(function(){
+				spyOn(observerObj, "onCompleteHandler").and.callFake(function(){
 				});
-				spyOn(observerObj, "onSomethingHandler").andCallFake(function(){
+				spyOn(observerObj, "onSomethingHandler").and.callFake(function(){
 				});
 
 				notifierObj.notifyObserver("complete", {});

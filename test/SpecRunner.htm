@@ -7,11 +7,11 @@
 	<link rel="stylesheet" href="lib/jasmine/jasmine.css" />
 	<link rel="shortcut icon" type="image/png" href="lib/jasmine/jasmine_favicon.png" />
 	<style>
-		#HTMLReporter {
+		.html-reporter {
 			border-bottom: 10px solid #A6B779;
 			padding-bottom: 20px;;
 		}
-		#HTMLReporter .suite > .suite {
+		.html-reporter .suite > .suite {
 			padding-left: 25px;
 		}
 	</style>
@@ -19,7 +19,11 @@
 	<script src="../lib/jquery/jquery.min.js"></script>
 	<script src="lib/jasmine/jasmine.js"></script>
 	<script src="lib/jasmine/jasmine-html.js"></script>
+	<script src="lib/jasmine/boot.js"></script>
 	<script src="lib/jasmine/jasmine-jquery.js"></script>
+	<script>
+		jasmine.getFixtures().fixturesPath = "fixtures";
+	</script>
 
 	<!-- Include source files here... -->
 	<script src="../src/luga.core.js"></script>
@@ -39,23 +43,6 @@
 	<script src="spec/validator/luga.validator.api.Spec.js"></script>
 	<script src="spec/data/luga.data.Spec.js"></script>
 	<script src="spec/data/luga.data.Dataset.Spec.js"></script>
-
-	<script>
-		jQuery(document).ready(function(){
-			jasmine.getFixtures().fixturesPath = "fixtures";
-			var jasmineEnv = jasmine.getEnv();
-			jasmineEnv.updateInterval = 1000;
-
-			var htmlReporter = new jasmine.HtmlReporter();
-			jasmineEnv.addReporter(htmlReporter);
-
-			jasmineEnv.specFilter = function(spec){
-				return htmlReporter.specFilter(spec);
-			};
-
-			jasmineEnv.execute();
-		});
-	 </script>
 
 </head>
 

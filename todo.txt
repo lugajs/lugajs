@@ -1,6 +1,6 @@
 CORE:
 
-Try updating to Jasmine 2.0
+- Create root file for JSHint
 
 -------------
 
