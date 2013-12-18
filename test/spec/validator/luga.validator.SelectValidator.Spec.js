@@ -1,5 +1,3 @@
-/* global luga, it, describe, expect, loadFixtures */
-
 "use strict";
 
 describe("luga.validator.SelectValidator", function(){

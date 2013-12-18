@@ -1,5 +1,3 @@
-/*global luga, it, describe, expect, beforeEach, spyOn */
-
 "use strict";
 
 describe("luga", function(){

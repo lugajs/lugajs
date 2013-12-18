@@ -1,0 +1,14 @@
+{
+	"globals": [,
+		"window",
+		"jQuery",
+		"luga",
+		"describe",
+		"expect",
+		"it",
+		"spyOn",
+		"beforeEach",
+		"afterEach",
+		"loadFixtures"
+	]
+}

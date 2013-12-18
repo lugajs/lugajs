@@ -1,5 +1,3 @@
-/* global luga, it, describe, expect, loadFixtures */
-
 "use strict";
 
 function mocktruthyfunction(fieldNode){
@@ -453,7 +451,7 @@ describe("luga.validator.TextValidator", function(){
 				fieldNode: textNode
 			});
 			expect(textValidator.isValid()).toBeFalsy();
-			textNode.val("http://www.massimocorner.com")
+			textNode.val("http://www.massimocorner.com");
 			expect(textValidator.isValid()).toBeTruthy();
 		});
 	});
@@ -1217,7 +1215,7 @@ describe("luga.validator.TextValidator", function(){
 		var textNode, textValidator;
 		it("By changing the value of luga.validator.CONST.DEFAULT_DATE_PATTERN", function(){
 			// Override const
-			luga.validator.CONST.DEFAULT_DATE_PATTERN = "DD/MM/YYYY"
+			luga.validator.CONST.DEFAULT_DATE_PATTERN = "DD/MM/YYYY";
 
 			// Not a date
 			textNode = jQuery('<input type="text" value="test" data-luga-required="true" data-luga-maxdate="01/01/2010">');
@@ -1269,17 +1267,17 @@ describe("luga.validator.TextValidator", function(){
 			expect(jQuery("#comments")).toHaveClass("invalid");
 
 			jQuery("#comments").val("x");
-			textValidator.validate()
+			textValidator.validate();
 			expect(textValidator.isValid()).toBeFalsy();
 			expect(jQuery("#comments")).toHaveClass("invalid");
 
 			jQuery("#comments").val("Very long piece of text");
-			textValidator.validate()
+			textValidator.validate();
 			expect(textValidator.isValid()).toBeFalsy();
 			expect(jQuery("#comments")).toHaveClass("invalid");
 
 			jQuery("#comments").val("five");
-			textValidator.validate()
+			textValidator.validate();
 			expect(textValidator.isValid()).toBeTruthy();
 			expect(jQuery("#comments")).not.toHaveClass("invalid");
 

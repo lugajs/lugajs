@@ -1,7 +1,5 @@
 CORE:
 
-- Create root file for JSHint
-
 -------------
 
 VALIDATOR:

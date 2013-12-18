@@ -13,7 +13,6 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-/* global luga */
 
 if(typeof(luga) === "undefined"){
 	throw("Unable to find Luga JS Core");
