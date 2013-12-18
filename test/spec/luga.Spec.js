@@ -184,7 +184,21 @@ describe("luga.utils stores generic, static methods and utilities", function(){
 		expect(luga.utils).toBeDefined();
 	});
 
-	describe(".formatString() Given a string containing placeholders, assembles a new string replacing the placeholders with the strings contained inside the second argument", function(){
+	describe(".formatString()", function(){
+
+		describe("Given a string containing placeholders", function(){
+
+			it("It assembles a new string replacing the placeholders with the strings contained inside the second argument", function(){
+				expect(luga.utils.formatString("My name is {0}", ["Ciccio"])).toEqual("My name is Ciccio");
+			});
+			it("The string can contains multiple instances of the same placeholder", function(){
+				expect(luga.utils.formatString("This {0} is just a {0}", ["test"])).toEqual("This test is just a test");
+			});
+			it("If no matching placeholder is find, the original string will be returned", function(){
+				expect(luga.utils.formatString("This {str}", { another: "test"})).toEqual("This {str}");
+			});
+
+		});
 
 		describe("The second argument can be either:", function(){
 
