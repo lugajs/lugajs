@@ -1,5 +1,7 @@
 CORE:
 
+- Simplify CONST key for error messages
+
 -------------
 
 VALIDATOR:
