@@ -29,8 +29,8 @@ if(typeof(luga) === "undefined"){
 	luga.CONST = {
 		ERROR_MESSAGES: {
 			NOTIFIER_ABSTRACT: "It's forbidden to use luga.Notifier directly, it must be used as a base class instead",
-			OBSERVER_MUST_BE_OBJECT: "addObserver(): observer parameter must be an object",
-			DATA_PARAMETER_REQUIRED: "notifyObserver(): data parameter is required and must be an object"
+			INVALID_OBSERVER_PARAMETER: "addObserver(): observer parameter must be an object",
+			INVALID_DATA_PARAMETER: "notifyObserver(): data parameter is required and must be an object"
 		}
 	};
 
@@ -103,7 +103,7 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.addObserver = function(observer){
 			if(jQuery.type(observer) !== "object"){
-				throw(luga.CONST.ERROR_MESSAGES.OBSERVER_MUST_BE_OBJECT);
+				throw(luga.CONST.ERROR_MESSAGES.INVALID_OBSERVER_PARAMETER);
 			}
 			this.observers.push(observer);
 		};
@@ -118,7 +118,7 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.notifyObserver = function(eventName, data){
 			if(jQuery.type(data) !== "object"){
-				throw(luga.CONST.ERROR_MESSAGES.DATA_PARAMETER_REQUIRED);
+				throw(luga.CONST.ERROR_MESSAGES.INVALID_DATA_PARAMETER);
 			}
 			var method = generateMethodName(eventName);
 			for(var i = 0; i < this.observers.length; i++){
@@ -499,7 +499,7 @@ if(typeof(luga) === "undefined"){
 			GROUP_VALIDATOR_ABSTRACT: "luga.validator.BaseGroupValidator is an abstract class",
 			FIELD_CANT_BE_VALIDATED: "This field can't be validated",
 			PATTERN_NOT_FOUND: "luga.validator failed to retrieve pattern: {0}",
-			INVALID_INDEX_NOT_NUMERIC: "data-luga-invalidindex accept only numbers",
+			INVALID_INDEX_PARAMETER: "data-luga-invalidindex accept only numbers",
 			MISSING_EQUAL_TO_FIELD: "data-luga-equalto was unable to find field with id = {0}"
 		},
 		FAKE_INPUT_TYPES: {
@@ -874,7 +874,7 @@ if(typeof(luga) === "undefined"){
 
 		// Ensure invalidindex is numeric
 		if((self.config.invalidindex !== undefined) && (!jQuery.isNumeric(self.config.invalidindex))){
-			throw(luga.validator.CONST.MESSAGES.INVALID_INDEX_NOT_NUMERIC);
+			throw(luga.validator.CONST.MESSAGES.INVALID_INDEX_PARAMETER);
 		}
 
 		// Whenever a "size" attribute is available, the browser reports -1 as selectedIndex

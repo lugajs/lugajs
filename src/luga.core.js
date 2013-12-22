@@ -29,8 +29,8 @@ if(typeof(luga) === "undefined"){
 	luga.CONST = {
 		ERROR_MESSAGES: {
 			NOTIFIER_ABSTRACT: "It's forbidden to use luga.Notifier directly, it must be used as a base class instead",
-			OBSERVER_MUST_BE_OBJECT: "addObserver(): observer parameter must be an object",
-			DATA_PARAMETER_REQUIRED: "notifyObserver(): data parameter is required and must be an object"
+			INVALID_OBSERVER_PARAMETER: "addObserver(): observer parameter must be an object",
+			INVALID_DATA_PARAMETER: "notifyObserver(): data parameter is required and must be an object"
 		}
 	};
 
@@ -103,7 +103,7 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.addObserver = function(observer){
 			if(jQuery.type(observer) !== "object"){
-				throw(luga.CONST.ERROR_MESSAGES.OBSERVER_MUST_BE_OBJECT);
+				throw(luga.CONST.ERROR_MESSAGES.INVALID_OBSERVER_PARAMETER);
 			}
 			this.observers.push(observer);
 		};
@@ -118,7 +118,7 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.notifyObserver = function(eventName, data){
 			if(jQuery.type(data) !== "object"){
-				throw(luga.CONST.ERROR_MESSAGES.DATA_PARAMETER_REQUIRED);
+				throw(luga.CONST.ERROR_MESSAGES.INVALID_DATA_PARAMETER);
 			}
 			var method = generateMethodName(eventName);
 			for(var i = 0; i < this.observers.length; i++){

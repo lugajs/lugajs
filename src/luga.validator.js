@@ -61,7 +61,7 @@ if(typeof(luga) === "undefined"){
 			GROUP_VALIDATOR_ABSTRACT: "luga.validator.BaseGroupValidator is an abstract class",
 			FIELD_CANT_BE_VALIDATED: "This field can't be validated",
 			PATTERN_NOT_FOUND: "luga.validator failed to retrieve pattern: {0}",
-			INVALID_INDEX_NOT_NUMERIC: "data-luga-invalidindex accept only numbers",
+			INVALID_INDEX_PARAMETER: "data-luga-invalidindex accept only numbers",
 			MISSING_EQUAL_TO_FIELD: "data-luga-equalto was unable to find field with id = {0}"
 		},
 		FAKE_INPUT_TYPES: {
@@ -436,7 +436,7 @@ if(typeof(luga) === "undefined"){
 
 		// Ensure invalidindex is numeric
 		if((self.config.invalidindex !== undefined) && (!jQuery.isNumeric(self.config.invalidindex))){
-			throw(luga.validator.CONST.MESSAGES.INVALID_INDEX_NOT_NUMERIC);
+			throw(luga.validator.CONST.MESSAGES.INVALID_INDEX_PARAMETER);
 		}
 
 		// Whenever a "size" attribute is available, the browser reports -1 as selectedIndex
