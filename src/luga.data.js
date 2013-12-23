@@ -103,7 +103,7 @@ if(typeof(luga) === "undefined"){
 		 * Triggers a "currentRowChanged" notification.
 		 * @param  rowId  An integer. Required
 		 */
-		this.setCurrentRowById = function(rowId){
+		this.setCurrentRowId = function(rowId){
 			if(this.currentRowId === rowId){
 				return;
 			}

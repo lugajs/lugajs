@@ -76,7 +76,7 @@ describe("luga.data.Dataset", function(){
 	describe(".getCurrentRowId()", function(){
 		it("Returns the rowId of the current row", function(){
 			testDs.insert(testRows);
-			testDs.setCurrentRowById(2);
+			testDs.setCurrentRowId(2);
 			expect(testDs.getCurrentRowId()).toEqual(2);
 		});
 		it("Returns 0 on an empty dataSet", function(){
@@ -84,20 +84,20 @@ describe("luga.data.Dataset", function(){
 		});
 	});
 
-	describe(".setCurrentRowById()", function(){
+	describe(".setCurrentRowId()", function(){
 		it("Sets the current row of the data set to the row with the given rowId.", function(){
 			testDs.insert(testRows);
-			testDs.setCurrentRowById(3);
+			testDs.setCurrentRowId(3);
 			expect(testDs.getCurrentRowId()).toEqual(3);
 		});
 		it("Throws an exception if the given rowId is invalid", function(){
 			expect(function(){
-				testDs.setCurrentRowById(3);
+				testDs.setCurrentRowId(3);
 			}).toThrow();
 		});
 		it("Triggers a 'currentRowChanged' notification", function(){
 			testDs.insert(testRows);
-			testDs.setCurrentRowById(3);
+			testDs.setCurrentRowId(3);
 			expect(testObserver.onCurrentRowChangedHandler).toHaveBeenCalled();
 		});
 	});
