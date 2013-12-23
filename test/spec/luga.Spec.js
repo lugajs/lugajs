@@ -134,19 +134,19 @@ describe("luga", function(){
 				spyOn(observerObj, "onCompleteHandler").and.callFake(function(){
 				});
 
-				notifierObj.notifyObserver("complete", {});
+				notifierObj.notifyObservers("complete", {});
 				expect(observerObj.onCompleteHandler).toHaveBeenCalled();
 			});
 
 			it("Requires two parameters: eventName and data. Both are required", function(){
 				expect(function(){
-					notifierObj.notifyObserver("complete");
+					notifierObj.notifyObservers("complete");
 				}).toThrow();
 			});
 
 			it("The data parameter must be an object", function(){
 				expect(function(){
-					notifierObj.notifyObserver("complete", "ciao");
+					notifierObj.notifyObservers("complete", "ciao");
 				}).toThrow();
 			});
 
@@ -157,7 +157,7 @@ describe("luga", function(){
 				spyOn(observerObj, "onSomethingHandler").and.callFake(function(){
 				});
 
-				notifierObj.notifyObserver("complete", {});
+				notifierObj.notifyObservers("complete", {});
 				expect(observerObj.onCompleteHandler).toHaveBeenCalled();
 				expect(observerObj.onSomethingHandler).not.toHaveBeenCalled();
 			});
@@ -166,7 +166,7 @@ describe("luga", function(){
 				notifierObj.addObserver(observerObj);
 				expect(observerObj.completeFlag).toEqual(false);
 
-				notifierObj.notifyObserver("complete", {flag: true});
+				notifierObj.notifyObservers("complete", {flag: true});
 				expect(observerObj.completeFlag).toEqual(true);
 			});
 

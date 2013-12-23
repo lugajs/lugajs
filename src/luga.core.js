@@ -24,7 +24,7 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.version = "0.2.1";
+	luga.version = "0.2.2";
 
 	luga.CONST = {
 		ERROR_MESSAGES: {
@@ -116,7 +116,7 @@ if(typeof(luga) === "undefined"){
 		 * @param data       Object containing data to be passed from the point of notification to all interested observers.
 		 *                   If there is no relevant data to pass, use an empty object.
 		 */
-		this.notifyObserver = function(eventName, data){
+		this.notifyObservers = function(eventName, data){
 			if(jQuery.type(data) !== "object"){
 				throw(luga.CONST.ERROR_MESSAGES.INVALID_DATA_PARAMETER);
 			}
