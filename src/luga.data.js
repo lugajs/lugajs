@@ -43,7 +43,7 @@ if(typeof(luga) === "undefined"){
 
 		this.data = [];
 		this.dataHash = {};
-		this.unfilteredData = null;
+		this.filteredData = null;
 		this.curRowId = 0;
 
 		var self = this;
@@ -52,8 +52,8 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Adds rows to a dataSet
-		 * Developers should be aware that the dataSet takes ownership of the objects within the array that is passed in.
-		 * That is, it uses those objects as its row object internally. It does not make a copy of the objects.
+		 * Be aware that the dataSet use passed data by reference..
+		 * That is, it uses those objects as its row object internally. It does not make a copy.
 		 * @param  rowData     Either one single object or an array of objects. Required
 		 */
 		this.insert = function(rowData){
