@@ -27,6 +27,7 @@ if(typeof(luga) === "undefined"){
 	luga.data.datasetRegistry = {};
 
 	luga.data.CONST = {
+		PK_PREFIX: "rowID",
 		ERROR_MESSAGES: {
 			INVALID_ID_PARAMETER: "DataSet: id parameter is required"
 		}
@@ -39,9 +40,43 @@ if(typeof(luga) === "undefined"){
 		this.config = {};
 		luga.merge(this.config, options);
 		luga.extend(luga.Notifier, this);
+
+		this.data = [];
+		this.dataHash = {};
+		this.unfilteredData = null;
+		this.curRowId = 0;
+
+		this.dataWasLoaded = false;
+		this.pendingRequest = null;
+
 		var self = this;
 
 		luga.data.datasetRegistry[this.config.id] = self;
+
+		/**
+		 * Adds rows to a dataset
+		 * Accept either one single object or an array of objects (multiple insert)
+		 */
+		this.insert = function(rows){
+			// If we only get one record, we put it inside an array anyway,
+			var recordsHolder = [];
+			if(jQuery.isArray(rows)){
+				recordsHolder = rows;
+			}
+			else{
+				recordsHolder.push(rows);
+			}
+			for(var i = 0; i < recordsHolder.length; i++){
+				// Create new PK
+				var recordID = this.data.length;
+				recordsHolder[i][luga.data.CONST.PK_PREFIX] = recordID;
+				this.dataHash[this.data.length] = recordsHolder[i];
+				this.data.push(recordsHolder[i]);
+			}
+			this.dataWasLoaded = true;
+			this.notifyObservers("dataChanged", this);
+		};
+
 	};
 
 }());
