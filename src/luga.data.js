@@ -29,7 +29,8 @@ if(typeof(luga) === "undefined"){
 	luga.data.CONST = {
 		PK_KEY: "rowID",
 		ERROR_MESSAGES: {
-			INVALID_ID_PARAMETER: "DataSet: id parameter is required"
+			INVALID_ID_PARAMETER: "Luga.DataSet: id parameter is required",
+			INVALID_ROW_ID_PARAMETER: "Luga.DataSet: invalid rowId parameter"
 		}
 	};
 
@@ -44,7 +45,7 @@ if(typeof(luga) === "undefined"){
 		this.data = [];
 		this.dataHash = {};
 		this.filteredData = null;
-		this.curRowId = 0;
+		this.currentRowId = 0;
 
 		var self = this;
 
@@ -54,7 +55,7 @@ if(typeof(luga) === "undefined"){
 		 * Adds rows to a dataSet
 		 * Be aware that the dataSet use passed data by reference..
 		 * That is, it uses those objects as its row object internally. It does not make a copy.
-		 * @param  rowData     Either one single object or an array of objects. Required
+		 * @param  rowData Either one single object or an array of objects. Required
 		 */
 		this.insert = function(rowData){
 			// If we only get one record, we put it inside an array anyway,
@@ -76,14 +77,42 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * Returns the row object associated with the given id. Required
-		 * @param  id     An integer
+		 * Returns the row object associated with the given rowId
+		 * @param  rowId  An integer. Required
 		 */
-		this.getRowById = function(id){
-			if(this.dataHash[id]){
-				return this.dataHash[id];
+		this.getRowById = function(rowId){
+			if(this.dataHash[rowId]){
+				return this.dataHash[rowId];
 			}
 			return null;
+		};
+
+		/**
+		 * Returns the rowId of the current row.
+		 * Do not confuse the rowId of a row with the index of the row.
+		 * The rowId is a column that contains a unique identifier for the row.
+		 * This identifier does not change if the rows of the data set are sorted
+		 */
+		this.getCurrentRowId = function(){
+			return this.currentRowId;
+		};
+
+		/**
+		 * Sets the current row of the data set to the row with the given rowId.
+		 * Throws an exception if the given rowId is invalid.
+		 * Triggers a "currentRowChanged" notification.
+		 * @param  rowId  An integer. Required
+		 */
+		this.setCurrentRowById = function(rowId){
+			if(this.currentRowId === rowId){
+				return;
+			}
+			if(this.getRowById(rowId) === null){
+				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_ROW_ID_PARAMETER);
+			}
+			var notificationData = { oldRowId: this.currentRowId, newRowId: rowId, dataSet: this };
+			this.currentRowId = rowId;
+			this.notifyObservers("currentRowChanged", notificationData);
 		};
 
 	};

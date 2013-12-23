@@ -18,11 +18,13 @@ describe("luga.data.Dataset", function(){
 		var ObserverClass = function(){
 			this.onDataChangedHandler = function(data){
 			};
+			this.onCurrentRowChangedHandler = function(data){
+			};
 		};
 		testObserver = new ObserverClass();
 		testDs.addObserver(testObserver);
 		spyOn(testObserver, "onDataChangedHandler");
-
+		spyOn(testObserver, "onCurrentRowChangedHandler");
 	});
 
 	it("Is the base dataset class", function(){
@@ -71,8 +73,37 @@ describe("luga.data.Dataset", function(){
 
 	});
 
+	describe(".getCurrentRowId()", function(){
+		it("Returns the rowId of the current row", function(){
+			testDs.insert(testRows);
+			testDs.setCurrentRowById(2);
+			expect(testDs.getCurrentRowId()).toEqual(2);
+		});
+		it("Returns 0 on an empty dataSet", function(){
+			expect(testDs.getCurrentRowId()).toEqual(0);
+		});
+	});
+
+	describe(".setCurrentRowById()", function(){
+		it("Sets the current row of the data set to the row with the given rowId.", function(){
+			testDs.insert(testRows);
+			testDs.setCurrentRowById(3);
+			expect(testDs.getCurrentRowId()).toEqual(3);
+		});
+		it("Throws an exception if the given rowId is invalid", function(){
+			expect(function(){
+				testDs.setCurrentRowById(3);
+			}).toThrow();
+		});
+		it("Triggers a 'currentRowChanged' notification", function(){
+			testDs.insert(testRows);
+			testDs.setCurrentRowById(3);
+			expect(testObserver.onCurrentRowChangedHandler).toHaveBeenCalled();
+		});
+	});
+
 	describe(".getRowById()", function(){
-		it("Returns the row object associated with the given id", function(){
+		it("Returns the row object associated with the given rowId", function(){
 			testDs.insert(testRows);
 			var row = testDs.getRowById(2);
 			expect(row).toEqual(testRows[2]);
@@ -81,12 +112,11 @@ describe("luga.data.Dataset", function(){
 			var row = testDs.getRowById(2);
 			expect(row).toBeNull();
 		});
-		it("Or if no available record matches the given id", function(){
+		it("Or if no available record matches the given rowId", function(){
 			testDs.insert(testRows);
 			var row = testDs.getRowById(99);
 			expect(row).toBeNull();
 		});
 	});
-
 
 });
