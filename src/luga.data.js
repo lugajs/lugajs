@@ -28,13 +28,13 @@ if(typeof(luga) === "undefined"){
 
 	luga.data.CONST = {
 		ERROR_MESSAGES: {
-			ID_PARAMETER_REQUIRED: "DataSet: id parameter is required"
+			INVALID_ID_PARAMETER: "DataSet: id parameter is required"
 		}
 	};
 
 	luga.data.DataSet = function(options){
 		if(!options.id){
-			throw(luga.data.CONST.ERROR_MESSAGES.ID_PARAMETER_REQUIRED);
+			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_ID_PARAMETER);
 		}
 		this.config = {};
 		luga.merge(this.config, options);
