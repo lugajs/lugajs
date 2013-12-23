@@ -71,4 +71,22 @@ describe("luga.data.Dataset", function(){
 
 	});
 
+	describe(".getRowById()", function(){
+		it("Returns the row object associated with the given id", function(){
+			testDs.insert(testRows);
+			var row = testDs.getRowById(2);
+			expect(row).toEqual(testRows[2]);
+		});
+		it("Returns null if the dataSet contains no data", function(){
+			var row = testDs.getRowById(2);
+			expect(row).toBeNull();
+		});
+		it("Or if no available record matches the given id", function(){
+			testDs.insert(testRows);
+			var row = testDs.getRowById(99);
+			expect(row).toBeNull();
+		});
+	});
+
+
 });

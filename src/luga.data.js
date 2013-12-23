@@ -52,9 +52,9 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Adds rows to a dataSet
-		 * Developers should be aware that the data set takes ownership of the objects within the array that is passed in.
+		 * Developers should be aware that the dataSet takes ownership of the objects within the array that is passed in.
 		 * That is, it uses those objects as its row object internally. It does not make a copy of the objects.
-		 * @param  rowData   Either one single object or an array of objects
+		 * @param  rowData     Either one single object or an array of objects. Required
 		 */
 		this.insert = function(rowData){
 			// If we only get one record, we put it inside an array anyway,
@@ -73,6 +73,17 @@ if(typeof(luga) === "undefined"){
 				this.data.push(recordsHolder[i]);
 			}
 			this.notifyObservers("dataChanged", this);
+		};
+
+		/**
+		 * Returns the row object associated with the given id. Required
+		 * @param  id     An integer
+		 */
+		this.getRowById = function(id){
+			if(this.dataHash[id]){
+				return this.dataHash[id];
+			}
+			return null;
 		};
 
 	};
