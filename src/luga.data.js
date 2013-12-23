@@ -46,15 +46,12 @@ if(typeof(luga) === "undefined"){
 		this.unfilteredData = null;
 		this.curRowId = 0;
 
-		this.dataWasLoaded = false;
-		this.pendingRequest = null;
-
 		var self = this;
 
 		luga.data.datasetRegistry[this.config.id] = self;
 
 		/**
-		 * Replaces the data inside the data set with new row data
+		 * Adds rows to a dataSet
 		 * Developers should be aware that the data set takes ownership of the objects within the array that is passed in.
 		 * That is, it uses those objects as its row object internally. It does not make a copy of the objects.
 		 * @param  rowData   Either one single object or an array of objects
@@ -75,7 +72,6 @@ if(typeof(luga) === "undefined"){
 				this.dataHash[this.data.length] = recordsHolder[i];
 				this.data.push(recordsHolder[i]);
 			}
-			this.dataWasLoaded = true;
 			this.notifyObservers("dataChanged", this);
 		};
 

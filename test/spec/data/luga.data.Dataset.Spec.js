@@ -43,7 +43,10 @@ describe("luga.data.Dataset", function(){
 	});
 
 	describe(".insert()", function(){
-		it("Replaces the data inside the data set with new row data", function(){
+		it("Adds rows to a dataSet", function(){
+			testDs.insert({ firstName: "Nicole", lastName: "Kidman" });
+			testDs.insert({ firstName: "Elisabeth", lastName: "Banks" });
+			expect(testDs.data.length).toEqual(2);
 		});
 		it("Accepts either a single record", function(){
 			expect(testDs.data.length).toEqual(0);
