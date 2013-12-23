@@ -43,6 +43,8 @@ describe("luga.data.Dataset", function(){
 	});
 
 	describe(".insert()", function(){
+		it("Replaces the data inside the data set with new row data", function(){
+		});
 		it("Accepts either a single record", function(){
 			expect(testDs.data.length).toEqual(0);
 			testDs.insert({ firstName: "Nicole", lastName: "Kidman" });
@@ -58,6 +60,12 @@ describe("luga.data.Dataset", function(){
 			expect(testObserver.onDataChangedHandler).toHaveBeenCalled();
 			expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith(testDs);
 		});
+		it("It will automatically create one PK field that is the equivalent of the row's index within the array", function(){
+			testDs.insert(testRows);
+			expect(testDs.data[0][luga.data.CONST.PK_KEY]).toEqual(0);
+			expect(testDs.data[6][luga.data.CONST.PK_KEY]).toEqual(6);
+		});
+
 	});
 
 });

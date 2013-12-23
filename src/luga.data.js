@@ -27,7 +27,7 @@ if(typeof(luga) === "undefined"){
 	luga.data.datasetRegistry = {};
 
 	luga.data.CONST = {
-		PK_PREFIX: "rowID",
+		PK_KEY: "rowID",
 		ERROR_MESSAGES: {
 			INVALID_ID_PARAMETER: "DataSet: id parameter is required"
 		}
@@ -54,22 +54,24 @@ if(typeof(luga) === "undefined"){
 		luga.data.datasetRegistry[this.config.id] = self;
 
 		/**
-		 * Adds rows to a dataset
-		 * Accept either one single object or an array of objects (multiple insert)
+		 * Replaces the data inside the data set with new row data
+		 * Developers should be aware that the data set takes ownership of the objects within the array that is passed in.
+		 * That is, it uses those objects as its row object internally. It does not make a copy of the objects.
+		 * @param  rowData   Either one single object or an array of objects
 		 */
-		this.insert = function(rows){
+		this.insert = function(rowData){
 			// If we only get one record, we put it inside an array anyway,
 			var recordsHolder = [];
-			if(jQuery.isArray(rows)){
-				recordsHolder = rows;
+			if(jQuery.isArray(rowData)){
+				recordsHolder = rowData;
 			}
 			else{
-				recordsHolder.push(rows);
+				recordsHolder.push(rowData);
 			}
 			for(var i = 0; i < recordsHolder.length; i++){
 				// Create new PK
 				var recordID = this.data.length;
-				recordsHolder[i][luga.data.CONST.PK_PREFIX] = recordID;
+				recordsHolder[i][luga.data.CONST.PK_KEY] = recordID;
 				this.dataHash[this.data.length] = recordsHolder[i];
 				this.data.push(recordsHolder[i]);
 			}
