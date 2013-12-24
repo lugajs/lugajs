@@ -99,6 +99,14 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
+		 * Returns the number of records in the dataSet.
+		 * If the dataSet has a filter, returns the number of filtered records.
+		 */
+		this.getRecordsCount = function(){
+			return this.selectAll().length;
+		};
+
+		/**
 		 * Returns the row object associated with the given rowId
 		 * @param  rowId  An integer. Required
 		 */

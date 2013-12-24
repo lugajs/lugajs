@@ -63,12 +63,12 @@ describe("luga.data.Dataset", function(){
 		it("An initial set of records (options.records)", function(){
 			var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
 			expect(ds.selectAll()).toEqual(testRecords);
-			expect(ds.selectAll().length).toEqual(7);
+			expect(ds.getRecordsCount()).toEqual(7);
 		});
 		it("A filter function to be called once for each row in the data set (options.filter)", function(){
 			var ds = new luga.data.DataSet({id: "myDs", records: testRecords, filter: removeUk});
 			expect(ds.filter).toEqual(removeUk);
-			expect(ds.selectAll().length).toEqual(5);
+			expect(ds.getRecordsCount()).toEqual(5);
 		});
 	});
 
@@ -89,11 +89,11 @@ describe("luga.data.Dataset", function(){
 		it("Returns an array of the internal row objects that store the records in the dataSet", function(){
 			var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
 			expect(ds.selectAll()).toEqual(testRecords);
-			expect(ds.selectAll().length).toEqual(7);
+			expect(ds.getRecordsCount()).toEqual(7);
 		});
 		it("If the dataSet contains a filter function, it returns the filtered records", function(){
 			var ds = new luga.data.DataSet({id: "myDs", records: testRecords, filter: removeUk});
-			expect(ds.selectAll().length).toEqual(5);
+			expect(ds.getRecordsCount()).toEqual(5);
 		});
 	});
 
@@ -101,17 +101,17 @@ describe("luga.data.Dataset", function(){
 		it("Adds records to a dataSet", function(){
 			testDs.insert({ firstName: "Nicole", lastName: "Kidman" });
 			testDs.insert({ firstName: "Elisabeth", lastName: "Banks" });
-			expect(testDs.selectAll().length).toEqual(2);
+			expect(testDs.getRecordsCount()).toEqual(2);
 		});
 		it("Accepts either a single record", function(){
-			expect(testDs.selectAll().length).toEqual(0);
+			expect(testDs.getRecordsCount()).toEqual(0);
 			testDs.insert({ firstName: "Nicole", lastName: "Kidman" });
-			expect(testDs.selectAll().length).toEqual(1);
+			expect(testDs.getRecordsCount()).toEqual(1);
 		});
 		it("Or an array of records", function(){
-			expect(testDs.selectAll().length).toEqual(0);
+			expect(testDs.getRecordsCount()).toEqual(0);
 			testDs.insert(testRecords);
-			expect(testDs.selectAll().length).toEqual(7);
+			expect(testDs.getRecordsCount()).toEqual(7);
 		});
 		it("Fires a 'dataChanged' notification. Sending the whole dataSet along the way", function(){
 			testDs.insert(testRecords);
@@ -136,9 +136,9 @@ describe("luga.data.Dataset", function(){
 			expect(testDs.filter).toEqual(removeBrasil);
 		});
 		it("And apply the new filter", function(){
-			expect(testDs.selectAll().length).toEqual(5);
+			expect(testDs.getRecordsCount()).toEqual(5);
 			testDs.setFilter(removeBrasil);
-			expect(testDs.selectAll().length).toEqual(6);
+			expect(testDs.getRecordsCount()).toEqual(6);
 		});
 		it("Then it triggers a 'dataChanged' notification", function(){
 			testDs.setFilter(removeBrasil);
@@ -152,18 +152,27 @@ describe("luga.data.Dataset", function(){
 			testDs.setFilter(removeUk);
 		});
 		it("Deletes current filter", function(){
-			expect(testDs.selectAll().length).toEqual(5);
+			expect(testDs.getRecordsCount()).toEqual(5);
 			testDs.deleteFilter();
 			expect(testDs.filter).toBeNull();
 		});
 		it("Resets the records to their unfiltered status", function(){
 			testDs.deleteFilter();
-			expect(testDs.selectAll().length).toEqual(7);
+			expect(testDs.getRecordsCount()).toEqual(7);
 			expect(testDs.selectAll()).toEqual(testRecords);
 		});
 		it("Ten it triggers a 'dataChanged' notification", function(){
 			testDs.deleteFilter();
 			expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith(testDs);
+		});
+	});
+
+	describe(".getRecordsCount()", function(){
+		it("Returns the number of records in the dataSet", function(){
+			// Already tested
+		});
+		it("If the dataSet has a filter, returns the number of filtered records", function(){
+			// Already tested
 		});
 	});
 
