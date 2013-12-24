@@ -12,4 +12,13 @@ VALIDATOR:
 
 DATASET:
 
-- Start basic implementation with TDD
+- getCurrentRow()
+- getCurrentRowNumber()
+- getRowByRowNumber()
+- setCurrentRowNumber()
+
+- Implement sorting
+- Implement column types
+
+- delete()
+- update()
