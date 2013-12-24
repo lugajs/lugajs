@@ -96,7 +96,7 @@ describe("luga.data.Dataset", function(){
 			expect(ds.select().length).toEqual(5);
 		});
 		describe("It accepts an optional filter function as an argument", function(){
-			it("If specified only records matching the filter will be returned.", function(){
+			it("If specified only records matching the filter will be returned", function(){
 				var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
 				expect(ds.select(removeUk).length).toEqual(5);
 			});
@@ -204,7 +204,7 @@ describe("luga.data.Dataset", function(){
 	});
 
 	describe(".setCurrentRowId()", function(){
-		it("Sets the current row of the data set to the row with the given rowId.", function(){
+		it("Sets the current row of the data set to the row matching the given rowId", function(){
 			testDs.insert(testRecords);
 			testDs.setCurrentRowId(3);
 			expect(testDs.getCurrentRowId()).toEqual(3);

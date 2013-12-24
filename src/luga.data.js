@@ -133,7 +133,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * Sets the current row of the data set to the row with the given rowId
+		 * Sets the current row of the data set to the row matching the given rowId
 		 * Throws an exception if the given rowId is invalid
 		 * Triggers a "currentRowChanged" notification
 		 * @param  rowId  An integer. Required
