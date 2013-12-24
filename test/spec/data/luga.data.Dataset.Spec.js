@@ -177,7 +177,7 @@ describe("luga.data.Dataset", function(){
 			expect(testDs.getRecordsCount()).toEqual(7);
 			expect(testDs.select()).toEqual(testRecords);
 		});
-		it("Ten it triggers a 'dataChanged' notification", function(){
+		it("Then it triggers a 'dataChanged' notification", function(){
 			testDs.deleteFilter();
 			expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith(testDs);
 		});
