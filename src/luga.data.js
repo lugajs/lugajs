@@ -34,44 +34,58 @@ if(typeof(luga) === "undefined"){
 		}
 	};
 
+
+	/**
+	 * Base dataSet class
+	 *
+	 * @param options.id:               Unique identifier. Required
+	 * @param options.records:          Records to be loaded, either one single object or an array of objects.  Default to null
+	 * @param options.filters:          An array of filter functions to be called once for each row in the data set. Default to null
+	 */
 	luga.data.DataSet = function(options){
 		if(!options.id){
 			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_ID_PARAMETER);
 		}
-		this.config = {};
-		luga.merge(this.config, options);
 		luga.extend(luga.Notifier, this);
-
-		this.data = [];
-		this.dataHash = {};
-		this.filteredData = null;
-		this.currentRowId = 0;
-
 		var self = this;
 
-		luga.data.datasetRegistry[this.config.id] = self;
+		this.id = options.id;
+		this.records = [];
+		this.recordsHash = {};
+		this.filteredRecords = null;
+		this.filters = null;
+		this.currentRowId = 0;
+
+		luga.data.datasetRegistry[this.id] = this;
+
+		if(options.filters){
+			this.filters = options.filters;
+		}
+		if(options.records){
+			this.insert(options.records);
+		}
 
 		/**
 		 * Adds rows to a dataSet
 		 * Be aware that the dataSet use passed data by reference..
 		 * That is, it uses those objects as its row object internally. It does not make a copy.
-		 * @param  rowData Either one single object or an array of objects. Required
+		 * @param  records    Either one single object or an array of objects. Required
 		 */
-		this.insert = function(rowData){
+		this.insert = function(records){
 			// If we only get one record, we put it inside an array anyway,
 			var recordsHolder = [];
-			if(jQuery.isArray(rowData)){
-				recordsHolder = rowData;
+			if(jQuery.isArray(records)){
+				recordsHolder = records;
 			}
 			else{
-				recordsHolder.push(rowData);
+				recordsHolder.push(records);
 			}
 			for(var i = 0; i < recordsHolder.length; i++){
 				// Create new PK
-				var recordID = this.data.length;
+				var recordID = this.records.length;
 				recordsHolder[i][luga.data.CONST.PK_KEY] = recordID;
-				this.dataHash[this.data.length] = recordsHolder[i];
-				this.data.push(recordsHolder[i]);
+				this.recordsHash[this.records.length] = recordsHolder[i];
+				this.records.push(recordsHolder[i]);
 			}
 			this.notifyObservers("dataChanged", this);
 		};
@@ -81,8 +95,8 @@ if(typeof(luga) === "undefined"){
 		 * @param  rowId  An integer. Required
 		 */
 		this.getRowById = function(rowId){
-			if(this.dataHash[rowId]){
-				return this.dataHash[rowId];
+			if(this.recordsHash[rowId]){
+				return this.recordsHash[rowId];
 			}
 			return null;
 		};

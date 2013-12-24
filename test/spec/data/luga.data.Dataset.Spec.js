@@ -5,7 +5,7 @@ describe("luga.data.Dataset", function(){
 	beforeEach(function(){
 
 		testDs = new luga.data.DataSet({id: "test"});
-		testRows = [
+		testRecords = [
 			{ firstName: "Nicole", lastName: "Kidman" },
 			{ firstName: "Kate", lastName: "Beckinsale" },
 			{ firstName: "Jennifer", lastName: "Connelly" },
@@ -44,38 +44,44 @@ describe("luga.data.Dataset", function(){
 		}).toThrow();
 	});
 
+	it("Accepts an initial set of records", function(){
+		expect(function(){
+			var ds = new luga.data.DataSet({});
+		}).toThrow();
+	});
+
 	describe(".insert()", function(){
-		it("Adds rows to a dataSet", function(){
+		it("Adds records to a dataSet", function(){
 			testDs.insert({ firstName: "Nicole", lastName: "Kidman" });
 			testDs.insert({ firstName: "Elisabeth", lastName: "Banks" });
-			expect(testDs.data.length).toEqual(2);
+			expect(testDs.records.length).toEqual(2);
 		});
 		it("Accepts either a single record", function(){
-			expect(testDs.data.length).toEqual(0);
+			expect(testDs.records.length).toEqual(0);
 			testDs.insert({ firstName: "Nicole", lastName: "Kidman" });
-			expect(testDs.data.length).toEqual(1);
+			expect(testDs.records.length).toEqual(1);
 		});
 		it("Or an array of records", function(){
-			expect(testDs.data.length).toEqual(0);
-			testDs.insert(testRows);
-			expect(testDs.data.length).toEqual(7);
+			expect(testDs.records.length).toEqual(0);
+			testDs.insert(testRecords);
+			expect(testDs.records.length).toEqual(7);
 		});
 		it("Fires a 'dataChanged' notification. Sending the whole dataSet along the way", function(){
-			testDs.insert(testRows);
+			testDs.insert(testRecords);
 			expect(testObserver.onDataChangedHandler).toHaveBeenCalled();
 			expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith(testDs);
 		});
 		it("It will automatically create one PK field that is the equivalent of the row's index within the array", function(){
-			testDs.insert(testRows);
-			expect(testDs.data[0][luga.data.CONST.PK_KEY]).toEqual(0);
-			expect(testDs.data[6][luga.data.CONST.PK_KEY]).toEqual(6);
+			testDs.insert(testRecords);
+			expect(testDs.records[0][luga.data.CONST.PK_KEY]).toEqual(0);
+			expect(testDs.records[6][luga.data.CONST.PK_KEY]).toEqual(6);
 		});
 
 	});
 
 	describe(".getCurrentRowId()", function(){
 		it("Returns the rowId of the current row", function(){
-			testDs.insert(testRows);
+			testDs.insert(testRecords);
 			testDs.setCurrentRowId(2);
 			expect(testDs.getCurrentRowId()).toEqual(2);
 		});
@@ -86,7 +92,7 @@ describe("luga.data.Dataset", function(){
 
 	describe(".setCurrentRowId()", function(){
 		it("Sets the current row of the data set to the row with the given rowId.", function(){
-			testDs.insert(testRows);
+			testDs.insert(testRecords);
 			testDs.setCurrentRowId(3);
 			expect(testDs.getCurrentRowId()).toEqual(3);
 		});
@@ -96,7 +102,7 @@ describe("luga.data.Dataset", function(){
 			}).toThrow();
 		});
 		it("Triggers a 'currentRowChanged' notification", function(){
-			testDs.insert(testRows);
+			testDs.insert(testRecords);
 			testDs.setCurrentRowId(3);
 			expect(testObserver.onCurrentRowChangedHandler).toHaveBeenCalled();
 		});
@@ -104,16 +110,16 @@ describe("luga.data.Dataset", function(){
 
 	describe(".getRowById()", function(){
 		it("Returns the row object associated with the given rowId", function(){
-			testDs.insert(testRows);
+			testDs.insert(testRecords);
 			var row = testDs.getRowById(2);
-			expect(row).toEqual(testRows[2]);
+			expect(row).toEqual(testRecords[2]);
 		});
 		it("Returns null if the dataSet contains no data", function(){
 			var row = testDs.getRowById(2);
 			expect(row).toBeNull();
 		});
 		it("Or if no available record matches the given rowId", function(){
-			testDs.insert(testRows);
+			testDs.insert(testRecords);
 			var row = testDs.getRowById(99);
 			expect(row).toBeNull();
 		});
