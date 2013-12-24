@@ -34,7 +34,6 @@ if(typeof(luga) === "undefined"){
 		}
 	};
 
-
 	/**
 	 * Base dataSet class
 	 *
@@ -57,13 +56,6 @@ if(typeof(luga) === "undefined"){
 		this.currentRowId = 0;
 
 		luga.data.datasetRegistry[this.id] = this;
-
-		if(options.filters){
-			this.filters = options.filters;
-		}
-		if(options.records){
-			this.insert(options.records);
-		}
 
 		/**
 		 * Adds rows to a dataSet
@@ -128,6 +120,13 @@ if(typeof(luga) === "undefined"){
 			this.currentRowId = rowId;
 			this.notifyObservers("currentRowChanged", notificationData);
 		};
+
+		if(options.filters){
+			this.filters = options.filters;
+		}
+		if(options.records){
+			this.insert(options.records);
+		}
 
 	};
 

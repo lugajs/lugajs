@@ -6,14 +6,21 @@ describe("luga.data.Dataset", function(){
 
 		testDs = new luga.data.DataSet({id: "test"});
 		testRecords = [
-			{ firstName: "Nicole", lastName: "Kidman" },
-			{ firstName: "Kate", lastName: "Beckinsale" },
-			{ firstName: "Jennifer", lastName: "Connelly" },
-			{ firstName: "Salma", lastName: "Hayek" },
-			{ firstName: "Gisele", lastName: "Bundchen" },
-			{ firstName: "Emmanuelle", lastName: "Beart" },
-			{ firstName: "Liz", lastName: "Hurley" }
+			{ firstName: "Nicole", lastName: "Kidman", country: "Australia" },
+			{ firstName: "Kate", lastName: "Beckinsale", country: "UK" },
+			{ firstName: "Jennifer", lastName: "Connelly", country: "USA" },
+			{ firstName: "Salma", lastName: "Hayek", country: "Mexico" },
+			{ firstName: "Gisele", lastName: "Bundchen", country: "Brasl" },
+			{ firstName: "Elisabeth", lastName: "Banks", country: "USA" },
+			{ firstName: "Liz", lastName: "Hurley", country: "UK" }
 		];
+
+		removeUk = function(dataSet, row, rowIndex){
+
+		};
+		removeBrasil = function(dataSet, row, rowIndex){
+
+		};
 
 		var ObserverClass = function(){
 			this.onDataChangedHandler = function(data){
@@ -55,10 +62,13 @@ describe("luga.data.Dataset", function(){
 	describe("Its constructor options may contain:", function(){
 
 		it("An initial set of records", function(){
-
+			var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
+			expect(ds.records).toEqual(testRecords);
 		});
 		it("An array of filter functions", function(){
-
+			var ds = new luga.data.DataSet({id: "myDs", filters: [removeUk, removeBrasil]});
+			expect(ds.filters.length).toEqual(2);
+			expect(ds.filters[0]).toEqual(removeUk);
 		});
 	});
 
