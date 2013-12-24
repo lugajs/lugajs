@@ -100,9 +100,35 @@ describe("luga.data.Dataset", function(){
 				var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
 				expect(ds.select(removeUk).length).toEqual(5);
 			});
-			it("It throws an exception if the filter is not a function", function(){
+			it("If the filter is not a function, an exception is throws", function(){
 				expect(function(){
 					testDs.select("test");
+				}).toThrow();
+			});
+		});
+	});
+
+	describe(".delete():", function(){
+		it("Delete all records", function(){
+			testDs.insert(testRecords);
+			expect(testDs.select().length).toEqual(7);
+			testDs.delete();
+			expect(testDs.select().length).toEqual(0);
+		});
+		it("Then it triggers a 'dataChanged' notification", function(){
+			testDs.insert(testRecords);
+			testDs.delete();
+			expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith(testDs);
+		});
+		describe("It accepts an optional filter function as an argument", function(){
+			it("If specified only records matching the filter will be deleted", function(){
+				var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
+				ds.delete(removeUk);
+				expect(ds.select().length).toEqual(5);
+			});
+			it("If the filter is not a function, an exception is throws", function(){
+				expect(function(){
+					testDs.delete("test");
 				}).toThrow();
 			});
 		});
@@ -142,7 +168,7 @@ describe("luga.data.Dataset", function(){
 			testDs.insert(testRecords);
 			testDs.setFilter(removeUk);
 		});
-		it("Throws an exception if the filter is not a function", function(){
+		it("Throws an exception if the given filter is not a function", function(){
 			expect(function(){
 				testDs.setFilter("test");
 			}).toThrow();

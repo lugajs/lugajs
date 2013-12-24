@@ -83,7 +83,7 @@ if(typeof(luga) === "undefined"){
 				this.recordsHash[this.records.length] = recordsHolder[i];
 				this.records.push(recordsHolder[i]);
 			}
-			applyFilters();
+			applyFilter();
 			this.notifyObservers("dataChanged", this);
 		};
 
@@ -101,6 +101,24 @@ if(typeof(luga) === "undefined"){
 				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			return filterRecords(selectAll(), filter);
+		};
+
+		/**
+		 * Delete records matching the given filter
+		 * If no filter is passed, delete all records
+		 * @param filter:      An optional filter function. If specified only records matching the filter will be returned. Default to null
+		 *                     The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
+		 */
+		this.delete = function(filter){
+			if(!filter){
+				deleteAll();
+			}
+			if(filter && !jQuery.isFunction(filter)){
+				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
+			}
+			this.records = filterRecords(selectAll(), filter);
+			applyFilter();
+			this.notifyObservers("dataChanged", this);
 		};
 
 		/**
@@ -161,7 +179,7 @@ if(typeof(luga) === "undefined"){
 				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			this.filter = filter;
-			applyFilters();
+			applyFilter();
 			this.notifyObservers("dataChanged", this);
 		};
 
@@ -182,7 +200,12 @@ if(typeof(luga) === "undefined"){
 			return self.records;
 		};
 
-		var applyFilters = function(){
+		var deleteAll = function(){
+			self.filteredRecords = null;
+			self.records = [];
+		};
+
+		var applyFilter = function(){
 			if(self.filter !== null){
 				self.filteredRecords = filterRecords(self.records, self.filter);
 			}

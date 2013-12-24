@@ -20,5 +20,4 @@ DATASET:
 - Implement sorting
 - Implement column types
 
-- delete()
 - update()
