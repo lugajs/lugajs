@@ -16,10 +16,16 @@ describe("luga.data.Dataset", function(){
 		];
 
 		removeUk = function(dataSet, row, rowIndex){
-
+			if(row.country === "UK"){
+				return null;
+			}
+			return row;
 		};
 		removeBrasil = function(dataSet, row, rowIndex){
-
+			if(row.country === "Brasl"){
+				return null;
+			}
+			return row;
 		};
 
 		var ObserverClass = function(){
@@ -45,30 +51,49 @@ describe("luga.data.Dataset", function(){
 		expect(jQuery.isArray(ds.observers)).toBeTruthy();
 	});
 
-	describe("Its constructor options require:", function(){
-
-		it("An id, to act as unique identifier", function(){
-			expect(function(){
-				var ds = new luga.data.DataSet({});
-			}).toThrow();
-		});
-		it("That will be stored inside a global registry", function(){
+	describe("Its constructor options requires:", function(){
+		it("An id, to act as unique identifier that will be stored inside a global registry (options.id)", function(){
 			var ds = new luga.data.DataSet({id: "myDs"});
-			expect(luga.data.datasetRegistry["myDs"]).toEqual(ds);
+			expect(luga.data.datasetRegistry.myDs).toEqual(ds);
 		});
 
 	});
 
-	describe("Its constructor options may contain:", function(){
-
-		it("An initial set of records", function(){
+	describe("Its constructor options may contains:", function(){
+		it("An initial set of records (options.records)", function(){
 			var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
-			expect(ds.records).toEqual(testRecords);
+			expect(ds.selectAll()).toEqual(testRecords);
+			expect(ds.selectAll().length).toEqual(7);
 		});
-		it("An array of filter functions", function(){
-			var ds = new luga.data.DataSet({id: "myDs", filters: [removeUk, removeBrasil]});
-			expect(ds.filters.length).toEqual(2);
-			expect(ds.filters[0]).toEqual(removeUk);
+		it("A filter function to be called once for each row in the data set (options.filter)", function(){
+			var ds = new luga.data.DataSet({id: "myDs", records: testRecords, filter: removeUk});
+			expect(ds.filter).toEqual(removeUk);
+			expect(ds.selectAll().length).toEqual(5);
+		});
+	});
+
+	describe("Its constructor throws an exception if:", function(){
+		it("options.id is missing", function(){
+			expect(function(){
+				var ds = new luga.data.DataSet({});
+			}).toThrow();
+		});
+		it("options.filter is not a function", function(){
+			expect(function(){
+				var ds = new luga.data.DataSet({id: "myDs", filter: "test"});
+			}).toThrow();
+		});
+	});
+
+	describe(".selectAll():", function(){
+		it("Returns an array of the internal row objects that store the records in the dataSet", function(){
+			var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
+			expect(ds.selectAll()).toEqual(testRecords);
+			expect(ds.selectAll().length).toEqual(7);
+		});
+		it("If the dataSet contains a filter function, it returns the filtered records", function(){
+			var ds = new luga.data.DataSet({id: "myDs", records: testRecords, filter: removeUk});
+			expect(ds.selectAll().length).toEqual(5);
 		});
 	});
 
@@ -76,17 +101,17 @@ describe("luga.data.Dataset", function(){
 		it("Adds records to a dataSet", function(){
 			testDs.insert({ firstName: "Nicole", lastName: "Kidman" });
 			testDs.insert({ firstName: "Elisabeth", lastName: "Banks" });
-			expect(testDs.records.length).toEqual(2);
+			expect(testDs.selectAll().length).toEqual(2);
 		});
 		it("Accepts either a single record", function(){
-			expect(testDs.records.length).toEqual(0);
+			expect(testDs.selectAll().length).toEqual(0);
 			testDs.insert({ firstName: "Nicole", lastName: "Kidman" });
-			expect(testDs.records.length).toEqual(1);
+			expect(testDs.selectAll().length).toEqual(1);
 		});
 		it("Or an array of records", function(){
-			expect(testDs.records.length).toEqual(0);
+			expect(testDs.selectAll().length).toEqual(0);
 			testDs.insert(testRecords);
-			expect(testDs.records.length).toEqual(7);
+			expect(testDs.selectAll().length).toEqual(7);
 		});
 		it("Fires a 'dataChanged' notification. Sending the whole dataSet along the way", function(){
 			testDs.insert(testRecords);
@@ -99,6 +124,47 @@ describe("luga.data.Dataset", function(){
 			expect(testDs.records[6][luga.data.CONST.PK_KEY]).toEqual(6);
 		});
 
+	});
+
+	describe(".setFilter():", function(){
+		beforeEach(function(){
+			testDs.insert(testRecords);
+			testDs.setFilter(removeUk);
+		});
+		it("Replaces current filter with a new filter functions", function(){
+			testDs.setFilter(removeBrasil);
+			expect(testDs.filter).toEqual(removeBrasil);
+		});
+		it("And apply the new filter", function(){
+			expect(testDs.selectAll().length).toEqual(5);
+			testDs.setFilter(removeBrasil);
+			expect(testDs.selectAll().length).toEqual(6);
+		});
+		it("Then it triggers a 'dataChanged' notification", function(){
+			testDs.setFilter(removeBrasil);
+			expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith(testDs);
+		});
+	});
+
+	describe(".deleteFilter():", function(){
+		beforeEach(function(){
+			testDs.insert(testRecords);
+			testDs.setFilter(removeUk);
+		});
+		it("Deletes current filter", function(){
+			expect(testDs.selectAll().length).toEqual(5);
+			testDs.deleteFilter();
+			expect(testDs.filter).toBeNull();
+		});
+		it("Resets the records to their unfiltered status", function(){
+			testDs.deleteFilter();
+			expect(testDs.selectAll().length).toEqual(7);
+			expect(testDs.selectAll()).toEqual(testRecords);
+		});
+		it("Ten it triggers a 'dataChanged' notification", function(){
+			testDs.deleteFilter();
+			expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith(testDs);
+		});
 	});
 
 	describe(".getCurrentRowId()", function(){

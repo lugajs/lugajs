@@ -30,7 +30,8 @@ if(typeof(luga) === "undefined"){
 		PK_KEY: "rowID",
 		ERROR_MESSAGES: {
 			INVALID_ID_PARAMETER: "Luga.DataSet: id parameter is required",
-			INVALID_ROW_ID_PARAMETER: "Luga.DataSet: invalid rowId parameter"
+			INVALID_ROW_ID_PARAMETER: "Luga.DataSet: invalid rowId parameter",
+			INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter"
 		}
 	};
 
@@ -39,11 +40,14 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param options.id:               Unique identifier. Required
 	 * @param options.records:          Records to be loaded, either one single object or an array of objects.  Default to null
-	 * @param options.filters:          An array of filter functions to be called once for each row in the data set. Default to null
+	 * @param options.filter:           A filter functions to be called once for each row in the data set. Default to null
 	 */
 	luga.data.DataSet = function(options){
 		if(!options.id){
 			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_ID_PARAMETER);
+		}
+		if(options.filter && !jQuery.isFunction(options.filter)){
+			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 		}
 		luga.extend(luga.Notifier, this);
 		var self = this;
@@ -52,7 +56,7 @@ if(typeof(luga) === "undefined"){
 		this.records = [];
 		this.recordsHash = {};
 		this.filteredRecords = null;
-		this.filters = null;
+		this.filter = null;
 		this.currentRowId = 0;
 
 		luga.data.datasetRegistry[this.id] = this;
@@ -79,7 +83,19 @@ if(typeof(luga) === "undefined"){
 				this.recordsHash[this.records.length] = recordsHolder[i];
 				this.records.push(recordsHolder[i]);
 			}
+			filterRecords();
 			this.notifyObservers("dataChanged", this);
+		};
+
+		/**
+		 * Returns an array of the internal row objects that store the records in the dataSet.
+		 * Modifying any property of a row object results in a modification of the internal records (since records are passed by reference).
+		 */
+		this.selectAll = function(){
+			if(this.filteredRecords !== null){
+				return this.filteredRecords;
+			}
+			return this.records;
 		};
 
 		/**
@@ -121,8 +137,46 @@ if(typeof(luga) === "undefined"){
 			this.notifyObservers("currentRowChanged", notificationData);
 		};
 
-		if(options.filters){
-			this.filters = options.filters;
+		/**
+		 * Replace current filter with a new filter functions and apply the new filter.
+		 * Triggers a "dataChanged" notification.
+		 * @param filter:      A filter functions to be called once for each row in the data set.
+		 *                     The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
+		 */
+		this.setFilter = function(filter){
+			if(!jQuery.isFunction(filter)){
+				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
+			}
+			this.filter = filter;
+			filterRecords();
+			this.notifyObservers("dataChanged", this);
+		};
+
+		/**
+		 * Remove the current filter function.
+		 * Triggers a "dataChanged" notification.
+		 */
+		this.deleteFilter = function(){
+			this.filter = null;
+			this.filteredRecords = null;
+			this.notifyObservers("dataChanged", this);
+		};
+
+		var filterRecords = function(){
+			if(self.filter !== null){
+				var orig = self.records;
+				self.filteredRecords = [];
+				for(var i = 0; i < orig.length; i++){
+					var newRow = self.filter(this, orig[i], i);
+					if(newRow){
+						self.filteredRecords.push(newRow);
+					}
+				}
+			}
+		};
+
+		if(options.filter){
+			this.setFilter(options.filter);
 		}
 		if(options.records){
 			this.insert(options.records);
