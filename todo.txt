@@ -13,9 +13,9 @@ VALIDATOR:
 DATASET:
 
 - getCurrentRow()
-- getCurrentRowNumber()
-- getRowByRowNumber()
-- setCurrentRowNumber()
+- getCurrentRowIndex()
+- getRowByIndex()
+- setCurrentRowIndex()
 
 - Implement sorting
 - Implement column types
