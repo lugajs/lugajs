@@ -31,23 +31,35 @@ describe("luga.data.Dataset", function(){
 		expect(jQuery.isFunction(luga.data.DataSet)).toBeTruthy();
 	});
 
-	it("It implements the Notifier interface", function(){
+	it("Implements the Notifier interface", function(){
 		var ds = new luga.data.DataSet({id: "myDs"});
 		expect(jQuery.isFunction(ds.addObserver)).toBeTruthy();
 		expect(jQuery.isFunction(ds.notifyObservers)).toBeTruthy();
 		expect(jQuery.isArray(ds.observers)).toBeTruthy();
 	});
 
-	it("Throws an error if no id is passed among the parameters", function(){
-		expect(function(){
-			var ds = new luga.data.DataSet({});
-		}).toThrow();
+	describe("Its constructor options require:", function(){
+
+		it("An id, to act as unique identifier", function(){
+			expect(function(){
+				var ds = new luga.data.DataSet({});
+			}).toThrow();
+		});
+		it("That will be stored inside a global registry", function(){
+			var ds = new luga.data.DataSet({id: "myDs"});
+			expect(luga.data.datasetRegistry["myDs"]).toEqual(ds);
+		});
+
 	});
 
-	it("Accepts an initial set of records", function(){
-		expect(function(){
-			var ds = new luga.data.DataSet({});
-		}).toThrow();
+	describe("Its constructor options may contain:", function(){
+
+		it("An initial set of records", function(){
+
+		});
+		it("An array of filter functions", function(){
+
+		});
 	});
 
 	describe(".insert()", function(){
