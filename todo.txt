@@ -20,4 +20,16 @@ DATASET:
 - Implement sorting
 - Implement column types
 
+- Local storage integration 
+
 - update()
+
+REGION:
+
+- Start basic
+
+- Try http://handlebarsjs.com/
+
+HTTP DATASET:
+
+- Start with JSON
