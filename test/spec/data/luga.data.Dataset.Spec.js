@@ -62,7 +62,7 @@ describe("luga.data.Dataset", function(){
 	describe("Its constructor options may contains:", function(){
 		it("An initial set of records (options.records)", function(){
 			var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
-			expect(ds.selectAll()).toEqual(testRecords);
+			expect(ds.select()).toEqual(testRecords);
 			expect(ds.getRecordsCount()).toEqual(7);
 		});
 		it("A filter function to be called once for each row in the data set (options.filter)", function(){
@@ -85,15 +85,26 @@ describe("luga.data.Dataset", function(){
 		});
 	});
 
-	describe(".selectAll():", function(){
+	describe(".select():", function(){
 		it("Returns an array of the internal row objects that store the records in the dataSet", function(){
 			var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
-			expect(ds.selectAll()).toEqual(testRecords);
-			expect(ds.getRecordsCount()).toEqual(7);
+			expect(ds.select()).toEqual(testRecords);
+			expect(ds.select().length).toEqual(7);
 		});
 		it("If the dataSet contains a filter function, it returns the filtered records", function(){
 			var ds = new luga.data.DataSet({id: "myDs", records: testRecords, filter: removeUk});
-			expect(ds.getRecordsCount()).toEqual(5);
+			expect(ds.select().length).toEqual(5);
+		});
+		describe("It accepts an optional filter function as an argument", function(){
+			it("If specified only records matching the filter will be returned.", function(){
+				var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
+				expect(ds.select(removeUk).length).toEqual(5);
+			});
+			it("It throws an exception if the filter is not a function", function(){
+				expect(function(){
+					testDs.select("test");
+				}).toThrow();
+			});
 		});
 	});
 
@@ -131,6 +142,11 @@ describe("luga.data.Dataset", function(){
 			testDs.insert(testRecords);
 			testDs.setFilter(removeUk);
 		});
+		it("Throws an exception if the filter is not a function", function(){
+			expect(function(){
+				testDs.setFilter("test");
+			}).toThrow();
+		});
 		it("Replaces current filter with a new filter functions", function(){
 			testDs.setFilter(removeBrasil);
 			expect(testDs.filter).toEqual(removeBrasil);
@@ -159,7 +175,7 @@ describe("luga.data.Dataset", function(){
 		it("Resets the records to their unfiltered status", function(){
 			testDs.deleteFilter();
 			expect(testDs.getRecordsCount()).toEqual(7);
-			expect(testDs.selectAll()).toEqual(testRecords);
+			expect(testDs.select()).toEqual(testRecords);
 		});
 		it("Ten it triggers a 'dataChanged' notification", function(){
 			testDs.deleteFilter();
