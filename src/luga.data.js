@@ -204,6 +204,7 @@ if(typeof(luga) === "undefined"){
 		var deleteAll = function(){
 			self.filteredRecords = null;
 			self.records = [];
+			self.recordsHash = {};
 		};
 
 		var applyFilter = function(){
@@ -251,6 +252,33 @@ if(typeof(luga) === "undefined"){
 		if(options.url){
 			this.url = options.url;
 		}
+		this.pendingRequest = null;
+
+		this.cancelRequest = function(){
+			// TODO: implement
+		};
+
+		this.loadUrl = function(){
+			this.pendingRequest = jQuery.ajax({
+				url: self.url,
+				success: self.loadRecords
+			});
+		};
+
+		this.loadData = function(){
+			if(!this.url){
+				return;
+			}
+			// TODO: update state
+			// TODO: notify observers (loading)
+			this.cancelRequest();
+			this.delete();
+			this.loadUrl();
+		};
+
+		this.loadRecords = function(response, textStatus, jqXHR){
+			// Child classes must implement this
+		};
 	};
 
 	/**
@@ -264,6 +292,10 @@ if(typeof(luga) === "undefined"){
 	luga.data.JsonDataSet = function(options){
 		luga.extend(luga.data.HttpDataSet, this, [options]);
 		var self = this;
+
+		this.loadRecords = function(response, textStatus, jqXHR){
+			self.insert(response);
+		};
 
 	};
 

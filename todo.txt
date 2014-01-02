@@ -17,19 +17,36 @@ DATASET:
 - getRowByIndex()
 - setCurrentRowIndex()
 
+- update()
+
 - Implement sorting
 - Implement column types
 
 - Local storage integration 
 
-- update()
+- Implement state (empty, loading, error)
+
+HTTP DATASET:
+
+- getUrl()
+- setUrl()
+- cancelRequest()
+
+- cache option
+- timeout option (with CONST)
+
+- Handle HTTP errors
+- Handle dataType mismatch?
+
+JSON DATASET:
+
+- path option
+
+- setPath()
+- getPath()
 
 REGION:
 
 - Start basic
 
 - Try http://handlebarsjs.com/
-
-HTTP DATASET:
-
-- Start with JSON
