@@ -5,15 +5,7 @@ describe("luga.data.Dataset", function(){
 	beforeEach(function(){
 
 		testDs = new luga.data.DataSet({id: "test"});
-		testRecords = [
-			{ firstName: "Nicole", lastName: "Kidman", country: "Australia" },
-			{ firstName: "Kate", lastName: "Beckinsale", country: "UK" },
-			{ firstName: "Jennifer", lastName: "Connelly", country: "USA" },
-			{ firstName: "Salma", lastName: "Hayek", country: "Mexico" },
-			{ firstName: "Gisele", lastName: "Bundchen", country: "Brasl" },
-			{ firstName: "Elisabeth", lastName: "Banks", country: "USA" },
-			{ firstName: "Liz", lastName: "Hurley", country: "UK" }
-		];
+		testRecords = getJSONFixture("data/ladies.json");
 
 		removeUk = function(dataSet, row, rowIndex){
 			if(row.country === "UK"){
