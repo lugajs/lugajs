@@ -236,10 +236,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Base HTTP dataSet class
 	 *
-	 * @param options.id:               Unique identifier. Required
+	 * @param options:                  Same as luga.data.DataSet plus:
 	 * @param options.url:              Url to be fetched. Default to null
-	 * @param options.records:          Records to be loaded, either one single object or an array of objects.  Default to null
-	 * @param options.filter:           A filter functions to be called once for each row in the dataSet. Default to null
 	 */
 	luga.data.HttpDataSet = function(options){
 		if(this.constructor === luga.data.HttpDataSet){
@@ -284,14 +282,14 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * JSON dataSet class
 	 *
-	 * @param options.id:               Unique identifier. Required
-	 * @param options.url:              Url to be fetched. Default to null
-	 * @param options.records:          Records to be loaded, either one single object or an array of objects.  Default to null
-	 * @param options.filter:           A filter functions to be called once for each row in the dataSet. Default to null
+	 * @param options:                  Same as luga.data.HttpDataSet plus:
+	 * @param options.path:             Specifies the path to the data within the JSON structure. Default to empty string
 	 */
 	luga.data.JsonDataSet = function(options){
 		luga.extend(luga.data.HttpDataSet, this, [options]);
 		var self = this;
+
+		this.path = "";
 
 		this.loadRecords = function(response, textStatus, jqXHR){
 			self.insert(response);
