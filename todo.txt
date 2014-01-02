@@ -40,7 +40,7 @@ HTTP DATASET:
 
 JSON DATASET:
 
-- path option
+- Extract JSON based on path
 
 - setPath()
 - getPath()
