@@ -28,6 +28,8 @@ DATASET:
 
 HTTP DATASET:
 
+- Test url option
+
 - getUrl()
 - setUrl()
 - cancelRequest()
@@ -50,3 +52,7 @@ REGION:
 - Start basic
 
 - Try http://handlebarsjs.com/
+
+XML DATSET:
+
+NESTED JSON DATASET:
