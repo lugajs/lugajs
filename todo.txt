@@ -47,12 +47,12 @@ JSON DATASET:
 - setPath()
 - getPath()
 
+- Are subPaths required?
+
 REGION:
 
 - Start basic
 
 - Try http://handlebarsjs.com/
 
-XML DATSET:
-
-NESTED JSON DATASET:
+XML DATASET:
