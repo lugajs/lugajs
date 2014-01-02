@@ -31,7 +31,8 @@ if(typeof(luga) === "undefined"){
 		ERROR_MESSAGES: {
 			INVALID_ID_PARAMETER: "Luga.DataSet: id parameter is required",
 			INVALID_ROW_ID_PARAMETER: "Luga.DataSet: invalid rowId parameter",
-			INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter"
+			INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter",
+			HTTP_DATASET_ABSTRACT: "luga.data.HttpDataSet is an abstract class"
 		}
 	};
 
@@ -228,6 +229,41 @@ if(typeof(luga) === "undefined"){
 		if(options.records){
 			this.insert(options.records);
 		}
+
+	};
+
+	/**
+	 * Base HTTP dataSet class
+	 *
+	 * @param options.id:               Unique identifier. Required
+	 * @param options.url:              Url to be fetched. Default to null
+	 * @param options.records:          Records to be loaded, either one single object or an array of objects.  Default to null
+	 * @param options.filter:           A filter functions to be called once for each row in the dataSet. Default to null
+	 */
+	luga.data.HttpDataSet = function(options){
+		if(this.constructor === luga.data.HttpDataSet){
+			throw(luga.data.CONST.ERROR_MESSAGES.HTTP_DATASET_ABSTRACT);
+		}
+		luga.extend(luga.data.DataSet, this, [options]);
+		var self = this;
+
+		this.url = null;
+		if(options.url){
+			this.url = options.url;
+		}
+	};
+
+	/**
+	 * JSON dataSet class
+	 *
+	 * @param options.id:               Unique identifier. Required
+	 * @param options.url:              Url to be fetched. Default to null
+	 * @param options.records:          Records to be loaded, either one single object or an array of objects.  Default to null
+	 * @param options.filter:           A filter functions to be called once for each row in the dataSet. Default to null
+	 */
+	luga.data.JsonDataSet = function(options){
+		luga.extend(luga.data.HttpDataSet, this, [options]);
+		var self = this;
 
 	};
 

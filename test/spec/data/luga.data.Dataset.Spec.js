@@ -257,3 +257,11 @@ describe("luga.data.Dataset", function(){
 	});
 
 });
+
+describe("luga.data.HttpDataSet is an abstract class", function(){
+	it("That can't be invoked directly", function(){
+		expect(function(){
+			new luga.data.HttpDataSet({id: "tryThis"});
+		}).toThrow();
+	});
+});
