@@ -28,7 +28,7 @@ DATASET:
 
 HTTP DATASET:
 
-- Handle dataType mismatch?
+- Use options.dataType in jQuery.ajax() to handle dataType mismatches?
 
 JSON DATASET:
 
