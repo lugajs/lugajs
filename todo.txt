@@ -17,6 +17,8 @@ DATASET:
 - getRowByIndex()
 - setCurrentRowIndex()
 
+- resetCurrentRow()?
+
 - update()
 
 - Implement sorting
