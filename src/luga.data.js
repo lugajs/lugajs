@@ -32,7 +32,8 @@ if(typeof(luga) === "undefined"){
 			INVALID_ID_PARAMETER: "Luga.DataSet: id parameter is required",
 			INVALID_ROW_ID_PARAMETER: "Luga.DataSet: invalid rowId parameter",
 			INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter",
-			HTTP_DATASET_ABSTRACT: "luga.data.HttpDataSet is an abstract class"
+			HTTP_DATA_SET_ABSTRACT: "luga.data.HttpDataSet is an abstract class",
+			XHR_FAILURE: "Failed to retrieve: {0}. HTTP status: {1}. Error: {2}"
 		},
 		XHR_TIMEOUT: 10000
 	};
@@ -245,7 +246,7 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.data.HttpDataSet = function(options){
 		if(this.constructor === luga.data.HttpDataSet){
-			throw(luga.data.CONST.ERROR_MESSAGES.HTTP_DATASET_ABSTRACT);
+			throw(luga.data.CONST.ERROR_MESSAGES.HTTP_DATA_SET_ABSTRACT);
 		}
 		luga.extend(luga.data.DataSet, this, [options]);
 		var self = this;
@@ -288,7 +289,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * Triggers XHR request to fetch and load the data, notify observers (loading first, dataChanged after records are loaded).
+		 * Fires off XHR request to fetch and load the data, notify observers ("loading" first, "dataChanged" after records are loaded).
 		 * Does nothing if URL is not set
 		 */
 		this.loadData = function(){
@@ -302,6 +303,16 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
+		 * It will be called whenever an XHR request fails, notify observers ("error")
+		 */
+		this.xhrError = function(jqXHR, textStatus, errorThrown){
+			self.notifyObservers("error", {
+				dataSet: self,
+				message: luga.utils.formatString(luga.data.CONST.ERROR_MESSAGES.XHR_FAILURE, [self.url, jqXHR.status, errorThrown])
+			});
+		};
+
+		/**
 		 * Abstract method, child classes must implement it to extract records from XHR response
 		 */
 		this.loadRecords = function(response, textStatus, jqXHR){
@@ -312,7 +323,8 @@ if(typeof(luga) === "undefined"){
 				url: self.url,
 				success: self.loadRecords,
 				timeout: self.timeout,
-				cache: self.cache
+				cache: self.cache,
+				error: self.xhrError
 			});
 		};
 

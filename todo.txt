@@ -28,7 +28,6 @@ DATASET:
 
 HTTP DATASET:
 
-- Handle HTTP errors
 - Handle dataType mismatch?
 
 JSON DATASET:
@@ -38,7 +37,7 @@ JSON DATASET:
 - setPath()
 - getPath()
 
-- Are subPaths required?
+- Implement subPaths?
 
 REGION:
 

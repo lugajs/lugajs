@@ -356,6 +356,25 @@ describe("luga.data.HttpDataSet", function(){
 			expect(testObserver.onLoadingHandler).toHaveBeenCalledWith(testDs);
 		});
 
+		it("Invokes .xhrError() in case of an HTTP error", function(done) {
+			spyOn(testDs, "xhrError");
+			testDs.setUrl("missing.json");
+			testDs.loadData();
+			setTimeout(function() {
+				expect(testDs.xhrError).toHaveBeenCalled();
+				done();
+			}, DEFAULT_TIMEOUT);
+		});
+
+		it("Triggers an 'error' notification in case of an HTTP error", function(done) {
+			testDs.setUrl("missing.json");
+			testDs.loadData();
+			setTimeout(function() {
+				expect(testObserver.onErrorHandler).toHaveBeenCalled();
+				done();
+			}, DEFAULT_TIMEOUT);
+		});
+
 	});
 
 });
