@@ -34,9 +34,6 @@ JSON DATASET:
 
 - Extract JSON based on path
 
-- setPath()
-- getPath()
-
 - Implement subPaths?
 
 REGION:
