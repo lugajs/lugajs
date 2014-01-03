@@ -264,6 +264,10 @@ describe("luga.data.HttpDataSet", function(){
 		testDs = new luga.data.JsonDataSet({id: "jsonDs"});
 	});
 
+	it("Extends luga.data.Dataset", function(){
+		expect(jQuery.isFunction(testDs.select)).toBeTruthy();
+	});
+
 	it("Is an abstract class. That can't be invoked directly", function(){
 		expect(function(){
 			new luga.data.HttpDataSet({id: "tryThis"});

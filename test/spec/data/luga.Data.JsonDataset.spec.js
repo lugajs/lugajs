@@ -17,6 +17,10 @@ describe("luga.data.JsonDataset", function(){
 		spyOn(testObserver, "onCurrentRowChangedHandler");
 	});
 
+	it("Extends luga.data.HttpDataSet", function(){
+		expect(jQuery.isFunction(testDs.loadUrl)).toBeTruthy();
+	});
+
 	it("Is the JSON dataset class", function(){
 		expect(jQuery.isFunction(luga.data.JsonDataSet)).toBeTruthy();
 	});
