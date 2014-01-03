@@ -28,11 +28,8 @@ DATASET:
 
 HTTP DATASET:
 
-- Test url option
-
 - getUrl()
 - setUrl()
-- cancelRequest()
 
 - cache option
 - timeout option (with CONST)

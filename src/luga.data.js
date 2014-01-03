@@ -237,7 +237,7 @@ if(typeof(luga) === "undefined"){
 	 * Base HTTP dataSet class
 	 *
 	 * @param options:                  Same as luga.data.DataSet plus:
-	 * @param options.url:              Url to be fetched. Default to null
+	 * @param options.url:              URL to be fetched. Default to null
 	 */
 	luga.data.HttpDataSet = function(options){
 		if(this.constructor === luga.data.HttpDataSet){

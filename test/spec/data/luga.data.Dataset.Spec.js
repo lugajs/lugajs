@@ -258,10 +258,24 @@ describe("luga.data.Dataset", function(){
 
 });
 
-describe("luga.data.HttpDataSet is an abstract class", function(){
-	it("That can't be invoked directly", function(){
+describe("luga.data.HttpDataSet", function(){
+
+	beforeEach(function(){
+		testDs = new luga.data.JsonDataSet({id: "jsonDs"});
+	});
+
+	it("Is an abstract class. That can't be invoked directly", function(){
 		expect(function(){
 			new luga.data.HttpDataSet({id: "tryThis"});
 		}).toThrow();
+	});
+
+	describe("Its constructor options are the same as luga.data.DataSet and may also contains:", function(){
+
+		it("An URL (options.url)", function(){
+			var ds = new luga.data.JsonDataSet({id: "myDs", url: "test.json"});
+			expect(ds.url).toEqual("test.json");
+		});
+
 	});
 });
