@@ -271,6 +271,14 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
+		this.getUrl = function(){
+			return this.url;
+		};
+
+		this.setUrl = function(newUrl){
+			this.url = newUrl;
+		};
+
 		this.loadUrl = function(){
 			this.pendingRequest = jQuery.ajax({
 				url: self.url,
@@ -284,15 +292,16 @@ if(typeof(luga) === "undefined"){
 			if(!this.url){
 				return;
 			}
-			// TODO: update state
 			// TODO: notify observers (loading)
 			this.cancelRequest();
 			this.delete();
 			this.loadUrl();
 		};
 
+		/**
+		 * Abstract method, child classes must implement it to extract records from XHR response
+		 */
 		this.loadRecords = function(response, textStatus, jqXHR){
-			// Child classes must implement this
 		};
 	};
 
