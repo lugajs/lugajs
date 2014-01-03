@@ -288,5 +288,12 @@ describe("luga.data.HttpDataSet", function(){
 			expect(fastDs.timeout).toEqual(200);
 		});
 
+		it("A cache flag for XHR requests (options.cache)", function(){
+			var ds = new luga.data.JsonDataSet({id: "myDs"});
+			expect(ds.cache).toBe(true);
+			var fastDs = new luga.data.JsonDataSet({id: "fastDs", cache: false});
+			expect(fastDs.cache).toBe(false);
+		});
+
 	});
 });

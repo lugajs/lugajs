@@ -48,7 +48,7 @@ if(typeof(luga) === "undefined"){
 		if(!options.id){
 			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_ID_PARAMETER);
 		}
-		if(options.filter && !jQuery.isFunction(options.filter)){
+		if((options.filter !== undefined) && !jQuery.isFunction(options.filter)){
 			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 		}
 		luga.extend(luga.Notifier, this);
@@ -225,10 +225,10 @@ if(typeof(luga) === "undefined"){
 			return filtered;
 		};
 
-		if(options.filter){
+		if(options.filter !== undefined){
 			this.setFilter(options.filter);
 		}
-		if(options.records){
+		if(options.records !== undefined){
 			this.insert(options.records);
 		}
 
@@ -240,6 +240,8 @@ if(typeof(luga) === "undefined"){
 	 * @param options:                  Same as luga.data.DataSet plus:
 	 * @param options.url:              URL to be fetched. Default to null
 	 * @param options.timeout:          Timeout (in milliseconds) for the HTTP request. Default to 10 seconds
+	 * @param options.cache:            If set to false, it will force requested pages not to be cached by the browser.
+	 *                                  It works by appending "_={timestamp}" to the querystring. Default to true
 	 */
 	luga.data.HttpDataSet = function(options){
 		if(this.constructor === luga.data.HttpDataSet){
@@ -249,12 +251,16 @@ if(typeof(luga) === "undefined"){
 		var self = this;
 
 		this.url = null;
-		if(options.url){
+		if(options.url !== undefined){
 			this.url = options.url;
 		}
 		this.timeout = luga.data.CONST.XHR_TIMEOUT;
-		if(options.timeout){
+		if(options.timeout !== undefined){
 			this.timeout = options.timeout;
+		}
+		this.cache = true;
+		if(options.cache !== undefined){
+			this.cache = options.cache;
 		}
 		this.pendingRequest = null;
 
@@ -269,7 +275,8 @@ if(typeof(luga) === "undefined"){
 			this.pendingRequest = jQuery.ajax({
 				url: self.url,
 				success: self.loadRecords,
-				timeout: self.timeout
+				timeout: self.timeout,
+				cache: self.cache
 			});
 		};
 
