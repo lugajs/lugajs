@@ -32,7 +32,6 @@ HTTP DATASET:
 - setUrl()
 
 - cache option
-- timeout option (with CONST)
 
 - Handle HTTP errors
 - Handle dataType mismatch?

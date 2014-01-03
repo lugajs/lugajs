@@ -33,7 +33,8 @@ if(typeof(luga) === "undefined"){
 			INVALID_ROW_ID_PARAMETER: "Luga.DataSet: invalid rowId parameter",
 			INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter",
 			HTTP_DATASET_ABSTRACT: "luga.data.HttpDataSet is an abstract class"
-		}
+		},
+		XHR_TIMEOUT: 10000
 	};
 
 	/**
@@ -238,6 +239,7 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param options:                  Same as luga.data.DataSet plus:
 	 * @param options.url:              URL to be fetched. Default to null
+	 * @param options.timeout:          Timeout (in milliseconds) for the HTTP request. Default to 10 seconds
 	 */
 	luga.data.HttpDataSet = function(options){
 		if(this.constructor === luga.data.HttpDataSet){
@@ -249,6 +251,10 @@ if(typeof(luga) === "undefined"){
 		this.url = null;
 		if(options.url){
 			this.url = options.url;
+		}
+		this.timeout = luga.data.CONST.XHR_TIMEOUT;
+		if(options.timeout){
+			this.timeout = options.timeout;
 		}
 		this.pendingRequest = null;
 
@@ -262,7 +268,8 @@ if(typeof(luga) === "undefined"){
 		this.loadUrl = function(){
 			this.pendingRequest = jQuery.ajax({
 				url: self.url,
-				success: self.loadRecords
+				success: self.loadRecords,
+				timeout: self.timeout
 			});
 		};
 

@@ -277,5 +277,12 @@ describe("luga.data.HttpDataSet", function(){
 			expect(ds.url).toEqual("test.json");
 		});
 
+		it("A timeout for XHR requests (options.timeout)", function(){
+			var ds = new luga.data.JsonDataSet({id: "myDs"});
+			expect(ds.timeout).toEqual(luga.data.CONST.XHR_TIMEOUT);
+			var fastDs = new luga.data.JsonDataSet({id: "fastDs", timeout: 200});
+			expect(fastDs.timeout).toEqual(200);
+		});
+
 	});
 });
