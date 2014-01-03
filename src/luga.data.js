@@ -271,23 +271,26 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
+		/**
+		 * Returns the URL that will be used to fetch the data. Returns null if URL is not set
+		 */
 		this.getUrl = function(){
 			return this.url;
 		};
 
+		/**
+		 * Set the URL that will be used to fetch the data.
+		 * This method does not load the data into the data set, it merely sets the internal URL.
+		 * The developer must call loadData() to actually trigger the data loading
+		 */
 		this.setUrl = function(newUrl){
 			this.url = newUrl;
 		};
 
-		this.loadUrl = function(){
-			this.pendingRequest = jQuery.ajax({
-				url: self.url,
-				success: self.loadRecords,
-				timeout: self.timeout,
-				cache: self.cache
-			});
-		};
-
+		/**
+		 * Triggers XHR request to fetch and load the data, notify observers (loading first, dataChanged after records are loaded).
+		 * Does nothing if URL is not set
+		 */
 		this.loadData = function(){
 			if(!this.url){
 				return;
@@ -295,7 +298,7 @@ if(typeof(luga) === "undefined"){
 			// TODO: notify observers (loading)
 			this.cancelRequest();
 			this.delete();
-			this.loadUrl();
+			loadUrl();
 		};
 
 		/**
@@ -303,6 +306,16 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.loadRecords = function(response, textStatus, jqXHR){
 		};
+
+		var loadUrl = function(){
+			self.pendingRequest = jQuery.ajax({
+				url: self.url,
+				success: self.loadRecords,
+				timeout: self.timeout,
+				cache: self.cache
+			});
+		};
+
 	};
 
 	/**

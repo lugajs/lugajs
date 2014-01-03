@@ -303,4 +303,21 @@ describe("luga.data.HttpDataSet", function(){
 		});
 	});
 
+	describe(".getUrl()", function(){
+		it("Returns the URL that will be used to fetch the data", function(){
+			var ds = new luga.data.JsonDataSet({id: "myDs", url: "test.json"});
+			expect(ds.getUrl()).toEqual("test.json");
+		});
+		it("Returns null if URL is not set", function(){
+			expect(testDs.getUrl()).toBeNull();
+		});
+	});
+
+	describe(".setUrl()", function(){
+		it("Set the URL that will be used to fetch the data", function(){
+			testDs.setUrl("test.json");
+			expect(testDs.getUrl()).toEqual("test.json");
+		});
+	});
+
 });

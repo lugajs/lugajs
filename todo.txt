@@ -24,12 +24,9 @@ DATASET:
 
 - Local storage integration 
 
-- Implement state (empty, loading, error)
+- Implement state (empty?, loading, error, ready)
 
 HTTP DATASET:
-
-- getUrl()
-- setUrl()
 
 - Handle HTTP errors
 - Handle dataType mismatch?
