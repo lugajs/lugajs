@@ -348,6 +348,9 @@ if(typeof(luga) === "undefined"){
 			this.path = options.path;
 		}
 
+		/**
+		 * Receives HTTP response, extracts and loads records out of it
+		 */
 		this.loadRecords = function(response, textStatus, jqXHR){
 			self.insert(response);
 		};
