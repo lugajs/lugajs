@@ -320,4 +320,42 @@ describe("luga.data.HttpDataSet", function(){
 		});
 	});
 
+	describe(".loadData()", function() {
+
+		beforeEach(function(){
+
+			testDs = new luga.data.JsonDataSet({id: "jsonDs", url: "fixtures/data/ladies.json"});
+			DEFAULT_TIMEOUT = 2000;
+
+			var ObserverClass = function(){
+				this.onDataChangedHandler = function(data){
+				};
+				this.onLoadingHandler = function(data){
+				};
+				this.onErrorHandler = function(data){
+				};
+			};
+			testObserver = new ObserverClass();
+			testDs.addObserver(testObserver);
+			spyOn(testObserver, "onDataChangedHandler");
+			spyOn(testObserver, "onLoadingHandler");
+			spyOn(testObserver, "onErrorHandler");
+		});
+
+		it("Fires off XHR request to fetch and load the data", function(done) {
+			testDs.loadData();
+			setTimeout(function() {
+				expect(testDs.getRecordsCount()).toEqual(7);
+				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith(testDs);
+				done();
+			}, DEFAULT_TIMEOUT);
+		});
+
+		it("Triggers a 'loading' notification as soon as it's called", function() {
+			testDs.loadData();
+			expect(testObserver.onLoadingHandler).toHaveBeenCalledWith(testDs);
+		});
+
+	});
+
 });
