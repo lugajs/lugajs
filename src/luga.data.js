@@ -253,7 +253,10 @@ if(typeof(luga) === "undefined"){
 		this.pendingRequest = null;
 
 		this.cancelRequest = function(){
-			// TODO: implement
+			if(this.pendingRequest !== null){
+				this.pendingRequest.abort();
+				this.pendingRequest = null;
+			}
 		};
 
 		this.loadUrl = function(){
