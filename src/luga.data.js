@@ -255,14 +255,17 @@ if(typeof(luga) === "undefined"){
 		if(options.url !== undefined){
 			this.url = options.url;
 		}
+
 		this.timeout = luga.data.CONST.XHR_TIMEOUT;
 		if(options.timeout !== undefined){
 			this.timeout = options.timeout;
 		}
+
 		this.cache = true;
 		if(options.cache !== undefined){
 			this.cache = options.cache;
 		}
+
 		this.pendingRequest = null;
 
 		this.cancelRequest = function(){
@@ -341,6 +344,9 @@ if(typeof(luga) === "undefined"){
 		var self = this;
 
 		this.path = "";
+		if(options.path !== undefined){
+			this.path = options.path;
+		}
 
 		this.loadRecords = function(response, textStatus, jqXHR){
 			self.insert(response);

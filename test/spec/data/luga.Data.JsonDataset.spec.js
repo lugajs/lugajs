@@ -15,4 +15,12 @@ describe("luga.data.JsonDataset", function(){
 		expect(jQuery.isFunction(luga.data.JsonDataSet)).toBeTruthy();
 	});
 
+	describe("Its constructor options are the same as luga.data.HttpDataSet and may also contains:", function(){
+		it("A path (options.path)", function(){
+			var ds = new luga.data.JsonDataSet({id: "myDs", path: "myPath"});
+			expect(ds.path).toEqual("myPath");
+		});
+
+	});
+
 });
