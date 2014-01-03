@@ -40,4 +40,51 @@ describe("luga.data.JsonDataset", function(){
 		});
 	});
 
+	describe(".loadData()", function() {
+
+		beforeEach(function(){
+
+			peopleDs = new luga.data.JsonDataSet({id: "jsonDs", url: "fixtures/data/people.json", path: "ladies"});
+			DEFAULT_TIMEOUT = 2000;
+
+			var ObserverClass = function(){
+				this.onDataChangedHandler = function(data){
+				};
+			};
+			peopleObserver = new ObserverClass();
+			peopleDs.addObserver(peopleObserver);
+			spyOn(peopleObserver, "onDataChangedHandler");
+		});
+
+		it("Uses current path is used to extract records out of the JSON data structure", function(done) {
+			peopleDs.loadData();
+			setTimeout(function() {
+				expect(peopleDs.getRecordsCount()).toEqual(7);
+				expect(peopleObserver.onDataChangedHandler).toHaveBeenCalledWith(peopleDs);
+				done();
+			}, DEFAULT_TIMEOUT);
+		});
+
+		it("A different path will extract a different set of records", function(done) {
+			peopleDs.setPath("jazzPlayers");
+			peopleDs.loadData();
+			setTimeout(function() {
+				expect(peopleDs.getRecordsCount()).toEqual(4);
+				expect(peopleObserver.onDataChangedHandler).toHaveBeenCalledWith(peopleDs);
+				done();
+			}, DEFAULT_TIMEOUT);
+		});
+
+		it("A path that has no matches inside the JSON data will result in an empty dataSet", function(done) {
+			peopleDs.setPath("invalid");
+			peopleDs.loadData();
+			setTimeout(function() {
+				expect(peopleDs.getRecordsCount()).toEqual(0);
+				expect(peopleObserver.onDataChangedHandler).toHaveBeenCalledWith(peopleDs);
+				done();
+			}, DEFAULT_TIMEOUT);
+		});
+
+	});
+
 });

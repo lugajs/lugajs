@@ -32,14 +32,19 @@ HTTP DATASET:
 
 JSON DATASET:
 
-- Extract JSON based on path
-
+- Modify loadRecords() to handle more complex JSON structures like Spry?
 - Implement subPaths?
+
+XML DATASET:
+
+- options.xpath
+- setXpath()
+- getXpath()
+
+- loadRecords()
 
 REGION:
 
 - Start basic
 
 - Try http://handlebarsjs.com/
-
-XML DATASET:

@@ -366,7 +366,14 @@ if(typeof(luga) === "undefined"){
 		 * Receives HTTP response, extracts and loads records out of it
 		 */
 		this.loadRecords = function(response, textStatus, jqXHR){
-			self.insert(response);
+			if(self.path === null){
+				self.insert(response);
+			}
+			else {
+				if(response[self.path]){
+					self.insert(response[self.path]);
+				}
+			}
 		};
 
 	};
