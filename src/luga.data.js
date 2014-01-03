@@ -295,7 +295,7 @@ if(typeof(luga) === "undefined"){
 			if(!this.url){
 				return;
 			}
-			// TODO: notify observers (loading)
+			this.notifyObservers("loading", this);
 			this.cancelRequest();
 			this.delete();
 			loadUrl();
