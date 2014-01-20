@@ -24,7 +24,7 @@ DATASET:
 - Implement sorting
 - Implement column types
 
-- Local storage integration 
+- Local storage persistence? It would require serialization of full dataSet 
 
 - Implement state (empty?, loading, error, ready)
 
