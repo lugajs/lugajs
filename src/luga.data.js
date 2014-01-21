@@ -266,12 +266,12 @@ if(typeof(luga) === "undefined"){
 			this.cache = options.cache;
 		}
 
-		this.pendingRequest = null;
+		this.xhrRequest = null;
 
 		this.cancelRequest = function(){
-			if(this.pendingRequest !== null){
-				this.pendingRequest.abort();
-				this.pendingRequest = null;
+			if(this.xhrRequest !== null){
+				this.xhrRequest.abort();
+				this.xhrRequest = null;
 			}
 		};
 
@@ -322,7 +322,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		var loadUrl = function(){
-			self.pendingRequest = jQuery.ajax({
+			self.xhrRequest = jQuery.ajax({
 				url: self.url,
 				success: self.loadRecords,
 				timeout: self.timeout,
