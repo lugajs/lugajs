@@ -18,4 +18,14 @@ describe("luga.data", function(){
 		expect(luga.data.datasetRegistry["myDs"]).toEqual(ds);
 	});
 
+	describe(".getDataSet():", function(){
+		it("Returns a dataSet from the registry", function(){
+			var ds = new luga.data.DataSet({id: "myDs"});
+			expect(luga.data.getDataSet("myDs")).toEqual(ds);
+		});
+		it("Returns null if no dataSet matches the given id", function(){
+			expect(luga.data.getDataSet("missing")).toBeNull();
+		});
+	});
+
 });

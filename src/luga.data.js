@@ -28,6 +28,12 @@ if(typeof(luga) === "undefined"){
 
 	luga.data.CONST = {
 		PK_KEY: "rowID",
+		REGION_SELECTOR: "*[data-luga-region]",
+		CUSTOM_ATTRIBUTES: {
+			REGION: "data-luga-region",
+			TEMPLATE: "data-luga-template",
+			DATA_SET: "data-luga-dataset"
+		},
 		ERROR_MESSAGES: {
 			INVALID_ID_PARAMETER: "Luga.DataSet: id parameter is required",
 			INVALID_ROW_ID_PARAMETER: "Luga.DataSet: invalid rowId parameter",
@@ -36,6 +42,18 @@ if(typeof(luga) === "undefined"){
 			XHR_FAILURE: "Failed to retrieve: {0}. HTTP status: {1}. Error: {2}"
 		},
 		XHR_TIMEOUT: 10000
+	};
+
+	/**
+	 * Returns a dataSet from the registry
+	 * Returns null if no dataSet matches the given id
+	 * @param id:           Unique identifier. Required
+	 */
+	luga.data.getDataSet = function(id){
+		if(luga.data.datasetRegistry[id] !== undefined){
+			return luga.data.datasetRegistry[id];
+		}
+		return null;
 	};
 
 	/**
@@ -377,5 +395,47 @@ if(typeof(luga) === "undefined"){
 		};
 
 	};
+
+	/**
+	 * Data Region class
+	 *
+	 * @param options.node:             DOM node to hold the region. Required
+	 */
+	luga.data.Region = function(options){
+		var self = this;
+
+		this.node = jQuery(options.node);
+		this.dsId = this.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.DATA_SET);
+		this.dataSet = luga.data.getDataSet(this.dsId);
+		this.dataSet.addObserver(this);
+
+		this.templateId = this.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.TEMPLATE);
+		if(this.templateId !== undefined){
+			this.template = Handlebars.compile(jQuery("#" + this.templateId).html());
+		}
+		else{
+			this.template = Handlebars.compile(this.node.html());
+		}
+
+		this.generateHtml = function(){
+			return this.template(this.dataSet);
+		};
+
+		this.render = function(){
+			this.node.html(this.generateHtml());
+		};
+
+		this.onDataChangedHandler = function(data){
+			self.render();
+		};
+	};
+
+	jQuery(document).ready(function(){
+		jQuery(luga.data.CONST.REGION_SELECTOR).each(function(index, item){
+			new luga.data.Region({
+				node: jQuery(item)
+			});
+		});
+	});
 
 }());

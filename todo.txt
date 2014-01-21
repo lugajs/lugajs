@@ -10,6 +10,13 @@ VALIDATOR:
 
 -------------
 
+REGION:
+
+- Write unit test!
+
+- Validate Handlebars is available
+- Validate required attributes
+
 DATASET:
 
 - getCurrentRow()
@@ -44,9 +51,3 @@ XML DATASET:
 - getXpath()
 
 - loadRecords()
-
-REGION:
-
-- Start basic
-
-- Try http://handlebarsjs.com/
