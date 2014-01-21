@@ -56,7 +56,7 @@ describe("luga.data.JsonDataset", function(){
 			spyOn(peopleObserver, "onDataChangedHandler");
 		});
 
-		it("Uses current path is used to extract records out of the JSON data structure", function(done) {
+		it("Extract records out of the JSON data structure based on the current path", function(done) {
 			peopleDs.loadData();
 			setTimeout(function() {
 				expect(peopleDs.getRecordsCount()).toEqual(7);
