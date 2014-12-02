@@ -4,6 +4,8 @@ CORE:
 
 VALIDATOR:
 
+- Bootstrap integration
+
 - Improve format of API's syntax reference
 
 - Sample integration with jQuery UI Tab and/or Accordion form multi-section form?
