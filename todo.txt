@@ -1,5 +1,9 @@
 CORE:
 
+- Add removeObserver() to Notifier
+
+- Add Javadoc for types to help IntelliJ
+
 -------------
 
 VALIDATOR:
