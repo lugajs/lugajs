@@ -4,6 +4,8 @@ CORE:
 
 - Add Javadoc for types to help IntelliJ
 
+- Upgrade to Jasmine 2.1
+
 -------------
 
 VALIDATOR:
