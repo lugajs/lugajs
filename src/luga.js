@@ -1,5 +1,5 @@
 /*
- Copyright 2013 Massimo Foti (massimo@massimocorner.com)
+ Copyright 2013-14 Massimo Foti (massimo@massimocorner.com)
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -125,6 +125,21 @@ if(typeof(luga) === "undefined"){
 				var observer = this.observers[i];
 				if(observer[method] && jQuery.isFunction(observer[method])){
 					observer[method](data);
+				}
+			}
+		};
+
+		/**
+		 * Removes the given observer object.
+		 *
+		 * @method
+		 * @param {Object} observer
+		 */
+		this.removeObserver = function(observer) {
+			for (var i = 0; i < this.observers.length; i++) {
+				if (this.observers[i] === observer) {
+					this.observers.splice(i, 1);
+					break;
 				}
 			}
 		};
@@ -437,7 +452,7 @@ if(typeof(luga) === "undefined"){
 }());
 
 /*
- Copyright 2013 Massimo Foti (massimo@massimocorner.com)
+ Copyright 2014 Massimo Foti (massimo@massimocorner.com)
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
