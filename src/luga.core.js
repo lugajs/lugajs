@@ -129,6 +129,21 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
+		/**
+		 * Removes the given observer object.
+		 *
+		 * @method
+		 * @param {Object} observer
+		 */
+		this.removeObserver = function(observer) {
+			for (var i = 0; i < this.observers.length; i++) {
+				if (this.observers[i] === observer) {
+					this.observers.splice(i, 1);
+					break;
+				}
+			}
+		};
+
 	};
 
 	/* Utilities */
