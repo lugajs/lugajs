@@ -9,6 +9,10 @@ CORE:
 
 VALIDATOR:
 
+- Add time pattern: new RegExp('([0-1][0-9]|2[0-3]):[0-5][0-9]$');
+
+- Remove redundant escape from date patterns
+
 - Bootstrap integration
 
 - Improve format of API's syntax reference
