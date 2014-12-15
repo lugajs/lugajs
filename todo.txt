@@ -5,6 +5,8 @@ CORE:
 
 - Upgrade to Jasmine 2.1
 
+- Upgrade jQuery
+
 -------------
 
 VALIDATOR:
