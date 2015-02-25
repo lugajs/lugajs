@@ -735,7 +735,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.validator.patterns.lettersonly = new RegExp("^[a-zA-Z]*$");
 	luga.validator.patterns.alphanumeric = new RegExp("^\\w*$");
-	luga.validator.patterns.integer = new RegExp("^-?\\d\\d*$");
+	luga.validator.patterns.integer = new RegExp("^-?[1-9][0-9]*$");
 	luga.validator.patterns.positiveinteger = new RegExp("^\\d\\d*$");
 	luga.validator.patterns.number = new RegExp("^-?(\\d\\d*\\.\\d*$)|(^-?\\d\\d*$)|(^-?\\.\\d\\d*$)");
 	luga.validator.patterns.filepath_pdf = new RegExp("[\\w_]*\\.([pP][dD][fF])$");

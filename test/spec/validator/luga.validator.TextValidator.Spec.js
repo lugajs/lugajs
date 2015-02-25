@@ -280,11 +280,21 @@ describe("luga.validator.TextValidator", function(){
 				fieldNode: textNode
 			});
 			expect(textValidator.isValid()).toBeTruthy();
+			textNode = jQuery('<input type="text" value="10" data-luga-required="true" data-luga-pattern="integer">');
+			textValidator = new luga.validator.FieldValidatorGetInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
 			textNode = jQuery('<input type="text" value="-1" data-luga-required="true" data-luga-pattern="integer">');
 			textValidator = new luga.validator.FieldValidatorGetInstance({
 				fieldNode: textNode
 			});
 			expect(textValidator.isValid()).toBeTruthy();
+			textNode = jQuery('<input type="text" value="0" data-luga-required="true" data-luga-pattern="integer">');
+			textValidator = new luga.validator.FieldValidatorGetInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
 			textNode = jQuery('<input type="text" value="test123" data-luga-required="true" data-luga-pattern="integer">');
 			textValidator = new luga.validator.FieldValidatorGetInstance({
 				fieldNode: textNode
