@@ -169,8 +169,8 @@ if(typeof(luga) === "undefined"){
 		};
 
 		this.before = function(){
-			var callBack = luga.utils.stringToFunction(self.config.before);
-			if(callBack){
+			var callBack = luga.lookup(self.config.before);
+			if(callBack !== null){
 				callBack.apply(null, [self.config.formNode[0]]);
 			}
 			else if(self.config.before){
@@ -179,8 +179,8 @@ if(typeof(luga) === "undefined"){
 		};
 
 		this.error = function(){
-			var callBack = luga.utils.stringToFunction(self.config.error);
-			if(callBack){
+			var callBack = luga.lookup(self.config.error);
+			if(callBack !== null){
 				callBack.apply(null, [self.config.formNode[0], self.dirtyValidators]);
 			}
 			else if(self.config.error){
@@ -189,8 +189,8 @@ if(typeof(luga) === "undefined"){
 		};
 
 		this.after = function(){
-			var callBack = luga.utils.stringToFunction(self.config.after);
-			if(callBack){
+			var callBack = luga.lookup(self.config.after);
+			if(callBack !== null){
 				callBack.apply(null, [self.config.formNode[0]]);
 			}
 			else if(self.config.after){
@@ -378,7 +378,7 @@ if(typeof(luga) === "undefined"){
 					return false;
 				}
 				// It's a conditional validation. Invoke the relevant function if available
-				var functionReference = luga.utils.stringToFunction(requiredAtt);
+				var functionReference = luga.lookup(requiredAtt);
 				if(functionReference){
 					return functionReference.apply(null, [self.node]);
 				}

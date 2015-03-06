@@ -1,7 +1,5 @@
 CORE:
 
-- Rename luga.utils.stringToFunction() into luga.utils.lookup()
-
 - Upgrade to Jasmine 2.1
 
 - Add Javadoc for types to improve IntelliJ's intellisense

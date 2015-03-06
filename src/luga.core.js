@@ -64,6 +64,36 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
+	 * Given the name of a function as a string, return the relevant function, if any
+	 * Returns null, if the reference has not been found.
+	 * @param reference   Fully qualified name of a function
+	 * @returns {*}       The javascript reference to the function
+	 */
+	luga.lookup = function(reference){
+		if(!reference){
+			return null;
+		}
+		if(jQuery.isFunction(reference)){
+			return reference;
+		}
+		var object = window;
+		var parts = reference.split('.');
+		while(parts.length > 0){
+			var part = parts.shift();
+			if(part in object){
+				object = object[part];
+			}
+			else{
+				return null;
+			}
+		}
+		if(jQuery.isFunction(object)){
+			return object;
+		}
+		return null;
+	};
+
+	/**
 	 * Merge the contents of two objects together into the first object
 	 * It wraps jQuery's extend to make names less ambiguous
 	 */
@@ -135,9 +165,9 @@ if(typeof(luga) === "undefined"){
 		 * @method
 		 * @param {Object} observer
 		 */
-		this.removeObserver = function(observer) {
-			for (var i = 0; i < this.observers.length; i++) {
-				if (this.observers[i] === observer) {
+		this.removeObserver = function(observer){
+			for(var i = 0; i < this.observers.length; i++){
+				if(this.observers[i] === observer){
 					this.observers.splice(i, 1);
 					break;
 				}
@@ -211,29 +241,6 @@ if(typeof(luga) === "undefined"){
 		str = str.replace(new RegExp(String.fromCharCode(8226), "g"), "*");
 		str = str.replace(new RegExp(String.fromCharCode(8230), "g"), "...");
 		return str;
-	};
-
-	/**
-	 * Given the name of a function as a string, return the relevant function, if any
-	 */
-	luga.utils.stringToFunction = function(str){
-		if(jQuery.isFunction(str)){
-			return str;
-		}
-		// It may be a global function
-		if(window[str] && jQuery.isFunction(window[str])){
-			return window[str];
-		}
-		// If it lives inside a namespace, try to eval it
-		try{
-			var evaluated = eval(str);
-			if(evaluated && jQuery.isFunction(evaluated)){
-				return evaluated;
-			}
-		}
-		catch(e){
-		}
-		return null;
 	};
 
 	/**

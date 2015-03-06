@@ -63,6 +63,36 @@ describe("luga", function(){
 
 	});
 
+	describe(".lookup(). Given the name of a function as a string", function(){
+
+		it("Returns the relevant function if it finds it inside the window/global scope", function(){
+			window.myFunc = function(){
+			};
+			var result = luga.lookup("myFunc");
+			expect(result).not.toBeNull();
+			expect(jQuery.isFunction(result)).toBeTruthy();
+		});
+
+		it("Or any namespace", function(){
+			var mySpace = {};
+			mySpace.myFunction = function(){
+			};
+			var result = luga.lookup("luga.namespace");
+			expect(result).not.toBeNull();
+			expect(jQuery.isFunction(result)).toBeTruthy();
+		});
+
+		it("Returns null if the function does not exist", function(){
+			expect(luga.lookup("missing")).toBeNull();
+		});
+
+		it("Or if the variable exists, but it's not a function", function(){
+			window.str = "ciao";
+			expect(luga.lookup("str")).toBeNull();
+		});
+
+	});
+
 	describe(".merge()", function(){
 
 		it("Merges the contents of two objects together into the first object", function(){
@@ -172,9 +202,9 @@ describe("luga", function(){
 
 		});
 
-		describe('.removeObserver()', function() {
+		describe('.removeObserver()', function(){
 
-			it('Removes the given observer object.', function() {
+			it('Removes the given observer object.', function(){
 				notifierObj.addObserver(observerObj);
 				expect(notifierObj.observers.length).toEqual(1);
 				notifierObj.removeObserver(observerObj);
@@ -221,27 +251,6 @@ describe("luga.utils stores generic, static methods and utilities", function(){
 			});
 
 		});
-	});
-
-	describe(".stringToFunction(). Given the name of a function as a string", function(){
-
-		it("Returns the relevant function if it finds it inside the window/global scope", function(){
-			window.myFunc = function(){
-			};
-			var result = luga.utils.stringToFunction("myFunc");
-			expect(result).not.toBeNull();
-			expect(jQuery.isFunction(result)).toBeTruthy();
-		});
-
-		it("Returns null if the function does not exist", function(){
-			expect(luga.utils.stringToFunction("missing")).toBeNull();
-		});
-
-		it("Or if the variable exists, but it's not a function", function(){
-			window.str = "ciao";
-			expect(luga.utils.stringToFunction("str")).toBeNull();
-		});
-
 	});
 
 	describe(".stringDemoronize(). Given a string", function(){

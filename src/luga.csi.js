@@ -55,8 +55,8 @@ if(typeof(luga) === "undefined"){
 				timeout: self.config.XHR_TIMEOUT,
 				success: function(response, textStatus, jqXHR){
 					self.config.success.apply(null, [response, textStatus, jqXHR]);
-					var afterHandler = luga.utils.stringToFunction(self.config.after);
-					if(afterHandler){
+					var afterHandler = luga.lookup(self.config.after);
+					if(afterHandler !== null){
 						afterHandler.apply(null, [self.config.rootNode, self.config.url, response]);
 					}
 				},
