@@ -22,6 +22,12 @@ VALIDATOR:
 
 -------------
 
+AJAX FORM
+
+- Port to Luga JS
+
+-------------
+
 REGION:
 
 - Write unit test!
