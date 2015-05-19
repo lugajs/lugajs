@@ -203,10 +203,13 @@ describe("luga.data.Dataset", function(){
 
 	describe(".getRecordsCount()", function(){
 		it("Returns the number of records in the dataSet", function(){
-			// Already tested
+			testDs.insert(testRecords);
+			expect(testDs.getRecordsCount()).toEqual(7);
 		});
 		it("If the dataSet has a filter, returns the number of filtered records", function(){
-			// Already tested
+			testDs.insert(testRecords);
+			testDs.setFilter(removeUk);
+			expect(testDs.getRecordsCount()).toEqual(5);
 		});
 	});
 

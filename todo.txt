@@ -1,7 +1,5 @@
 CORE:
 
-- Upgrade to Jasmine 2.1
-
 - Add Javadoc for types to improve IntelliJ's intellisense
 
 -------------
