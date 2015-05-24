@@ -255,7 +255,7 @@ table.syntax td p {
 
 td pre {
 	font-family: Consolas, "Liberation Mono", Courier, monospace;
-	margin: -1em 0 0 0;
+	margin: -0.4em 0 0 0;
 	white-space: pre-wrap;
 }
 
