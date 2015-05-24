@@ -46,8 +46,7 @@ if(typeof(luga) === "undefined"){
 		if(!rootObject){
 			rootObject = window;
 		}
-		var len;
-		for(var i = 0, len = parts.length; i < len; i++){
+		for(var i = 0; i < parts.length; i++){
 			if(!rootObject[parts[i]]){
 				rootObject[parts[i]] = {};
 			}
