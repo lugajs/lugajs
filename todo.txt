@@ -8,11 +8,9 @@ VALIDATOR:
 
 - Add time pattern: new RegExp('([0-1][0-9]|2[0-3]):[0-5][0-9]$');
 
-- Bootstrap integration
+- Develop and test Bootstrap integration
 
 - Improve format of API's syntax reference
-
-- Sample integration with jQuery UI Tab and/or Accordion form multi-section form?
 
 -------------
 
