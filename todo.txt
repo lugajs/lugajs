@@ -10,8 +10,6 @@ VALIDATOR:
 
 - Develop and test Bootstrap integration
 
-- Improve format of API's syntax reference
-
 -------------
 
 AJAX FORM
