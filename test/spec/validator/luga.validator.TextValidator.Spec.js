@@ -450,6 +450,44 @@ describe("luga.validator.TextValidator", function(){
 			expect(textValidator.isValid()).toBeFalsy();
 		});
 
+		it("time", function(){
+			textNode = jQuery('<input type="text" value="09:10" data-luga-required="true" data-luga-pattern="time">');
+			textValidator = new luga.validator.FieldValidatorGetInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+			textNode = jQuery('<input type="text" value="22:45" data-luga-required="true" data-luga-pattern="time">');
+			textValidator = new luga.validator.FieldValidatorGetInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+			textNode = jQuery('<input type="text" value="00:00" data-luga-required="true" data-luga-pattern="time">');
+			textValidator = new luga.validator.FieldValidatorGetInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeTruthy();
+			textNode = jQuery('<input type="text" value="9:09" data-luga-required="true" data-luga-pattern="time">');
+			textValidator = new luga.validator.FieldValidatorGetInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+			textNode = jQuery('<input type="text" value="24:10" data-luga-required="true" data-luga-pattern="time">');
+			textValidator = new luga.validator.FieldValidatorGetInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+			textNode = jQuery('<input type="text" value="25:10" data-luga-required="true" data-luga-pattern="time">');
+			textValidator = new luga.validator.FieldValidatorGetInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+			textNode = jQuery('<input type="text" value="22:61" data-luga-required="true" data-luga-pattern="time">');
+			textValidator = new luga.validator.FieldValidatorGetInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isValid()).toBeFalsy();
+		});
+
 	});
 
 	describe("Custom patterns can be added", function(){

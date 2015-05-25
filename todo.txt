@@ -1,12 +1,14 @@
 CORE:
 
+- Document luga.Notifier
+
 - Add Javadoc for types to improve IntelliJ's intellisense
+
+- Update JQuery to 1.11.3
 
 -------------
 
 VALIDATOR:
-
-- Add time pattern: new RegExp('([0-1][0-9]|2[0-3]):[0-5][0-9]$');
 
 - Develop and test Bootstrap integration
 

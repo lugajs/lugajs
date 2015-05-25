@@ -1,5 +1,5 @@
 /*
- Copyright 2014 Massimo Foti (massimo@massimocorner.com)
+ Copyright 2013-15 Massimo Foti (massimo@massimocorner.com)
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -742,6 +742,7 @@ if(typeof(luga) === "undefined"){
 	luga.validator.patterns.filepath_jpg = new RegExp("[\\w_]*\\.([jJ][pP][eE]?[gG])$");
 	luga.validator.patterns.filepath_zip = new RegExp("[\\w_]*\\.([zZ][iI][pP])$");
 	luga.validator.patterns.filepath = new RegExp("[\\w_]*\\.\\w{3}$");
+	luga.validator.patterns.time = new RegExp('([0-1][0-9]|2[0-3]):[0-5][0-9]$');
 
 	/* Date specifications */
 
@@ -912,16 +913,16 @@ if(typeof(luga) === "undefined"){
 				}));
 			}
 		}
-		for(var i = 0; i < validators.length; i++){
-			if(validators[i] && validators[i].validate){
-				if(executedValidators[validators[i].name]){
+		for(var j = 0; j < validators.length; j++){
+			if(validators[j] && validators[j].validate){
+				if(executedValidators[validators[j].name]){
 					// Already validated checkbox or radio, skip it
 					continue;
 				}
-				if(validators[i].validate()){
-					dirtyValidators.push(validators[i]);
+				if(validators[j].validate()){
+					dirtyValidators.push(validators[j]);
 				}
-				executedValidators[validators[i].name] = true;
+				executedValidators[validators[j].name] = true;
 			}
 		}
 		if(dirtyValidators.length > 0){
