@@ -1,3 +1,3 @@
 <footer>
-	Copyright 2013-14 Massimo Foti (massimo@massimocorner.com)
+	Copyright 2013-15 Massimo Foti (massimo@massimocorner.com)
 </footer>
