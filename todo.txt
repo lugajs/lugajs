@@ -1,6 +1,16 @@
 CORE:
 
-- Add form serializer
+- Move 
+luga.utils.formatString() > luga.string.format()
+luga.utils.stringDemoronize() > luga.string.demoronize()
+
+- Move 
+luga.utils.displayMessage() > luga.validator.utils.displayMessage()
+luga.utils.displayErrorMessage() > luga.validator.utils.displayErrorMessage()
+
+
+- Add luga.form.serialize() and utilities
+  http://massimocorner.com/libraries/form/index.htm
 
 - Document luga.Notifier
 
