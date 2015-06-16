@@ -1,5 +1,7 @@
 CORE:
 
+- Add form serializer
+
 - Document luga.Notifier
 
 - Add Javadoc for types to improve IntelliJ's intellisense
