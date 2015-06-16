@@ -12,9 +12,16 @@ luga.utils.displayErrorMessage() > luga.validator.utils.displayErrorMessage()
 luga.validationHandlers > luga.validator.handlers
 
 
-- Add luga.form.serialize() and utilities
+- Add luga.form and luga.form.utils
+
+- Move
+luga.validator.utils > luga.form.utils
+
+
+- Add luga.form.serialize()
   Use configurable delimitator for form hash
   http://massimocorner.com/libraries/form/index.htm
+
 
 - Document luga.Notifier
 
