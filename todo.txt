@@ -8,6 +8,9 @@ luga.utils.stringDemoronize() > luga.string.demoronize()
 luga.utils.displayMessage() > luga.validator.utils.displayMessage()
 luga.utils.displayErrorMessage() > luga.validator.utils.displayErrorMessage()
 
+- Move
+luga.validationHandlers > luga.validator.handlers
+
 
 - Add luga.form.serialize() and utilities
   Use configurable delimitator for form hash
