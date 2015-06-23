@@ -3,7 +3,7 @@ CORE:
 - Add luga.form and luga.form.utils
 
 - Move
-  luga.validator.utils > luga.form.utils?
+  luga.validator.utils > luga.form.utils
 
 - Add luga.form.serialize()
   Use configurable delimitator for form hash
