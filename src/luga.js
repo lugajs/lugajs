@@ -177,15 +177,7 @@ if(typeof(luga) === "undefined"){
 
 	/* Utilities */
 
-	luga.namespace("luga.utils");
-
-	luga.utils.CONST = {
-		CSS_CLASSES: {
-			MESSAGE: "luga_message",
-			ERROR_MESSAGE: "luga_error_message"
-		},
-		MSG_BOX_ID: "lugaMessageBox"
-	};
+	luga.namespace("luga.string");
 
 	/**
 	 * Given a string containing placeholders, it assembles a new string
@@ -193,16 +185,16 @@ if(typeof(luga) === "undefined"){
 	 * Loosely based on the .NET implementation: http://msdn.microsoft.com/en-us/library/system.string.format.aspx
 	 *
 	 * Example passing strings inside an array:
-	 * luga.utils.formatString("My name is {0} {1}", ["Ciccio", "Pasticcio"]); // "My name is Ciccio Pasticcio"
+	 * luga.string.format("My name is {0} {1}", ["Ciccio", "Pasticcio"]); // "My name is Ciccio Pasticcio"
 	 *
 	 * Example passing strings inside an object:
-	 * luga.utils.formatString("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"}); // "My name is Ciccio Pasticcio"
+	 * luga.string.format("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"}); // "My name is Ciccio Pasticcio"
 	 *
 	 * @param  str        String containing placeholders
 	 * @param  args       Either an array of strings or an objects containing name/value pairs in string format
 	 * @return            The newly assembled string
 	 */
-	luga.utils.formatString = function(str, args){
+	luga.string.format = function(str, args){
 		var pattern = null;
 		if($.isArray(args)){
 			for(var i = 0; i < args.length; i++){
@@ -224,7 +216,7 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param  str   String containing MS Word's garbage
 	 */
-	luga.utils.demoronizeString = function(str){
+	luga.string.demoronize = function(str){
 		str = str.replace(new RegExp(String.fromCharCode(710), "g"), "^");
 		str = str.replace(new RegExp(String.fromCharCode(732), "g"), "~");
 		// Evil "smarty" quotes
@@ -240,6 +232,16 @@ if(typeof(luga) === "undefined"){
 		str = str.replace(new RegExp(String.fromCharCode(8226), "g"), "*");
 		str = str.replace(new RegExp(String.fromCharCode(8230), "g"), "...");
 		return str;
+	};
+
+	luga.namespace("luga.utils");
+
+	luga.utils.CONST = {
+		CSS_CLASSES: {
+			MESSAGE: "luga_message",
+			ERROR_MESSAGE: "luga_error_message"
+		},
+		MSG_BOX_ID: "lugaMessageBox"
 	};
 
 	/**
@@ -431,7 +433,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		this.onError = function(qXHR, textStatus, errorThrown){
-			throw(luga.utils.formatString(luga.csi.CONST.MESSAGES.FILE_NOT_FOUND, [self.config.url]));
+			throw(luga.string.format(luga.csi.CONST.MESSAGES.FILE_NOT_FOUND, [self.config.url]));
 		};
 
 		this.config = {
@@ -633,7 +635,7 @@ if(typeof(luga) === "undefined"){
 				callBack.apply(null, [self.config.formNode[0]]);
 			}
 			else if(self.config.before){
-				alert(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.before]));
+				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.before]));
 			}
 		};
 
@@ -643,7 +645,7 @@ if(typeof(luga) === "undefined"){
 				callBack.apply(null, [self.config.formNode[0], self.dirtyValidators]);
 			}
 			else if(self.config.error){
-				alert(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.error]));
+				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.error]));
 			}
 		};
 
@@ -653,7 +655,7 @@ if(typeof(luga) === "undefined"){
 				callBack.apply(null, [self.config.formNode[0]]);
 			}
 			else if(self.config.after){
-				alert(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.after]));
+				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.after]));
 			}
 		};
 
@@ -1110,7 +1112,7 @@ if(typeof(luga) === "undefined"){
 	luga.validator.rules.equalto = function(fieldNode, validator){
 		var secondFieldNode = jQuery("#" + validator.config.equalto);
 		if(secondFieldNode.length === 0){
-			throw(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_EQUAL_TO_FIELD, [validator.config.equalto]));
+			throw(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_EQUAL_TO_FIELD, [validator.config.equalto]));
 		}
 		return (fieldNode.val() === secondFieldNode.val());
 	};
@@ -1184,7 +1186,7 @@ if(typeof(luga) === "undefined"){
 		}
 		else{
 			// The pattern is missing
-			throw(luga.utils.formatString(luga.validator.CONST.MESSAGES.PATTERN_NOT_FOUND, [validator.config.pattern]));
+			throw(luga.string.format(luga.validator.CONST.MESSAGES.PATTERN_NOT_FOUND, [validator.config.pattern]));
 		}
 	};
 
@@ -1247,14 +1249,14 @@ if(typeof(luga) === "undefined"){
 
 	luga.validator.dateSpecs["YYYY-MM-DD"] = luga.validator.createDateSpecObj("^([0-9]{4})-([0-1][0-9])-([0-3][0-9])$", 0, 1, 2, "-");
 	luga.validator.dateSpecs["YYYY-M-D"] = luga.validator.createDateSpecObj("^([0-9]{4})-([0-1]?[0-9])-([0-3]?[0-9])$", 0, 1, 2, "-");
-	luga.validator.dateSpecs["MM.DD.YYYY"] = luga.validator.createDateSpecObj("^([0-1][0-9])\.([0-3][0-9])\.([0-9]{4})$", 2, 0, 1, ".");
-	luga.validator.dateSpecs["M.D.YYYY"] = luga.validator.createDateSpecObj("^([0-1]?[0-9])\.([0-3]?[0-9])\.([0-9]{4})$", 2, 0, 1, ".");
+	luga.validator.dateSpecs["MM.DD.YYYY"] = luga.validator.createDateSpecObj("^([0-1][0-9]).([0-3][0-9]).([0-9]{4})$", 2, 0, 1, ".");
+	luga.validator.dateSpecs["M.D.YYYY"] = luga.validator.createDateSpecObj("^([0-1]?[0-9]).([0-3]?[0-9]).([0-9]{4})$", 2, 0, 1, ".");
 	luga.validator.dateSpecs["MM/DD/YYYY"] = luga.validator.createDateSpecObj("^([0-1][0-9])\/([0-3][0-9])\/([0-9]{4})$", 2, 0, 1, "/");
 	luga.validator.dateSpecs["M/D/YYYY"] = luga.validator.createDateSpecObj("^([0-1]?[0-9])\/([0-3]?[0-9])\/([0-9]{4})$", 2, 0, 1, "/");
 	luga.validator.dateSpecs["MM-DD-YYYY"] = luga.validator.createDateSpecObj("^([0-21][0-9])-([0-3][0-9])-([0-9]{4})$", 2, 0, 1, "-");
 	luga.validator.dateSpecs["M-D-YYYY"] = luga.validator.createDateSpecObj("^([0-1]?[0-9])-([0-3]?[0-9])-([0-9]{4})$", 2, 0, 1, "-");
-	luga.validator.dateSpecs["DD.MM.YYYY"] = luga.validator.createDateSpecObj("^([0-3][0-9])\.([0-1][0-9])\.([0-9]{4})$", 2, 1, 0, ".");
-	luga.validator.dateSpecs["D.M.YYYY"] = luga.validator.createDateSpecObj("^([0-3]?[0-9])\.([0-1]?[0-9])\.([0-9]{4})$", 2, 1, 0, ".");
+	luga.validator.dateSpecs["DD.MM.YYYY"] = luga.validator.createDateSpecObj("^([0-3][0-9]).([0-1][0-9]).([0-9]{4})$", 2, 1, 0, ".");
+	luga.validator.dateSpecs["D.M.YYYY"] = luga.validator.createDateSpecObj("^([0-3]?[0-9]).([0-1]?[0-9]).([0-9]{4})$", 2, 1, 0, ".");
 	luga.validator.dateSpecs["DD/MM/YYYY"] = luga.validator.createDateSpecObj("^([0-3][0-9])\/([0-1][0-9])\/([0-9]{4})$", 2, 1, 0, "/");
 	luga.validator.dateSpecs["D/M/YYYY"] = luga.validator.createDateSpecObj("^([0-3]?[0-9])\/([0-1]?[0-9])\/([0-9]{4})$", 2, 1, 0, "/");
 	luga.validator.dateSpecs["DD-MM-YYYY"] = luga.validator.createDateSpecObj("^([0-3][0-9])-([0-1][0-9])-([0-9]{4})$", 2, 1, 0, "-");

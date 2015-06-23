@@ -71,7 +71,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		this.onError = function(qXHR, textStatus, errorThrown){
-			throw(luga.utils.formatString(luga.csi.CONST.MESSAGES.FILE_NOT_FOUND, [self.config.url]));
+			throw(luga.string.format(luga.csi.CONST.MESSAGES.FILE_NOT_FOUND, [self.config.url]));
 		};
 
 		this.config = {

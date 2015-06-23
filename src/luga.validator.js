@@ -174,7 +174,7 @@ if(typeof(luga) === "undefined"){
 				callBack.apply(null, [self.config.formNode[0]]);
 			}
 			else if(self.config.before){
-				alert(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.before]));
+				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.before]));
 			}
 		};
 
@@ -184,7 +184,7 @@ if(typeof(luga) === "undefined"){
 				callBack.apply(null, [self.config.formNode[0], self.dirtyValidators]);
 			}
 			else if(self.config.error){
-				alert(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.error]));
+				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.error]));
 			}
 		};
 
@@ -194,7 +194,7 @@ if(typeof(luga) === "undefined"){
 				callBack.apply(null, [self.config.formNode[0]]);
 			}
 			else if(self.config.after){
-				alert(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.after]));
+				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.after]));
 			}
 		};
 
@@ -651,7 +651,7 @@ if(typeof(luga) === "undefined"){
 	luga.validator.rules.equalto = function(fieldNode, validator){
 		var secondFieldNode = jQuery("#" + validator.config.equalto);
 		if(secondFieldNode.length === 0){
-			throw(luga.utils.formatString(luga.validator.CONST.MESSAGES.MISSING_EQUAL_TO_FIELD, [validator.config.equalto]));
+			throw(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_EQUAL_TO_FIELD, [validator.config.equalto]));
 		}
 		return (fieldNode.val() === secondFieldNode.val());
 	};
@@ -725,7 +725,7 @@ if(typeof(luga) === "undefined"){
 		}
 		else{
 			// The pattern is missing
-			throw(luga.utils.formatString(luga.validator.CONST.MESSAGES.PATTERN_NOT_FOUND, [validator.config.pattern]));
+			throw(luga.string.format(luga.validator.CONST.MESSAGES.PATTERN_NOT_FOUND, [validator.config.pattern]));
 		}
 	};
 

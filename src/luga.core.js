@@ -177,15 +177,7 @@ if(typeof(luga) === "undefined"){
 
 	/* Utilities */
 
-	luga.namespace("luga.utils");
-
-	luga.utils.CONST = {
-		CSS_CLASSES: {
-			MESSAGE: "luga_message",
-			ERROR_MESSAGE: "luga_error_message"
-		},
-		MSG_BOX_ID: "lugaMessageBox"
-	};
+	luga.namespace("luga.string");
 
 	/**
 	 * Given a string containing placeholders, it assembles a new string
@@ -193,16 +185,16 @@ if(typeof(luga) === "undefined"){
 	 * Loosely based on the .NET implementation: http://msdn.microsoft.com/en-us/library/system.string.format.aspx
 	 *
 	 * Example passing strings inside an array:
-	 * luga.utils.formatString("My name is {0} {1}", ["Ciccio", "Pasticcio"]); // "My name is Ciccio Pasticcio"
+	 * luga.string.format("My name is {0} {1}", ["Ciccio", "Pasticcio"]); // "My name is Ciccio Pasticcio"
 	 *
 	 * Example passing strings inside an object:
-	 * luga.utils.formatString("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"}); // "My name is Ciccio Pasticcio"
+	 * luga.string.format("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"}); // "My name is Ciccio Pasticcio"
 	 *
 	 * @param  str        String containing placeholders
 	 * @param  args       Either an array of strings or an objects containing name/value pairs in string format
 	 * @return            The newly assembled string
 	 */
-	luga.utils.formatString = function(str, args){
+	luga.string.format = function(str, args){
 		var pattern = null;
 		if($.isArray(args)){
 			for(var i = 0; i < args.length; i++){
@@ -224,7 +216,7 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param  str   String containing MS Word's garbage
 	 */
-	luga.utils.demoronizeString = function(str){
+	luga.string.demoronize = function(str){
 		str = str.replace(new RegExp(String.fromCharCode(710), "g"), "^");
 		str = str.replace(new RegExp(String.fromCharCode(732), "g"), "~");
 		// Evil "smarty" quotes
@@ -240,6 +232,16 @@ if(typeof(luga) === "undefined"){
 		str = str.replace(new RegExp(String.fromCharCode(8226), "g"), "*");
 		str = str.replace(new RegExp(String.fromCharCode(8230), "g"), "...");
 		return str;
+	};
+
+	luga.namespace("luga.utils");
+
+	luga.utils.CONST = {
+		CSS_CLASSES: {
+			MESSAGE: "luga_message",
+			ERROR_MESSAGE: "luga_error_message"
+		},
+		MSG_BOX_ID: "lugaMessageBox"
 	};
 
 	/**

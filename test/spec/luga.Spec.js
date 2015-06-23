@@ -217,10 +217,10 @@ describe("luga", function(){
 
 });
 
-describe("luga.utils stores generic, static methods and utilities", function(){
+describe("luga.string stores string utilities", function(){
 
 	it("Lives inside its own namespace", function(){
-		expect(luga.utils).toBeDefined();
+		expect(luga.string).toBeDefined();
 	});
 
 	describe(".formatString()", function(){
@@ -228,13 +228,13 @@ describe("luga.utils stores generic, static methods and utilities", function(){
 		describe("Given a string containing placeholders", function(){
 
 			it("It assembles a new string replacing the placeholders with the strings contained inside the second argument", function(){
-				expect(luga.utils.formatString("My name is {0}", ["Ciccio"])).toEqual("My name is Ciccio");
+				expect(luga.string.format("My name is {0}", ["Ciccio"])).toEqual("My name is Ciccio");
 			});
 			it("The string can contains multiple instances of the same placeholder", function(){
-				expect(luga.utils.formatString("This {0} is just a {0}", ["test"])).toEqual("This test is just a test");
+				expect(luga.string.format("This {0} is just a {0}", ["test"])).toEqual("This test is just a test");
 			});
 			it("If no matching placeholder is find, the original string will be returned", function(){
-				expect(luga.utils.formatString("This {str}", { another: "test"})).toEqual("This {str}");
+				expect(luga.string.format("This {str}", {another: "test"})).toEqual("This {str}");
 			});
 
 		});
@@ -242,18 +242,21 @@ describe("luga.utils stores generic, static methods and utilities", function(){
 		describe("The second argument can be either:", function(){
 
 			it("An array", function(){
-				expect(luga.utils.formatString("My name is {0} {1}", ["Ciccio", "Pasticcio"])).toEqual("My name is Ciccio Pasticcio");
-				expect(luga.utils.formatString("This {0} is just a {0}", ["test"])).toEqual("This test is just a test");
+				expect(luga.string.format("My name is {0} {1}", ["Ciccio", "Pasticcio"])).toEqual("My name is Ciccio Pasticcio");
+				expect(luga.string.format("This {0} is just a {0}", ["test"])).toEqual("This test is just a test");
 			});
 			it("An object", function(){
-				expect(luga.utils.formatString("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"})).toEqual("My name is Ciccio Pasticcio");
-				expect(luga.utils.formatString("This {str} is just a {str}", { str: "test"})).toEqual("This test is just a test");
+				expect(luga.string.format("My name is {firstName} {lastName}", {
+					firstName: "Ciccio",
+					lastName: "Pasticcio"
+				})).toEqual("My name is Ciccio Pasticcio");
+				expect(luga.string.format("This {str} is just a {str}", {str: "test"})).toEqual("This test is just a test");
 			});
 
 		});
 	});
 
-	describe(".stringDemoronize(). Given a string", function(){
+	describe(".demoronize(). Given a string", function(){
 
 		it("Replace MS Word's non-ISO characters with plausible substitutes", function(){
 			var crappyStr = String.fromCharCode(710);
@@ -265,9 +268,17 @@ describe("luga.utils stores generic, static methods and utilities", function(){
 			crappyStr += String.fromCharCode(8211);
 			crappyStr += String.fromCharCode(8230);
 			var cleanStr = "^~''\"\"-...";
-			expect(luga.utils.demoronizeString(crappyStr)).toBe(cleanStr);
+			expect(luga.string.demoronize(crappyStr)).toBe(cleanStr);
 		});
 
+	});
+
+});
+
+describe("luga.utils stores generic, static methods and utilities", function(){
+
+	it("Lives inside its own namespace", function(){
+		expect(luga.utils).toBeDefined();
 	});
 
 	describe(".displayMessage()", function(){

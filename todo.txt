@@ -1,8 +1,6 @@
 CORE:
 
-- Move 
-luga.utils.formatString() > luga.string.format()
-luga.utils.stringDemoronize() > luga.string.demoronize()
+
 
 - Move 
 luga.utils.displayMessage() > luga.validator.utils.displayMessage()
