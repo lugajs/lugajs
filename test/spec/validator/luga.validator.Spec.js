@@ -16,6 +16,9 @@ describe("luga.validator", function(){
 		it("DateSpecs", function(){
 			expect(luga.validator.dateSpecs).toBeDefined();
 		});
+		it("Handlers", function(){
+			expect(luga.validator.handlers).toBeDefined();
+		});
 	});
 
 	describe(".FieldValidatorGetInstance()", function(){
