@@ -1,7 +1,5 @@
 CORE:
 
-
-
 - Move 
 luga.utils.displayMessage() > luga.validator.utils.displayMessage()
 luga.utils.displayErrorMessage() > luga.validator.utils.displayErrorMessage()
@@ -10,15 +8,14 @@ luga.utils.displayErrorMessage() > luga.validator.utils.displayErrorMessage()
 luga.validationHandlers > luga.validator.handlers
 
 
-- Add luga.form and luga.form.utils
-
-- Move
-luga.validator.utils > luga.form.utils
-
-
 - Add luga.form.serialize()
   Use configurable delimitator for form hash
   http://massimocorner.com/libraries/form/index.htm
+
+- Move
+  luga.validator.utils > luga.form.utils
+
+- Add luga.form and luga.form.utils
 
 
 - Document luga.Notifier
