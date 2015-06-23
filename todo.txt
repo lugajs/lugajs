@@ -1,9 +1,5 @@
 CORE:
 
-- Move 
-luga.utils.displayMessage() > luga.validator.utils.displayMessage()
-luga.utils.displayErrorMessage() > luga.validator.utils.displayErrorMessage()
-
 - Move
 luga.validationHandlers > luga.validator.handlers
 
