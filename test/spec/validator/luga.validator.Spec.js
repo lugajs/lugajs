@@ -21,21 +21,21 @@ describe("luga.validator", function(){
 	describe(".FieldValidatorGetInstance()", function(){
 
 		it("Returns null if the passed HTML node can't be validated", function(){
-			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<div>") })).toBeNull();
-			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<button>") })).toBeNull();
-			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<input type='reset'>") })).toBeNull();
-			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("<fieldset>") })).toBeNull();
+			expect(luga.validator.FieldValidatorGetInstance({fieldNode: jQuery("<div>")})).toBeNull();
+			expect(luga.validator.FieldValidatorGetInstance({fieldNode: jQuery("<button>")})).toBeNull();
+			expect(luga.validator.FieldValidatorGetInstance({fieldNode: jQuery("<input type='reset'>")})).toBeNull();
+			expect(luga.validator.FieldValidatorGetInstance({fieldNode: jQuery("<fieldset>")})).toBeNull();
 		});
 
 		it("Returns relevant validator, depending on the kind of field", function(){
 
 			loadFixtures("validator/FormValidator/generic.htm");
 
-			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("#age") }).constructor).toEqual(luga.validator.TextValidator);
-			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("#comments") }).constructor).toEqual(luga.validator.TextValidator);
-			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("#boxNicole") }).constructor).toEqual(luga.validator.CheckboxValidator);
-			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("#radioNicole") }).constructor).toEqual(luga.validator.RadioValidator);
-			expect(luga.validator.FieldValidatorGetInstance({ fieldNode: jQuery("#food") }).constructor).toEqual(luga.validator.SelectValidator);
+			expect(luga.validator.FieldValidatorGetInstance({fieldNode: jQuery("#age")}).constructor).toEqual(luga.validator.TextValidator);
+			expect(luga.validator.FieldValidatorGetInstance({fieldNode: jQuery("#comments")}).constructor).toEqual(luga.validator.TextValidator);
+			expect(luga.validator.FieldValidatorGetInstance({fieldNode: jQuery("#boxNicole")}).constructor).toEqual(luga.validator.CheckboxValidator);
+			expect(luga.validator.FieldValidatorGetInstance({fieldNode: jQuery("#radioNicole")}).constructor).toEqual(luga.validator.RadioValidator);
+			expect(luga.validator.FieldValidatorGetInstance({fieldNode: jQuery("#food")}).constructor).toEqual(luga.validator.SelectValidator);
 
 		});
 
@@ -115,6 +115,21 @@ describe("luga.validator", function(){
 			expect(textValidator.name).toEqual("myId");
 		});
 
+	});
+
+})
+
+describe("luga.validator.handlers", function(){
+
+	it("Is a dedicated namespace", function(){
+		expect(luga.validator.handlers).toBeDefined();
+	});
+
+	it("Intended to store handlers for form validation (both client and server-side)", function(){
+		expect(luga.validator.handlers.errorAlert).toBeDefined();
+		expect(jQuery.isFunction(luga.validator.handlers.errorAlert)).toBeTruthy();
+		expect(luga.validator.handlers.errorBox).toBeDefined();
+		expect(jQuery.isFunction(luga.validator.handlers.errorBox)).toBeTruthy();
 	});
 
 });

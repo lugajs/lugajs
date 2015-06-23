@@ -260,10 +260,9 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Private helper function
 	 * Remove a message box (if any) associated with a given node
 	 */
-	var removeDisplayBox = function(node){
+	luga.utils.removeDisplayBox = function(node){
 		var boxId = generateBoxId(jQuery(node));
 		var oldBox = jQuery("#" + boxId);
 		// If an error display is already there, get rid of it
@@ -308,54 +307,6 @@ if(typeof(luga) === "undefined"){
 			jQuery(node).before(box);
 		}
 		return box;
-	};
-
-	/* Validation handlers */
-
-	luga.namespace("luga.validationHandlers");
-
-	/**
-	 * Display error messages inside alert
-	 */
-	luga.validationHandlers.errorAlert = function(formNode, validators){
-		var errorMsg = "";
-		var focusGiven = false;
-		for(var i = 0; i < validators.length; i++){
-			// Append to the error string
-			errorMsg += validators[i].message + "\n";
-			// Give focus to the first invalid text field
-			if(!focusGiven && (validators[i].getFocus)){
-				validators[i].getFocus();
-				focusGiven = true;
-			}
-		}
-		if(errorMsg !== ""){
-			alert(errorMsg);
-		}
-	};
-
-	/**
-	 * Display errors inside a box above the form
-	 */
-	luga.validationHandlers.errorBox = function(formNode, validators){
-		// Clean-up any existing box
-		if(validators.length === 0){
-			removeDisplayBox(formNode);
-			return;
-		}
-		var focusGiven = false;
-		var htmlStr = "<ul>";
-		// Create a <ul> for each error
-		for(var i = 0; i < validators.length; i++){
-			htmlStr += "<li><em>" + validators[i].name + ": </em> " + validators[i].message + "</li>";
-			// Give focus to the first invalid text field
-			if(!focusGiven && (validators[i].getFocus)){
-				validators[i].getFocus();
-				focusGiven = true;
-			}
-		}
-		htmlStr += "</ul>";
-		luga.utils.displayErrorMessage(formNode, htmlStr);
 	};
 
 }());

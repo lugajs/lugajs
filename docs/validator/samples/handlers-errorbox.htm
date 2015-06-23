@@ -19,7 +19,7 @@
 
 	<div class="content">
 
-		<form data-luga-validate="true" data-luga-error="luga.validationHandlers.errorBox">
+		<form data-luga-validate="true" data-luga-error="luga.validator.handlers.errorBox">
 			<h1>Better UI for validation</h1>
 			<table>
 				<tr>
@@ -72,15 +72,15 @@
 		</form>
 
 		<section>
-			<h1>Use luga.validationHandlers.errorBox as error handler</h1>
-			<p>By default the validator uses JavaScript alert boxes to display errors to the user. If we want to display errors in a more user friendly way, use "luga.validationHandlers.errorBox" as error handler</p>
+			<h1>Use luga.validator.handlers.errorBox as error handler</h1>
+			<p>By default the validator uses JavaScript alert boxes to display errors to the user. If we want to display errors in a more user friendly way, use "luga.validator.handlers.errorBox" as error handler</p>
 			<p>If you need more flexibility, you can create a custom handler.</p>
 			<p>Styling and formatting for error box are specified inside an <a href="../../../src/luga.css">external CSS file</a>. You can tweak and modify it to suit your needs.</p>
 		</section>
 
 		<code>
 			<ol>
-				<li>&lt;form data-luga-validate="true" data-luga-error="luga.validationHandlers.errorBox"&gt;</li>
+				<li>&lt;form data-luga-validate="true" data-luga-error="luga.validator.handlers.errorBox"&gt;</li>
 			</ol>
 		</code>
 
@@ -92,7 +92,7 @@
 		<code>
 			<ol>
 				<li>&lt;script&gt;</li>
-				<li>	luga.validator.CONST.HANDLERS.FORM_ERROR = "luga.validationHandlers.errorBox";</li>
+				<li>	luga.validator.CONST.HANDLERS.FORM_ERROR = "luga.validator.handlers.errorBox";</li>
 				<li>&lt;/script&gt;</li>
 			</ol>
 		</code>

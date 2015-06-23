@@ -312,18 +312,3 @@ describe("luga.utils stores generic, static methods and utilities", function(){
 	});
 
 });
-
-describe("luga.validationHandlers", function(){
-
-	it("Is a dedicated namespace", function(){
-		expect(luga.validationHandlers).toBeDefined();
-	});
-
-	it("That stores handlers for form validation (both client and server-side)", function(){
-		expect(luga.validationHandlers.errorAlert).toBeDefined();
-		expect(jQuery.isFunction(luga.validationHandlers.errorAlert)).toBeTruthy();
-		expect(luga.validationHandlers.errorBox).toBeDefined();
-		expect(jQuery.isFunction(luga.validationHandlers.errorBox)).toBeTruthy();
-	});
-
-});

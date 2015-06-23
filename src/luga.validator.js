@@ -23,7 +23,55 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.validator");
 
-	luga.validator.version = 0.8;
+	luga.validator.version = 0.9;
+
+	/* Validation handlers */
+
+	luga.namespace("luga.validator.handlers");
+
+	/**
+	 * Display error messages inside alert
+	 */
+	luga.validator.handlers.errorAlert = function(formNode, validators){
+		var errorMsg = "";
+		var focusGiven = false;
+		for(var i = 0; i < validators.length; i++){
+			// Append to the error string
+			errorMsg += validators[i].message + "\n";
+			// Give focus to the first invalid text field
+			if(!focusGiven && (validators[i].getFocus)){
+				validators[i].getFocus();
+				focusGiven = true;
+			}
+		}
+		if(errorMsg !== ""){
+			alert(errorMsg);
+		}
+	};
+
+	/**
+	 * Display errors inside a box above the form
+	 */
+	luga.validator.handlers.errorBox = function(formNode, validators){
+		// Clean-up any existing box
+		if(validators.length === 0){
+			luga.utils.removeDisplayBox(formNode);
+			return;
+		}
+		var focusGiven = false;
+		var htmlStr = "<ul>";
+		// Create a <ul> for each error
+		for(var i = 0; i < validators.length; i++){
+			htmlStr += "<li><em>" + validators[i].name + ": </em> " + validators[i].message + "</li>";
+			// Give focus to the first invalid text field
+			if(!focusGiven && (validators[i].getFocus)){
+				validators[i].getFocus();
+				focusGiven = true;
+			}
+		}
+		htmlStr += "</ul>";
+		luga.utils.displayErrorMessage(formNode, htmlStr);
+	};
 
 	luga.validator.CONST = {
 		FORM_SELECTOR: "form[data-luga-validate]",
@@ -71,7 +119,7 @@ if(typeof(luga) === "undefined"){
 			submit: true
 		},
 		HANDLERS: {
-			FORM_ERROR: luga.validationHandlers.errorAlert
+			FORM_ERROR: luga.validator.handlers.errorAlert
 		}
 	};
 
