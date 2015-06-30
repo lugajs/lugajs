@@ -328,7 +328,7 @@ describe("luga.data.HttpDataSet", function(){
 		beforeEach(function(){
 
 			testDs = new luga.data.JsonDataSet({id: "jsonDs", url: "fixtures/data/ladies.json"});
-			DEFAULT_TIMEOUT = 2000;
+			DEFAULT_TIMEOUT = 20;
 
 			var ObserverClass = function(){
 				this.onDataChangedHandler = function(data){
