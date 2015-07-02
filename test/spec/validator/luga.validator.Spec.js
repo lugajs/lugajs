@@ -25,7 +25,6 @@ describe("luga.validator", function(){
 
 		it("Returns null if the passed HTML node can't be validated", function(){
 			expect(luga.validator.FieldValidatorGetInstance({fieldNode: jQuery("<div>")})).toBeNull();
-			expect(luga.validator.FieldValidatorGetInstance({fieldNode: jQuery("<button>")})).toBeNull();
 			expect(luga.validator.FieldValidatorGetInstance({fieldNode: jQuery("<input type='reset'>")})).toBeNull();
 			expect(luga.validator.FieldValidatorGetInstance({fieldNode: jQuery("<fieldset>")})).toBeNull();
 		});

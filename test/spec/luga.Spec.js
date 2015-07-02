@@ -238,16 +238,16 @@ describe("luga.form stores form-related API", function(){
 				expect(luga.form.utils.isInputField(jQuery("<input type='checkbox'>"))).toBeTruthy();
 				expect(luga.form.utils.isInputField(jQuery("<input type='email'>"))).toBeTruthy();
 				expect(luga.form.utils.isInputField(jQuery("<input type='date'>"))).toBeTruthy();
+				expect(luga.form.utils.isInputField(jQuery("<input type='submit'>"))).toBeTruthy();
+				expect(luga.form.utils.isInputField(jQuery("<input type='button'>"))).toBeTruthy();
+				expect(luga.form.utils.isInputField(jQuery("<button>"))).toBeTruthy();
 				expect(luga.form.utils.isInputField(jQuery("<select>"))).toBeTruthy();
 			});
 
 			it("False otherwise", function(){
 				expect(luga.form.utils.isInputField(jQuery("<div>"))).toBeFalsy();
 				expect(luga.form.utils.isInputField(jQuery("<form>"))).toBeFalsy();
-				expect(luga.form.utils.isInputField(jQuery("<button>"))).toBeFalsy();
 				expect(luga.form.utils.isInputField(jQuery("<input type='reset'>"))).toBeFalsy();
-				expect(luga.form.utils.isInputField(jQuery("<input type='button'>"))).toBeFalsy();
-				expect(luga.form.utils.isInputField(jQuery("<input type='submit'>"))).toBeFalsy();
 				expect(luga.form.utils.isInputField(jQuery("<fieldset>"))).toBeFalsy();
 			});
 
@@ -275,7 +275,7 @@ describe("luga.form stores form-related API", function(){
 
 			it("Returns an array of input fields contained inside a given root node", function(){
 				loadFixtures("validator/FormValidator/generic.htm");
-				expect(luga.form.utils.getChildFields(jQuery("#generic")).length).toEqual(14);
+				expect(luga.form.utils.getChildFields(jQuery("#generic")).length).toEqual(15);
 			});
 
 			it("Returns an empty array if there are no suitable input fields", function(){

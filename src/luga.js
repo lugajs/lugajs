@@ -185,9 +185,7 @@ if(typeof(luga) === "undefined"){
 		FIELD_SELECTOR: "input,select,textarea",
 		FAKE_INPUT_TYPES: {
 			fieldset: true,
-			reset: true,
-			button: true,
-			submit: true
+			reset: true
 		}
 	};
 
