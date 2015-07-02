@@ -120,7 +120,7 @@ describe("luga.validator", function(){
 
 	});
 
-})
+});
 
 describe("luga.validator.handlers", function(){
 
@@ -133,70 +133,6 @@ describe("luga.validator.handlers", function(){
 		expect(jQuery.isFunction(luga.validator.handlers.errorAlert)).toBeTruthy();
 		expect(luga.validator.handlers.errorBox).toBeDefined();
 		expect(jQuery.isFunction(luga.validator.handlers.errorBox)).toBeTruthy();
-	});
-
-});
-
-describe("luga.validator.utils", function(){
-
-	it("Lives inside its own namespace", function(){
-		expect(luga.validator.utils).toBeDefined();
-	});
-
-	describe(".isInputField()", function(){
-
-		it("Returns true if the passed node can be validated", function(){
-			expect(luga.validator.utils.isInputField(jQuery("<textarea>"))).toBeTruthy();
-			expect(luga.validator.utils.isInputField(jQuery("<input type='text'>"))).toBeTruthy();
-			expect(luga.validator.utils.isInputField(jQuery("<input type='radio'>"))).toBeTruthy();
-			expect(luga.validator.utils.isInputField(jQuery("<input type='checkbox'>"))).toBeTruthy();
-			expect(luga.validator.utils.isInputField(jQuery("<input type='email'>"))).toBeTruthy();
-			expect(luga.validator.utils.isInputField(jQuery("<input type='date'>"))).toBeTruthy();
-			expect(luga.validator.utils.isInputField(jQuery("<select>"))).toBeTruthy();
-		});
-
-		it("False otherwise", function(){
-			expect(luga.validator.utils.isInputField(jQuery("<div>"))).toBeFalsy();
-			expect(luga.validator.utils.isInputField(jQuery("<form>"))).toBeFalsy();
-			expect(luga.validator.utils.isInputField(jQuery("<button>"))).toBeFalsy();
-			expect(luga.validator.utils.isInputField(jQuery("<input type='submit'>"))).toBeFalsy();
-			expect(luga.validator.utils.isInputField(jQuery("<input type='reset'>"))).toBeFalsy();
-			expect(luga.validator.utils.isInputField(jQuery("<input type='button'>"))).toBeFalsy();
-			expect(luga.validator.utils.isInputField(jQuery("<fieldset>"))).toBeFalsy();
-		});
-
-	});
-
-	describe(".getFieldGroup()", function(){
-
-		describe("Extracts group of related radio buttons", function(){
-
-			it("Within a given form", function(){
-				loadFixtures("validator/RadioValidator/required.htm");
-				expect(luga.validator.utils.getFieldGroup("lady", jQuery("#single")).length).toEqual(4);
-			});
-
-			it("Or not", function(){
-				loadFixtures("validator/RadioValidator/required.htm");
-				expect(luga.validator.utils.getFieldGroup("lady").length).toEqual(12);
-			});
-
-		});
-
-	});
-
-	describe(".getChildFields()", function(){
-
-		it("Returns an array of input fields contained inside a given root node", function(){
-			loadFixtures("validator/FormValidator/generic.htm");
-			expect(luga.validator.utils.getChildFields(jQuery("#generic")).length).toEqual(14);
-		});
-
-		it("Returns an empty array if there are no suitable input fields", function(){
-			loadFixtures("validator/FormValidator/generic.htm");
-			expect(luga.validator.utils.getChildFields(jQuery("#food")).length).toEqual(0);
-		});
-
 	});
 
 });

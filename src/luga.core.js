@@ -181,6 +181,43 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.form.utils");
 
+	luga.form.utils.CONST = {
+		FIELD_SELECTOR: "input,select,textarea",
+		FAKE_INPUT_TYPES: {
+			fieldset: true,
+			reset: true,
+			button: true,
+			submit: true
+		}
+	};
+
+	luga.form.utils.isInputField = function(fieldNode){
+		if(!jQuery(fieldNode).prop("type")){
+			return false;
+		}
+		// It belongs to the kind of nodes that are considered form fields, but we don't care about
+		if(luga.form.utils.CONST.FAKE_INPUT_TYPES[jQuery(fieldNode).prop("type")] === true){
+			return false;
+		}
+		return true;
+	};
+
+	luga.form.utils.getFieldGroup = function(name, formNode){
+		var selector = "input[name=" + name + "]";
+		return jQuery(selector, formNode);
+	};
+
+	luga.form.utils.getChildFields = function(rootNode){
+		var fields = [];
+		jQuery(rootNode).find(luga.form.utils.CONST.FIELD_SELECTOR).each(function(index, item){
+			if(luga.form.utils.isInputField(item)){
+				fields.push(item);
+			}
+		});
+
+		return fields;
+	};
+
 	/* Utilities */
 
 	luga.namespace("luga.string");

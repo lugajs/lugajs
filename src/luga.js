@@ -24,7 +24,7 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.version = "0.2.2";
+	luga.version = "0.3.0";
 
 	luga.CONST = {
 		ERROR_MESSAGES: {
@@ -173,6 +173,49 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
+	};
+
+	/* Form */
+
+	luga.namespace("luga.form");
+
+	luga.namespace("luga.form.utils");
+
+	luga.form.utils.CONST = {
+		FIELD_SELECTOR: "input,select,textarea",
+		FAKE_INPUT_TYPES: {
+			fieldset: true,
+			reset: true,
+			button: true,
+			submit: true
+		}
+	};
+
+	luga.form.utils.isInputField = function(fieldNode){
+		if(!jQuery(fieldNode).prop("type")){
+			return false;
+		}
+		// It belongs to the kind of nodes that are considered form fields, but we don't care about
+		if(luga.form.utils.CONST.FAKE_INPUT_TYPES[jQuery(fieldNode).prop("type")] === true){
+			return false;
+		}
+		return true;
+	};
+
+	luga.form.utils.getFieldGroup = function(name, formNode){
+		var selector = "input[name=" + name + "]";
+		return jQuery(selector, formNode);
+	};
+
+	luga.form.utils.getChildFields = function(rootNode){
+		var fields = [];
+		jQuery(rootNode).find(luga.form.utils.CONST.FIELD_SELECTOR).each(function(index, item){
+			if(luga.form.utils.isInputField(item)){
+				fields.push(item);
+			}
+		});
+
+		return fields;
 	};
 
 	/* Utilities */
@@ -435,7 +478,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.validator");
 
-	luga.validator.version = 0.9;
+	luga.validator.version = "0.9.1";
 
 	/* Validation handlers */
 
@@ -487,7 +530,6 @@ if(typeof(luga) === "undefined"){
 
 	luga.validator.CONST = {
 		FORM_SELECTOR: "form[data-luga-validate]",
-		CHILD_SELECTOR: "input,select,textarea",
 		RULE_PREFIX: "data-luga-",
 		DEFAULT_DATE_PATTERN: "YYYY-MM-DD",
 		CUSTOM_ATTRIBUTES: {
@@ -523,12 +565,6 @@ if(typeof(luga) === "undefined"){
 			PATTERN_NOT_FOUND: "luga.validator failed to retrieve pattern: {0}",
 			INVALID_INDEX_PARAMETER: "data-luga-invalidindex accept only numbers",
 			MISSING_EQUAL_TO_FIELD: "data-luga-equalto was unable to find field with id = {0}"
-		},
-		FAKE_INPUT_TYPES: {
-			fieldset: true,
-			reset: true,
-			button: true,
-			submit: true
 		},
 		HANDLERS: {
 			FORM_ERROR: luga.validator.handlers.errorAlert
@@ -570,7 +606,7 @@ if(typeof(luga) === "undefined"){
 			self.dirtyValidators = [];
 			var formDom = self.config.formNode[0];
 			for(var i = 0; i < formDom.elements.length; i++){
-				if(luga.validator.utils.isInputField(formDom.elements[i])){
+				if(luga.form.utils.isInputField(formDom.elements[i])){
 					self.validators.push(luga.validator.FieldValidatorGetInstance({
 						fieldNode: formDom.elements[i],
 						formNode: self.config.formNode
@@ -674,7 +710,7 @@ if(typeof(luga) === "undefined"){
 		luga.merge(this.config, options);
 		var self = this;
 		// Abort if the field isn't suitable to validation
-		if(!luga.validator.utils.isInputField(self.config.fieldNode)){
+		if(!luga.form.utils.isInputField(self.config.fieldNode)){
 			return null;
 		}
 		var fieldType = jQuery(self.config.fieldNode).prop("type");
@@ -690,7 +726,7 @@ if(typeof(luga) === "undefined"){
 			case "radio":
 				if(jQuery(this.config.fieldNode).attr("name")){
 					return new luga.validator.RadioValidator({
-						inputGroup: luga.validator.utils.getFieldGroup(jQuery(this.config.fieldNode).attr("name"), this.config.formNode)
+						inputGroup: luga.form.utils.getFieldGroup(jQuery(this.config.fieldNode).attr("name"), this.config.formNode)
 					});
 				}
 				break;
@@ -698,7 +734,7 @@ if(typeof(luga) === "undefined"){
 			case "checkbox":
 				if(jQuery(this.config.fieldNode).attr("name")){
 					return new luga.validator.CheckboxValidator({
-						inputGroup: luga.validator.utils.getFieldGroup(jQuery(this.config.fieldNode).attr("name"), this.config.formNode)
+						inputGroup: luga.form.utils.getFieldGroup(jQuery(this.config.fieldNode).attr("name"), this.config.formNode)
 					});
 				}
 				break;
@@ -934,7 +970,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Abstract validator class for grouped fields (checkboxes, radio buttons). To be extended for different kind of fields
 	 *
-	 * @param options.inputGroup:         A group of input fields that share the same name. Use luga.validator.utils.getFieldGroup() to obtain it. Required
+	 * @param options.inputGroup:         A group of input fields that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
 	 * @param options.message:            Error message. Can also be set using the "data-luga-message" attribute. Optional
 	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
 	 * @param.options                     Additional options can be used, but are specific to certain kind of input fields. Check their implementation for details
@@ -1004,7 +1040,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Validator class for radio buttons
 	 *
-	 * @param options.inputGroup:         A group of input fields that share the same name. Use luga.validator.utils.getFieldGroup() to obtain it. Required
+	 * @param options.inputGroup:         A group of input fields that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
 	 * @param options.message:            Error message. Can also be set using the "data-luga-message" attribute. Optional
 	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
 	 * @param.options                     Additional options can be used, but are specific to certain kind of input fields. Check their implementation for details
@@ -1050,7 +1086,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Validator class for checkboxes
 	 *
-	 * @param options.inputGroup:         A group of input fields that share the same name. Use luga.validator.utils.getFieldGroup() to obtain it. Required
+	 * @param options.inputGroup:         A group of input fields that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
 	 * @param options.message:            Error message. Can also be set using the "data-luga-message" attribute. Optional
 	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
 	 * @param.options                     Additional options can be used, but are specific to certain kind of input fields. Check their implementation for details
@@ -1261,37 +1297,6 @@ if(typeof(luga) === "undefined"){
 	luga.validator.dateSpecs["DD-MM-YYYY"] = luga.validator.createDateSpecObj("^([0-3][0-9])-([0-1][0-9])-([0-9]{4})$", 2, 1, 0, "-");
 	luga.validator.dateSpecs["D-M-YYYY"] = luga.validator.createDateSpecObj("^([0-3]?[0-9])-([0-1]?[0-9])-([0-9]{4})$", 2, 1, 0, "-");
 
-	/* Utilities */
-
-	luga.namespace("luga.validator.utils");
-
-	luga.validator.utils.isInputField = function(fieldNode){
-		if(!jQuery(fieldNode).prop("type")){
-			return false;
-		}
-		// It belongs to the kind of nodes that are considered form fields, but can't be validated
-		if(luga.validator.CONST.FAKE_INPUT_TYPES[jQuery(fieldNode).prop("type")] === true){
-			return false;
-		}
-		return true;
-	};
-
-	luga.validator.utils.getFieldGroup = function(name, formNode){
-		var selector = "input[name=" + name + "]";
-		return jQuery(selector, formNode);
-	};
-
-	luga.validator.utils.getChildFields = function(rootNode){
-		var fields = [];
-		jQuery(rootNode).find(luga.validator.CONST.CHILD_SELECTOR).each(function(index, item){
-			if(luga.validator.utils.isInputField(item)){
-				fields.push(item);
-			}
-		});
-
-		return fields;
-	};
-
 	/**
 	 * Attach form validators to onSubmit events
 	 */
@@ -1338,7 +1343,7 @@ if(typeof(luga) === "undefined"){
 	 *                                 Default to luga.validator.errorAlert (display plain alert messages)
 	 */
 	luga.validator.api.validateField = function(options){
-		if(!luga.validator.utils.isInputField(options.fieldNode)){
+		if(!luga.form.utils.isInputField(options.fieldNode)){
 			throw(luga.validator.CONST.MESSAGES.FIELD_CANT_BE_VALIDATED);
 		}
 		if(!options.error){
@@ -1367,7 +1372,7 @@ if(typeof(luga) === "undefined"){
 		var dirtyValidators = [];
 
 		for(var i = 0; i < options.fields.length; i++){
-			if(luga.validator.utils.isInputField(options.fields[i])){
+			if(luga.form.utils.isInputField(options.fields[i])){
 				validators.push(luga.validator.FieldValidatorGetInstance({
 					fieldNode: options.fields[i]
 				}));
@@ -1398,7 +1403,7 @@ if(typeof(luga) === "undefined"){
 	 *                                 Default to luga.validator.errorAlert (display plain alert messages)
 	 */
 	luga.validator.api.validateChildFields = function(options){
-		var fields = luga.validator.utils.getChildFields(options.rootNode);
+		var fields = luga.form.utils.getChildFields(options.rootNode);
 		return luga.validator.api.validateFields({
 			fields: fields,
 			error: options.error

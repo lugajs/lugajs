@@ -1,8 +1,5 @@
 CORE:
 
-- Move
-  luga.validator.utils > luga.form.utils
-
 - Add luga.form.serialize()
   Use configurable delimitator for form hash
   http://massimocorner.com/libraries/form/index.htm
@@ -10,7 +7,7 @@ CORE:
 
 - Document luga.Notifier
 
-- Add Javadoc for types to improve IntelliJ's intellisense
+- Add detailed JSDoc to improve IntelliJ's intellisense
 
 - Update JQuery to 1.11.3
 
