@@ -24,7 +24,7 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.version = "0.2.2";
+	luga.version = "0.3.0";
 
 	luga.CONST = {
 		ERROR_MESSAGES: {
@@ -174,6 +174,12 @@ if(typeof(luga) === "undefined"){
 		};
 
 	};
+
+	/* Form */
+
+	luga.namespace("luga.form");
+
+	luga.namespace("luga.form.utils");
 
 	/* Utilities */
 

@@ -1,7 +1,5 @@
 CORE:
 
-- Add luga.form and luga.form.utils
-
 - Move
   luga.validator.utils > luga.form.utils
 

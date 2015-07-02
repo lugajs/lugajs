@@ -217,7 +217,24 @@ describe("luga", function(){
 
 });
 
-describe("luga.string stores string utilities", function(){
+
+describe("luga.form stores form-related API", function(){
+
+	it("Lives inside its own namespace", function(){
+		expect(luga.form).toBeDefined();
+	});
+
+	describe("luga.form.util stores form-related, static methods and utilities", function(){
+
+		it("Lives inside its own namespace", function(){
+			expect(luga.form.utils).toBeDefined();
+		});
+
+	});
+
+});
+
+describe("luga.string stores string-related API", function(){
 
 	it("Lives inside its own namespace", function(){
 		expect(luga.string).toBeDefined();
