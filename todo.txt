@@ -1,6 +1,8 @@
 CORE:
 
-- Add luga.form.serialize()
+- Add:
+  luga.form.toHashMap()
+  luga.form.toQueryString()
   Use configurable delimitator for form hash
   http://massimocorner.com/libraries/form/index.htm
 
