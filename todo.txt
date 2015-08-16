@@ -7,7 +7,11 @@ CORE:
   http://massimocorner.com/libraries/form/index.htm
 
 
-- Document luga.Notifier
+- Document:
+  luga.Notifier
+  luga.namespace()
+  luga.extend()
+  luga.merge()
 
 - Add detailed JSDoc to improve IntelliJ's intellisense
 
