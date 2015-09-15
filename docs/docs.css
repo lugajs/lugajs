@@ -286,6 +286,7 @@ code + section {
 }
 
 code {
+	background-color: transparent;
 	color: #333333;
 	display: block;
 	font-family: Consolas, "Liberation Mono", Courier, monospace;

@@ -526,6 +526,27 @@ if(typeof(luga) === "undefined"){
 		luga.utils.displayErrorMessage(formNode, htmlStr);
 	};
 
+	/**
+	 * Use Bootstrap validation states to display errors
+	 */
+	luga.validator.handlers.bootstrap = function(formNode, validators){
+		var ERROR_SELECTOR = ".has-error";
+		var ERROR_CLASS = "has-error";
+
+		// Reset all parents
+		jQuery(formNode).find(ERROR_SELECTOR).removeClass(ERROR_CLASS);
+		var focusGiven = false;
+		for(var i = 0; i < validators.length; i++){
+			// Attach Bootstrap CSS to parent node
+			var parentNode = jQuery(validators[i].node).parent().addClass(ERROR_CLASS);
+			// Give focus to the first invalid text field
+			if(!focusGiven && (validators[i].getFocus)){
+				validators[i].getFocus();
+				focusGiven = true;
+			}
+		}
+	};
+
 	luga.validator.CONST = {
 		FORM_SELECTOR: "form[data-luga-validate]",
 		RULE_PREFIX: "data-luga-",

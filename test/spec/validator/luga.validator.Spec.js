@@ -123,15 +123,29 @@ describe("luga.validator", function(){
 
 describe("luga.validator.handlers", function(){
 
-	it("Is a dedicated namespace", function(){
+	it("Is a dedicated namespace. Intended to store handlers for form validation", function(){
 		expect(luga.validator.handlers).toBeDefined();
 	});
 
-	it("Intended to store handlers for form validation (both client and server-side)", function(){
-		expect(luga.validator.handlers.errorAlert).toBeDefined();
-		expect(jQuery.isFunction(luga.validator.handlers.errorAlert)).toBeTruthy();
-		expect(luga.validator.handlers.errorBox).toBeDefined();
-		expect(jQuery.isFunction(luga.validator.handlers.errorBox)).toBeTruthy();
+	describe("luga.validator.handlers.errorAlert", function(){
+		it("Display error messages inside alert", function(){
+			expect(luga.validator.handlers.errorAlert).toBeDefined();
+			expect(jQuery.isFunction(luga.validator.handlers.errorAlert)).toBeTruthy();
+		});
+	});
+
+	describe("luga.validator.handlers.errorBox", function(){
+		it("Display errors inside a box above the form", function(){
+			expect(luga.validator.handlers.errorBox).toBeDefined();
+			expect(jQuery.isFunction(luga.validator.handlers.errorBox)).toBeTruthy();
+		});
+	});
+
+	describe("luga.validator.handlers.bootstrap", function(){
+		it("Use Bootstrap validation states to display errors", function(){
+			expect(luga.validator.handlers.bootstrap).toBeDefined();
+			expect(jQuery.isFunction(luga.validator.handlers.bootstrap)).toBeTruthy();
+		});
 	});
 
 });

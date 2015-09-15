@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8"/>
+	<title>Luga Validator :: Bootstrap integration</title>
+
+	<!-- Bootstrap from CDN -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
+
+	<link rel="stylesheet" href="../../../src/luga.css"/>
+	<link rel="stylesheet" href="../../docs.css"/>
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../src/luga.core.js"></script>
+	<script src="../../../src/luga.csi.js"></script>
+	<script src="../../../src/luga.validator.js"></script>
+	<script src="../../docs.js"></script>
+</head>
+<body>
+
+	<div data-luga-csi="../../main-nav.inc" data-luga-after="luga.docs.initMainNav"></div>
+	<div data-luga-csi="../sidebar.inc"></div>
+
+	<div class="content">
+
+		<form data-luga-validate="true" data-luga-error="luga.validator.handlers.bootstrap">
+			<h1>Use Bootstrap's validation states</h1>
+
+			<div class="form-group">
+				<label class="control-label" for="age">Age (required, positive integer, min 18, max 75)</label>
+				<input type="text" id="age" name="age" data-luga-required="true" data-luga-message="Please insert a valid age" data-luga-pattern="positiveinteger" data-luga-minnumber="18" data-luga-maxnumber="75" data-luga-filters="numbersonly" value="18"/>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="name">Name (required)</label>
+				<input type="text" id="name" name="name" data-luga-required="true" data-luga-message="Please insert a name"/>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label" for="email">Email (required, email)</label>
+				<input type="text" id="email" name="email" data-luga-required="true" data-luga-message="Please insert a valid email" data-luga-email="true"/>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label" for="date">Date (not required, date, YYYY-MM-DD)</label>
+				<input type="text" id="date" name="date" data-luga-message="Please insert a valid date using the YYYY-MM-DD format" data-luga-datepattern="YYYY-MM-DD" value="2005-05-09"/>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label" for="comments">Comments (not required, min 3 chars, max 10)</label>
+				<textarea id="comments" name="comments" cols="20" rows="3" data-luga-message="Comments should be from 3 to 10 chars" data-luga-minlength="3" data-luga-maxlength="10"></textarea>
+			</div>
+
+			<input type="submit" value="Submit"/>
+
+		</form>
+
+		<section>
+			<h1>Use Bootstrap validation states</h1>
+
+			<p>By default the validator uses JavaScript alert boxes to display errors to the user.
+				If we want to use Bootstrap's validation states instead, use "luga.validator.handlers.bootstrap" as error handler.
+				See <a href="http://getbootstrap.com/css/#forms-control-validation">Bootstrap's docs</a> for additional info on validation states</p>
+		</section>
+
+		<code>
+			<ol>
+				<li>&lt;form data-luga-validate="true" data-luga-error="luga.validator.handlers.bootstrap"&gt;</li>
+			</ol>
+		</code>
+
+		<section>
+			<h1>Override default error handler</h1>
+
+			<p>The value for the default error handler is stored inside luga.validator.CONST.HANDLERS.FORM_ERROR. You can
+				override it with the Bootstrap handler</p>
+		</section>
+
+		<code>
+			<ol>
+				<li>&lt;script&gt;</li>
+				<li>luga.validator.CONST.HANDLERS.FORM_ERROR = "luga.validator.handlers.bootstrap";</li>
+				<li>&lt;/script&gt;</li>
+			</ol>
+		</code>
+
+	</div>
+
+	<div data-luga-csi="../../footer.inc"></div>
+
+</body>
+</html>

@@ -27,6 +27,10 @@
 		<li><a href="../samples/handlers-custom.htm">Custom handlers</a></li>
 		<li><a href="../samples/custom-error.htm">Custom error handler</a></li>
 	</ul>
+		<h2>Bootstrap</h2>
+    	<ul>
+    		<li><a href="../samples/bootstrap.htm">Bootstrap integration</a></li>
+    	</ul>
 	<h2>API</h2>
 	<ul>
 		<li><a href="../docs/api-syntax.htm">API syntax reference</a></li>

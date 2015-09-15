@@ -17,11 +17,6 @@ CORE:
 
 - Update JQuery to 1.11.3
 
--------------
-
-VALIDATOR:
-
-- Develop and test Bootstrap integration
 
 -------------
 
