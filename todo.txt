@@ -13,6 +13,10 @@ CORE:
   luga.extend()
   luga.merge()
 
+- Document API:
+  luga.form.*
+  luga.form.utils.*
+
 - Add detailed JSDoc to improve IntelliJ's intellisense
 
 - Update JQuery to 1.11.3
