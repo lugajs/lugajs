@@ -7,7 +7,7 @@ CORE:
   http://massimocorner.com/libraries/form/index.htm
 
 
-- Document:
+- Document API:
   luga.Notifier
   luga.namespace()
   luga.extend()
