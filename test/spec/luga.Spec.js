@@ -30,7 +30,7 @@ describe("luga", function(){
 			expect(window.ciccio).toBeDefined();
 		});
 
-		it("But works on any arbitrary root object", function(){
+		it("Accept a second argument to be used as root object", function(){
 			var testRoot = {};
 			luga.namespace("child", testRoot);
 			expect(testRoot.child).toBeDefined();
