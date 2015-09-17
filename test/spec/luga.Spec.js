@@ -12,6 +12,11 @@ describe("luga", function(){
 
 	describe(".namespace()", function(){
 
+		it("Creates namespaces to be used for scoping variables and classes", function(){
+			luga.namespace("myspace");
+			expect(myspace).toBeDefined();
+		});
+
 		it("Does not override existing namespaces", function(){
 			var testRoot = {};
 			testRoot.child = {};
@@ -22,7 +27,7 @@ describe("luga", function(){
 
 		it("By default uses window as root object", function(){
 			luga.namespace("ciccio");
-			expect(ciccio).toBeDefined();
+			expect(window.ciccio).toBeDefined();
 		});
 
 		it("But works on any arbitrary root object", function(){
