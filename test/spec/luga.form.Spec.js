@@ -39,7 +39,7 @@ describe("luga.form", function(){
 			expect(luga.form.toQueryString(jQuery("#multiSelect"))).toEqual("firstname=ciccio&select=first%2Csecond");
 		});
 
-		it("If the second argument is set to true, MS Word special chars are replaced with plausible substitutes", function(){
+		it("If the second argument is set to true, MS Word's special chars are replaced with plausible substitutes", function(){
 			var moronicStr = String.fromCharCode(8216) + String.fromCharCode(8220);
 			jQuery("#moronicValue").val(moronicStr);
 			expect(luga.form.toQueryString(jQuery("#moronicForm"), true)).toEqual("firstname=ciccio&moronicValue='%22");
