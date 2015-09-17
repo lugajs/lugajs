@@ -78,7 +78,7 @@ describe("luga", function(){
 			expect(jQuery.isFunction(result)).toBeTruthy();
 		});
 
-		it("Or any namespace", function(){
+		it("Or any given namespace", function(){
 			var mySpace = {};
 			mySpace.myFunction = function(){
 			};
