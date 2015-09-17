@@ -19,7 +19,7 @@ CORE:
 
 - Update JQuery to 1.11.3
 
-- Consider moving luga.form, luga.strings and luga.utils into dedicated files
+- Consider moving luga.form, luga.strings and luga.utils into dedicated files (debug more complicated?)
   Fully separate src and Grunt-generated .js files
 
 -------------
