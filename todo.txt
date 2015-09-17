@@ -21,6 +21,8 @@ CORE:
 
 - Update JQuery to 1.11.3
 
+- Consider moving luga.form, luga.strings and luga.utils into dedicated files
+  Fully separate src and dist .js files
 
 -------------
 
