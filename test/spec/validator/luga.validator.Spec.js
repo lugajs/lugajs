@@ -7,16 +7,16 @@ describe("luga.validator", function(){
 	});
 
 	describe("Uses separated namespace for storing:", function(){
-		it("Rules", function(){
+		it(".rules", function(){
 			expect(luga.validator.rules).toBeDefined();
 		});
-		it("Patterns", function(){
+		it(".patterns", function(){
 			expect(luga.validator.patterns).toBeDefined();
 		});
-		it("DateSpecs", function(){
+		it(".dateSpecs", function(){
 			expect(luga.validator.dateSpecs).toBeDefined();
 		});
-		it("Handlers", function(){
+		it(".handlers", function(){
 			expect(luga.validator.handlers).toBeDefined();
 		});
 	});

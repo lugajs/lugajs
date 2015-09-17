@@ -1,8 +1,8 @@
 "use strict";
 
-describe("luga.string contains string-related API", function(){
+describe("luga.string", function(){
 
-	it("Lives inside its own namespace", function(){
+	it("Lives inside its own namespace. Contains string-related API", function(){
 		expect(luga.string).toBeDefined();
 	});
 
