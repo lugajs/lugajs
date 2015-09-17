@@ -178,15 +178,32 @@ if(typeof(luga) === "undefined"){
 	/* Form */
 
 	luga.namespace("luga.form");
-
 	luga.namespace("luga.form.utils");
 
-	luga.form.utils.CONST = {
+	luga.form.CONST = {
 		FIELD_SELECTOR: "input,select,textarea",
 		FAKE_INPUT_TYPES: {
 			fieldset: true,
 			reset: true
+		},
+		DEMORONIZE_FLAG: false
+	};
+
+	/**
+	 * Returns true if the given field is successful, false otherwise
+	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
+	 *
+	 * @param {jquery}  fieldNode
+	 * @return {boolean}
+	 */
+	luga.form.utils.isSuccessfulField = function(fieldNode){
+		if(luga.form.utils.isInputField(fieldNode) === false){
+			return false;
 		}
+		if(jQuery(fieldNode).attr("name") === undefined){
+			return false;
+		}
+		return true;
 	};
 
 	luga.form.utils.isInputField = function(fieldNode){
@@ -194,7 +211,7 @@ if(typeof(luga) === "undefined"){
 			return false;
 		}
 		// It belongs to the kind of nodes that are considered form fields, but we don't care about
-		if(luga.form.utils.CONST.FAKE_INPUT_TYPES[jQuery(fieldNode).prop("type")] === true){
+		if(luga.form.CONST.FAKE_INPUT_TYPES[jQuery(fieldNode).prop("type")] === true){
 			return false;
 		}
 		return true;
@@ -207,7 +224,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.form.utils.getChildFields = function(rootNode){
 		var fields = [];
-		jQuery(rootNode).find(luga.form.utils.CONST.FIELD_SELECTOR).each(function(index, item){
+		jQuery(rootNode).find(luga.form.CONST.FIELD_SELECTOR).each(function(index, item){
 			if(luga.form.utils.isInputField(item)){
 				fields.push(item);
 			}
