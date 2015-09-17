@@ -185,8 +185,37 @@ if(typeof(luga) === "undefined"){
 		FAKE_INPUT_TYPES: {
 			fieldset: true,
 			reset: true
-		},
-		DEMORONIZE_FLAG: false
+		}
+	};
+
+	/**
+	 * Returns a URI encoded string of field name/value pairs from a given form
+	 * Only fields considered successful are returned:
+	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
+	 *
+	 * @param {jquery}   formNode     jQuery object wrapping the form
+	 * @return {string}               A URI encoded string
+	 */
+	luga.form.toQueryString = function(formNode, demoronize){
+		var str = "";
+		var fields = luga.form.utils.getChildFields(formNode);
+		for(var i = 0; i < fields.length; i++){
+			if(luga.form.utils.isSuccessfulField(fields[i]) === true){
+				if(str !== ""){
+					str += "&";
+				}
+				str += encodeURIComponent(jQuery(fields[i]).attr("name"));
+				str += "=";
+				var fieldValue = jQuery(fields[i]).val();
+				if(demoronize === true){
+					str += encodeURIComponent(luga.string.demoronize(fieldValue));
+				}
+				else{
+					str += encodeURIComponent(fieldValue);
+				}
+			}
+		}
+		return str;
 	};
 
 	/**

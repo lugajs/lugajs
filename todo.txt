@@ -1,9 +1,7 @@
 CORE:
 
 - Add:
-  luga.form.toHashMap()
-  luga.form.toQueryString()
-  Use configurable delimitator for form hash
+  luga.form.toHashMap() (use comma multivalue fields)
   http://massimocorner.com/libraries/form/index.htm
 
 

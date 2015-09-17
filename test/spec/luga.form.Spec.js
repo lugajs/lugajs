@@ -6,7 +6,46 @@ describe("luga.form contains form-related API", function(){
 		expect(luga.form).toBeDefined();
 	});
 
-	describe("luga.form.util stores form-related, static methods and utilities", function(){
+	describe(".toQueryString()", function(){
+
+		beforeEach(function() {
+			loadFixtures("form/toQueryString.htm");
+		});
+
+		it("Returns a string of field name/value pairs from a given form", function(){
+			expect(luga.form.toQueryString(jQuery("#basicValue"))).toEqual("firstname=ciccio&lastname=pasticcio");
+			expect(luga.form.toQueryString(jQuery("#basicNoValue"))).toEqual("firstname=&lastname=");
+		});
+
+		it("Returns an empty string if called on a non-existing form", function(){
+			expect(luga.form.toQueryString(jQuery("#missing"))).toEqual("");
+		});
+
+		it("Ignores unsuccessful fields", function(){
+			expect(luga.form.toQueryString(jQuery("#unsuccessfulFields"))).toEqual("firstname=ciccio");
+		});
+
+		it("Strings are URI encoded", function(){
+			expect(luga.form.toQueryString(jQuery("#encodedValue"))).toEqual("firstname=ciccio&slash=%2F&ampersand=%26");
+		});
+
+		it("Values of multiple checked checkboxes are included multiple times", function(){
+			expect(luga.form.toQueryString(jQuery("#multiBox"))).toEqual("firstname=ciccio&box=first&box=second&box=third");
+		});
+
+		it("Values of multiple select are included as comma-delimited strings", function(){
+			expect(luga.form.toQueryString(jQuery("#multiSelect"))).toEqual("firstname=ciccio&select=first%2Csecond");
+		});
+
+		it("If the second argument is set to true, MS Word special chars are replaced", function(){
+			var moronicStr = String.fromCharCode(8216) + String.fromCharCode(8220);
+			jQuery("#moronicValue").val(moronicStr);
+			expect(luga.form.toQueryString(jQuery("#moronicForm"), true)).toEqual("firstname=ciccio&moronicValue='%22");
+		});
+
+	});
+
+	describe("utils stores form-related, static methods and utilities", function(){
 
 		it("Lives inside its own namespace", function(){
 			expect(luga.form.utils).toBeDefined();
@@ -89,6 +128,7 @@ describe("luga.form contains form-related API", function(){
 				expect(luga.form.utils.isSuccessfulField(jQuery("<button>"))).toBeFalsy();
 				expect(luga.form.utils.isSuccessfulField(jQuery("<select>"))).toBeFalsy();
 				expect(luga.form.utils.isSuccessfulField(jQuery("<textarea>"))).toBeFalsy();
+				expect(luga.form.utils.isSuccessfulField(jQuery("<input type='submit'>"))).toBeFalsy();
 				expect(luga.form.utils.isSuccessfulField(jQuery("<input type='text'>"))).toBeFalsy();
 				expect(luga.form.utils.isSuccessfulField(jQuery("<input type='reset'>"))).toBeFalsy();
 				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='test' type='reset'>"))).toBeFalsy();
