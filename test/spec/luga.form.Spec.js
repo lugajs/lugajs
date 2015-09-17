@@ -2,7 +2,7 @@
 
 describe("luga.form", function(){
 
-	it("Lives inside its own namespace. Contains form-related API", function(){
+	it("Contains form-related API", function(){
 		expect(luga.form).toBeDefined();
 	});
 
@@ -49,7 +49,7 @@ describe("luga.form", function(){
 
 	describe(".utils", function(){
 
-		it("Lives inside its own namespace. Contains form-related, static methods and utilities", function(){
+		it("Contains form-related, static methods and utilities", function(){
 			expect(luga.form.utils).toBeDefined();
 		});
 

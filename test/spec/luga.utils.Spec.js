@@ -2,7 +2,7 @@
 
 describe("luga.utils", function(){
 
-	it("Lives inside its own namespace. Contains generic, static methods and utilities", function(){
+	it("Contains generic, static methods and utilities", function(){
 		expect(luga.utils).toBeDefined();
 	});
 

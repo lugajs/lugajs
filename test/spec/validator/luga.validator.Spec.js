@@ -123,7 +123,7 @@ describe("luga.validator", function(){
 
 describe("luga.validator.handlers", function(){
 
-	it("Is a dedicated namespace. Intended to store handlers for form validation", function(){
+	it("Contains handlers for form validation", function(){
 		expect(luga.validator.handlers).toBeDefined();
 	});
 

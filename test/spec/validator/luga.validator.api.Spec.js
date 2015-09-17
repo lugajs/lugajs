@@ -4,7 +4,7 @@
 
 describe("luga.validator.api", function(){
 
-	it("Lives inside its own namespace", function(){
+	it("Contains Validator's static APIs", function(){
 		expect(luga.validator.api).toBeDefined();
 	});
 
