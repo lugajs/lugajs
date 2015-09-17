@@ -1,24 +1,26 @@
 "use strict";
 
-describe("luga.form contains form-related API", function(){
+describe("luga.form", function(){
 
-	it("Lives inside its own namespace", function(){
+	it("Lives inside its own namespace. Contains form-related API", function(){
 		expect(luga.form).toBeDefined();
 	});
 
 	describe(".toQueryString()", function(){
 
-		beforeEach(function() {
+		beforeEach(function(){
 			loadFixtures("form/toQueryString.htm");
+		});
+
+		it("Will throws an exception if the given form node does not exists", function(){
+			expect(function(){
+				luga.form.toQueryString(jQuery("#missing"));
+			}).toThrow();
 		});
 
 		it("Returns a string of field name/value pairs from a given form", function(){
 			expect(luga.form.toQueryString(jQuery("#basicValue"))).toEqual("firstname=ciccio&lastname=pasticcio");
 			expect(luga.form.toQueryString(jQuery("#basicNoValue"))).toEqual("firstname=&lastname=");
-		});
-
-		it("Returns an empty string if called on a non-existing form", function(){
-			expect(luga.form.toQueryString(jQuery("#missing"))).toEqual("");
 		});
 
 		it("Ignores unsuccessful fields", function(){
@@ -37,7 +39,7 @@ describe("luga.form contains form-related API", function(){
 			expect(luga.form.toQueryString(jQuery("#multiSelect"))).toEqual("firstname=ciccio&select=first%2Csecond");
 		});
 
-		it("If the second argument is set to true, MS Word special chars are replaced", function(){
+		it("If the second argument is set to true, MS Word special chars are replaced with plausible substitutes", function(){
 			var moronicStr = String.fromCharCode(8216) + String.fromCharCode(8220);
 			jQuery("#moronicValue").val(moronicStr);
 			expect(luga.form.toQueryString(jQuery("#moronicForm"), true)).toEqual("firstname=ciccio&moronicValue='%22");
@@ -45,9 +47,9 @@ describe("luga.form contains form-related API", function(){
 
 	});
 
-	describe("utils stores form-related, static methods and utilities", function(){
+	describe(".utils", function(){
 
-		it("Lives inside its own namespace", function(){
+		it("Lives inside its own namespace. Contains form-related, static methods and utilities", function(){
 			expect(luga.form.utils).toBeDefined();
 		});
 

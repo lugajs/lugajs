@@ -185,6 +185,9 @@ if(typeof(luga) === "undefined"){
 		FAKE_INPUT_TYPES: {
 			fieldset: true,
 			reset: true
+		},
+		MESSAGES: {
+			FORM_MISSING: "Unable to load form"
 		}
 	};
 
@@ -197,6 +200,11 @@ if(typeof(luga) === "undefined"){
 	 * @return {string}               A URI encoded string
 	 */
 	luga.form.toQueryString = function(formNode, demoronize){
+
+		if(formNode.length === 0){
+			throw(luga.form.CONST.MESSAGES.FORM_MISSING);
+		}
+
 		var str = "";
 		var fields = luga.form.utils.getChildFields(formNode);
 		for(var i = 0; i < fields.length; i++){
