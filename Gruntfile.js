@@ -21,14 +21,14 @@ module.exports = function(grunt){
 					separator: "\n\n"
 				},
 				src: ["src/luga.core.js", "src/luga.csi.js", "src/luga.validator.js"],
-				dest: "src/luga.js"
+				dest: "dist/luga.js"
 			},
 			uglified: {
 				options: {
 					separator: "\n\n"
 				},
-				src: ["src/luga.core.min.js", "src/luga.csi.min.js", "src/luga.validator.min.js"],
-				dest: "src/luga.min.js"
+				src: ["dist/luga.core.min.js", "dist/luga.csi.min.js", "dist/luga.validator.min.js"],
+				dest: "dist/luga.min.js"
 			}
 		},
 
@@ -41,7 +41,7 @@ module.exports = function(grunt){
 					banner: assembleBanner(global.pkg.libs.core)
 				},
 				files: {
-					"src/luga.core.min.js": ["src/luga.core.js"]
+					"dist/luga.core.min.js": ["src/luga.core.js"]
 				}
 			},
 			csiTarget: {
@@ -49,7 +49,7 @@ module.exports = function(grunt){
 					banner: assembleBanner(global.pkg.libs.csi)
 				},
 				files: {
-					"src/luga.csi.min.js": ["src/luga.csi.js"]
+					"dist/luga.csi.min.js": ["src/luga.csi.js"]
 				}
 			},
 			validatorTarget: {
@@ -57,7 +57,7 @@ module.exports = function(grunt){
 					banner: assembleBanner(global.pkg.libs.validator)
 				},
 				files: {
-					"src/luga.validator.min.js": ["src/luga.validator.js"]
+					"dist/luga.validator.min.js": ["src/luga.validator.js"]
 				}
 			}
 		},
@@ -65,12 +65,13 @@ module.exports = function(grunt){
 		compress: {
 			main: {
 				options: {
-					archive: "dist/luga-js.zip"
+					archive: "archive/luga-js.zip"
 				},
 				files: [
 					{src: ["docs/**"]},
 					{src: ["lib/**"]},
 					{src: ["src/**"]},
+					{src: ["dist/**"]},
 					{src: ["test/**"]}
 				]
 			}
