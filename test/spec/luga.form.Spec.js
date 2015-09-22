@@ -9,7 +9,7 @@ describe("luga.form", function(){
 	describe(".toQueryString()", function(){
 
 		beforeEach(function(){
-			loadFixtures("form/toQueryString.htm");
+			loadFixtures("form/common.htm");
 		});
 
 		it("Returns a string of field name/value pairs from a given form", function(){
