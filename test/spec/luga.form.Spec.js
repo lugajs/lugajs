@@ -53,20 +53,16 @@ describe("luga.form", function(){
 			expect(luga.form.utils).toBeDefined();
 		});
 
-		describe(".getFieldGroup()", function(){
+		describe(".getFieldGroup(). Extracts group of related radio buttons", function(){
 
-			describe("Extracts group of related radio buttons", function(){
+			it("Within a given form", function(){
+				loadFixtures("validator/RadioValidator/required.htm");
+				expect(luga.form.utils.getFieldGroup("lady", jQuery("#single")).length).toEqual(4);
+			});
 
-				it("Within a given form", function(){
-					loadFixtures("validator/RadioValidator/required.htm");
-					expect(luga.form.utils.getFieldGroup("lady", jQuery("#single")).length).toEqual(4);
-				});
-
-				it("Or the whole document", function(){
-					loadFixtures("validator/RadioValidator/required.htm");
-					expect(luga.form.utils.getFieldGroup("lady").length).toEqual(12);
-				});
-
+			it("Or the whole document", function(){
+				loadFixtures("validator/RadioValidator/required.htm");
+				expect(luga.form.utils.getFieldGroup("lady").length).toEqual(12);
 			});
 
 		});
