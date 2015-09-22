@@ -63,7 +63,7 @@ describe("luga", function(){
 			var nicole = new Superstar("female", "Nicole Kidman");
 
 			expect(nicole.getGender()).toEqual("female");
-			expect(nicole.getName()).toEqual("Nicole Kidman")
+			expect(nicole.getName()).toEqual("Nicole Kidman");
 		});
 
 	});
