@@ -12,8 +12,6 @@ CORE:
 
 - Add detailed JSDoc to improve IntelliJ's intellisense
 
-- Update jQuery to 1.11.3. Test and consider jQuery 2.x
-
 -------------
 
 AJAX FORM
