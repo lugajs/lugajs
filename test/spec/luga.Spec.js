@@ -91,7 +91,7 @@ describe("luga", function(){
 			expect(luga.lookup("missing")).toBeNull();
 		});
 
-		it("Or if the variable exists, but it's not a function", function(){
+		it("Or if a corresponding variable exists, but it's not a function", function(){
 			window.str = "ciao";
 			expect(luga.lookup("str")).toBeNull();
 		});
