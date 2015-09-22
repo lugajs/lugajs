@@ -12,15 +12,15 @@ describe("luga.form", function(){
 			loadFixtures("form/toQueryString.htm");
 		});
 
-		it("Will throws an exception if the given form node does not exists", function(){
-			expect(function(){
-				luga.form.toQueryString(jQuery("#missing"));
-			}).toThrow();
-		});
-
 		it("Returns a string of field name/value pairs from a given form", function(){
 			expect(luga.form.toQueryString(jQuery("#basicValue"))).toEqual("firstname=ciccio&lastname=pasticcio");
 			expect(luga.form.toQueryString(jQuery("#basicNoValue"))).toEqual("firstname=&lastname=");
+		});
+
+		it("Throws an exception if the given form node does not exists", function(){
+			expect(function(){
+				luga.form.toQueryString(jQuery("#missing"));
+			}).toThrow();
 		});
 
 		it("Ignores unsuccessful fields", function(){
