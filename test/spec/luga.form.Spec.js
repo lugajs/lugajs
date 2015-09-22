@@ -27,7 +27,7 @@ describe("luga.form", function(){
 			expect(luga.form.toQueryString(jQuery("#unsuccessfulFields"))).toEqual("firstname=ciccio");
 		});
 
-		it("Strings are URI encoded", function(){
+		it("Names and values are URI encoded", function(){
 			expect(luga.form.toQueryString(jQuery("#encodedValue"))).toEqual("firstname=ciccio&slash=%2F&ampersand=%26");
 		});
 
