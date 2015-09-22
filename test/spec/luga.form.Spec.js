@@ -47,6 +47,50 @@ describe("luga.form", function(){
 
 	});
 
+	describe(".toHash()", function(){
+
+		beforeEach(function(){
+			loadFixtures("form/common.htm");
+		});
+
+		it("Returns a JavaScript object containing name/value pairs from a given form", function(){
+			expect(luga.form.toHash(jQuery("#basicValue"))).toEqual({firstname: "ciccio", lastname: "pasticcio"});
+			expect(luga.form.toHash(jQuery("#basicNoValue"))).toEqual({firstname: "", lastname: ""});
+		});
+
+		it("Throws an exception if the given form node does not exists", function(){
+			expect(function(){
+				luga.form.toHash(jQuery("#missing"));
+			}).toThrow();
+		});
+
+		it("Ignores unsuccessful fields", function(){
+			expect(luga.form.toHash(jQuery("#unsuccessfulFields"))).toEqual({firstname: "ciccio"});
+		});
+
+		it("Values of multiple checked checkboxes are included as a single entry, with comma-delimited value", function(){
+			expect(luga.form.toHash(jQuery("#multiBox"))).toEqual({firstname: "ciccio", box: "first,second,third"});
+		});
+
+		it("Values of multiple select are included as a single entry, with comma-delimited value", function(){
+			expect(luga.form.toHash(jQuery("#multiSelect"))).toEqual({firstname: "ciccio", select: "first,second"});
+		});
+
+		it("If the second argument is set to true, MS Word's special chars are replaced with plausible substitutes", function(){
+			var moronicStr = String.fromCharCode(8230);
+			jQuery("#moronicValue").val(moronicStr);
+			expect(luga.form.toHash(jQuery("#moronicForm"), true)).toEqual({firstname: "ciccio", moronicValue: "..."});
+		});
+
+		it("You can change the delimiter by setting the value of luga.form.CONST.HASH_DELIMITER", function(){
+			luga.form.CONST.HASH_DELIMITER = ";";
+			expect(luga.form.toHash(jQuery("#multiBox"))).toEqual({firstname: "ciccio", box: "first;second;third"});
+			expect(luga.form.toHash(jQuery("#multiSelect"))).toEqual({firstname: "ciccio", select: "first;second"});
+			luga.form.CONST.HASH_DELIMITER = ",";
+		});
+
+	});
+
 	describe(".utils", function(){
 
 		it("Contains form-related, static methods and utilities", function(){

@@ -1,10 +1,5 @@
 CORE:
 
-- Add:
-  luga.form.toHashMap() (use comma multivalue fields)
-  http://massimocorner.com/libraries/form/index.htm
-
-
 - Document API:
   luga.Notifier
   luga.namespace()

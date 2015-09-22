@@ -24,7 +24,7 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.version = "0.3.0";
+	luga.version = "0.4.0";
 
 	luga.CONST = {
 		ERROR_MESSAGES: {
@@ -178,15 +178,112 @@ if(typeof(luga) === "undefined"){
 	/* Form */
 
 	luga.namespace("luga.form");
-
 	luga.namespace("luga.form.utils");
 
-	luga.form.utils.CONST = {
+	luga.form.CONST = {
 		FIELD_SELECTOR: "input,select,textarea",
 		FAKE_INPUT_TYPES: {
 			fieldset: true,
 			reset: true
+		},
+		MESSAGES: {
+			FORM_MISSING: "Unable to load form"
+		},
+		HASH_DELIMITER: ","
+	};
+
+	/**
+	 * Returns a URI encoded string of field name/value pairs from a given form
+	 * Only fields considered successful are returned:
+	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
+	 *
+	 * @param {jquery}   formNode     jQuery object wrapping the form
+	 * @param {boolean}  demoronize   If set to true, MS Word's special chars are replaced with plausible substitutes
+	 * @return {string}               A URI encoded string
+	 */
+	luga.form.toQueryString = function(formNode, demoronize){
+
+		if(formNode.length === 0){
+			throw(luga.form.CONST.MESSAGES.FORM_MISSING);
 		}
+
+		var str = "";
+		var fields = luga.form.utils.getChildFields(formNode);
+		for(var i = 0; i < fields.length; i++){
+			if(luga.form.utils.isSuccessfulField(fields[i]) === true){
+				if(str !== ""){
+					str += "&";
+				}
+				str += encodeURIComponent(jQuery(fields[i]).attr("name"));
+				str += "=";
+				var fieldValue = jQuery(fields[i]).val();
+				if(demoronize === true){
+					str += encodeURIComponent(luga.string.demoronize(fieldValue));
+				}
+				else{
+					str += encodeURIComponent(fieldValue);
+				}
+			}
+		}
+		return str;
+	};
+
+	/**
+	 * Returns a JavaScript object containing name/value pairs from a given form
+	 * Only fields considered successful are returned:
+	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
+	 * Values of multiple checked checkboxes and multiple select are included as a single entry, with comma-delimited value
+	 * You can change the delimiter by setting the value of luga.form.CONST.HASH_DELIMITER
+	 *
+	 * @param {jquery}   formNode     jQuery object wrapping the form
+	 * @param {boolean}  demoronize   If set to true, MS Word's special chars are replaced with plausible substitutes
+	 * @return {object}               A JavaScript object containing name/value pairs
+	 */
+	luga.form.toHash = function(formNode, demoronize){
+
+		if(formNode.length === 0){
+			throw(luga.form.CONST.MESSAGES.FORM_MISSING);
+		}
+
+		var map = {};
+		var fields = luga.form.utils.getChildFields(formNode);
+		for(var i = 0; i < fields.length; i++){
+			if(luga.form.utils.isSuccessfulField(fields[i]) === true){
+				var fieldName = jQuery(fields[i]).attr("name");
+				var fieldValue = jQuery(fields[i]).val();
+				// Handle multi-select
+				if(jQuery.isArray(fieldValue) === true) {
+					fieldValue = fieldValue.join(luga.form.CONST.HASH_DELIMITER);
+				}
+				if(demoronize === true){
+					fieldValue = luga.string.demoronize(fieldValue);
+				}
+				if(map[fieldName] === undefined){
+					map[fieldName] = fieldValue;
+				}
+				else{
+					map[fieldName] += luga.form.CONST.HASH_DELIMITER + fieldValue;
+				}
+			}
+		}
+		return map;
+	};
+
+	/**
+	 * Returns true if the given field is successful, false otherwise
+	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
+	 *
+	 * @param {jquery}  fieldNode
+	 * @return {boolean}
+	 */
+	luga.form.utils.isSuccessfulField = function(fieldNode){
+		if(luga.form.utils.isInputField(fieldNode) === false){
+			return false;
+		}
+		if(jQuery(fieldNode).attr("name") === undefined){
+			return false;
+		}
+		return true;
 	};
 
 	luga.form.utils.isInputField = function(fieldNode){
@@ -194,7 +291,7 @@ if(typeof(luga) === "undefined"){
 			return false;
 		}
 		// It belongs to the kind of nodes that are considered form fields, but we don't care about
-		if(luga.form.utils.CONST.FAKE_INPUT_TYPES[jQuery(fieldNode).prop("type")] === true){
+		if(luga.form.CONST.FAKE_INPUT_TYPES[jQuery(fieldNode).prop("type")] === true){
 			return false;
 		}
 		return true;
@@ -207,7 +304,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.form.utils.getChildFields = function(rootNode){
 		var fields = [];
-		jQuery(rootNode).find(luga.form.utils.CONST.FIELD_SELECTOR).each(function(index, item){
+		jQuery(rootNode).find(luga.form.CONST.FIELD_SELECTOR).each(function(index, item){
 			if(luga.form.utils.isInputField(item)){
 				fields.push(item);
 			}

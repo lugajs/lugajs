@@ -24,7 +24,7 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.version = "0.3.0";
+	luga.version = "0.4.0";
 
 	luga.CONST = {
 		ERROR_MESSAGES: {
@@ -188,7 +188,8 @@ if(typeof(luga) === "undefined"){
 		},
 		MESSAGES: {
 			FORM_MISSING: "Unable to load form"
-		}
+		},
+		HASH_DELIMITER: ","
 	};
 
 	/**
@@ -197,6 +198,7 @@ if(typeof(luga) === "undefined"){
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 *
 	 * @param {jquery}   formNode     jQuery object wrapping the form
+	 * @param {boolean}  demoronize   If set to true, MS Word's special chars are replaced with plausible substitutes
 	 * @return {string}               A URI encoded string
 	 */
 	luga.form.toQueryString = function(formNode, demoronize){
@@ -224,6 +226,47 @@ if(typeof(luga) === "undefined"){
 			}
 		}
 		return str;
+	};
+
+	/**
+	 * Returns a JavaScript object containing name/value pairs from a given form
+	 * Only fields considered successful are returned:
+	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
+	 * Values of multiple checked checkboxes and multiple select are included as a single entry, with comma-delimited value
+	 * You can change the delimiter by setting the value of luga.form.CONST.HASH_DELIMITER
+	 *
+	 * @param {jquery}   formNode     jQuery object wrapping the form
+	 * @param {boolean}  demoronize   If set to true, MS Word's special chars are replaced with plausible substitutes
+	 * @return {object}               A JavaScript object containing name/value pairs
+	 */
+	luga.form.toHash = function(formNode, demoronize){
+
+		if(formNode.length === 0){
+			throw(luga.form.CONST.MESSAGES.FORM_MISSING);
+		}
+
+		var map = {};
+		var fields = luga.form.utils.getChildFields(formNode);
+		for(var i = 0; i < fields.length; i++){
+			if(luga.form.utils.isSuccessfulField(fields[i]) === true){
+				var fieldName = jQuery(fields[i]).attr("name");
+				var fieldValue = jQuery(fields[i]).val();
+				// Handle multi-select
+				if(jQuery.isArray(fieldValue) === true) {
+					fieldValue = fieldValue.join(luga.form.CONST.HASH_DELIMITER);
+				}
+				if(demoronize === true){
+					fieldValue = luga.string.demoronize(fieldValue);
+				}
+				if(map[fieldName] === undefined){
+					map[fieldName] = fieldValue;
+				}
+				else{
+					map[fieldName] += luga.form.CONST.HASH_DELIMITER + fieldValue;
+				}
+			}
+		}
+		return map;
 	};
 
 	/**
