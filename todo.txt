@@ -1,5 +1,7 @@
 CORE:
 
+Revise multi-select on luga.form.toQueryString()
+
 - Document API:
   luga.Notifier
   luga.namespace()
