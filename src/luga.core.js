@@ -211,19 +211,33 @@ if(typeof(luga) === "undefined"){
 		var fields = luga.form.utils.getChildFields(formNode);
 		for(var i = 0; i < fields.length; i++){
 			if(luga.form.utils.isSuccessfulField(fields[i]) === true){
-				if(str !== ""){
-					str += "&";
-				}
-				str += encodeURIComponent(jQuery(fields[i]).attr("name"));
-				str += "=";
+				var fieldName = jQuery(fields[i]).attr("name");
 				var fieldValue = jQuery(fields[i]).val();
-				if(demoronize === true){
-					str += encodeURIComponent(luga.string.demoronize(fieldValue));
+				if(jQuery.isArray(fieldValue) === true){
+					// Handle multi-select
+					for(var j = 0; j < fieldValue.length; j++){
+						str = appendQueryString(str, fieldName, fieldValue[j], demoronize);
+					}
 				}
 				else{
-					str += encodeURIComponent(fieldValue);
+					str = appendQueryString(str, fieldName, fieldValue, demoronize);
 				}
 			}
+		}
+		return str;
+	};
+
+	var appendQueryString = function(str, fieldName, fieldValue, demoronize){
+		if(str !== ""){
+			str += "&";
+		}
+		str += encodeURIComponent(fieldName);
+		str += "=";
+		if(demoronize === true){
+			str += encodeURIComponent(luga.string.demoronize(fieldValue));
+		}
+		else{
+			str += encodeURIComponent(fieldValue);
 		}
 		return str;
 	};
@@ -252,7 +266,7 @@ if(typeof(luga) === "undefined"){
 				var fieldName = jQuery(fields[i]).attr("name");
 				var fieldValue = jQuery(fields[i]).val();
 				// Handle multi-select
-				if(jQuery.isArray(fieldValue) === true) {
+				if(jQuery.isArray(fieldValue) === true){
 					fieldValue = fieldValue.join(luga.form.CONST.HASH_DELIMITER);
 				}
 				if(demoronize === true){

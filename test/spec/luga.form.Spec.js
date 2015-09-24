@@ -31,12 +31,12 @@ describe("luga.form", function(){
 			expect(luga.form.toQueryString(jQuery("#encodedValue"))).toEqual("firstname=ciccio&slash=%2F&ampersand=%26");
 		});
 
-		it("Values of multiple checked checkboxes are included multiple times", function(){
+		it("Values of multiple checked checkboxes are included multiple value/pairs", function(){
 			expect(luga.form.toQueryString(jQuery("#multiBox"))).toEqual("firstname=ciccio&box=first&box=second&box=third");
 		});
 
-		it("Values of multiple select are included as comma-delimited strings", function(){
-			expect(luga.form.toQueryString(jQuery("#multiSelect"))).toEqual("firstname=ciccio&select=first%2Csecond");
+		it("Values of multiple select are included are included multiple value/pairs", function(){
+			expect(luga.form.toQueryString(jQuery("#multiSelect"))).toEqual("firstname=ciccio&select=first&select=second");
 		});
 
 		it("If the second argument is set to true, MS Word's special chars are replaced with plausible substitutes", function(){
