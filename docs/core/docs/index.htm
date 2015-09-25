@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8"/>
+	<title>Luga Core</title>
+	<link rel="stylesheet" href="../../../src/luga.css"/>
+	<link rel="stylesheet" href="../../docs.css"/>
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../src/luga.core.js"></script>
+	<script src="../../../src/luga.csi.js"></script>
+	<script src="../../docs.js"></script>
+</head>
+<body>
+
+<div data-luga-csi="../../main-nav.inc" data-luga-after="luga.docs.initMainNav"></div>
+<div data-luga-csi="../sidebar.inc"></div>
+
+<div class="content">
+
+	<section>
+		<h1>About Core API</h1>
+
+		<p>
+			Luga JS's core contains a minimal set of API. While most of them are used internally by the libraries, some
+			can be accessed directly.
+		</p>
+	</section>
+
+	<section>
+		<h1>How to use it</h1>
+
+		<p>Include the relevant JavaScript files first:</p>
+		<code>
+			<ol>
+				<li>&lt;script src="jquery.min.js"&gt;&lt;/script&gt;</li>
+				<li>&lt;script src="<a href="../../../src/luga.core.js">luga.core.js</a>"&gt;&lt;/script&gt;</li>
+			</ol>
+		</code>
+	</section>
+
+	<table class="syntax">
+		<th colspan="2">API methods</th>
+		<tr>
+			<td>luga.namespace(ns, rootObject)</td>
+			<td><pre>
+/**
+ * Creates namespaces to be used for scoping variables and classes so that they are not global.
+ * Specifying the last node of a namespace implicitly creates all other nodes.
+ * Based on Nicholas C. Zakas's code
+ * @param {string} ns           Namespace as string
+ * @param {object} rootObject   Optional root object. Default to window
+ */
+				</pre>
+			</td>
+		</tr>
+		<tr>
+			<td>luga.merge(target, obj)</td>
+			<td><pre>
+/**
+ * Merge the contents of two objects together into the first object
+ * It wraps jQuery's extend to make names less ambiguous
+ *
+ * @param {object} target
+ * @param {object} obj
+ */
+				</pre>
+			</td>
+		</tr>
+	</table>
+
+	<div data-luga-csi="../../support.inc"></div>
+
+</div>
+
+<div data-luga-csi="../../footer.inc"></div>
+
+</body>
+</html>

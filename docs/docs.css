@@ -9,7 +9,7 @@ fieldset, form, label, legend {
 
 /* HTML5 elements */
 article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
+footer, header, menu, nav, section {
 	border: 0;
 	display: block;
 	margin: 0;
@@ -38,7 +38,7 @@ body nav.main {
 	margin-bottom: 3em;
 	margin-left: 15em;
 	padding: 0;
-	width: 50.27em;
+	width: 60.36em;
 }
 
 nav.main:after {
@@ -176,13 +176,13 @@ h1 {
 
 form,
 section {
-	max-width: 70em;
+	max-width: 90em;
 	min-width: 50em;
 }
 
 code,
 table.syntax {
-	max-width: 74em;
+	max-width: 94em;
 	min-width: 54em;
 }
 

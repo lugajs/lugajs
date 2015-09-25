@@ -2,15 +2,7 @@ CORE:
 
 - Document API:
   luga.Notifier
-  luga.namespace()
   luga.extend()
-  luga.merge()
-
-  luga.form.toQueryString()
-  luga.form.toHash()
-
-  luga.string.format()
-  luga.string.demoronize()
 
 - Add detailed JSDoc to improve IntelliJ's intellisense
 

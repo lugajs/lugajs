@@ -38,8 +38,8 @@ if(typeof(luga) === "undefined"){
 	 * Creates namespaces to be used for scoping variables and classes so that they are not global.
 	 * Specifying the last node of a namespace implicitly creates all other nodes.
 	 * Based on Nicholas C. Zakas's code
-	 * @param  ns           Namespace as string
-	 * @param  rootObject   Optional root object. Default to window
+	 * @param {string} ns           Namespace as string
+	 * @param {object} rootObject   Optional root object. Default to window
 	 */
 	luga.namespace = function(ns, rootObject){
 		var parts = ns.split(".");
@@ -63,10 +63,21 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
+	 * Merge the contents of two objects together into the first object
+	 * It wraps jQuery's extend to make names less ambiguous
+	 *
+	 * @param {object} target
+	 * @param {object} obj
+	 */
+	luga.merge = function(target, obj){
+		jQuery.extend(target, obj);
+	};
+
+	/**
 	 * Given the name of a function as a string, return the relevant function, if any
 	 * Returns null, if the reference has not been found.
-	 * @param reference   Fully qualified name of a function
-	 * @returns {*}       The javascript reference to the function
+	 * @param {string} reference   Fully qualified name of a function
+	 * @returns {*}                The javascript reference to the function
 	 */
 	luga.lookup = function(reference){
 		if(!reference){
@@ -90,14 +101,6 @@ if(typeof(luga) === "undefined"){
 			return object;
 		}
 		return null;
-	};
-
-	/**
-	 * Merge the contents of two objects together into the first object
-	 * It wraps jQuery's extend to make names less ambiguous
-	 */
-	luga.merge = function(target, obj){
-		jQuery.extend(target, obj);
 	};
 
 	/**
@@ -198,7 +201,7 @@ if(typeof(luga) === "undefined"){
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 *
 	 * @param {jquery}   formNode     jQuery object wrapping the form
-	 * @param {boolean}  demoronize   If set to true, MS Word's special chars are replaced with plausible substitutes
+	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @return {string}               A URI encoded string
 	 */
 	luga.form.toQueryString = function(formNode, demoronize){
@@ -246,11 +249,11 @@ if(typeof(luga) === "undefined"){
 	 * Returns a JavaScript object containing name/value pairs from a given form
 	 * Only fields considered successful are returned:
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
-	 * Values of multiple checked checkboxes and multiple select are included as a single entry, with comma-delimited value
+	 * Values of multiple checked checkboxes and multiple select are included as a single entry, comma-delimited value
 	 * You can change the delimiter by setting the value of luga.form.CONST.HASH_DELIMITER
 	 *
 	 * @param {jquery}   formNode     jQuery object wrapping the form
-	 * @param {boolean}  demoronize   If set to true, MS Word's special chars are replaced with plausible substitutes
+	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @return {object}               A JavaScript object containing name/value pairs
 	 */
 	luga.form.toHash = function(formNode, demoronize){
@@ -337,14 +340,16 @@ if(typeof(luga) === "undefined"){
 	 * Loosely based on the .NET implementation: http://msdn.microsoft.com/en-us/library/system.string.format.aspx
 	 *
 	 * Example passing strings inside an array:
-	 * luga.string.format("My name is {0} {1}", ["Ciccio", "Pasticcio"]); // "My name is Ciccio Pasticcio"
+	 * luga.string.format("My name is {0} {1}", ["Ciccio", "Pasticcio"]);
+	 * => "My name is Ciccio Pasticcio"
 	 *
 	 * Example passing strings inside an object:
-	 * luga.string.format("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"}); // "My name is Ciccio Pasticcio"
+	 * luga.string.format("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"});
+	 * => "My name is Ciccio Pasticcio"
 	 *
-	 * @param  str        String containing placeholders
-	 * @param  args       Either an array of strings or an objects containing name/value pairs in string format
-	 * @return            The newly assembled string
+	 * @param  {string}  str     String containing placeholders
+	 * @param  {*}       args    Either an array of strings or an objects containing name/value pairs in string format
+	 * @return {string}          The newly assembled string
 	 */
 	luga.string.format = function(str, args){
 		var pattern = null;
@@ -366,7 +371,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Replace MS Word's non-ISO characters with plausible substitutes
 	 *
-	 * @param  str   String containing MS Word's garbage
+	 * @param {string} str   String containing MS Word's garbage
+	 * @return {string}      The de-moronized string
 	 */
 	luga.string.demoronize = function(str){
 		str = str.replace(new RegExp(String.fromCharCode(710), "g"), "^");

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>Luga Validator :: API Syntax reference</title>
+	<link rel="stylesheet" href="../../../src/luga.css" />
+	<link rel="stylesheet" href="../../docs.css" />
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../src/luga.core.js"></script>
+	<script src="../../../src/luga.csi.js"></script>
+	<script src="../../docs.js"></script>
+</head>
+<body>
+
+	<div data-luga-csi="../../main-nav.inc" data-luga-after="luga.docs.initMainNav"></div>
+	<div data-luga-csi="../sidebar.inc"></div>
+
+	<div class="content">
+
+		<table class="syntax">
+			<th colspan="2">luga.string API methods</th>
+			<tr>
+				<td>luga.string.demoronize(str)</td>
+				<td><pre>
+/**
+ * Replace MS Word's non-ISO characters with plausible substitutes
+ *
+ * @param {string} str   String containing MS Word's garbage
+ * @return {string}      The de-moronized string
+ */
+				</pre></td>
+			</tr>
+			<tr>
+				<td>luga.string.format(str, args)</td>
+				<td><pre>
+/**
+ * Given a string containing placeholders, it assembles a new string
+ * replacing the placeholders with the strings contained inside the second argument (either an object or an array)
+ * Loosely based on the .NET implementation: http://msdn.microsoft.com/en-us/library/system.string.format.aspx
+ *
+ * Example passing strings inside an array:
+ * luga.string.format("My name is {0} {1}", ["Ciccio", "Pasticcio"]);
+ * => "My name is Ciccio Pasticcio"
+ *
+ * Example passing strings inside an object:
+ * luga.string.format("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"});
+ * => "My name is Ciccio Pasticcio"
+ *
+ * @param  {string}  str     String containing placeholders
+ * @param  {*}       args    Either an array of strings or an objects containing name/value pairs in string format
+ * @return {string}          The newly assembled string
+ */
+				</pre></td>
+			</tr>
+		</table>
+
+	</div>
+
+	<div data-luga-csi="../../footer.inc"></div>
+
+</body>
+</html>
