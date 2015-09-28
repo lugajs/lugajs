@@ -6,6 +6,8 @@ CORE:
 
 - Link to specific unit tests from API docs
 
+- Update sitemap.xml
+
 - Add detailed JSDoc to improve IntelliJ's intellisense
 
 -------------
