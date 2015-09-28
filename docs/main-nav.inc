@@ -21,7 +21,7 @@
 			<a href="https://github.com/MassimoFoti/lugajs" title="Luga JS on GitHub">GitHub</a>
 		</li>
 		<li>
-			<a href="https://github.com/MassimoFoti/lugajs/raw/master/dist/luga-js.zip" title="Download zip distro">Download</a>
+			<a href="../../../archive/luga-js.zip" title="Download zip distro">Download</a>
 		</li>
 	</ul>
 </nav>
