@@ -10,4 +10,16 @@ describe("luga.ajaxform", function(){
 		});
 	});
 
+	describe(".formHandler", function(){
+
+		it("Throws an exception if the form node does not exists", function(){
+			expect(function(){
+				var formHandler = new luga.ajaxform.formHandler({
+					formNode: jQuery("#missing")
+				});
+			}).toThrow();
+		});
+
+	});
+
 });
