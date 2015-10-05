@@ -15,6 +15,10 @@ CORE:
 AJAX FORM
 
 - Implement code based on old TMT source
+
+- Enable: error, before and after options
+- Enable both html based and params based configuration in order to expose API
+
 - Update built script to concat, minify and distribute
 
 -------------
