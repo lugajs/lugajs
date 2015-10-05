@@ -4,4 +4,10 @@ describe("luga.ajaxform", function(){
 		expect(luga.ajaxform).toBeDefined();
 	});
 
+	describe(".version", function(){
+		it("Reports the current version number", function(){
+			expect(luga.ajaxform.version).toBeDefined();
+		});
+	});
+
 });

@@ -8,6 +8,13 @@ describe("luga.data", function(){
 		expect(luga.data).toBeDefined();
 	});
 
+	describe(".version", function(){
+		it("Reports the current version number", function(){
+			expect(luga.data.version).toBeDefined();
+			expect(jQuery.isNumeric(luga.data.version)).toBeTruthy();
+		});
+	});
+
 	it("Stores a registry of dataSets available on the current page", function(){
 		expect(luga.data.datasetRegistry).toBeDefined();
 		expect(jQuery.isPlainObject(luga.data.datasetRegistry)).toBeTruthy();

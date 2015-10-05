@@ -10,6 +10,12 @@ describe("luga", function(){
 		expect(luga).toBeDefined();
 	});
 
+	describe(".version", function(){
+		it("Reports the current version number", function(){
+			expect(luga.version).toBeDefined();
+		});
+	});
+
 	describe(".namespace()", function(){
 
 		it("Creates namespaces to be used for scoping variables and classes", function(){

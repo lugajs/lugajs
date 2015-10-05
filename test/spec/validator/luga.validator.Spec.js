@@ -21,6 +21,12 @@ describe("luga.validator", function(){
 		});
 	});
 
+	describe(".version", function(){
+		it("Reports the current version number", function(){
+			expect(luga.validator.version).toBeDefined();
+		});
+	});
+
 	describe(".FieldValidatorGetInstance()", function(){
 
 		it("Returns null if the passed HTML node can't be validated", function(){
