@@ -866,7 +866,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Attach form validators to onSubmit events
 	 */
-	luga.validator.initForms = function(){
+	luga.validator.init = function(){
 		jQuery(luga.validator.CONST.FORM_SELECTOR).each(function(index, item){
 			var formNode = jQuery(item);
 			if(formNode.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.VALIDATE) === "true"){
@@ -977,7 +977,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	jQuery(document).ready(function(){
-		luga.validator.initForms();
+		luga.validator.init();
 	});
 
 }());
