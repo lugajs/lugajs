@@ -14,8 +14,8 @@ CORE:
 
 AJAX FORM
 
-- Set-up source file, namespace and basic unit tests
-- Port to Luga JS
+- Implement code based on old TMT source
+- Update built script to concat, minify and distribute
 
 -------------
 
