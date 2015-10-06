@@ -14,6 +14,8 @@ CORE:
 
 AJAX FORM
 
+- Refactor luga.ajaxform > luga.ajax.Form
+
 - Implement code based on old TMT source
 
 - Enable: error, before and after options
