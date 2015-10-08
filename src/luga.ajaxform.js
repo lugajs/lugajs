@@ -55,10 +55,12 @@ if(typeof(luga) === "undefined"){
 		FORM_SELECTOR: "form[data-lugajax-form]",
 		USER_AGENT: "luga.ajaxform",
 		DEFAULT_METHOD: "GET",
+		DEFAULT_TIME_OUT: 60000, // ms
 		CUSTOM_ATTRIBUTES: {
 			AJAX: "data-lugajax-form",
 			ACTION: "data-lugajax-action",
 			METHOD: "data-lugajax-method",
+			TIME_OUT: "data-lugajax-timeout",
 			SUCCESS: "data-lugajax-success",
 			ERROR: "data-lugajax-error",
 			BEFORE: "data-lugajax-before",
@@ -76,10 +78,15 @@ if(typeof(luga) === "undefined"){
 
 	luga.ajaxform.Form = function(options){
 		this.config = {
+			// Either: form attribute, custom attribute, incoming option or current URL
 			action: jQuery(options.formNode).attr("action") || jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.ACTION) || self.location.href,
+			// Either: form attribute, custom attribute, incoming option or default
 			method: jQuery(options.formNode).attr("method") || jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.METHOD) || luga.ajaxform.CONST.DEFAULT_METHOD,
+			// Either: custom attribute, incoming option or default
+			timeout: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.TIME_OUT) || luga.ajaxform.CONST.DEFAULT_METHOD,
 			success: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.SUCCESS) || luga.ajaxform.CONST.HANDLERS.SUCCESS,
 			error: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.ERROR) || luga.ajaxform.CONST.HANDLERS.ERROR,
+			// Either: custom attribute, incoming option or null
 			before: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.BEFORE) || null,
 			after: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.AFTER) || null
 		};
