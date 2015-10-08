@@ -31,17 +31,17 @@
 			</p>
 			<code>
 				<ol>
-					<li>&lt;input type="checkbox" name="drink" data-luga-minchecked="2" value="Nicole" /&gt;</li>
+					<li>&lt;input type="checkbox" name="drink" data-lugavalidator-minchecked="2" value="Nicole" /&gt;</li>
 					<li>&lt;input type="checkbox" name="drink" value="Kate" /&gt;</li>
 				</ol>
 			</code>
 
 			<p>
-				There are two different attributes for checkboxes validation. data-luga-minchecked ensures that at least a minimum number of boxes are checked in a group:
+				There are two different attributes for checkboxes validation. data-lugavalidator-minchecked ensures that at least a minimum number of boxes are checked in a group:
 			</p>
 			<code>
 				<ol>
-					<li>&lt;input type="checkbox" name="drink" data-luga-minchecked="2" value="Nicole" /&gt;</li>
+					<li>&lt;input type="checkbox" name="drink" data-lugavalidator-minchecked="2" value="Nicole" /&gt;</li>
 				</ol>
 			</code>
 
@@ -70,14 +70,14 @@
 
 		</section>
 
-		<form data-luga-validate="true">
+		<form data-lugavalidator-validate="true">
 			<h1>First drink, then pasta</h1>
 
 			<p>You would like to take a drink with: (pick at least two, but no more than three)</p>
 			<table>
 				<tr>
 					<td>
-						<label><input name="drink" type="checkbox" value="Nicole" data-luga-minchecked="2" data-luga-maxchecked="3" data-luga-message="Please select at least two ladies, but no more than three" /> Nicole Kidman</label>
+						<label><input name="drink" type="checkbox" value="Nicole" data-lugavalidator-minchecked="2" data-lugavalidator-maxchecked="3" data-lugavalidator-message="Please select at least two ladies, but no more than three" /> Nicole Kidman</label>
 						<label><input name="drink" type="checkbox" value="Kate" /> Kate Beckinsale</label>
 						<label><input name="drink" type="checkbox" value="Jennifer" /> Jennifer Connelly</label>
 						<label><input name="drink" type="checkbox" value="Salma" /> Salma Hayek</label>
@@ -92,7 +92,7 @@
 			<table>
 				<tr>
 					<td>
-						<label><input name="pasta" type="checkbox" value="Penne" data-luga-minchecked="1" data-luga-maxchecked="1" data-luga-message="Please select only one kind of pasta" /> Penne</label>
+						<label><input name="pasta" type="checkbox" value="Penne" data-lugavalidator-minchecked="1" data-lugavalidator-maxchecked="1" data-lugavalidator-message="Please select only one kind of pasta" /> Penne</label>
 						<label><input name="pasta" type="checkbox" value="Rigatoni" /> Rigatoni</label>
 						<label><input name="pasta" type="checkbox" value="Tortellini" /> Tortellini</label>
 						<label><input name="pasta" type="checkbox" value="Fettuccine" /> Fettuccine</label>

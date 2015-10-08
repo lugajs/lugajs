@@ -63,7 +63,7 @@ input[type="button"]:focus {
 	color: #EDEBDA;
 }
 
-input[data-luga-required="true"] {
+input[data-lugavalidator-required="true"] {
 	background-image: url("images/required.png");
 	background-position: right center;
 	background-repeat: no-repeat;

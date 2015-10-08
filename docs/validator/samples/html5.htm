@@ -28,20 +28,20 @@
 			</p>
 		</section>
 
-		<form data-luga-validate="true">
+		<form data-lugavalidator-validate="true">
 			<h1>HTML 5</h1>
 			<table>
 				<tr>
 					<td><label for="age">Age (required, positive integer, min 18, max 75)</label></td>
-					<td><input type="number" id="age" name="age" data-luga-required="true" data-luga-errorclass="invalid" data-luga-message="Please insert a valid age" data-luga-pattern="positiveinteger" data-luga-minnumber="18" data-luga-maxnumber="75" data-luga-filters="numbersonly" value="18"/></td>
+					<td><input type="number" id="age" name="age" data-lugavalidator-required="true" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Please insert a valid age" data-lugavalidator-pattern="positiveinteger" data-lugavalidator-minnumber="18" data-lugavalidator-maxnumber="75" data-lugavalidator-filters="numbersonly" value="18"/></td>
 				</tr>
 				<tr>
 					<td><label for="email">Email (required, email)</label></td>
-					<td><input type="email" id="email" name="email" data-luga-required="true" data-luga-errorclass="invalid" data-luga-message="Please insert a valid email" data-luga-email="true"/></td>
+					<td><input type="email" id="email" name="email" data-lugavalidator-required="true" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Please insert a valid email" data-lugavalidator-email="true"/></td>
 				</tr>
 				<tr>
 					<td><label for="date">Date (not required, date, YYYY-MM-DD)</label></td>
-					<td><input type="date" id="date" name="date" data-luga-message="Please insert a valid date using the YYYY-MM-DD format" data-luga-errorclass="invalid" data-luga-datepattern="YYYY-MM-DD" value="2005-05-09"/></td>
+					<td><input type="date" id="date" name="date" data-lugavalidator-message="Please insert a valid date using the YYYY-MM-DD format" data-lugavalidator-errorclass="invalid" data-lugavalidator-datepattern="YYYY-MM-DD" value="2005-05-09"/></td>
 				</tr>
 				<tr>
 					<td></td>

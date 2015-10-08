@@ -71,7 +71,7 @@ describe("luga.validator.CheckboxValidator", function(){
 		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
 	});
 
-	it("Can use a combination of data-luga-minchecked and data-luga-maxchecked", function(){
+	it("Can use a combination of data-lugavalidator-minchecked and data-lugavalidator-maxchecked", function(){
 
 		loadFixtures("validator/CheckboxValidator/required.htm");
 		var formValidator = new luga.validator.FormValidator({
@@ -99,7 +99,7 @@ describe("luga.validator.CheckboxValidator", function(){
 		expect(jQuery("#maxNicole")).toHaveClass("invalid");
 	});
 
-	it("data-luga-maxchecked alone makes everything optional", function(){
+	it("data-lugavalidator-maxchecked alone makes everything optional", function(){
 
 		loadFixtures("validator/CheckboxValidator/required.htm");
 		var formValidator = new luga.validator.FormValidator({

@@ -37,7 +37,7 @@
 				Creating a flexible and generic solution would require a lot of code and would undoubtedly fail to cover all contingencies.
 			</p>
 			<p>
-				Whenever we need to perform conditional validation, all we need to do is write a custom JavaScript function and use its name as the value of the data-luga-required attribute
+				Whenever we need to perform conditional validation, all we need to do is write a custom JavaScript function and use its name as the value of the data-lugavalidator-required attribute
 			</p>
 			<p>
 				In this example we want to validate a text field only if the associated checkbox is checked. The HTML code will look like this:
@@ -45,7 +45,7 @@
 
 			<code>
 				<ol>
-					<li>&lt;input type="text" name="newmeal" id="newmeal" data-luga-required="dependonbox" luga-data-message="Meal's name?" /&gt;</li>
+					<li>&lt;input type="text" name="newmeal" id="newmeal" data-lugavalidator-required="dependonbox" luga-data-message="Meal's name?" /&gt;</li>
 				</ol>
 			</code>
 
@@ -70,7 +70,7 @@
 
 		</section>
 
-		<form data-luga-validate="true">
+		<form data-lugavalidator-validate="true">
 			<h1>Special meal</h1>
 			<table>
 				<tr>
@@ -81,7 +81,7 @@
 				</tr>
 				<tr>
 					<td>Specify the special meal's name
-						<input type="text" name="newmeal" id="newmeal" data-luga-required="dependonbox" data-luga-message="Meal's name?" />
+						<input type="text" name="newmeal" id="newmeal" data-lugavalidator-required="dependonbox" data-lugavalidator-message="Meal's name?" />
 						<input type="submit" value="Submit" />
 					</td>
 				</tr>

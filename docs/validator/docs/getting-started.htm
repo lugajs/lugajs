@@ -18,16 +18,16 @@
 
 	<div class="content">
 
-		<form data-luga-validate="true">
+		<form data-lugavalidator-validate="true">
 			<h1>Basic form</h1>
-			<input type="text" name="name" data-luga-required="true" data-luga-errorclass="invalid" data-luga-message="Invalid!"/>
+			<input type="text" name="name" data-lugavalidator-required="true" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Invalid!"/>
 			<input type="submit" value="Submit"/>
 		</form>
 
 		<section>
 			<h1>Getting started</h1>
 			<p>In order to enable the validator we must include the JavaScript files. First jQuery, then Luga Core and Luga Validator (in this order)</p>
-			<p>Then add the data-luga-validate attribute to the form tag. Without it the validator parser will completely skip our form.</p>
+			<p>Then add the data-lugavalidator-validate attribute to the form tag. Without it the validator parser will completely skip our form.</p>
 			<p>From now on we can take advantage of all the other attributes that can be used for input fields.</p>
 		</section>
 
@@ -41,8 +41,8 @@
 
 		<code>
 			<ol>
-				<li>&lt;form data-luga-validate="true"&gt;</li>
-				<li>	&lt;input type="text" name="name" data-luga-required="true" data-luga-errorclass="invalid" data-luga-message="Invalid!"/&gt;</li>
+				<li>&lt;form data-lugavalidator-validate="true"&gt;</li>
+				<li>	&lt;input type="text" name="name" data-lugavalidator-required="true" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Invalid!"/&gt;</li>
 				<li>	&lt;input type="submit" value="Submit"/&gt;</li>
 				<li>&lt;/form&gt;</li>
 			</ol>

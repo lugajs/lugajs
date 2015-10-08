@@ -117,7 +117,7 @@ describe("luga.validator.FormValidator", function(){
 
 		it("It can be set with custom HTML attribute", function(){
 			var formValidator = new luga.validator.FormValidator({
-				formNode: jQuery('<form data-luga-blocksubmit="false"></form>')
+				formNode: jQuery('<form data-lugavalidator-blocksubmit="false"></form>')
 			});
 			expect(formValidator.config.blocksubmit).toEqual("false");
 		});
@@ -132,7 +132,7 @@ describe("luga.validator.FormValidator", function(){
 
 	});
 
-	describe("If a data-luga-disabledlabel attribute is specified for a button", function(){
+	describe("If a data-lugavalidator-disabledlabel attribute is specified for a button", function(){
 
 		it("It overrides the value of the disabled button once the form is validated", function(){
 

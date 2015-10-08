@@ -16,11 +16,11 @@
 			var checkbox = jQuery("#specialmeal");
 			var textField = jQuery("#newmeal");
 			if(checkbox.prop("checked") === true){
-				textField.attr("data-luga-required", "true");
+				textField.attr("data-lugavalidator-required", "true");
 				textField.addClass("required");
 			}
 			else{
-				textField.attr("data-luga-required", "false");
+				textField.attr("data-lugavalidator-required", "false");
 				textField.removeClass("required");
 			}
 		}
@@ -30,7 +30,7 @@
 			var tableCell = jQuery("#mealCell");
 			if(checkbox.prop("checked") === true){
 				var htmlStr = 'Specify the special meal\'s name:';
-				htmlStr += '<input type="text" name="dynamicMeal" id="dynamicMeal" data-luga-required="true" data-luga-message="Meal\'s name?" />';
+				htmlStr += '<input type="text" name="dynamicMeal" id="dynamicMeal" data-lugavalidator-required="true" data-lugavalidator-message="Meal\'s name?" />';
 				tableCell.html(htmlStr);
 			}
 			else{
@@ -56,27 +56,27 @@
 
 		</section>
 
-		<form data-luga-validate="true">
-			<h1>Edit "data-luga-required" at run-time</h1>
+		<form data-lugavalidator-validate="true">
+			<h1>Edit "data-lugavalidator-required" at run-time</h1>
 			<table>
 				<tr>
 					<td>
 						<label>
 							<input name="specialmeal" id="specialmeal" type="checkbox" value="true" onclick="checkMeal()" />
-							Yes, I want a special meal (clicking this will set data-luga-required on the text field below)
+							Yes, I want a special meal (clicking this will set data-lugavalidator-required on the text field below)
 						</label>
 					</td>
 				</tr>
 				<tr>
 					<td>Specify the special meal's name
-						<input type="text" name="newmeal" id="newmeal" data-luga-message="Meal's name?" />
+						<input type="text" name="newmeal" id="newmeal" data-lugavalidator-message="Meal's name?" />
 						<input type="submit" value="Submit" />
 					</td>
 				</tr>
 			</table>
 		</form>
 
-		<form data-luga-validate="true">
+		<form data-lugavalidator-validate="true">
 			<h1>Add a field at run-time</h1>
 			<table>
 				<tr>

@@ -51,7 +51,7 @@ describe("luga.validator", function(){
 
 	describe(".BaseFieldValidator is an abstract class", function(){
 		it("That can't be invoked directly", function(){
-			var textNode = jQuery('<input type="text" data-luga-required="true" disabled="disabled" data-luga-errorclass="invalid">');
+			var textNode = jQuery('<input type="text" data-lugavalidator-required="true" disabled="disabled" data-lugavalidator-errorclass="invalid">');
 			expect(function(){
 				new luga.validator.BaseFieldValidator({
 					fieldNode: textNode
@@ -82,7 +82,7 @@ describe("luga.validator", function(){
 		});
 
 		it("They add/remove error class and title attribute", function(){
-			var textNode = jQuery('<input type="text" data-luga-required="true" data-luga-errorclass="invalid" data-luga-message="Invalid field!">');
+			var textNode = jQuery('<input type="text" data-lugavalidator-required="true" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Invalid field!">');
 			var textValidator = new luga.validator.FieldValidatorGetInstance({
 				fieldNode: textNode
 			});
@@ -96,7 +96,7 @@ describe("luga.validator", function(){
 		});
 
 		it("Handle disabled fields as always valid", function(){
-			var textNode = jQuery('<input type="text" data-luga-required="true" disabled="disabled" data-luga-errorclass="invalid">');
+			var textNode = jQuery('<input type="text" data-lugavalidator-required="true" disabled="disabled" data-lugavalidator-errorclass="invalid">');
 			var textValidator = new luga.validator.FieldValidatorGetInstance({
 				fieldNode: textNode
 			});

@@ -1,38 +1,38 @@
-<form id="generic" data-luga-validate="true">
+<form id="generic" data-lugavalidator-validate="true">
 
 	<fieldset id="fieldGroup">
 
 		<!-- Age (required, positive integer, min 18, max 75) -->
-		<input type="text" id="age" name="age" data-luga-required="true" data-luga-errorclass="invalid" data-luga-message="Invalid age!" data-luga-pattern="positiveinteger" data-luga-minnumber="18" data-luga-maxnumber="75"/>
+		<input type="text" id="age" name="age" data-lugavalidator-required="true" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Invalid age!" data-lugavalidator-pattern="positiveinteger" data-lugavalidator-minnumber="18" data-lugavalidator-maxnumber="75"/>
 
 		<!-- Required, anything -->
-		<input type="text" id="name" name="name" data-luga-required="true" data-luga-errorclass="invalid" data-luga-message="Invalid name!"/>
+		<input type="text" id="name" name="name" data-lugavalidator-required="true" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Invalid name!"/>
 
 	</fieldset>
 
 	<!-- Required, email -->
-	<input type="text" id="email" name="email" data-luga-required="true" data-luga-errorclass="invalid" data-luga-message="Invalid email!" data-luga-email="true"/>
+	<input type="text" id="email" name="email" data-lugavalidator-required="true" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Invalid email!" data-lugavalidator-email="true"/>
 
 	<!-- Required, date, YYYY-MM-DD -->
-	<input type="text" id="date" name="date" data-luga-required="true" data-luga-message="Invalid date!" data-luga-errorclass="invalid" data-luga-datepattern="YYYY-MM-DD"/>
+	<input type="text" id="date" name="date" data-lugavalidator-required="true" data-lugavalidator-message="Invalid date!" data-lugavalidator-errorclass="invalid" data-lugavalidator-datepattern="YYYY-MM-DD"/>
 
 	<!-- Required, must be from 3 to 10 chars -->
-	<textarea id="comments" name="comments" cols="20" rows="3" data-luga-required="true" data-luga-message="Comments should be from 3 to 10 chars" data-luga-errorclass="invalid" data-luga-minlength="3" data-luga-maxlength="10"></textarea>
+	<textarea id="comments" name="comments" cols="20" rows="3" data-lugavalidator-required="true" data-lugavalidator-message="Comments should be from 3 to 10 chars" data-lugavalidator-errorclass="invalid" data-lugavalidator-minlength="3" data-lugavalidator-maxlength="10"></textarea>
 
 	<!-- At least one must be checked -->
-	<input type="checkbox" name="boxLady" data-luga-minchecked="1" value="Nicole Kidman" id="boxNicole" data-luga-errorclass="invalid" data-luga-message="Select a box"/>
+	<input type="checkbox" name="boxLady" data-lugavalidator-minchecked="1" value="Nicole Kidman" id="boxNicole" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Select a box"/>
 	<input type="checkbox" name="boxLady" value="Kate Beckinsale"/>
 	<input type="checkbox" name="boxLady" value="Jennifer Connelly"/>
 	<input type="checkbox" name="boxLady" value="Liz Hurley"/>
 
 	<!-- At least one must be checked -->
-	<input type="radio" name="radioLady" data-luga-required="true" value="Nicole Kidman" id="radioNicole" data-luga-errorclass="invalid" data-luga-message="Select a radio"/>
+	<input type="radio" name="radioLady" data-lugavalidator-required="true" value="Nicole Kidman" id="radioNicole" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Select a radio"/>
 	<input type="radio" name="radioLady" value="Kate Beckinsale"/>
 	<input type="radio" name="radioLady" value="Jennifer Connelly"/>
 	<input type="radio" name="radioLady" value="Liz Hurley"/>
 
 	<!-- Any apart the first must be selected -->
-	<select name="food" id="food" data-luga-errorclass="invalid" data-luga-invalidindex="0">
+	<select name="food" id="food" data-lugavalidator-errorclass="invalid" data-lugavalidator-invalidindex="0">
 		<option>Your choice</option>
 		<option value="Pizza">Pizza</option>
 		<option value="Spaghetti">Spaghetti</option>

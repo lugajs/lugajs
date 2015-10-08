@@ -19,25 +19,25 @@
 	<div class="content">
 
 		<section>
-			<h1>data-luga-pattern</h1>
-			<p>This sample shows the data-luga-pattern attribute in action.</p>
+			<h1>data-lugavalidator-pattern</h1>
+			<p>This sample shows the data-lugavalidator-pattern attribute in action.</p>
 			<p>Valid time in HH:MM format.</p>
 		</section>
 
-		<form data-luga-validate="true">
+		<form data-lugavalidator-validate="true">
 			<h1>Meeting form</h1>
 			<table>
 				<tr>
 					<td>Start time (required)</td>
-					<td><input type="text" name="startTime" data-luga-required="true" data-luga-pattern="time" data-luga-errorclass="invalid" data-luga-message="Please insert start time in HH:MM format" /></td>
+					<td><input type="text" name="startTime" data-lugavalidator-required="true" data-lugavalidator-pattern="time" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Please insert start time in HH:MM format" /></td>
 				</tr>
 				<tr>
 					<td>End time (required)</td>
-					<td><input type="text" name="endTime" data-luga-required="true" data-luga-pattern="time" data-luga-errorclass="invalid" data-luga-message="Please insert end time in HH:MM format" /></td>
+					<td><input type="text" name="endTime" data-lugavalidator-required="true" data-lugavalidator-pattern="time" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Please insert end time in HH:MM format" /></td>
 				</tr>
 				<tr>
 					<td>Lunch time (optional)</td>
-					<td><input type="text" name="lunchTime" data-luga-pattern="time" data-luga-errorclass="invalid" data-luga-message="Please insert lunch time in HH:MM format" /></td>
+					<td><input type="text" name="lunchTime" data-lugavalidator-pattern="time" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Please insert lunch time in HH:MM format" /></td>
 				</tr>
 				<tr>
 					<td></td>
@@ -48,10 +48,10 @@
 
 		<code>
 			<ol>
-				<li>&lt;form data-luga-validate="true"&gt;</li>
-				<li>	&lt;input type="text" name="startTime" data-luga-required="true" data-luga-pattern="time" data-luga-errorclass="invalid" data-luga-message="Please insert start time in HH:MM format" /&gt;</li>
-				<li>	&lt;input type="text" name="endTime" data-luga-required="true" data-luga-pattern="time" data-luga-errorclass="invalid" data-luga-message="Please insert end time in HH:MM format" /&gt;</li>
-				<li>	&lt;input type="text" name="lunchTime" data-luga-pattern="time" data-luga-errorclass="invalid" data-luga-message="Please insert lunch time in HH:MM format" /&gt;</li>
+				<li>&lt;form data-lugavalidator-validate="true"&gt;</li>
+				<li>	&lt;input type="text" name="startTime" data-lugavalidator-required="true" data-lugavalidator-pattern="time" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Please insert start time in HH:MM format" /&gt;</li>
+				<li>	&lt;input type="text" name="endTime" data-lugavalidator-required="true" data-lugavalidator-pattern="time" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Please insert end time in HH:MM format" /&gt;</li>
+				<li>	&lt;input type="text" name="lunchTime" data-lugavalidator-pattern="time" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Please insert lunch time in HH:MM format" /&gt;</li>
 				<li>&lt;/form&gt;</li>
 			</ol>
 		</code>

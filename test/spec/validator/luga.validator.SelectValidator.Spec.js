@@ -3,7 +3,7 @@
 describe("luga.validator.SelectValidator", function(){
 
 	it("Accepts two validation attributes", function(){
-		var selectNode = jQuery('<select name="dish"  data-luga-invalidindex="1" data-luga-invalidvalue="Crepes" data-luga-message="Invalid!">');
+		var selectNode = jQuery('<select name="dish"  data-lugavalidator-invalidindex="1" data-lugavalidator-invalidvalue="Crepes" data-lugavalidator-message="Invalid!">');
 		var selectValidator = new luga.validator.FieldValidatorGetInstance({
 			fieldNode: selectNode
 		});
@@ -12,10 +12,10 @@ describe("luga.validator.SelectValidator", function(){
 		expect(selectValidator.config.message).toEqual("Invalid!");
 	});
 
-	describe("data-luga-invalidindex", function(){
+	describe("data-lugavalidator-invalidindex", function(){
 
 		it("Accepts only numbers", function(){
-			var selectNode = jQuery('<select data-luga-invalidindex="test">');
+			var selectNode = jQuery('<select data-lugavalidator-invalidindex="test">');
 			expect(function(){
 				var selectValidator = new luga.validator.FieldValidatorGetInstance({
 					fieldNode: selectNode
@@ -51,7 +51,7 @@ describe("luga.validator.SelectValidator", function(){
 
 	});
 
-	describe("data-luga-invalidvalue", function(){
+	describe("data-lugavalidator-invalidvalue", function(){
 
 		it("Prevents selection of an entry with a given value", function(){
 			loadFixtures("validator/SelectValidator/invalidvalue.htm");

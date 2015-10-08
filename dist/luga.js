@@ -665,32 +665,32 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.validator.CONST = {
-		FORM_SELECTOR: "form[data-luga-validate]",
-		RULE_PREFIX: "data-luga-",
+		FORM_SELECTOR: "form[data-lugavalidator-validate]",
+		RULE_PREFIX: "data-lugavalidator-",
 		DEFAULT_DATE_PATTERN: "YYYY-MM-DD",
 		CUSTOM_ATTRIBUTES: {
-			VALIDATE: "data-luga-validate",
-			ERROR: "data-luga-error",
-			BEFORE: "data-luga-before",
+			VALIDATE: "data-lugavalidator-validate",
+			ERROR: "data-lugavalidator-error",
+			BEFORE: "data-lugavalidator-before",
 			AFTER: "data-lugacsi-after",
-			BLOCK_SUBMIT: "data-luga-blocksubmit",
-			MESSAGE: "data-luga-message",
-			ERROR_CLASS: "data-luga-errorclass",
-			REQUIRED: "data-luga-required",
-			PATTERN: "data-luga-pattern",
-			MIN_LENGTH: "data-luga-minlength",
-			MAX_LENGTH: "data-luga-maxlength",
-			MIN_NUMBER: "data-luga-minnumber",
-			MAX_NUMBER: "data-luga-maxnumber",
-			DATE_PATTERN: "data-luga-datepattern",
-			MIN_DATE: "data-luga-mindate",
-			MAX_DATE: "data-luga-maxdate",
-			EQUAL_TO: "data-luga-equalto",
-			MIN_CHECKED: "data-luga-minchecked",
-			MAX_CHECKED: "data-luga-maxchecked",
-			INVALID_INDEX: "data-luga-invalidindex",
-			INVALID_VALUE: "data-luga-invalidvalue",
-			DISABLED_MESSAGE: "data-luga-disabledlabel"
+			BLOCK_SUBMIT: "data-lugavalidator-blocksubmit",
+			MESSAGE: "data-lugavalidator-message",
+			ERROR_CLASS: "data-lugavalidator-errorclass",
+			REQUIRED: "data-lugavalidator-required",
+			PATTERN: "data-lugavalidator-pattern",
+			MIN_LENGTH: "data-lugavalidator-minlength",
+			MAX_LENGTH: "data-lugavalidator-maxlength",
+			MIN_NUMBER: "data-lugavalidator-minnumber",
+			MAX_NUMBER: "data-lugavalidator-maxnumber",
+			DATE_PATTERN: "data-lugavalidator-datepattern",
+			MIN_DATE: "data-lugavalidator-mindate",
+			MAX_DATE: "data-lugavalidator-maxdate",
+			EQUAL_TO: "data-lugavalidator-equalto",
+			MIN_CHECKED: "data-lugavalidator-minchecked",
+			MAX_CHECKED: "data-lugavalidator-maxchecked",
+			INVALID_INDEX: "data-lugavalidator-invalidindex",
+			INVALID_VALUE: "data-lugavalidator-invalidvalue",
+			DISABLED_MESSAGE: "data-lugavalidator-disabledlabel"
 		},
 		MESSAGES: {
 			FORM_MISSING: "luga.validator was unable to load form",
@@ -699,8 +699,8 @@ if(typeof(luga) === "undefined"){
 			GROUP_VALIDATOR_ABSTRACT: "luga.validator.BaseGroupValidator is an abstract class",
 			FIELD_CANT_BE_VALIDATED: "This field can't be validated",
 			PATTERN_NOT_FOUND: "luga.validator failed to retrieve pattern: {0}",
-			INVALID_INDEX_PARAMETER: "data-luga-invalidindex accept only numbers",
-			MISSING_EQUAL_TO_FIELD: "data-luga-equalto was unable to find field with id = {0}"
+			INVALID_INDEX_PARAMETER: "data-lugavalidator-invalidindex accept only numbers",
+			MISSING_EQUAL_TO_FIELD: "data-lugavalidator-equalto was unable to find field with id = {0}"
 		},
 		HANDLERS: {
 			FORM_ERROR: luga.validator.handlers.errorAlert
@@ -718,7 +718,7 @@ if(typeof(luga) === "undefined"){
 	 * @param options.blocksubmit:       Disable submit buttons if the form isn't valid
 	 *                                   This prevents multiple submits but also prevents the value of the submit buttons from being passed as part of the HTTP request.
 	 *                                   Set this options to false to keep the submit buttons enabled.
-	 *                                   Value can also be set using the "data-luga-blocksubmit" attribute. Optional
+	 *                                   Value can also be set using the "data-lugavalidator-blocksubmit" attribute. Optional
 	 */
 	luga.validator.FormValidator = function(options){
 		this.config = {
@@ -884,8 +884,8 @@ if(typeof(luga) === "undefined"){
 	 * Abstract field validator class. To be extended for different kind of fields
 	 *
 	 * @param options.fieldNode:          Root node for widget (DOM reference). Required
-	 * @param options.message:            Error message. Can also be set using the "data-luga-message" attribute. Optional
-	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
+	 * @param options.message:            Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 * @param.options                     Additional options can be used, but are specific to certain kind of input fields. Check their implementation for details
 	 */
 	luga.validator.BaseFieldValidator = function(options){
@@ -949,19 +949,19 @@ if(typeof(luga) === "undefined"){
 	 * @param options.fieldNode:          Root node for widget (DOM reference). Required
 	 * @param options.required:           Set it to true to flag the field as required.
 	 *                                    In case you need conditional validation, set it to the name of a custom function that will handle the condition.
-	 *                                    Can also be set using the "data-luga-required" attribute. Optional
+	 *                                    Can also be set using the "data-lugavalidator-required" attribute. Optional
 	 * @param options.pattern:            Validation pattern to be applied, either built-in or custom.
-	 *                                    Can also be set using the "data-luga-pattern" attribute. Optional
-	 * @param options.minlength:          Enforce a minimum text length. Can also be set using the "data-luga-minlength" attribute. Optional
-	 * @param options.maxlength:          Enforce a maximum text length. Can also be set using the "data-luga-maxlength" attribute. Optional
-	 * @param options.minnumber:          Enforce a minimum numeric value. Can also be set using the "data-luga-minnumber" attribute. Optional
-	 * @param options.maxnumber:          Enforce a maximum numeric value. Can also be set using the "data-luga-maxnumber" attribute. Optional
-	 * @param options.datepattern:        Date format pattern to be applied, either built-in or custom. Can also be set using the "data-luga-datepattern" attribute. Optional
-	 * @param options.mindate:            Enforce a minimum date. Can also be set using the "data-luga-mindate" attribute. Optional
-	 * @param options.maxdate:            Enforce a maximum date. Can also be set using the "data-luga-maxdate" attribute. Optional
-	 * @param options.equalto:            Id of another field who's values will be compared for equality. Can also be set using the "data-luga-equalto" attribute. Optional
-	 * @param options.message:            Error message. Can also be set using the "data-luga-message" attribute. Optional
-	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
+	 *                                    Can also be set using the "data-lugavalidator-pattern" attribute. Optional
+	 * @param options.minlength:          Enforce a minimum text length. Can also be set using the "data-lugavalidator-minlength" attribute. Optional
+	 * @param options.maxlength:          Enforce a maximum text length. Can also be set using the "data-lugavalidator-maxlength" attribute. Optional
+	 * @param options.minnumber:          Enforce a minimum numeric value. Can also be set using the "data-lugavalidator-minnumber" attribute. Optional
+	 * @param options.maxnumber:          Enforce a maximum numeric value. Can also be set using the "data-lugavalidator-maxnumber" attribute. Optional
+	 * @param options.datepattern:        Date format pattern to be applied, either built-in or custom. Can also be set using the "data-lugavalidator-datepattern" attribute. Optional
+	 * @param options.mindate:            Enforce a minimum date. Can also be set using the "data-lugavalidator-mindate" attribute. Optional
+	 * @param options.maxdate:            Enforce a maximum date. Can also be set using the "data-lugavalidator-maxdate" attribute. Optional
+	 * @param options.equalto:            Id of another field who's values will be compared for equality. Can also be set using the "data-lugavalidator-equalto" attribute. Optional
+	 * @param options.message:            Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 
 	 */
 	luga.validator.TextValidator = function(options){
@@ -1049,10 +1049,10 @@ if(typeof(luga) === "undefined"){
 	 * Select field validator class
 	 *
 	 * @param options.fieldNode:          Root node for widget (DOM reference). Required
-	 * @param options.invalidindex:       Prevents selection of an entry on a given position (zero based). Can also be set using the "data-luga-invalidindex" attribute. Optional
-	 * @param options.invalidvalue:       Prevents selection of an entry with a given value. Can also be set using the "data-luga-invalidvalue" attribute. Optional
-	 * @param options.message:            Error message. Can also be set using the "data-luga-message" attribute. Optional
-	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
+	 * @param options.invalidindex:       Prevents selection of an entry on a given position (zero based). Can also be set using the "data-lugavalidator-invalidindex" attribute. Optional
+	 * @param options.invalidvalue:       Prevents selection of an entry with a given value. Can also be set using the "data-lugavalidator-invalidvalue" attribute. Optional
+	 * @param options.message:            Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 * @param.options                     Additional options can be used, but are specific to certain kind of input fields. Check their implementation for details
 	 */
 	luga.validator.SelectValidator = function(options){
@@ -1107,8 +1107,8 @@ if(typeof(luga) === "undefined"){
 	 * Abstract validator class for grouped fields (checkboxes, radio buttons). To be extended for different kind of fields
 	 *
 	 * @param options.inputGroup:         A group of input fields that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
-	 * @param options.message:            Error message. Can also be set using the "data-luga-message" attribute. Optional
-	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
+	 * @param options.message:            Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 * @param.options                     Additional options can be used, but are specific to certain kind of input fields. Check their implementation for details
 	 */
 	luga.validator.BaseGroupValidator = function(options){
@@ -1177,8 +1177,8 @@ if(typeof(luga) === "undefined"){
 	 * Validator class for radio buttons
 	 *
 	 * @param options.inputGroup:         A group of input fields that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
-	 * @param options.message:            Error message. Can also be set using the "data-luga-message" attribute. Optional
-	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
+	 * @param options.message:            Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 * @param.options                     Additional options can be used, but are specific to certain kind of input fields. Check their implementation for details
 	 */
 	luga.validator.RadioValidator = function(options){
@@ -1223,8 +1223,8 @@ if(typeof(luga) === "undefined"){
 	 * Validator class for checkboxes
 	 *
 	 * @param options.inputGroup:         A group of input fields that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
-	 * @param options.message:            Error message. Can also be set using the "data-luga-message" attribute. Optional
-	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-luga-errorclass" attribute. Optional
+	 * @param options.message:            Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @param options.errorclass:         CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 * @param.options                     Additional options can be used, but are specific to certain kind of input fields. Check their implementation for details
 	 */
 	luga.validator.CheckboxValidator = function(options){

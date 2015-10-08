@@ -37,7 +37,7 @@
 				</p>
 				<p class="answer">
 					By default submit buttons are disabled after the form is submitted. This prevents multiple submits but also prevents the value of the submit buttons from being passed as part of the HTTP request.
-					Set the data-luga-blocksubmit attribute of the &lt;form&gt; tag to false if you want prevent this behavior
+					Set the data-lugavalidator-blocksubmit attribute of the &lt;form&gt; tag to false if you want prevent this behavior
 				</p>
 			</div>
 
@@ -46,7 +46,7 @@
 					The onsubmit event
 				</p>
 				<p class="answer">
-					Whenever you set the data-luga-validate to true, the validation is automatically triggered by the form's onsubmit event.
+					Whenever you set the data-lugavalidator-validate to true, the validation is automatically triggered by the form's onsubmit event.
 					In case you want to execute some other JavaScript code, please use the <a href="../samples/handlers-custom.htm">custom handlers</a>.
 				If you attach other code to the onsubmit event, there is no guarantee about the order in which they will be executed and they could conflict with Luga Validator, preventing the validation to be executed at all </p>
 			</div>
