@@ -55,7 +55,7 @@ if(typeof(luga) === "undefined"){
 		FORM_SELECTOR: "form[data-lugajax-form]",
 		USER_AGENT: "luga.ajaxform",
 		DEFAULT_METHOD: "GET",
-		DEFAULT_TIME_OUT: 60000, // ms
+		DEFAULT_TIME_OUT: 30000, // ms
 		CUSTOM_ATTRIBUTES: {
 			AJAX: "data-lugajax-form",
 			ACTION: "data-lugajax-action",
