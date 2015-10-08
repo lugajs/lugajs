@@ -105,7 +105,8 @@ if(typeof(luga) === "undefined"){
 		this.error = function(){
 			var callBack = luga.lookup(self.config.error);
 			if(callBack !== null){
-				callBack.apply(null, [self.config.formNode[0], self.dirtyValidators]);
+				// TODO: pass more info to error handler
+				callBack.apply(null, [self.config.formNode[0]]);
 			}
 			else if(self.config.error){
 				alert(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.error]));
