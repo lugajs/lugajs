@@ -161,6 +161,7 @@ if(typeof(luga) === "undefined"){
 		var self = this;
 		self.validators = [];
 		self.dirtyValidators = [];
+		// Ensure it's a jQuery object
 		self.config.formNode = jQuery(self.config.formNode);
 
 		if(jQuery(self.config.formNode).length === 0){
