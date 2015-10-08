@@ -24,7 +24,7 @@ AJAX FORM
 
 - Implement code based on old TMT source
 
-- Add successmsg and error msg config options
+- Add successmsg and errormsg config options
 
 - Implement better signature for handlers, passing additional info about HTTP call
 
