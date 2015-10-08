@@ -24,11 +24,11 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.csi");
 
-	luga.csi.version = 0.8;
+	luga.csi.version = 1.0;
 
 	luga.csi.CONST = {
-		NODE_SELECTOR: "div[data-luga-csi]",
-		URL_ATTRIBUTE: "data-luga-csi",
+		NODE_SELECTOR: "div[data-lugacsi]",
+		URL_ATTRIBUTE: "data-lugacsi",
 		AFTER_ATTRIBUTE: "data-luga-after",
 		MESSAGES: {
 			FILE_NOT_FOUND: "luga.csi failed to retrieve text from: {0}"
@@ -39,7 +39,7 @@ if(typeof(luga) === "undefined"){
 	 * Client-side Include widget
 	 *
 	 * @param options.rootNode:          Root node for widget (DOM reference). Required
-	 * @param options.url:               Url to be included. Optional. Default to the value of the "data-luga-csi" attribute inside rootNode
+	 * @param options.url:               Url to be included. Optional. Default to the value of the "data-lugacsi" attribute inside rootNode
 	 * @param options.success:           Function that will be invoked once the url is successfully fetched. Optional, default to the internal "onSuccess" method
 	 * @param options.after  :           Function that will be invoked once the include is successfully performed.
 	 *                                   It will be called with the handler(rootNode, url, response) signature. Optional, it can be set using the "data-luga-after" attribute

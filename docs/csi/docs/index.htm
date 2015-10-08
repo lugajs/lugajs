@@ -12,8 +12,8 @@
 </head>
 <body>
 
-	<div data-luga-csi="../../main-nav.inc" data-luga-after="luga.docs.initMainNav"></div>
-	<div data-luga-csi="../sidebar.inc"></div>
+	<div data-lugacsi="../../main-nav.inc" data-luga-after="luga.docs.initMainNav"></div>
+	<div data-lugacsi="../sidebar.inc"></div>
 
 	<div class="content">
 
@@ -35,7 +35,7 @@
 		<table class="syntax">
 			<th colspan="2">Syntax reference</th>
 			<tr>
-				<td>data-luga-csi</td>
+				<td>data-lugacsi</td>
 				<td>
 					Mandatory. Point to the file you want to include. It must be a text file, the extension doesn't really matters, .inc, .txt, .xml, .htm or whatever you see fit.
 					You can use document relative or root relative paths, or even full URLs. Due to browser's security restrictions, you can't include file from a different domain.
@@ -63,16 +63,16 @@
 			<p>Then use an almost plain vanilla HTML &lt;div&gt; tag:</p>
 			<code>
 				<ol>
-					<li>&lt;div data-luga-csi="include1.inc"&gt;&lt;/div&gt;</li>
+					<li>&lt;div data-lugacsi="include1.inc"&gt;&lt;/div&gt;</li>
 				</ol>
 			</code>
 		</section>
 
-		<div data-luga-csi="../../support.inc"></div>
+		<div data-lugacsi="../../support.inc"></div>
 
 	</div>
 
-	<div data-luga-csi="../../footer.inc"></div>
+	<div data-lugacsi="../../footer.inc"></div>
 
 </body>
 </html>

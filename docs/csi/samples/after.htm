@@ -17,18 +17,18 @@
 </head>
 <body>
 
-	<div data-luga-csi="../../main-nav.inc" data-luga-after="luga.docs.initMainNav"></div>
-	<div data-luga-csi="../sidebar.inc"></div>
+	<div data-lugacsi="../../main-nav.inc" data-luga-after="luga.docs.initMainNav"></div>
+	<div data-lugacsi="../sidebar.inc"></div>
 
 	<div class="content">
-		<div data-luga-csi="include1.inc" data-luga-after="afterDemo"></div>
+		<div data-lugacsi="include1.inc" data-luga-after="afterDemo"></div>
 
 		<section>
 			<h1>The "data-luga-after" attribute</h1>
 			<p>This attribute allows to specify a function that will be invoked once the include is successfully performed.</p>
 			<code>
 				<ol>
-					<li>&lt;div data-luga-csi="include1.inc" data-luga-after="afterDemo"&gt;&lt;/div&gt;</li>
+					<li>&lt;div data-lugacsi="include1.inc" data-luga-after="afterDemo"&gt;&lt;/div&gt;</li>
 				</ol>
 			</code>
 			<p>luga.csi will pass three parameters: func(rootNode, url, response)</p>
@@ -45,7 +45,7 @@
 
 	</div>
 
-	<div data-luga-csi="../../footer.inc"></div>
+	<div data-lugacsi="../../footer.inc"></div>
 
 </body>
 </html>

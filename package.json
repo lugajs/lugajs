@@ -16,7 +16,7 @@
 			"name": "Luga Core"
 		},
 		"csi": {
-			"version": "0.8",
+			"version": "1.0",
 			"name": "Luga CSI"
 		},
 		"validator": {
