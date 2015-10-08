@@ -21,11 +21,9 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.namespace("luga.ajaxform");
+	luga.namespace("luga.ajax.form");
 
-	luga.ajaxform.version = "0.1";
-
-	luga.ajaxform.CONST = {
+	luga.ajax.CONST = {
 		FORM_SELECTOR: "form[data-luga-ajaxform]",
 		USER_AGENT: "luga.ajaxform",
 		CUSTOM_ATTRIBUTES: {
@@ -36,23 +34,25 @@ if(typeof(luga) === "undefined"){
 		}
 	};
 
-	luga.ajaxform.formHandler = function(options){
+	luga.ajax.Form = function(options){
 
 		if(jQuery(self.config.formNode).length === 0){
-			throw(luga.ajaxform.CONST.MESSAGES.FORM_MISSING);
+			throw(luga.ajax.CONST.MESSAGES.FORM_MISSING);
 		}
 
 	};
 
+	luga.ajax.Form.version = "0.1";
+
 	/**
 	 * Attach form handlers to onSubmit events
 	 */
-	luga.ajaxform.initForms = function(){
+	luga.ajax.initForms = function(){
 		jQuery(luga.validator.CONST.FORM_SELECTOR).each(function(index, item){
 			var formNode = jQuery(item);
-			if(formNode.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.AJAX) === "true"){
+			if(formNode.attr(luga.ajax.CONST.CUSTOM_ATTRIBUTES.AJAX) === "true"){
 				formNode.submit(function(event){
-					var formHandler = new luga.ajaxform.formHandler({
+					var formHandler = new luga.ajax.Form({
 						formNode: formNode
 					});
 					formHandler.send(event);
@@ -62,7 +62,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	jQuery(document).ready(function(){
-		luga.ajaxform.initForms();
+		luga.ajax.initForms();
 	});
 
 }());

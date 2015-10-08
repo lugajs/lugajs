@@ -1,6 +1,5 @@
 CORE:
 
-
 - Add detailed JSDoc to improve IntelliJ's intellisense
 
 -------------
@@ -22,8 +21,6 @@ DOCS:
 -------------
 
 AJAX FORM
-
-- Refactor luga.ajaxform > luga.ajax.Form
 
 - Implement code based on old TMT source
 
