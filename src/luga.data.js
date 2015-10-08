@@ -28,11 +28,11 @@ if(typeof(luga) === "undefined"){
 
 	luga.data.CONST = {
 		PK_KEY: "rowID",
-		REGION_SELECTOR: "*[data-luga-region]",
+		REGION_SELECTOR: "*[data-lugads-region]",
 		CUSTOM_ATTRIBUTES: {
-			REGION: "data-luga-region",
-			TEMPLATE: "data-luga-template",
-			DATA_SET: "data-luga-dataset"
+			REGION: "data-lugads-region",
+			TEMPLATE: "data-lugads-template",
+			DATA_SET: "data-lugads-dataset"
 		},
 		ERROR_MESSAGES: {
 			INVALID_ID_PARAMETER: "Luga.DataSet: id parameter is required",
