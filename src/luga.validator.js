@@ -23,7 +23,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.validator");
 
-	luga.validator.version = "0.9.1";
+	luga.validator.version = "0.9.5";
 
 	/* Validation handlers */
 
@@ -102,7 +102,7 @@ if(typeof(luga) === "undefined"){
 			VALIDATE: "data-luga-validate",
 			ERROR: "data-luga-error",
 			BEFORE: "data-luga-before",
-			AFTER: "data-luga-after",
+			AFTER: "data-lugacsi-after",
 			BLOCK_SUBMIT: "data-luga-blocksubmit",
 			MESSAGE: "data-luga-message",
 			ERROR_CLASS: "data-luga-errorclass",

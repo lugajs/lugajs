@@ -29,7 +29,7 @@ if(typeof(luga) === "undefined"){
 	luga.csi.CONST = {
 		NODE_SELECTOR: "div[data-lugacsi]",
 		URL_ATTRIBUTE: "data-lugacsi",
-		AFTER_ATTRIBUTE: "data-luga-after",
+		AFTER_ATTRIBUTE: "data-lugacsi-after",
 		MESSAGES: {
 			FILE_NOT_FOUND: "luga.csi failed to retrieve text from: {0}"
 		}
@@ -42,7 +42,7 @@ if(typeof(luga) === "undefined"){
 	 * @param options.url:               Url to be included. Optional. Default to the value of the "data-lugacsi" attribute inside rootNode
 	 * @param options.success:           Function that will be invoked once the url is successfully fetched. Optional, default to the internal "onSuccess" method
 	 * @param options.after  :           Function that will be invoked once the include is successfully performed.
-	 *                                   It will be called with the handler(rootNode, url, response) signature. Optional, it can be set using the "data-luga-after" attribute
+	 *                                   It will be called with the handler(rootNode, url, response) signature. Optional, it can be set using the "data-lugacsi-after" attribute
 	 * @param options.error:             Function that will be invoked if the url request fails. Optional, default to the internal "onError" method
 	 * @param options.xhrTimeout:        Timeout for XHR call. Optional
 	 */
