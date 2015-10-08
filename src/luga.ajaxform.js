@@ -21,38 +21,71 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.namespace("luga.ajax.form");
+	luga.namespace("luga.ajaxform");
+	luga.ajaxform.version = "0.1";
 
-	luga.ajax.CONST = {
+	/* Error handlers */
+	luga.namespace("luga.ajaxform.handlers");
+
+	/**
+	 * Display error messages inside alert
+	 */
+	luga.ajaxform.handlers.errorAlert = function(formNode, errorMsg){
+		alert(errorMsg);
+	};
+
+	/**
+	 * Display errors inside a box above the form
+	 */
+	luga.ajaxform.handlers.errorBox = function(formNode, errorMsg){
+		// Clean-up any existing box
+		luga.utils.removeDisplayBox(formNode);
+		luga.utils.displayErrorMessage(formNode, errorMsg);
+	};
+
+	luga.ajaxform.CONST = {
 		FORM_SELECTOR: "form[data-lugajax-form]",
 		USER_AGENT: "luga.ajaxform",
 		CUSTOM_ATTRIBUTES: {
-			AJAX: "data-lugajax-form"
+			AJAX: "data-lugajax-form",
+			ERROR: "data-lugajax-error",
+			BEFORE: "data-lugajax-before",
+			AFTER: "data-lugajax-after"
 		},
 		MESSAGES: {
 			FORM_MISSING: "luga.ajaxform was unable to load form"
+		},
+		HANDLERS: {
+			ERROR: luga.ajaxform.handlers.errorAlert
 		}
 	};
 
-	luga.ajax.Form = function(options){
-
+	luga.ajaxform.Form = function(options){
+		this.config = {
+			error: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.ERROR) || luga.ajaxform.CONST.HANDLERS.ERROR,
+			before: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.BEFORE) || null,
+			after: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.AFTER) || null
+		};
+		luga.merge(this.config, options);
+		var self = this;
+		// Ensure it's a jQuery object
+		self.config.formNode = jQuery(self.config.formNode);
+		
 		if(jQuery(self.config.formNode).length === 0){
-			throw(luga.ajax.CONST.MESSAGES.FORM_MISSING);
+			throw(luga.ajaxform.CONST.MESSAGES.FORM_MISSING);
 		}
 
 	};
-
-	luga.ajax.Form.version = "0.1";
 
 	/**
 	 * Attach form handlers to onSubmit events
 	 */
-	luga.ajax.initForms = function(){
+	luga.ajaxform.initForms = function(){
 		jQuery(luga.validator.CONST.FORM_SELECTOR).each(function(index, item){
 			var formNode = jQuery(item);
-			if(formNode.attr(luga.ajax.CONST.CUSTOM_ATTRIBUTES.AJAX) === "true"){
+			if(formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.AJAX) === "true"){
 				formNode.submit(function(event){
-					var formHandler = new luga.ajax.Form({
+					var formHandler = new luga.ajaxform.Form({
 						formNode: formNode
 					});
 					formHandler.send(event);
@@ -62,7 +95,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	jQuery(document).ready(function(){
-		luga.ajax.initForms();
+		luga.ajaxform.initForms();
 	});
 
 }());

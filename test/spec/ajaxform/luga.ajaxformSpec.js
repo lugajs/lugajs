@@ -1,22 +1,25 @@
-describe("luga.ajax.Form", function(){
+describe("luga.ajaxform", function(){
 
 	it("Lives inside its own namespace", function(){
-		expect(luga.ajax.Form).toBeDefined();
-	});
-
-	it("Throws an exception if the form node does not exists", function(){
-		expect(function(){
-			var formHandler = new luga.ajax.Form({
-				formNode: jQuery("#missing")
-			});
-		}).toThrow();
+		expect(luga.ajaxform).toBeDefined();
 	});
 
 	describe(".version", function(){
 		it("Reports the current version number", function(){
-			expect(luga.ajax.Form.version).toBeDefined();
+			expect(luga.ajaxform.version).toBeDefined();
 		});
 	});
 
+	describe(".Form", function(){
+
+		it("Throws an exception if the form node does not exists", function(){
+			expect(function(){
+				var formHandler = new luga.ajaxform.Form({
+					formNode: jQuery("#missing")
+				});
+			}).toThrow();
+		});
+
+	});
 
 });
