@@ -28,7 +28,7 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.ajaxform.handlers");
 
 	/**
-	 * Replace form with message from server
+	 * Replace form with message
 	 */
 	luga.ajaxform.handlers.replaceForm = function(formNode, msg){
 		// TODO: implement
@@ -36,14 +36,14 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Display error messages inside alert
+	 * Display error message inside alert
 	 */
 	luga.ajaxform.handlers.errorAlert = function(formNode, msg){
 		alert(msg);
 	};
 
 	/**
-	 * Display errors inside a box above the form
+	 * Display error message inside a box above the form
 	 */
 	luga.ajaxform.handlers.errorBox = function(formNode, msg){
 		// Clean-up any existing box
@@ -76,7 +76,7 @@ if(typeof(luga) === "undefined"){
 		}
 	};
 
-	luga.ajaxform.Form = function(options){
+	luga.ajaxform.Sender = function(options){
 		this.config = {
 			// Either: form attribute, custom attribute, incoming option or current URL
 			action: jQuery(options.formNode).attr("action") || jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.ACTION) || self.location.href,
@@ -145,7 +145,7 @@ if(typeof(luga) === "undefined"){
 			var formNode = jQuery(item);
 			if(formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.AJAX) === "true"){
 				formNode.submit(function(event){
-					var formHandler = new luga.ajaxform.Form({
+					var formHandler = new luga.ajaxform.Sender({
 						formNode: formNode
 					});
 					formHandler.send(event);
