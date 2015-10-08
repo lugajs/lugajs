@@ -15,8 +15,8 @@ DOCS:
 - Switch from em to rem
 
 - Document API:
-  luga.Notifier
-  luga.extend()
+  luga.Notifier?
+  luga.extend()?
 
 -------------
 
