@@ -1,14 +1,23 @@
 CORE:
 
-- Document API:
-  luga.Notifier
-  luga.extend()
+
+- Add detailed JSDoc to improve IntelliJ's intellisense
+
+-------------
+
+DOCS:
 
 - Link to specific unit tests from API docs
 
 - Update sitemap.xml
 
-- Add detailed JSDoc to improve IntelliJ's intellisense
+- Switch CSS to border-box
+
+- Switch from em to rem
+
+- Document API:
+  luga.Notifier
+  luga.extend()
 
 -------------
 
