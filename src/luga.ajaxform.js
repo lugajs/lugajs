@@ -24,10 +24,10 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.ajax.form");
 
 	luga.ajax.CONST = {
-		FORM_SELECTOR: "form[data-luga-ajaxform]",
+		FORM_SELECTOR: "form[data-lugajax-form]",
 		USER_AGENT: "luga.ajaxform",
 		CUSTOM_ATTRIBUTES: {
-			AJAX: "data-luga-ajaxform"
+			AJAX: "data-lugajax-form"
 		},
 		MESSAGES: {
 			FORM_MISSING: "luga.ajaxform was unable to load form"
