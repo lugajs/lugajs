@@ -24,8 +24,12 @@ AJAX FORM
 
 - Implement code based on old TMT source
 
-- Enable: error, before and after options
-- Enable both html based and params based configuration in order to expose API
+- Retrieve method and action from either HTML, custom  attributes or params
+
+- Implement better signature for handlers, passing additional info about HTTP call
+
+- Test: success, error, before and after options
+- Test: any config option
 
 - Update built script to concat, minify and distribute.
 - Update README.md

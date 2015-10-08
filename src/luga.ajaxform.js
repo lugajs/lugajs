@@ -24,23 +24,31 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.ajaxform");
 	luga.ajaxform.version = "0.1";
 
-	/* Error handlers */
+	/* Success and error handlers */
 	luga.namespace("luga.ajaxform.handlers");
+
+	/**
+	 * Replace form with message from server
+	 */
+	luga.ajaxform.handlers.replaceForm = function(formNode, msg){
+		// TODO: implement
+		alert(msg);
+	};
 
 	/**
 	 * Display error messages inside alert
 	 */
-	luga.ajaxform.handlers.errorAlert = function(formNode, errorMsg){
-		alert(errorMsg);
+	luga.ajaxform.handlers.errorAlert = function(formNode, msg){
+		alert(msg);
 	};
 
 	/**
 	 * Display errors inside a box above the form
 	 */
-	luga.ajaxform.handlers.errorBox = function(formNode, errorMsg){
+	luga.ajaxform.handlers.errorBox = function(formNode, msg){
 		// Clean-up any existing box
 		luga.utils.removeDisplayBox(formNode);
-		luga.utils.displayErrorMessage(formNode, errorMsg);
+		luga.utils.displayErrorMessage(formNode, msg);
 	};
 
 	luga.ajaxform.CONST = {
@@ -48,20 +56,24 @@ if(typeof(luga) === "undefined"){
 		USER_AGENT: "luga.ajaxform",
 		CUSTOM_ATTRIBUTES: {
 			AJAX: "data-lugajax-form",
+			SUCCESS: "data-lugajax-success",
 			ERROR: "data-lugajax-error",
 			BEFORE: "data-lugajax-before",
 			AFTER: "data-lugajax-after"
 		},
 		MESSAGES: {
-			FORM_MISSING: "luga.ajaxform was unable to load form"
+			FORM_MISSING: "luga.ajaxform was unable to load form",
+			MISSING_FUNCTION: "luga.ajaxform was unable to find a function named: {0}"
 		},
 		HANDLERS: {
+			SUCCESS: luga.ajaxform.handlers.replaceForm,
 			ERROR: luga.ajaxform.handlers.errorAlert
 		}
 	};
 
 	luga.ajaxform.Form = function(options){
 		this.config = {
+			success: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.SUCCESS) || luga.ajaxform.CONST.HANDLERS.SUCCESS,
 			error: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.ERROR) || luga.ajaxform.CONST.HANDLERS.ERROR,
 			before: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.BEFORE) || null,
 			after: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.AFTER) || null
@@ -70,10 +82,45 @@ if(typeof(luga) === "undefined"){
 		var self = this;
 		// Ensure it's a jQuery object
 		self.config.formNode = jQuery(self.config.formNode);
-		
+
 		if(jQuery(self.config.formNode).length === 0){
 			throw(luga.ajaxform.CONST.MESSAGES.FORM_MISSING);
 		}
+
+		this.send = function(event){
+			event.preventDefault();
+			// TODO: implement
+		};
+
+		this.before = function(){
+			var callBack = luga.lookup(self.config.before);
+			if(callBack !== null){
+				callBack.apply(null, [self.config.formNode[0]]);
+			}
+			else if(self.config.before){
+				alert(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.before]));
+			}
+		};
+
+		this.error = function(){
+			var callBack = luga.lookup(self.config.error);
+			if(callBack !== null){
+				callBack.apply(null, [self.config.formNode[0], self.dirtyValidators]);
+			}
+			else if(self.config.error){
+				alert(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.error]));
+			}
+		};
+
+		this.after = function(){
+			var callBack = luga.lookup(self.config.after);
+			if(callBack !== null){
+				callBack.apply(null, [self.config.formNode[0]]);
+			}
+			else if(self.config.after){
+				alert(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.after]));
+			}
+		};
 
 	};
 
