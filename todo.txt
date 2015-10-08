@@ -24,12 +24,12 @@ AJAX FORM
 
 - Implement code based on old TMT source
 
-- Retrieve method and action from either HTML, custom  attributes or params
-
 - Implement better signature for handlers, passing additional info about HTTP call
 
 - Test: success, error, before and after options
-- Test: any config option
+- Test: method and action config options
+
+- Add JSDoc
 
 - Update built script to concat, minify and distribute.
 - Update README.md

@@ -54,8 +54,11 @@ if(typeof(luga) === "undefined"){
 	luga.ajaxform.CONST = {
 		FORM_SELECTOR: "form[data-lugajax-form]",
 		USER_AGENT: "luga.ajaxform",
+		DEFAULT_METHOD: "GET",
 		CUSTOM_ATTRIBUTES: {
 			AJAX: "data-lugajax-form",
+			ACTION: "data-lugajax-action",
+			METHOD: "data-lugajax-method",
 			SUCCESS: "data-lugajax-success",
 			ERROR: "data-lugajax-error",
 			BEFORE: "data-lugajax-before",
@@ -73,6 +76,8 @@ if(typeof(luga) === "undefined"){
 
 	luga.ajaxform.Form = function(options){
 		this.config = {
+			action: jQuery(options.formNode).attr("action") || jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.ACTION) || self.location.href,
+			method: jQuery(options.formNode).attr("method") || jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.METHOD) || luga.ajaxform.CONST.DEFAULT_METHOD,
 			success: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.SUCCESS) || luga.ajaxform.CONST.HANDLERS.SUCCESS,
 			error: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.ERROR) || luga.ajaxform.CONST.HANDLERS.ERROR,
 			before: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.BEFORE) || null,
