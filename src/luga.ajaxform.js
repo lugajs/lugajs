@@ -62,12 +62,16 @@ if(typeof(luga) === "undefined"){
 			METHOD: "data-lugajax-method",
 			TIME_OUT: "data-lugajax-timeout",
 			SUCCESS: "data-lugajax-success",
+			SUCCESS_MSG: "data-lugajax-successmsg",
 			ERROR: "data-lugajax-error",
+			ERROR_MSG: "data-lugajax-errormsg",
 			BEFORE: "data-lugajax-before",
 			AFTER: "data-lugajax-after"
 		},
 		MESSAGES: {
-			FORM_MISSING: "luga.ajaxform was unable to load form",
+			SUCCESS: "Thanks for submitting the form",
+			ERROR: "Failed to submit the form",
+			MISSING_FORM: "luga.ajaxform was unable to load form",
 			MISSING_FUNCTION: "luga.ajaxform was unable to find a function named: {0}"
 		},
 		HANDLERS: {
@@ -86,6 +90,8 @@ if(typeof(luga) === "undefined"){
 			timeout: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.TIME_OUT) || luga.ajaxform.CONST.DEFAULT_TIME_OUT,
 			success: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.SUCCESS) || luga.ajaxform.CONST.HANDLERS.SUCCESS,
 			error: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.ERROR) || luga.ajaxform.CONST.HANDLERS.ERROR,
+			successmsg: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.SUCCESS_MSG) || luga.ajaxform.CONST.MESSAGES.SUCCESS,
+			errormsg: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.ERROR_MSG) || luga.ajaxform.CONST.MESSAGES.ERROR,
 			// Either: custom attribute, incoming option or null
 			before: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.BEFORE) || null,
 			after: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.AFTER) || null
@@ -96,7 +102,7 @@ if(typeof(luga) === "undefined"){
 		self.config.formNode = jQuery(self.config.formNode);
 
 		if(jQuery(self.config.formNode).length === 0){
-			throw(luga.ajaxform.CONST.MESSAGES.FORM_MISSING);
+			throw(luga.ajaxform.CONST.MESSAGES.MISSING_FORM);
 		}
 
 		this.send = function(event){
