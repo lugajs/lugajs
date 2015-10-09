@@ -123,7 +123,7 @@ if(typeof(luga) === "undefined"){
 			DISABLED_MESSAGE: "data-lugavalidator-disabledlabel"
 		},
 		MESSAGES: {
-			FORM_MISSING: "luga.validator was unable to load form",
+			MISSING_FORM: "luga.validator was unable to load form",
 			MISSING_FUNCTION: "luga.validator was unable to find a function named: {0}",
 			BASE_VALIDATOR_ABSTRACT: "luga.validator.BaseFieldValidator is an abstract class",
 			GROUP_VALIDATOR_ABSTRACT: "luga.validator.BaseGroupValidator is an abstract class",
@@ -167,7 +167,7 @@ if(typeof(luga) === "undefined"){
 		self.config.formNode = jQuery(self.config.formNode);
 
 		if(jQuery(self.config.formNode).length === 0){
-			throw(luga.validator.CONST.MESSAGES.FORM_MISSING);
+			throw(luga.validator.CONST.MESSAGES.MISSING_FORM);
 		}
 
 		this.init = function(){

@@ -190,7 +190,7 @@ if(typeof(luga) === "undefined"){
 			reset: true
 		},
 		MESSAGES: {
-			FORM_MISSING: "Unable to load form"
+			MISSING_FORM: "Unable to load form"
 		},
 		HASH_DELIMITER: ","
 	};
@@ -207,7 +207,7 @@ if(typeof(luga) === "undefined"){
 	luga.form.toQueryString = function(formNode, demoronize){
 
 		if(formNode.length === 0){
-			throw(luga.form.CONST.MESSAGES.FORM_MISSING);
+			throw(luga.form.CONST.MESSAGES.MISSING_FORM);
 		}
 
 		var str = "";
@@ -259,7 +259,7 @@ if(typeof(luga) === "undefined"){
 	luga.form.toHash = function(formNode, demoronize){
 
 		if(formNode.length === 0){
-			throw(luga.form.CONST.MESSAGES.FORM_MISSING);
+			throw(luga.form.CONST.MESSAGES.MISSING_FORM);
 		}
 
 		var map = {};

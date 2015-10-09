@@ -190,7 +190,7 @@ if(typeof(luga) === "undefined"){
 			reset: true
 		},
 		MESSAGES: {
-			FORM_MISSING: "Unable to load form"
+			MISSING_FORM: "Unable to load form"
 		},
 		HASH_DELIMITER: ","
 	};
@@ -207,7 +207,7 @@ if(typeof(luga) === "undefined"){
 	luga.form.toQueryString = function(formNode, demoronize){
 
 		if(formNode.length === 0){
-			throw(luga.form.CONST.MESSAGES.FORM_MISSING);
+			throw(luga.form.CONST.MESSAGES.MISSING_FORM);
 		}
 
 		var str = "";
@@ -259,7 +259,7 @@ if(typeof(luga) === "undefined"){
 	luga.form.toHash = function(formNode, demoronize){
 
 		if(formNode.length === 0){
-			throw(luga.form.CONST.MESSAGES.FORM_MISSING);
+			throw(luga.form.CONST.MESSAGES.MISSING_FORM);
 		}
 
 		var map = {};
@@ -693,7 +693,7 @@ if(typeof(luga) === "undefined"){
 			DISABLED_MESSAGE: "data-lugavalidator-disabledlabel"
 		},
 		MESSAGES: {
-			FORM_MISSING: "luga.validator was unable to load form",
+			MISSING_FORM: "luga.validator was unable to load form",
 			MISSING_FUNCTION: "luga.validator was unable to find a function named: {0}",
 			BASE_VALIDATOR_ABSTRACT: "luga.validator.BaseFieldValidator is an abstract class",
 			GROUP_VALIDATOR_ABSTRACT: "luga.validator.BaseGroupValidator is an abstract class",
@@ -722,8 +722,10 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.validator.FormValidator = function(options){
 		this.config = {
+			// Either: custom attribute, incoming option or default
 			blocksubmit: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.BLOCK_SUBMIT) || "true",
 			error: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.ERROR) || luga.validator.CONST.HANDLERS.FORM_ERROR,
+			// Either: custom attribute, incoming option or null
 			before: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.BEFORE) || null,
 			after: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.AFTER) || null
 		};
@@ -731,10 +733,11 @@ if(typeof(luga) === "undefined"){
 		var self = this;
 		self.validators = [];
 		self.dirtyValidators = [];
+		// Ensure it's a jQuery object
 		self.config.formNode = jQuery(self.config.formNode);
 
 		if(jQuery(self.config.formNode).length === 0){
-			throw(luga.validator.CONST.MESSAGES.FORM_MISSING);
+			throw(luga.validator.CONST.MESSAGES.MISSING_FORM);
 		}
 
 		this.init = function(){
