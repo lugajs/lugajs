@@ -31,7 +31,8 @@ describe("luga.ajaxform", function(){
 
 			configSender = new luga.ajaxform.Sender({
 				formNode: jQuery("#basic"),
-				action: "configAction"
+				action: "configAction",
+				method: "PUT"
 			});
 
 		});
@@ -73,6 +74,26 @@ describe("luga.ajaxform", function(){
 
 				it("Retrieves the value from the option argument", function(){
 					expect(configSender.config.action).toEqual("configAction");
+				});
+
+			});
+
+			describe("options.method either:", function(){
+
+				it("Default to GET", function(){
+					expect(basicSender.config.method).toEqual("GET");
+				});
+
+				it("Retrieves the value from the form's method attribute", function(){
+					expect(attributesSender.config.method).toEqual("POST");
+				});
+
+				it("Retrieves the value from the form's data-lugajax-method custom attribute", function(){
+					expect(customSender.config.method).toEqual("DELETE");
+				});
+
+				it("Retrieves the value from the option argument", function(){
+					expect(configSender.config.method).toEqual("PUT");
 				});
 
 			});
