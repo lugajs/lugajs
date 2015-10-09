@@ -73,7 +73,7 @@ describe("luga.ajaxform", function(){
 					expect(customSender.config.action).toEqual("customAction");
 				});
 
-				it("Retrieves the value from the option argument", function(){
+				it("Uses the value specified inside the option argument", function(){
 					expect(configSender.config.action).toEqual("configAction");
 				});
 
@@ -93,7 +93,7 @@ describe("luga.ajaxform", function(){
 					expect(customSender.config.method).toEqual("DELETE");
 				});
 
-				it("Retrieves the value from the option argument", function(){
+				it("Uses the value specified inside the option argument", function(){
 					expect(configSender.config.method).toEqual("PUT");
 				});
 
@@ -109,7 +109,7 @@ describe("luga.ajaxform", function(){
 					expect(customSender.config.timeout).toEqual(20000);
 				});
 
-				it("Retrieves the value from the option argument", function(){
+				it("Uses the value specified inside the option argument", function(){
 					expect(configSender.config.timeout).toEqual(40000);
 				});
 
