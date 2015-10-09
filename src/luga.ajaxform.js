@@ -97,6 +97,7 @@ if(typeof(luga) === "undefined"){
 			after: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.AFTER) || null
 		};
 		luga.merge(this.config, options);
+		this.config.timeout = parseInt(this.config.timeout, 10);
 		var self = this;
 		// Ensure it's a jQuery object
 		self.config.formNode = jQuery(self.config.formNode);

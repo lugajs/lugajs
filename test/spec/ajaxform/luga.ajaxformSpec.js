@@ -32,7 +32,8 @@ describe("luga.ajaxform", function(){
 			configSender = new luga.ajaxform.Sender({
 				formNode: jQuery("#basic"),
 				action: "configAction",
-				method: "PUT"
+				method: "PUT",
+				timeout: 40000
 			});
 
 		});
@@ -94,6 +95,22 @@ describe("luga.ajaxform", function(){
 
 				it("Retrieves the value from the option argument", function(){
 					expect(configSender.config.method).toEqual("PUT");
+				});
+
+			});
+
+			describe("options.timeout either:", function(){
+
+				it("Default to 30s", function(){
+					expect(basicSender.config.timeout).toEqual(30000);
+				});
+
+				it("Retrieves the value from the form's data-lugajax-timeout custom attribute", function(){
+					expect(customSender.config.timeout).toEqual(20000);
+				});
+
+				it("Retrieves the value from the option argument", function(){
+					expect(configSender.config.timeout).toEqual(40000);
 				});
 
 			});
