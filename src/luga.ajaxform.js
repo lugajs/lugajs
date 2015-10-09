@@ -83,7 +83,7 @@ if(typeof(luga) === "undefined"){
 	luga.ajaxform.Sender = function(options){
 		this.config = {
 			// Either: form attribute, custom attribute, incoming option or current URL
-			action: jQuery(options.formNode).attr("action") || jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.ACTION) || self.location.href,
+			action: jQuery(options.formNode).attr("action") || jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.ACTION) || document.location.href,
 			// Either: form attribute, custom attribute, incoming option or default
 			method: jQuery(options.formNode).attr("method") || jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.METHOD) || luga.ajaxform.CONST.DEFAULT_METHOD,
 			// Either: custom attribute, incoming option or default

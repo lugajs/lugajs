@@ -12,12 +12,71 @@ describe("luga.ajaxform", function(){
 
 	describe(".Sender", function(){
 
-		it("Throws an exception if the associated form node does not exists", function(){
-			expect(function(){
-				var formHandler = new luga.ajaxform.Sender({
-					formNode: jQuery("#missing")
+		var basicSender, attributesSender, customSender, configSender;
+
+		beforeEach(function(){
+			loadFixtures("ajaxform/form.htm");
+
+			basicSender = new luga.ajaxform.Sender({
+				formNode: jQuery("#basic")
+			});
+
+			attributesSender = new luga.ajaxform.Sender({
+				formNode: jQuery("#attributes")
+			});
+
+			customSender = new luga.ajaxform.Sender({
+				formNode: jQuery("#customAttributes")
+			});
+
+			configSender = new luga.ajaxform.Sender({
+				formNode: jQuery("#basic"),
+				action: "configAction"
+			});
+
+		});
+
+
+		describe("Accepts an Options object as single arguments", function(){
+
+			describe("options.formNode", function(){
+
+				it("Is mandatory", function(){
+					expect(function(){
+						var formHandler = new luga.ajaxform.Sender({});
+					}).toThrow();
 				});
-			}).toThrow();
+
+				it("Throws an exception if the associated form node does not exists", function(){
+					expect(function(){
+						var formHandler = new luga.ajaxform.Sender({
+							formNode: jQuery("#missing")
+						});
+					}).toThrow();
+				});
+
+			});
+
+			describe("options.action either:", function(){
+
+				it("Default to the current URL", function(){
+					expect(basicSender.config.action).toEqual(document.location.href);
+				});
+
+				it("Retrieves the value from the form's action attribute", function(){
+					expect(attributesSender.config.action).toEqual("attributeAction");
+				});
+
+				it("Retrieves the value from the form's data-lugajax-action custom attribute", function(){
+					expect(customSender.config.action).toEqual("customAction");
+				});
+
+				it("Retrieves the value from the option argument", function(){
+					expect(configSender.config.action).toEqual("configAction");
+				});
+
+			});
+
 		});
 
 	});
