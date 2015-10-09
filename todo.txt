@@ -4,6 +4,12 @@ CORE:
 
 -------------
 
+Validator:
+
+- Add test for options config
+
+-------------
+
 DOCS:
 
 - Link to specific unit tests from API docs
