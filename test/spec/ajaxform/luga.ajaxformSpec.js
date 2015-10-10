@@ -40,6 +40,13 @@ describe("luga.ajaxform", function(){
 
 		});
 
+		it("Throws an exception if the associated form node does not exists", function(){
+			expect(function(){
+				var formHandler = new luga.ajaxform.Sender({
+					formNode: jQuery("#missing")
+				});
+			}).toThrow();
+		});
 
 		describe("Accepts an Options object as single argument", function(){
 
@@ -48,14 +55,6 @@ describe("luga.ajaxform", function(){
 				it("Is mandatory", function(){
 					expect(function(){
 						var formHandler = new luga.ajaxform.Sender({});
-					}).toThrow();
-				});
-
-				it("Throws an exception if the associated form node does not exists", function(){
-					expect(function(){
-						var formHandler = new luga.ajaxform.Sender({
-							formNode: jQuery("#missing")
-						});
 					}).toThrow();
 				});
 
