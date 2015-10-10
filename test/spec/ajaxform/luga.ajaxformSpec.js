@@ -126,7 +126,7 @@ describe("luga.ajaxform", function(){
 
 			describe("options.errormsg either:", function(){
 
-				it("Default to: " + luga.ajaxform.CONST.MESSAGES.SUCCESS, function(){
+				it("Default to: " + luga.ajaxform.CONST.MESSAGES.ERROR, function(){
 					expect(basicSender.config.errormsg).toEqual(luga.ajaxform.CONST.MESSAGES.ERROR);
 				});
 				it("Retrieves the value from the form's data-lugajax-errormsg custom attribute", function(){
