@@ -41,7 +41,7 @@ describe("luga.ajaxform", function(){
 		});
 
 
-		describe("Accepts an Options object as single arguments", function(){
+		describe("Accepts an Options object as single argument", function(){
 
 			describe("options.formNode", function(){
 
