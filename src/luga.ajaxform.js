@@ -155,7 +155,7 @@ if(typeof(luga) === "undefined"){
 			event.preventDefault();
 
 			if(self.config.before !== null){
-				self.config.before.apply(null);
+				self.config.before.apply(null, [self.config.formNode[0]]);
 			}
 
 			jQuery.ajax({
@@ -175,7 +175,7 @@ if(typeof(luga) === "undefined"){
 			});
 
 			if(self.config.after !== null){
-				self.config.after.apply(null);
+				self.config.after.apply(null, [self.config.formNode[0]]);
 			}
 
 		};

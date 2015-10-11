@@ -37,7 +37,8 @@ AJAX FORM
 - Add JSDoc
 
 - Write docs
-  Document handler's signature
+  Document success/error signature
+  Document after/before signature
 
 - Update version
 - Update built script to concat, minify and distribute.
