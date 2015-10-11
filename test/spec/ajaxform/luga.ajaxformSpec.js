@@ -12,7 +12,7 @@ describe("luga.ajaxform", function(){
 
 	describe(".Sender", function(){
 
-		var basicSender, attributesSender, customSender, configSender, customSuccessHandler, customErrorHandler;
+		var basicSender, attributesSender, customSender, configSender, customSuccessHandler, customErrorHandler, customBefore, customAfter;
 
 		beforeEach(function(){
 			loadFixtures("ajaxform/form.htm");
@@ -37,13 +37,18 @@ describe("luga.ajaxform", function(){
 				success: "customSuccessHandler",
 				successmsg: "Success",
 				error: "customErrorHandler",
-				errormsg: "Error"
+				errormsg: "Error",
+				before: "customBefore",
+				after: "customAfter"
 			});
 
-			customSuccessHandler = function() {
+			customSuccessHandler = function(){
 			};
-
-			customErrorHandler = function() {
+			customErrorHandler = function(){
+			};
+			customBefore = function(){
+			};
+			customAfter = function(){
 			};
 
 		});
@@ -169,6 +174,34 @@ describe("luga.ajaxform", function(){
 				});
 				it("Uses the value specified inside the option argument", function(){
 					expect(configSender.config.errormsg).toEqual("Error");
+				});
+
+			});
+
+			describe("options.before either:", function(){
+
+				it("Default to: null", function(){
+					expect(basicSender.config.before).toBeNull();
+				});
+				it("Retrieves the value from the form's data-lugajax-before custom attribute", function(){
+					expect(customSender.config.before).toEqual("customBefore");
+				});
+				it("Uses the value specified inside the option argument", function(){
+					expect(configSender.config.before).toEqual("customBefore");
+				});
+
+			});
+
+			describe("options.after either:", function(){
+
+				it("Default to: null", function(){
+					expect(basicSender.config.after).toBeNull();
+				});
+				it("Retrieves the value from the form's data-lugajax-after custom attribute", function(){
+					expect(customSender.config.after).toEqual("customAfter");
+				});
+				it("Uses the value specified inside the option argument", function(){
+					expect(configSender.config.after).toEqual("customAfter");
 				});
 
 			});

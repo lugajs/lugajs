@@ -32,8 +32,6 @@ AJAX FORM
 
 - Implement better signature for handlers, passing additional info about HTTP call
 
-- Test: before and after options
-
 - Add JSDoc
 
 - Update built script to concat, minify and distribute.
