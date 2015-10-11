@@ -51,15 +51,6 @@ if(typeof(luga) === "undefined"){
 		luga.utils.displayErrorMessage(formNode, msg);
 	};
 
-	/**
-	 * Display error message inside a box above the form
-	 */
-	luga.ajaxform.handlers.errorBox = function(formNode, msg){
-		// Clean-up any existing box
-		luga.utils.removeDisplayBox(formNode);
-		luga.utils.displayErrorMessage(formNode, msg);
-	};
-
 	luga.ajaxform.CONST = {
 		FORM_SELECTOR: "form[data-lugajax-form='true']",
 		USER_AGENT: "luga.ajaxform",
