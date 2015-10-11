@@ -107,22 +107,24 @@ if(typeof(luga) === "undefined"){
 		}
 
 		this.after = function(){
-			var callBack = luga.lookup(self.config.after);
-			if(callBack !== null){
+			if(self.config.after !== null){
+				var callBack = luga.lookup(self.config.after);
+				if(callBack === null){
+					alert(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.after]));
+					callBack.apply(null, [self.config.formNode[0]]);
+				}
 				callBack.apply(null, [self.config.formNode[0]]);
-			}
-			else if(self.config.after){
-				alert(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.after]));
 			}
 		};
 
 		this.before = function(){
-			var callBack = luga.lookup(self.config.before);
-			if(callBack !== null){
+			if(self.config.after !== null){
+				var callBack = luga.lookup(self.config.before);
+				if(callBack === null){
+					alert(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.before]));
+					callBack.apply(null, [self.config.formNode[0]]);
+				}
 				callBack.apply(null, [self.config.formNode[0]]);
-			}
-			else if(self.config.before){
-				alert(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.before]));
 			}
 		};
 
@@ -142,8 +144,7 @@ if(typeof(luga) === "undefined"){
 			callBack.apply(null, [self.config.formNode[0], self.config.successmsg, textStatus, response, jqXHR]);
 		};
 
-		this.send = function(event){
-			event.preventDefault();
+		this.send = function(){
 
 			if(self.config.before !== null){
 				self.config.before.apply(null, [self.config.formNode[0]]);
@@ -180,10 +181,11 @@ if(typeof(luga) === "undefined"){
 		jQuery(luga.ajaxform.CONST.FORM_SELECTOR).each(function(index, item){
 			var formNode = jQuery(item);
 			formNode.submit(function(event){
+				event.preventDefault();
 				var formHandler = new luga.ajaxform.Sender({
 					formNode: formNode
 				});
-				formHandler.send(event);
+				formHandler.send();
 			});
 		});
 	};
