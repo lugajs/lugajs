@@ -37,6 +37,8 @@ AJAX FORM
 - Test proper execution order of before, send and after
 - Test successmsg and errormsg config options
 
+- Test handler's signature
+
 - Test luga.ajaxform.handlers.replaceForm
 - Test luga.ajaxform.handlers.errorAlert
 - Test luga.ajaxform.handlers.errorBox
