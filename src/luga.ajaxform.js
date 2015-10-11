@@ -193,7 +193,6 @@ if(typeof(luga) === "undefined"){
 					formNode: formNode
 				});
 				formHandler.send(event);
-				event.preventDefault();
 			});
 		});
 	};
