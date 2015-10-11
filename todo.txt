@@ -33,6 +33,8 @@ AJAX FORM
 
 - Implement better signature for handlers, passing additional info about HTTP call
 
+- Call send() in order to test, we can't call form.submit()
+- Test XHR call as much as possible
 - Test proper execution order of before, send and after
 - Test timeout, successmsg and errormsg config options
 

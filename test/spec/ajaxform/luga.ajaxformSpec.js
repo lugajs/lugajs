@@ -208,6 +208,17 @@ describe("luga.ajaxform", function(){
 
 		});
 
+		describe(".send()", function(){
+
+			xit("Is invoked whenever the form is submitted", function(){
+				var formHandler = new luga.ajaxform.Sender({formNode: jQuery("#basicAction")});
+
+				jQuery("#basicAction")[0].submit();
+				expect(basicSender.config.after).toBeNull();
+			});
+
+		});
+
 	});
 
 });

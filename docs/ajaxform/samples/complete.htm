@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>Luga Ajaxform :: Generic form</title>
+	<link rel="stylesheet" href="../../../src/luga.css" />
+	<link rel="stylesheet" href="../../docs.css" />
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../src/luga.core.js"></script>
+	<script src="../../../src/luga.csi.js"></script>
+	<script src="../../../src/luga.ajaxform.js"></script>
+	<script src="../../docs.js"></script>
+</head>
+<body>
+
+	<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
+	<div data-lugacsi="../sidebar.inc"></div>
+
+	<div class="content">
+
+		<form action="action.json" data-lugajax-form="true">
+			<h1>Complete Form</h1>
+			<table>
+				<tr>
+					<td><label for="age">Age (required, positive integer, min 18, max 75)</label></td>
+					<td><input type="text" id="age" name="age" data-lugavalidator-required="true" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Please insert a valid age" data-lugavalidator-pattern="positiveinteger" data-lugavalidator-minnumber="18" data-lugavalidator-maxnumber="75" data-lugavalidator-filters="numbersonly" value="18"/></td>
+				</tr>
+				<tr>
+					<td><label for="name">Name (required)</label></td>
+					<td><input type="text" id="name" name="name" data-lugavalidator-required="true" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Please insert a name"/></td>
+				</tr>
+				<tr>
+					<td><label for="email">Email (required, email)</label></td>
+					<td><input type="text" id="email" name="email" data-lugavalidator-required="true" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Please insert a valid email" data-lugavalidator-email="true"/></td>
+				</tr>
+				<tr>
+					<td><label for="date">Date (not required, date, YYYY-MM-DD)</label></td>
+					<td><input type="text" id="date" name="date" data-lugavalidator-message="Please insert a valid date using the YYYY-MM-DD format" data-lugavalidator-errorclass="invalid" data-lugavalidator-datepattern="YYYY-MM-DD" value="2005-05-09"/></td>
+				</tr>
+				<tr>
+					<td><label for="comments">Comments (not required, min 3 chars, max 10)</label></td>
+					<td><textarea id="comments" name="comments" cols="20" rows="3" data-lugavalidator-message="Comments should be from 3 to 10 chars" data-lugavalidator-errorclass="invalid" data-lugavalidator-minlength="3" data-lugavalidator-maxlength="10"></textarea></td>
+				</tr>
+				<tr>
+					<td>
+						Italy's major contributions to modern civilization? Pick at least one:
+					</td>
+					<td>
+						<label><input type="checkbox" name="italy" value="Pizza" data-lugavalidator-minchecked="1" data-lugavalidator-message="Please select at least one contribution"/>Pizza</label>
+						<label><input type="checkbox" name="italy" value="Spaghetti"/>Spaghetti</label>
+						<label><input type="checkbox" name="italy" value="Sophia"/>Sophia Loren</label>
+						<label><input type="checkbox" name="italy" value="Leonardo"/>Leonardo Da Vinci</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						You would like to take a drink with? (You can pick only one, sorry):
+					</td>
+					<td>
+						<label><input type="radio" name="lady" data-lugavalidator-required="true" value="Nicole Kidman" id="Nicole" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Select a Lady"/>Nicole Kidman</label>
+						<label><input type="radio" name="lady" value="Kate Beckinsale"/>Kate Beckinsale</label>
+						<label><input type="radio" name="lady" value="Jennifer Connelly"/>Jennifer Connelly</label>
+						<label><input type="radio" name="lady" value="Liz Hurley"/>Liz Hurley</label>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><input type="submit" value="Submit"/></td>
+				</tr>
+			</table>
+		</form>
+
+	</div>
+
+	<div data-lugacsi="../../footer.inc"></div>
+
+</body>
+</html>
