@@ -29,18 +29,15 @@ DOCS:
 
 AJAX FORM
 
-- Implement code based on old TMT source
-
-- Implement better signature for handlers, passing additional info about HTTP call
-
 - Call send() in order to test, we can't call form.submit()
-- Test XHR call as much as possible
+- Test XHR call as much as possible (spy jQuery.ajax?)
 - Test proper execution order of before, send and after
 - Test timeout, successmsg and errormsg config options
 
 - Add JSDoc
 
 - Write docs
+  Document handler's signature
 
 - Update version
 - Update built script to concat, minify and distribute.
