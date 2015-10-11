@@ -7,12 +7,13 @@ CORE:
 VALIDATOR:
 
 - Add test for options config (see ajaxform.Sender)
+- Add detailed JSDoc to improve IntelliJ's intellisense
 
 -------------
 
 DOCS:
 
-- Link to specific unit tests from API docs
+- Link to specific unit tests from libs docs
 
 - Update sitemap.xml
 
@@ -31,6 +32,9 @@ AJAX FORM
 - Implement code based on old TMT source
 
 - Implement better signature for handlers, passing additional info about HTTP call
+
+- Test proper execution order of before, send and after
+- Test timeout, successmsg and errormsg config options
 
 - Add JSDoc
 
