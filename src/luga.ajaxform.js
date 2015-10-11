@@ -81,26 +81,26 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.ajaxform.Sender = function(options){
+		// Ensure it's a jQuery object
+		options.formNode = jQuery(options.formNode);
 		this.config = {
 			// Either: form attribute, custom attribute, incoming option or current URL
-			action: jQuery(options.formNode).attr("action") || jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.ACTION) || document.location.href,
+			action: options.formNode.attr("action") || options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.ACTION) || document.location.href,
 			// Either: form attribute, custom attribute, incoming option or default
-			method: jQuery(options.formNode).attr("method") || jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.METHOD) || luga.ajaxform.CONST.DEFAULT_METHOD,
+			method: options.formNode.attr("method") || options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.METHOD) || luga.ajaxform.CONST.DEFAULT_METHOD,
 			// Either: custom attribute, incoming option or default
-			timeout: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.TIME_OUT) || luga.ajaxform.CONST.DEFAULT_TIME_OUT,
-			success: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.SUCCESS) || luga.ajaxform.CONST.HANDLERS.SUCCESS,
-			error: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.ERROR) || luga.ajaxform.CONST.HANDLERS.ERROR,
-			successmsg: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.SUCCESS_MSG) || luga.ajaxform.CONST.MESSAGES.SUCCESS,
-			errormsg: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.ERROR_MSG) || luga.ajaxform.CONST.MESSAGES.ERROR,
+			timeout: options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.TIME_OUT) || luga.ajaxform.CONST.DEFAULT_TIME_OUT,
+			success: options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.SUCCESS) || luga.ajaxform.CONST.HANDLERS.SUCCESS,
+			error: options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.ERROR) || luga.ajaxform.CONST.HANDLERS.ERROR,
+			successmsg: options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.SUCCESS_MSG) || luga.ajaxform.CONST.MESSAGES.SUCCESS,
+			errormsg: options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.ERROR_MSG) || luga.ajaxform.CONST.MESSAGES.ERROR,
 			// Either: custom attribute, incoming option or null
-			before: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.BEFORE) || null,
-			after: jQuery(options.formNode).attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.AFTER) || null
+			before: options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.BEFORE) || null,
+			after: options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.AFTER) || null
 		};
 		luga.merge(this.config, options);
 		this.config.timeout = parseInt(this.config.timeout, 10);
 		var self = this;
-		// Ensure it's a jQuery object
-		self.config.formNode = jQuery(self.config.formNode);
 
 		if(jQuery(self.config.formNode).length === 0){
 			throw(luga.ajaxform.CONST.MESSAGES.MISSING_FORM);
