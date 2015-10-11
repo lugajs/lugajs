@@ -12,7 +12,7 @@ describe("luga.ajaxform", function(){
 
 	describe(".Sender", function(){
 
-		var basicSender, attributesSender, customSender, configSender;
+		var basicSender, attributesSender, customSender, configSender, customSuccessHandler, customErrorHandler;
 
 		beforeEach(function(){
 			loadFixtures("ajaxform/form.htm");
@@ -34,9 +34,17 @@ describe("luga.ajaxform", function(){
 				action: "configAction",
 				method: "PUT",
 				timeout: 40000,
+				success: "customSuccessHandler",
 				successmsg: "Success",
+				error: "customErrorHandler",
 				errormsg: "Error"
 			});
+
+			customSuccessHandler = function() {
+			};
+
+			customErrorHandler = function() {
+			};
 
 		});
 
@@ -109,6 +117,20 @@ describe("luga.ajaxform", function(){
 
 			});
 
+			describe("options.success either:", function(){
+
+				it("Default to: 'luga.ajaxform.handlers.replaceForm'", function(){
+					expect(basicSender.config.success).toEqual('luga.ajaxform.handlers.replaceForm');
+				});
+				it("Retrieves the value from the form's data-lugajax-success custom attribute", function(){
+					expect(customSender.config.success).toEqual("customSuccessHandler");
+				});
+				it("Uses the value specified inside the option argument", function(){
+					expect(configSender.config.success).toEqual("customSuccessHandler");
+				});
+
+			});
+
 			describe("options.successmsg either:", function(){
 
 				it("Default to: " + luga.ajaxform.CONST.MESSAGES.SUCCESS, function(){
@@ -119,6 +141,20 @@ describe("luga.ajaxform", function(){
 				});
 				it("Uses the value specified inside the option argument", function(){
 					expect(configSender.config.successmsg).toEqual("Success");
+				});
+
+			});
+
+			describe("options.error either:", function(){
+
+				it("Default to: 'luga.ajaxform.handlers.errorAlert'", function(){
+					expect(basicSender.config.error).toEqual('luga.ajaxform.handlers.errorAlert');
+				});
+				it("Retrieves the value from the form's data-lugajax-error custom attribute", function(){
+					expect(customSender.config.error).toEqual("customErrorHandler");
+				});
+				it("Uses the value specified inside the option argument", function(){
+					expect(configSender.config.error).toEqual("customErrorHandler");
 				});
 
 			});

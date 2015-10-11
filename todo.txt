@@ -32,7 +32,7 @@ AJAX FORM
 
 - Implement better signature for handlers, passing additional info about HTTP call
 
-- Test: success, error, before and after options
+- Test: before and after options
 
 - Add JSDoc
 

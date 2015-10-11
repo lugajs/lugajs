@@ -75,8 +75,8 @@ if(typeof(luga) === "undefined"){
 			MISSING_FUNCTION: "luga.ajaxform was unable to find a function named: {0}"
 		},
 		HANDLERS: {
-			SUCCESS: luga.ajaxform.handlers.replaceForm,
-			ERROR: luga.ajaxform.handlers.errorAlert
+			SUCCESS: "luga.ajaxform.handlers.replaceForm",
+			ERROR: "luga.ajaxform.handlers.errorAlert"
 		}
 	};
 
