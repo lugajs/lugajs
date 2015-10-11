@@ -7,6 +7,9 @@ CORE:
 VALIDATOR:
 
 - Add test for options config (see ajaxform.Sender)
+
+- Test/document entries inside luga.validator.CONST that can be customized
+
 - Add detailed JSDoc to improve IntelliJ's intellisense
 
 -------------
@@ -29,20 +32,33 @@ DOCS:
 
 AJAX FORM
 
-- Call send() in order to test, we can't call form.submit()
+- Directly call send() in order to test, we can't call form.submit()
 - Test XHR call as much as possible (spy jQuery.ajax?)
 - Test proper execution order of before, send and after
-- Test timeout, successmsg and errormsg config options
+- Test successmsg and errormsg config options
+
+- Test luga.ajaxform.handlers.replaceForm
+- Test luga.ajaxform.handlers.errorAlert
+- Test luga.ajaxform.handlers.errorBox
+
+- Test/document entries inside luga.ajaxform.CONST that can be customized
 
 - Add JSDoc
 
-- Write docs
-  Document success/error signature
-  Document after/before signature
+- Docs
+  about
+  getting started
+  syntax
+  success/error signature
+  after/before signature
+  custom handlers
+  luga.ajaxform.handlers.errorBox
 
 - Update version
 - Update built script to concat, minify and distribute.
 - Update README.md
+
+- Implement API
 
 -------------
 
