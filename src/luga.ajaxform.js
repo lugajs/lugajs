@@ -30,7 +30,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Replace form with message
 	 */
-	luga.ajaxform.handlers.replaceForm = function(formNode, msg, textStatus, response, jqXHR){
+	luga.ajaxform.handlers.replaceForm = function(msg, formNode, textStatus, response, jqXHR){
 		jQuery(formNode).empty();
 		jQuery(formNode).html(msg);
 	};
@@ -38,14 +38,14 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Display error message inside alert
 	 */
-	luga.ajaxform.handlers.errorAlert = function(formNode, msg, textStatus, errorThrown, jqXHR){
+	luga.ajaxform.handlers.errorAlert = function(msg, formNode, textStatus, errorThrown, jqXHR){
 		alert(msg);
 	};
 
 	/**
 	 * Display errors inside a box above the form
 	 */
-	luga.ajaxform.handlers.errorBox = function(formNode, msg, textStatus, errorThrown, jqXHR){
+	luga.ajaxform.handlers.errorBox = function(msg, formNode, textStatus, errorThrown, jqXHR){
 		// Clean-up any existing box
 		luga.utils.removeDisplayBox(formNode);
 		luga.utils.displayErrorMessage(formNode, msg);
@@ -133,7 +133,7 @@ if(typeof(luga) === "undefined"){
 			if(self.config.error === undefined){
 				alert(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.error]));
 			}
-			callBack.apply(null, [self.config.formNode[0], self.config.errormsg, textStatus, errorThrown, jqXHR]);
+			callBack.apply(null, [self.config.errormsg, self.config.formNode[0], textStatus, errorThrown, jqXHR]);
 		};
 
 		var handleSuccess = function(textStatus, response, jqXHR){
@@ -141,7 +141,7 @@ if(typeof(luga) === "undefined"){
 			if(self.config.success === undefined){
 				alert(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.success]));
 			}
-			callBack.apply(null, [self.config.formNode[0], self.config.successmsg, textStatus, response, jqXHR]);
+			callBack.apply(null, [self.config.successmsg, self.config.formNode[0], textStatus, response, jqXHR]);
 		};
 
 		this.send = function(){
