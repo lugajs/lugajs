@@ -32,9 +32,6 @@ DOCS:
 
 AJAX FORM
 
-- Directly call send() in order to test, we can't call form.submit()
-- Test XHR call as much as possible (spy jQuery.ajax?)
-- Test proper execution order of before, send and after
 - Test successmsg and errormsg config options
 
 - Test handler's signature

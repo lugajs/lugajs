@@ -12,7 +12,8 @@ describe("luga.ajaxform", function(){
 
 	describe(".Sender", function(){
 
-		var basicSender, attributesSender, customSender, configSender, customSuccessHandler, customErrorHandler, customBefore, customAfter;
+		var basicSender, attributesSender, customSender, configSender;
+		window.ajaxFormHandlers = {};
 
 		beforeEach(function(){
 			loadFixtures("ajaxform/form.htm");
@@ -32,24 +33,31 @@ describe("luga.ajaxform", function(){
 			configSender = new luga.ajaxform.Sender({
 				formNode: jQuery("#basic"),
 				action: "configAction",
-				method: "PUT",
+				method: "POST",
 				timeout: 40000,
-				success: "customSuccessHandler",
+				success: "ajaxFormHandlers.customSuccessHandler",
 				successmsg: "Success",
-				error: "customErrorHandler",
+				error: "ajaxFormHandlers.customErrorHandler",
 				errormsg: "Error",
-				before: "customBefore",
-				after: "customAfter"
+				before: "ajaxFormHandlers.customBefore",
+				after: "ajaxFormHandlers.customAfter"
 			});
 
-			customSuccessHandler = function(){
+			ajaxFormHandlers.customSuccessHandler = function(){
 			};
-			customErrorHandler = function(){
+			ajaxFormHandlers.customErrorHandler = function(){
 			};
-			customBefore = function(){
+			ajaxFormHandlers.customBefore = function(){
 			};
-			customAfter = function(){
+			ajaxFormHandlers.customAfter = function(){
 			};
+
+			spyOn(jQuery, "ajax").and.callFake(function(){
+			});
+			spyOn(ajaxFormHandlers, "customBefore").and.callFake(function(){
+			});
+			spyOn(ajaxFormHandlers, "customAfter").and.callFake(function(){
+			});
 
 		});
 
@@ -103,7 +111,7 @@ describe("luga.ajaxform", function(){
 					expect(customSender.config.method).toEqual("DELETE");
 				});
 				it("Uses the value specified inside the option argument", function(){
-					expect(configSender.config.method).toEqual("PUT");
+					expect(configSender.config.method).toEqual("POST");
 				});
 
 			});
@@ -124,14 +132,14 @@ describe("luga.ajaxform", function(){
 
 			describe("options.success either:", function(){
 
-				it("Default to: 'luga.ajaxform.handlers.replaceForm'", function(){
+				it("Default to: 'luga.ajaxform.ajaxFormHandlers.replaceForm'", function(){
 					expect(basicSender.config.success).toEqual('luga.ajaxform.handlers.replaceForm');
 				});
 				it("Retrieves the value from the form's data-lugajax-success custom attribute", function(){
-					expect(customSender.config.success).toEqual("customSuccessHandler");
+					expect(customSender.config.success).toEqual("ajaxFormHandlers.customSuccessHandler");
 				});
 				it("Uses the value specified inside the option argument", function(){
-					expect(configSender.config.success).toEqual("customSuccessHandler");
+					expect(configSender.config.success).toEqual("ajaxFormHandlers.customSuccessHandler");
 				});
 
 			});
@@ -152,14 +160,14 @@ describe("luga.ajaxform", function(){
 
 			describe("options.error either:", function(){
 
-				it("Default to: 'luga.ajaxform.handlers.errorAlert'", function(){
+				it("Default to: 'luga.ajaxform.ajaxFormHandlers.errorAlert'", function(){
 					expect(basicSender.config.error).toEqual('luga.ajaxform.handlers.errorAlert');
 				});
 				it("Retrieves the value from the form's data-lugajax-error custom attribute", function(){
-					expect(customSender.config.error).toEqual("customErrorHandler");
+					expect(customSender.config.error).toEqual("ajaxFormHandlers.customErrorHandler");
 				});
 				it("Uses the value specified inside the option argument", function(){
-					expect(configSender.config.error).toEqual("customErrorHandler");
+					expect(configSender.config.error).toEqual("ajaxFormHandlers.customErrorHandler");
 				});
 
 			});
@@ -184,10 +192,10 @@ describe("luga.ajaxform", function(){
 					expect(basicSender.config.before).toBeNull();
 				});
 				it("Retrieves the value from the form's data-lugajax-before custom attribute", function(){
-					expect(customSender.config.before).toEqual("customBefore");
+					expect(customSender.config.before).toEqual("ajaxFormHandlers.customBefore");
 				});
 				it("Uses the value specified inside the option argument", function(){
-					expect(configSender.config.before).toEqual("customBefore");
+					expect(configSender.config.before).toEqual("ajaxFormHandlers.customBefore");
 				});
 
 			});
@@ -198,10 +206,10 @@ describe("luga.ajaxform", function(){
 					expect(basicSender.config.after).toBeNull();
 				});
 				it("Retrieves the value from the form's data-lugajax-after custom attribute", function(){
-					expect(customSender.config.after).toEqual("customAfter");
+					expect(customSender.config.after).toEqual("ajaxFormHandlers.customAfter");
 				});
 				it("Uses the value specified inside the option argument", function(){
-					expect(configSender.config.after).toEqual("customAfter");
+					expect(configSender.config.after).toEqual("ajaxFormHandlers.customAfter");
 				});
 
 			});
@@ -209,6 +217,31 @@ describe("luga.ajaxform", function(){
 		});
 
 		describe(".send()", function(){
+
+			describe("Invokes", function(){
+
+				it("First: the options.before function", function(){
+					configSender.send();
+					expect(ajaxFormHandlers.customBefore).toHaveBeenCalled();
+				});
+				it("If any", function(){
+					basicSender.send();
+					expect(ajaxFormHandlers.customBefore).not.toHaveBeenCalled();
+				});
+				it("Then: jQuery.ajax()", function(){
+					configSender.send();
+					expect(jQuery.ajax).toHaveBeenCalled();
+				});
+				it("Finally: the options.after function", function(){
+					configSender.send();
+					expect(ajaxFormHandlers.customAfter).toHaveBeenCalled();
+				});
+				it("If any", function(){
+					basicSender.send();
+					expect(ajaxFormHandlers.customAfter).not.toHaveBeenCalled();
+				});
+
+			});
 
 		});
 

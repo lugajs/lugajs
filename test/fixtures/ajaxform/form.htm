@@ -1,6 +1,6 @@
 <form id="basic" data-lugajax-form="true">
-		<input type="text" name="name" value="test" />
-		<input type="submit" value="Submit"/>
+	<input type="text" name="name" value="test" />
+	<input type="submit" value="Submit"/>
 </form>
 
 <form id="attributes" action="attributeAction" method="POST" data-lugajax-form="true">
@@ -12,12 +12,12 @@
 	  data-lugajax-action="customAction"
 	  data-lugajax-method="DELETE"
 	  data-lugajax-timeout="20000"
-	  data-lugajax-success="customSuccessHandler"
+	  data-lugajax-success="ajaxFormHandlers.customSuccessHandler"
 	  data-lugajax-successmsg="Test success"
-	  data-lugajax-error="customErrorHandler"
+	  data-lugajax-error="ajaxFormHandlers.customErrorHandler"
 	  data-lugajax-errormsg="Test error"
-	  data-lugajax-before="customBefore"
-	  data-lugajax-after="customAfter"
+	  data-lugajax-before="ajaxFormHandlers.customBefore"
+	  data-lugajax-after="ajaxFormHandlers.customAfter"
 	  data-lugajax-form="true">
 	<input type="text" name="myName" />
 	<input type="submit" value="Submit"/>

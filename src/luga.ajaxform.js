@@ -118,7 +118,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		this.before = function(){
-			if(self.config.after !== null){
+			if(self.config.before !== null){
 				var callBack = luga.lookup(self.config.before);
 				if(callBack === null){
 					alert(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.before]));
@@ -147,7 +147,7 @@ if(typeof(luga) === "undefined"){
 		this.send = function(){
 
 			if(self.config.before !== null){
-				self.config.before.apply(null, [self.config.formNode[0]]);
+				self.before();
 			}
 
 			jQuery.ajax({
@@ -167,7 +167,7 @@ if(typeof(luga) === "undefined"){
 			});
 
 			if(self.config.after !== null){
-				self.config.after.apply(null, [self.config.formNode[0]]);
+				self.after();
 			}
 
 		};
