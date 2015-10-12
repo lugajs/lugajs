@@ -32,9 +32,11 @@ DOCS:
 
 AJAX FORM
 
+
 - Test successmsg and errormsg config options
 
-- Test handler's signature
+- Test before/after signature
+- Test success signature
 
 - Test luga.ajaxform.handlers.replaceForm
 - Test luga.ajaxform.handlers.errorAlert
