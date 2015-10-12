@@ -106,7 +106,7 @@ if(typeof(luga) === "undefined"){
 			throw(luga.ajaxform.CONST.MESSAGES.MISSING_FORM);
 		}
 
-		this.after = function(){
+		var handleAfter = function(){
 			if(self.config.after !== null){
 				var callBack = luga.lookup(self.config.after);
 				if(callBack === null){
@@ -117,7 +117,7 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
-		this.before = function(){
+		var handleBefore = function(){
 			if(self.config.before !== null){
 				var callBack = luga.lookup(self.config.before);
 				if(callBack === null){
@@ -128,7 +128,7 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
-		this.error = function(textStatus, errorThrown, jqXHR){
+		var handleError = function(textStatus, errorThrown, jqXHR){
 			var callBack = luga.lookup(self.config.error);
 			if(self.config.error === undefined){
 				alert(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.error]));
@@ -136,7 +136,7 @@ if(typeof(luga) === "undefined"){
 			callBack.apply(null, [self.config.formNode[0], self.config.errormsg, textStatus, errorThrown, jqXHR]);
 		};
 
-		this.success = function(textStatus, response, jqXHR){
+		var handleSuccess = function(textStatus, response, jqXHR){
 			var callBack = luga.lookup(self.config.success);
 			if(self.config.success === undefined){
 				alert(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.success]));
@@ -147,7 +147,7 @@ if(typeof(luga) === "undefined"){
 		this.send = function(){
 
 			if(self.config.before !== null){
-				self.before();
+				handleBefore();
 			}
 
 			jQuery.ajax({
@@ -156,18 +156,18 @@ if(typeof(luga) === "undefined"){
 					"X-Requested-With": luga.ajaxform.CONST.USER_AGENT
 				},
 				error: function(jqXHR, textStatus, errorThrown){
-					self.error.apply(null, [textStatus, errorThrown, jqXHR]);
+					handleError(textStatus, errorThrown, jqXHR);
 				},
 				method: self.config.method,
 				success: function(response, textStatus, jqXHR){
-					self.success(null, [textStatus, response, jqXHR]);
+					handleSuccess(textStatus, response, jqXHR);
 				},
 				timeout: self.config.timeout,
 				url: self.config.action
 			});
 
 			if(self.config.after !== null){
-				self.after();
+				handleAfter();
 			}
 
 		};
