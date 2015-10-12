@@ -19,8 +19,8 @@ describe("luga", function(){
 	describe(".namespace()", function(){
 
 		it("Creates namespaces to be used for scoping variables and classes", function(){
-			luga.namespace("myspace");
-			expect(myspace).toBeDefined();
+			luga.namespace("myNamespace");
+			expect(myNamespace).toBeDefined();
 		});
 
 		it("Does not override existing namespaces", function(){
@@ -77,18 +77,18 @@ describe("luga", function(){
 	describe(".lookup(). Given the name of a function as a string", function(){
 
 		it("Returns the relevant function if it finds it inside the window/global scope", function(){
-			window.myFunc = function(){
+			window.MyLookup = function(){
 			};
-			var result = luga.lookup("myFunc");
+			var result = luga.lookup("MyLookup");
 			expect(result).not.toBeNull();
 			expect(jQuery.isFunction(result)).toBeTruthy();
 		});
 
 		it("Or any given namespace", function(){
-			var mySpace = {};
-			mySpace.myFunction = function(){
+			window.myLookUpSpace = {};
+			myLookUpSpace.myFunction = function(){
 			};
-			var result = luga.lookup("luga.namespace");
+			var result = luga.lookup("myLookUpSpace.myFunction");
 			expect(result).not.toBeNull();
 			expect(jQuery.isFunction(result)).toBeTruthy();
 		});
