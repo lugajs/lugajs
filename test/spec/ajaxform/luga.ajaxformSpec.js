@@ -1,5 +1,54 @@
 describe("luga.ajaxform", function(){
 
+	var basicSender, attributesSender, customSender, configSender;
+	window.ajaxFormHandlers = {};
+
+	beforeEach(function(){
+		loadFixtures("ajaxform/form.htm");
+
+		basicSender = new luga.ajaxform.Sender({
+			formNode: jQuery("#basic")
+		});
+
+		attributesSender = new luga.ajaxform.Sender({
+			formNode: jQuery("#attributes")
+		});
+
+		customSender = new luga.ajaxform.Sender({
+			formNode: jQuery("#customAttributes")
+		});
+
+		configSender = new luga.ajaxform.Sender({
+			formNode: jQuery("#basic"),
+			action: "configAction",
+			method: "POST",
+			timeout: 40000,
+			success: "ajaxFormHandlers.customSuccessHandler",
+			successmsg: "Success",
+			error: "ajaxFormHandlers.customErrorHandler",
+			errormsg: "Error",
+			before: "ajaxFormHandlers.customBefore",
+			after: "ajaxFormHandlers.customAfter"
+		});
+
+		ajaxFormHandlers.customSuccessHandler = function(){
+		};
+		ajaxFormHandlers.customErrorHandler = function(){
+		};
+		ajaxFormHandlers.customBefore = function(){
+		};
+		ajaxFormHandlers.customAfter = function(){
+		};
+
+		spyOn(jQuery, "ajax").and.callFake(function(){
+		});
+		spyOn(ajaxFormHandlers, "customBefore").and.callFake(function(){
+		});
+		spyOn(ajaxFormHandlers, "customAfter").and.callFake(function(){
+		});
+
+	});
+
 	it("Lives inside its own namespace", function(){
 		expect(luga.ajaxform).toBeDefined();
 	});
@@ -10,56 +59,39 @@ describe("luga.ajaxform", function(){
 		});
 	});
 
-	describe(".Sender", function(){
+	describe(".handlers", function(){
 
-		var basicSender, attributesSender, customSender, configSender;
-		window.ajaxFormHandlers = {};
+		it("Contains default and ready available success/error handlers", function(){
+			expect(luga.ajaxform.handlers).toBeDefined();
+		});
 
-		beforeEach(function(){
-			loadFixtures("ajaxform/form.htm");
+		describe(".errorAlert()", function(){
 
-			basicSender = new luga.ajaxform.Sender({
-				formNode: jQuery("#basic")
+			it("Is the default error handler", function(){
+				expect(luga.ajaxform.handlers.errorAlert).toBeDefined();
+				expect(basicSender.config.error).toEqual('luga.ajaxform.handlers.errorAlert');
 			});
-
-			attributesSender = new luga.ajaxform.Sender({
-				formNode: jQuery("#attributes")
-			});
-
-			customSender = new luga.ajaxform.Sender({
-				formNode: jQuery("#customAttributes")
-			});
-
-			configSender = new luga.ajaxform.Sender({
-				formNode: jQuery("#basic"),
-				action: "configAction",
-				method: "POST",
-				timeout: 40000,
-				success: "ajaxFormHandlers.customSuccessHandler",
-				successmsg: "Success",
-				error: "ajaxFormHandlers.customErrorHandler",
-				errormsg: "Error",
-				before: "ajaxFormHandlers.customBefore",
-				after: "ajaxFormHandlers.customAfter"
-			});
-
-			ajaxFormHandlers.customSuccessHandler = function(){
-			};
-			ajaxFormHandlers.customErrorHandler = function(){
-			};
-			ajaxFormHandlers.customBefore = function(){
-			};
-			ajaxFormHandlers.customAfter = function(){
-			};
-
-			spyOn(jQuery, "ajax").and.callFake(function(){
-			});
-			spyOn(ajaxFormHandlers, "customBefore").and.callFake(function(){
-			});
-			spyOn(ajaxFormHandlers, "customAfter").and.callFake(function(){
+			it("It throws an alert with the given message", function(){
+				spyOn(window, "alert").and.callFake(function(){
+				});
+				luga.ajaxform.handlers.errorAlert("test");
+				expect(window.alert).toHaveBeenCalledWith("test");
 			});
 
 		});
+
+		describe(".errorBox()", function(){
+
+			it("Is a ready available error handler", function(){
+				expect(luga.ajaxform.handlers.errorBox).toBeDefined();
+				expect(basicSender.config.error).not.toEqual('luga.ajaxform.handlers.errorBox');
+			});
+
+		});
+
+	});
+
+	describe(".Sender", function(){
 
 		it("Throws an exception if the associated form node does not exists", function(){
 			expect(function(){
