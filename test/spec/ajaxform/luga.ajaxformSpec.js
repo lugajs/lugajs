@@ -220,25 +220,33 @@ describe("luga.ajaxform", function(){
 
 			describe("Invokes", function(){
 
-				it("First: the options.before function", function(){
+				it("First: the options.before function (if any)", function(){
+					// No options.before here
+					basicSender.send();
+					expect(ajaxFormHandlers.customBefore).not.toHaveBeenCalled();
+					// Options.before here
 					configSender.send();
 					expect(ajaxFormHandlers.customBefore).toHaveBeenCalled();
 				});
-				it("If any", function(){
-					basicSender.send();
-					expect(ajaxFormHandlers.customBefore).not.toHaveBeenCalled();
+				it("Passing the form's DOM node as first argument", function(){
+					configSender.send();
+					expect(ajaxFormHandlers.customBefore).toHaveBeenCalledWith(jQuery("#basic")[0]);
 				});
 				it("Then: jQuery.ajax()", function(){
 					configSender.send();
 					expect(jQuery.ajax).toHaveBeenCalled();
 				});
-				it("Finally: the options.after function", function(){
+				it("Finally: the options.after function (if any)", function(){
+					// No options.after here
+					basicSender.send();
+					expect(ajaxFormHandlers.customAfter).not.toHaveBeenCalled();
+					// Options.after here
 					configSender.send();
 					expect(ajaxFormHandlers.customAfter).toHaveBeenCalled();
 				});
-				it("If any", function(){
-					basicSender.send();
-					expect(ajaxFormHandlers.customAfter).not.toHaveBeenCalled();
+				it("Passing the form's DOM node as first argument", function(){
+					configSender.send();
+					expect(ajaxFormHandlers.customAfter).toHaveBeenCalledWith(jQuery("#basic")[0]);
 				});
 
 			});

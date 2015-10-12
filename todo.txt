@@ -35,7 +35,6 @@ AJAX FORM
 
 - Test successmsg and errormsg config options
 
-- Test before/after signature
 - Test success signature
 
 - Test luga.ajaxform.handlers.replaceForm
