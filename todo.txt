@@ -32,8 +32,6 @@ DOCS:
 
 AJAX FORM
 
-- Test luga.ajaxform.handlers.replaceForm
-
 - Test/document entries inside luga.ajaxform.CONST that can be customized
 
 - Add JSDoc

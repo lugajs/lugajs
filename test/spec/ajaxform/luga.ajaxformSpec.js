@@ -89,6 +89,20 @@ describe("luga.ajaxform", function(){
 
 		});
 
+		describe(".replaceForm()", function(){
+
+			it("Is the default success handler", function(){
+				expect(luga.ajaxform.handlers.replaceForm).toBeDefined();
+				expect(basicSender.config.success).toEqual('luga.ajaxform.handlers.replaceForm');
+			});
+			it("Replace the form's content with the given message", function(){
+				var formNode = jQuery("form");
+				luga.ajaxform.handlers.replaceForm("done", formNode[0]);
+				expect(formNode.html()).toEqual("done");
+			});
+
+		});
+
 	});
 
 	describe(".Sender", function(){
