@@ -43,8 +43,6 @@ AJAX FORM
   luga.ajaxform.handlers.errorBox
   use programmatic API -> new luga.ajaxform.Sender({}).send();
 
-- Update version
-- Update built script to concat, minify and distribute.
 - Update README.md
 - Update massimocorner.com
 
