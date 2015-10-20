@@ -29,10 +29,11 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Replace form with message
+	 * @param {jquery}   formNode     jQuery object wrapping the form
 	 */
 	luga.ajaxform.handlers.replaceForm = function(msg, formNode, textStatus, response, jqXHR){
-		jQuery(formNode).empty();
-		jQuery(formNode).html(msg);
+		formNode.empty();
+		formNode.html(msg);
 	};
 
 	/**
@@ -111,9 +112,9 @@ if(typeof(luga) === "undefined"){
 				var callBack = luga.lookup(self.config.after);
 				if(callBack === null){
 					alert(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.after]));
-					callBack.apply(null, [self.config.formNode[0]]);
+					callBack.apply(null, [self.config.formNode]);
 				}
-				callBack.apply(null, [self.config.formNode[0]]);
+				callBack.apply(null, [self.config.formNode]);
 			}
 		};
 
@@ -122,9 +123,9 @@ if(typeof(luga) === "undefined"){
 				var callBack = luga.lookup(self.config.before);
 				if(callBack === null){
 					alert(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.before]));
-					callBack.apply(null, [self.config.formNode[0]]);
+					callBack.apply(null, [self.config.formNode]);
 				}
-				callBack.apply(null, [self.config.formNode[0]]);
+				callBack.apply(null, [self.config.formNode]);
 			}
 		};
 
@@ -133,7 +134,7 @@ if(typeof(luga) === "undefined"){
 			if(self.config.error === undefined){
 				alert(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.error]));
 			}
-			callBack.apply(null, [self.config.errormsg, self.config.formNode[0], textStatus, errorThrown, jqXHR]);
+			callBack.apply(null, [self.config.errormsg, self.config.formNode, textStatus, errorThrown, jqXHR]);
 		};
 
 		var handleSuccess = function(textStatus, response, jqXHR){
@@ -141,7 +142,7 @@ if(typeof(luga) === "undefined"){
 			if(self.config.success === undefined){
 				alert(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.success]));
 			}
-			callBack.apply(null, [self.config.successmsg, self.config.formNode[0], textStatus, response, jqXHR]);
+			callBack.apply(null, [self.config.successmsg, self.config.formNode, textStatus, response, jqXHR]);
 		};
 
 		this.send = function(){
