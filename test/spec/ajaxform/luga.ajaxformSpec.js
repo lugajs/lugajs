@@ -229,6 +229,15 @@ describe("luga.ajaxform", function(){
 				it("Uses the value specified inside the option argument", function(){
 					expect(configSender.config.before).toEqual("ajaxFormHandlers.customBefore");
 				});
+				it("Throws an exception if it fails to lookup the function", function(){
+					var formHandler = new luga.ajaxform.Sender({
+						formNode: jQuery("#basic"),
+						before: "missing"
+					});
+					expect(function(){
+						formHandler.send();
+					}).toThrow();
+				});
 
 			});
 
@@ -242,6 +251,15 @@ describe("luga.ajaxform", function(){
 				});
 				it("Uses the value specified inside the option argument", function(){
 					expect(configSender.config.after).toEqual("ajaxFormHandlers.customAfter");
+				});
+				it("Throws an exception if it fails to lookup the function", function(){
+					var formHandler = new luga.ajaxform.Sender({
+						formNode: jQuery("#basic"),
+						after: "missing"
+					});
+					expect(function(){
+						formHandler.send();
+					}).toThrow();
 				});
 
 			});

@@ -29,7 +29,12 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Replace form with message
+	 *
+	 * @param {string}   msg          Message to display in the GUI
 	 * @param {jquery}   formNode     jQuery object wrapping the form
+	 * @param {string}   textStatus   HTTP status
+	 * TODO: finish up JSDocs
+	 * @param
 	 */
 	luga.ajaxform.handlers.replaceForm = function(msg, formNode, textStatus, response, jqXHR){
 		formNode.empty();
@@ -81,6 +86,21 @@ if(typeof(luga) === "undefined"){
 		}
 	};
 
+	/**
+	 *
+	 * @param options.formNode    {jquery}  Either a jQuery object wrapping the form or the naked DOM object. Required
+	 * @param options.action      {string}  URL to where the form will be send. Default to the current URL
+	 * @param options.method      {string}  HTTP method to be used. Default to GET
+	 * @param options.timeout     {integer} Timeout to be used during the HTTP call (milliseconds). Default to 30000
+	 * @param options.success     {string}  Name of the function to be invoked if the form is successfully submitted. Default to luga.ajaxform.handlers.replaceForm
+	 * @param options.error       {string}  Name of the function to be invoked if the HTTP call failed. Default to luga.ajaxform.handlers.errorAlert
+	 * @param options.successmsg  {string}  Message that will be displayed to the user if the form is successfully submitted. Default to "Thanks for submitting the form"
+	 * @param options.errormsg    {string}  Message that will be displayed to the user if the HTTP call failed. Default to "Failed to submit the form"
+	 * @param options.before      {string}  Name of the function to be invoked before the form is send. Default to null
+	 * @param options.after       {string}  Name of the function to be invoked after the form is send. Default to null
+	 *
+	 * @constructor
+	 */
 	luga.ajaxform.Sender = function(options){
 		// Ensure it's a jQuery object
 		options.formNode = jQuery(options.formNode);
@@ -111,8 +131,7 @@ if(typeof(luga) === "undefined"){
 			if(self.config.after !== null){
 				var callBack = luga.lookup(self.config.after);
 				if(callBack === null){
-					alert(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.after]));
-					callBack.apply(null, [self.config.formNode]);
+					throw(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.after]));
 				}
 				callBack.apply(null, [self.config.formNode]);
 			}
@@ -122,8 +141,7 @@ if(typeof(luga) === "undefined"){
 			if(self.config.before !== null){
 				var callBack = luga.lookup(self.config.before);
 				if(callBack === null){
-					alert(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.before]));
-					callBack.apply(null, [self.config.formNode]);
+					throw(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.before]));
 				}
 				callBack.apply(null, [self.config.formNode]);
 			}
@@ -131,20 +149,27 @@ if(typeof(luga) === "undefined"){
 
 		var handleError = function(textStatus, errorThrown, jqXHR){
 			var callBack = luga.lookup(self.config.error);
-			if(self.config.error === undefined){
-				alert(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.error]));
+			if(callBack === null){
+				throw(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.error]));
 			}
 			callBack.apply(null, [self.config.errormsg, self.config.formNode, textStatus, errorThrown, jqXHR]);
 		};
 
 		var handleSuccess = function(textStatus, response, jqXHR){
 			var callBack = luga.lookup(self.config.success);
-			if(self.config.success === undefined){
-				alert(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.success]));
+			if(callBack === null){
+				throw(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.success]));
 			}
 			callBack.apply(null, [self.config.successmsg, self.config.formNode, textStatus, response, jqXHR]);
 		};
 
+		/**
+		 * Perform the following actions:
+		 * 1) Invoke the before handler, if any
+		 * 2) Make the HTTP call, sending along the serialized form's content
+		 * 3) Invoke either the success or error handler
+		 * 4) Invoke the after handler, if any
+		 */
 		this.send = function(){
 
 			if(self.config.before !== null){
