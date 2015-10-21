@@ -31,6 +31,10 @@ DOCS:
 
 AJAX FORM
 
+- Test luga.ajaxform.handlers.replaceForm
+
+- Test/document entries inside luga.ajaxform.CONST that can be customized
+
 - Add JSDoc
 
 - Docs
@@ -41,6 +45,7 @@ AJAX FORM
   after/before signature
   custom handlers
   luga.ajaxform.handlers.errorBox
+  Luga Validator integration
   use programmatic API -> new luga.ajaxform.Sender({}).send();
 
 - Update README.md
