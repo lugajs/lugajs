@@ -6,7 +6,7 @@ describe("luga.string", function(){
 		expect(luga.string).toBeDefined();
 	});
 
-	describe(".formatString()", function(){
+	describe(".format()", function(){
 
 		describe("Given a string containing placeholders", function(){
 
