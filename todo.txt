@@ -35,8 +35,6 @@ AJAX FORM
 
 - Test/document entries inside luga.ajaxform.CONST that can be customized
 
-- Add JSDoc
-
 - Docs
   about
   getting started
