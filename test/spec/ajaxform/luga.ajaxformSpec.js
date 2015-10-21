@@ -59,6 +59,132 @@ describe("luga.ajaxform", function(){
 		});
 	});
 
+	describe(".CONST", function(){
+
+		it("Contains default values used by the library", function(){
+			expect(luga.ajaxform.CONST).toBeDefined();
+		});
+
+		describe(".DEFAULT_METHOD", function(){
+
+			it("Default to: " + luga.ajaxform.CONST.DEFAULT_METHOD, function(){
+				expect(luga.ajaxform.CONST.DEFAULT_METHOD).toEqual("GET");
+			});
+			it("It can be changed at run-time", function(){
+				luga.ajaxform.CONST.DEFAULT_METHOD = "POST";
+				var sender = new luga.ajaxform.Sender({
+					formNode: jQuery("#basic")
+				});
+				expect(sender.config.method).toEqual("POST");
+				// Reset
+				luga.ajaxform.CONST.DEFAULT_METHOD = "GET";
+			});
+
+		});
+
+		describe(".DEFAULT_TIME_OUT", function(){
+
+			it("Default to: " + luga.ajaxform.CONST.DEFAULT_TIME_OUT, function(){
+				expect(luga.ajaxform.CONST.DEFAULT_TIME_OUT).toEqual(30000);
+			});
+			it("It can be changed at run-time", function(){
+				luga.ajaxform.CONST.DEFAULT_TIME_OUT = 20000;
+				var sender = new luga.ajaxform.Sender({
+					formNode: jQuery("#basic")
+				});
+				expect(sender.config.timeout).toEqual(20000);
+				// Reset
+				luga.ajaxform.CONST.DEFAULT_TIME_OUT = 30000;
+			});
+
+		});
+
+		describe(".USER_AGENT", function(){
+
+			it("Default to: " + luga.ajaxform.CONST.USER_AGENT, function(){
+				expect(luga.ajaxform.CONST.USER_AGENT).toEqual("luga.ajaxform");
+			});
+
+		});
+
+		describe(".HANDLERS", function(){
+
+			describe(".ERROR", function(){
+
+				it("Default to: " + luga.ajaxform.CONST.HANDLERS.ERROR, function(){
+					expect(luga.ajaxform.CONST.HANDLERS.ERROR).toEqual("luga.ajaxform.handlers.errorAlert");
+				});
+				it("It can be changed at run-time", function(){
+					luga.ajaxform.CONST.HANDLERS.ERROR = "myErrorHandler";
+					var sender = new luga.ajaxform.Sender({
+						formNode: jQuery("#basic")
+					});
+					expect(sender.config.error).toEqual("myErrorHandler");
+					// Reset
+					luga.ajaxform.CONST.HANDLERS.ERROR = "luga.ajaxform.handlers.errorAlert";
+				});
+
+			});
+
+			describe(".SUCCESS", function(){
+
+				it("Default to: " + luga.ajaxform.CONST.HANDLERS.SUCCESS, function(){
+					expect(luga.ajaxform.CONST.HANDLERS.SUCCESS).toEqual("luga.ajaxform.handlers.replaceForm");
+				});
+				it("It can be changed at run-time", function(){
+					luga.ajaxform.CONST.HANDLERS.SUCCESS = "mySuccessHandler";
+					var sender = new luga.ajaxform.Sender({
+						formNode: jQuery("#basic")
+					});
+					expect(sender.config.success).toEqual("mySuccessHandler");
+					// Reset
+					luga.ajaxform.CONST.HANDLERS.SUCCESS = "luga.ajaxform.handlers.replaceForm";
+				});
+
+			});
+
+		});
+
+		describe(".MESSAGES", function(){
+
+			describe(".ERROR", function(){
+
+				it("Default to: " + luga.ajaxform.CONST.MESSAGES.ERROR, function(){
+					expect(luga.ajaxform.CONST.MESSAGES.ERROR).toEqual("Failed to submit the form");
+				});
+				it("It can be changed at run-time", function(){
+					luga.ajaxform.CONST.MESSAGES.ERROR = "x";
+					var sender = new luga.ajaxform.Sender({
+						formNode: jQuery("#basic")
+					});
+					expect(sender.config.errormsg).toEqual("x");
+					// Reset
+					luga.ajaxform.CONST.MESSAGES.ERROR = "Failed to submit the form";
+				});
+
+			});
+
+			describe(".SUCCESS", function(){
+
+				it("Default to: " + luga.ajaxform.CONST.MESSAGES.SUCCESS, function(){
+					expect(luga.ajaxform.CONST.MESSAGES.SUCCESS).toEqual("Thanks for submitting the form");
+				});
+				it("It can be changed at run-time", function(){
+					luga.ajaxform.CONST.MESSAGES.SUCCESS = "xxx";
+					var sender = new luga.ajaxform.Sender({
+						formNode: jQuery("#basic")
+					});
+					expect(sender.config.successmsg).toEqual("xxx");
+					// Reset
+					luga.ajaxform.CONST.MESSAGES.SUCCESS = "Thanks for submitting the form";
+				});
+
+			});
+
+		});
+
+	});
+
 	describe(".handlers", function(){
 
 		it("Contains default and ready available success/error handlers", function(){
@@ -85,6 +211,20 @@ describe("luga.ajaxform", function(){
 			it("Is a ready available error handler", function(){
 				expect(luga.ajaxform.handlers.errorBox).toBeDefined();
 				expect(basicSender.config.error).not.toEqual('luga.ajaxform.handlers.errorBox');
+			});
+
+		});
+
+		describe(".replaceForm()", function(){
+
+			it("Is the default success handler", function(){
+				expect(luga.ajaxform.handlers.replaceForm).toBeDefined();
+				expect(basicSender.config.success).toEqual('luga.ajaxform.handlers.replaceForm');
+			});
+			it("Replace the form's content with the given message", function(){
+				var formNode = jQuery("form");
+				luga.ajaxform.handlers.replaceForm("done", formNode[0]);
+				expect(formNode.html()).toEqual("done");
 			});
 
 		});

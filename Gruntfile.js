@@ -20,14 +20,14 @@ module.exports = function(grunt){
 				options: {
 					separator: "\n\n"
 				},
-				src: ["src/luga.core.js", "src/luga.csi.js", "src/luga.validator.js"],
+				src: ["src/luga.core.js", "src/luga.ajaxform.js", "src/luga.csi.js", "src/luga.validator.js"],
 				dest: "dist/luga.js"
 			},
 			uglified: {
 				options: {
 					separator: "\n\n"
 				},
-				src: ["dist/luga.core.min.js", "dist/luga.csi.min.js", "dist/luga.validator.min.js"],
+				src: ["dist/luga.core.min.js", "dist/luga.ajaxform.min.js", "dist/luga.csi.min.js", "dist/luga.validator.min.js"],
 				dest: "dist/luga.min.js"
 			}
 		},
@@ -43,6 +43,14 @@ module.exports = function(grunt){
 				},
 				files: {
 					"dist/luga.core.min.js": ["src/luga.core.js"]
+				}
+			},
+			ajaxformTarget: {
+				options: {
+					banner: assembleBanner(global.pkg.libs.ajaxform)
+				},
+				files: {
+					"dist/luga.ajaxform.min.js": ["src/luga.ajaxform.js"]
 				}
 			},
 			csiTarget: {
@@ -86,6 +94,6 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks("grunt-contrib-uglify");
 
 	// Default task(s).
-	grunt.registerTask("default", ["concat:plain", "uglify:coreTarget", "uglify:csiTarget", "uglify:validatorTarget", "concat:uglified", "compress"]);
+	grunt.registerTask("default", ["concat:plain", "uglify:coreTarget", "uglify:ajaxformTarget", "uglify:csiTarget", "uglify:validatorTarget", "concat:uglified", "compress"]);
 
 };

@@ -31,11 +31,11 @@ describe("luga.form", function(){
 			expect(luga.form.toQueryString(jQuery("#encodedValue"))).toEqual("firstname=ciccio&slash=%2F&ampersand=%26");
 		});
 
-		it("Values of multiple checked checkboxes are included multiple value/pairs", function(){
+		it("Values of multiple checked checkboxes are included as multiple value/pairs", function(){
 			expect(luga.form.toQueryString(jQuery("#multiBox"))).toEqual("firstname=ciccio&box=first&box=second&box=third");
 		});
 
-		it("Values of multiple select are included are included multiple value/pairs", function(){
+		it("Values of multiple select are included as multiple value/pairs", function(){
 			expect(luga.form.toQueryString(jQuery("#multiSelect"))).toEqual("firstname=ciccio&select=first&select=second");
 		});
 
@@ -86,6 +86,7 @@ describe("luga.form", function(){
 			luga.form.CONST.HASH_DELIMITER = ";";
 			expect(luga.form.toHash(jQuery("#multiBox"))).toEqual({firstname: "ciccio", box: "first;second;third"});
 			expect(luga.form.toHash(jQuery("#multiSelect"))).toEqual({firstname: "ciccio", select: "first;second"});
+			// Reset
 			luga.form.CONST.HASH_DELIMITER = ",";
 		});
 

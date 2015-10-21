@@ -146,9 +146,13 @@ describe("luga", function(){
 			}).toThrow();
 		});
 
-		it("Observers are stored as an array inside the .observers property", function(){
-			expect(jQuery.isArray(notifierObj.observers)).toBeTruthy();
-			expect(notifierObj.observers.length).toEqual(0);
+		describe(".observers", function(){
+
+			it("Is an array that contains all the observers", function(){
+				expect(jQuery.isArray(notifierObj.observers)).toBeTruthy();
+				expect(notifierObj.observers.length).toEqual(0);
+			});
+
 		});
 
 		describe(".addObserver()", function(){

@@ -21,7 +21,6 @@ DOCS:
 - Update sitemap.xml
 
 - Switch CSS to border-box
-
 - Switch from em to rem
 
 - Document API:
@@ -31,10 +30,6 @@ DOCS:
 -------------
 
 AJAX FORM
-
-- Test luga.ajaxform.handlers.replaceForm
-
-- Test/document entries inside luga.ajaxform.CONST that can be customized
 
 - Add JSDoc
 
@@ -48,9 +43,8 @@ AJAX FORM
   luga.ajaxform.handlers.errorBox
   use programmatic API -> new luga.ajaxform.Sender({}).send();
 
-- Update version
-- Update built script to concat, minify and distribute.
 - Update README.md
+- Update massimocorner.com
 
 -------------
 
