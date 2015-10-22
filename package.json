@@ -19,6 +19,10 @@
 			"version": "0.4.0",
 			"name": "Luga Core"
 		},
+        "luga": {
+          "version": "0.4.0",
+          "name": "Luga JS"
+        },
 		"csi": {
 			"version": "1.0",
 			"name": "Luga CSI"
