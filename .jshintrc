@@ -1,14 +1,20 @@
 {
-	"globals": [,
-		"window",
-		"jQuery",
-		"luga",
-		"describe",
-		"expect",
-		"it",
-		"spyOn",
-		"beforeEach",
-		"afterEach",
-		"loadFixtures"
-	]
+  "predef": [
+    "jQuery",
+    "luga",
+    "jasmine",
+    "describe",
+    "xdescribe",
+    "before",
+    "beforeEach",
+    "after",
+    "afterEach",
+    "it",
+    "xit",
+    "it",
+    "inject",
+    "expect",
+    "spyOn",
+    "loadFixtures"
+  ]
 }
