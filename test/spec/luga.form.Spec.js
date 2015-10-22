@@ -12,7 +12,7 @@ describe("luga.form", function(){
 			loadFixtures("form/common.htm");
 		});
 
-		it("Returns a string of field name/value pairs from a given form", function(){
+		it("Returns a string of name/value pairs from a given form", function(){
 			expect(luga.form.toQueryString(jQuery("#basicValue"))).toEqual("firstname=ciccio&lastname=pasticcio");
 			expect(luga.form.toQueryString(jQuery("#basicNoValue"))).toEqual("firstname=&lastname=");
 		});
