@@ -216,14 +216,24 @@ if(typeof(luga) === "undefined"){
 			if(luga.form.utils.isSuccessfulField(fields[i]) === true){
 				var fieldName = jQuery(fields[i]).attr("name");
 				var fieldValue = jQuery(fields[i]).val();
-				if(jQuery.isArray(fieldValue) === true){
-					// Handle multi-select
-					for(var j = 0; j < fieldValue.length; j++){
-						str = appendQueryString(str, fieldName, fieldValue[j], demoronize);
-					}
-				}
-				else{
-					str = appendQueryString(str, fieldName, fieldValue, demoronize);
+				var fieldType = jQuery(fields[i]).prop("type");
+				switch(fieldType){
+
+					case "select-multiple":
+						for(var j = 0; j < fieldValue.length; j++){
+							str = appendQueryString(str, fieldName, fieldValue[j], demoronize);
+						}
+						break;
+
+					case "checkbox":
+					case "radio":
+						if(jQuery(fields[i]).prop("checked") === true){
+							str = appendQueryString(str, fieldName, fieldValue, demoronize);
+						}
+						break;
+
+					default:
+						str = appendQueryString(str, fieldName, fieldValue, demoronize);
 				}
 			}
 		}
@@ -268,6 +278,7 @@ if(typeof(luga) === "undefined"){
 			if(luga.form.utils.isSuccessfulField(fields[i]) === true){
 				var fieldName = jQuery(fields[i]).attr("name");
 				var fieldValue = jQuery(fields[i]).val();
+				var fieldType = jQuery(fields[i]).prop("type");
 				// Handle multi-select
 				if(jQuery.isArray(fieldValue) === true){
 					fieldValue = fieldValue.join(luga.form.CONST.HASH_DELIMITER);
