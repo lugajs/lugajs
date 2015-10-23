@@ -18,6 +18,8 @@ VALIDATOR:
 
 DOCS:
 
+- Link to luga.min.js
+
 - Link to specific unit tests from libs docs
 
 - Update sitemap.xml
