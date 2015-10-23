@@ -1,8 +1,8 @@
+- Move JSHint settings from idea to config file
+
 CORE:
 
 - Add detailed JSDoc to improve IntelliJ's intellisense
-
-- Move JSHint to config file
 
 -------------
 
@@ -35,11 +35,7 @@ DOCS:
 
 AJAX FORM
 
-- Test luga.ajaxform.handlers.replaceForm
-
-- Test/document entries inside luga.ajaxform.CONST that can be customized
-
-- Try and test jQuery.ajax()
+- Try and test jQuery.ajax() and coorect invokation of handlers
 
 - Docs
   about
