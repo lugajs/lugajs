@@ -24,7 +24,7 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.version = "0.4.0";
+	luga.version = "0.4.1";
 
 	luga.CONST = {
 		ERROR_MESSAGES: {
@@ -216,14 +216,24 @@ if(typeof(luga) === "undefined"){
 			if(luga.form.utils.isSuccessfulField(fields[i]) === true){
 				var fieldName = jQuery(fields[i]).attr("name");
 				var fieldValue = jQuery(fields[i]).val();
-				if(jQuery.isArray(fieldValue) === true){
-					// Handle multi-select
-					for(var j = 0; j < fieldValue.length; j++){
-						str = appendQueryString(str, fieldName, fieldValue[j], demoronize);
-					}
-				}
-				else{
-					str = appendQueryString(str, fieldName, fieldValue, demoronize);
+				var fieldType = jQuery(fields[i]).prop("type");
+				switch(fieldType){
+
+					case "select-multiple":
+						for(var j = 0; j < fieldValue.length; j++){
+							str = appendQueryString(str, fieldName, fieldValue[j], demoronize);
+						}
+						break;
+
+					case "checkbox":
+					case "radio":
+						if(jQuery(fields[i]).prop("checked") === true){
+							str = appendQueryString(str, fieldName, fieldValue, demoronize);
+						}
+						break;
+
+					default:
+						str = appendQueryString(str, fieldName, fieldValue, demoronize);
 				}
 			}
 		}
@@ -267,20 +277,37 @@ if(typeof(luga) === "undefined"){
 		for(var i = 0; i < fields.length; i++){
 			if(luga.form.utils.isSuccessfulField(fields[i]) === true){
 				var fieldName = jQuery(fields[i]).attr("name");
-				var fieldValue = jQuery(fields[i]).val();
-				// Handle multi-select
-				if(jQuery.isArray(fieldValue) === true){
-					fieldValue = fieldValue.join(luga.form.CONST.HASH_DELIMITER);
+				var fieldValue = null;
+				var fieldType = jQuery(fields[i]).prop("type");
+				switch(fieldType){
+
+					case "select-multiple":
+						fieldValue = jQuery(fields[i]).val().join(luga.form.CONST.HASH_DELIMITER);
+						break;
+
+					case "checkbox":
+					case "radio":
+						if(jQuery(fields[i]).prop("checked") === true){
+							fieldValue = jQuery(fields[i]).val();
+						}
+						break;
+
+					default:
+						fieldValue = jQuery(fields[i]).val();
 				}
-				if(demoronize === true){
-					fieldValue = luga.string.demoronize(fieldValue);
+
+				if(fieldValue !== null){
+					if(demoronize === true){
+						fieldValue = luga.string.demoronize(fieldValue);
+					}
+					if(map[fieldName] === undefined){
+						map[fieldName] = fieldValue;
+					}
+					else{
+						map[fieldName] += luga.form.CONST.HASH_DELIMITER + fieldValue;
+					}
 				}
-				if(map[fieldName] === undefined){
-					map[fieldName] = fieldValue;
-				}
-				else{
-					map[fieldName] += luga.form.CONST.HASH_DELIMITER + fieldValue;
-				}
+
 			}
 		}
 		return map;
@@ -295,6 +322,9 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.form.utils.isSuccessfulField = function(fieldNode){
 		if(luga.form.utils.isInputField(fieldNode) === false){
+			return false;
+		}
+		if(jQuery(fieldNode).prop("disabled") === true){
 			return false;
 		}
 		if(jQuery(fieldNode).attr("name") === undefined){
