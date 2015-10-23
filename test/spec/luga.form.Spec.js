@@ -152,6 +152,10 @@ describe("luga.form", function(){
 
 		describe(".isSuccessfulField()", function(){
 
+			it("Returns false if the field is disabled", function(){
+				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='b' disabled='disabled' type='text' />"))).toBeFalsy();
+			});
+
 			it("Returns true if the given field is successful", function(){
 				expect(luga.form.utils.isSuccessfulField(jQuery("<textarea name='a'>"))).toBeTruthy();
 				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='b' type='text'>"))).toBeTruthy();

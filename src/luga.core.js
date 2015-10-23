@@ -324,6 +324,9 @@ if(typeof(luga) === "undefined"){
 		if(luga.form.utils.isInputField(fieldNode) === false){
 			return false;
 		}
+		if(jQuery(fieldNode).prop("disabled") === true){
+			return false;
+		}
 		if(jQuery(fieldNode).attr("name") === undefined){
 			return false;
 		}
