@@ -2,6 +2,8 @@ CORE:
 
 - Add detailed JSDoc to improve IntelliJ's intellisense
 
+- Test disabled fields
+
 -------------
 
 VALIDATOR:

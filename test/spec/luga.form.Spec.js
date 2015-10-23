@@ -53,8 +53,8 @@ describe("luga.form", function(){
 			loadFixtures("form/common.htm");
 		});
 
-		xit("Returns a JavaScript object containing name/value pairs from a given form", function(){
-			expect(luga.form.toHash(jQuery("#basicValue"))).toEqual({firstname: "ciccio", lastname: "pasticcio"});
+		it("Returns a JavaScript object containing name/value pairs from a given form", function(){
+			expect(luga.form.toHash(jQuery("#basicValue"))).toEqual({firstname: "ciccio", lastname: "pasticcio", radio: 'yes'});
 			expect(luga.form.toHash(jQuery("#basicNoValue"))).toEqual({firstname: "", lastname: ""});
 		});
 
@@ -68,7 +68,7 @@ describe("luga.form", function(){
 			expect(luga.form.toHash(jQuery("#unsuccessfulFields"))).toEqual({firstname: "ciccio"});
 		});
 
-		xit("Values of multiple checked checkboxes are included as a single entry, with comma-delimited value", function(){
+		it("Values of multiple checked checkboxes are included as a single entry, with comma-delimited value", function(){
 			expect(luga.form.toHash(jQuery("#multiBox"))).toEqual({firstname: "ciccio", box: "first,second"});
 		});
 
@@ -84,7 +84,7 @@ describe("luga.form", function(){
 
 		it("You can change the delimiter by setting the value of luga.form.CONST.HASH_DELIMITER", function(){
 			luga.form.CONST.HASH_DELIMITER = ";";
-			expect(luga.form.toHash(jQuery("#multiBox"))).toEqual({firstname: "ciccio", box: "first;second;third"});
+			expect(luga.form.toHash(jQuery("#multiBox"))).toEqual({firstname: "ciccio", box: "first;second"});
 			expect(luga.form.toHash(jQuery("#multiSelect"))).toEqual({firstname: "ciccio", select: "first;second"});
 			// Reset
 			luga.form.CONST.HASH_DELIMITER = ",";

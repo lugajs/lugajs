@@ -277,21 +277,37 @@ if(typeof(luga) === "undefined"){
 		for(var i = 0; i < fields.length; i++){
 			if(luga.form.utils.isSuccessfulField(fields[i]) === true){
 				var fieldName = jQuery(fields[i]).attr("name");
-				var fieldValue = jQuery(fields[i]).val();
+				var fieldValue = null;
 				var fieldType = jQuery(fields[i]).prop("type");
-				// Handle multi-select
-				if(jQuery.isArray(fieldValue) === true){
-					fieldValue = fieldValue.join(luga.form.CONST.HASH_DELIMITER);
+				switch(fieldType){
+
+					case "select-multiple":
+						fieldValue = jQuery(fields[i]).val().join(luga.form.CONST.HASH_DELIMITER);
+						break;
+
+					case "checkbox":
+					case "radio":
+						if(jQuery(fields[i]).prop("checked") === true){
+							fieldValue = jQuery(fields[i]).val();
+						}
+						break;
+
+					default:
+						fieldValue = jQuery(fields[i]).val();
 				}
-				if(demoronize === true){
-					fieldValue = luga.string.demoronize(fieldValue);
+
+				if(fieldValue !== null){
+					if(demoronize === true){
+						fieldValue = luga.string.demoronize(fieldValue);
+					}
+					if(map[fieldName] === undefined){
+						map[fieldName] = fieldValue;
+					}
+					else{
+						map[fieldName] += luga.form.CONST.HASH_DELIMITER + fieldValue;
+					}
 				}
-				if(map[fieldName] === undefined){
-					map[fieldName] = fieldValue;
-				}
-				else{
-					map[fieldName] += luga.form.CONST.HASH_DELIMITER + fieldValue;
-				}
+
 			}
 		}
 		return map;
