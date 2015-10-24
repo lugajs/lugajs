@@ -1,5 +1,7 @@
 - Move JSHint settings from idea to config file
 
+- Luga Modal > Luga ModalFrame
+
 CORE:
 
 - Add detailed JSDoc to improve IntelliJ's intellisense
