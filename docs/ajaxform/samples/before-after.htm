@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>Luga Ajaxform :: Before/after entry points</title>
+	<link rel="stylesheet" href="../../../src/luga.css" />
+	<link rel="stylesheet" href="../../docs.css" />
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../dist/luga.min.js"></script>
+	<script src="../../docs.js"></script>
+	<script>
+		handlers = {};
+		handlers.alertBefore = function(formNode){
+			alert("I am executed before the form is send");
+		};
+		handlers.alertAfter = function(formNode){
+			alert("I am executed after the form is send");
+		};
+	</script>
+</head>
+<body>
+
+	<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
+	<div data-lugacsi="../sidebar.inc"></div>
+
+	<div class="content">
+
+		<section>
+			<h1>Before/after entry points</h1>
+			<p>If you want to execute some code before or after the form is send, you can use the data-lugajax-before and data-lugajax-after custom attributes</p>
+		</section>
+
+		<form action="../action.json" data-lugajax-form="true" data-lugajax-after="handlers.alertAfter"  data-lugajax-before="handlers.alertBefore">
+			<h1>before/after</h1>
+			<input type="text" name="name" />
+			<input type="submit" value="Submit"/>
+		</form>
+
+		<code>
+			<ol>
+				<li>&lt;script&gt;</li>
+				<li>handlers = {};</li>
+				<li>handlers.alertBefore = function(formNode){</li>
+				<li>	alert("I am executed before the form is send");</li>
+				<li>};</li>
+				<li>handlers.alertAfter = function(formNode){</li>
+				<li>	alert("I am executed after the form is send");</li>
+				<li>};</li>
+			</ol>
+			<ol>
+				<li>&lt;form action="../action.json" data-lugajax-form="true" data-lugajax-after="handlers.alertAfter"  data-lugajax-before="handlers.alertBefore"&gt;</li>
+			</ol>
+		</code>
+
+	</div>
+
+	<div data-lugacsi="../../footer.inc"></div>
+
+</body>
+</html>

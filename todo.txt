@@ -21,10 +21,7 @@ DOCS:
 
 AJAXFORM:
 
-- Docs
-  after/before signature
-  Luga Validator integration
-  use programmatic API -> new luga.ajaxform.Sender({}).send();
+- Document API -> new luga.ajaxform.Sender({}).send();
 
 -------------
 
