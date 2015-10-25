@@ -7,7 +7,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.csi");
 
-	luga.csi.version = "1.0.0";
+	luga.csi.version = "1.0.1";
 
 	luga.csi.CONST = {
 		NODE_SELECTOR: "div[data-lugacsi]",
@@ -19,19 +19,25 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
+	 * @typedef {object} luga.csi.Include.options
+	 *
+	 * @property {jquery} rootNode       Root node for widget (DOM reference). Required
+	 * @property {string} url            Url to be included. Optional. Default to the value of the "data-lugacsi" attribute inside rootNode
+	 * @property {function} success      Function that will be invoked once the url is successfully fetched. Optional, default to the internal "onSuccess" method
+	 * @property {function}after         Function that will be invoked once the include is successfully performed.
+	 *                                   It will be called with the handler(rootNode, url, response) signature. Optional, it can be set using the "data-lugacsi-after" attribute
+	 * @property {function} error        Function that will be invoked if the url request fails. Optional, default to the internal "onError" method
+	 * @property {int}      xhrTimeout   Timeout for XHR call (ms). Optional. Default to 5000 ms
+	 */
+
+	/**
 	 * Client-side Include widget
 	 *
-	 * @param options.rootNode:          Root node for widget (DOM reference). Required
-	 * @param options.url:               Url to be included. Optional. Default to the value of the "data-lugacsi" attribute inside rootNode
-	 * @param options.success:           Function that will be invoked once the url is successfully fetched. Optional, default to the internal "onSuccess" method
-	 * @param options.after  :           Function that will be invoked once the include is successfully performed.
-	 *                                   It will be called with the handler(rootNode, url, response) signature. Optional, it can be set using the "data-lugacsi-after" attribute
-	 * @param options.error:             Function that will be invoked if the url request fails. Optional, default to the internal "onError" method
-	 * @param options.xhrTimeout:        Timeout for XHR call. Optional
+	 * @param {luga.csi.Include.options} options
+	 * @constructor
 	 */
 	luga.csi.Include = function(options){
 		var self = this;
-
 		this.init = function(){
 			jQuery.ajax({
 				url: self.config.url,
@@ -67,6 +73,9 @@ if(typeof(luga) === "undefined"){
 		luga.merge(this.config, options);
 	};
 
+	/**
+	 * Invoke this to programmatically load CSI inside the current document
+	 */
 	luga.csi.loadIncludes = function(){
 		jQuery(luga.csi.CONST.NODE_SELECTOR).each(function(index, item){
 			var includeObj = new luga.csi.Include({rootNode: item});

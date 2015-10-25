@@ -1,4 +1,4 @@
-/*! Luga JS  2015-10-25 10:10
+/*! Luga JS  2015-10-25 11:10
 Copyright 2013-15 Massimo Foti (massimo@massimocorner.com) 
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0 
 */  
@@ -132,9 +132,9 @@ if(typeof(luga) === "undefined"){
 		 * Sends a notification to all interested observers registered with the notifier.
 		 *
 		 * @method
-		 * @param eventName  Name of the event
-		 * @param data       Object containing data to be passed from the point of notification to all interested observers.
-		 *                   If there is no relevant data to pass, use an empty object.
+		 * @param {string}  eventName  Name of the event
+		 * @param {object}  data       Object containing data to be passed from the point of notification to all interested observers.
+		 *                             If there is no relevant data to pass, use an empty object.
 		 */
 		this.notifyObservers = function(eventName, data){
 			if(jQuery.type(data) !== "object"){
@@ -188,18 +188,18 @@ if(typeof(luga) === "undefined"){
 	 * Only fields considered successful are returned:
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 *
-	 * @param {jquery}   formNode     jQuery object wrapping the form
+	 * @param {jquery}   rootNode     jQuery object wrapping the form
 	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @return {string}               A URI encoded string
 	 */
-	luga.form.toQueryString = function(formNode, demoronize){
+	luga.form.toQueryString = function(rootNode, demoronize){
 
-		if(formNode.length === 0){
+		if(rootNode.length === 0){
 			throw(luga.form.CONST.MESSAGES.MISSING_FORM);
 		}
 
 		var str = "";
-		var fields = luga.form.utils.getChildFields(formNode);
+		var fields = luga.form.utils.getChildFields(rootNode);
 		for(var i = 0; i < fields.length; i++){
 			if(luga.form.utils.isSuccessfulField(fields[i]) === true){
 				var fieldName = jQuery(fields[i]).attr("name");
@@ -250,18 +250,18 @@ if(typeof(luga) === "undefined"){
 	 * Values of multiple checked checkboxes and multiple select are included as a single entry, comma-delimited value
 	 * You can change the delimiter by setting the value of luga.form.CONST.HASH_DELIMITER
 	 *
-	 * @param {jquery}   formNode     jQuery object wrapping the form
+	 * @param {jquery}   rootNode     jQuery object wrapping the form
 	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @return {object}               A JavaScript object containing name/value pairs
 	 */
-	luga.form.toHash = function(formNode, demoronize){
+	luga.form.toHash = function(rootNode, demoronize){
 
-		if(formNode.length === 0){
+		if(rootNode.length === 0){
 			throw(luga.form.CONST.MESSAGES.MISSING_FORM);
 		}
 
 		var map = {};
-		var fields = luga.form.utils.getChildFields(formNode);
+		var fields = luga.form.utils.getChildFields(rootNode);
 		for(var i = 0; i < fields.length; i++){
 			if(luga.form.utils.isSuccessfulField(fields[i]) === true){
 				var fieldName = jQuery(fields[i]).attr("name");
@@ -321,6 +321,12 @@ if(typeof(luga) === "undefined"){
 		return true;
 	};
 
+	/**
+	 * Returns true if the passed node is a form field that we care about
+	 *
+	 * @param {jquery}  fieldNode
+	 * @return {boolean}
+	 */
 	luga.form.utils.isInputField = function(fieldNode){
 		if(!jQuery(fieldNode).prop("type")){
 			return false;
@@ -332,11 +338,25 @@ if(typeof(luga) === "undefined"){
 		return true;
 	};
 
-	luga.form.utils.getFieldGroup = function(name, formNode){
+	/**
+	 * Extracts group of fields that share the same name from a given root node
+	 * Or the whole document if the second argument is not passed
+	 *
+	 * @param {string}  name       Name of the field. Mandatory
+	 * @param {jquery}  rootNode   Root node, optional, default to document
+	 * @return {jquery}
+	 */
+	luga.form.utils.getFieldGroup = function(name, rootNode){
 		var selector = "input[name=" + name + "]";
-		return jQuery(selector, formNode);
+		return jQuery(selector, rootNode);
 	};
 
+	/**
+	 * Returns an array of input fields contained inside a given root node
+	 *
+	 * @param {jquery}  rootNode   Root node
+	 * @return {Array.<jquery>}
+	 */
 	luga.form.utils.getChildFields = function(rootNode){
 		var fields = [];
 		jQuery(rootNode).find(luga.form.CONST.FIELD_SELECTOR).each(function(index, item){
@@ -437,6 +457,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Remove a message box (if any) associated with a given node
+	 * @param {jquery}  node   Target node
 	 */
 	luga.utils.removeDisplayBox = function(node){
 		var boxId = generateBoxId(jQuery(node));
@@ -449,6 +470,8 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Display a message box above a given node
+	 * @param {jquery}  node   Target node
+	 * @param {string}  html   HTML/Text code to inject
 	 */
 	luga.utils.displayMessage = function(node, html){
 		return luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.MESSAGE);
@@ -456,6 +479,8 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Display an error box above a given node
+	 * @param {jquery}  node   Target node
+	 * @param {string}  html   HTML/Text code to inject
 	 */
 	luga.utils.displayErrorMessage = function(node, html){
 		return luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.ERROR_MESSAGE);
@@ -464,6 +489,9 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Display a box with a message associated with a given node
 	 * Overwrite this method if you want to change the way luga.utils.displayMessage and luga.utils.displayErrorMessage behaves
+	 * @param {jquery}  node      Target node
+	 * @param {string}  html      HTML/Text code to inject
+	 * @param {string}  cssClass  CSS class attached to the box. Default to "luga_message"
 	 */
 	luga.utils.displayBox = function(node, html, cssClass){
 		if(!cssClass){
@@ -720,7 +748,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.csi");
 
-	luga.csi.version = "1.0.0";
+	luga.csi.version = "1.0.1";
 
 	luga.csi.CONST = {
 		NODE_SELECTOR: "div[data-lugacsi]",
@@ -732,19 +760,25 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
+	 * @typedef {object} luga.csi.Include.options
+	 *
+	 * @property {jquery} rootNode       Root node for widget (DOM reference). Required
+	 * @property {string} url            Url to be included. Optional. Default to the value of the "data-lugacsi" attribute inside rootNode
+	 * @property {function} success      Function that will be invoked once the url is successfully fetched. Optional, default to the internal "onSuccess" method
+	 * @property {function}after         Function that will be invoked once the include is successfully performed.
+	 *                                   It will be called with the handler(rootNode, url, response) signature. Optional, it can be set using the "data-lugacsi-after" attribute
+	 * @property {function} error        Function that will be invoked if the url request fails. Optional, default to the internal "onError" method
+	 * @property {int}      xhrTimeout   Timeout for XHR call (ms). Optional. Default to 5000 ms
+	 */
+
+	/**
 	 * Client-side Include widget
 	 *
-	 * @param options.rootNode:          Root node for widget (DOM reference). Required
-	 * @param options.url:               Url to be included. Optional. Default to the value of the "data-lugacsi" attribute inside rootNode
-	 * @param options.success:           Function that will be invoked once the url is successfully fetched. Optional, default to the internal "onSuccess" method
-	 * @param options.after  :           Function that will be invoked once the include is successfully performed.
-	 *                                   It will be called with the handler(rootNode, url, response) signature. Optional, it can be set using the "data-lugacsi-after" attribute
-	 * @param options.error:             Function that will be invoked if the url request fails. Optional, default to the internal "onError" method
-	 * @param options.xhrTimeout:        Timeout for XHR call. Optional
+	 * @param {luga.csi.Include.options} options
+	 * @constructor
 	 */
 	luga.csi.Include = function(options){
 		var self = this;
-
 		this.init = function(){
 			jQuery.ajax({
 				url: self.config.url,
@@ -780,6 +814,9 @@ if(typeof(luga) === "undefined"){
 		luga.merge(this.config, options);
 	};
 
+	/**
+	 * Invoke this to programmatically load CSI inside the current document
+	 */
 	luga.csi.loadIncludes = function(){
 		jQuery(luga.csi.CONST.NODE_SELECTOR).each(function(index, item){
 			var includeObj = new luga.csi.Include({rootNode: item});

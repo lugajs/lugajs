@@ -28,7 +28,7 @@
           "name": "Luga JS"
         },
 		"csi": {
-			"version": "1.0",
+			"version": "1.0.1",
 			"name": "Luga CSI"
 		},
 		"validator": {
