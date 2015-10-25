@@ -11,6 +11,10 @@
 		"url": "https://github.com/MassimoFoti/lugajs"
 	},
 	"libs": {
+		"all": {
+			"version": "",
+			"name": "Luga JS"
+		},
 		"ajaxform": {
 			"version": "0.6.0",
 			"name": "Luga Ajaxform"
