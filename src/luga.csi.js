@@ -38,6 +38,14 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.csi.Include = function(options){
 
+		var onSuccess = function(response, textStatus, jqXHR){
+			jQuery(config.rootNode).html(response);
+		};
+
+		var onError = function(qXHR, textStatus, errorThrown){
+			throw(luga.string.format(luga.csi.CONST.MESSAGES.FILE_NOT_FOUND, [config.url]));
+		};
+
 		var config = {
 			url: jQuery(options.rootNode).attr(luga.csi.CONST.URL_ATTRIBUTE),
 			after: jQuery(options.rootNode).attr(luga.csi.CONST.AFTER_ATTRIBUTE),
@@ -47,14 +55,6 @@ if(typeof(luga) === "undefined"){
 		};
 		luga.merge(config, options);
 		var self = this;
-
-		var onSuccess = function(response, textStatus, jqXHR){
-			jQuery(config.rootNode).html(response);
-		};
-
-		var onError = function(qXHR, textStatus, errorThrown){
-			throw(luga.string.format(luga.csi.CONST.MESSAGES.FILE_NOT_FOUND, [config.url]));
-		};
 
 		this.load = function(){
 			jQuery.ajax({
