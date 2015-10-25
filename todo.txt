@@ -1,6 +1,5 @@
 - Move JSHint settings from idea to config file
-
-- Luga Modal > Luga ModalFrame
+- Luga Modal > Luga ModalFrame?
 
 CORE:
 
@@ -37,7 +36,7 @@ DOCS:
 
 AJAX FORM
 
-- Try and test jQuery.ajax() and coorect invokation of handlers
+- Try and test jQuery.ajax() and correct invokation of handlers
 
 - Docs
   about
