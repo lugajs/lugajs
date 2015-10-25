@@ -22,9 +22,8 @@ DOCS:
 AJAXFORM:
 
 - Docs
-  success/error signature
+  error handler, default and custom
   after/before signature
-  custom handlers
   luga.ajaxform.handlers.errorBox
   Luga Validator integration
   use programmatic API -> new luga.ajaxform.Sender({}).send();

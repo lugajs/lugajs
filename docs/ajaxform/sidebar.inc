@@ -8,5 +8,6 @@
 	<h2>Samples</h2>
 	<ul>
 		<li><a href="../samples/complete.htm">Complete form</a></li>
+		<li><a href="../samples/success-handler.htm">Success handler</a></li>
 	</ul>
 </nav>
