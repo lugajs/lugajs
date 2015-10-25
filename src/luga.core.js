@@ -184,18 +184,18 @@ if(typeof(luga) === "undefined"){
 	 * Only fields considered successful are returned:
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 *
-	 * @param {jquery}   formNode     jQuery object wrapping the form
+	 * @param {jquery}   rootNode     jQuery object wrapping the form
 	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @return {string}               A URI encoded string
 	 */
-	luga.form.toQueryString = function(formNode, demoronize){
+	luga.form.toQueryString = function(rootNode, demoronize){
 
-		if(formNode.length === 0){
+		if(rootNode.length === 0){
 			throw(luga.form.CONST.MESSAGES.MISSING_FORM);
 		}
 
 		var str = "";
-		var fields = luga.form.utils.getChildFields(formNode);
+		var fields = luga.form.utils.getChildFields(rootNode);
 		for(var i = 0; i < fields.length; i++){
 			if(luga.form.utils.isSuccessfulField(fields[i]) === true){
 				var fieldName = jQuery(fields[i]).attr("name");
@@ -246,18 +246,18 @@ if(typeof(luga) === "undefined"){
 	 * Values of multiple checked checkboxes and multiple select are included as a single entry, comma-delimited value
 	 * You can change the delimiter by setting the value of luga.form.CONST.HASH_DELIMITER
 	 *
-	 * @param {jquery}   formNode     jQuery object wrapping the form
+	 * @param {jquery}   rootNode     jQuery object wrapping the form
 	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @return {object}               A JavaScript object containing name/value pairs
 	 */
-	luga.form.toHash = function(formNode, demoronize){
+	luga.form.toHash = function(rootNode, demoronize){
 
-		if(formNode.length === 0){
+		if(rootNode.length === 0){
 			throw(luga.form.CONST.MESSAGES.MISSING_FORM);
 		}
 
 		var map = {};
-		var fields = luga.form.utils.getChildFields(formNode);
+		var fields = luga.form.utils.getChildFields(rootNode);
 		for(var i = 0; i < fields.length; i++){
 			if(luga.form.utils.isSuccessfulField(fields[i]) === true){
 				var fieldName = jQuery(fields[i]).attr("name");

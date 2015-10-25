@@ -12,7 +12,7 @@ describe("luga.form", function(){
 			loadFixtures("form/common.htm");
 		});
 
-		it("Returns a string of name/value pairs from a given form", function(){
+		it("Returns a string of name/value pairs from a given node", function(){
 			expect(luga.form.toQueryString(jQuery("#basicValue"))).toEqual("firstname=ciccio&lastname=pasticcio&radio=yes");
 			expect(luga.form.toQueryString(jQuery("#basicNoValue"))).toEqual("firstname=&lastname=");
 		});
@@ -53,7 +53,7 @@ describe("luga.form", function(){
 			loadFixtures("form/common.htm");
 		});
 
-		it("Returns a JavaScript object containing name/value pairs from a given form", function(){
+		it("Returns a JavaScript object containing name/value pairs from a given node", function(){
 			expect(luga.form.toHash(jQuery("#basicValue"))).toEqual({firstname: "ciccio", lastname: "pasticcio", radio: 'yes'});
 			expect(luga.form.toHash(jQuery("#basicNoValue"))).toEqual({firstname: "", lastname: ""});
 		});
