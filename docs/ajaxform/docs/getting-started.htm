@@ -45,6 +45,15 @@
 			</ol>
 		</code>
 
+		<section>
+			<h1>Gotchas</h1>
+			<ul class="list">
+				<li>Please note Ajaxform can't handle file upload!</li>
+				<li>Don't use "action" or "method" as field name! Certain browsers will mess up on this</li>
+				<li>Keep in mind, XMLHttpRequest expects UTF-8 and will force the response to UTF-8. Any non-UTF-8 charset you send downstream may be turned into rubbish</li>
+			</ul>
+		</section>
+
 	</div>
 
 	<div data-lugacsi="../../footer.inc"></div>
