@@ -1,4 +1,4 @@
-/*! Luga JS  2015-10-25 14:10
+/*! Luga JS  2015-10-25 19:10
 Copyright 2013-15 Massimo Foti (massimo@massimocorner.com) 
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0 
 */  
@@ -547,10 +547,10 @@ if(typeof(luga) === "undefined"){
 	 * @param {string}   msg          Message to display in the GUI
 	 * @param {jquery}   formNode     jQuery object wrapping the form
 	 * @param {string}   textStatus   HTTP status
+	 * @param {string}   errorThrown  Error message from jQuery
 	 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
-	 * @param {string}   errorThrown  Error message from HTTP
 	 */
-	luga.ajaxform.handlers.errorAlert = function(msg, formNode, textStatus, jqXHR, errorThrown){
+	luga.ajaxform.handlers.errorAlert = function(msg, formNode, textStatus, errorThrown, jqXHR){
 		alert(msg);
 	};
 
@@ -560,10 +560,10 @@ if(typeof(luga) === "undefined"){
 	 * @param {string}   msg          Message to display in the GUI
 	 * @param {jquery}   formNode     jQuery object wrapping the form
 	 * @param {string}   textStatus   HTTP status
+	 * @param {string}   errorThrown  Error message from jQuery
 	 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
-	 * @param {string}   errorThrown  Error message from HTTP
 	 */
-	luga.ajaxform.handlers.errorBox = function(msg, formNode, textStatus, jqXHR, errorThrown){
+	luga.ajaxform.handlers.errorBox = function(msg, formNode, textStatus, errorThrown, jqXHR){
 		// Clean-up any existing box
 		luga.utils.removeDisplayBox(formNode);
 		luga.utils.displayErrorMessage(formNode, msg);

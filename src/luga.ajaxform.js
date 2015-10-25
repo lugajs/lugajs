@@ -30,8 +30,8 @@ if(typeof(luga) === "undefined"){
 	 * @param {string}   msg          Message to display in the GUI
 	 * @param {jquery}   formNode     jQuery object wrapping the form
 	 * @param {string}   textStatus   HTTP status
+	 * @param {string}   errorThrown  Error message from jQuery
 	 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
-	 * @param {string}   errorThrown  Error message from HTTP
 	 */
 	luga.ajaxform.handlers.errorAlert = function(msg, formNode, textStatus, errorThrown, jqXHR){
 		alert(msg);
@@ -43,10 +43,10 @@ if(typeof(luga) === "undefined"){
 	 * @param {string}   msg          Message to display in the GUI
 	 * @param {jquery}   formNode     jQuery object wrapping the form
 	 * @param {string}   textStatus   HTTP status
+	 * @param {string}   errorThrown  Error message from jQuery
 	 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
-	 * @param {string}   errorThrown  Error message from HTTP
 	 */
-	luga.ajaxform.handlers.errorBox = function(msg, formNode, textStatus, jqXHR, errorThrown){
+	luga.ajaxform.handlers.errorBox = function(msg, formNode, textStatus, errorThrown, jqXHR){
 		// Clean-up any existing box
 		luga.utils.removeDisplayBox(formNode);
 		luga.utils.displayErrorMessage(formNode, msg);
