@@ -177,7 +177,7 @@ if(typeof(luga) === "undefined"){
 			}
 
 			jQuery.ajax({
-				data: luga.form.toQueryString(self.config.formNode),
+				data: luga.form.toQueryString(self.config.formNode, true),
 				headers: {
 					"X-Requested-With": luga.ajaxform.CONST.USER_AGENT
 				},
