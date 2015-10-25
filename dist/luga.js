@@ -1,4 +1,4 @@
-/*! Luga JS  2015-10-25 11:10
+/*! Luga JS  2015-10-25 12:10
 Copyright 2013-15 Massimo Foti (massimo@massimocorner.com) 
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0 
 */  
@@ -184,11 +184,11 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Returns a URI encoded string of field name/value pairs from a given form
+	 * Returns a URI encoded string of name/value pairs from fields contained inside a given root node
 	 * Only fields considered successful are returned:
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 *
-	 * @param {jquery}   rootNode     jQuery object wrapping the form
+	 * @param {jquery}   rootNode     jQuery object wrapping the root node
 	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @return {string}               A URI encoded string
 	 */
@@ -244,13 +244,13 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Returns a JavaScript object containing name/value pairs from a given form
+	 * Returns a JavaScript object containing name/value pairs from fields contained inside a given root node
 	 * Only fields considered successful are returned:
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 * Values of multiple checked checkboxes and multiple select are included as a single entry, comma-delimited value
 	 * You can change the delimiter by setting the value of luga.form.CONST.HASH_DELIMITER
 	 *
-	 * @param {jquery}   rootNode     jQuery object wrapping the form
+	 * @param {jquery}   rootNode     jQuery object wrapping the root node
 	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @return {object}               A JavaScript object containing name/value pairs
 	 */
@@ -748,7 +748,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.csi");
 
-	luga.csi.version = "1.0.1";
+	luga.csi.version = "1.1";
 
 	luga.csi.CONST = {
 		NODE_SELECTOR: "div[data-lugacsi]",
@@ -778,40 +778,42 @@ if(typeof(luga) === "undefined"){
 	 * @constructor
 	 */
 	luga.csi.Include = function(options){
+
+		var config = {
+			url: jQuery(options.rootNode).attr(luga.csi.CONST.URL_ATTRIBUTE),
+			after: jQuery(options.rootNode).attr(luga.csi.CONST.AFTER_ATTRIBUTE),
+			success: onSuccess,
+			error: onError,
+			xhrTimeout: 5000
+		};
+		luga.merge(config, options);
 		var self = this;
-		this.init = function(){
+
+		var onSuccess = function(response, textStatus, jqXHR){
+			jQuery(config.rootNode).html(response);
+		};
+
+		var onError = function(qXHR, textStatus, errorThrown){
+			throw(luga.string.format(luga.csi.CONST.MESSAGES.FILE_NOT_FOUND, [config.url]));
+		};
+
+		this.load = function(){
 			jQuery.ajax({
-				url: self.config.url,
-				timeout: self.config.XHR_TIMEOUT,
+				url: config.url,
+				timeout: config.XHR_TIMEOUT,
 				success: function(response, textStatus, jqXHR){
-					self.config.success.apply(null, [response, textStatus, jqXHR]);
-					var afterHandler = luga.lookup(self.config.after);
+					config.success.apply(null, [response, textStatus, jqXHR]);
+					var afterHandler = luga.lookup(config.after);
 					if(afterHandler !== null){
-						afterHandler.apply(null, [self.config.rootNode, self.config.url, response]);
+						afterHandler.apply(null, [config.rootNode, config.url, response]);
 					}
 				},
 				error: function(jqXHR, textStatus, errorThrown){
-					self.config.error.apply(null, [jqXHR, textStatus, errorThrown]);
+					config.error.apply(null, [jqXHR, textStatus, errorThrown]);
 				}
 			});
 		};
 
-		this.onSuccess = function(response, textStatus, jqXHR){
-			jQuery(self.config.rootNode).html(response);
-		};
-
-		this.onError = function(qXHR, textStatus, errorThrown){
-			throw(luga.string.format(luga.csi.CONST.MESSAGES.FILE_NOT_FOUND, [self.config.url]));
-		};
-
-		this.config = {
-			url: jQuery(options.rootNode).attr(luga.csi.CONST.URL_ATTRIBUTE),
-			after: jQuery(options.rootNode).attr(luga.csi.CONST.AFTER_ATTRIBUTE),
-			success: this.onSuccess,
-			error: this.onError,
-			xhrTimeout: 5000
-		};
-		luga.merge(this.config, options);
 	};
 
 	/**
@@ -820,7 +822,7 @@ if(typeof(luga) === "undefined"){
 	luga.csi.loadIncludes = function(){
 		jQuery(luga.csi.CONST.NODE_SELECTOR).each(function(index, item){
 			var includeObj = new luga.csi.Include({rootNode: item});
-			includeObj.init();
+			includeObj.load();
 		});
 	};
 

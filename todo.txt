@@ -39,6 +39,11 @@ AJAXFORM:
 
 -------------
 
+CSI:
+
+-------------
+
+
 VALIDATOR:
 
 - Add test for options config (see ajaxform.Sender)

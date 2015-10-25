@@ -7,7 +7,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.csi");
 
-	luga.csi.version = "1.0.1";
+	luga.csi.version = "1.1";
 
 	luga.csi.CONST = {
 		NODE_SELECTOR: "div[data-lugacsi]",
@@ -37,40 +37,42 @@ if(typeof(luga) === "undefined"){
 	 * @constructor
 	 */
 	luga.csi.Include = function(options){
+
+		var config = {
+			url: jQuery(options.rootNode).attr(luga.csi.CONST.URL_ATTRIBUTE),
+			after: jQuery(options.rootNode).attr(luga.csi.CONST.AFTER_ATTRIBUTE),
+			success: onSuccess,
+			error: onError,
+			xhrTimeout: 5000
+		};
+		luga.merge(config, options);
 		var self = this;
-		this.init = function(){
+
+		var onSuccess = function(response, textStatus, jqXHR){
+			jQuery(config.rootNode).html(response);
+		};
+
+		var onError = function(qXHR, textStatus, errorThrown){
+			throw(luga.string.format(luga.csi.CONST.MESSAGES.FILE_NOT_FOUND, [config.url]));
+		};
+
+		this.load = function(){
 			jQuery.ajax({
-				url: self.config.url,
-				timeout: self.config.XHR_TIMEOUT,
+				url: config.url,
+				timeout: config.XHR_TIMEOUT,
 				success: function(response, textStatus, jqXHR){
-					self.config.success.apply(null, [response, textStatus, jqXHR]);
-					var afterHandler = luga.lookup(self.config.after);
+					config.success.apply(null, [response, textStatus, jqXHR]);
+					var afterHandler = luga.lookup(config.after);
 					if(afterHandler !== null){
-						afterHandler.apply(null, [self.config.rootNode, self.config.url, response]);
+						afterHandler.apply(null, [config.rootNode, config.url, response]);
 					}
 				},
 				error: function(jqXHR, textStatus, errorThrown){
-					self.config.error.apply(null, [jqXHR, textStatus, errorThrown]);
+					config.error.apply(null, [jqXHR, textStatus, errorThrown]);
 				}
 			});
 		};
 
-		this.onSuccess = function(response, textStatus, jqXHR){
-			jQuery(self.config.rootNode).html(response);
-		};
-
-		this.onError = function(qXHR, textStatus, errorThrown){
-			throw(luga.string.format(luga.csi.CONST.MESSAGES.FILE_NOT_FOUND, [self.config.url]));
-		};
-
-		this.config = {
-			url: jQuery(options.rootNode).attr(luga.csi.CONST.URL_ATTRIBUTE),
-			after: jQuery(options.rootNode).attr(luga.csi.CONST.AFTER_ATTRIBUTE),
-			success: this.onSuccess,
-			error: this.onError,
-			xhrTimeout: 5000
-		};
-		luga.merge(this.config, options);
 	};
 
 	/**
@@ -79,7 +81,7 @@ if(typeof(luga) === "undefined"){
 	luga.csi.loadIncludes = function(){
 		jQuery(luga.csi.CONST.NODE_SELECTOR).each(function(index, item){
 			var includeObj = new luga.csi.Include({rootNode: item});
-			includeObj.init();
+			includeObj.load();
 		});
 	};
 
