@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>Luga Ajaxform :: Error handler</title>
+	<link rel="stylesheet" href="../../../src/luga.css" />
+	<link rel="stylesheet" href="../../docs.css" />
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../dist/luga.min.js"></script>
+	<script src="../../docs.js"></script>
+	<script>
+		handlers = {};
+		handlers.alertHttp = function(msg, formNode, textStatus, errorThrown, jqXHR){
+			// Alert the HTTP status and error message in a error box above the form
+			alert(jqXHR.status + " " + textStatus);
+		};
+	</script>
+</head>
+<body>
+
+	<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
+	<div data-lugacsi="../sidebar.inc"></div>
+
+	<div class="content">
+
+		<section>
+			<h1>Error handler</h1>
+			<p>By default Ajaxform uses luga.ajaxform.handlers.errorAlert as error handler. It displays either a standard message or the content of the data-lugajax-errormsg custom attribute inside an alert</p>
+		</section>
+
+		<form action="missing.json" data-lugajax-form="true" data-lugajax-errormsg="Your error message here">
+			<h1>Default handler</h1>
+			<input type="text" name="name" />
+			<input type="submit" value="Submit"/>
+		</form>
+
+		<code>
+			<ol>
+				<li>&lt;form action="missing.json" data-lugajax-form="true" data-lugajax-errormsg="Your error message here"&gt;</li>
+				<li>	&lt;input type="text" name="name" /&gt;</li>
+				<li>	&lt; type="submit" value="Submit"/&gt;</li>
+				<li>&lt;/form&gt;</li>
+			</ol>
+		</code>
+
+		<section>
+			<h1>luga.ajaxform.handlers.errorBox</h1>
+			<p>You can also use the built-in luga.ajaxform.handlers.errorBox function instead. It works better than a crude alert</p>
+			<p>Just set the data-lugajax-error custom attribute</p>
+		</section>
+
+		<form action="missing.json" data-lugajax-form="true" data-lugajax-error="luga.ajaxform.handlers.errorBox">
+			<h1>errorBox</h1>
+			<input type="text" name="name" />
+			<input type="submit" value="Submit"/>
+		</form>
+
+		<code>
+			<ol>
+				<li>&lt;form action="missing.json" data-lugajax-form="true" data-lugajax-error="luga.ajaxform.handlers.errorBox"&gt;</li>
+				<li>	&lt;input type="text" name="name" /&gt;</li>
+				<li>	&lt; type="submit" value="Submit"/&gt;</li>
+				<li>&lt;/form&gt;</li>
+			</ol>
+		</code>
+
+		<section>
+			<h1>Custom error handler</h1>
+			<p>You can write your own success handler and use it instead</p>
+		</section>
+
+		<form action="missing.json" data-lugajax-form="true" data-lugajax-error="handlers.alertHttp">
+			<h1>Custom handler</h1>
+			<input type="text" name="name" />
+			<input type="submit" value="Submit"/>
+		</form>
+
+		<code>
+			<ol>
+				<li>&lt;script&gt;</li>
+				<li>handlers = {};</li>
+				<li>handlers.alertHttp = function(msg, formNode, textStatus, errorThrown, jqXHR){</li>
+				<li>	// Alert the HTTP status and error message in a error box above the form</li>
+				<li>	alert(jqXHR.status + " " + textStatus);</li>
+				<li>};</li>
+			</ol>
+			<ol>
+				<li>&lt;form action="../action.json" data-lugajax-form="true" data-lugajax-error="handlers.displayErrorBox"&gt;</li>
+			</ol>
+		</code>
+
+		<section>
+			<h1>Handler's signature</h1>
+			<p>The handler will be invoked with five arguments:</p>
+			<ul class="list">
+				<li>{string}   msg          Value of the data-lugajax-errormsg attribute</li>
+				<li>{jquery}   formNode     jQuery object wrapping the form</li>
+				<li>{string}   textStatus   HTTP status</li>
+				<li>{string}   errorThrown  Error message from jQuery</li>
+				<li>{object}   jqXHR        jQuery wrapper around XMLHttpRequest</li>
+			</ul>
+		</section>
+
+	</div>
+
+	<div data-lugacsi="../../footer.inc"></div>
+
+</body>
+</html>

@@ -9,5 +9,6 @@
 	<ul>
 		<li><a href="../samples/complete.htm">Complete form</a></li>
 		<li><a href="../samples/success-handler.htm">Success handler</a></li>
+		<li><a href="../samples/error-handler.htm">Error handler</a></li>
 	</ul>
 </nav>
