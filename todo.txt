@@ -19,8 +19,6 @@ VALIDATOR:
 
 DOCS:
 
-- Link to luga.min.js
-
 - Link to specific unit tests from libs docs
 
 - Update sitemap.xml
@@ -35,8 +33,6 @@ DOCS:
 -------------
 
 AJAX FORM
-
-- Try and test jQuery.ajax() and correct invokation of handlers
 
 - Docs
   about
