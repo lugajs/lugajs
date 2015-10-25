@@ -12,12 +12,12 @@ describe("luga.form", function(){
 			loadFixtures("form/common.htm");
 		});
 
-		it("Returns a string of name/value pairs from a given node", function(){
+		it("Returns a string of name/value pairs from fields contained inside a given node", function(){
 			expect(luga.form.toQueryString(jQuery("#basicValue"))).toEqual("firstname=ciccio&lastname=pasticcio&radio=yes");
 			expect(luga.form.toQueryString(jQuery("#basicNoValue"))).toEqual("firstname=&lastname=");
 		});
 
-		it("Throws an exception if the given form node does not exists", function(){
+		it("Throws an exception if the given node does not exists", function(){
 			expect(function(){
 				luga.form.toQueryString(jQuery("#missing"));
 			}).toThrow();
@@ -53,12 +53,12 @@ describe("luga.form", function(){
 			loadFixtures("form/common.htm");
 		});
 
-		it("Returns a JavaScript object containing name/value pairs from a given node", function(){
+		it("Returns a JavaScript object containing name/value pairs from fields contained inside a given node", function(){
 			expect(luga.form.toHash(jQuery("#basicValue"))).toEqual({firstname: "ciccio", lastname: "pasticcio", radio: 'yes'});
 			expect(luga.form.toHash(jQuery("#basicNoValue"))).toEqual({firstname: "", lastname: ""});
 		});
 
-		it("Throws an exception if the given form node does not exists", function(){
+		it("Throws an exception if the given node does not exists", function(){
 			expect(function(){
 				luga.form.toHash(jQuery("#missing"));
 			}).toThrow();

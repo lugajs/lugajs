@@ -180,11 +180,11 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Returns a URI encoded string of field name/value pairs from a given form
+	 * Returns a URI encoded string of name/value pairs from fields contained inside a given root node
 	 * Only fields considered successful are returned:
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 *
-	 * @param {jquery}   rootNode     jQuery object wrapping the form
+	 * @param {jquery}   rootNode     jQuery object wrapping the root node
 	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @return {string}               A URI encoded string
 	 */
@@ -240,13 +240,13 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Returns a JavaScript object containing name/value pairs from a given form
+	 * Returns a JavaScript object containing name/value pairs from fields contained inside a given root node
 	 * Only fields considered successful are returned:
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 * Values of multiple checked checkboxes and multiple select are included as a single entry, comma-delimited value
 	 * You can change the delimiter by setting the value of luga.form.CONST.HASH_DELIMITER
 	 *
-	 * @param {jquery}   rootNode     jQuery object wrapping the form
+	 * @param {jquery}   rootNode     jQuery object wrapping the root node
 	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @return {object}               A JavaScript object containing name/value pairs
 	 */
