@@ -3,6 +3,7 @@
 	<ul>
 		<li><a href="../docs/index.htm">About Ajaxform</a></li>
 		<li><a href="../docs/getting-started.htm">Getting started</a></li>
+		<li><a href="../docs/syntax.htm">Syntax reference</a></li>
 	</ul>
 	<h2>Samples</h2>
 	<ul>

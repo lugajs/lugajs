@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>Luga Ajaxform :: Syntax reference</title>
+	<link rel="stylesheet" href="../../../src/luga.css" />
+	<link rel="stylesheet" href="../../docs.css" />
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../dist/luga.min.js"></script>
+	<script src="../../docs.js"></script>
+</head>
+<body>
+
+	<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
+	<div data-lugacsi="../sidebar.inc"></div>
+
+	<div class="content">
+
+		<section>
+			<h1>Syntax reference</h1>
+			<p>The complete syntax reference for HTML5 custom data attributes is included below</p>
+		</section>
+
+		<table class="syntax">
+			<th colspan="2">Form tag</th>
+			<tr>
+				<td>data-lugajax-form</td>
+				<td>
+					Required. Set it to true in order to submit the form using Ajax
+				</td>
+			</tr>
+			<tr>
+				<td>data-lugajax-action</td>
+				<td>
+					<p>Optional. URL to where the form will be send</p>
+					<p>If not specified, the value inside the form's action attribute will be used</p>
+				</td>
+			</tr>
+			<tr>
+				<td>data-lugajax-method</td>
+				<td>
+					<p>Optional. HTTP's method to be used</p>
+					<p>If not specified, the value inside the form's method attribute will be used</p>
+				</td>
+			</tr>
+			<tr>
+				<td>data-lugajax-timeout</td>
+				<td>
+					<p>Optional. Timeout to be used during the HTTP call (milliseconds). Default to 30000</p>
+				</td>
+			</tr>
+			<tr>
+				<td>data-lugajax-success</td>
+				<td>
+					<p>Optional. Name of the function to be invoked if the form is successfully submitted. Default to luga.ajaxform.handlers.replaceForm</p>
+				</td>
+			</tr>
+			<tr>
+				<td>data-lugajax-error</td>
+				<td>
+					<p>Optional. Name of the function to be invoked if the HTTP call failed. Default to luga.ajaxform.handlers.errorAlert</p>
+				</td>
+			</tr>
+			<tr>
+				<td>data-lugajax-successmsg</td>
+				<td>
+					<p>Optional. Message that will be displayed to the user if the form is successfully submitted. Default to "Thanks for submitting the form"</p>
+				</td>
+			</tr>
+			<tr>
+				<td>data-lugajax-errormsg</td>
+				<td>
+					<p>Optional. Message that will be displayed to the user if the HTTP call failed. Default to "Failed to submit the form"</p>
+				</td>
+			</tr>
+			<tr>
+				<td>data-lugajax-before</td>
+				<td>
+					<p>Optional. Name of the function to be invoked before the form is send. Default to null</p>
+				</td>
+			</tr>
+			<tr>
+				<td>data-lugajax-after</td>
+				<td>
+					<p>Optional. Name of the function to be invoked after the form is send. Default to null</p>
+				</td>
+			</tr>
+		</table>
+
+	</div>
+
+	<div data-lugacsi="../../footer.inc"></div>
+
+</body>
+</html>

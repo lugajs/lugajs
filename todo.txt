@@ -22,7 +22,6 @@ DOCS:
 AJAXFORM:
 
 - Docs
-  syntax
   success/error signature
   after/before signature
   custom handlers
