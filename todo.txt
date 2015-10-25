@@ -4,18 +4,10 @@
 
 -------------
 
-CORE:
-
--------------
-
 DOCS:
 
 - Switch CSS to border-box
 - Switch from em to rem
-
-- Document API:
-  luga.Notifier?
-  luga.extend()?
 
 -------------
 
@@ -29,6 +21,13 @@ CSI:
 
 -------------
 
+CORE:
+
+- Document API:
+  luga.Notifier?
+  luga.extend()?
+
+-------------
 
 VALIDATOR:
 
