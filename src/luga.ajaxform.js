@@ -33,7 +33,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
 	 * @param {string}   errorThrown  Error message from HTTP
 	 */
-	luga.ajaxform.handlers.errorAlert = function(msg, formNode, textStatus, jqXHR, errorThrown){
+	luga.ajaxform.handlers.errorAlert = function(msg, formNode, textStatus, errorThrown, jqXHR){
 		alert(msg);
 	};
 
