@@ -35,6 +35,7 @@ AJAXFORM:
   use programmatic API -> new luga.ajaxform.Sender({}).send();
 
 - Update README.md
+- Update Doc's index page
 
 -------------
 
