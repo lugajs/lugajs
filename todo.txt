@@ -23,7 +23,6 @@ AJAXFORM:
 
 - Docs
   after/before signature
-  luga.ajaxform.handlers.errorBox
   Luga Validator integration
   use programmatic API -> new luga.ajaxform.Sender({}).send();
 
