@@ -5,12 +5,15 @@ It is not intended and will never be a framework, we believe in keeping our tool
 
 Right now the following production ready libraries are available:
 <ul>
-	  <li>
-			<a href="http://massimocorner.com/lugajs/docs/validator/docs/index.htm" title="Client-side form validation">Validator</a>: a library for client-side form validation
-		</li>
-	  <li>
-			<a href="http://massimocorner.com/lugajs/docs/csi/docs/index.htm" title="Client-side include">CSI</a>: s simple solution to perform includes client-side
-	  </li>
+	<li>
+		<a href="http://massimocorner.com/lugajs/docs/ajaxform/docs/index.htm" title="Submit forms without page reloads">Ajaxform</a>: turn any HTML &lt;form&gt; into a form that get submitted by Ajax, without the need to reload the page
+	</li>
+	<li>
+		<a href="http://massimocorner.com/lugajs/docs/csi/docs/index.htm" title="Client-side include">CSI</a>: a simple solution to perform includes client-side
+	</li>
+	<li>
+		<a href="http://massimocorner.com/lugajs/docs/validator/docs/index.htm" title="Client-side form validation">Validator</a>: a library for client-side form validation
+	</li>
 </ul> 
 
 Additional libraries are in the work
