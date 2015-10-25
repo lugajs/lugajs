@@ -24,7 +24,6 @@ DOCS:
 AJAXFORM:
 
 - Docs
-  about
   getting started
   syntax
   success/error signature

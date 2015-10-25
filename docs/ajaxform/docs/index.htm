@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>Luga Ajaxform</title>
+	<link rel="stylesheet" href="../../../src/luga.css" />
+	<link rel="stylesheet" href="../../docs.css" />
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../dist/luga.min.js"></script>
+	<script src="../../docs.js"></script>
+</head>
+<body>
+
+	<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
+	<div data-lugacsi="../sidebar.inc"></div>
+
+	<div class="content">
+
+		<section>
+			<h1>About Luga Ajaxform</h1>
+			<p>luga.ajaxform is a JavaScript library that can turn any HTML &lt;form&gt; into a form that get submitted by Ajax, without the need to reload the page</p>
+			<p>In the background, whenever a form is submitted, Ajaxform intercepts the submission, serializes the values of the fields, and then issues an HTTP request to the relevant action page using Ajax</p>
+			<p>HTTP requests issued by Ajaxform will use "luga.ajaxform" as the value of the "X-Requested-With" field in the HTTP header. This will allow server-side scripts to be aware if the form submission is coming from Ajax or not</p>
+			<p>Ajaxform allows progressive enhancement, users without JavaScript can still use the form in a traditional way; users with JavaScript will get a more sophisticated experience</p>
+			<p>See it <a href="../samples/complete.htm">in action</a>, take a look at the <a href="../docs/syntax.htm">syntax reference</a> or check how to get <a href="getting-started.htm">started quickly</a></p>
+		</section>
+
+		<section>
+			<h1>Unit test</h1>
+			<p>
+				Luga Ajaxform contains a comprehensive set of <a href="../../../test/SpecRunner.htm?spec=luga.ajaxform">unit tests</a>, developed with <a href="https://github.com/jasmine/jasmine">Jasmine</a>
+			</p>
+			<p>
+				The unit tests play a fundamental role in ensuring the code is robust and, at the very same time, provide plenty of useful information about the API
+			</p>
+		</section>
+
+		<section>
+			<h1>History</h1>
+			<p>
+				Luga Ajaxform evolved out of <a href="http://www.massimocorner.com/libraries/ajaxform/">TMT Ajaxform</a>, an XHTML-centric library originally written in 2005. While the design principles are pretty much the same and the syntax is similar, the implementation is quite different.
+			</p>
+			<p>
+				Unlike the older library, Luga Ajaxform takes advantage of jQuery and it's distributed under an open source license
+			</p>
+		</section>
+
+		<div data-lugacsi="../../support.inc"></div>
+
+	</div>
+
+	<div data-lugacsi="../../footer.inc"></div>
+
+</body>
+</html>
