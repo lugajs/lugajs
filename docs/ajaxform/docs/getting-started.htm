@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>Luga Ajaxform :: Getting started</title>
+	<link rel="stylesheet" href="../../../src/luga.css" />
+	<link rel="stylesheet" href="../../docs.css" />
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../dist/luga.min.js"></script>
+	<script src="../../docs.js"></script>
+</head>
+<body>
+
+	<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
+	<div data-lugacsi="../sidebar.inc"></div>
+
+	<div class="content">
+
+		<form action="../action.json" data-lugajax-form="true">
+			<h1>Basic form</h1>
+			<input type="text" name="name" />
+			<input type="submit" value="Submit"/>
+		</form>
+
+		<section>
+			<h1>Getting started</h1>
+			<p>In order to turn a form into an ajaxform, we must include the JavaScript files. First jQuery, then Luga Core and Luga Ajaxform (in this order)</p>
+			<p>Then add the data-lugajax-form="true" attribute to the form tag.</p>
+		</section>
+
+		<code>
+			<ol>
+				<li>&lt;script src="js/jquery.min.js"&gt;&lt;/script&gt;</li>
+				<li>&lt;script src="js/<a href="../../../dist/luga.core.min.js">luga.core.min.js</a>"&gt;&lt;/script&gt;</li>
+				<li>&lt;script src="js/<a href="../../../dist/luga.ajaxform.min.js">luga.ajaxform.min.js</a>"&gt;&lt;/script&gt;</li>
+			</ol>
+		</code>
+
+		<code>
+			<ol>
+				<li>&lt;form action="../action.json" data-lugajax-form="true""&gt;</li>
+				<li>	&lt;input type="text" name="name" /&gt;</li>
+				<li>	&lt; type="submit" value="Submit"/&gt;</li>
+				<li>&lt;/form&gt;</li>
+			</ol>
+		</code>
+
+	</div>
+
+	<div data-lugacsi="../../footer.inc"></div>
+
+</body>
+</html>
