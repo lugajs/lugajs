@@ -98,14 +98,14 @@ describe("luga.form", function(){
 			expect(luga.form.utils).toBeDefined();
 		});
 
-		describe(".getFieldGroup(). Extracts group of related radio buttons", function(){
+		describe(".getFieldGroup(). Extracts group of fields that share the same name from", function(){
 
-			it("Within a given form", function(){
+			it("A given root node", function(){
 				loadFixtures("validator/RadioValidator/required.htm");
 				expect(luga.form.utils.getFieldGroup("lady", jQuery("#single")).length).toEqual(4);
 			});
 
-			it("Or the whole document", function(){
+			it("Or the whole document if the second argument is not passed", function(){
 				loadFixtures("validator/RadioValidator/required.htm");
 				expect(luga.form.utils.getFieldGroup("lady").length).toEqual(12);
 			});

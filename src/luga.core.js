@@ -128,9 +128,9 @@ if(typeof(luga) === "undefined"){
 		 * Sends a notification to all interested observers registered with the notifier.
 		 *
 		 * @method
-		 * @param eventName  Name of the event
-		 * @param data       Object containing data to be passed from the point of notification to all interested observers.
-		 *                   If there is no relevant data to pass, use an empty object.
+		 * @param {string}  eventName  Name of the event
+		 * @param {object}  data       Object containing data to be passed from the point of notification to all interested observers.
+		 *                             If there is no relevant data to pass, use an empty object.
 		 */
 		this.notifyObservers = function(eventName, data){
 			if(jQuery.type(data) !== "object"){
@@ -317,6 +317,12 @@ if(typeof(luga) === "undefined"){
 		return true;
 	};
 
+	/**
+	 * Returns true if the passed node is a form field that we care about
+	 *
+	 * @param {jquery}  fieldNode
+	 * @return {boolean}
+	 */
 	luga.form.utils.isInputField = function(fieldNode){
 		if(!jQuery(fieldNode).prop("type")){
 			return false;
@@ -328,11 +334,25 @@ if(typeof(luga) === "undefined"){
 		return true;
 	};
 
-	luga.form.utils.getFieldGroup = function(name, formNode){
+	/**
+	 * Extracts group of fields that share the same name from a given root node
+	 * Or the whole document if the second argument is not passed
+	 *
+	 * @param {string}  name       Name of the field. Mandatory
+	 * @param {jquery}  rootNode   Root node, optional, default to document
+	 * @return {jquery}
+	 */
+	luga.form.utils.getFieldGroup = function(name, rootNode){
 		var selector = "input[name=" + name + "]";
-		return jQuery(selector, formNode);
+		return jQuery(selector, rootNode);
 	};
 
+	/**
+	 * Returns an array of input fields contained inside a given root node
+	 *
+	 * @param {jquery}  rootNode   Root node
+	 * @return {Array.<jquery>}
+	 */
 	luga.form.utils.getChildFields = function(rootNode){
 		var fields = [];
 		jQuery(rootNode).find(luga.form.CONST.FIELD_SELECTOR).each(function(index, item){
@@ -433,6 +453,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Remove a message box (if any) associated with a given node
+	 * @param {jquery}  node   Target node
 	 */
 	luga.utils.removeDisplayBox = function(node){
 		var boxId = generateBoxId(jQuery(node));
@@ -445,6 +466,8 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Display a message box above a given node
+	 * @param {jquery}  node   Target node
+	 * @param {string}  html   HTML/Text code to inject
 	 */
 	luga.utils.displayMessage = function(node, html){
 		return luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.MESSAGE);
@@ -452,6 +475,8 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Display an error box above a given node
+	 * @param {jquery}  node   Target node
+	 * @param {string}  html   HTML/Text code to inject
 	 */
 	luga.utils.displayErrorMessage = function(node, html){
 		return luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.ERROR_MESSAGE);
@@ -460,6 +485,9 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Display a box with a message associated with a given node
 	 * Overwrite this method if you want to change the way luga.utils.displayMessage and luga.utils.displayErrorMessage behaves
+	 * @param {jquery}  node      Target node
+	 * @param {string}  html      HTML/Text code to inject
+	 * @param {string}  cssClass  CSS class attached to the box. Default to "luga_message"
 	 */
 	luga.utils.displayBox = function(node, html, cssClass){
 		if(!cssClass){
