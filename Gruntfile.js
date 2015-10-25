@@ -16,7 +16,7 @@ module.exports = function(grunt){
 		pkg: grunt.file.readJSON("package.json"),
 
 		concat: {
-			lugaTarget: {
+			full: {
 				options: {
 					separator: "\n\n"
 				},
@@ -30,7 +30,7 @@ module.exports = function(grunt){
 				sourceMap: true,
 				mangle: false
 			},
-			ajaxformTarget: {
+			ajaxform: {
 				options: {
 					banner: assembleBanner(global.pkg.libs.ajaxform)
 				},
@@ -38,7 +38,7 @@ module.exports = function(grunt){
 					"dist/luga.ajaxform.min.js": ["src/luga.ajaxform.js"]
 				}
 			},
-			csiTarget: {
+			csi: {
 				options: {
 					banner: assembleBanner(global.pkg.libs.csi)
 				},
@@ -46,7 +46,7 @@ module.exports = function(grunt){
 					"dist/luga.csi.min.js": ["src/luga.csi.js"]
 				}
 			},
-			coreTarget: {
+			core: {
 				options: {
 					banner: assembleBanner(global.pkg.libs.core)
 				},
@@ -54,7 +54,7 @@ module.exports = function(grunt){
 					"dist/luga.core.min.js": ["src/luga.core.js"]
 				}
 			},
-			validatorTarget: {
+			validator: {
 				options: {
 					banner: assembleBanner(global.pkg.libs.validator)
 				},
@@ -62,7 +62,7 @@ module.exports = function(grunt){
 					"dist/luga.validator.min.js": ["src/luga.validator.js"]
 				}
 			},
-			lugaTarget: {
+			full: {
 				options: {
 					banner: assembleBanner(global.pkg.libs.luga),
 					sourceMap: true,
@@ -96,7 +96,13 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks("grunt-contrib-concat");
 	grunt.loadNpmTasks("grunt-contrib-uglify");
 
-	// Default task(s).
-	grunt.registerTask("default", ["concat:lugaTarget", "uglify:lugaTarget", "uglify:ajaxformTarget", "uglify:csiTarget", "uglify:coreTarget", "uglify:validatorTarget", "compress"]);
+	// Default task
+	grunt.registerTask("default", ["concat:full", "uglify:full", "uglify:ajaxform", "uglify:core", "uglify:csi", "uglify:validator", "compress"]);
+
+	// Tasks for single libs
+	grunt.registerTask("ajaxform", ["concat:full", "uglify:full", "uglify:ajaxform", "compress"]);
+	grunt.registerTask("core", ["concat:full", "uglify:full", "uglify:core", "compress"]);
+	grunt.registerTask("csi", ["concat:full", "uglify:full", "uglify:csi", "compress"]);
+	grunt.registerTask("validator", ["concat:full", "uglify:full", "uglify:validator", "compress"]);
 
 };
