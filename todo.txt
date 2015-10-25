@@ -8,16 +8,6 @@ CORE:
 
 -------------
 
-VALIDATOR:
-
-- Add test for options config (see ajaxform.Sender)
-
-- Test/document entries inside luga.validator.CONST that can be customized
-
-- Add detailed JSDoc to improve IntelliJ's intellisense
-
--------------
-
 DOCS:
 
 - Link to specific unit tests from libs docs
@@ -48,6 +38,16 @@ AJAX FORM
 
 - Update README.md
 - Update massimocorner.com
+
+-------------
+
+VALIDATOR:
+
+- Add test for options config (see ajaxform.Sender)
+
+- Test/document entries inside luga.validator.CONST that can be customized
+
+- Add detailed JSDoc to improve IntelliJ's intellisense
 
 -------------
 
