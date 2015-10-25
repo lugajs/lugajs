@@ -10,8 +10,6 @@ CORE:
 
 DOCS:
 
-- Update sitemap.xml
-
 - Switch CSS to border-box
 - Switch from em to rem
 
