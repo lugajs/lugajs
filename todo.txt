@@ -10,8 +10,6 @@ CORE:
 
 DOCS:
 
-- Link to specific unit tests from libs docs
-
 - Update sitemap.xml
 
 - Switch CSS to border-box
@@ -23,7 +21,7 @@ DOCS:
 
 -------------
 
-AJAX FORM
+AJAXFORM:
 
 - Docs
   about
@@ -37,7 +35,6 @@ AJAX FORM
   use programmatic API -> new luga.ajaxform.Sender({}).send();
 
 - Update README.md
-- Update massimocorner.com
 
 -------------
 
