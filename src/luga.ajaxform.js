@@ -98,18 +98,23 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
+	 * @typedef {object} luga.ajaxform.Sender.options
 	 *
-	 * @param options.formNode    {jquery}  Either a jQuery object wrapping the form or the naked DOM object. Required
-	 * @param options.action      {string}  URL to where the form will be send. Default to the current URL
-	 * @param options.method      {string}  HTTP method to be used. Default to GET
-	 * @param options.timeout     {integer} Timeout to be used during the HTTP call (milliseconds). Default to 30000
-	 * @param options.success     {string}  Name of the function to be invoked if the form is successfully submitted. Default to luga.ajaxform.handlers.replaceForm
-	 * @param options.error       {string}  Name of the function to be invoked if the HTTP call failed. Default to luga.ajaxform.handlers.errorAlert
-	 * @param options.successmsg  {string}  Message that will be displayed to the user if the form is successfully submitted. Default to "Thanks for submitting the form"
-	 * @param options.errormsg    {string}  Message that will be displayed to the user if the HTTP call failed. Default to "Failed to submit the form"
-	 * @param options.before      {string}  Name of the function to be invoked before the form is send. Default to null
-	 * @param options.after       {string}  Name of the function to be invoked after the form is send. Default to null
-	 *
+	 * @property formNode    {jquery}  Either a jQuery object wrapping the form or the naked DOM object. Required
+	 * @property action      {string}  URL to where the form will be send. Default to the current URL
+	 * @property method      {string}  HTTP method to be used. Default to GET
+	 * @property timeout     {integer} Timeout to be used during the HTTP call (milliseconds). Default to 30000
+	 * @property success     {string}  Name of the function to be invoked if the form is successfully submitted. Default to luga.ajaxform.handlers.replaceForm
+	 * @property error       {string}  Name of the function to be invoked if the HTTP call failed. Default to luga.ajaxform.handlers.errorAlert
+	 * @property successmsg  {string}  Message that will be displayed to the user if the form is successfully submitted. Default to "Thanks for submitting the form"
+	 * @property errormsg    {string}  Message that will be displayed to the user if the HTTP call failed. Default to "Failed to submit the form"
+	 * @property before      {string}  Name of the function to be invoked before the form is send. Default to null
+	 * @property after       {string}  Name of the function to be invoked after the form is send. Default to null
+	 */
+
+	/**
+	 * Form handler. Invoke its sender() method to serialize the form and send its contents using XHR
+	 * @param options {luga.ajaxform.Sender.options}
 	 * @constructor
 	 */
 	luga.ajaxform.Sender = function(options){
