@@ -51,14 +51,18 @@ VALIDATOR:
 
 -------------
 
-REGION:
+DATA:
+
+- Add detailed JSDoc to improve IntelliJ's intellisense
+
+data.Region:
 
 - Write unit test!
 
 - Validate Handlebars is available
 - Validate required attributes
 
-DATASET:
+data.Dataset:
 
 - getCurrentRow()
 - getCurrentRowIndex()
@@ -76,16 +80,18 @@ DATASET:
 
 - Implement state (empty?, loading, error, ready)
 
-HTTP DATASET:
+data.HttpDatset:
 
 - Use options.dataType in jQuery.ajax() to handle dataType mismatches?
 
-JSON DATASET:
+data.JsonDataSet:
 
 - Modify loadRecords() to handle more complex JSON structures like Spry?
 - Implement subPaths?
 
-XML DATASET:
+data.XmlDataset:
+
+- Start implementation
 
 - options.xpath
 - setXpath()
