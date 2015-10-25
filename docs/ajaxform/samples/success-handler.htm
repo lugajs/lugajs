@@ -13,6 +13,7 @@
 		handlers.displayBox = function(msg, formNode, textStatus, jqXHR){
 			// Get the message out of the JSON returned by the server
 			var serverMsg = jqXHR.responseJSON.message;
+			// Display the message in a box above the form
 			luga.utils.displayBox(formNode, serverMsg);
 		};
 	</script>
@@ -62,6 +63,7 @@
 				<li>handlers.before = function(msg, formNode, textStatus, jqXHR){</li>
 				<li>	// Get the message out of the JSON returned by the server</li>
 				<li>	var serverMsg = jqXHR.responseJSON.message;</li>
+				<li>	// Display the message in a box above the form</li>
 				<li>	luga.utils.displayBox(formNode, serverMsg);</li>
 				<li>};</li>
 			</ol>
