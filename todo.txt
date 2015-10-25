@@ -22,7 +22,6 @@ DOCS:
 AJAXFORM:
 
 - Docs
-  error handler, default and custom
   after/before signature
   luga.ajaxform.handlers.errorBox
   Luga Validator integration
