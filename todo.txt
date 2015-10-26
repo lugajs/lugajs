@@ -1,5 +1,5 @@
 - Move JSHint settings from idea to config file
-- Luga Modal > Luga ModalFrame?
+- Bootstrap Modal > Luga ModalFrame?
 - Use SVG/base64 for images?
 
 -------------
@@ -8,6 +8,7 @@ DOCS:
 
 - Switch CSS to border-box
 - Switch from em to rem
+- Use flexbox CSS
 
 -------------
 
