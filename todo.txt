@@ -5,7 +5,6 @@
 
 DOCS:
 
-- Switch CSS to border-box
 - Switch from em to rem
 - Use flexbox CSS
 
