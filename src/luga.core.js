@@ -71,7 +71,7 @@ if(typeof(luga) === "undefined"){
 			return reference;
 		}
 		var object = window;
-		var parts = reference.split('.');
+		var parts = reference.split(".");
 		while(parts.length > 0){
 			var part = parts.shift();
 			if(part in object){
@@ -414,8 +414,8 @@ if(typeof(luga) === "undefined"){
 		// Evil "smarty" quotes
 		str = str.replace(new RegExp(String.fromCharCode(8216), "g"), "'");
 		str = str.replace(new RegExp(String.fromCharCode(8217), "g"), "'");
-		str = str.replace(new RegExp(String.fromCharCode(8220), "g"), '"');
-		str = str.replace(new RegExp(String.fromCharCode(8221), "g"), '"');
+		str = str.replace(new RegExp(String.fromCharCode(8220), "g"), "\"");
+		str = str.replace(new RegExp(String.fromCharCode(8221), "g"), "\"");
 		// More garbage
 		str = str.replace(new RegExp(String.fromCharCode(8211), "g"), "-");
 		str = str.replace(new RegExp(String.fromCharCode(8212), "g"), "--");

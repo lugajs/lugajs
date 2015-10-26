@@ -54,7 +54,6 @@ if(typeof(luga) === "undefined"){
 			xhrTimeout: 5000
 		};
 		luga.merge(config, options);
-		var self = this;
 
 		this.load = function(){
 			jQuery.ajax({
