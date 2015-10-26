@@ -22,9 +22,8 @@ CSI:
 
 CORE:
 
-- Document API:
-  luga.Notifier?
-  luga.extend()?
+- Document luga.Notifier?
+- Document luga.extend()?
 
 -------------
 
