@@ -2,6 +2,9 @@
 
 describe("luga.data.Dataset", function(){
 
+	"use strict";
+
+	var testDs, testRecords, removeUk, removeBrasil, testObserver;
 	beforeEach(function(){
 
 		testDs = new luga.data.DataSet({id: "test"});
@@ -263,6 +266,9 @@ describe("luga.data.Dataset", function(){
 
 describe("luga.data.HttpDataSet", function(){
 
+	"use strict";
+
+	var testDs;
 	beforeEach(function(){
 		testDs = new luga.data.JsonDataSet({id: "jsonDs"});
 	});
@@ -325,6 +331,7 @@ describe("luga.data.HttpDataSet", function(){
 
 	describe(".loadData()", function() {
 
+		var testDs, DEFAULT_TIMEOUT, testObserver;
 		beforeEach(function(){
 
 			testDs = new luga.data.JsonDataSet({id: "jsonDs", url: "fixtures/data/ladies.json"});

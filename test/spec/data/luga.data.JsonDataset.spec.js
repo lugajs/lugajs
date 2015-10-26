@@ -1,10 +1,10 @@
 describe("luga.data.JsonDataset", function(){
 
+	"use strict";
+	var testDs, DEFAULT_TIMEOUT;
 	beforeEach(function(){
-
 		testDs = new luga.data.JsonDataSet({id: "jsonDs", url: "fixtures/data/ladies.json"});
 		DEFAULT_TIMEOUT = 2000;
-
 	});
 
 	it("Extends luga.data.HttpDataSet", function(){
@@ -42,6 +42,7 @@ describe("luga.data.JsonDataset", function(){
 
 	describe(".loadData()", function() {
 
+		var peopleDs, peopleObserver;
 		beforeEach(function(){
 
 			peopleDs = new luga.data.JsonDataSet({id: "jsonDs", url: "fixtures/data/people.json", path: "ladies"});
@@ -80,7 +81,7 @@ describe("luga.data.JsonDataset", function(){
 			peopleDs.loadData();
 			setTimeout(function() {
 				expect(peopleDs.getRecordsCount()).toEqual(0);
-				expect(peopleObserver.onDataChangedHandler).toHaveBeenCalledWith(peopleDs);
+				expect(peopleObserver.onDataChangedHandler).not.toHaveBeenCalledWith(peopleDs);
 				done();
 			}, DEFAULT_TIMEOUT);
 		});

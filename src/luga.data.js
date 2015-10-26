@@ -48,10 +48,10 @@ if(typeof(luga) === "undefined"){
 	 * @param options.filter:           A filter functions to be called once for each row in the dataSet. Default to null
 	 */
 	luga.data.DataSet = function(options){
-		if(!options.id){
+		if(options.id === undefined){
 			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_ID_PARAMETER);
 		}
-		if((options.filter !== undefined) && !jQuery.isFunction(options.filter)){
+		if((options.filter !== undefined) && (jQuery.isFunction(options.filter) === false)){
 			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 		}
 		luga.extend(luga.Notifier, this);
@@ -75,7 +75,7 @@ if(typeof(luga) === "undefined"){
 		this.insert = function(records){
 			// If we only get one record, we put it inside an array anyway,
 			var recordsHolder = [];
-			if(jQuery.isArray(records)){
+			if(jQuery.isArray(records) === true){
 				recordsHolder = records;
 			}
 			else{
@@ -99,10 +99,10 @@ if(typeof(luga) === "undefined"){
 		 *                     The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
 		 */
 		this.select = function(filter){
-			if(!filter){
+			if(filter === undefined){
 				return selectAll();
 			}
-			if(!jQuery.isFunction(filter)){
+			if(jQuery.isFunction(filter) === false){
 				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			return filterRecords(selectAll(), filter);
@@ -115,10 +115,11 @@ if(typeof(luga) === "undefined"){
 		 *                     The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
 		 */
 		this.delete = function(filter){
-			if(!filter){
+			if(filter === undefined){
 				deleteAll();
+				return;
 			}
-			if(filter && !jQuery.isFunction(filter)){
+			if(jQuery.isFunction(filter) === false){
 				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			this.records = filterRecords(selectAll(), filter);
@@ -139,7 +140,7 @@ if(typeof(luga) === "undefined"){
 		 * @param  rowId  An integer. Required
 		 */
 		this.getRowById = function(rowId){
-			if(this.recordsHash[rowId]){
+			if(this.recordsHash[rowId] !== undefined){
 				return this.recordsHash[rowId];
 			}
 			return null;
@@ -180,7 +181,7 @@ if(typeof(luga) === "undefined"){
 		 *                     The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
 		 */
 		this.setFilter = function(filter){
-			if(!jQuery.isFunction(filter)){
+			if(jQuery.isFunction(filter) === false){
 				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			this.filter = filter;
@@ -298,7 +299,7 @@ if(typeof(luga) === "undefined"){
 		 * Does nothing if URL is not set
 		 */
 		this.loadData = function(){
-			if(!this.url){
+			if(this.url === null){
 				return;
 			}
 			this.notifyObservers("loading", this);
@@ -371,8 +372,8 @@ if(typeof(luga) === "undefined"){
 			if(self.path === null){
 				self.insert(response);
 			}
-			else {
-				if(response[self.path]){
+			else{
+				if(response[self.path] !== undefined){
 					self.insert(response[self.path]);
 				}
 			}

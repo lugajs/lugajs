@@ -42,6 +42,8 @@ DATA:
 
 - Add detailed JSDoc to improve IntelliJ's intellisense
 
+- Store event names inside CONST
+
 data.Region:
 
 - Write unit test!
