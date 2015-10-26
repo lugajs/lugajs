@@ -12,4 +12,9 @@
 		<li><a href="../samples/error-handler.htm">Error handler</a></li>
 		<li><a href="../samples/before-after.htm">Before/after entry points</a></li>
 	</ul>
+		<h2>API</h2>
+    	<ul>
+    		<li><a href="../docs/api-syntax.htm">API syntax reference</a></li>
+    		<li><a href="../samples/api.htm">Samples</a></li>
+    	</ul>
 </nav>

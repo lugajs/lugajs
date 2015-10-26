@@ -12,7 +12,7 @@ DOCS:
 
 AJAXFORM:
 
-- Document API -> new luga.ajaxform.Sender({}).send();
+- Define code samples for API docs
 
 -------------
 
