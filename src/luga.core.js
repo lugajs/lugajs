@@ -324,7 +324,7 @@ if(typeof(luga) === "undefined"){
 	 * @return {boolean}
 	 */
 	luga.form.utils.isInputField = function(fieldNode){
-		if(!jQuery(fieldNode).prop("type")){
+		if(jQuery(fieldNode).prop("type") === undefined){
 			return false;
 		}
 		// It belongs to the kind of nodes that are considered form fields, but we don't care about
