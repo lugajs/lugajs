@@ -34,6 +34,7 @@ VALIDATOR:
 - Test/document entries inside luga.validator.CONST that can be customized
 
 - Add detailed JSDoc to improve IntelliJ's intellisense
+- Refine API Syntax reference with better JSDoc
 
 -------------
 
