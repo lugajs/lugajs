@@ -27,11 +27,11 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.namespace = function(ns, rootObject){
 		var parts = ns.split(".");
-		if(!rootObject){
+		if(rootObject === undefined){
 			rootObject = window;
 		}
 		for(var i = 0; i < parts.length; i++){
-			if(!rootObject[parts[i]]){
+			if(rootObject[parts[i]]=== undefined ){
 				rootObject[parts[i]] = {};
 			}
 			rootObject = rootObject[parts[i]];
@@ -67,7 +67,7 @@ if(typeof(luga) === "undefined"){
 		if(!reference){
 			return null;
 		}
-		if(jQuery.isFunction(reference)){
+		if(jQuery.isFunction(reference) === true){
 			return reference;
 		}
 		var object = window;
@@ -387,13 +387,13 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.string.format = function(str, args){
 		var pattern = null;
-		if($.isArray(args)){
+		if($.isArray(args) === true){
 			for(var i = 0; i < args.length; i++){
 				pattern = new RegExp("\\{" + i + "\\}", "g");
 				str = str.replace(pattern, args[i]);
 			}
 		}
-		if($.isPlainObject(args)){
+		if($.isPlainObject(args) === true){
 			for(var x in args){
 				pattern = new RegExp("\\{" + x + "\\}", "g");
 				str = str.replace(pattern, args[x]);
@@ -442,10 +442,10 @@ if(typeof(luga) === "undefined"){
 	 */
 	var generateBoxId = function(node){
 		var boxId = luga.utils.CONST.MSG_BOX_ID;
-		if(node.attr("id")){
+		if(node.attr("id") === undefined){
 			boxId += node.attr("id");
 		}
-		else if(node.attr("name")){
+		else if(node.attr("name") !== undefined){
 			boxId += node.attr("name");
 		}
 		return boxId;
@@ -490,7 +490,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {string}  cssClass  CSS class attached to the box. Default to "luga_message"
 	 */
 	luga.utils.displayBox = function(node, html, cssClass){
-		if(!cssClass){
+		if(cssClass === undefined){
 			cssClass = luga.utils.CONST.CSS_CLASSES.MESSAGE;
 		}
 		var boxId = generateBoxId(jQuery(node));
