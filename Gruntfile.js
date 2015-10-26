@@ -104,6 +104,6 @@ module.exports = function(grunt){
 	grunt.registerTask("ajaxform", ["concat:all", "uglify:all", "uglify:ajaxform", "compress"]);
 	grunt.registerTask("core", ["concat:all", "uglify:all", "uglify:core", "compress"]);
 	grunt.registerTask("csi", ["concat:all", "uglify:all", "uglify:csi", "compress"]);
-	grunt.registerTask("validator", ["concat:all", "uglify:full", "uglify:validator", "compress"]);
+	grunt.registerTask("validator", ["concat:all", "uglify:all", "uglify:validator", "compress"]);
 
 };
