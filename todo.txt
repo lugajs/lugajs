@@ -1,4 +1,3 @@
-- Move JSHint settings from idea to config file
 - Bootstrap Modal > Luga ModalFrame?
 - Use SVG/base64 for images?
 
