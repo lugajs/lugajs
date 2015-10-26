@@ -1,5 +1,4 @@
 - Bootstrap Modal > Luga ModalFrame?
-- Use SVG/base64 for images?
 
 -------------
 

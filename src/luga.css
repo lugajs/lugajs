@@ -64,7 +64,7 @@ input[type="button"]:focus {
 }
 
 input[data-lugavalidator-required="true"] {
-	background-image: url("images/required.png");
+	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAICAYAAADwdn+XAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAxMS8xNy8xM1SlnbgAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzbovLKMAAAAd0lEQVQokZ2RsQ3EMAwD+UA2yAipfguP4c5LZI6soWncMuNcCr9dK09AoFSIEiUBAuQILDHrbMit4d4BNAUcga8rJSbvO5bweQ4+jsGt5QQAuffRJOFSXtnQmjw3mRGRtCAtv+sGpaQ3Wcm/X9j0w7fWzy2hl3gAQWQ8dqrxAyYAAAAASUVORK5CYII=');
 	background-position: right center;
 	background-repeat: no-repeat;
 }
