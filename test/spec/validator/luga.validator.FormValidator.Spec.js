@@ -156,35 +156,29 @@ describe("luga.validator.FormValidator", function(){
 
 	describe("Exposes three handlers (before, error, after), functions that will be called at different times after the onSubmit event is triggered", function(){
 
-		var formValidator, flags, customBeforeHandler, customErrorHandler, customAfterHandler, handlers;
+		window.formValidatorHandlers = {};
+		var formValidator, jForm;
 		beforeEach(function(){
 
 			loadFixtures("validator/FormValidator/basic.htm");
-			flags = {
-				beforeCalled: false,
-				errorCalled: false,
-				afterCalled: false
-			};
-			customBeforeHandler = function(formNode){
-				flags.beforeCalled = true;
-			};
-			customErrorHandler = function(formNode, validators){
-				flags.errorCalled = true;
-			};
-			customAfterHandler = function(formNode){
-				flags.afterCalled = true;
-			};
 
-			handlers = {};
-			handlers.before = customBeforeHandler;
-			handlers.error = customErrorHandler;
-			handlers.after = customAfterHandler;
+			jForm = jQuery("#basic");
+			formValidatorHandlers.before = function(formNode){};
+			formValidatorHandlers.error = function(formNode, validators){};
+			formValidatorHandlers.after = function(formNode){};
 
 			formValidator = new luga.validator.FormValidator({
-				formNode: jQuery("#basic"),
-				before: customBeforeHandler,
-				error: customErrorHandler,
-				after: customAfterHandler
+				formNode: jForm,
+				before: "formValidatorHandlers.before",
+				error: "formValidatorHandlers.error",
+				after: "formValidatorHandlers.after"
+			});
+
+			spyOn(formValidatorHandlers, "before").and.callFake(function(){
+			});
+			spyOn(formValidatorHandlers, "error").and.callFake(function(){
+			});
+			spyOn(formValidatorHandlers, "after").and.callFake(function(){
 			});
 
 		});
@@ -193,9 +187,9 @@ describe("luga.validator.FormValidator", function(){
 
 			formValidator.validate();
 			expect(formValidator.isValid()).toBeFalsy();
-			expect(flags.beforeCalled).toBeTruthy();
-			expect(flags.errorCalled).toBeTruthy();
-			expect(flags.afterCalled).toBeFalsy();
+			expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm[0]);
+			expect(formValidatorHandlers.error).toHaveBeenCalled();
+			expect(formValidatorHandlers.after).not.toHaveBeenCalledWith(jForm[0]);
 
 		});
 
@@ -204,26 +198,9 @@ describe("luga.validator.FormValidator", function(){
 			jQuery("#myName").val("filled");
 			formValidator.validate();
 			expect(formValidator.isValid()).toBeTruthy();
-			expect(flags.beforeCalled).toBeTruthy();
-			expect(flags.errorCalled).toBeFalsy();
-			expect(flags.afterCalled).toBeTruthy();
-
-		});
-
-		it("Custom handlers can be defined inside their own namespaces too", function(){
-
-			formValidator = new luga.validator.FormValidator({
-				formNode: jQuery("#basic"),
-				before: handlers.before,
-				error: handlers.error,
-				after: handlers.after
-			});
-
-			formValidator.validate();
-			expect(formValidator.isValid()).toBeFalsy();
-			expect(flags.beforeCalled).toBeTruthy();
-			expect(flags.errorCalled).toBeTruthy();
-			expect(flags.afterCalled).toBeFalsy();
+			expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm[0]);
+			expect(formValidatorHandlers.error).not.toHaveBeenCalled();
+			expect(formValidatorHandlers.after).toHaveBeenCalledWith(jForm[0]);
 
 		});
 
