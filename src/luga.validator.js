@@ -1076,7 +1076,6 @@ if(typeof(luga) === "undefined"){
 	 * Programmatically validate a field
 	 * @param {luga.validator.api.validateField.options}
 	 * @returns {boolean}
-	 *
 	 */
 	luga.validator.api.validateField = function(options){
 		if(luga.form.utils.isInputField(options.fieldNode) === false){
@@ -1105,7 +1104,6 @@ if(typeof(luga) === "undefined"){
 	 * Programmatically validate a collection of fields
 	 * @param {luga.validator.api.validateFields.options}
 	 * @returns {boolean}
-	 *
 	 */
 	luga.validator.api.validateFields = function(options){
 		if(!options.error){
@@ -1152,7 +1150,6 @@ if(typeof(luga) === "undefined"){
 	 * Programmatically validate all fields contained inside a given node
 	 * @param {luga.validator.api.validateFields.options}
 	 * @returns {boolean}
-	 *
 	 */
 	luga.validator.api.validateChildFields = function(options){
 		var fields = luga.form.utils.getChildFields(options.rootNode);

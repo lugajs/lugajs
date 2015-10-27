@@ -30,11 +30,18 @@
 				<td>luga.validator.api.validateForm(options)</td>
 				<td><pre>
 /**
- * Programmatically validate a form
+ * @typedef {object} luga.validator.api.validateForm.options
  *
- * @param options.formNode:     Form (DOM reference). Required
- * @param options.error:        Function that will be invoked to handle errors.
- *                              Default to luga.validator.errorAlert
+ * @property formNode     {jquery}   Either a jQuery object wrapping the form or the naked DOM object. Required
+
+ * @property error        {function} Function to be invoked to handle/display validation messages.
+ *                                   Default to luga.validator.errorAlert
+ */
+
+/**
+ * Programmatically validate a form
+ * @param {luga.validator.api.validateForm.options}
+ * @returns {boolean}
  */
 				</pre></td>
 			</tr>
@@ -42,11 +49,17 @@
 				<td>luga.validator.api.validateField(options)</td>
 				<td><pre>
 /**
- * Programmatically validate a field
+ * @typedef {object} luga.validator.api.validateField.options
  *
- * @param options.fieldNode:    Input field (DOM reference). Required
- * @param options.error:        Function that will be invoked to handle errors.
- *                              Default to luga.validator.errorAlert
+ * @property fieldNode    {jquery}   Either a jQuery object wrapping the field or the naked DOM object. Required
+ * @property error        {function} Function to be invoked to handle/display validation messages.
+ *                                   Default to luga.validator.errorAlert
+ */
+
+/**
+ * Programmatically validate a field
+ * @param {luga.validator.api.validateField.options}
+ * @returns {boolean}
  */
 				</pre></td>
 			</tr>
@@ -54,11 +67,17 @@
 				<td>luga.validator.api.validateFields(options)</td>
 				<td><pre>
 /**
- * Programmatically validate a collection of fields
+ * @typedef {object} luga.validator.api.validateField.options
  *
- * @param options.fields:       A collection of input fields. Required
- * @param options.error:        Function that will be invoked to handle errors.
- *                              Default to luga.validator.errorAlert
+ * @property fields    {jquery}   A jQuery object wrapping the collection of fields. Required
+ * @property error     {function} Function to be invoked to handle/display validation messages.
+ *                                Default to luga.validator.errorAlert
+ */
+
+/**
+ * Programmatically validate a collection of fields
+ * @param {luga.validator.api.validateFields.options}
+ * @returns {boolean}
  */
 				</pre></td>
 			</tr>
@@ -66,11 +85,17 @@
 				<td>luga.validator.api.validateChildFields(options)</td>
 				<td><pre>
 /**
- * Programmatically validate all fields contained inside a given node
+ * @typedef {object} luga.validator.api.validateFields.options
  *
- * @param options.rootNode:     Container node (DOM references). Required
- * @param options.error:        Function that will be invoked to handle errors.
- *                              Default to luga.validator.errorAlert
+ * @property rootNode  {jquery}   A jQuery object wrapping the root node. Required
+ * @property error     {function} Function to be invoked to handle/display validation messages.
+ *                                Default to luga.validator.errorAlert
+ */
+
+/**
+ * Programmatically validate all fields contained inside a given node
+ * @param {luga.validator.api.validateFields.options}
+ * @returns {boolean}
  */
 				</pre></td>
 			</tr>
