@@ -23,11 +23,9 @@ CORE:
 VALIDATOR:
 
 - Add test for options config (see ajaxform.Sender)
-
 - Test/document entries inside luga.validator.CONST that can be customized
 
-- Add detailed JSDoc to improve IntelliJ's intellisense
-- Refine API Syntax reference with better JSDoc
+- Refine API Syntax reference based on improved better JSDoc
 
 -------------
 
