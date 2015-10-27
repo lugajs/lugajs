@@ -8,15 +8,9 @@ DOCS:
 - Use flexbox CSS
 
 -------------
-
 AJAXFORM:
-
-- Define code samples for API docs
-
 -------------
-
 CSI:
-
 -------------
 
 CORE:
