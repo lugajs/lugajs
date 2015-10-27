@@ -1,3 +1,5 @@
+/* globals alert */
+
 if(typeof(luga) === "undefined"){
 	throw("Unable to find Luga JS Core");
 }
