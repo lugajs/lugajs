@@ -9,7 +9,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.validator");
 
-	luga.validator.version = "0.9.6";
+	luga.validator.version = "0.9.7";
 
 	/* Validation handlers */
 
