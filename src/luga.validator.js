@@ -1,3 +1,5 @@
+/* globals alert */
+
 if(typeof(luga) === "undefined"){
 	throw("Unable to find Luga JS Core");
 }
@@ -69,7 +71,7 @@ if(typeof(luga) === "undefined"){
 		var focusGiven = false;
 		for(var i = 0; i < validators.length; i++){
 			// Attach Bootstrap CSS to parent node
-			var parentNode = jQuery(validators[i].node).parent().addClass(ERROR_CLASS);
+			jQuery(validators[i].node).parent().addClass(ERROR_CLASS);
 			// Give focus to the first invalid text field
 			if((focusGiven === false) && (validators[i].getFocus)){
 				validators[i].getFocus();
@@ -176,7 +178,7 @@ if(typeof(luga) === "undefined"){
 			// Keep track of already validated fields (to skip already validated checkboxes or radios)
 			var executedValidators = {};
 			for(var i = 0; i < self.validators.length; i++){
-				if((self.validators[i] !== undefined)&& (self.validators[i].validate !== undefined)){
+				if((self.validators[i] !== undefined) && (self.validators[i].validate !== undefined)){
 					if(executedValidators[self.validators[i].name] !== undefined){
 						// Already validated checkbox or radio, skip it
 						continue;
@@ -218,7 +220,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		this.before = function(){
-			if(self.config.before !== null) {
+			if(self.config.before !== null){
 				var callBack = luga.lookup(self.config.before);
 				if(callBack !== null){
 					callBack.apply(null, [self.config.formNode]);
@@ -234,13 +236,13 @@ if(typeof(luga) === "undefined"){
 			if(callBack !== null){
 				callBack.apply(null, [self.config.formNode, self.dirtyValidators]);
 			}
-			else {
+			else{
 				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.error]));
 			}
 		};
 
 		this.after = function(){
-			if(self.config.after !== null) {
+			if(self.config.after !== null){
 				var callBack = luga.lookup(self.config.after);
 				if(callBack !== null){
 					callBack.apply(null, [self.config.formNode]);
@@ -607,7 +609,6 @@ if(typeof(luga) === "undefined"){
 		luga.merge(this.config, options);
 		luga.extend(luga.validator.BaseGroupValidator, this, [this.config]);
 		this.type = "radio";
-		var self = this;
 
 		this.isRequired = function(){
 			var requiredFlag = false;
@@ -655,7 +656,6 @@ if(typeof(luga) === "undefined"){
 		this.type = "checkbox";
 		this.minchecked = 0;
 		this.maxchecked = this.config.inputGroup.length;
-		var self = this;
 
 		// Since checkboxes from the same group can have conflicting attribute values, the last one win
 		for(var i = 0; i < this.inputGroup.length; i++){
@@ -795,7 +795,7 @@ if(typeof(luga) === "undefined"){
 	luga.validator.patterns.filepath_jpg = new RegExp("[\\w_]*\\.([jJ][pP][eE]?[gG])$");
 	luga.validator.patterns.filepath_zip = new RegExp("[\\w_]*\\.([zZ][iI][pP])$");
 	luga.validator.patterns.filepath = new RegExp("[\\w_]*\\.\\w{3}$");
-	luga.validator.patterns.time = new RegExp('([0-1][0-9]|2[0-3]):[0-5][0-9]$');
+	luga.validator.patterns.time = new RegExp("([0-1][0-9]|2[0-3]):[0-5][0-9]$");
 
 	/* Date specifications */
 
