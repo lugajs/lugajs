@@ -39,6 +39,8 @@ VALIDATOR:
 
 DATA:
 
+- Split into multiple source files
+
 - Add detailed JSDoc to improve IntelliJ's intellisense
 
 - Store event names inside CONST
@@ -84,5 +86,4 @@ data.XmlDataset:
 - options.xpath
 - setXpath()
 - getXpath()
-
 - loadRecords()
