@@ -74,7 +74,7 @@ describe("luga.validator", function(){
 	describe("All validators share some common capabilities", function(){
 
 		it("Their message and errorclass properties are empty strings by default", function(){
-			var textValidator = new luga.validator.FieldValidatorGetInstance({
+			var textValidator = luga.validator.FieldValidatorGetInstance({
 				fieldNode: jQuery("<input type='text'>")
 			});
 			expect(textValidator.config.message).toEqual("");
@@ -83,7 +83,7 @@ describe("luga.validator", function(){
 
 		it("They add/remove error class and title attribute", function(){
 			var textNode = jQuery('<input type="text" data-lugavalidator-required="true" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Invalid field!">');
-			var textValidator = new luga.validator.FieldValidatorGetInstance({
+			var textValidator = luga.validator.FieldValidatorGetInstance({
 				fieldNode: textNode
 			});
 			expect(textNode.hasClass("invalid")).toBeFalsy();
@@ -97,7 +97,7 @@ describe("luga.validator", function(){
 
 		it("Handle disabled fields as always valid", function(){
 			var textNode = jQuery('<input type="text" data-lugavalidator-required="true" disabled="disabled" data-lugavalidator-errorclass="invalid">');
-			var textValidator = new luga.validator.FieldValidatorGetInstance({
+			var textValidator = luga.validator.FieldValidatorGetInstance({
 				fieldNode: textNode
 			});
 			expect(textValidator.validate()).toBeFalsy();
@@ -107,17 +107,17 @@ describe("luga.validator", function(){
 		it("They have a 'name' property derived from the field's name or id. If none is available, it defaults to an empty string", function(){
 			var textValidator;
 
-			textValidator = new luga.validator.FieldValidatorGetInstance({
+			textValidator = luga.validator.FieldValidatorGetInstance({
 				fieldNode: jQuery("<input type='text'>")
 			});
 			expect(textValidator.name).toEqual("");
 
-			textValidator = new luga.validator.FieldValidatorGetInstance({
+			textValidator = luga.validator.FieldValidatorGetInstance({
 				fieldNode: jQuery("<input type='text' name='myName'>")
 			});
 			expect(textValidator.name).toEqual("myName");
 
-			textValidator = new luga.validator.FieldValidatorGetInstance({
+			textValidator = luga.validator.FieldValidatorGetInstance({
 				fieldNode: jQuery("<input type='text' id='myId'>")
 			});
 			expect(textValidator.name).toEqual("myId");
