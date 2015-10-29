@@ -74,32 +74,36 @@ describe("luga", function(){
 
 	});
 
-	describe(".lookup(). Given the name of a function as a string", function(){
+	describe(".lookup()", function(){
 
-		it("Returns the relevant function if it finds it inside the window/global scope", function(){
-			window.MyLookup = function(){
-			};
-			var result = luga.lookup("MyLookup");
-			expect(result).not.toBeNull();
-			expect(jQuery.isFunction(result)).toBeTruthy();
-		});
+		describe("Given the name of a function as a string", function(){
 
-		it("Or any given namespace", function(){
-			window.myLookUpSpace = {};
-			myLookUpSpace.myFunction = function(){
-			};
-			var result = luga.lookup("myLookUpSpace.myFunction");
-			expect(result).not.toBeNull();
-			expect(jQuery.isFunction(result)).toBeTruthy();
-		});
+			it("Returns the relevant function if it finds it inside the window/global scope", function(){
+				window.MyLookup = function(){
+				};
+				var result = luga.lookup("MyLookup");
+				expect(result).not.toBeNull();
+				expect(jQuery.isFunction(result)).toBeTruthy();
+			});
 
-		it("Returns null if the function does not exist", function(){
-			expect(luga.lookup("missing")).toBeNull();
-		});
+			it("Or any given namespace (if the fully qualified name is passed)", function(){
+				window.myLookUpSpace = {};
+				myLookUpSpace.myFunction = function(){
+				};
+				var result = luga.lookup("myLookUpSpace.myFunction");
+				expect(result).not.toBeNull();
+				expect(jQuery.isFunction(result)).toBeTruthy();
+			});
 
-		it("Or if a corresponding variable exists, but it's not a function", function(){
-			window.str = "ciao";
-			expect(luga.lookup("str")).toBeNull();
+			it("Returns null if the function does not exist", function(){
+				expect(luga.lookup("missing")).toBeNull();
+			});
+
+			it("Or if a corresponding variable exists, but it's not a function", function(){
+				window.str = "ciao";
+				expect(luga.lookup("str")).toBeNull();
+			});
+
 		});
 
 	});
