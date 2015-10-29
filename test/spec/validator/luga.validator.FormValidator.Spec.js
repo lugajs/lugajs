@@ -230,7 +230,7 @@ describe("luga.validator.FormValidator", function(){
 
 	});
 
-	describe("Exposes three handlers (before, error, after), functions that will be called at different times after the onSubmit event is triggered", function(){
+	describe("Exposes three handlers functions that will be called at different times after the onSubmit event is triggered", function(){
 
 		window.formValidatorHandlers = {};
 		var formValidator, jForm;
@@ -262,24 +262,62 @@ describe("luga.validator.FormValidator", function(){
 
 		});
 
-		it("In case the form is invalid, 'before' 'is called, then 'error'", function(){
+		it("before", function(){
+			expect(formValidator.config.before).toBeDefined();
+		});
 
-			formValidator.validate();
-			expect(formValidator.isValid()).toBeFalsy();
-			expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm[0]);
-			expect(formValidatorHandlers.error).toHaveBeenCalled();
-			expect(formValidatorHandlers.after).not.toHaveBeenCalledWith(jForm[0]);
+		it("error", function(){
+			expect(formValidator.config.error).toBeDefined();
+		});
+
+		it("after", function(){
+			expect(formValidator.config.after).toBeDefined();
+		});
+
+		describe("In case the form is invalid", function(){
+
+			it("First: before handler is called (if any)", function(){
+				formValidator.validate();
+				expect(formValidator.isValid()).toBeFalsy();
+				expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm[0]);
+			});
+
+			it("Then: error handler is called", function(){
+				formValidator.validate();
+				expect(formValidator.isValid()).toBeFalsy();
+				expect(formValidatorHandlers.error).toHaveBeenCalled();
+			});
+
+			it("The after handler instead is not called (if any)", function(){
+				formValidator.validate();
+				expect(formValidator.isValid()).toBeFalsy();
+				expect(formValidatorHandlers.after).not.toHaveBeenCalled();
+			});
 
 		});
 
-		it("If validation is passed, 'before' 'is called, then 'after'", function(){
+		describe("In case the form is valid", function(){
 
-			jQuery("#myName").val("filled");
-			formValidator.validate();
-			expect(formValidator.isValid()).toBeTruthy();
-			expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm[0]);
-			expect(formValidatorHandlers.error).not.toHaveBeenCalled();
-			expect(formValidatorHandlers.after).toHaveBeenCalledWith(jForm[0]);
+			it("First: before handler is called (if any)", function(){
+				jQuery("#myName").val("filled");
+				formValidator.validate();
+				expect(formValidator.isValid()).toBeTruthy();
+				expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm[0]);
+			});
+
+			it("The error handler is not called", function(){
+				jQuery("#myName").val("filled");
+				formValidator.validate();
+				expect(formValidator.isValid()).toBeTruthy();
+				expect(formValidatorHandlers.error).not.toHaveBeenCalled();
+			});
+
+			it("Finally: after handler is called (if any)", function(){
+				jQuery("#myName").val("filled");
+				formValidator.validate();
+				expect(formValidator.isValid()).toBeTruthy();
+				expect(formValidatorHandlers.after).toHaveBeenCalledWith(jForm[0]);
+			});
 
 		});
 
