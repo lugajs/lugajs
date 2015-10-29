@@ -39,19 +39,22 @@ describe("luga.string", function(){
 		});
 	});
 
-	describe(".demoronize(). Given a string", function(){
+	describe(".demoronize()", function(){
 
-		it("Replace MS Word's non-ISO characters with plausible substitutes", function(){
-			var crappyStr = String.fromCharCode(710);
-			crappyStr += String.fromCharCode(732);
-			crappyStr += String.fromCharCode(8216);
-			crappyStr += String.fromCharCode(8217);
-			crappyStr += String.fromCharCode(8220);
-			crappyStr += String.fromCharCode(8221);
-			crappyStr += String.fromCharCode(8211);
-			crappyStr += String.fromCharCode(8230);
-			var cleanStr = "^~''\"\"-...";
-			expect(luga.string.demoronize(crappyStr)).toBe(cleanStr);
+		describe("Given a string", function(){
+
+			it("Replace MS Word's non-ISO characters with plausible substitutes", function(){
+				var crappyStr = String.fromCharCode(710);
+				crappyStr += String.fromCharCode(732);
+				crappyStr += String.fromCharCode(8216);
+				crappyStr += String.fromCharCode(8217);
+				crappyStr += String.fromCharCode(8220);
+				crappyStr += String.fromCharCode(8221);
+				crappyStr += String.fromCharCode(8211);
+				crappyStr += String.fromCharCode(8230);
+				var cleanStr = "^~''\"\"-...";
+				expect(luga.string.demoronize(crappyStr)).toBe(cleanStr);
+			});
 		});
 
 	});
