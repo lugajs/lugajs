@@ -570,11 +570,11 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.validator.SelectValidator.options
 	 *
-	 * @property fieldNode     {jquery}   Either a jQuery object wrapping the field or the naked DOM object. Required
-	 * @property invalidindex  {number}   Prevents selection of an entry on a given position (zero based). Can also be set using the "data-lugavalidator-invalidindex" attribute. Optional
-	 * @property invalidvalue  {number}   Prevents selection of an entry with a given value. Can also be set using the "data-lugavalidator-invalidvalue" attribute. Optional
-	 * @property message       {string}   Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property errorclass    {string}   CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property fieldNode     {jquery}          Either a jQuery object wrapping the field or the naked DOM object. Required
+	 * @property invalidindex  {string|number}   Prevents selection of an entry on a given position (zero based). Can also be set using the "data-lugavalidator-invalidindex" attribute. Optional
+	 * @property invalidvalue  {string}          Prevents selection of an entry with a given value. Can also be set using the "data-lugavalidator-invalidvalue" attribute. Optional
+	 * @property message       {string}          Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property errorclass    {string}          CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 */
 
 	/**

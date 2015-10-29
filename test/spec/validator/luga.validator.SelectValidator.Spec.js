@@ -2,16 +2,6 @@
 
 describe("luga.validator.SelectValidator", function(){
 
-	it("Accepts two validation attributes", function(){
-		var selectNode = jQuery('<select name="dish"  data-lugavalidator-invalidindex="1" data-lugavalidator-invalidvalue="Crepes" data-lugavalidator-message="Invalid!">');
-		var selectValidator = luga.validator.FieldValidatorGetInstance({
-			fieldNode: selectNode
-		});
-		expect(selectValidator.config.invalidindex).toEqual("1");
-		expect(selectValidator.config.invalidvalue).toEqual("Crepes");
-		expect(selectValidator.config.message).toEqual("Invalid!");
-	});
-
 	it("Throws an exception if the associated field node does not exists", function(){
 		expect(function(){
 			new luga.validator.SelectValidator({
@@ -22,13 +12,75 @@ describe("luga.validator.SelectValidator", function(){
 
 	describe("Accepts an Options object as single argument", function(){
 
-		var selectNode, selectValidator;
+		var basicSelectValidator, attributeSelectValidator, configSelectValidator;
 		beforeEach(function(){
-			selectNode = jQuery('<select name="dish"  data-lugavalidator-invalidindex="1" data-lugavalidator-invalidvalue="Crepes" data-lugavalidator-message="Invalid!">');
-			selectValidator = luga.validator.FieldValidatorGetInstance({
-				fieldNode: selectNode
+
+			basicSelectValidator = luga.validator.FieldValidatorGetInstance({
+				fieldNode: jQuery("<select></select>")
+			});
+
+			attributeSelectValidator = luga.validator.FieldValidatorGetInstance({
+				fieldNode: jQuery('<select name="dish" data-lugavalidator-errorclass="invalid-select" data-lugavalidator-message="Invalid select!" data-lugavalidator-invalidindex="1" data-lugavalidator-invalidvalue="Crepes">')
+			});
+
+			configSelectValidator = new luga.validator.SelectValidator({
+				fieldNode: jQuery("<select></select>"),
+				errorclass: "invalid-select",
+				message: "Invalid select!",
+				invalidindex: 1,
+				invalidvalue: "Crepes"
+			});
+
+		});
+
+		describe("options.invalidindex either:", function(){
+			it("Default to 'undefined'", function(){
+				expect(basicSelectValidator.config.invalidindex).toEqual(undefined);
+			});
+			it("Retrieves the value from the field's data-lugavalidator-invalidindex custom attribute", function(){
+				expect(attributeSelectValidator.config.invalidindex).toEqual("1");
+			});
+			it("Uses the value specified inside the option argument", function(){
+				expect(configSelectValidator.config.invalidindex).toEqual(1);
 			});
 		});
+
+		describe("options.invalidvalue either:", function(){
+			it("Default to 'undefined'", function(){
+				expect(basicSelectValidator.config.invalidvalue).toEqual(undefined);
+			});
+			it("Retrieves the value from the field's data-lugavalidator-invalidvalue custom attribute", function(){
+				expect(attributeSelectValidator.config.invalidvalue).toEqual("Crepes");
+			});
+			it("Uses the value specified inside the option argument", function(){
+				expect(configSelectValidator.config.invalidvalue).toEqual("Crepes");
+			});
+		});
+
+		describe("options.errorclass either:", function(){
+			it("Default to an empty string", function(){
+				expect(basicSelectValidator.config.errorclass).toEqual("");
+			});
+			it("Retrieves the value from the field's data-lugavalidator-errorclass custom attribute", function(){
+				expect(attributeSelectValidator.config.errorclass).toEqual("invalid-select");
+			});
+			it("Uses the value specified inside the option argument", function(){
+				expect(configSelectValidator.config.errorclass).toEqual("invalid-select");
+			});
+		});
+
+		describe("options.message either:", function(){
+			it("Default to an empty string", function(){
+				expect(basicSelectValidator.config.message).toEqual("");
+			});
+			it("Retrieves the value from the field's data-lugavalidator-message custom attribute", function(){
+				expect(attributeSelectValidator.config.message).toEqual("Invalid select!");
+			});
+			it("Uses the value specified inside the option argument", function(){
+				expect(configSelectValidator.config.message).toEqual("Invalid select!");
+			});
+		});
+
 	});
 
 	describe("data-lugavalidator-invalidindex", function(){
