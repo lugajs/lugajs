@@ -6,6 +6,14 @@ window.textValidatorHandlers = {};
 
 describe("luga.validator.TextValidator", function(){
 
+	it("Throws an exception if the associated field node does not exists", function(){
+		expect(function(){
+			new luga.validator.TextValidator({
+				fieldNode: jQuery("#missing")
+			});
+		}).toThrow();
+	});
+
 	describe("Accepts an Options object as single argument", function(){
 
 		var basicTextValidator, attributeTextValidator, configTextValidator;

@@ -119,6 +119,7 @@ if(typeof(luga) === "undefined"){
 		},
 		MESSAGES: {
 			MISSING_FORM: "luga.validator was unable to load form",
+			MISSING_FIELD: "luga.validator was unable to load field",
 			MISSING_FUNCTION: "luga.validator was unable to find a function named: {0}",
 			BASE_VALIDATOR_ABSTRACT: "luga.validator.BaseFieldValidator is an abstract class",
 			GROUP_VALIDATOR_ABSTRACT: "luga.validator.BaseGroupValidator is an abstract class",
@@ -489,6 +490,9 @@ if(typeof(luga) === "undefined"){
 		var self = this;
 
 		self.node = jQuery(options.fieldNode);
+		if(self.node.length === 0){
+			throw(luga.validator.CONST.MESSAGES.MISSING_FIELD);
+		}
 		self.type = "text";
 
 		// Put focus and cursor inside the field
