@@ -22,7 +22,7 @@ CORE:
 
 VALIDATOR:
 
-- Add test for options config (see ajaxform.Sender)
+- Add tests for luga.validator.FieldValidatorGetInstance()
 - Test/document entries inside luga.validator.CONST that can be customized
 
 -------------

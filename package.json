@@ -32,7 +32,7 @@
 			"name": "Luga CSI"
 		},
 		"validator": {
-			"version": "0.9.7",
+			"version": "0.9.8",
 			"name": "Luga Validator"
 		}
 	},

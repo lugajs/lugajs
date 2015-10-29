@@ -1,4 +1,4 @@
-/*! Luga JS  2015-10-27 22:10
+/*! Luga JS  2015-10-29 22:10
 Copyright 2013-15 Massimo Foti (massimo@massimocorner.com) 
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0 
 */  
@@ -844,7 +844,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.validator");
 
-	luga.validator.version = "0.9.7";
+	luga.validator.version = "0.9.8";
 
 	/* Validation handlers */
 
@@ -954,6 +954,7 @@ if(typeof(luga) === "undefined"){
 		},
 		MESSAGES: {
 			MISSING_FORM: "luga.validator was unable to load form",
+			MISSING_FIELD: "luga.validator was unable to load field",
 			MISSING_FUNCTION: "luga.validator was unable to find a function named: {0}",
 			BASE_VALIDATOR_ABSTRACT: "luga.validator.BaseFieldValidator is an abstract class",
 			GROUP_VALIDATOR_ABSTRACT: "luga.validator.BaseGroupValidator is an abstract class",
@@ -963,7 +964,7 @@ if(typeof(luga) === "undefined"){
 			MISSING_EQUAL_TO_FIELD: "data-lugavalidator-equalto was unable to find field with id = {0}"
 		},
 		HANDLERS: {
-			FORM_ERROR: luga.validator.handlers.errorAlert
+			FORM_ERROR: "luga.validator.handlers.errorAlert"
 		}
 	};
 
@@ -999,6 +1000,8 @@ if(typeof(luga) === "undefined"){
 			after: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.AFTER) || null
 		};
 		luga.merge(this.config, options);
+		// Hack to ensure it's a boolean
+		this.config.blocksubmit = JSON.parse(this.config.blocksubmit);
 
 		/** @type {luga.validator.FormValidator} */
 		var self = this;
@@ -1058,7 +1061,7 @@ if(typeof(luga) === "undefined"){
 				}
 			}
 			else{
-				if(this.config.blocksubmit === "true"){
+				if(this.config.blocksubmit === true){
 					// Disable submit buttons to avoid multiple submits
 					self.disableSubmit();
 				}
@@ -1308,10 +1311,23 @@ if(typeof(luga) === "undefined"){
 		luga.merge(this.config, options);
 		luga.extend(luga.validator.BaseFieldValidator, this, [this.config]);
 
+		if(this.config.required !== undefined){
+			try{
+				// Hack to ensure it's a boolean
+				this.config.required = JSON.parse(this.config.required);
+			}
+			catch(e){
+				// Unable to convert into a booolean. It must be a string referencing a function
+			}
+		}
+
 		/** @type {luga.validator.TextValidator} */
 		var self = this;
 
 		self.node = jQuery(options.fieldNode);
+		if(self.node.length === 0){
+			throw(luga.validator.CONST.MESSAGES.MISSING_FIELD);
+		}
 		self.type = "text";
 
 		// Put focus and cursor inside the field
@@ -1338,16 +1354,19 @@ if(typeof(luga) === "undefined"){
 		this.isRequired = function(){
 			var requiredAtt = this.config.required;
 			if(requiredAtt){
-				if(requiredAtt === "true"){
+				if(requiredAtt === true){
 					return true;
 				}
-				if(requiredAtt === "false"){
+				if(requiredAtt === false){
 					return false;
 				}
 				// It's a conditional validation. Invoke the relevant function if available
 				var functionReference = luga.lookup(requiredAtt);
 				if(functionReference !== null){
 					return functionReference.apply(null, [self.node]);
+				}
+				else{
+					alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [requiredAtt]));
 				}
 			}
 			return false;
@@ -1386,11 +1405,11 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.validator.SelectValidator.options
 	 *
-	 * @property fieldNode     {jquery}   Either a jQuery object wrapping the field or the naked DOM object. Required
-	 * @property invalidindex  {number}   Prevents selection of an entry on a given position (zero based). Can also be set using the "data-lugavalidator-invalidindex" attribute. Optional
-	 * @property invalidvalue  {number}   Prevents selection of an entry with a given value. Can also be set using the "data-lugavalidator-invalidvalue" attribute. Optional
-	 * @property message       {string}   Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property errorclass    {string}   CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property fieldNode     {jquery}          Either a jQuery object wrapping the field or the naked DOM object. Required
+	 * @property invalidindex  {string|number}   Prevents selection of an entry on a given position (zero based). Can also be set using the "data-lugavalidator-invalidindex" attribute. Optional
+	 * @property invalidvalue  {string}          Prevents selection of an entry with a given value. Can also be set using the "data-lugavalidator-invalidvalue" attribute. Optional
+	 * @property message       {string}          Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property errorclass    {string}          CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 */
 
 	/**
@@ -1416,6 +1435,9 @@ if(typeof(luga) === "undefined"){
 		var self = this;
 		self.type = "select";
 		self.node = jQuery(options.fieldNode);
+		if(self.node.length === 0){
+			throw(luga.validator.CONST.MESSAGES.MISSING_FIELD);
+		}
 
 		// Ensure invalidindex is numeric
 		if((self.config.invalidindex !== undefined) && (!jQuery.isNumeric(self.config.invalidindex))){
@@ -1894,7 +1916,13 @@ if(typeof(luga) === "undefined"){
 		var formValidator = new luga.validator.FormValidator(options);
 		var dirtyValidators = formValidator.validate();
 		if(dirtyValidators.length > 0){
-			options.error.apply(null, [options.formNode, dirtyValidators]);
+			var callBack = luga.lookup(options.error);
+			if(callBack === null){
+				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [options.error]));
+			}
+			else{
+				callBack.apply(null, [options.formNode, dirtyValidators]);
+			}
 		}
 		return formValidator.isValid();
 	};
@@ -1922,7 +1950,13 @@ if(typeof(luga) === "undefined"){
 		var fieldValidator = new luga.validator.FieldValidatorGetInstance(options);
 		fieldValidator.validate(null);
 		if(fieldValidator.isValid() === true){
-			options.error.apply(null, [null, [fieldValidator]]);
+			var callBack = luga.lookup(options.error);
+			if(callBack === null){
+				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [options.error]));
+			}
+			else{
+				callBack(null, [null, [fieldValidator]]);
+			}
 		}
 		return fieldValidator.isValid();
 	};
@@ -1968,7 +2002,13 @@ if(typeof(luga) === "undefined"){
 			}
 		}
 		if(dirtyValidators.length > 0){
-			options.error.apply(null, [null, dirtyValidators]);
+			var callBack = luga.lookup(options.error);
+			if(callBack === null){
+				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [options.error]));
+			}
+			else{
+				callBack.apply(null, [options.formNode, dirtyValidators]);
+			}
 		}
 		return dirtyValidators.length === 0;
 	};
