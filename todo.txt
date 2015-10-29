@@ -19,11 +19,7 @@ CORE:
 - Document luga.extend()?
 
 -------------
-
 VALIDATOR:
-
-- Test/document entries inside luga.validator.CONST that can be customized
-
 -------------
 
 DATA:

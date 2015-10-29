@@ -27,6 +27,29 @@ describe("luga.validator", function(){
 		});
 	});
 
+	describe(".CONST", function(){
+
+		it("Contains default values used by the library", function(){
+			expect(luga.validator.CONST).toBeDefined();
+		});
+
+		describe(".DEFAULT_DATE_PATTERN", function(){
+
+			it("Default to: YYYY-MM-DD", function(){
+				expect(luga.validator.CONST.DEFAULT_DATE_PATTERN).toEqual("YYYY-MM-DD");
+			});
+			it("It can be changed at run-time", function(){
+				// Change to European style
+				luga.validator.CONST.DEFAULT_DATE_PATTERN = "DD/MM/YYYY";
+				var fieldValidator = luga.validator.fieldValidatorFactory.getInstance({
+					fieldNode: jQuery("<input type='text'>")
+				});
+				expect(fieldValidator.config.datepattern).toEqual("DD/MM/YYYY");
+				luga.validator.CONST.DEFAULT_DATE_PATTERN = "YYYY-MM-DD";
+			});
+
+		});
+	});
 });
 
 describe("luga.validator.handlers", function(){
