@@ -1,10 +1,42 @@
+/* globals formValidatorHandlers */
+
 "use strict";
 
 // Override the default error handler to avoid triggering alert messages
-luga.validator.CONST.HANDLERS.FORM_ERROR = function(){
-};
+luga.validator.CONST.HANDLERS.FORM_ERROR = "luga.validator.handlers.errorBox";
+
+window.formValidatorHandlers = {};
 
 describe("luga.validator.FormValidator", function(){
+
+	var basicFormValidator, attributeFormValidator, configFormValidator;
+	beforeEach(function(){
+		loadFixtures("validator/FormValidator/config.htm");
+
+		basicFormValidator = new luga.validator.FormValidator({
+			formNode: jQuery("<form></form>")
+		});
+
+		attributeFormValidator = new luga.validator.FormValidator({
+			formNode: jQuery("#formValidatorconfig")
+		});
+
+		configFormValidator = new luga.validator.FormValidator({
+			formNode: jQuery("<form></form>"),
+			error: "formValidatorHandlers.customErrorHandler",
+			before: "formValidatorHandlers.customBefore",
+			after: "formValidatorHandlers.customAfter",
+			blocksubmit: false
+		});
+
+		formValidatorHandlers.customErrorHandler = function(){
+		};
+		formValidatorHandlers.customBefore = function(){
+		};
+		formValidatorHandlers.customAfter = function(){
+		};
+
+	});
 
 	it("Always positively validates empty forms", function(){
 		var formValidator = new luga.validator.FormValidator({
@@ -106,28 +138,72 @@ describe("luga.validator.FormValidator", function(){
 
 	});
 
-	describe("By default disables submit buttons as soon as the form is submitted. This prevents duplicated requests", function(){
+	describe("Accepts an Options object as single argument", function(){
 
-		it("Blocksubmit option is true by default", function(){
-			var formValidator = new luga.validator.FormValidator({
-				formNode: jQuery("<form></form>")
+		describe("options.formNode", function(){
+
+			it("Is mandatory", function(){
+				expect(function(){
+					new luga.validator.FormValidator({});
+				}).toThrow();
 			});
-			expect(formValidator.config.blocksubmit).toBeTruthy();
+
 		});
 
-		it("It can be set with custom HTML attribute", function(){
-			var formValidator = new luga.validator.FormValidator({
-				formNode: jQuery('<form data-lugavalidator-blocksubmit="false"></form>')
+		describe("options.error either:", function(){
+
+			it("Default to the value specified in 'luga.validator.CONST.HANDLERS.FORM_ERROR'", function(){
+				expect(basicFormValidator.config.error).toEqual(luga.validator.CONST.HANDLERS.FORM_ERROR);
 			});
-			expect(formValidator.config.blocksubmit).toEqual("false");
+			it("Retrieves the value from the form's data-lugavalidator-error custom attribute", function(){
+				expect(attributeFormValidator.config.error).toEqual("formValidatorHandlers.customErrorHandler");
+			});
+			it("Uses the value specified inside the option argument", function(){
+				expect(configFormValidator.config.error).toEqual("formValidatorHandlers.customErrorHandler");
+			});
+
 		});
 
-		it("Or programmatically", function(){
-			var formValidator = new luga.validator.FormValidator({
-				formNode: jQuery("<form></form>"),
-				blocksubmit: false
+		describe("options.before either:", function(){
+
+			it("Default to null'", function(){
+				expect(basicFormValidator.config.before).toEqual(null);
 			});
-			expect(formValidator.config.blocksubmit).toEqual(false);
+			it("Retrieves the value from the form's data-lugavalidator-before custom attribute", function(){
+				expect(attributeFormValidator.config.before).toEqual("formValidatorHandlers.customBefore");
+			});
+			it("Uses the value specified inside the option argument", function(){
+				expect(configFormValidator.config.before).toEqual("formValidatorHandlers.customBefore");
+			});
+
+		});
+
+		describe("options.after either:", function(){
+
+			it("Default to null'", function(){
+				expect(basicFormValidator.config.after).toEqual(null);
+			});
+			it("Retrieves the value from the form's data-lugavalidator-after custom attribute", function(){
+				expect(attributeFormValidator.config.after).toEqual("formValidatorHandlers.customAfter");
+			});
+			it("Uses the value specified inside the option argument", function(){
+				expect(configFormValidator.config.after).toEqual("formValidatorHandlers.customAfter");
+			});
+
+		});
+
+		describe("options.blocksubmit either:", function(){
+
+			it("Default to true'", function(){
+				expect(basicFormValidator.config.blocksubmit).toEqual(true);
+			});
+			it("Retrieves the value from the form's data-lugavalidator-blocksubmit custom attribute", function(){
+				expect(attributeFormValidator.config.blocksubmit).toEqual(false);
+			});
+			it("Uses the value specified inside the option argument", function(){
+				expect(configFormValidator.config.blocksubmit).toEqual(false);
+			});
+
 		});
 
 	});
@@ -163,9 +239,12 @@ describe("luga.validator.FormValidator", function(){
 			loadFixtures("validator/FormValidator/basic.htm");
 
 			jForm = jQuery("#basic");
-			formValidatorHandlers.before = function(formNode){};
-			formValidatorHandlers.error = function(formNode, validators){};
-			formValidatorHandlers.after = function(formNode){};
+			formValidatorHandlers.before = function(formNode){
+			};
+			formValidatorHandlers.error = function(formNode, validators){
+			};
+			formValidatorHandlers.after = function(formNode){
+			};
 
 			formValidator = new luga.validator.FormValidator({
 				formNode: jForm,

@@ -9,7 +9,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.validator");
 
-	luga.validator.version = "0.9.7";
+	luga.validator.version = "0.9.8";
 
 	/* Validation handlers */
 
@@ -128,7 +128,7 @@ if(typeof(luga) === "undefined"){
 			MISSING_EQUAL_TO_FIELD: "data-lugavalidator-equalto was unable to find field with id = {0}"
 		},
 		HANDLERS: {
-			FORM_ERROR: luga.validator.handlers.errorAlert
+			FORM_ERROR: "luga.validator.handlers.errorAlert"
 		}
 	};
 
@@ -164,6 +164,8 @@ if(typeof(luga) === "undefined"){
 			after: jQuery(options.formNode).attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.AFTER) || null
 		};
 		luga.merge(this.config, options);
+		// Hack to ensure it's a boolean
+		this.config.blocksubmit = JSON.parse(this.config.blocksubmit);
 
 		/** @type {luga.validator.FormValidator} */
 		var self = this;
@@ -223,7 +225,7 @@ if(typeof(luga) === "undefined"){
 				}
 			}
 			else{
-				if(this.config.blocksubmit === "true"){
+				if(this.config.blocksubmit === true){
 					// Disable submit buttons to avoid multiple submits
 					self.disableSubmit();
 				}
@@ -1059,7 +1061,12 @@ if(typeof(luga) === "undefined"){
 		var formValidator = new luga.validator.FormValidator(options);
 		var dirtyValidators = formValidator.validate();
 		if(dirtyValidators.length > 0){
-			options.error.apply(null, [options.formNode, dirtyValidators]);
+			var callBack = luga.lookup(options.error);
+			if(callBack === null){
+				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [options.error]));
+			} else {
+				callBack.apply(null, [options.formNode, dirtyValidators]);
+			}
 		}
 		return formValidator.isValid();
 	};
@@ -1087,7 +1094,12 @@ if(typeof(luga) === "undefined"){
 		var fieldValidator = new luga.validator.FieldValidatorGetInstance(options);
 		fieldValidator.validate(null);
 		if(fieldValidator.isValid() === true){
-			options.error.apply(null, [null, [fieldValidator]]);
+			var callBack = luga.lookup(options.error);
+			if(callBack === null){
+				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [options.error]));
+			} else {
+				callBack(null, [null, [fieldValidator]]);
+			}
 		}
 		return fieldValidator.isValid();
 	};
@@ -1133,7 +1145,12 @@ if(typeof(luga) === "undefined"){
 			}
 		}
 		if(dirtyValidators.length > 0){
-			options.error.apply(null, [null, dirtyValidators]);
+			var callBack = luga.lookup(options.error);
+			if(callBack === null){
+				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [options.error]));
+			} else {
+				callBack.apply(null, [options.formNode, dirtyValidators]);
+			}
 		}
 		return dirtyValidators.length === 0;
 	};
