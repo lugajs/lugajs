@@ -1,3 +1,5 @@
+/* globals ajaxFormHandlers */
+
 describe("luga.ajaxform", function(){
 
 	var basicSender, attributesSender, customSender, configSender;
