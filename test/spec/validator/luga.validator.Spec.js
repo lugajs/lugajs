@@ -27,82 +27,6 @@ describe("luga.validator", function(){
 		});
 	});
 
-	describe(".BaseFieldValidator is an abstract class", function(){
-		it("That can't be invoked directly", function(){
-			var textNode = jQuery('<input type="text" data-lugavalidator-required="true" disabled="disabled" data-lugavalidator-errorclass="invalid">');
-			expect(function(){
-				new luga.validator.BaseFieldValidator({
-					fieldNode: textNode
-				});
-			}).toThrow();
-		});
-	});
-
-	describe(".BaseGroupValidator is an abstract class", function(){
-		it("That can't be invoked directly", function(){
-			var boxNode = jQuery('<input type="checkbox">');
-			expect(function(){
-				new luga.validator.BaseGroupValidator({
-					fieldNode: boxNode
-				});
-			}).toThrow();
-		});
-	});
-
-	describe("All validators share some common capabilities", function(){
-
-		it("Their message and errorclass properties are empty strings by default", function(){
-			var textValidator = luga.validator.fieldValidatorFactory.getInstance({
-				fieldNode: jQuery("<input type='text'>")
-			});
-			expect(textValidator.config.message).toEqual("");
-			expect(textValidator.config.errorclass).toEqual("");
-		});
-
-		it("They add/remove error class and title attribute", function(){
-			var textNode = jQuery('<input type="text" data-lugavalidator-required="true" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Invalid field!">');
-			var textValidator = luga.validator.fieldValidatorFactory.getInstance({
-				fieldNode: textNode
-			});
-			expect(textNode.hasClass("invalid")).toBeFalsy();
-			textValidator.flagInvalid();
-			expect(textNode.hasClass("invalid")).toBeTruthy();
-			expect(textNode.attr("title")).toEqual("Invalid field!");
-			textValidator.flagValid();
-			expect(textNode.hasClass("invalid")).toBeFalsy();
-			expect(textNode.attr("title")).toBeUndefined();
-		});
-
-		it("Handle disabled fields as always valid", function(){
-			var textNode = jQuery('<input type="text" data-lugavalidator-required="true" disabled="disabled" data-lugavalidator-errorclass="invalid">');
-			var textValidator = luga.validator.fieldValidatorFactory.getInstance({
-				fieldNode: textNode
-			});
-			expect(textValidator.validate()).toBeFalsy();
-			expect(textNode.hasClass("invalid")).toBeFalsy();
-		});
-
-		it("They have a 'name' property derived from the field's name or id. If none is available, it defaults to an empty string", function(){
-			var textValidator;
-
-			textValidator = luga.validator.fieldValidatorFactory.getInstance({
-				fieldNode: jQuery("<input type='text'>")
-			});
-			expect(textValidator.name).toEqual("");
-
-			textValidator = luga.validator.fieldValidatorFactory.getInstance({
-				fieldNode: jQuery("<input type='text' name='myName'>")
-			});
-			expect(textValidator.name).toEqual("myName");
-
-			textValidator = luga.validator.fieldValidatorFactory.getInstance({
-				fieldNode: jQuery("<input type='text' id='myId'>")
-			});
-			expect(textValidator.name).toEqual("myId");
-		});
-
-	});
-
 });
 
 describe("luga.validator.handlers", function(){
@@ -167,3 +91,78 @@ describe("luga.validator.fieldValidatorFactory.getInstance()", function(){
 	});
 
 });
+
+describe("luga.validator.BaseFieldValidator is an abstract class", function(){
+
+	it("That can't be invoked directly", function(){
+		var textNode = jQuery('<input type="text" data-lugavalidator-required="true" disabled="disabled" data-lugavalidator-errorclass="invalid">');
+		expect(function(){
+			new luga.validator.BaseFieldValidator({
+				fieldNode: textNode
+			});
+		}).toThrow();
+	});
+
+	it("Adds/remove error class and title attribute from the associated form field", function(){
+		var fieldNode = jQuery('<input type="text" data-lugavalidator-required="true" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Invalid field!">');
+		var fieldValidator = luga.validator.fieldValidatorFactory.getInstance({
+			fieldNode: fieldNode
+		});
+		expect(fieldNode.hasClass("invalid")).toBeFalsy();
+		fieldValidator.flagInvalid();
+		expect(fieldNode.hasClass("invalid")).toBeTruthy();
+		expect(fieldNode.attr("title")).toEqual("Invalid field!");
+		fieldValidator.flagValid();
+		expect(fieldNode.hasClass("invalid")).toBeFalsy();
+		expect(fieldNode.attr("title")).toBeUndefined();
+	});
+
+	it("Handle disabled fields as always valid", function(){
+		var fieldNode = jQuery('<input type="text" data-lugavalidator-required="true" disabled="disabled" data-lugavalidator-errorclass="invalid">');
+		var fieldValidator = luga.validator.fieldValidatorFactory.getInstance({
+			fieldNode: fieldNode
+		});
+		expect(fieldValidator.validate()).toBeFalsy();
+		expect(fieldNode.hasClass("invalid")).toBeFalsy();
+	});
+
+	describe(".name", function(){
+
+		describe("Either", function(){
+
+			it("Defaults to an empty string", function(){
+				var textValidator = luga.validator.fieldValidatorFactory.getInstance({
+					fieldNode: jQuery("<input type='text'>")
+				});
+				expect(textValidator.name).toEqual("");
+			});
+			it("Matches the field's name attribute", function(){
+				var textValidator = luga.validator.fieldValidatorFactory.getInstance({
+					fieldNode: jQuery("<input type='text' name='myName' id='myId'>")
+				});
+				expect(textValidator.name).toEqual("myName");
+			});
+			it("Matches the field's id attribute", function(){
+				var textValidator = luga.validator.fieldValidatorFactory.getInstance({
+					fieldNode: jQuery("<input type='text' id='myId'>")
+				});
+				expect(textValidator.name).toEqual("myId");
+			});
+
+		});
+
+	});
+
+});
+
+describe("luga.validator.BaseGroupValidator is an abstract class", function(){
+	it("That can't be invoked directly", function(){
+		var boxNode = jQuery('<input type="checkbox">');
+		expect(function(){
+			new luga.validator.BaseGroupValidator({
+				fieldNode: boxNode
+			});
+		}).toThrow();
+	});
+});
+
