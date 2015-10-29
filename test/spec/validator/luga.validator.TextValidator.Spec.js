@@ -1,148 +1,236 @@
+/* globals textValidatorHandlers */
+
 "use strict";
 
-function mocktruthyfunction(fieldNode){
-	return true;
-}
-
-function mockfalsyfunction(fieldNode){
-	return false;
-}
-
-var mock = {};
-mock.mocktruthyfunction = mocktruthyfunction;
-mock.mockfalsyfunction = mockfalsyfunction;
+window.textValidatorHandlers = {};
 
 describe("luga.validator.TextValidator", function(){
 
-	it("If not specified, uses a default date pattern", function(){
-		var textValidator = new luga.validator.FieldValidatorGetInstance({
-			fieldNode: jQuery("<input type='text'>")
+	describe("Accepts an Options object as single argument", function(){
+
+		var basicTextValidator, attributeTextValidator, configTextValidator;
+		beforeEach(function(){
+			loadFixtures("validator/TextValidator/config.htm");
+
+			basicTextValidator = new luga.validator.TextValidator({
+				fieldNode: jQuery("<input type='text'>")
+			});
+
+			attributeTextValidator = new luga.validator.TextValidator({
+				fieldNode: jQuery("#textValidatorconfig")
+			});
+
+			configTextValidator = new luga.validator.FieldValidatorGetInstance({
+				fieldNode: jQuery("<input type='text'>"),
+				required: true,
+				pattern: "lettersonly",
+				minlength: "4",
+				maxlength: "10",
+				minnumber: "5",
+				maxnumber: "20",
+				datepattern: "YYYY-MM-DD",
+				mindate: "2000-01-01",
+				maxdate: "2009-12-31",
+				equalto: "seconField",
+				message: "Invalid field!",
+				errorclass: "invalid"
+			});
+
 		});
-		expect(textValidator.config.datepattern).toEqual(luga.validator.CONST.DEFAULT_DATE_PATTERN);
+
+		describe("options.required either:", function(){
+			it("Default to 'undefined'", function(){
+				expect(basicTextValidator.config.required).toEqual(undefined);
+			});
+			it("Retrieves the value from the field's data-lugavalidator-required custom attribute", function(){
+				expect(attributeTextValidator.config.required).toEqual(true);
+			});
+			it("Uses the value specified inside the option argument", function(){
+				expect(configTextValidator.config.required).toEqual(true);
+			});
+		});
+
+		describe("options.pattern either:", function(){
+			it("Default to 'undefined'", function(){
+				expect(basicTextValidator.config.pattern).toEqual(undefined);
+			});
+			it("Retrieves the value from the field's data-lugavalidator-pattern custom attribute", function(){
+				expect(attributeTextValidator.config.pattern).toEqual("lettersonly");
+			});
+			it("Uses the value specified inside the option argument", function(){
+				expect(configTextValidator.config.pattern).toEqual("lettersonly");
+			});
+		});
+
+		describe("options.minlength either:", function(){
+			it("Default to 'undefined'", function(){
+				expect(basicTextValidator.config.minlength).toEqual(undefined);
+			});
+			it("Retrieves the value from the field's data-lugavalidator-minlength custom attribute", function(){
+				expect(attributeTextValidator.config.minlength).toEqual("4");
+			});
+			it("Uses the value specified inside the option argument", function(){
+				expect(configTextValidator.config.minlength).toEqual("4");
+			});
+		});
+
+		describe("options.maxlength either:", function(){
+			it("Default to 'undefined'", function(){
+				expect(basicTextValidator.config.maxlength).toEqual(undefined);
+			});
+			it("Retrieves the value from the field's data-lugavalidator-maxlength custom attribute", function(){
+				expect(attributeTextValidator.config.maxlength).toEqual("10");
+			});
+			it("Uses the value specified inside the option argument", function(){
+				expect(configTextValidator.config.maxlength).toEqual("10");
+			});
+		});
+
+		describe("options.minnumber either:", function(){
+			it("Default to 'undefined'", function(){
+				expect(basicTextValidator.config.minnumber).toEqual(undefined);
+			});
+			it("Retrieves the value from the field's data-lugavalidator-minnumber custom attribute", function(){
+				expect(attributeTextValidator.config.minnumber).toEqual("5");
+			});
+			it("Uses the value specified inside the option argument", function(){
+				expect(configTextValidator.config.minnumber).toEqual("5");
+			});
+		});
+
+		describe("options.maxnumber either:", function(){
+			it("Default to 'undefined'", function(){
+				expect(basicTextValidator.config.maxnumber).toEqual(undefined);
+			});
+			it("Retrieves the value from the field's data-lugavalidator-maxnumber custom attribute", function(){
+				expect(attributeTextValidator.config.maxnumber).toEqual("20");
+			});
+			it("Uses the value specified inside the option argument", function(){
+				expect(configTextValidator.config.maxnumber).toEqual("20");
+			});
+		});
+
+		describe("options.datepattern either:", function(){
+			it("Default to the value specified in 'luga.validator.CONST.DEFAULT_DATE_PATTERN'", function(){
+				expect(basicTextValidator.config.datepattern).toEqual(luga.validator.CONST.DEFAULT_DATE_PATTERN);
+			});
+			it("Retrieves the value from the field's data-lugavalidator-datepattern custom attribute", function(){
+				expect(attributeTextValidator.config.datepattern).toEqual("YYYY-MM-DD");
+			});
+			it("Uses the value specified inside the option argument", function(){
+				expect(configTextValidator.config.datepattern).toEqual("YYYY-MM-DD");
+			});
+		});
+
+		describe("options.mindate either:", function(){
+			it("Default to 'undefined'", function(){
+				expect(basicTextValidator.config.mindate).toEqual(undefined);
+			});
+			it("Retrieves the value from the field's data-lugavalidator-mindate custom attribute", function(){
+				expect(attributeTextValidator.config.mindate).toEqual("2000-01-01");
+			});
+			it("Uses the value specified inside the option argument", function(){
+				expect(configTextValidator.config.mindate).toEqual("2000-01-01");
+			});
+		});
+
+		describe("options.maxdate either:", function(){
+			it("Default to 'undefined'", function(){
+				expect(basicTextValidator.config.maxdate).toEqual(undefined);
+			});
+			it("Retrieves the value from the field's data-lugavalidator-maxdate custom attribute", function(){
+				expect(attributeTextValidator.config.maxdate).toEqual("2009-12-31");
+			});
+			it("Uses the value specified inside the option argument", function(){
+				expect(configTextValidator.config.maxdate).toEqual("2009-12-31");
+			});
+		});
+
+		describe("options.equalto either:", function(){
+			it("Default to 'undefined'", function(){
+				expect(basicTextValidator.config.equalto).toEqual(undefined);
+			});
+			it("Retrieves the value from the field's data-lugavalidator-equalto custom attribute", function(){
+				expect(attributeTextValidator.config.equalto).toEqual("seconField");
+			});
+			it("Uses the value specified inside the option argument", function(){
+				expect(configTextValidator.config.equalto).toEqual("seconField");
+			});
+		});
+
+		describe("options.errorclass either:", function(){
+			it("Default to an empty string", function(){
+				expect(basicTextValidator.config.errorclass).toEqual("");
+			});
+			it("Retrieves the value from the field's data-lugavalidator-errorclass custom attribute", function(){
+				expect(attributeTextValidator.config.errorclass).toEqual("invalid");
+			});
+			it("Uses the value specified inside the option argument", function(){
+				expect(configTextValidator.config.errorclass).toEqual("invalid");
+			});
+		});
+
+		describe("options.message either:", function(){
+			it("Default to an empty string", function(){
+				expect(basicTextValidator.config.message).toEqual("");
+			});
+			it("Retrieves the value from the field's data-lugavalidator-message custom attribute", function(){
+				expect(attributeTextValidator.config.message).toEqual("Invalid field!");
+			});
+			it("Uses the value specified inside the option argument", function(){
+				expect(configTextValidator.config.message).toEqual("Invalid field!");
+			});
+		});
+
 	});
 
-	it("Allows config to be set programmatically", function(){
-		var textValidator = new luga.validator.FieldValidatorGetInstance({
-			fieldNode: jQuery("<input type='text'>"),
-			required: "true",
-			pattern: "lettersonly",
-			minlength: "4",
-			maxlength: "10",
-			minnumber: "5",
-			maxnumber: "20",
-			datepattern: "YYYY-MM-DD",
-			mindate: "2000-01-01",
-			maxdate: "2009-12-31",
-			equalto: "seconField",
-			message: "Invalid field!",
-			errorclass: "invalid"
+	describe("data-lugavalidator-required:", function(){
+
+		it("If set to true. Requires the field to contain a value", function(){
+			var textNode = jQuery('<input type="text" data-lugavalidator-required="true">');
+			var textValidator = new luga.validator.FieldValidatorGetInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isRequired()).toBeTruthy();
 		});
-		expect(textValidator.config.required).toBeTruthy();
-		expect(textValidator.config.pattern).toEqual("lettersonly");
-		expect(textValidator.config.minlength).toEqual("4");
-		expect(textValidator.config.maxlength).toEqual("10");
-		expect(textValidator.config.minnumber).toEqual("5");
-		expect(textValidator.config.maxnumber).toEqual("20");
-		expect(textValidator.config.datepattern).toEqual("YYYY-MM-DD");
-		expect(textValidator.config.mindate).toEqual("2000-01-01");
-		expect(textValidator.config.maxdate).toEqual("2009-12-31");
-		expect(textValidator.config.equalto).toEqual("seconField");
-		expect(textValidator.config.message).toEqual("Invalid field!");
-		expect(textValidator.config.errorclass).toEqual("invalid");
+
+		it("If set to false. Does not requires the field to contain anything", function(){
+			var textNode = jQuery('<input type="text" data-lugavalidator-required="false">');
+			var textValidator = new luga.validator.FieldValidatorGetInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isRequired()).toBeFalsy();
+		});
+
+		it("Detects if field is required on conditional validation. Executing the function whose name is specified inside the data-lugavalidator-required custom attribute", function(){
+
+			window.textValidatorHandlers.returnTrue = function(){
+				return true;
+			};
+			window.textValidatorHandlers.returnFalse = function(){
+				return false;
+			};
+
+			var textNode = jQuery('<input type="text" data-lugavalidator-required="textValidatorHandlers.returnTrue">');
+			var textValidator = new luga.validator.FieldValidatorGetInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isRequired()).toBeTruthy();
+
+			textNode = jQuery('<input type="text" data-lugavalidator-required="textValidatorHandlers.returnFalse">');
+			textValidator = new luga.validator.FieldValidatorGetInstance({
+				fieldNode: textNode
+			});
+			expect(textValidator.isRequired()).toBeFalsy();
+
+		});
+
 	});
 
-	it("Or using custom HTML attributes", function(){
-		var textValidator = new luga.validator.FieldValidatorGetInstance({
-			fieldNode: jQuery('' +
-				'<input type="text" ' +
-				'data-lugavalidator-required="true"' +
-				'data-lugavalidator-pattern="lettersonly"' +
-				'data-lugavalidator-minlength="4"' +
-				'data-lugavalidator-maxlength="10"' +
-				'data-lugavalidator-minnumber="5"' +
-				'data-lugavalidator-maxnumber="20"' +
-				'data-lugavalidator-datepattern="YYYY-MM-DD"' +
-				'data-lugavalidator-mindate="2000-01-01"' +
-				'data-lugavalidator-maxdate="2009-12-31"' +
-				'data-lugavalidator-equalto="seconField"' +
-				'data-lugavalidator-message="Invalid field!"' +
-				'data-lugavalidator-errorclass="invalid"' +
-				'>')
-		});
-		expect(textValidator.config.required).toBeTruthy();
-		expect(textValidator.config.pattern).toEqual("lettersonly");
-		expect(textValidator.config.minlength).toEqual("4");
-		expect(textValidator.config.maxlength).toEqual("10");
-		expect(textValidator.config.minnumber).toEqual("5");
-		expect(textValidator.config.maxnumber).toEqual("20");
-		expect(textValidator.config.datepattern).toEqual("YYYY-MM-DD");
-		expect(textValidator.config.mindate).toEqual("2000-01-01");
-		expect(textValidator.config.maxdate).toEqual("2009-12-31");
-		expect(textValidator.config.equalto).toEqual("seconField");
-		expect(textValidator.config.message).toEqual("Invalid field!");
-		expect(textValidator.config.errorclass).toEqual("invalid");
-	});
-
-	it("Detects empty field", function(){
+	describe("Since trying to validate email address with RegExp these days makes very little sense (too many variations and silly domain names)", function(){
 		var textNode, textValidator;
 
-		textNode = jQuery('<input type="text" data-lugavalidator-required="true">');
-		textValidator = new luga.validator.FieldValidatorGetInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isEmpty()).toBeTruthy();
-	});
-
-	it("Detects if field is required on simple validation", function(){
-		var textNode, textValidator;
-
-		textNode = jQuery('<input type="text" data-lugavalidator-required="true">');
-		textValidator = new luga.validator.FieldValidatorGetInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isRequired()).toBeTruthy();
-
-		textNode = jQuery('<input type="text" data-lugavalidator-required="false">');
-		textValidator = new luga.validator.FieldValidatorGetInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isRequired()).toBeFalsy();
-
-	});
-
-	it("Detects if field is required on conditional validation. Even if conditional validation functions are inside namespace", function(){
-		var textNode, textValidator;
-
-		textNode = jQuery('<input type="text" data-lugavalidator-required="mocktruthyfunction">');
-		textValidator = new luga.validator.FieldValidatorGetInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isRequired()).toBeTruthy();
-
-		textNode = jQuery('<input type="text" data-lugavalidator-required="mockfalsyfunction">');
-		textValidator = new luga.validator.FieldValidatorGetInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isRequired()).toBeFalsy();
-
-		textNode = jQuery('<input type="text" data-lugavalidator-required="mock.mocktruthyfunction">');
-		textValidator = new luga.validator.FieldValidatorGetInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isRequired()).toBeTruthy();
-
-		textNode = jQuery('<input type="text" data-lugavalidator-required="mock.mockfalsyfunction">');
-		textValidator = new luga.validator.FieldValidatorGetInstance({
-			fieldNode: textNode
-		});
-		expect(textValidator.isRequired()).toBeFalsy();
-
-	});
-
-	describe("Trying to validate email address with RegExp these days makes very little sense (too many variations and silly domain names)", function(){
-		var textNode, textValidator;
-
-		it("So data-lugavalidator-email only check that one @ and a dot are there", function(){
+		it("data-lugavalidator-email only check that one @ and a dot are there", function(){
 			textNode = jQuery('<input type="text" value="4" data-lugavalidator-required="true" data-lugavalidator-email="true">');
 			textValidator = new luga.validator.FieldValidatorGetInstance({
 				fieldNode: textNode
@@ -490,8 +578,8 @@ describe("luga.validator.TextValidator", function(){
 
 	});
 
-	describe("Custom patterns can be added", function(){
-		it("Storing them inside luga.validator.patterns", function(){
+	describe("Custom patterns can be added to", function(){
+		it("luga.validator.patterns", function(){
 
 			luga.validator.patterns.httpstart = new RegExp("^http://");
 			var textNode = jQuery('<input type="text" value="test" data-lugavalidator-required="true" data-lugavalidator-pattern="httpstart">');
@@ -1333,7 +1421,7 @@ describe("luga.validator.TextValidator", function(){
 
 	});
 
-	describe("Custom rules can be defined", function(){
+	describe("Custom rules can be added", function(){
 		var textNode, textValidator;
 
 		it("By adding them to luga.validator.rules", function(){
@@ -1358,7 +1446,7 @@ describe("luga.validator.TextValidator", function(){
 
 	});
 
-	describe("Custom patterns can be defined", function(){
+	describe("Custom patterns can be added", function(){
 		var textNode, textValidator;
 
 		it("By adding them to luga.validator.patterns", function(){
@@ -1380,7 +1468,7 @@ describe("luga.validator.TextValidator", function(){
 
 	});
 
-	describe("Custom date patterns can be defined", function(){
+	describe("Custom date patterns can be added", function(){
 		var textNode, textValidator;
 
 		it("By adding them to luga.validator.dateSpecs using the luga.validator.createDateSpecObj() utility", function(){

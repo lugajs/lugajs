@@ -475,6 +475,16 @@ if(typeof(luga) === "undefined"){
 		luga.merge(this.config, options);
 		luga.extend(luga.validator.BaseFieldValidator, this, [this.config]);
 
+		if(this.config.required !== undefined){
+			try{
+				// Hack to ensure it's a boolean
+				this.config.required = JSON.parse(this.config.required);
+			}
+			catch(e){
+				// Unable to convert into a booolean. It must be a string referencing a function
+			}
+		}
+
 		/** @type {luga.validator.TextValidator} */
 		var self = this;
 
@@ -505,16 +515,19 @@ if(typeof(luga) === "undefined"){
 		this.isRequired = function(){
 			var requiredAtt = this.config.required;
 			if(requiredAtt){
-				if(requiredAtt === "true"){
+				if(requiredAtt === true){
 					return true;
 				}
-				if(requiredAtt === "false"){
+				if(requiredAtt === false){
 					return false;
 				}
 				// It's a conditional validation. Invoke the relevant function if available
 				var functionReference = luga.lookup(requiredAtt);
 				if(functionReference !== null){
 					return functionReference.apply(null, [self.node]);
+				}
+				else{
+					alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [requiredAtt]));
 				}
 			}
 			return false;
@@ -1064,7 +1077,8 @@ if(typeof(luga) === "undefined"){
 			var callBack = luga.lookup(options.error);
 			if(callBack === null){
 				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [options.error]));
-			} else {
+			}
+			else{
 				callBack.apply(null, [options.formNode, dirtyValidators]);
 			}
 		}
@@ -1097,7 +1111,8 @@ if(typeof(luga) === "undefined"){
 			var callBack = luga.lookup(options.error);
 			if(callBack === null){
 				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [options.error]));
-			} else {
+			}
+			else{
 				callBack(null, [null, [fieldValidator]]);
 			}
 		}
@@ -1148,7 +1163,8 @@ if(typeof(luga) === "undefined"){
 			var callBack = luga.lookup(options.error);
 			if(callBack === null){
 				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [options.error]));
-			} else {
+			}
+			else{
 				callBack.apply(null, [options.formNode, dirtyValidators]);
 			}
 		}
