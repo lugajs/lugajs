@@ -38,19 +38,19 @@ describe("luga.validator.FormValidator", function(){
 
 	});
 
-	it("Always positively validates empty forms", function(){
-		var formValidator = new luga.validator.FormValidator({
-			formNode: jQuery("<form></form>")
-		});
-		expect(formValidator.isValid()).toBeTruthy();
-	});
-
 	it("Throws an exception if the associated form node does not exists", function(){
 		expect(function(){
 			var formValidator = new luga.validator.FormValidator({
 				formNode: jQuery("#missing")
 			});
 		}).toThrow();
+	});
+
+	it("Always positively validates empty forms", function(){
+		var formValidator = new luga.validator.FormValidator({
+			formNode: jQuery("<form></form>")
+		});
+		expect(formValidator.isValid()).toBeTruthy();
 	});
 
 	it("Can validate form with one", function(){
