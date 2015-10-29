@@ -274,11 +274,15 @@ describe("luga.validator.FormValidator", function(){
 			expect(formValidator.config.after).toBeDefined();
 		});
 
-		describe("In case the form is invalid", function(){
+		describe("In case the form is not validated", function(){
 
 			it("First: before handler is called (if any)", function(){
 				formValidator.validate();
 				expect(formValidator.isValid()).toBeFalsy();
+				expect(formValidatorHandlers.before).toHaveBeenCalled();
+			});
+			it("Passing the form's DOM node as first argument", function(){
+				formValidator.validate();
 				expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm[0]);
 			});
 
@@ -302,6 +306,10 @@ describe("luga.validator.FormValidator", function(){
 				jQuery("#myName").val("filled");
 				formValidator.validate();
 				expect(formValidator.isValid()).toBeTruthy();
+				expect(formValidatorHandlers.before).toHaveBeenCalled();
+			});
+			it("Passing the form's DOM node as first argument", function(){
+				formValidator.validate();
 				expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm[0]);
 			});
 
@@ -313,6 +321,12 @@ describe("luga.validator.FormValidator", function(){
 			});
 
 			it("Finally: after handler is called (if any)", function(){
+				jQuery("#myName").val("filled");
+				formValidator.validate();
+				expect(formValidator.isValid()).toBeTruthy();
+				expect(formValidatorHandlers.after).toHaveBeenCalled();
+			});
+			it("Passing the form's DOM node as first argument", function(){
 				jQuery("#myName").val("filled");
 				formValidator.validate();
 				expect(formValidator.isValid()).toBeTruthy();
