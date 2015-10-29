@@ -4,7 +4,7 @@ describe("luga.validator.SelectValidator", function(){
 
 	it("Accepts two validation attributes", function(){
 		var selectNode = jQuery('<select name="dish"  data-lugavalidator-invalidindex="1" data-lugavalidator-invalidvalue="Crepes" data-lugavalidator-message="Invalid!">');
-		var selectValidator = new luga.validator.FieldValidatorGetInstance({
+		var selectValidator = luga.validator.FieldValidatorGetInstance({
 			fieldNode: selectNode
 		});
 		expect(selectValidator.config.invalidindex).toEqual("1");
@@ -12,12 +12,31 @@ describe("luga.validator.SelectValidator", function(){
 		expect(selectValidator.config.message).toEqual("Invalid!");
 	});
 
+	it("Throws an exception if the associated field node does not exists", function(){
+		expect(function(){
+			new luga.validator.SelectValidator({
+				fieldNode: jQuery("#missing")
+			});
+		}).toThrow();
+	});
+
+	describe("Accepts an Options object as single argument", function(){
+
+		var selectNode, selectValidator;
+		beforeEach(function(){
+			selectNode = jQuery('<select name="dish"  data-lugavalidator-invalidindex="1" data-lugavalidator-invalidvalue="Crepes" data-lugavalidator-message="Invalid!">');
+			selectValidator = luga.validator.FieldValidatorGetInstance({
+				fieldNode: selectNode
+			});
+		});
+	});
+
 	describe("data-lugavalidator-invalidindex", function(){
 
 		it("Accepts only numbers", function(){
 			var selectNode = jQuery('<select data-lugavalidator-invalidindex="test">');
 			expect(function(){
-				var selectValidator = new luga.validator.FieldValidatorGetInstance({
+				var selectValidator = luga.validator.FieldValidatorGetInstance({
 					fieldNode: selectNode
 				});
 			}).toThrow();
@@ -27,12 +46,12 @@ describe("luga.validator.SelectValidator", function(){
 			loadFixtures("validator/SelectValidator/invalidindex.htm");
 			var selectValidator = null;
 
-			selectValidator = new luga.validator.FieldValidatorGetInstance({
+			selectValidator = luga.validator.FieldValidatorGetInstance({
 				fieldNode: jQuery("#notSelected")
 			});
 			expect(selectValidator.isValid()).toBeFalsy();
 
-			selectValidator = new luga.validator.FieldValidatorGetInstance({
+			selectValidator = luga.validator.FieldValidatorGetInstance({
 				fieldNode: jQuery("#kateSelected")
 			});
 			expect(selectValidator.isValid()).toBeTruthy();
@@ -42,7 +61,7 @@ describe("luga.validator.SelectValidator", function(){
 			loadFixtures("validator/SelectValidator/invalidindex.htm");
 			var selectValidator = null;
 
-			selectValidator = new luga.validator.FieldValidatorGetInstance({
+			selectValidator = luga.validator.FieldValidatorGetInstance({
 				fieldNode: jQuery("#selectWithSize")
 			});
 			expect(selectValidator.isValid()).toBeFalsy();
@@ -57,12 +76,12 @@ describe("luga.validator.SelectValidator", function(){
 			loadFixtures("validator/SelectValidator/invalidvalue.htm");
 			var selectValidator = null;
 
-			selectValidator = new luga.validator.FieldValidatorGetInstance({
+			selectValidator = luga.validator.FieldValidatorGetInstance({
 				fieldNode: jQuery("#pizza")
 			});
 			expect(selectValidator.isValid()).toBeFalsy();
 
-			selectValidator = new luga.validator.FieldValidatorGetInstance({
+			selectValidator = luga.validator.FieldValidatorGetInstance({
 				fieldNode: jQuery("#spaghetti")
 			});
 			expect(selectValidator.isValid()).toBeTruthy();

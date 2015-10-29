@@ -600,6 +600,9 @@ if(typeof(luga) === "undefined"){
 		var self = this;
 		self.type = "select";
 		self.node = jQuery(options.fieldNode);
+		if(self.node.length === 0){
+			throw(luga.validator.CONST.MESSAGES.MISSING_FIELD);
+		}
 
 		// Ensure invalidindex is numeric
 		if((self.config.invalidindex !== undefined) && (!jQuery.isNumeric(self.config.invalidindex))){
