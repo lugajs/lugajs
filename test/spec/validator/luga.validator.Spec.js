@@ -89,7 +89,7 @@ describe("luga.validator.fieldValidatorFactory.getInstance()", function(){
 			loadFixtures("validator/FormValidator/generic.htm");
 		});
 
-		it("null if the passed HTML has no matching validator", function(){
+		it("null if the passed HTML field has no matching validator", function(){
 			expect(luga.validator.fieldValidatorFactory.getInstance({fieldNode: jQuery("<div>")})).toBeNull();
 			expect(luga.validator.fieldValidatorFactory.getInstance({fieldNode: jQuery("<input type='reset'>")})).toBeNull();
 			expect(luga.validator.fieldValidatorFactory.getInstance({fieldNode: jQuery("<fieldset>")})).toBeNull();
