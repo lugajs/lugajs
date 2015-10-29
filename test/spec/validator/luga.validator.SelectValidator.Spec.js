@@ -15,11 +15,11 @@ describe("luga.validator.SelectValidator", function(){
 		var basicSelectValidator, attributeSelectValidator, configSelectValidator;
 		beforeEach(function(){
 
-			basicSelectValidator = luga.validator.FieldValidatorGetInstance({
+			basicSelectValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: jQuery("<select></select>")
 			});
 
-			attributeSelectValidator = luga.validator.FieldValidatorGetInstance({
+			attributeSelectValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: jQuery('<select name="dish" data-lugavalidator-errorclass="invalid-select" data-lugavalidator-message="Invalid select!" data-lugavalidator-invalidindex="1" data-lugavalidator-invalidvalue="Crepes">')
 			});
 
@@ -88,7 +88,7 @@ describe("luga.validator.SelectValidator", function(){
 		it("Accepts only numbers", function(){
 			var selectNode = jQuery('<select data-lugavalidator-invalidindex="test">');
 			expect(function(){
-				var selectValidator = luga.validator.FieldValidatorGetInstance({
+				var selectValidator = luga.validator.fieldValidatorFactory.getInstance({
 					fieldNode: selectNode
 				});
 			}).toThrow();
@@ -98,12 +98,12 @@ describe("luga.validator.SelectValidator", function(){
 			loadFixtures("validator/SelectValidator/invalidindex.htm");
 			var selectValidator = null;
 
-			selectValidator = luga.validator.FieldValidatorGetInstance({
+			selectValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: jQuery("#notSelected")
 			});
 			expect(selectValidator.isValid()).toBeFalsy();
 
-			selectValidator = luga.validator.FieldValidatorGetInstance({
+			selectValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: jQuery("#kateSelected")
 			});
 			expect(selectValidator.isValid()).toBeTruthy();
@@ -113,7 +113,7 @@ describe("luga.validator.SelectValidator", function(){
 			loadFixtures("validator/SelectValidator/invalidindex.htm");
 			var selectValidator = null;
 
-			selectValidator = luga.validator.FieldValidatorGetInstance({
+			selectValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: jQuery("#selectWithSize")
 			});
 			expect(selectValidator.isValid()).toBeFalsy();
@@ -128,12 +128,12 @@ describe("luga.validator.SelectValidator", function(){
 			loadFixtures("validator/SelectValidator/invalidvalue.htm");
 			var selectValidator = null;
 
-			selectValidator = luga.validator.FieldValidatorGetInstance({
+			selectValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: jQuery("#pizza")
 			});
 			expect(selectValidator.isValid()).toBeFalsy();
 
-			selectValidator = luga.validator.FieldValidatorGetInstance({
+			selectValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: jQuery("#spaghetti")
 			});
 			expect(selectValidator.isValid()).toBeTruthy();

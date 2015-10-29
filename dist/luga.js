@@ -1,4 +1,4 @@
-/*! Luga JS  2015-10-29 22:10
+/*! Luga JS  2015-10-29 23:10
 Copyright 2013-15 Massimo Foti (massimo@massimocorner.com) 
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0 
 */  
@@ -1022,7 +1022,7 @@ if(typeof(luga) === "undefined"){
 			var formDom = self.config.formNode[0];
 			for(var i = 0; i < formDom.elements.length; i++){
 				if(luga.form.utils.isInputField(formDom.elements[i]) === true){
-					self.validators.push(luga.validator.FieldValidatorGetInstance({
+					self.validators.push(luga.validator.fieldValidatorFactory.getInstance({
 						fieldNode: formDom.elements[i],
 						formNode: self.config.formNode
 					}));
@@ -1124,8 +1124,10 @@ if(typeof(luga) === "undefined"){
 
 	};
 
+	luga.namespace("luga.validator.fieldValidatorFactory");
+
 	/**
-	 * @typedef {object} luga.validator.FieldValidatorGetInstance.options
+	 * @typedef {object} luga.validator.fieldValidatorFactory.getInstance.options
 	 *
 	 * @property formNode  {jquery}   Either a jQuery object wrapping the form or the naked DOM object
 	 *                                Required in case of radio and checkboxes (that are validated as group), optional in all other cases
@@ -1139,11 +1141,11 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Field validator factory. Use this to instantiate a field validator without worrying about the specific implementation
 	 *
-	 * @param {luga.validator.FieldValidatorGetInstance.options} options
+	 * @param {luga.validator.fieldValidatorFactory.getInstance.options} options
 	 * @returns {luga.validator.BaseFieldValidator | luga.validator.BaseGroupValidator}
 	 */
-	luga.validator.FieldValidatorGetInstance = function(options){
-		/** @type {luga.validator.FieldValidatorGetInstance.options} */
+	luga.validator.fieldValidatorFactory.getInstance = function(options){
+		/** @type {luga.validator.fieldValidatorFactory.getInstance.options} */
 		this.config = {};
 		luga.merge(this.config, options);
 		var self = this;
@@ -1947,7 +1949,7 @@ if(typeof(luga) === "undefined"){
 		if(options.error === undefined){
 			options.error = luga.validator.CONST.HANDLERS.FORM_ERROR;
 		}
-		var fieldValidator = new luga.validator.FieldValidatorGetInstance(options);
+		var fieldValidator = new luga.validator.fieldValidatorFactory.getInstance(options);
 		fieldValidator.validate(null);
 		if(fieldValidator.isValid() === true){
 			var callBack = luga.lookup(options.error);
@@ -1984,7 +1986,7 @@ if(typeof(luga) === "undefined"){
 
 		for(var i = 0; i < options.fields.length; i++){
 			if(luga.form.utils.isInputField(options.fields[i]) === true){
-				validators.push(luga.validator.FieldValidatorGetInstance({
+				validators.push(luga.validator.fieldValidatorFactory.getInstance({
 					fieldNode: options.fields[i]
 				}));
 			}
