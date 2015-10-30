@@ -1,4 +1,4 @@
-/*! Luga JS  2015-10-29 23:10
+/*! Luga JS  2015-10-30 14:10
 Copyright 2013-15 Massimo Foti (massimo@massimocorner.com) 
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0 
 */  
@@ -525,7 +525,7 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.ajaxform");
-	luga.ajaxform.version = "0.6";
+	luga.ajaxform.version = "0.7.0";
 
 	/* Success and error handlers */
 	luga.namespace("luga.ajaxform.handlers");
@@ -691,12 +691,14 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.send = function(){
 
+			var formData = luga.form.toQueryString(self.config.formNode, true);
+
 			if(self.config.before !== null){
 				handleBefore();
 			}
 
 			jQuery.ajax({
-				data: luga.form.toQueryString(self.config.formNode, true),
+				data: formData,
 				headers: {
 					"X-Requested-With": luga.ajaxform.CONST.USER_AGENT
 				},
@@ -716,6 +718,41 @@ if(typeof(luga) === "undefined"){
 			}
 
 		};
+
+		/*
+		AS above, just send  data as raw JSON
+		 */
+		this.sendJson = function(){
+
+			var formData = luga.form.toHash(self.config.formNode, true);
+
+			if(self.config.before !== null){
+				handleBefore();
+			}
+
+			jQuery.ajax({
+				contentType: "application/json",
+				data: JSON.stringify(formData),
+				headers: {
+					"X-Requested-With": luga.ajaxform.CONST.USER_AGENT
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					handleError(textStatus, jqXHR, errorThrown);
+				},
+				method: self.config.method,
+				success: function(response, textStatus, jqXHR){
+					handleSuccess(textStatus, jqXHR);
+				},
+				timeout: self.config.timeout,
+				url: self.config.action
+			});
+
+			if(self.config.after !== null){
+				handleAfter();
+			}
+
+		};
+
 
 	};
 

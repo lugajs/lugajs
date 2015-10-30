@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta charset="utf-8"/>
-	<title>Luga Ajaxform :: Api samples: send()</title>
+	<title>Luga Ajaxform :: Api samples: sendJson()</title>
 	<link rel="stylesheet" href="../../../src/luga.css"/>
 	<link rel="stylesheet" href="../../docs.css"/>
 	<script src="../../../lib/jquery/jquery.min.js"></script>
@@ -10,14 +10,14 @@
 	<script src="../../docs.js"></script>
 	<script>
 		//<![CDATA[
-		function submitAsGet(formNode){
+		function submitAsPut(formNode){
 			var sender = new luga.ajaxform.Sender({
 				formNode: formNode,
 				action: "../action.json",
-				method: "GET",
-				successmsg: "Form send with GET"
+				method: "PUT",
+				successmsg: "Form send with PUT"
 			});
-			sender.send();
+			sender.sendJson();
 		};
 		function submitAsPost(formNode){
 			var sender = new luga.ajaxform.Sender({
@@ -26,7 +26,7 @@
 				method: "POST",
 				successmsg: "Form send with POST"
 			});
-			sender.send();
+			sender.sendJson();
 		};
 		//]]>
 	</script>
@@ -39,13 +39,13 @@
 <div class="content">
 
 	<section>
-		<h1>Programmatically use Ajaxform</h1>
+		<h1>Programmatically use Ajaxform to send raw JSON data</h1>
 		<p>
 			Instead of using custom attributes you can implement a script based solution.
-			First, create a new instance of luga.ajaxform.Sender, then call its send() method
+			First, create a new instance of luga.ajaxform.Sender, then call its sendJson() method instead of the usual send() method.
 		</p>
 		<p>
-			Please be aware that depending if your server is not configured to accept POST requests, the sample code below may fail
+			Please be aware that depending if your server is not configured to accept POST and PUT requests, the sample code below may fail
 		</p>
 		<p>
 			For a complete list of available options, see the <a href="../docs/api-syntax.htm">syntax reference</a>
@@ -53,13 +53,13 @@
 	</section>
 
 	<form id="getForm">
-		<h1>Use XHR and GET</h1>
+		<h1>Send JSON using PUT</h1>
 		<input type="text" name="name"/>
-		<input type="button" value="GET" onclick="submitAsGet(jQuery('#getForm'))"/>
+		<input type="button" value="PUT" onclick="submitAsPut(jQuery('#getForm'))"/>
 	</form>
 
 	<form id="postForm">
-		<h1>Use XHR and POST</h1>
+		<h1>Use JSON using POST</h1>
 		<input type="text" name="name"/>
 		<input type="button" value="POST" onclick="submitAsPost(jQuery('#postForm'))"/>
 	</form>

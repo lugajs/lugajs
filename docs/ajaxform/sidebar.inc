@@ -16,5 +16,6 @@
     	<ul>
     		<li><a href="../docs/api-syntax.htm">API syntax reference</a></li>
     		<li><a href="../samples/api.htm">Samples</a></li>
+			<li><a href="../samples/api-json.htm">Send raw JSON</a></li>
     	</ul>
 </nav>
