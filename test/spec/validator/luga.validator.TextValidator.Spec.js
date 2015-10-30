@@ -1355,7 +1355,7 @@ describe("luga.validator.TextValidator", function(){
 
 	});
 
-	describe("You can override default date pattern programmatically", function(){
+	describe("The default date pattern can be changed at run-time", function(){
 		var textNode, textValidator;
 		it("By changing the value of luga.validator.CONST.DEFAULT_DATE_PATTERN", function(){
 			// Override const
@@ -1397,7 +1397,7 @@ describe("luga.validator.TextValidator", function(){
 		});
 	});
 
-	describe("Rules can be mixed", function(){
+	describe("Multiple rules can be used on the same field", function(){
 
 		it("Like data-lugavalidator-minlength and data-lugavalidator-maxlength", function(){
 			loadFixtures("validator/FormValidator/generic.htm");
