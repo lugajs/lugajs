@@ -8,7 +8,12 @@ DOCS:
 - Use flexbox CSS
 
 -------------
+
 AJAXFORM:
+
+- Parse and handle error messages from server
+- Standardize JSON schema for error messages
+
 -------------
 CSI:
 -------------
