@@ -42,6 +42,8 @@ describe("luga.ajaxform", function(){
 		ajaxFormHandlers.customAfter = function(){
 		};
 
+		spyOn(luga.form, "toQueryString").and.callThrough(function(){
+		});
 		spyOn(jQuery, "ajax").and.callFake(function(){
 		});
 		spyOn(ajaxFormHandlers, "customBefore").and.callFake(function(){
@@ -410,9 +412,14 @@ describe("luga.ajaxform", function(){
 
 		describe(".send()", function(){
 
-			describe("Invokes", function(){
+			describe("Whenever called, invokes", function(){
 
-				it("First: the options.before function (if any)", function(){
+
+				it("Serializes the form using luga.form.toQueryString()", function(){
+					basicSender.send();
+					expect(luga.form.toQueryString).toHaveBeenCalled();
+				});
+				it("Calls: the options.before function (if any)", function(){
 					// No options.before here
 					basicSender.send();
 					expect(ajaxFormHandlers.customBefore).not.toHaveBeenCalled();
@@ -424,11 +431,11 @@ describe("luga.ajaxform", function(){
 					configSender.send();
 					expect(ajaxFormHandlers.customBefore).toHaveBeenCalledWith(jQuery("#basic")[0]);
 				});
-				it("Then: jQuery.ajax()", function(){
+				it("Then: calls jQuery.ajax()", function(){
 					configSender.send();
 					expect(jQuery.ajax).toHaveBeenCalled();
 				});
-				it("Finally: the options.after function (if any)", function(){
+				it("Finally: calls the options.after function (if any)", function(){
 					// No options.after here
 					basicSender.send();
 					expect(ajaxFormHandlers.customAfter).not.toHaveBeenCalled();

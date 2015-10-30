@@ -174,12 +174,14 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.send = function(){
 
+			var formData = luga.form.toQueryString(self.config.formNode, true);
+
 			if(self.config.before !== null){
 				handleBefore();
 			}
 
 			jQuery.ajax({
-				data: luga.form.toQueryString(self.config.formNode, true),
+				data: formData,
 				headers: {
 					"X-Requested-With": luga.ajaxform.CONST.USER_AGENT
 				},
