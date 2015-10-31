@@ -18,7 +18,7 @@ var LIB_PREFIX = "luga.";
 var LIB_SUFFIX = ".js";
 var MIN_SUFFIX = ".min.js";
 
-var CONCATENATED_NAME= "Luga JS"
+var CONCATENATED_NAME= "Luga JS";
 var CONCATENATED_FILE= "luga.js";
 
 function assembleBanner(name, version){
