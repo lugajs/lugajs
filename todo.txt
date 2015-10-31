@@ -25,15 +25,20 @@ CORE:
 - Document luga.extend()?
 
 -------------
+
+JASMINE:
+
+- CSS for tree
+- Allow both expand/collapse and filtering
+
+-------------
 VALIDATOR:
 -------------
 
 DATA:
 
 - Split into multiple source files
-
 - Add detailed JSDoc to improve IntelliJ's intellisense
-
 - Store event names inside CONST
 
 data.Region:
@@ -56,10 +61,9 @@ data.Dataset:
 
 - Implement sorting
 - Implement column types
-
-- Local storage persistence? It would require serialization of full dataSet 
-
 - Implement state (empty?, loading, error, ready)
+
+- Local storage persistence? It would require serialization of full dataSet
 
 data.HttpDatset:
 
@@ -71,8 +75,6 @@ data.JsonDataSet:
 - Implement subPaths?
 
 data.XmlDataset:
-
-- Start implementation
 
 - options.xpath
 - setXpath()
