@@ -1,5 +1,4 @@
 - Bootstrap Modal > Luga ModalFrame?
-- Migrate from Grunt to Gulp?
 
 -------------
 
@@ -7,6 +6,7 @@ DOCS:
 
 - Switch from em to rem
 - Use flexbox CSS
+- Review/improve luga.css
 
 -------------
 

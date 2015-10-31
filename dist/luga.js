@@ -1,7 +1,8 @@
-/*! Luga JS  2015-10-30 14:10
-Copyright 2013-15 Massimo Foti (massimo@massimocorner.com) 
-Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0 
-*/  
+/*! 
+Luga JS  2015-10-31T18:44:26.645Z
+Copyright 2013-2015 Massimo Foti (massimo@massimocorner.com)
+Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
+ */
 if(typeof(jQuery) === "undefined"){
 	throw("Unable to find jQuery");
 }
@@ -514,7 +515,6 @@ if(typeof(luga) === "undefined"){
 	};
 
 }());
-
 /* globals alert */
 
 if(typeof(luga) === "undefined"){
@@ -777,7 +777,6 @@ if(typeof(luga) === "undefined"){
 	});
 
 }());
-
 if(typeof(luga) === "undefined"){
 	throw("Unable to find Luga JS Core");
 }
@@ -869,7 +868,6 @@ if(typeof(luga) === "undefined"){
 	});
 
 }());
-
 /* globals alert */
 
 if(typeof(luga) === "undefined"){
