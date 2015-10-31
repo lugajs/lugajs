@@ -45,6 +45,11 @@ function getAllLibsSrc(){
 	return paths;
 }
 
+function copyLib(key){
+	return gulp.src(getLibSrc(key))
+		.pipe(gulp.dest(DEST_FOLDER));
+}
+
 function releaseLib(key){
 	var libName = pkg.libs[key].name;
 	var libVersion = pkg.libs[key].version;
@@ -87,27 +92,8 @@ gulp.task("concatLibs", function(){
 gulp.task("libs", function(){
 	for(var x in pkg.libs){
 		releaseLib(x);
+		copyLib(x);
 	}
-});
-
-gulp.task("ajaxform", function(){
-	releaseLib("ajaxform");
-	gulp.run("concatLibs");
-});
-
-gulp.task("core", function(){
-	releaseLib("core");
-	gulp.run("concatLibs");
-});
-
-gulp.task("csi", function(){
-	releaseLib("csi");
-	gulp.run("concatLibs");
-});
-
-gulp.task("validator", function(){
-	releaseLib("validator");
-	gulp.run("concatLibs");
 });
 
 gulp.task("default", function(callback){
