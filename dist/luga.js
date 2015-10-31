@@ -1,8 +1,3 @@
-/*! 
-Luga JS  2015-10-31T20:45:04.336Z
-Copyright 2013-2015 Massimo Foti (massimo@massimocorner.com)
-Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
- */
 if(typeof(jQuery) === "undefined"){
 	throw("Unable to find jQuery");
 }

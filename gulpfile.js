@@ -76,7 +76,6 @@ gulp.task("concatLibs", function(){
 		// upfront to be able to figure out which files changed
 		.pipe(changed(DEST_FOLDER))
 		.pipe(concat(CONCATENATED_FILE))
-		.pipe(header(assembleBanner(CONCATENATED_NAME, "")))
 		.pipe(gulp.dest(DEST_FOLDER))
 		.pipe(rename({
 			extname: MIN_SUFFIX
@@ -84,6 +83,7 @@ gulp.task("concatLibs", function(){
 		.pipe(uglify({
 			mangle: false
 		}))
+		.pipe(header(assembleBanner(CONCATENATED_NAME, "")))
 		.pipe(sourcemaps.init())
 		.pipe(sourcemaps.write("."))
 		.pipe(gulp.dest(DEST_FOLDER));
