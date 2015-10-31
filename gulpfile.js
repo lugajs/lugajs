@@ -18,6 +18,7 @@ var LIB_PREFIX = "luga.";
 var LIB_SUFFIX = ".js";
 var MIN_SUFFIX = ".min.js";
 
+var CONCATENATED_NAME= "Luga JS"
 var CONCATENATED_FILE= "luga.js";
 
 function assembleBanner(name, version){
@@ -70,7 +71,7 @@ gulp.task("concatLibs", function(){
 		// upfront to be able to figure out which files changed
 		.pipe(changed(DEST_FOLDER))
 		.pipe(concat(CONCATENATED_FILE))
-		.pipe(header(assembleBanner(pkg.name, "")))
+		.pipe(header(assembleBanner(CONCATENATED_NAME, "")))
 		.pipe(gulp.dest(DEST_FOLDER))
 		.pipe(rename({
 			extname: MIN_SUFFIX
