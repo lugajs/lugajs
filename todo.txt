@@ -30,7 +30,8 @@ CORE:
 JASMINE:
 
 - CSS for tree
-- Allow both expand/collapse and filtering
+- Allow both expand/collapse and filtering on a node
+- Add expand/collapse all button
 
 -------------
 VALIDATOR:
