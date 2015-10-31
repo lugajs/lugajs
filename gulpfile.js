@@ -75,6 +75,7 @@ gulp.task("concatLibs", function(){
 		// The "changed" task needs to know the destination directory
 		// upfront to be able to figure out which files changed
 		.pipe(changed(DEST_FOLDER))
+		.pipe(header(assembleBanner(CONCATENATED_NAME, "")))
 		.pipe(concat(CONCATENATED_FILE))
 		.pipe(gulp.dest(DEST_FOLDER))
 		.pipe(rename({
