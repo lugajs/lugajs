@@ -80,7 +80,6 @@ gulp.task("concatLibs", function(){
 		}))
 		.pipe(sourcemaps.init())
 		.pipe(sourcemaps.write("."))
-
 		.pipe(gulp.dest(DEST_FOLDER));
 });
 
