@@ -169,10 +169,24 @@ if(typeof(luga) === "undefined"){
 			return fullPath;
 		};
 
+		/**
+		 * Given a filter string, coming from the querystring, search if the suite contains specs that match it
+		 * @param {string} path
+		 * @returns {boolean}
+		 */
 		this.containsPath = function(path){
+			// Matches the suite
 			if(self.getPath() === path){
 				return true;
 			}
+			// Search inside child specs
+			for(var j = 0; j < specs.length; j++){
+				var specPath = self.getPath() + " " + specs[j].text();
+				if(specPath === path){
+					return true;
+				}
+			}
+			// Search inside child suites
 			for(var i = 0; i < suites.length; i++){
 				if(suites[i].containsPath(path) === true){
 					return true;
