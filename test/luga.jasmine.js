@@ -105,10 +105,7 @@ if(typeof(luga) === "undefined"){
 		luga.jasmine.collapseAll();
 		// Then expand only the suites that match
 		for(var i = 0; i < rootSuites.length; i++){
-			var path = rootSuites[i].getPath();
-			// If the filter starts with the same path, we consider it a match
-			var match = (filter.substring(0, path.length) === path);
-			if(match === true){
+			if(rootSuites[i].containsPath(filter) === true){
 				rootSuites[i].expand();
 			}
 		}
@@ -149,7 +146,7 @@ if(typeof(luga) === "undefined"){
 			config.rootNode.find(CONST.SELECTORS.NODE_SUITES).each(function(index, item){
 				var childSuite = new luga.jasmine.Suite({
 					rootNode: jQuery(item),
-					rootPath: fullPath
+					rootPath: fullPath + " "
 				});
 				suites.push(childSuite);
 			});
@@ -170,6 +167,18 @@ if(typeof(luga) === "undefined"){
 
 		this.getPath = function(){
 			return fullPath;
+		};
+
+		this.containsPath = function(path){
+			if(self.getPath() === path){
+				return true;
+			}
+			for(var i = 0; i < suites.length; i++){
+				if(suites[i].containsPath(path) === true){
+					return true;
+				}
+			}
+			return false;
 		};
 
 		this.show = function(){
