@@ -32,6 +32,31 @@ if(typeof(luga) === "undefined"){
 			SEPARATOR: " | ",
 			PLUS: "+",
 			MINUS: "-"
+		},
+		FILTER_REGEXP: (new RegExp("[?&]spec=([^&]*)"))
+	};
+
+	/** @type {array.<luga.jasmine.Suite>} */
+	var rootSuites = [];
+
+	/**
+	 * Returns the value of the "spec" parameter in the querystring. Null if it's not specified
+	 * @returns {null|string}
+	 */
+	luga.jasmine.getSpecFilter = function(){
+		var match = CONST.FILTER_REGEXP.exec(window.location.search);
+		return match && decodeURIComponent(match[1].replace(/\+/g, " "));
+	};
+
+	luga.jasmine.collapseAll = function() {
+		for(var i = 0; i < rootSuites.length; i++){
+			rootSuites[i].collapse();
+		}
+	};
+
+	luga.jasmine.expandAll = function() {
+		for(var i = 0; i < rootSuites.length; i++){
+			rootSuites[i].expand();
 		}
 	};
 
@@ -51,16 +76,12 @@ if(typeof(luga) === "undefined"){
 
 		collapse.click(function(event){
 			event.preventDefault();
-			for(var i = 0; i < rootSuites.length; i++){
-				rootSuites[i].collapse();
-			}
+			luga.jasmine.collapseAll();
 		});
 
 		expand.click(function(event){
 			event.preventDefault();
-			for(var i = 0; i < rootSuites.length; i++){
-				rootSuites[i].expand();
-			}
+			luga.jasmine.expandAll();
 		});
 
 		toolbar.insertBefore(jQuery(CONST.SELECTORS.SUMMARY));
@@ -73,7 +94,8 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.jasmine.Suite = function(options){
 		var config = {
-			rootNode: null
+			rootNode: null,
+			rootPath: ""
 		};
 		jQuery.extend(config, options);
 
@@ -85,11 +107,13 @@ if(typeof(luga) === "undefined"){
 		/** @type {array.<jQuery>} */
 		var specs = [];
 
+		var fullPath = "";
 		var expanded = true;
 		var triggerNode = jQuery("<a></a>").text(CONST.TEXT.MINUS).addClass(CONST.CSS_CLASSES.TRIGGER);
 
 		var init = function(){
 			var titleNode = config.rootNode.find(CONST.SELECTORS.NODE_TITLE);
+			fullPath = config.rootPath + titleNode.text();
 			triggerNode.insertBefore(titleNode.find(CONST.SELECTORS.FIRST_CHILD));
 
 			config.rootNode.find(CONST.SELECTORS.NODE_SPECS).each(function(index, item){
@@ -97,7 +121,8 @@ if(typeof(luga) === "undefined"){
 			});
 			config.rootNode.find(CONST.SELECTORS.NODE_SUITES).each(function(index, item){
 				var childSuite = new luga.jasmine.Suite({
-					rootNode: jQuery(item)
+					rootNode: jQuery(item),
+					rootPath: fullPath
 				});
 				suites.push(childSuite);
 			});
@@ -155,8 +180,6 @@ if(typeof(luga) === "undefined"){
 	 * This must be invoked after Jasmine finished executing
 	 */
 	luga.jasmine.init = function(){
-		/** @type {array.<luga.jasmine.Suite>} */
-		var rootSuites = [];
 		jQuery(CONST.SELECTORS.ROOT_SUITE).each(function(index, item){
 			var suite = new luga.jasmine.Suite({
 					rootNode: jQuery(item)
@@ -164,7 +187,7 @@ if(typeof(luga) === "undefined"){
 			);
 			rootSuites.push(suite);
 		});
-		luga.jasmine.addToolbar(rootSuites);
+		luga.jasmine.addToolbar();
 	};
 
 }());
