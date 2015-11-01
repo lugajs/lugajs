@@ -10,6 +10,8 @@ var runSequence = require("run-sequence");
 var sourcemaps = require("gulp-sourcemaps");
 var uglify = require("gulp-uglify");
 
+require("gulp-grunt")(gulp);
+
 var pkg = require("./package.json");
 
 var SRC_FOLDER = "src";
@@ -101,6 +103,7 @@ gulp.task("default", function(callback){
 	runSequence(
 		"concatLibs",
 		"libs",
+		"grunt-compress",
 		function(error){
 			if(error){
 				console.log(error.message);
