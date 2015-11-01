@@ -30,10 +30,11 @@ if(typeof(luga) === "undefined"){
 		}
 	};
 
-	luga.jasmine.Suite = function(root){
-		var rootNode = null;
-		var titleNode = null;
-
+	luga.jasmine.Suite = function(options){
+		var config = {
+			rootNode: null
+		};
+		jQuery.extend(config, options);
 		var self = this;
 
 		var specs = [];
@@ -42,18 +43,18 @@ if(typeof(luga) === "undefined"){
 		var triggerNode = jQuery("<a></a>").text(CONST.TEXT.MINUS).addClass(CONST.CSS_CLASSES.TRIGGER);
 
 		var init = function(){
-			rootNode = root;
-			titleNode = rootNode.find(CONST.SELECTORS.NODE_TITLE);
+			var titleNode = config.rootNode.find(CONST.SELECTORS.NODE_TITLE);
 			triggerNode.insertBefore(titleNode.find(CONST.SELECTORS.FIRST_CHILD));
 
-			rootNode.find(CONST.SELECTORS.NODE_SPECS).each(function(index, item){
+			config.rootNode.find(CONST.SELECTORS.NODE_SPECS).each(function(index, item){
 				specs.push(jQuery(item));
 			});
-			rootNode.find(CONST.SELECTORS.NODE_SUITES).each(function(index, item){
-				var childSuite = new luga.jasmine.Suite(jQuery(item));
+			config.rootNode.find(CONST.SELECTORS.NODE_SUITES).each(function(index, item){
+				var childSuite = new luga.jasmine.Suite({
+					rootNode: jQuery(item)
+				});
 				suites.push(childSuite);
 			});
-
 			attachEvents();
 		};
 
@@ -70,11 +71,11 @@ if(typeof(luga) === "undefined"){
 		};
 
 		this.show = function(){
-			rootNode.show();
+			config.rootNode.show();
 		};
 
 		this.hide = function(){
-			rootNode.hide();
+			config.rootNode.hide();
 		};
 
 		this.collapse = function(){
@@ -105,10 +106,12 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.jasmine.init = function(){
-		var rootNodes = jQuery(CONST.SELECTORS.ROOT_SUITE);
-		for(var i = 0; i < rootNodes.length; i++){
-			new luga.jasmine.Suite(jQuery(rootNodes[i]));
-		}
+		jQuery(CONST.SELECTORS.ROOT_SUITE).each(function(index, item){
+			var suite = new luga.jasmine.Suite({
+					rootNode: jQuery(item)
+				}
+			);
+		});
 	};
 
 }());
