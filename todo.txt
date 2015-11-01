@@ -31,7 +31,6 @@ JASMINE:
 
 - CSS for tree
 - Collapse filtered nodes
-- Add detailed JSDoc
 
 -------------
 VALIDATOR:

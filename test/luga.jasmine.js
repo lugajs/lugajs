@@ -35,7 +35,11 @@ if(typeof(luga) === "undefined"){
 		}
 	};
 
-	luga.jasmine.addButtons = function(rootSuites){
+	/**
+	 * Insert toolbar with expand/collapse all buttons
+	 * @param {array.<luga.jasmine.Suite>} rootSuites
+	 */
+	luga.jasmine.addToolbar = function(rootSuites){
 
 		var toolbar = jQuery("<div></div>").addClass(CONST.CSS_CLASSES.TOOLBAR);
 		var collapse = jQuery("<span></span>").addClass(CONST.CSS_CLASSES.BUTTON).text(CONST.TEXT.COLLAPSE);
@@ -62,15 +66,25 @@ if(typeof(luga) === "undefined"){
 		toolbar.insertBefore(jQuery(CONST.SELECTORS.SUMMARY));
 	};
 
+	/**
+	 * Wrapper around a suite's HTML node. Adds expand/collapse capabilities
+	 * @param {jquery} options.rootNode
+	 * @constructor
+	 */
 	luga.jasmine.Suite = function(options){
 		var config = {
 			rootNode: null
 		};
 		jQuery.extend(config, options);
+
+		/** @type  {luga.jasmine.Suite} */
 		var self = this;
 
-		var specs = [];
+		/** @type {array.<luga.jasmine.Suite>} */
 		var suites = [];
+		/** @type {array.<jQuery>} */
+		var specs = [];
+
 		var expanded = true;
 		var triggerNode = jQuery("<a></a>").text(CONST.TEXT.MINUS).addClass(CONST.CSS_CLASSES.TRIGGER);
 
@@ -137,7 +151,11 @@ if(typeof(luga) === "undefined"){
 		init();
 	};
 
+	/**
+	 * This must be invoked after Jasmine finished executing
+	 */
 	luga.jasmine.init = function(){
+		/** @type {array.<luga.jasmine.Suite>} */
 		var rootSuites = [];
 		jQuery(CONST.SELECTORS.ROOT_SUITE).each(function(index, item){
 			var suite = new luga.jasmine.Suite({
@@ -146,7 +164,7 @@ if(typeof(luga) === "undefined"){
 			);
 			rootSuites.push(suite);
 		});
-		luga.jasmine.addButtons(rootSuites);
+		luga.jasmine.addToolbar(rootSuites);
 	};
 
 }());
