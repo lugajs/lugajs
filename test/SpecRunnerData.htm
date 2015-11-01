@@ -6,21 +6,6 @@
 
 	<link rel="stylesheet" href="lib/jasmine/jasmine.css" />
 	<link rel="shortcut icon" type="image/png" href="lib/jasmine/jasmine_favicon.png" />
-	<style>
-		body {
-			visibility: hidden;
-		}
-
-		.jasmine_html-reporter {
-			border-bottom: 10px solid #A6B779;
-			padding-bottom: 20px;
-			visibility: visible;
-		}
-
-		.jasmine_html-reporter .suite > .suite {
-			padding-left: 25px;
-		}
-	</style>
 
 	<script src="../lib/jquery/jquery.min.js"></script>
 	<script src="lib/jasmine/jasmine.js"></script>
@@ -32,6 +17,9 @@
 		jasmine.getFixtures().fixturesPath = "fixtures";
 		jasmine.getJSONFixtures().fixturesPath = "fixtures";
 	</script>
+
+	<link rel="stylesheet" href="luga.jasmine.css"/>
+	<script src="luga.jasmine.js"></script>
 
 	<!-- Include source files here... -->
 	<script src="../src/luga.core.js"></script>

@@ -1,0 +1,23 @@
+body {
+	visibility: hidden;
+}
+
+.jasmine_html-reporter {
+	border-bottom: 10px solid #A6B779;
+	padding-bottom: 20px;
+	visibility: visible;
+}
+
+.jasmine_html-reporter .suite > .suite {
+	padding-left: 25px;
+}
+
+a.luga-jasmine-trigger {
+	cursor: pointer;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+a.luga-jasmine-trigger:hover {
+	text-decoration: none;
+}

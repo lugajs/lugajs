@@ -14,25 +14,37 @@ if(typeof(luga) === "undefined"){
 	luga.jasmine.version = "0.1";
 
 	var CONST = {
+		CSS_CLASSES: {
+			TRIGGER: "luga-jasmine-trigger"
+		},
 		SELECTORS: {
+			FIRST_CHILD: ":first-child",
 			ROOT_SUITE: ".summary > .suite",
 			NODE_TITLE: "> li.suite-detail",
 			NODE_SPECS: "> ul.specs",
 			NODE_SUITES: "> ul.suite"
+		},
+		TEXT: {
+			PLUS: "+",
+			MINUS: "-"
 		}
 	};
 
 	luga.jasmine.Suite = function(root){
 		var rootNode = null;
 		var titleNode = null;
+
+		var self = this;
+
 		var specs = [];
 		var suites = [];
 		var expanded = true;
-		var self = this;
+		var triggerNode = jQuery("<a></a>").text(CONST.TEXT.MINUS).addClass(CONST.CSS_CLASSES.TRIGGER);
 
 		var init = function(){
 			rootNode = root;
 			titleNode = rootNode.find(CONST.SELECTORS.NODE_TITLE);
+			triggerNode.insertBefore(titleNode.find(CONST.SELECTORS.FIRST_CHILD));
 
 			rootNode.find(CONST.SELECTORS.NODE_SPECS).each(function(index, item){
 				specs.push(jQuery(item));
@@ -46,13 +58,15 @@ if(typeof(luga) === "undefined"){
 		};
 
 		var attachEvents = function(){
-			titleNode.click(function(event){
+			triggerNode.click(function(event){
 				event.preventDefault();
 				if(expanded === true){
 					self.collapse();
+					triggerNode.text(CONST.TEXT.PLUS);
 				}
 				else{
 					self.expand();
+					triggerNode.text(CONST.TEXT.MINUS);
 				}
 			});
 		};
