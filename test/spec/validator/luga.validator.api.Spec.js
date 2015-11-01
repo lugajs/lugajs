@@ -51,9 +51,7 @@ describe("luga.validator.api", function(){
 
 			jQuery("#myName").val("filled");
 			expect(luga.validator.api.validateField({
-				fieldNode: jQuery("#myName"),
-				error: "formValidatorHandlers.customErrorHandler"
-
+				fieldNode: jQuery("#myName")
 			})).toBeTruthy();
 			expect(jQuery("#myName")).not.toHaveClass("invalid");
 

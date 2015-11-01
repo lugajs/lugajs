@@ -9,7 +9,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.validator");
 
-	luga.validator.version = "0.9.8";
+	luga.validator.version = "0.9.9";
 
 	/* Validation handlers */
 
@@ -1114,6 +1114,7 @@ if(typeof(luga) === "undefined"){
 		if(options.error === undefined){
 			options.error = luga.validator.CONST.HANDLERS.FORM_ERROR;
 		}
+		var dirtyValidators = [];
 		var fieldValidator = new luga.validator.fieldValidatorFactory.getInstance(options);
 		fieldValidator.validate(null);
 		if(fieldValidator.isValid() === true){
@@ -1122,7 +1123,8 @@ if(typeof(luga) === "undefined"){
 				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [options.error]));
 			}
 			else{
-				callBack(null, [null, [fieldValidator]]);
+				dirtyValidators.push(fieldValidator);
+				callBack(null, []);
 			}
 		}
 		return fieldValidator.isValid();

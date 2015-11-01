@@ -1,5 +1,5 @@
 /*! 
-Luga JS  2015-10-31T20:57:15.476Z
+Luga JS  2015-11-01T13:58:14.183Z
 Copyright 2013-2015 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -516,7 +516,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga JS  2015-10-31T20:57:15.476Z
+Luga JS  2015-11-01T13:58:14.183Z
 Copyright 2013-2015 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -783,7 +783,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga JS  2015-10-31T20:57:15.476Z
+Luga JS  2015-11-01T13:58:14.183Z
 Copyright 2013-2015 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -879,7 +879,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga JS  2015-10-31T20:57:15.476Z
+Luga JS  2015-11-01T13:58:14.183Z
 Copyright 2013-2015 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -894,7 +894,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.validator");
 
-	luga.validator.version = "0.9.8";
+	luga.validator.version = "0.9.9";
 
 	/* Validation handlers */
 
@@ -1999,6 +1999,7 @@ if(typeof(luga) === "undefined"){
 		if(options.error === undefined){
 			options.error = luga.validator.CONST.HANDLERS.FORM_ERROR;
 		}
+		var dirtyValidators = [];
 		var fieldValidator = new luga.validator.fieldValidatorFactory.getInstance(options);
 		fieldValidator.validate(null);
 		if(fieldValidator.isValid() === true){
@@ -2007,7 +2008,8 @@ if(typeof(luga) === "undefined"){
 				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [options.error]));
 			}
 			else{
-				callBack(null, [null, [fieldValidator]]);
+				dirtyValidators.push(fieldValidator);
+				callBack(null, []);
 			}
 		}
 		return fieldValidator.isValid();
