@@ -30,6 +30,7 @@ CORE:
 JASMINE:
 
 - CSS for tree
+- Collapse filtered nodes
 - Add expand/collapse all button
 
 -------------
