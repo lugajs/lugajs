@@ -62,11 +62,9 @@ if(typeof(luga) === "undefined"){
 				event.preventDefault();
 				if(expanded === true){
 					self.collapse();
-					triggerNode.text(CONST.TEXT.PLUS);
 				}
 				else{
 					self.expand();
-					triggerNode.text(CONST.TEXT.MINUS);
 				}
 			});
 		};
@@ -80,6 +78,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		this.collapse = function(){
+			triggerNode.text(CONST.TEXT.PLUS);
 			for(var i = 0; i < suites.length; i++){
 				suites[i].collapse();
 				suites[i].hide();
@@ -91,6 +90,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		this.expand = function(){
+			triggerNode.text(CONST.TEXT.MINUS);
 			for(var i = 0; i < suites.length; i++){
 				suites[i].expand();
 				suites[i].show();
