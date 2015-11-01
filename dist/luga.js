@@ -1,5 +1,5 @@
 /*! 
-Luga JS  2015-11-01T13:58:14.183Z
+Luga JS  2015-11-01T14:08:46.638Z
 Copyright 2013-2015 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -516,7 +516,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga JS  2015-11-01T13:58:14.183Z
+Luga JS  2015-11-01T14:08:46.638Z
 Copyright 2013-2015 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -783,7 +783,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga JS  2015-11-01T13:58:14.183Z
+Luga JS  2015-11-01T14:08:46.638Z
 Copyright 2013-2015 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -879,7 +879,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga JS  2015-11-01T13:58:14.183Z
+Luga JS  2015-11-01T14:08:46.638Z
 Copyright 2013-2015 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */

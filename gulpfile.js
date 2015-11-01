@@ -74,8 +74,8 @@ function releaseLib(key){
 
 gulp.task("concatLibs", function(){
 	return gulp.src(getAllLibsSrc())
-		.pipe(header(assembleBanner(CONCATENATED_NAME, "")))
 		.pipe(concat(CONCATENATED_FILE))
+		.pipe(changed(DEST_FOLDER))
 		.pipe(gulp.dest(DEST_FOLDER))
 		.pipe(rename({
 			extname: MIN_SUFFIX
@@ -86,6 +86,7 @@ gulp.task("concatLibs", function(){
 		.pipe(header(assembleBanner(CONCATENATED_NAME, "")))
 		.pipe(sourcemaps.init())
 		.pipe(sourcemaps.write("."))
+
 		.pipe(gulp.dest(DEST_FOLDER));
 });
 
