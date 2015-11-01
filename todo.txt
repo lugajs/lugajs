@@ -31,7 +31,7 @@ JASMINE:
 
 - CSS for tree
 - Collapse filtered nodes
-- Add expand/collapse all button
+- Add detailed JSDoc
 
 -------------
 VALIDATOR:
@@ -40,7 +40,7 @@ VALIDATOR:
 DATA:
 
 - Split into multiple source files
-- Add detailed JSDoc to improve IntelliJ's intellisense
+- Add detailed JSDoc
 - Store event names inside CONST
 
 data.Region:

@@ -10,24 +10,56 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.jasmine = {};
-
 	luga.jasmine.version = "0.1";
 
 	var CONST = {
 		CSS_CLASSES: {
-			TRIGGER: "luga-jasmine-trigger"
+			TRIGGER: "luga-jasmine-trigger",
+			TOOLBAR: "luga-jasmine-toolbar",
+			BUTTON: "luga-jasmine-button"
 		},
 		SELECTORS: {
 			FIRST_CHILD: ":first-child",
+			SUMMARY: ".summary",
 			ROOT_SUITE: ".summary > .suite",
 			NODE_TITLE: "> li.suite-detail",
 			NODE_SPECS: "> ul.specs",
 			NODE_SUITES: "> ul.suite"
 		},
 		TEXT: {
+			COLLAPSE: "Collapse All",
+			EXPAND: "Expand All",
+			SEPARATOR: " | ",
 			PLUS: "+",
 			MINUS: "-"
 		}
+	};
+
+	luga.jasmine.addButtons = function(rootSuites){
+
+		var toolbar = jQuery("<div></div>").addClass(CONST.CSS_CLASSES.TOOLBAR);
+		var collapse = jQuery("<span></span>").addClass(CONST.CSS_CLASSES.BUTTON).text(CONST.TEXT.COLLAPSE);
+		toolbar.append(collapse);
+		var separator = jQuery("<span></span>").text(CONST.TEXT.SEPARATOR);
+		toolbar.append(separator);
+		var expand = jQuery("<span></span>").addClass(CONST.CSS_CLASSES.BUTTON).text(CONST.TEXT.EXPAND);
+		toolbar.append(expand);
+
+		collapse.click(function(event){
+			event.preventDefault();
+			for(var i = 0; i < rootSuites.length; i++){
+				rootSuites[i].collapse();
+			}
+		});
+
+		expand.click(function(event){
+			event.preventDefault();
+			for(var i = 0; i < rootSuites.length; i++){
+				rootSuites[i].expand();
+			}
+		});
+
+		toolbar.insertBefore(jQuery(CONST.SELECTORS.SUMMARY));
 	};
 
 	luga.jasmine.Suite = function(options){
@@ -106,12 +138,15 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.jasmine.init = function(){
+		var rootSuites = [];
 		jQuery(CONST.SELECTORS.ROOT_SUITE).each(function(index, item){
 			var suite = new luga.jasmine.Suite({
 					rootNode: jQuery(item)
 				}
 			);
+			rootSuites.push(suite);
 		});
+		luga.jasmine.addButtons(rootSuites);
 	};
 
 }());
