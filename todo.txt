@@ -30,7 +30,6 @@ CORE:
 JASMINE:
 
 - CSS for tree
-- Collapse filtered nodes
 
 -------------
 VALIDATOR:

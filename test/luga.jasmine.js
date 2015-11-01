@@ -48,13 +48,19 @@ if(typeof(luga) === "undefined"){
 		return match && decodeURIComponent(match[1].replace(/\+/g, " "));
 	};
 
-	luga.jasmine.collapseAll = function() {
+	/**
+	 * Collapse all the suites
+	 */
+	luga.jasmine.collapseAll = function(){
 		for(var i = 0; i < rootSuites.length; i++){
 			rootSuites[i].collapse();
 		}
 	};
 
-	luga.jasmine.expandAll = function() {
+	/**
+	 * Expand all the suites
+	 */
+	luga.jasmine.expandAll = function(){
 		for(var i = 0; i < rootSuites.length; i++){
 			rootSuites[i].expand();
 		}
@@ -85,6 +91,27 @@ if(typeof(luga) === "undefined"){
 		});
 
 		toolbar.insertBefore(jQuery(CONST.SELECTORS.SUMMARY));
+	};
+
+	/**
+	 * Check the querystring and expand/collapse suites based on filter criteria (if any)
+	 */
+	luga.jasmine.filterSpec = function(){
+		var filter = luga.jasmine.getSpecFilter();
+		if(filter === null){
+			return;
+		}
+		// We have a filter. First collapse all
+		luga.jasmine.collapseAll();
+		// Then expand only the suites that match
+		for(var i = 0; i < rootSuites.length; i++){
+			var path = rootSuites[i].getPath();
+			// If the filter starts with the same path, we consider it a match
+			var match = (filter.substring(0, path.length) === path);
+			if(match === true){
+				rootSuites[i].expand();
+			}
+		}
 	};
 
 	/**
@@ -141,6 +168,10 @@ if(typeof(luga) === "undefined"){
 			});
 		};
 
+		this.getPath = function(){
+			return fullPath;
+		};
+
 		this.show = function(){
 			config.rootNode.show();
 		};
@@ -188,6 +219,7 @@ if(typeof(luga) === "undefined"){
 			rootSuites.push(suite);
 		});
 		luga.jasmine.addToolbar();
+		luga.jasmine.filterSpec();
 	};
 
 }());
