@@ -1,5 +1,6 @@
 - Bootstrap Modal > Luga ModalFrame?
 - Investigate grunt-contrib-jasmine
+- Read version numbers from source files, not package.json
 
 -------------
 
@@ -22,6 +23,8 @@ CSI:
 
 CORE:
 
+- Implement queryStringToHash()
+
 - Document luga.Notifier?
 - Document luga.extend()?
 
@@ -40,6 +43,9 @@ DATA:
 - Split into multiple source files
 - Add detailed JSDoc
 - Store event names inside CONST
+
+- Implement pagination
+- Implement navbar widget
 
 data.Region:
 
