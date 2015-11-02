@@ -16,7 +16,8 @@ if(typeof(luga) === "undefined"){
 		CSS_CLASSES: {
 			TRIGGER: "luga-jasmine-trigger",
 			TOOLBAR: "luga-jasmine-toolbar",
-			BUTTON: "luga-jasmine-button"
+			BUTTON: "luga-jasmine-button",
+			NODE_OPENED: "luga-jasmine-opennode"
 		},
 		SELECTORS: {
 			FIRST_CHILD: ":first-child",
@@ -128,7 +129,7 @@ if(typeof(luga) === "undefined"){
 
 		/** @type {array.<luga.jasmine.Suite>} */
 		var suites = [];
-		/** @type {array.<jQuery>} */
+		/** @type {array.<jquery>} */
 		var specs = [];
 
 		var fullPath = "";
@@ -136,7 +137,10 @@ if(typeof(luga) === "undefined"){
 		var triggerNode = jQuery("<a></a>").text(CONST.TEXT.MINUS).addClass(CONST.CSS_CLASSES.TRIGGER);
 
 		var init = function(){
+			config.rootNode.addClass(CONST.CSS_CLASSES.NODE_OPENED);
+
 			var titleNode = config.rootNode.find(CONST.SELECTORS.NODE_TITLE);
+
 			fullPath = config.rootPath + titleNode.text();
 			triggerNode.insertBefore(titleNode.find(CONST.SELECTORS.FIRST_CHILD));
 
@@ -204,6 +208,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		this.collapse = function(){
+			config.rootNode.removeClass(CONST.CSS_CLASSES.NODE_OPENED);
 			triggerNode.text(CONST.TEXT.PLUS);
 			for(var i = 0; i < suites.length; i++){
 				suites[i].collapse();
@@ -216,6 +221,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		this.expand = function(){
+			config.rootNode.addClass(CONST.CSS_CLASSES.NODE_OPENED);
 			triggerNode.text(CONST.TEXT.MINUS);
 			for(var i = 0; i < suites.length; i++){
 				suites[i].expand();
