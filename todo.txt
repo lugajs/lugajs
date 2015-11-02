@@ -23,7 +23,6 @@ CSI:
 
 CORE:
 
-- Add boolean parameter to merge
 - Implement queryStringToHash()
 
 - Document luga.Notifier?
