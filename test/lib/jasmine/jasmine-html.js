@@ -290,7 +290,6 @@ jasmineRequire.HtmlReporter = function(j$) {
           failureNode.appendChild(failures[i]);
         }
       }
-      jasmineTree.init();
     };
 
     return this;

@@ -8,7 +8,7 @@ if(typeof(jasmineTree) === "undefined"){
 
 (function(){
 	"use strict";
-	
+
 	jasmineTree.version = "0.1";
 
 	var CONST = {
@@ -249,5 +249,11 @@ if(typeof(jasmineTree) === "undefined"){
 		jasmineTree.addToolbar();
 		jasmineTree.filterSpec();
 	};
+
+	jasmine.getEnv().addReporter({
+		jasmineDone: function(){
+			jasmineTree.init();
+		}
+	});
 
 }());
