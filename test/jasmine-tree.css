@@ -16,7 +16,10 @@ body {
 
 /* Expand/Collapse Toolbar and +/- triggers */
 .jasmine-tree-toolbar {
+	border: 1px solid;
+	display: inline-block;
 	margin-left: 30px;
+	padding: 3px;
 }
 
 .jasmine-tree-button,
