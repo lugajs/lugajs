@@ -32,9 +32,7 @@ CORE:
 
 JASMINE:
 
-- Clean-up and refactor CSS
-- Use solid line (due to Chrome bug)
-- Add copyrigth: emily.meroni@gmail.com
+- Finish clean-up and refactor CSS
 
 -------------
 VALIDATOR:

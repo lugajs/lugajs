@@ -1,3 +1,9 @@
+/*!
+ Luga jasmineTree JS 0.1.0
+ Copyright 2015 Massimo Foti (massimo@massimocorner.com)
+ Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 if(typeof(jQuery) === "undefined"){
 	throw("Unable to find jQuery");
 }
@@ -9,10 +15,11 @@ if(typeof(jasmineTree) === "undefined"){
 (function(){
 	"use strict";
 
-	jasmineTree.version = "0.1";
+	jasmineTree.version = "0.1.0";
 
 	var CONST = {
 		CSS_CLASSES: {
+			SUMMARY: "jasmine-tree-summary",
 			TRIGGER: "jasmine-tree-trigger",
 			TOOLBAR: "jasmine-tree-toolbar",
 			BUTTON: "jasmine-tree-button",
@@ -64,6 +71,13 @@ if(typeof(jasmineTree) === "undefined"){
 		for(var i = 0; i < rootSuites.length; i++){
 			rootSuites[i].expand();
 		}
+	};
+
+	/**
+	 * Add a CSS class to the summary to enable more specific CSS selectors
+	 */
+	jasmineTree.addRootClass = function(){
+		jQuery(CONST.SELECTORS.SUMMARY).addClass(CONST.CSS_CLASSES.SUMMARY);
 	};
 
 	/**
@@ -246,6 +260,7 @@ if(typeof(jasmineTree) === "undefined"){
 			);
 			rootSuites.push(suite);
 		});
+		jasmineTree.addRootClass();
 		jasmineTree.addToolbar();
 		jasmineTree.filterSpec();
 	};
