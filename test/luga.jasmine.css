@@ -1,4 +1,4 @@
-body {
+﻿body {
 	visibility: hidden;
 }
 
@@ -8,10 +8,11 @@ body {
 	visibility: visible;
 }
 
-.jasmine_html-reporter .suite > .suite {
-	padding-left: 25px;
+.suite {
+	padding-left: 10px !important;
 }
 
+/* Expand/Collapse Toolbar and +/- triggers */
 .luga-jasmine-toolbar {
 	margin-left: 30px;
 }
@@ -26,4 +27,94 @@ a.luga-jasmine-trigger {
 .luga-jasmine-button,
 a.luga-jasmine-trigger:hover {
 	text-decoration: none;
+}
+
+.summary {
+	box-sizing: border-box;
+}
+
+.summary > .suite {
+	border-left: 0 !important;
+}
+
+.summary > .suite:before,
+.summary > .suite:after {
+	border-left: 0 !important;
+	border-bottom: 0 !important;
+}
+
+.jasmine_html-reporter .summary ul.suite {
+	padding-bottom: 0;
+	padding-top: 14px;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+ul.suite {
+	position: relative;
+}
+
+ul.suite.luga-jasmine-opennode {
+	border-left: 1px dotted #333;
+}
+
+
+ul.suite::before,
+ul.suite.luga-jasmine-opennode:last-child::before {
+	border-bottom: 1px dotted #333;
+	height: 21px;
+	top: 0;
+}
+ul.suite::before,
+ul.suite.luga-jasmine-opennode:last-child::before,
+ul.suite::after {
+	border-left: 1px dotted #333;
+	content: "";
+	left: 0;
+	position: absolute;
+	width: 8px;
+}
+ul.suite.luga-jasmine-opennode::before,
+ul.suite.luga-jasmine-opennode::after {
+	border-left: 0 none;
+}
+ul.suite::before,
+ul.suite.luga-jasmine-opennode:last-child::before {
+	border-bottom: 1px dotted #333;
+	height: 21px;
+	top: 0;
+}
+ul.suite::before,
+ul.suite.luga-jasmine-opennode:last-child::before,
+ul.suite::after {
+	border-left: 1px dotted #333;
+	content: "";
+	left: 0;
+	position: absolute;
+	width: 8px;
+}
+ul.suite.luga-jasmine-opennode::before,
+ul.suite.luga-jasmine-opennode::after {
+	border-left: 0 none;
+}
+ul.suite.luga-jasmine-opennode:last-child,
+ul.suite:last-child::after {
+	border: 0 none;
+}
+ul.suite::after {
+	height: 7px;
+	top: 22px;
+}
+ul.suite::before,
+ul.suite.luga-jasmine-opennode:last-child::before,
+ul.suite::after {
+	border-left: 1px dotted #333;
+	content: "";
+	left: 0;
+	position: absolute;
+	width: 8px;
+}
+ul.suite.luga-jasmine-opennode:last-child,
+ul.suite:last-child::after {
+	border: 0 none;
 }

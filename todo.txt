@@ -32,7 +32,9 @@ CORE:
 
 JASMINE:
 
-- CSS for tree
+- Clean-up and refactor CSS
+- Use solid line (due to Chrome bug)
+- Rename to jasmine-tree
 
 -------------
 VALIDATOR:
