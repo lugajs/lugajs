@@ -2,22 +2,21 @@ if(typeof(jQuery) === "undefined"){
 	throw("Unable to find jQuery");
 }
 
-if(typeof(luga) === "undefined"){
-	luga = {};
+if(typeof(jasmineTree) === "undefined"){
+	var jasmineTree = {};
 }
 
 (function(){
 	"use strict";
-
-	luga.jasmine = {};
-	luga.jasmine.version = "0.1";
+	
+	jasmineTree.version = "0.1";
 
 	var CONST = {
 		CSS_CLASSES: {
-			TRIGGER: "luga-jasmine-trigger",
-			TOOLBAR: "luga-jasmine-toolbar",
-			BUTTON: "luga-jasmine-button",
-			NODE_OPENED: "luga-jasmine-opennode"
+			TRIGGER: "jasmine-tree-trigger",
+			TOOLBAR: "jasmine-tree-toolbar",
+			BUTTON: "jasmine-tree-button",
+			NODE_OPENED: "jasmine-tree-opennode"
 		},
 		SELECTORS: {
 			FIRST_CHILD: ":first-child",
@@ -37,14 +36,14 @@ if(typeof(luga) === "undefined"){
 		FILTER_REGEXP: (new RegExp("[?&]spec=([^&]*)"))
 	};
 
-	/** @type {array.<luga.jasmine.Suite>} */
+	/** @type {array.<jasmineTree.Suite>} */
 	var rootSuites = [];
 
 	/**
 	 * Returns the value of the "spec" parameter in the querystring. Null if it's not specified
 	 * @returns {null|string}
 	 */
-	luga.jasmine.getSpecFilter = function(){
+	jasmineTree.getSpecFilter = function(){
 		var match = CONST.FILTER_REGEXP.exec(window.location.search);
 		return match && decodeURIComponent(match[1].replace(/\+/g, " "));
 	};
@@ -52,7 +51,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Collapse all the suites
 	 */
-	luga.jasmine.collapseAll = function(){
+	jasmineTree.collapseAll = function(){
 		for(var i = 0; i < rootSuites.length; i++){
 			rootSuites[i].collapse();
 		}
@@ -61,7 +60,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Expand all the suites
 	 */
-	luga.jasmine.expandAll = function(){
+	jasmineTree.expandAll = function(){
 		for(var i = 0; i < rootSuites.length; i++){
 			rootSuites[i].expand();
 		}
@@ -69,9 +68,9 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Insert toolbar with expand/collapse all buttons
-	 * @param {array.<luga.jasmine.Suite>} rootSuites
+	 * @param {array.<jasmineTree.Suite>} rootSuites
 	 */
-	luga.jasmine.addToolbar = function(rootSuites){
+	jasmineTree.addToolbar = function(rootSuites){
 
 		var toolbar = jQuery("<div></div>").addClass(CONST.CSS_CLASSES.TOOLBAR);
 		var collapse = jQuery("<span></span>").addClass(CONST.CSS_CLASSES.BUTTON).text(CONST.TEXT.COLLAPSE);
@@ -83,12 +82,12 @@ if(typeof(luga) === "undefined"){
 
 		collapse.click(function(event){
 			event.preventDefault();
-			luga.jasmine.collapseAll();
+			jasmineTree.collapseAll();
 		});
 
 		expand.click(function(event){
 			event.preventDefault();
-			luga.jasmine.expandAll();
+			jasmineTree.expandAll();
 		});
 
 		toolbar.insertBefore(jQuery(CONST.SELECTORS.SUMMARY));
@@ -97,13 +96,13 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Check the querystring and expand/collapse suites based on filter criteria (if any)
 	 */
-	luga.jasmine.filterSpec = function(){
-		var filter = luga.jasmine.getSpecFilter();
+	jasmineTree.filterSpec = function(){
+		var filter = jasmineTree.getSpecFilter();
 		if(filter === null){
 			return;
 		}
 		// We have a filter. First collapse all
-		luga.jasmine.collapseAll();
+		jasmineTree.collapseAll();
 		// Then expand only the suites that match
 		for(var i = 0; i < rootSuites.length; i++){
 			if(rootSuites[i].containsPath(filter) === true){
@@ -117,17 +116,17 @@ if(typeof(luga) === "undefined"){
 	 * @param {jquery} options.rootNode
 	 * @constructor
 	 */
-	luga.jasmine.Suite = function(options){
+	jasmineTree.Suite = function(options){
 		var config = {
 			rootNode: null,
 			rootPath: ""
 		};
 		jQuery.extend(config, options);
 
-		/** @type  {luga.jasmine.Suite} */
+		/** @type  {jasmineTree.Suite} */
 		var self = this;
 
-		/** @type {array.<luga.jasmine.Suite>} */
+		/** @type {array.<jasmineTree.Suite>} */
 		var suites = [];
 		/** @type {array.<jquery>} */
 		var specs = [];
@@ -148,7 +147,7 @@ if(typeof(luga) === "undefined"){
 				specs.push(jQuery(item));
 			});
 			config.rootNode.find(CONST.SELECTORS.NODE_SUITES).each(function(index, item){
-				var childSuite = new luga.jasmine.Suite({
+				var childSuite = new jasmineTree.Suite({
 					rootNode: jQuery(item),
 					rootPath: fullPath + " "
 				});
@@ -239,16 +238,16 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * This must be invoked after Jasmine finished executing
 	 */
-	luga.jasmine.init = function(){
+	jasmineTree.init = function(){
 		jQuery(CONST.SELECTORS.ROOT_SUITE).each(function(index, item){
-			var suite = new luga.jasmine.Suite({
+			var suite = new jasmineTree.Suite({
 					rootNode: jQuery(item)
 				}
 			);
 			rootSuites.push(suite);
 		});
-		luga.jasmine.addToolbar();
-		luga.jasmine.filterSpec();
+		jasmineTree.addToolbar();
+		jasmineTree.filterSpec();
 	};
 
 }());

@@ -16,19 +16,19 @@ padding-left: 8px;
 }
 
 /* Expand/Collapse Toolbar and +/- triggers */
-.luga-jasmine-toolbar {
+.jasmine-tree-toolbar {
 	margin-left: 30px;
 }
 
-.luga-jasmine-button,
-a.luga-jasmine-trigger {
+.jasmine-tree-button,
+a.jasmine-tree-trigger {
 	cursor: pointer;
 	padding-left: 5px;
 	padding-right: 5px;
 }
 
-.luga-jasmine-button,
-a.luga-jasmine-trigger:hover {
+.jasmine-tree-button,
+a.jasmine-tree-trigger:hover {
 	text-decoration: none;
 }
 
@@ -57,19 +57,19 @@ ul.suite {
 	position: relative;
 }
 
-ul.suite.luga-jasmine-opennode {
+ul.suite.jasmine-tree-opennode {
 	border-left: 1px dotted #333;
 }
 
 
 ul.suite::before,
-ul.suite.luga-jasmine-opennode:last-child::before {
+ul.suite.jasmine-tree-opennode:last-child::before {
 	border-bottom: 1px dotted #333;
 	height: 21px;
 	top: 0;
 }
 ul.suite::before,
-ul.suite.luga-jasmine-opennode:last-child::before,
+ul.suite.jasmine-tree-opennode:last-child::before,
 ul.suite::after {
 	border-left: 1px dotted #333;
 	content: "";
@@ -77,18 +77,18 @@ ul.suite::after {
 	position: absolute;
 	width: 8px;
 }
-ul.suite.luga-jasmine-opennode::before,
-ul.suite.luga-jasmine-opennode::after {
+ul.suite.jasmine-tree-opennode::before,
+ul.suite.jasmine-tree-opennode::after {
 	border-left: 0 none;
 }
 ul.suite::before,
-ul.suite.luga-jasmine-opennode:last-child::before {
+ul.suite.jasmine-tree-opennode:last-child::before {
 	border-bottom: 1px dotted #333;
 	height: 21px;
 	top: 0;
 }
 ul.suite::before,
-ul.suite.luga-jasmine-opennode:last-child::before,
+ul.suite.jasmine-tree-opennode:last-child::before,
 ul.suite::after {
 	border-left: 1px dotted #333;
 	content: "";
@@ -96,11 +96,11 @@ ul.suite::after {
 	position: absolute;
 	width: 8px;
 }
-ul.suite.luga-jasmine-opennode::before,
-ul.suite.luga-jasmine-opennode::after {
+ul.suite.jasmine-tree-opennode::before,
+ul.suite.jasmine-tree-opennode::after {
 	border-left: 0 none;
 }
-ul.suite.luga-jasmine-opennode:last-child,
+ul.suite.jasmine-tree-opennode:last-child,
 ul.suite:last-child::after {
 	border: 0 none;
 }
@@ -109,7 +109,7 @@ ul.suite::after {
 	top: 22px;
 }
 ul.suite::before,
-ul.suite.luga-jasmine-opennode:last-child::before,
+ul.suite.jasmine-tree-opennode:last-child::before,
 ul.suite::after {
 	border-left: 1px dotted #333;
 	content: "";
@@ -117,7 +117,7 @@ ul.suite::after {
 	position: absolute;
 	width: 8px;
 }
-ul.suite.luga-jasmine-opennode:last-child,
+ul.suite.jasmine-tree-opennode:last-child,
 ul.suite:last-child::after {
 	border: 0 none;
 }

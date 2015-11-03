@@ -290,7 +290,7 @@ jasmineRequire.HtmlReporter = function(j$) {
           failureNode.appendChild(failures[i]);
         }
       }
-      luga.jasmine.init();
+      jasmineTree.init();
     };
 
     return this;
