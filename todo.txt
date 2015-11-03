@@ -32,7 +32,7 @@ CORE:
 
 JASMINE:
 
-- Finish clean-up and refactor CSS
+- Move to stand-alone GitHub project
 
 -------------
 VALIDATOR:

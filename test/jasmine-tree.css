@@ -31,7 +31,7 @@ a.jasmine-tree-trigger:hover {
 	text-decoration: none;
 }
 
-/* Report */
+/* Overwrite existing rules */
 
 div.summary.jasmine-tree-summary {
 	box-sizing: border-box;
@@ -62,6 +62,8 @@ div.summary.jasmine-tree-summary > ul.suite:after {
 	margin-top: 0;
 	margin-bottom: 0;
 }
+
+/* New rules */
 
 ul.suite.jasmine-tree-opennode {
 	border-left: 1px solid #333333;
