@@ -8,6 +8,9 @@
 	visibility: visible;
 }
 
+ul.specs li {
+padding-left: 8px;
+}
 .suite {
 	padding-left: 10px !important;
 }
