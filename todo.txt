@@ -1,5 +1,6 @@
 - Bootstrap Modal > Luga ModalFrame?
 - Investigate grunt-contrib-jasmine
+- Refactor CONST inside gulpfile
 - Read version numbers from source files, not package.json
 
 -------------
