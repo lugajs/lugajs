@@ -1,5 +1,6 @@
 - Bootstrap Modal > Luga ModalFrame?
-- Investigate grunt-contrib-jasmine
+
+- Try gulp-zip with "/src/**/*". Maybe use temp directory
 - Refactor CONST inside gulpfile
 - Read version numbers from source files, not package.json
 
