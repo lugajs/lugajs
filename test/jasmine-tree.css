@@ -64,6 +64,7 @@ div.summary.jasmine-tree-summary > ul.suite:after {
 .jasmine_html-reporter .summary ul.suite {
 	padding-bottom: 0;
 	padding-top: 14px;
+	margin-left: 8px;
 	margin-top: 0;
 	margin-bottom: 0;
 }
@@ -125,7 +126,7 @@ ul.suite:last-child::after {
 
 ul.suite::after {
 	height: 7px;
-	top: 22px;
+	top: 20.7px;
 }
 
 ul.suite::before,
