@@ -15,7 +15,7 @@ if(typeof(jasmineTree) === "undefined"){
 (function(){
 	"use strict";
 
-	jasmineTree.version = "0.1.0";
+	jasmineTree.version = "0.1.1";
 
 	var CONST = {
 		CSS_CLASSES: {
@@ -182,6 +182,10 @@ if(typeof(jasmineTree) === "undefined"){
 			});
 		};
 
+		var startsWith = function(str, subStr) {
+			return (str.substring(0, subStr.length) === subStr);
+		};
+
 		this.getPath = function(){
 			return fullPath;
 		};
@@ -193,7 +197,7 @@ if(typeof(jasmineTree) === "undefined"){
 		 */
 		this.containsPath = function(path){
 			// Matches the suite
-			if(self.getPath() === path){
+			if(startsWith(self.getPath(), path) === true){
 				return true;
 			}
 			// Search inside child specs
