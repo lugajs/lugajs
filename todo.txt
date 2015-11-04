@@ -34,6 +34,7 @@ CORE:
 
 JASMINE:
 
+- Matches spec names like the standard reporter does
 - Move to stand-alone GitHub project
 
 -------------
