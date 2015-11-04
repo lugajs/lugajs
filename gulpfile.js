@@ -9,8 +9,7 @@ var rename = require("gulp-rename");
 var runSequence = require("run-sequence");
 var sourcemaps = require("gulp-sourcemaps");
 var uglify = require("gulp-uglify");
-
-require("gulp-grunt")(gulp);
+var zip = require("gulp-zip");
 
 var pkg = require("./package.json");
 
@@ -19,9 +18,12 @@ var DEST_FOLDER = "dist";
 var LIB_PREFIX = "luga.";
 var LIB_SUFFIX = ".js";
 var MIN_SUFFIX = ".min.js";
+var FOLDERS_TO_ARCHIVE = ["dist/**/*", "docs/**/*", "lib/**/*", "src/**/*", "test/**/*"];
+var ARCHIVE_FILE = "luga-js.zip";
+var ARCHIVE_FOLDER = "archive";
 
-var CONCATENATED_NAME= "Luga JS";
-var CONCATENATED_FILE= "luga.js";
+var CONCATENATED_NAME = "Luga JS";
+var CONCATENATED_FILE = "luga.js";
 
 function assembleBanner(name, version){
 	var now = new Date();
@@ -86,7 +88,6 @@ gulp.task("concatLibs", function(){
 		.pipe(header(assembleBanner(CONCATENATED_NAME, "")))
 		.pipe(sourcemaps.init())
 		.pipe(sourcemaps.write("."))
-
 		.pipe(gulp.dest(DEST_FOLDER));
 });
 
@@ -97,11 +98,17 @@ gulp.task("libs", function(){
 	}
 });
 
+gulp.task("zip", function(){
+	return gulp.src(FOLDERS_TO_ARCHIVE, {base: "."})
+		.pipe(zip(ARCHIVE_FILE))
+		.pipe(gulp.dest(ARCHIVE_FOLDER));
+});
+
 gulp.task("default", function(callback){
 	runSequence(
 		"concatLibs",
 		"libs",
-		"grunt-compress",
+		"zip",
 		function(error){
 			if(error){
 				console.log(error.message);
