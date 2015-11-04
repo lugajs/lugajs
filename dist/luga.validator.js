@@ -364,6 +364,7 @@ if(typeof(luga) === "undefined"){
 	 * Abstract field validator class. To be extended for different kind of fields
 	 *
 	 * @constructs
+	 * @abstract
 	 * @param {luga.validator.BaseFieldValidator.options} options
 	 *
 	 */
@@ -663,6 +664,7 @@ if(typeof(luga) === "undefined"){
 	 * Abstract validator class for grouped fields (checkboxes, radio buttons). To be extended for different kind of fields
 	 *
 	 * @constructs
+	 * @abstract
 	 * @param {luga.validator.BaseFieldValidator.options} options
 	 *
 	 */

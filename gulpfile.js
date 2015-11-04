@@ -13,17 +13,18 @@ var zip = require("gulp-zip");
 
 var pkg = require("./package.json");
 
-var SRC_FOLDER = "src";
-var DEST_FOLDER = "dist";
-var LIB_PREFIX = "luga.";
-var LIB_SUFFIX = ".js";
-var MIN_SUFFIX = ".min.js";
-var FOLDERS_TO_ARCHIVE = ["dist/**/*", "docs/**/*", "lib/**/*", "src/**/*", "test/**/*"];
-var ARCHIVE_FILE = "luga-js.zip";
-var ARCHIVE_FOLDER = "archive";
-
-var CONCATENATED_NAME = "Luga JS";
-var CONCATENATED_FILE = "luga.js";
+var CONST = {
+	SRC_FOLDER: "src",
+	DIST_FOLDER: "dist",
+	LIB_PREFIX: "luga.",
+	LIB_SUFFIX: ".js",
+	MIN_SUFFIX: ".min.js",
+	CONCATENATED_NAME: "Luga JS",
+	CONCATENATED_FILE: "luga.js",
+	FOLDERS_TO_ARCHIVE: ["dist/**/*", "docs/**/*", "lib/**/*", "src/**/*", "test/**/*"],
+	ARCHIVE_FILE: "luga-js.zip",
+	ARCHIVE_FOLDER: "archive"
+};
 
 function assembleBanner(name, version){
 	var now = new Date();
@@ -38,7 +39,7 @@ function assembleBanner(name, version){
 }
 
 function getLibSrc(key){
-	return SRC_FOLDER + "/" + LIB_PREFIX + key + LIB_SUFFIX;
+	return CONST.SRC_FOLDER + "/" + CONST.LIB_PREFIX + key + CONST.LIB_SUFFIX;
 }
 
 function getAllLibsSrc(){
@@ -51,7 +52,7 @@ function getAllLibsSrc(){
 
 function copyLib(key){
 	return gulp.src(getLibSrc(key))
-		.pipe(gulp.dest(DEST_FOLDER));
+		.pipe(gulp.dest(CONST.DIST_FOLDER));
 }
 
 function releaseLib(key){
@@ -61,34 +62,34 @@ function releaseLib(key){
 	return gulp.src(getLibSrc(key))
 		// The "changed" task needs to know the destination directory
 		// upfront to be able to figure out which files changed
-		.pipe(changed(DEST_FOLDER))
+		.pipe(changed(CONST.DIST_FOLDER))
 		.pipe(uglify({
 			mangle: false
 		}))
 		.pipe(rename({
-			extname: MIN_SUFFIX
+			extname: CONST.MIN_SUFFIX
 		}))
 		.pipe(header(assembleBanner(libName, libVersion)))
 		.pipe(sourcemaps.init())
 		.pipe(sourcemaps.write("."))
-		.pipe(gulp.dest(DEST_FOLDER));
+		.pipe(gulp.dest(CONST.DIST_FOLDER));
 }
 
 gulp.task("concatLibs", function(){
 	return gulp.src(getAllLibsSrc())
-		.pipe(concat(CONCATENATED_FILE))
-		.pipe(changed(DEST_FOLDER))
-		.pipe(gulp.dest(DEST_FOLDER))
+		.pipe(concat(CONST.CONCATENATED_FILE))
+		.pipe(changed(CONST.DIST_FOLDER))
+		.pipe(gulp.dest(CONST.DIST_FOLDER))
 		.pipe(rename({
-			extname: MIN_SUFFIX
+			extname: CONST.MIN_SUFFIX
 		}))
 		.pipe(uglify({
 			mangle: false
 		}))
-		.pipe(header(assembleBanner(CONCATENATED_NAME, "")))
+		.pipe(header(assembleBanner(CONST.CONCATENATED_NAME, "")))
 		.pipe(sourcemaps.init())
 		.pipe(sourcemaps.write("."))
-		.pipe(gulp.dest(DEST_FOLDER));
+		.pipe(gulp.dest(CONST.DIST_FOLDER));
 });
 
 gulp.task("libs", function(){
@@ -99,9 +100,9 @@ gulp.task("libs", function(){
 });
 
 gulp.task("zip", function(){
-	return gulp.src(FOLDERS_TO_ARCHIVE, {base: "."})
-		.pipe(zip(ARCHIVE_FILE))
-		.pipe(gulp.dest(ARCHIVE_FOLDER));
+	return gulp.src(CONST.FOLDERS_TO_ARCHIVE, {base: "."})
+		.pipe(zip(CONST.ARCHIVE_FILE))
+		.pipe(gulp.dest(CONST.ARCHIVE_FOLDER));
 });
 
 gulp.task("default", function(callback){

@@ -1,6 +1,4 @@
 - Bootstrap Modal > Luga ModalFrame?
-
-- Refactor CONST inside gulpfile
 - Read version numbers from source files, not package.json
 
 -------------
