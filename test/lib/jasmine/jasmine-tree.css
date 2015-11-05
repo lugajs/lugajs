@@ -1,144 +1,119 @@
 /*! 
-jasmine-tree 0.1.1 2015-11-05T20:54:22.666Z
+jasmine-tree 0.1.1 2015-11-05T22:01:57.232Z
 Copyright 2015 Massimo Foti (massimo@massimocorner.com) and Emily Meroni (emily.meroni@gmail.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
+/* Overwrite existing Jasmine rules */
 body {
-	visibility: hidden;
-}
+  visibility: hidden; }
 
 .html-reporter,
 .jasmine_html-reporter {
-	border-bottom: 10px solid #A6B779;
-	padding-bottom: 20px;
-	visibility: visible;
-}
-
-/* Expand/Collapse Toolbar and +/- triggers */
-.jasmine-tree-toolbar {
-	border: 1px solid;
-	display: inline-block;
-	margin-left: 30px;
-	padding: 3px;
-}
-
-.jasmine-tree-button,
-a.jasmine-tree-trigger {
-	cursor: pointer;
-	padding-left: 5px;
-	padding-right: 5px;
-}
-
-.jasmine-tree-button,
-a.jasmine-tree-trigger:hover {
-	text-decoration: none;
-}
-
-/* Overwrite existing rules */
+  border-bottom: 10px solid #A6B779;
+  padding-bottom: 20px;
+  visibility: visible; }
 
 div.summary.jasmine-tree-summary {
-	box-sizing: border-box;
-}
+  box-sizing: border-box; }
 
 div.summary.jasmine-tree-summary ul.suite {
-	padding-left: 10px;
-	position: relative;
-}
+  padding-left: 10px;
+  position: relative; }
 
 div.summary.jasmine-tree-summary ul.specs li {
-	padding-left: 10px;
-}
+  padding-left: 10px; }
 
 div.summary.jasmine-tree-summary > ul.suite {
-	border-left: 0;
-}
+  border-left: 0; }
 
 div.summary.jasmine-tree-summary > ul.suite:before,
 div.summary.jasmine-tree-summary > ul.suite:after {
-	border-left: 0;
-	border-bottom: 0;
-}
+  border-left: 0;
+  border-bottom: 0; }
 
 .html-reporter .summary ul.suite,
 .jasmine_html-reporter .summary ul.suite {
-	padding-bottom: 0;
-	padding-top: 14px;
-	margin-left: 8px;
-	margin-top: 0;
-	margin-bottom: 0;
-}
+  padding-bottom: 0;
+  padding-top: 14px;
+  margin-left: 8px;
+  margin-top: 0;
+  margin-bottom: 0; }
 
-/* New rules */
+/* Expand/Collapse Toolbar and +/- triggers */
+.jasmine-tree-toolbar {
+  border: 1px solid;
+  display: inline-block;
+  margin-left: 30px;
+  padding: 3px; }
+
+.jasmine-tree-button,
+a.jasmine-tree-trigger {
+  cursor: pointer;
+  padding-left: 5px;
+  padding-right: 5px; }
+
+.jasmine-tree-button,
+a.jasmine-tree-trigger:hover {
+  text-decoration: none; }
 
 ul.suite.jasmine-tree-opennode {
-	border-left: 1px solid #666666;
-}
+  border-left: 1px solid #666666; }
 
 ul.suite::before,
 ul.suite.jasmine-tree-opennode:last-child::before {
-	border-bottom: 1px solid #666666;
-	height: 21px;
-	top: 0;
-}
+  border-bottom: 1px solid #666666;
+  height: 21px;
+  top: 0; }
 
 ul.suite::before,
 ul.suite.jasmine-tree-opennode:last-child::before,
 ul.suite::after {
-	border-left: 1px solid #666666;
-	content: "";
-	left: 0;
-	position: absolute;
-	width: 8px;
-}
+  border-left: 1px solid #666666;
+  content: "";
+  left: 0;
+  position: absolute;
+  width: 8px; }
 
 ul.suite.jasmine-tree-opennode::before,
 ul.suite.jasmine-tree-opennode::after {
-	border-left: 0 none;
-}
+  border-left: 0 none; }
 
 ul.suite::before,
 ul.suite.jasmine-tree-opennode:last-child::before {
-	border-bottom: 1px solid #666666;
-	height: 21px;
-	top: 0;
-}
+  border-bottom: 1px solid #666666;
+  height: 21px;
+  top: 0; }
 
 ul.suite::before,
 ul.suite.jasmine-tree-opennode:last-child::before,
 ul.suite::after {
-	border-left: 1px solid #666666;
-	content: "";
-	left: 0;
-	position: absolute;
-	width: 8px;
-}
+  border-left: 1px solid #666666;
+  content: "";
+  left: 0;
+  position: absolute;
+  width: 8px; }
 
 ul.suite.jasmine-tree-opennode::before,
 ul.suite.jasmine-tree-opennode::after {
-	border-left: 0 none;
-}
+  border-left: 0 none; }
 
 ul.suite.jasmine-tree-opennode:last-child,
 ul.suite:last-child::after {
-	border: 0 none;
-}
+  border: 0 none; }
 
 ul.suite::after {
-	height: 7px;
-	top: 20.7px;
-}
+  height: 7px;
+  top: 20.7px; }
 
 ul.suite::before,
 ul.suite.jasmine-tree-opennode:last-child::before,
 ul.suite::after {
-	border-left: 1px solid #666666;
-	content: "";
-	left: 0;
-	position: absolute;
-	width: 8px;
-}
+  border-left: 1px solid #666666;
+  content: "";
+  left: 0;
+  position: absolute;
+  width: 8px; }
 
 ul.suite.jasmine-tree-opennode:last-child,
 ul.suite:last-child::after {
-	border: 0 none;
-}
+  border: 0 none; }
