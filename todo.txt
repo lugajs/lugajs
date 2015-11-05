@@ -1,6 +1,3 @@
-- Bootstrap Modal > Luga ModalFrame?
-- Read version numbers from source files, not package.json
-
 -------------
 
 DOCS:
@@ -85,3 +82,11 @@ data.XmlDataset:
 - setXpath()
 - getXpath()
 - loadRecords()
+
+-------------
+
+FUTURE:
+
+- Bootstrap Modal > Luga ModalFrame?
+
+-------------

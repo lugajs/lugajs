@@ -4,6 +4,7 @@
 var gulp = require("gulp");
 var changed = require("gulp-changed");
 var concat = require("gulp-concat");
+var fs = require("fs");
 var header = require("gulp-header");
 var rename = require("gulp-rename");
 var runSequence = require("run-sequence");
@@ -23,7 +24,8 @@ var CONST = {
 	CONCATENATED_FILE: "luga.js",
 	FOLDERS_TO_ARCHIVE: ["dist/**/*", "docs/**/*", "lib/**/*", "src/**/*", "test/**/*"],
 	ARCHIVE_FILE: "luga-js.zip",
-	ARCHIVE_FOLDER: "archive"
+	ARCHIVE_FOLDER: "archive",
+	VERSION_PATTERN: new RegExp(".version = \"(\\d.\\d(.\\d)?)\";")
 };
 
 function assembleBanner(name, version){
@@ -42,6 +44,13 @@ function getLibSrc(key){
 	return CONST.SRC_FOLDER + "/" + CONST.LIB_PREFIX + key + CONST.LIB_SUFFIX;
 }
 
+function getLibVersion(key){
+	var buffer = fs.readFileSync(getLibSrc(key));
+	var fileStr = buffer.toString("utf8", 0, buffer.length);
+	var version = CONST.VERSION_PATTERN.exec(fileStr)[1];
+	return version;
+}
+
 function getAllLibsSrc(){
 	var paths = [];
 	for(var x in pkg.libs){
@@ -57,7 +66,11 @@ function copyLib(key){
 
 function releaseLib(key){
 	var libName = pkg.libs[key].name;
-	var libVersion = pkg.libs[key].version;
+
+	var libVersion = pkg.libs[key].version
+	if(libVersion === undefined){
+		libVersion = getLibVersion(key);
+	}
 
 	return gulp.src(getLibSrc(key))
 		// The "changed" task needs to know the destination directory

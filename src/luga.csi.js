@@ -7,7 +7,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.csi");
 
-	luga.csi.version = "1.1";
+	luga.csi.version = "1.1.0";
 
 	luga.csi.CONST = {
 		NODE_SELECTOR: "div[data-lugacsi]",
