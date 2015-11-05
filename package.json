@@ -1,43 +1,43 @@
 {
-  "name": "luga-js",
-  "license": "Apache License, Version 2.0",
-  "homepage": "http://www.massimocorner.com/lugajs/docs/",
-  "author": {
-    "name": "Massimo Foti",
-    "email": "massimo@massimocorner.com",
-    "url": "http://www.massimocorner.com/"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/MassimoFoti/lugajs"
-  },
-  "libs": {
-    "core": {
-      "name": "Luga Core"
-    },
-    "ajaxform": {
-      "name": "Luga Ajaxform"
-    },
-    "luga": {
-      "version": "0.4.0",
-      "name": "Luga JS"
-    },
-    "csi": {
-      "name": "Luga CSI"
-    },
-    "validator": {
-      "name": "Luga Validator"
-    }
-  },
-  "devDependencies": {
-    "gulp": "~3.9.0",
-    "gulp-changed": "~1.3.0",
-    "gulp-uglify": "~1.4.2",
-    "gulp-concat": "~2.6.0",
-    "gulp-sourcemaps": "~1.6.0",
-    "run-sequence": "~1.1.4",
-    "gulp-rename": "~1.2.2",
-    "gulp-header": "~1.7.1",
-    "gulp-zip": "~3.0.2"
-  }
+	"name": "luga-js",
+	"license": "Apache License, Version 2.0",
+	"homepage": "http://www.massimocorner.com/lugajs/docs/",
+	"author": {
+		"name": "Massimo Foti",
+		"email": "massimo@massimocorner.com",
+		"url": "http://www.massimocorner.com/"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/MassimoFoti/lugajs"
+	},
+	"libs": {
+		"core": {
+			"name": "Luga Core"
+		},
+		"ajaxform": {
+			"name": "Luga Ajaxform"
+		},
+		"luga": {
+			"version": "0.4.0",
+			"name": "Luga JS"
+		},
+		"csi": {
+			"name": "Luga CSI"
+		},
+		"validator": {
+			"name": "Luga Validator"
+		}
+	},
+	"devDependencies": {
+		"gulp": "~3.9.0",
+		"gulp-changed": "~1.3.0",
+		"gulp-uglify": "~1.4.2",
+		"gulp-concat": "~2.6.0",
+		"gulp-sourcemaps": "~1.6.0",
+		"run-sequence": "~1.1.4",
+		"gulp-rename": "~1.2.2",
+		"gulp-header": "~1.7.1",
+		"gulp-zip": "~3.0.2"
+	}
 }
