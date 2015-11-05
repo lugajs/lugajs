@@ -26,12 +26,6 @@ CORE:
 - Document luga.extend()?
 
 -------------
-
-JASMINE:
-
-- Move to stand-alone GitHub project
-
--------------
 VALIDATOR:
 -------------
 
