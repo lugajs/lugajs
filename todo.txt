@@ -22,7 +22,7 @@ CSI:
 
 CORE:
 
-- Implement queryStringToHash()
+- Implement luga.string.queryToHash()
 
 - Document luga.Notifier?
 - Document luga.extend()?
