@@ -5,6 +5,7 @@ DOCS:
 - Switch from em to rem
 - Use flexbox CSS
 - Review/improve luga.css
+- Layout forms with labels on top of fields
 
 -------------
 
