@@ -128,9 +128,7 @@ describe("luga", function(){
 				luga.extend(luga.Notifier, this);
 			};
 			var ObserverClass = function(){
-				this.completeFlag = false;
 				this.onCompleteHandler = function(data){
-					this.completeFlag = data.flag;
 				};
 				this.onSomethingHandler = function(){
 				};
@@ -152,9 +150,14 @@ describe("luga", function(){
 
 		describe(".observers", function(){
 
-			it("Is an array that contains all the observers", function(){
+			it("Is an array", function(){
 				expect(jQuery.isArray(notifierObj.observers)).toBeTruthy();
 				expect(notifierObj.observers.length).toEqual(0);
+			});
+
+			it("That contains all the observers", function(){
+				notifierObj.addObserver(observerObj);
+				expect(notifierObj.observers[0]).toEqual(observerObj);
 			});
 
 		});
@@ -179,10 +182,9 @@ describe("luga", function(){
 		describe(".notifyObserver()", function(){
 
 			it("Is used to send a notification to all registered observers", function(){
-				notifierObj.addObserver(observerObj);
 				spyOn(observerObj, "onCompleteHandler").and.callFake(function(){
 				});
-
+				notifierObj.addObserver(observerObj);
 				notifierObj.notifyObservers("complete", {});
 				expect(observerObj.onCompleteHandler).toHaveBeenCalled();
 			});
@@ -212,11 +214,11 @@ describe("luga", function(){
 			});
 
 			it("The data parameter provides a means for passing data from the point of notification to all interested observers", function(){
+				spyOn(observerObj, "onCompleteHandler").and.callFake(function(){
+				});
 				notifierObj.addObserver(observerObj);
-				expect(observerObj.completeFlag).toEqual(false);
-
 				notifierObj.notifyObservers("complete", {flag: true});
-				expect(observerObj.completeFlag).toEqual(true);
+				expect(observerObj.onCompleteHandler).toHaveBeenCalledWith({flag: true});
 			});
 
 		});

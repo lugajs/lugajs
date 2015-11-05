@@ -22,8 +22,6 @@ CSI:
 
 CORE:
 
-- Improve tests for luga..Notifier. Use Spies
-
 - Implement queryStringToHash()
 
 - Document luga.Notifier?
