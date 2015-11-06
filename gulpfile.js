@@ -20,7 +20,6 @@ var CONST = {
 	LIB_PREFIX: "luga.",
 	LIB_SUFFIX: ".js",
 	MIN_SUFFIX: ".min.js",
-	CONCATENATED_NAME: "Luga JS",
 	CONCATENATED_FILE: "luga.js",
 	FOLDERS_TO_ARCHIVE: ["LICENSE","dist/**/*", "docs/**/*", "lib/**/*", "src/**/*", "test/**/*"],
 	ARCHIVE_FILE: "luga-js.zip",
@@ -99,7 +98,7 @@ gulp.task("concatLibs", function(){
 		.pipe(uglify({
 			mangle: false
 		}))
-		.pipe(header(assembleBanner(CONST.CONCATENATED_NAME, "")))
+		.pipe(header(assembleBanner(pkg.displayName, "")))
 		.pipe(sourcemaps.init())
 		.pipe(sourcemaps.write("."))
 		.pipe(gulp.dest(CONST.DIST_FOLDER));
