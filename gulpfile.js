@@ -67,7 +67,7 @@ function copyLib(key){
 function releaseLib(key){
 	var libName = pkg.libs[key].name;
 
-	var libVersion = pkg.libs[key].version
+	var libVersion = pkg.libs[key].version;
 	if(libVersion === undefined){
 		libVersion = getLibVersion(key);
 	}
