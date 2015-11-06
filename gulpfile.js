@@ -22,7 +22,7 @@ var CONST = {
 	MIN_SUFFIX: ".min.js",
 	CONCATENATED_NAME: "Luga JS",
 	CONCATENATED_FILE: "luga.js",
-	FOLDERS_TO_ARCHIVE: ["dist/**/*", "docs/**/*", "lib/**/*", "src/**/*", "test/**/*"],
+	FOLDERS_TO_ARCHIVE: ["LICENSE","dist/**/*", "docs/**/*", "lib/**/*", "src/**/*", "test/**/*"],
 	ARCHIVE_FILE: "luga-js.zip",
 	ARCHIVE_FOLDER: "archive",
 	VERSION_PATTERN: new RegExp(".version = \"(\\d.\\d(.\\d)?)\";")
