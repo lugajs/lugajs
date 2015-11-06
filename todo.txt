@@ -38,12 +38,14 @@ DATA:
 - Implement pagination
 - Implement navbar widget
 
+
 data.Region:
 
 - Write unit test!
 
 - Validate Handlebars is available
 - Validate required attributes
+
 
 data.Dataset:
 
@@ -62,14 +64,22 @@ data.Dataset:
 
 - Local storage persistence? It would require serialization of full dataSet
 
+
 data.HttpDatset:
 
 - Use options.dataType in jQuery.ajax() to handle dataType mismatches?
+
 
 data.JsonDataSet:
 
 - Modify loadRecords() to handle more complex JSON structures like Spry?
 - Implement subPaths?
+
+
+data.Autosuggest:
+
+- Implement widget
+
 
 data.XmlDataset:
 
