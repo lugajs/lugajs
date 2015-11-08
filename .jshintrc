@@ -30,6 +30,7 @@
     "it",
     "expect",
     "spyOn",
-    "loadFixtures"
+    "loadFixtures",
+    "getJSONFixture"
   ]
 }
