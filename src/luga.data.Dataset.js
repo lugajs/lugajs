@@ -2,6 +2,12 @@
 	"use strict";
 
 	/**
+	 * @typedef {object} luga.data.DataSet.row
+	 *
+	 * @property {string} rowID  Artificial PK
+	 */
+
+	/**
 	 * @typedef {object} luga.data.DataSet.options
 	 *
 	 * @property {string}              id        Unique identifier. Required
@@ -29,7 +35,9 @@
 		var self = this;
 
 		this.id = options.id;
+		/** @type {array.<luga.data.DataSet.row>} */
 		this.records = [];
+		/** @type {hash.<luga.data.DataSet.row>} */
 		this.recordsHash = {};
 		this.filteredRecords = null;
 		this.filter = null;

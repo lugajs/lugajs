@@ -31,8 +31,6 @@ VALIDATOR:
 
 DATA:
 
-- Add JSDoc typedef of row object
-
 - Store event names inside CONST
 
 - Implement pagination
