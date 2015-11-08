@@ -33,6 +33,7 @@ DATA:
 
 - Add detailed JSDoc
 - Store event names inside CONST
+- Review Jasmine tests
 
 - Implement pagination
 - Implement navbar widget
