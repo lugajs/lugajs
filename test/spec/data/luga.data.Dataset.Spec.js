@@ -44,38 +44,31 @@ describe("luga.data.Dataset", function(){
 		expect(jQuery.isArray(ds.observers)).toBeTruthy();
 	});
 
-	describe("Its constructor options requires:", function(){
-		it("An id, to act as unique identifier that will be stored inside a global registry (options.id)", function(){
-			var ds = new luga.data.DataSet({id: "myDs"});
-			expect(luga.data.datasetRegistry.myDs).toEqual(ds);
+	describe("Accepts an Options object as single argument", function(){
+
+		describe("options.id", function(){
+			it("Acts as unique identifier that will be stored inside a global registry", function(){
+				var ds = new luga.data.DataSet({id: "myDs"});
+				expect(luga.data.datasetRegistry.myDs).toEqual(ds);
+			});
+			it("Throws an exception if not specified", function(){
+				expect(function(){
+					new luga.data.DataSet({});
+				}).toThrow();
+			});
 		});
 
-	});
+		describe("options.filter", function(){
+			it("Is null by default", function(){
+				expect(testDs.filter).toBeNull();
+			});
+			it("Throws an exception if it is not a function", function(){
+				expect(function(){
+					var ds = new luga.data.DataSet({id: "myDs", filter: "test"});
+				}).toThrow();
+			});
+		});
 
-	describe("Its constructor options may contains:", function(){
-		it("An initial set of records (options.records)", function(){
-			var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
-			expect(ds.select()).toEqual(testRecords);
-			expect(ds.getRecordsCount()).toEqual(7);
-		});
-		it("A filter function to be called once for each row in the data set (options.filter)", function(){
-			var ds = new luga.data.DataSet({id: "myDs", records: testRecords, filter: removeUk});
-			expect(ds.filter).toEqual(removeUk);
-			expect(ds.getRecordsCount()).toEqual(5);
-		});
-	});
-
-	describe("Its constructor throws an exception if:", function(){
-		it("options.id is missing", function(){
-			expect(function(){
-				var ds = new luga.data.DataSet({});
-			}).toThrow();
-		});
-		it("options.filter is not a function", function(){
-			expect(function(){
-				var ds = new luga.data.DataSet({id: "myDs", filter: "test"});
-			}).toThrow();
-		});
 	});
 
 	describe(".select():", function(){
@@ -93,7 +86,7 @@ describe("luga.data.Dataset", function(){
 				var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
 				expect(ds.select(removeUk).length).toEqual(5);
 			});
-			it("If the filter is not a function, an exception is throws", function(){
+			it("Throws an exception if it is not a function", function(){
 				expect(function(){
 					testDs.select("test");
 				}).toThrow();
@@ -119,7 +112,7 @@ describe("luga.data.Dataset", function(){
 				ds.delete(removeUk);
 				expect(ds.select().length).toEqual(5);
 			});
-			it("If the filter is not a function, an exception is throws", function(){
+			it("Throws an exception if it is not a function", function(){
 				expect(function(){
 					testDs.delete("test");
 				}).toThrow();
