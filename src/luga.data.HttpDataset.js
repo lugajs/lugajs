@@ -93,7 +93,7 @@
 		 * @fires xhrError
 		 */
 		this.xhrError = function(jqXHR, textStatus, errorThrown){
-			self.notifyObservers("xhrError", {
+			self.notifyObservers("error", {
 				dataSet: self,
 				message: luga.string.format(luga.data.CONST.ERROR_MESSAGES.XHR_FAILURE, [self.url, jqXHR.status, errorThrown])
 			});
