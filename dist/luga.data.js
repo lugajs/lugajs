@@ -40,6 +40,10 @@ if(typeof(luga) === "undefined"){
 		return null;
 	};
 
+}());
+(function(){
+	"use strict";
+
 	/**
 	 * Base dataSet class
 	 *
@@ -238,6 +242,10 @@ if(typeof(luga) === "undefined"){
 
 	};
 
+}());
+(function(){
+	"use strict";
+
 	/**
 	 * Base HTTP dataSet class
 	 *
@@ -336,6 +344,10 @@ if(typeof(luga) === "undefined"){
 
 	};
 
+}());
+(function(){
+	"use strict";
+
 	/**
 	 * JSON dataSet class
 	 *
@@ -380,6 +392,14 @@ if(typeof(luga) === "undefined"){
 		};
 
 	};
+
+}());
+if(typeof(Handlebars) === "undefined"){
+	throw("Unable to find Handlebars");
+}
+
+(function(){
+	"use strict";
 
 	/**
 	 * Data Region class

@@ -31,20 +31,11 @@ VALIDATOR:
 
 DATA:
 
-- Split into multiple source files
 - Add detailed JSDoc
 - Store event names inside CONST
 
 - Implement pagination
 - Implement navbar widget
-
-
-data.Region:
-
-- Write unit test!
-
-- Validate Handlebars is available
-- Validate required attributes
 
 
 data.Dataset:
@@ -74,6 +65,17 @@ data.JsonDataSet:
 
 - Modify loadRecords() to handle more complex JSON structures like Spry?
 - Implement subPaths?
+
+
+data.Region:
+
+- Write unit test!
+
+- Validate required attributes
+
+-------------
+
+DATA FUTURE:
 
 
 data.Autosuggest:

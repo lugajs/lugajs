@@ -32,7 +32,7 @@ describe("luga.data.JsonDataset", function(){
 		});
 	});
 
-	describe(".setPathl()", function(){
+	describe(".setPath()", function(){
 		it("Set the path to be used to extract data out of the JSON data structure", function(){
 			var ds = new luga.data.JsonDataSet({id: "myDs"});
 			ds.setPath("test");

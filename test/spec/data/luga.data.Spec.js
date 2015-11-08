@@ -1,5 +1,3 @@
-/*global luga, it, describe, expect */
-
 "use strict";
 
 describe("luga.data", function(){

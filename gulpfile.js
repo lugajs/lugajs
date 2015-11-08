@@ -18,10 +18,13 @@ var CONST = {
 	SRC_FOLDER: "src",
 	DIST_FOLDER: "dist",
 	LIB_PREFIX: "luga.",
-	LIB_SUFFIX: ".js",
+	DATA_PREFIX: "luga.data.",
+	DATA_CORE_KEY: "core",
+	JS_EXTENSION: ".js",
 	MIN_SUFFIX: ".min.js",
 	CONCATENATED_FILE: "luga.js",
-	FOLDERS_TO_ARCHIVE: ["LICENSE","dist/**/*", "docs/**/*", "lib/**/*", "src/**/*", "test/**/*"],
+	CONCATENATED_DATA_FILE: "luga.data.js",
+	FOLDERS_TO_ARCHIVE: ["LICENSE", "dist/**/*", "docs/**/*", "lib/**/*", "src/**/*", "test/**/*"],
 	ARCHIVE_FILE: "luga-js.zip",
 	ARCHIVE_FOLDER: "archive",
 	VERSION_PATTERN: new RegExp(".version = \"(\\d.\\d(.\\d)?)\";")
@@ -40,7 +43,18 @@ function assembleBanner(name, version){
 }
 
 function getLibSrc(key){
-	return CONST.SRC_FOLDER + "/" + CONST.LIB_PREFIX + key + CONST.LIB_SUFFIX;
+	return CONST.SRC_FOLDER + "/" + CONST.LIB_PREFIX + key + CONST.JS_EXTENSION;
+}
+
+function getDataFragmentSrc(key){
+	return CONST.SRC_FOLDER + "/" + CONST.DATA_PREFIX + key + CONST.JS_EXTENSION;
+}
+
+function getDataVersion(){
+	var buffer = fs.readFileSync(getDataFragmentSrc(CONST.DATA_CORE_KEY));
+	var fileStr = buffer.toString("utf8", 0, buffer.length);
+	var version = CONST.VERSION_PATTERN.exec(fileStr)[1];
+	return version;
 }
 
 function getLibVersion(key){
@@ -54,6 +68,15 @@ function getAllLibsSrc(){
 	var paths = [];
 	for(var x in pkg.libs){
 		paths.push(getLibSrc(x));
+	}
+	return paths;
+}
+
+function getAllDataFragmentsSrc(){
+	var paths = [];
+	for(var i = 0; i < pkg.dataLibFragments.length; i++){
+		var path = getDataFragmentSrc(pkg.dataLibFragments[i]);
+		paths.push(path);
 	}
 	return paths;
 }
@@ -99,6 +122,24 @@ gulp.task("concatLibs", function(){
 			mangle: false
 		}))
 		.pipe(header(assembleBanner(pkg.displayName, "")))
+		.pipe(sourcemaps.init())
+		.pipe(sourcemaps.write("."))
+		.pipe(gulp.dest(CONST.DIST_FOLDER));
+});
+
+gulp.task("data", function(){
+	var dataVersion = getDataVersion();
+	return gulp.src(getAllDataFragmentsSrc())
+		.pipe(concat(CONST.CONCATENATED_DATA_FILE))
+		.pipe(changed(CONST.DIST_FOLDER))
+		.pipe(gulp.dest(CONST.DIST_FOLDER))
+		.pipe(rename({
+			extname: CONST.MIN_SUFFIX
+		}))
+		.pipe(uglify({
+			mangle: false
+		}))
+		.pipe(header(assembleBanner(pkg.dataLibDisplayName, dataVersion)))
 		.pipe(sourcemaps.init())
 		.pipe(sourcemaps.write("."))
 		.pipe(gulp.dest(CONST.DIST_FOLDER));
