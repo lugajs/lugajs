@@ -31,8 +31,10 @@ VALIDATOR:
 
 DATA:
 
-- Add detailed JSDoc
+- Add JSDoc typedef of row object
+
 - Store event names inside CONST
+
 - Review Jasmine tests
 
 - Implement pagination
@@ -71,13 +73,14 @@ data.JsonDataSet:
 data.Region:
 
 - Write unit test!
+- Investigate external template files
 
+- Add ability to define dataset programmatically, not only with custom attribute
 - Validate required attributes
 
 -------------
 
 DATA FUTURE:
-
 
 data.Autosuggest:
 

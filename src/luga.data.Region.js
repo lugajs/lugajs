@@ -6,15 +6,22 @@ if(typeof(Handlebars) === "undefined"){
 	"use strict";
 
 	/**
-	 * Data Region class
+	 * @typedef {object} luga.data.Region.options
 	 *
-	 * @param options.node:             DOM node to hold the region. Required
+	 * @property {jquery} node     Either a jQuery object wrapping the node or the naked DOM object that will contain the region. Required
+	 *
+	 */
+
+	/**
+	 * Data Region class
+	 * @param {luga.data.Region.options} options
 	 */
 	luga.data.Region = function(options){
 		var self = this;
 
 		this.node = jQuery(options.node);
 		this.dsId = this.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.DATA_SET);
+		/** @type {luga.data.DataSet} */
 		this.dataSet = luga.data.getDataSet(this.dsId);
 		this.dataSet.addObserver(this);
 

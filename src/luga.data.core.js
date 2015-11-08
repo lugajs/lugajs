@@ -8,6 +8,7 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.data");
 
 	luga.data.version = "0.1";
+	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.datasetRegistry = {};
 
 	luga.data.CONST = {
@@ -31,7 +32,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Returns a dataSet from the registry
 	 * Returns null if no dataSet matches the given id
-	 * @param id:           Unique identifier. Required
+	 * @param {string} id
+	 * @returns {luga.data.DataSet}
 	 */
 	luga.data.getDataSet = function(id){
 		if(luga.data.datasetRegistry[id] !== undefined){

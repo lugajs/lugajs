@@ -2,13 +2,21 @@
 	"use strict";
 
 	/**
-	 * JSON dataSet class
+	 * @typedef {object} luga.data.JsonDataSet.options
 	 *
-	 * @param options:                  Same as luga.data.HttpDataSet plus:
-	 * @param options.path:             Specifies the path to the data within the JSON structure. Default to null
+	 * @extends luga.data.HttpDataSet.options
+	 * @property {string|null}   path      Specifies the path to the data within the JSON structure. Default to null
+	 */
+
+	/**
+	 * JSON dataSet class
+	 * @param {luga.data.JsonDataSet.options} options
+	 * @constructor
+	 * @extends luga.data.HttpDataSet
 	 */
 	luga.data.JsonDataSet = function(options){
 		luga.extend(luga.data.HttpDataSet, this, [options]);
+		/** @type {luga.data.JsonDataSet} */
 		var self = this;
 
 		this.path = null;
@@ -18,6 +26,7 @@
 
 		/**
 		 * Returns the path to be used to extract data out of the JSON data structure
+		 * @returns {string|null}
 		 */
 		this.getPath = function(){
 			return this.path;
@@ -25,6 +34,7 @@
 
 		/**
 		 * Set the path to be used to extract data out of the JSON data structure
+		 * @param {string} newPath
 		 */
 		this.setPath = function(newPath){
 			this.path = newPath;
@@ -32,6 +42,9 @@
 
 		/**
 		 * Receives HTTP response, extracts and loads records out of it
+		 * @param {*}        response     Data returned from the server
+		 * @param {string}   textStatus   HTTP status
+		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
 		 */
 		this.loadRecords = function(response, textStatus, jqXHR){
 			if(self.path === null){
