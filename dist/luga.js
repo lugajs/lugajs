@@ -598,16 +598,16 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.ajaxform.Sender.options
 	 *
-	 * @property formNode    {jquery}  Either a jQuery object wrapping the form or the naked DOM object. Required
-	 * @property action      {string}  URL to where the form will be send. Default to the current URL
-	 * @property method      {string}  HTTP method to be used. Default to GET
-	 * @property timeout     {integer} Timeout to be used during the HTTP call (milliseconds). Default to 30000
-	 * @property success     {string}  Name of the function to be invoked if the form is successfully submitted. Default to luga.ajaxform.handlers.replaceForm
-	 * @property error       {string}  Name of the function to be invoked if the HTTP call failed. Default to luga.ajaxform.handlers.errorAlert
-	 * @property successmsg  {string}  Message that will be displayed to the user if the form is successfully submitted. Default to "Thanks for submitting the form"
-	 * @property errormsg    {string}  Message that will be displayed to the user if the HTTP call failed. Default to "Failed to submit the form"
-	 * @property before      {string}  Name of the function to be invoked before the form is send. Default to null
-	 * @property after       {string}  Name of the function to be invoked after the form is send. Default to null
+	 * @property {jquery} formNode     Either a jQuery object wrapping the form or the naked DOM object. Required
+	 * @property {string} action       URL to where the form will be send. Default to the current URL
+	 * @property {string} method       HTTP method to be used. Default to GET
+	 * @property {number} timeout      Timeout to be used during the HTTP call (milliseconds). Default to 30000
+	 * @property {string} success      Name of the function to be invoked if the form is successfully submitted. Default to luga.ajaxform.handlers.replaceForm
+	 * @property {string} error        Name of the function to be invoked if the HTTP call failed. Default to luga.ajaxform.handlers.errorAlert
+	 * @property {string} successmsg   Message that will be displayed to the user if the form is successfully submitted. Default to "Thanks for submitting the form"
+	 * @property {string} errormsg     Message that will be displayed to the user if the HTTP call failed. Default to "Failed to submit the form"
+	 * @property {string} before       Name of the function to be invoked before the form is send. Default to null
+	 * @property {string} after        Name of the function to be invoked after the form is send. Default to null
 	 */
 
 	/**
@@ -795,10 +795,10 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.csi.Include.options
 	 *
-	 * @property {jquery} rootNode       Root node for widget (DOM reference). Required
-	 * @property {string} url            Url to be included. Optional. Default to the value of the "data-lugacsi" attribute inside rootNode
+	 * @property {jquery}   rootNode     Root node for widget (DOM reference). Required
+	 * @property {string}   url          Url to be included. Optional. Default to the value of the "data-lugacsi" attribute inside rootNode
 	 * @property {function} success      Function that will be invoked once the url is successfully fetched. Optional, default to the internal "onSuccess" method
-	 * @property {function}after         Function that will be invoked once the include is successfully performed.
+	 * @property {function} after        Function that will be invoked once the include is successfully performed.
 	 *                                   It will be called with the handler(rootNode, url, response) signature. Optional, it can be set using the "data-lugacsi-after" attribute
 	 * @property {function} error        Function that will be invoked if the url request fails. Optional, default to the internal "onError" method
 	 * @property {int}      xhrTimeout   Timeout for XHR call (ms). Optional. Default to 5000 ms
@@ -1001,13 +1001,12 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.validator.FormValidator.options
 	 *
-	 * @property formNode     {jquery}   Either a jQuery object wrapping the form or the naked DOM object. Required
-
-	 * @property error        {string}   Name of the function to be invoked to handle/display validation messages.
+	 * @property {jquery}  formNode      Either a jQuery object wrapping the form or the naked DOM object. Required
+	 * @property {string}  error         Name of the function to be invoked to handle/display validation messages.
 	 *                                   Default to luga.validator.errorAlert
-	 * @property before       {string}   Name of the function to be invoked before validation is performed. Default to null
-	 * @property after        {string}   Name of the function to be invoked after validation is performed. Default to null
-	 * @property blocksubmit  {boolean}  Disable submit buttons if the form isn't valid
+	 * @property {string}  before        Name of the function to be invoked before validation is performed. Default to null
+	 * @property {string}  after         Name of the function to be invoked after validation is performed. Default to null
+	 * @property {boolean} blocksubmit   Disable submit buttons if the form isn't valid
 	 *                                   This prevents multiple submits but also prevents the value of the submit buttons from being passed as part of the HTTP request
 	 *                                   Set this options to false to keep the submit buttons enabled
 	 */
@@ -1159,10 +1158,10 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.validator.fieldValidatorFactory.getInstance.options
 	 *
-	 * @property formNode  {jquery}   Either a jQuery object wrapping the form or the naked DOM object
+	 * @property {jquery} formNode    Either a jQuery object wrapping the form or the naked DOM object
 	 *                                Required in case of radio and checkboxes (that are validated as group), optional in all other cases
 
-	 * @property fieldNode {jquery}   Either a jQuery object wrapping the field or the naked DOM object. Required
+	 * @property {jquery} fieldNode   Either a jQuery object wrapping the field or the naked DOM object. Required
 	 *
 	 * Additional options can be used, but are specific to different kind of input fields.
 	 * Check their implementation for details
@@ -1172,7 +1171,7 @@ if(typeof(luga) === "undefined"){
 	 * Field validator factory. Use this to instantiate a field validator without worrying about the specific implementation
 	 *
 	 * @param {luga.validator.fieldValidatorFactory.getInstance.options} options
-	 * @returns {luga.validator.BaseFieldValidator | luga.validator.BaseGroupValidator}
+	 * @returns {luga.validator.BaseFieldValidator|luga.validator.BaseGroupValidator}
 	 */
 	luga.validator.fieldValidatorFactory.getInstance = function(options){
 		/** @type {luga.validator.fieldValidatorFactory.getInstance.options} */
@@ -1217,9 +1216,9 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.validator.BaseFieldValidator.options
 	 *
-	 * @property fieldNode    {jquery}   Either a jQuery object wrapping the field or the naked DOM object. Required
-	 * @property message      {string}   Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property errorclass   {string}   CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property {jquery} fieldNode      Either a jQuery object wrapping the field or the naked DOM object. Required
+	 * @property {string} message        Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property {string} errorclass     CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 *
 	 * Additional options can be used, but are specific to different kind of input fields.
 	 * Check their implementation for details
@@ -1299,22 +1298,22 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.validator.TextValidator.options
 	 *
-	 * @property fieldNode    {jquery}            Either a jQuery object wrapping the field or the naked DOM object. Required
-	 * @property required     {boolean|function}  Set it to true to flag the field as required.
+	 * @property {jquery} fieldNode               Either a jQuery object wrapping the field or the naked DOM object. Required
+	 * @property {boolean|function} required      Set it to true to flag the field as required.
 	 *                                            In case you need conditional validation, set it to the name of a custom function that will handle the condition.
 	 *                                            Can also be set using the "data-lugavalidator-required" attribute. Optional
-	 * @property pattern      {string}            Validation pattern to be applied, either built-in or custom.
+	 * @property {string} pattern                 Validation pattern to be applied, either built-in or custom.
 	 *                                            Can also be set using the "data-lugavalidator-pattern" attribute. Optional
-	 * @property minlength    {string}            Enforce a minimum text length. Can also be set using the "data-lugavalidator-minlength" attribute. Optional
-	 * @property maxlength    {string}            Enforce a maximum text length. Can also be set using the "data-lugavalidator-maxlength" attribute. Optional
-	 * @property minnumber    {string}            Enforce a minimum numeric value. Can also be set using the "data-lugavalidator-minnumber" attribute. Optional
-	 * @property maxnumber    {string}            Enforce a maximum numeric value. Can also be set using the "data-lugavalidator-maxnumber" attribute. Optional
-	 * @property datepattern  {string}            Date format pattern to be applied, either built-in or custom. Can also be set using the "data-lugavalidator-datepattern" attribute. Optional
-	 * @property mindate      {string}            Enforce a minimum date. Can also be set using the "data-lugavalidator-mindate" attribute. Optional
-	 * @property maxdate      {string}            Enforce a maximum date. Can also be set using the "data-lugavalidator-maxdate" attribute. Optional
-	 * @property equalto      {string}            Id of another field who's values will be compared for equality. Can also be set using the "data-lugavalidator-equalto" attribute. Optional
-	 * @property message      {string}            Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property errorclass   {string}            CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property {string} minlength               Enforce a minimum text length. Can also be set using the "data-lugavalidator-minlength" attribute. Optional
+	 * @property {string} maxlength               Enforce a maximum text length. Can also be set using the "data-lugavalidator-maxlength" attribute. Optional
+	 * @property {string} minnumber               Enforce a minimum numeric value. Can also be set using the "data-lugavalidator-minnumber" attribute. Optional
+	 * @property {string} maxnumber               Enforce a maximum numeric value. Can also be set using the "data-lugavalidator-maxnumber" attribute. Optional
+	 * @property {string} datepattern             Date format pattern to be applied, either built-in or custom. Can also be set using the "data-lugavalidator-datepattern" attribute. Optional
+	 * @property {string} mindate                 Enforce a minimum date. Can also be set using the "data-lugavalidator-mindate" attribute. Optional
+	 * @property {string} maxdate                 Enforce a maximum date. Can also be set using the "data-lugavalidator-maxdate" attribute. Optional
+	 * @property {string} equalto                 Id of another field who's values will be compared for equality. Can also be set using the "data-lugavalidator-equalto" attribute. Optional
+	 * @property {string} message                 Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property {string} errorclass              CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 */
 
 	/**
@@ -1438,11 +1437,11 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.validator.SelectValidator.options
 	 *
-	 * @property fieldNode     {jquery}          Either a jQuery object wrapping the field or the naked DOM object. Required
-	 * @property invalidindex  {string|number}   Prevents selection of an entry on a given position (zero based). Can also be set using the "data-lugavalidator-invalidindex" attribute. Optional
-	 * @property invalidvalue  {string}          Prevents selection of an entry with a given value. Can also be set using the "data-lugavalidator-invalidvalue" attribute. Optional
-	 * @property message       {string}          Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property errorclass    {string}          CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property {jquery} fieldNode              Either a jQuery object wrapping the field or the naked DOM object. Required
+	 * @property {string|number} invalidindex    Prevents selection of an entry on a given position (zero based). Can also be set using the "data-lugavalidator-invalidindex" attribute. Optional
+	 * @property {string} invalidvalue           Prevents selection of an entry with a given value. Can also be set using the "data-lugavalidator-invalidvalue" attribute. Optional
+	 * @property {string} message                Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property {string} errorclass             CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 */
 
 	/**
@@ -1517,9 +1516,9 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.validator.BaseGroupValidator.options
 	 *
-	 * @property inputGroup    {jquery}   A jQuery object wrapping input fields that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
-	 * @property message       {string}   Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property errorclass    {string}   CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property {jquery} inputGroup      A jQuery object wrapping input fields that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
+	 * @property {string} message         Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property {string} errorclass      CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 *
 	 * Additional options can be used, but are specific to different kind of input fields.
 	 * Check their implementation for details
@@ -1604,9 +1603,9 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.validator.RadioValidator.options
 	 *
-	 * @property inputGroup    {jquery}   A jQuery object wrapping input fields that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
-	 * @property message       {string}   Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property errorclass    {string}   CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property {jquery} inputGroup      A jQuery object wrapping input fields that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
+	 * @property {string} message         Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property {string} errorclass      CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 */
 
 	/**
@@ -1667,11 +1666,11 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.validator.CheckboxValidator.options
 	 *
-	 * @property inputGroup    {jquery}   A jQuery object wrapping input fields that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
-	 * @property minchecked    {number}   Specify a minimum number of boxes that can be checked in a group. Set it to 1 to allow only one choice. Optional
-	 * @property maxchecked    {number}   Specify a maximum number of boxes that can be checked within a group. Optional
-	 * @property message       {string}   Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property errorclass    {string}   CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property {jquery} inputGroup      A jQuery object wrapping input fields that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
+	 * @property {number} minchecked      Specify a minimum number of boxes that can be checked in a group. Set it to 1 to allow only one choice. Optional
+	 * @property {number} maxchecked      Specify a maximum number of boxes that can be checked within a group. Optional
+	 * @property {string} message         Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property {string} errorclass      CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 */
 
 	/**
@@ -1932,9 +1931,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.validator.api.validateForm.options
 	 *
-	 * @property formNode     {jquery}   Either a jQuery object wrapping the form or the naked DOM object. Required
-
-	 * @property error        {function} Function to be invoked to handle/display validation messages.
+	 * @property {jquery} formNode       Either a jQuery object wrapping the form or the naked DOM object. Required
+	 * @property {function} error        Function to be invoked to handle/display validation messages.
 	 *                                   Default to luga.validator.errorAlert
 	 */
 
@@ -1964,8 +1962,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.validator.api.validateField.options
 	 *
-	 * @property fieldNode    {jquery}   Either a jQuery object wrapping the field or the naked DOM object. Required
-	 * @property error        {function} Function to be invoked to handle/display validation messages.
+	 * @property {jquery} fieldNode      Either a jQuery object wrapping the field or the naked DOM object. Required
+	 * @property {function} error        Function to be invoked to handle/display validation messages.
 	 *                                   Default to luga.validator.errorAlert
 	 */
 
@@ -2000,8 +1998,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.validator.api.validateField.options
 	 *
-	 * @property fields    {jquery}   A jQuery object wrapping the collection of fields. Required
-	 * @property error     {function} Function to be invoked to handle/display validation messages.
+	 * @property {jquery} fields      A jQuery object wrapping the collection of fields. Required
+	 * @property {function} error     Function to be invoked to handle/display validation messages.
 	 *                                Default to luga.validator.errorAlert
 	 */
 
@@ -2052,8 +2050,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.validator.api.validateFields.options
 	 *
-	 * @property rootNode  {jquery}   A jQuery object wrapping the root node. Required
-	 * @property error     {function} Function to be invoked to handle/display validation messages.
+	 * @property {jquery} rootNode    A jQuery object wrapping the root node. Required
+	 * @property {function} error     Function to be invoked to handle/display validation messages.
 	 *                                Default to luga.validator.errorAlert
 	 */
 

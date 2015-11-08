@@ -21,10 +21,10 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.csi.Include.options
 	 *
-	 * @property {jquery} rootNode       Root node for widget (DOM reference). Required
-	 * @property {string} url            Url to be included. Optional. Default to the value of the "data-lugacsi" attribute inside rootNode
+	 * @property {jquery}   rootNode     Root node for widget (DOM reference). Required
+	 * @property {string}   url          Url to be included. Optional. Default to the value of the "data-lugacsi" attribute inside rootNode
 	 * @property {function} success      Function that will be invoked once the url is successfully fetched. Optional, default to the internal "onSuccess" method
-	 * @property {function}after         Function that will be invoked once the include is successfully performed.
+	 * @property {function} after        Function that will be invoked once the include is successfully performed.
 	 *                                   It will be called with the handler(rootNode, url, response) signature. Optional, it can be set using the "data-lugacsi-after" attribute
 	 * @property {function} error        Function that will be invoked if the url request fails. Optional, default to the internal "onError" method
 	 * @property {int}      xhrTimeout   Timeout for XHR call (ms). Optional. Default to 5000 ms
