@@ -1,3 +1,5 @@
+- Add @override for JSDoc
+
 -------------
 
 DOCS:
