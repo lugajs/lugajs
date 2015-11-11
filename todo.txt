@@ -57,6 +57,11 @@ data.Dataset:
 - Local storage persistence? It would require serialization of full dataSet
 
 
+data.DetailSet:
+
+- Implement from scratch
+
+
 data.HttpDatset:
 
 - Use options.dataType in jQuery.ajax() to handle dataType mismatches?

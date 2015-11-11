@@ -10,21 +10,12 @@
 	<script src="../../docs.js"></script>
 	<script>
 		//<![CDATA[
-		function submitAsPut(formNode){
+		function submitAsGet(formNode){
 			var sender = new luga.ajaxform.Sender({
 				formNode: formNode,
 				action: "../action.json",
-				method: "PUT",
-				successmsg: "Form send with PUT"
-			});
-			sender.sendJson();
-		};
-		function submitAsPost(formNode){
-			var sender = new luga.ajaxform.Sender({
-				formNode: formNode,
-				action: "../action.json",
-				method: "POST",
-				successmsg: "Form send with POST"
+				method: "GET",
+				successmsg: "Form send with raw JSON"
 			});
 			sender.sendJson();
 		};
@@ -53,15 +44,9 @@
 	</section>
 
 	<form id="getForm">
-		<h1>Send JSON using PUT</h1>
+		<h1>Send raw JSON</h1>
 		<input type="text" name="name"/>
-		<input type="button" value="PUT" onclick="submitAsPut(jQuery('#getForm'))"/>
-	</form>
-
-	<form id="postForm">
-		<h1>Use JSON using POST</h1>
-		<input type="text" name="name"/>
-		<input type="button" value="POST" onclick="submitAsPost(jQuery('#postForm'))"/>
+		<input type="button" value="Send" onclick="submitAsGet(jQuery('#getForm'))"/>
 	</form>
 
 </div>
