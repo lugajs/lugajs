@@ -1257,7 +1257,8 @@ if(typeof(luga) === "undefined"){
 		}
 
 		/**
-		 * Abstract method
+		 * Return true if the field is valid. False otherwise
+		 * @abstract
 		 * @returns {boolean}
 		 */
 		this.isValid = function(){
@@ -1407,6 +1408,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns true if the field satisfy the rules associated with it. False otherwise
 		 * Be careful, this method contains multiple exit points!!!
+		 * @override
 		 * @returns {boolean}
 		 */
 		this.isValid = function(){
@@ -1487,6 +1489,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns true if the field satisfy the rules associated with it. False otherwise
 		 * Be careful, this method contains multiple exit points!!!
+		 * @override
 		 * @returns {boolean}
 		 */
 		this.isValid = function(){
@@ -1557,7 +1560,8 @@ if(typeof(luga) === "undefined"){
 		}
 
 		/**
-		 * Abstract method
+		 * Returns true if the field group is valid. False otherwise
+		 * @abstract
 		 * @returns {boolean}
 		 */
 		this.isValid = function(){
@@ -1645,6 +1649,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns true if the field satisfy the rules associated with it. False otherwise
 		 * Be careful, this method contains multiple exit points!!!
+		 * @override
 		 * @returns {boolean}
 		 */
 		this.isValid = function(){
@@ -1705,6 +1710,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Returns true if the field satisfy the rules associated with it. False otherwise
+		 * @override
 		 * @returns {boolean}
 		 */
 		this.isValid = function(){
