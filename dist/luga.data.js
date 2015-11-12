@@ -47,6 +47,12 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	/**
+	 * @typedef {object} luga.data.DataSet.row
+	 *
+	 * @property {string} rowID  Artificial PK
+	 */
+
+	/**
 	 * @typedef {object} luga.data.DataSet.options
 	 *
 	 * @property {string}              id        Unique identifier. Required
@@ -74,7 +80,9 @@ if(typeof(luga) === "undefined"){
 		var self = this;
 
 		this.id = options.id;
+		/** @type {array.<luga.data.DataSet.row>} */
 		this.records = [];
+		/** @type {hash.<luga.data.DataSet.row>} */
 		this.recordsHash = {};
 		this.filteredRecords = null;
 		this.filter = null;
@@ -450,10 +458,6 @@ if(typeof(luga) === "undefined"){
 	};
 
 }());
-if(typeof(Handlebars) === "undefined"){
-	throw("Unable to find Handlebars");
-}
-
 (function(){
 	"use strict";
 
@@ -469,6 +473,10 @@ if(typeof(Handlebars) === "undefined"){
 	 * @param {luga.data.Region.options} options
 	 */
 	luga.data.Region = function(options){
+		if(typeof(Handlebars) === "undefined"){
+			throw("Unable to find Handlebars");
+		}
+
 		var self = this;
 
 		this.node = jQuery(options.node);

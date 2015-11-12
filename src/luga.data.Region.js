@@ -1,7 +1,3 @@
-if(typeof(Handlebars) === "undefined"){
-	throw("Unable to find Handlebars");
-}
-
 (function(){
 	"use strict";
 
@@ -17,6 +13,10 @@ if(typeof(Handlebars) === "undefined"){
 	 * @param {luga.data.Region.options} options
 	 */
 	luga.data.Region = function(options){
+		if(typeof(Handlebars) === "undefined"){
+			throw("Unable to find Handlebars");
+		}
+
 		var self = this;
 
 		this.node = jQuery(options.node);
