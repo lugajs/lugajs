@@ -13,7 +13,6 @@ if(typeof(luga) === "undefined"){
 
 	luga.data.CONST = {
 		PK_KEY: "rowID",
-		REGION_SELECTOR: "*[data-lugads-region]",
 		CUSTOM_ATTRIBUTES: {
 			REGION: "data-lugads-region",
 			TEMPLATE: "data-lugads-template",
@@ -25,6 +24,15 @@ if(typeof(luga) === "undefined"){
 			INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter",
 			HTTP_DATA_SET_ABSTRACT: "luga.data.HttpDataSet is an abstract class",
 			XHR_FAILURE: "Failed to retrieve: {0}. HTTP status: {1}. Error: {2}"
+		},
+		EVENTS: {
+			CURRENT_ROW_CHANGED: "currentRowChanged",
+			DATA_CHANGED: "dataChanged",
+			LOADING: "loading",
+			XHR_ERROR: "xhrError"
+		},
+		SELECTORS: {
+			REGION: "*[data-lugads-region]"
 		},
 		XHR_TIMEOUT: 10000
 	};

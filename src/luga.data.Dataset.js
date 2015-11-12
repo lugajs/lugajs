@@ -70,7 +70,7 @@
 				this.records.push(recordsHolder[i]);
 			}
 			applyFilter();
-			this.notifyObservers("dataChanged", this);
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
 		};
 
 		/**
@@ -107,7 +107,7 @@
 			}
 			this.records = filterRecords(selectAll(), filter);
 			applyFilter();
-			this.notifyObservers("dataChanged", this);
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
 		};
 
 		/**
@@ -158,7 +158,7 @@
 			}
 			var notificationData = { oldRowId: this.currentRowId, newRowId: rowId, dataSet: this };
 			this.currentRowId = rowId;
-			this.notifyObservers("currentRowChanged", notificationData);
+			this.notifyObservers(luga.data.CONST.EVENTS.CURRENT_ROW_CHANGED, notificationData);
 		};
 
 		/**
@@ -174,7 +174,7 @@
 			}
 			this.filter = filter;
 			applyFilter();
-			this.notifyObservers("dataChanged", this);
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
 		};
 
 		/**
@@ -185,7 +185,7 @@
 		this.deleteFilter = function(){
 			this.filter = null;
 			this.filteredRecords = null;
-			this.notifyObservers("dataChanged", this);
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
 		};
 
 		var selectAll = function(){

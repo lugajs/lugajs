@@ -79,7 +79,7 @@
 			if(this.url === null){
 				return;
 			}
-			this.notifyObservers("loading", this);
+			this.notifyObservers(luga.data.CONST.EVENTS.LOADING, this);
 			this.cancelRequest();
 			this.delete();
 			loadUrl();
@@ -93,7 +93,7 @@
 		 * @fires xhrError
 		 */
 		this.xhrError = function(jqXHR, textStatus, errorThrown){
-			self.notifyObservers("error", {
+			self.notifyObservers(luga.data.CONST.EVENTS.XHR_ERROR, {
 				dataSet: self,
 				message: luga.string.format(luga.data.CONST.ERROR_MESSAGES.XHR_FAILURE, [self.url, jqXHR.status, errorThrown])
 			});

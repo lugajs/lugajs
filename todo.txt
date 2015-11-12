@@ -31,14 +31,6 @@ VALIDATOR:
 
 DATA:
 
-- Store event names inside CONST
-
-- Add it to default Gulp task
-
-- Implement pagination
-- Implement navbar widget
-
-
 data.Dataset:
 
 - getCurrentRow()
@@ -85,6 +77,10 @@ data.Region:
 
 DATA FUTURE:
 
+- Once mature. Add it to default Gulp task
+- Implement pagination
+- Implement navbar widget
+
 data.Autosuggest:
 
 - Implement widget
@@ -96,11 +92,5 @@ data.XmlDataset:
 - setXpath()
 - getXpath()
 - loadRecords()
-
--------------
-
-FUTURE:
-
-- Bootstrap Modal > Luga ModalFrame?
 
 -------------

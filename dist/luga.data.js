@@ -13,7 +13,6 @@ if(typeof(luga) === "undefined"){
 
 	luga.data.CONST = {
 		PK_KEY: "rowID",
-		REGION_SELECTOR: "*[data-lugads-region]",
 		CUSTOM_ATTRIBUTES: {
 			REGION: "data-lugads-region",
 			TEMPLATE: "data-lugads-template",
@@ -25,6 +24,15 @@ if(typeof(luga) === "undefined"){
 			INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter",
 			HTTP_DATA_SET_ABSTRACT: "luga.data.HttpDataSet is an abstract class",
 			XHR_FAILURE: "Failed to retrieve: {0}. HTTP status: {1}. Error: {2}"
+		},
+		EVENTS: {
+			CURRENT_ROW_CHANGED: "currentRowChanged",
+			DATA_CHANGED: "dataChanged",
+			LOADING: "loading",
+			XHR_ERROR: "xhrError"
+		},
+		SELECTORS: {
+			REGION: "*[data-lugads-region]"
 		},
 		XHR_TIMEOUT: 10000
 	};
@@ -115,7 +123,7 @@ if(typeof(luga) === "undefined"){
 				this.records.push(recordsHolder[i]);
 			}
 			applyFilter();
-			this.notifyObservers("dataChanged", this);
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
 		};
 
 		/**
@@ -152,7 +160,7 @@ if(typeof(luga) === "undefined"){
 			}
 			this.records = filterRecords(selectAll(), filter);
 			applyFilter();
-			this.notifyObservers("dataChanged", this);
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
 		};
 
 		/**
@@ -203,7 +211,7 @@ if(typeof(luga) === "undefined"){
 			}
 			var notificationData = { oldRowId: this.currentRowId, newRowId: rowId, dataSet: this };
 			this.currentRowId = rowId;
-			this.notifyObservers("currentRowChanged", notificationData);
+			this.notifyObservers(luga.data.CONST.EVENTS.CURRENT_ROW_CHANGED, notificationData);
 		};
 
 		/**
@@ -219,7 +227,7 @@ if(typeof(luga) === "undefined"){
 			}
 			this.filter = filter;
 			applyFilter();
-			this.notifyObservers("dataChanged", this);
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
 		};
 
 		/**
@@ -230,7 +238,7 @@ if(typeof(luga) === "undefined"){
 		this.deleteFilter = function(){
 			this.filter = null;
 			this.filteredRecords = null;
-			this.notifyObservers("dataChanged", this);
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
 		};
 
 		var selectAll = function(){
@@ -354,7 +362,7 @@ if(typeof(luga) === "undefined"){
 			if(this.url === null){
 				return;
 			}
-			this.notifyObservers("loading", this);
+			this.notifyObservers(luga.data.CONST.EVENTS.LOADING, this);
 			this.cancelRequest();
 			this.delete();
 			loadUrl();
@@ -368,7 +376,7 @@ if(typeof(luga) === "undefined"){
 		 * @fires xhrError
 		 */
 		this.xhrError = function(jqXHR, textStatus, errorThrown){
-			self.notifyObservers("error", {
+			self.notifyObservers(luga.data.CONST.EVENTS.XHR_ERROR, {
 				dataSet: self,
 				message: luga.string.format(luga.data.CONST.ERROR_MESSAGES.XHR_FAILURE, [self.url, jqXHR.status, errorThrown])
 			});
@@ -509,7 +517,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	jQuery(document).ready(function(){
-		jQuery(luga.data.CONST.REGION_SELECTOR).each(function(index, item){
+		jQuery(luga.data.CONST.SELECTORS.REGION).each(function(index, item){
 			new luga.data.Region({
 				node: jQuery(item)
 			});

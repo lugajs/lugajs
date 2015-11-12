@@ -76,14 +76,14 @@ describe("luga.data.HttpDataSet", function(){
 				};
 				this.onLoadingHandler = function(data){
 				};
-				this.onErrorHandler = function(data){
+				this.onXhrErrorHandler = function(data){
 				};
 			};
 			testObserver = new ObserverClass();
 			testDs.addObserver(testObserver);
 			spyOn(testObserver, "onDataChangedHandler");
 			spyOn(testObserver, "onLoadingHandler");
-			spyOn(testObserver, "onErrorHandler");
+			spyOn(testObserver, "onXhrErrorHandler");
 		});
 
 		it("Fires off XHR request to fetch and load the data", function(done) {
@@ -110,11 +110,11 @@ describe("luga.data.HttpDataSet", function(){
 			}, DEFAULT_TIMEOUT);
 		});
 
-		it("Triggers an 'error' notification in case of an HTTP error", function(done) {
+		it("Triggers an 'xhrError' notification in case of an HTTP error", function(done) {
 			testDs.setUrl("missing.json");
 			testDs.loadData();
 			setTimeout(function() {
-				expect(testObserver.onErrorHandler).toHaveBeenCalled();
+				expect(testObserver.onXhrErrorHandler).toHaveBeenCalled();
 				done();
 			}, DEFAULT_TIMEOUT);
 		});

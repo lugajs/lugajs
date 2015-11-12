@@ -47,7 +47,7 @@
 	};
 
 	jQuery(document).ready(function(){
-		jQuery(luga.data.CONST.REGION_SELECTOR).each(function(index, item){
+		jQuery(luga.data.CONST.SELECTORS.REGION).each(function(index, item){
 			new luga.data.Region({
 				node: jQuery(item)
 			});
