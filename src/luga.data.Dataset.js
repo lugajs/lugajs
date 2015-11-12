@@ -20,6 +20,7 @@
 	 *
 	 * @param {luga.data.DataSet.options} options
 	 * @constructor
+	 * @extends luga.Notifier
 	 * @fires dataChanged
 	 * @fires currentRowChanged
 	 */

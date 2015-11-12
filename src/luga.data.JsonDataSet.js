@@ -45,6 +45,7 @@
 		 * @param {*}        response     Data returned from the server
 		 * @param {string}   textStatus   HTTP status
 		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
+		 * @override
 		 */
 		this.loadRecords = function(response, textStatus, jqXHR){
 			if(self.path === null){

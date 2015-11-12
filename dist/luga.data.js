@@ -65,6 +65,7 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param {luga.data.DataSet.options} options
 	 * @constructor
+	 * @extends luga.Notifier
 	 * @fires dataChanged
 	 * @fires currentRowChanged
 	 */
@@ -443,6 +444,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {*}        response     Data returned from the server
 		 * @param {string}   textStatus   HTTP status
 		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
+		 * @override
 		 */
 		this.loadRecords = function(response, textStatus, jqXHR){
 			if(self.path === null){
