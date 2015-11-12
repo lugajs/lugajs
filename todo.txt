@@ -33,6 +33,8 @@ DATA:
 
 - Store event names inside CONST
 
+- Add it to default Gulp task
+
 - Implement pagination
 - Implement navbar widget
 
