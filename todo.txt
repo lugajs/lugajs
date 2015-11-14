@@ -35,9 +35,13 @@ DATA:
 
 data.Dataset:
 
-- getCurrentRowIndex() (use array.indexOf())
-- getRowByIndex()      (use array.indexOf())
-- setCurrentRowIndex() (use array.indexOf())
+- hasFilter()
+  Update resetCurrentRow()
+
+- getRowIndex(row) (use array.indexOf())
+- getCurrentRowIndex()      (use getRowIndex(getCurrentRow()))
+- getRowByIndex(index)      (use array.indexOf())
+- setCurrentRowIndex(index) (use array.indexOf())
 
 - update()
 
