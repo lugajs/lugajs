@@ -2,7 +2,7 @@ describe("luga.data.Dataset", function(){
 
 	"use strict";
 
-	var testDs, testRecords, removeUk, removeBrasil, testObserver;
+	var testDs, testRecords, removeUk, removeAus, removeBrasil, removeAll, testObserver;
 	beforeEach(function(){
 
 		testDs = new luga.data.DataSet({id: "test"});
@@ -14,11 +14,20 @@ describe("luga.data.Dataset", function(){
 			}
 			return row;
 		};
-		removeBrasil = function(dataSet, row, rowIndex){
-			if(row.country === "Brasl"){
+		removeAus = function(dataSet, row, rowIndex){
+			if(row.country === "Australia"){
 				return null;
 			}
 			return row;
+		};
+		removeBrasil = function(dataSet, row, rowIndex){
+			if(row.country === "Brasil"){
+				return null;
+			}
+			return row;
+		};
+		removeAll = function(dataSet, row, rowIndex){
+			return null;
 		};
 
 		var ObserverClass = function(){
@@ -114,18 +123,15 @@ describe("luga.data.Dataset", function(){
 
 	});
 
-	describe(".delete():", function(){
+	describe(".delete()", function(){
+
 		it("Delete all records", function(){
 			testDs.insert(testRecords);
 			expect(testDs.select().length).toEqual(7);
 			testDs.delete();
 			expect(testDs.select().length).toEqual(0);
 		});
-		it("Then triggers a 'dataChanged' notification", function(){
-			testDs.insert(testRecords);
-			testDs.delete();
-			expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith(testDs);
-		});
+
 		describe("Accepts an optional filter function as an argument", function(){
 			it("If specified only records matching the filter will be deleted", function(){
 				var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
@@ -138,9 +144,28 @@ describe("luga.data.Dataset", function(){
 				}).toThrow();
 			});
 		});
+
+		describe("First:", function(){
+			it("Reset the currentRow", function(){
+				spyOn(testDs, "resetCurrentRow").and.callFake(function(){
+				});
+				testDs.insert(testRecords);
+				testDs.delete();
+				expect(testDs.resetCurrentRow).toHaveBeenCalled();
+			});
+		});
+
+		describe("Then:", function(){
+			it("Triggers a 'dataChanged' notification", function(){
+				testDs.insert(testRecords);
+				testDs.delete();
+				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith(testDs);
+			});
+		});
+
 	});
 
-	describe(".deleteFilter():", function(){
+	describe(".deleteFilter()", function(){
 		beforeEach(function(){
 			testDs.insert(testRecords);
 			testDs.setFilter(removeUk);
@@ -161,14 +186,69 @@ describe("luga.data.Dataset", function(){
 		});
 	});
 
+	describe(".getCurrentRow()", function(){
+
+		it("Returns first row object on a newly created dataSet", function(){
+			testDs.insert(testRecords);
+			expect(testDs.getCurrentRow()).toEqual(testDs.recordsHash[0]);
+		});
+		it("Returns the current row object if it was changed at run-time", function(){
+			testDs.insert(testRecords);
+			testDs.setCurrentRowId(2);
+			expect(testDs.getCurrentRow()).toEqual(testDs.recordsHash[2]);
+		});
+
+		describe("Returns the first row among filtered records if:", function(){
+			it("The dataSet has a filter associated with it", function(){
+				var noAussieDs = new luga.data.DataSet({id: "test", filter: removeAus});
+				noAussieDs.insert(testRecords);
+				expect(noAussieDs.getCurrentRow()).toEqual(noAussieDs.filteredRecords[0]);
+			});
+			it("A filter is set at run-time", function(){
+				testDs.insert(testRecords);
+				expect(testDs.getCurrentRow()).toEqual(testDs.recordsHash[0]);
+				testDs.setFilter(removeAus);
+				expect(testDs.getCurrentRow()).toEqual(testDs.filteredRecords[0]);
+			});
+		});
+
+		describe("Returns null if:", function(){
+			it("The dataSet is empty", function(){
+				expect(testDs.getCurrentRow()).toBeNull();
+			});
+			it("All the records are filtered out", function(){
+				testDs.insert(testRecords);
+				expect(testDs.getCurrentRow()).toEqual(testDs.recordsHash[0]);
+				testDs.setFilter(removeAll);
+				expect(testDs.getCurrentRow()).toBeNull();
+			});
+		});
+
+	});
+
 	describe(".getCurrentRowId()", function(){
+
 		it("Returns the rowId of the current row", function(){
 			testDs.insert(testRecords);
 			testDs.setCurrentRowId(2);
 			expect(testDs.getCurrentRowId()).toEqual(2);
 		});
-		it("Returns 0 on an empty dataSet", function(){
+
+		it("Returns 0 on a newly created dataSet", function(){
+			testDs.insert(testRecords);
 			expect(testDs.getCurrentRowId()).toEqual(0);
+		});
+
+		describe("Returns null if:", function(){
+			it("The dataSet is empty", function(){
+				expect(testDs.getCurrentRowId()).toBeNull();
+			});
+			it("All the records are filtered out", function(){
+				testDs.insert(testRecords);
+				expect(testDs.getCurrentRow()).toEqual(testDs.recordsHash[0]);
+				testDs.setFilter(removeAll);
+				expect(testDs.getCurrentRowId()).toBeNull();
+			});
 		});
 	});
 
@@ -251,6 +331,40 @@ describe("luga.data.Dataset", function(){
 				expect(function(){
 					testDs.insert(new Date());
 				}).toThrow();
+			});
+		});
+
+	});
+
+	describe(".resetCurrentRow()", function(){
+
+		it("Set currentRowId to 0", function(){
+			testDs.insert(testRecords);
+			testDs.setCurrentRowId(2);
+			testDs.resetCurrentRow();
+			expect(testDs.getCurrentRowId()).toEqual(0);
+		});
+
+		it("Set currentRowId to the rowId of the first filtered record if the dataSet is associated with a filter", function(){
+			var noAussieDs = new luga.data.DataSet({id: "test", filter: removeAus});
+			noAussieDs.insert(testRecords);
+			expect(noAussieDs.getCurrentRowId()).toEqual(1);
+			noAussieDs.setCurrentRowId(2);
+			expect(noAussieDs.getCurrentRowId()).toEqual(2);
+			noAussieDs.resetCurrentRow();
+			expect(noAussieDs.getCurrentRowId()).toEqual(1);
+		});
+
+		describe("Set currentRowId to null if:", function(){
+			it("The dataSet is empty", function(){
+				testDs.resetCurrentRow();
+				expect(testDs.getCurrentRowId()).toBeNull();
+			});
+			it("All the records are filtered out", function(){
+				testDs.insert(testRecords);
+				testDs.setFilter(removeAll);
+				testDs.resetCurrentRow();
+				expect(testDs.getCurrentRowId()).toBeNull();
 			});
 		});
 

@@ -33,12 +33,9 @@ DATA:
 
 data.Dataset:
 
-- getCurrentRow()
 - getCurrentRowIndex()
 - getRowByIndex()
 - setCurrentRowIndex()
-
-- resetCurrentRow()?
 
 - update()
 

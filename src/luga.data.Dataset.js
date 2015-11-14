@@ -41,7 +41,7 @@
 				INVALID_PRIMITIVE: "Luga.DataSet: records can be either an array of objects or a single object. Primitives are not accepted",
 				INVALID_PRIMITIVE_ARRAY: "Luga.DataSet: records can be either an array of name/value pairs or a single object. Array of primitives are not accepted",
 				INVALID_ROW_ID_PARAMETER: "Luga.DataSet: invalid rowId parameter",
-				INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter",
+				INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter"
 			}
 		};
 
@@ -50,9 +50,11 @@
 		this.records = [];
 		/** @type {hash.<luga.data.DataSet.row>} */
 		this.recordsHash = {};
+		/** @type {null|array.<luga.data.DataSet.row>} */
 		this.filteredRecords = null;
+		/** @type {null|function} */
 		this.filter = null;
-		this.currentRowId = 0;
+		this.currentRowId = null;
 
 		luga.data.datasetRegistry[this.id] = this;
 
@@ -67,6 +69,7 @@
 		var applyFilter = function(){
 			if(self.filter !== null){
 				self.filteredRecords = filterRecords(self.records, self.filter);
+				self.resetCurrentRow();
 			}
 		};
 
@@ -95,11 +98,13 @@
 		 * If no filter is passed, delete all records
 		 * @param {function|null} filter   An optional filter function. If specified only records matching the filter will be returned. Default to null
 		 *                                 The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
+		 * @fires currentRowChanged
 		 * @fires dataChanged
 		 */
 		this.delete = function(filter){
 			if(filter === undefined){
 				deleteAll();
+				this.resetCurrentRow();
 				return;
 			}
 			if(jQuery.isFunction(filter) === false){
@@ -107,6 +112,7 @@
 			}
 			this.records = filterRecords(selectAll(), filter);
 			applyFilter();
+			this.resetCurrentRow();
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
 		};
 
@@ -119,6 +125,19 @@
 			this.filter = null;
 			this.filteredRecords = null;
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
+		};
+
+		/**
+		 * Returns the current row object
+		 * By default, the current row is the first row of the dataSet, but this can be changed by calling setCurrentRow() or setCurrentRowIndex().
+		 * @return {luga.data.DataSet.row}
+		 */
+		this.getCurrentRow = function(){
+			var row = this.recordsHash[this.getCurrentRowId()];
+			if(row !== undefined){
+				return row;
+			}
+			return null;
 		};
 
 		/**
@@ -184,8 +203,36 @@
 				this.recordsHash[this.records.length] = recordsHolder[i];
 				this.records.push(recordsHolder[i]);
 			}
+			this.setCurrentRowId(0);
 			applyFilter();
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
+		};
+
+		/**
+		 * Reset the currentRowId
+		 * @fires currentRowChanged
+		 */
+		this.resetCurrentRow = function(){
+			// We have a filter
+			if(this.filter !== null){
+				if(this.filteredRecords.length > 0){
+					// First among the filtered records
+					this.setCurrentRowId(this.filteredRecords[0][luga.data.CONST.PK_KEY]);
+				}
+				else{
+					this.setCurrentRowId(null);
+				}
+				return;
+			}
+			// No filter
+			if(this.records.length > 0){
+				// First record
+				this.setCurrentRowId(this.records[0][luga.data.CONST.PK_KEY]);
+			}
+			else{
+				this.setCurrentRowId(null);
+			}
+			return;
 		};
 
 		/**
@@ -209,17 +256,25 @@
 		 * Sets the current row of the data set to the row matching the given rowId
 		 * Throws an exception if the given rowId is invalid
 		 * Triggers a "currentRowChanged" notification
-		 * @param {number} rowId  Required
+		 * @param {number|null} rowId  Required
 		 * @fires currentRowChanged
 		 */
 		this.setCurrentRowId = function(rowId){
+			// No need to do anything
 			if(this.currentRowId === rowId){
 				return;
 			}
+			var notificationData = { oldRowId: this.currentRowId, newRowId: rowId, dataSet: this };
+			// Set to null
+			if((rowId === null) && (this.currentRowId !== null)){
+				this.currentRowId = null;
+				this.notifyObservers(luga.data.CONST.EVENTS.CURRENT_ROW_CHANGED, notificationData);
+				return;
+			}
+			// Validate input
 			if(this.getRowById(rowId) === null){
 				throw(CONST.ERROR_MESSAGES.INVALID_ROW_ID_PARAMETER);
 			}
-			var notificationData = { oldRowId: this.currentRowId, newRowId: rowId, dataSet: this };
 			this.currentRowId = rowId;
 			this.notifyObservers(luga.data.CONST.EVENTS.CURRENT_ROW_CHANGED, notificationData);
 		};
@@ -229,6 +284,7 @@
 		 * Triggers a "dataChanged" notification
 		 * @param {function} filter   A filter functions to be called once for each row in the data set. Required
 		 *                            The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
+		 * @fires currentRowChanged
 		 * @fires dataChanged
 		 */
 		this.setFilter = function(filter){
