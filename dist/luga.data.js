@@ -101,6 +101,101 @@ if(typeof(luga) === "undefined"){
 
 		luga.data.datasetRegistry[this.id] = this;
 
+		/* Private methods */
+
+		var deleteAll = function(){
+			self.filteredRecords = null;
+			self.records = [];
+			self.recordsHash = {};
+		};
+
+		var applyFilter = function(){
+			if(self.filter !== null){
+				self.filteredRecords = filterRecords(self.records, self.filter);
+			}
+		};
+
+		var filterRecords = function(orig, filter){
+			var filtered = [];
+			for(var i = 0; i < orig.length; i++){
+				var newRow = filter(this, orig[i], i);
+				if(newRow){
+					filtered.push(newRow);
+				}
+			}
+			return filtered;
+		};
+
+		var selectAll = function(){
+			if(self.filteredRecords !== null){
+				return self.filteredRecords;
+			}
+			return self.records;
+		};
+
+		/**
+		 * Delete records matching the given filter
+		 * If no filter is passed, delete all records
+		 * @param {function|null} filter   An optional filter function. If specified only records matching the filter will be returned. Default to null
+		 *                                 The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
+		 * @fires dataChanged
+		 */
+		this.delete = function(filter){
+			if(filter === undefined){
+				deleteAll();
+				return;
+			}
+			if(jQuery.isFunction(filter) === false){
+				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
+			}
+			this.records = filterRecords(selectAll(), filter);
+			applyFilter();
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
+		};
+
+		/**
+		 * Remove the current filter function
+		 * Triggers a "dataChanged" notification
+		 * @fires dataChanged
+		 */
+		this.deleteFilter = function(){
+			this.filter = null;
+			this.filteredRecords = null;
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
+		};
+
+		/**
+		 * Returns the rowId of the current row
+		 * Do not confuse the rowId of a row with the index of the row
+		 * The rowId is a column that contains a unique identifier for the row
+		 * This identifier does not change if the rows of the data set are sorted
+		 * @returns {number}
+		 */
+		this.getCurrentRowId = function(){
+			return this.currentRowId;
+		};
+
+		/**
+		 * Returns the number of records in the dataSet
+		 * If the dataSet has a filter, returns the number of filtered records
+		 * @return {number}
+		 */
+		this.getRecordsCount = function(){
+			return selectAll().length;
+		};
+
+		/**
+		 * Returns the row object associated with the given uniqe identifier
+		 * @param {string} rowId  Required
+		 * @return {luga.data.DataSet.row}
+		 */
+		this.getRowById = function(rowId){
+			if(this.recordsHash[rowId] !== undefined){
+				return this.recordsHash[rowId];
+			}
+			return null;
+		};
+
 		/**
 		 * Adds rows to a dataSet
 		 * Be aware that the dataSet use passed data by reference
@@ -154,58 +249,6 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * Delete records matching the given filter
-		 * If no filter is passed, delete all records
-		 * @param {function|null} filter   An optional filter function. If specified only records matching the filter will be returned. Default to null
-		 *                                 The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
-		 * @fires dataChanged
-		 */
-		this.delete = function(filter){
-			if(filter === undefined){
-				deleteAll();
-				return;
-			}
-			if(jQuery.isFunction(filter) === false){
-				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
-			}
-			this.records = filterRecords(selectAll(), filter);
-			applyFilter();
-			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
-		};
-
-		/**
-		 * Returns the number of records in the dataSet
-		 * If the dataSet has a filter, returns the number of filtered records
-		 * @return {number}
-		 */
-		this.getRecordsCount = function(){
-			return selectAll().length;
-		};
-
-		/**
-		 * Returns the row object associated with the given uniqe identifier
-		 * @param {string} rowId  Required
-		 * @return {luga.data.DataSet.row}
-		 */
-		this.getRowById = function(rowId){
-			if(this.recordsHash[rowId] !== undefined){
-				return this.recordsHash[rowId];
-			}
-			return null;
-		};
-
-		/**
-		 * Returns the rowId of the current row
-		 * Do not confuse the rowId of a row with the index of the row
-		 * The rowId is a column that contains a unique identifier for the row
-		 * This identifier does not change if the rows of the data set are sorted
-		 * @returns {number}
-		 */
-		this.getCurrentRowId = function(){
-			return this.currentRowId;
-		};
-
-		/**
 		 * Sets the current row of the data set to the row matching the given rowId
 		 * Throws an exception if the given rowId is invalid
 		 * Triggers a "currentRowChanged" notification
@@ -240,46 +283,7 @@ if(typeof(luga) === "undefined"){
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
 		};
 
-		/**
-		 * Remove the current filter function
-		 * Triggers a "dataChanged" notification
-		 * @fires dataChanged
-		 */
-		this.deleteFilter = function(){
-			this.filter = null;
-			this.filteredRecords = null;
-			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
-		};
-
-		var selectAll = function(){
-			if(self.filteredRecords !== null){
-				return self.filteredRecords;
-			}
-			return self.records;
-		};
-
-		var deleteAll = function(){
-			self.filteredRecords = null;
-			self.records = [];
-			self.recordsHash = {};
-		};
-
-		var applyFilter = function(){
-			if(self.filter !== null){
-				self.filteredRecords = filterRecords(self.records, self.filter);
-			}
-		};
-
-		var filterRecords = function(orig, filter){
-			var filtered = [];
-			for(var i = 0; i < orig.length; i++){
-				var newRow = filter(this, orig[i], i);
-				if(newRow){
-					filtered.push(newRow);
-				}
-			}
-			return filtered;
-		};
+		/* Constructor */
 
 		if(options.filter !== undefined){
 			this.setFilter(options.filter);
@@ -520,6 +524,9 @@ if(typeof(luga) === "undefined"){
 		this.render = function(){
 			this.node.html(this.generateHtml());
 		};
+
+
+		/* Events Handlers */
 
 		this.onDataChangedHandler = function(data){
 			self.render();
