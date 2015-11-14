@@ -78,6 +78,8 @@
 			return self.records;
 		};
 
+		/* Public methods */
+
 		/**
 		 * Delete records matching the given filter
 		 * If no filter is passed, delete all records

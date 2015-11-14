@@ -24,21 +24,7 @@
 			this.path = options.path;
 		}
 
-		/**
-		 * Returns the path to be used to extract data out of the JSON data structure
-		 * @returns {string|null}
-		 */
-		this.getPath = function(){
-			return this.path;
-		};
-
-		/**
-		 * Set the path to be used to extract data out of the JSON data structure
-		 * @param {string} newPath
-		 */
-		this.setPath = function(newPath){
-			this.path = newPath;
-		};
+		/* Public methods */
 
 		/**
 		 * Receives HTTP response, extracts and loads records out of it
@@ -56,6 +42,22 @@
 					self.insert(response[self.path]);
 				}
 			}
+		};
+
+		/**
+		 * Returns the path to be used to extract data out of the JSON data structure
+		 * @returns {string|null}
+		 */
+		this.getPath = function(){
+			return this.path;
+		};
+
+		/**
+		 * Set the path to be used to extract data out of the JSON data structure
+		 * @param {string} newPath
+		 */
+		this.setPath = function(newPath){
+			this.path = newPath;
 		};
 
 	};

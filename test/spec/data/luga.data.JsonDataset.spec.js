@@ -32,14 +32,6 @@ describe("luga.data.JsonDataset", function(){
 		});
 	});
 
-	describe(".setPath()", function(){
-		it("Set the path to be used to extract data out of the JSON data structure", function(){
-			var ds = new luga.data.JsonDataSet({id: "myDs"});
-			ds.setPath("test");
-			expect(ds.getPath()).toEqual("test");
-		});
-	});
-
 	describe(".loadData()", function() {
 
 		var peopleDs, peopleObserver;
@@ -86,6 +78,14 @@ describe("luga.data.JsonDataset", function(){
 			}, DEFAULT_TIMEOUT);
 		});
 
+	});
+
+	describe(".setPath()", function(){
+		it("Set the path to be used to extract data out of the JSON data structure", function(){
+			var ds = new luga.data.JsonDataSet({id: "myDs"});
+			ds.setPath("test");
+			expect(ds.getPath()).toEqual("test");
+		});
 	});
 
 });
