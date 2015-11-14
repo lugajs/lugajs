@@ -10,9 +10,9 @@
 	/**
 	 * @typedef {object} luga.data.DataSet.options
 	 *
-	 * @property {string}              id        Unique identifier. Required
-	 * @property {array.<object>|object}          records   Records to be loaded, either one single object or an array of name/value pairs
-	 * @property {function|null}       filter    A filter functions to be called once for each row in the dataSet. Default to null
+	 * @property {string}              id         Unique identifier. Required
+	 * @property {array.<object>|object} records  Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
+	 * @property {function|null}       filter     A filter functions to be called once for each row in the da,taSet. Default to null
 	 */
 
 	/**
@@ -32,8 +32,18 @@
 			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 		}
 		luga.extend(luga.Notifier, this);
+
 		/** @type {luga.data.DataSet} */
 		var self = this;
+
+		var CONST = {
+			ERROR_MESSAGES: {
+				INVALID_PRIMITIVE: "Luga.DataSet: records can be either an array of objects or a single object. Primitives are not accepted",
+				INVALID_PRIMITIVE_ARRAY: "Luga.DataSet: records can be either an array of name/value pairs or a single object. Array of primitives are not accepted",
+				INVALID_ROW_ID_PARAMETER: "Luga.DataSet: invalid rowId parameter",
+				INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter",
+			}
+		};
 
 		this.id = options.id;
 		/** @type {array.<luga.data.DataSet.row>} */
@@ -93,7 +103,7 @@
 				return;
 			}
 			if(jQuery.isFunction(filter) === false){
-				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
+				throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			this.records = filterRecords(selectAll(), filter);
 			applyFilter();
@@ -147,7 +157,7 @@
 		 * Adds rows to a dataSet
 		 * Be aware that the dataSet use passed data by reference
 		 * That is, it uses those objects as its row object internally. It does not make a copy
-		 * @param  {array.<object>|object} records    Either one single object or an array of name/value pairs. Required
+		 * @param  {array.<object>|object} records   Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs. Required
 		 * @fires dataChanged
 		 */
 		this.insert = function(records){
@@ -159,14 +169,14 @@
 			else{
 				// Ensure we don't have primitive values
 				if(jQuery.isPlainObject(records) === false){
-					throw(luga.data.CONST.ERROR_MESSAGES.INVALID_PRIMITIVE);
+					throw(CONST.ERROR_MESSAGES.INVALID_PRIMITIVE);
 				}
 				recordsHolder.push(records);
 			}
 			for(var i = 0; i < recordsHolder.length; i++){
 				// Ensure we don't have primitive values
 				if(jQuery.isPlainObject(recordsHolder[i]) === false){
-					throw(luga.data.CONST.ERROR_MESSAGES.INVALID_PRIMITIVE_ARRAY);
+					throw(CONST.ERROR_MESSAGES.INVALID_PRIMITIVE_ARRAY);
 				}
 				// Create new PK
 				var recordID = this.records.length;
@@ -190,7 +200,7 @@
 				return selectAll();
 			}
 			if(jQuery.isFunction(filter) === false){
-				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
+				throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			return filterRecords(selectAll(), filter);
 		};
@@ -207,7 +217,7 @@
 				return;
 			}
 			if(this.getRowById(rowId) === null){
-				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_ROW_ID_PARAMETER);
+				throw(CONST.ERROR_MESSAGES.INVALID_ROW_ID_PARAMETER);
 			}
 			var notificationData = { oldRowId: this.currentRowId, newRowId: rowId, dataSet: this };
 			this.currentRowId = rowId;
@@ -223,7 +233,7 @@
 		 */
 		this.setFilter = function(filter){
 			if(jQuery.isFunction(filter) === false){
-				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
+				throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			this.filter = filter;
 			applyFilter();

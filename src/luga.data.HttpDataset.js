@@ -21,12 +21,20 @@
 	 * @fires xhrError
 	 */
 	luga.data.HttpDataSet = function(options){
-		if(this.constructor === luga.data.HttpDataSet){
-			throw(luga.data.CONST.ERROR_MESSAGES.HTTP_DATA_SET_ABSTRACT);
-		}
 		luga.extend(luga.data.DataSet, this, [options]);
 		/** @type {luga.data.HttpDataSet} */
 		var self = this;
+
+		var CONST = {
+			ERROR_MESSAGES: {
+				HTTP_DATA_SET_ABSTRACT: "luga.data.HttpDataSet is an abstract class",
+				XHR_FAILURE: "Failed to retrieve: {0}. HTTP status: {1}. Error: {2}"
+			}
+		};
+
+		if(this.constructor === luga.data.HttpDataSet){
+			throw(CONST.ERROR_MESSAGES.HTTP_DATA_SET_ABSTRACT);
+		}
 
 		this.url = null;
 		if(options.url !== undefined){
@@ -45,13 +53,6 @@
 
 		this.xhrRequest = null;
 
-		this.cancelRequest = function(){
-			if(this.xhrRequest !== null){
-				this.xhrRequest.abort();
-				this.xhrRequest = null;
-			}
-		};
-
 		/* Private methods */
 
 		var loadUrl = function(){
@@ -65,6 +66,16 @@
 		};
 
 		/* Public methods */
+
+		/**
+		 * Abort any pending XHR request
+		 */
+		this.cancelRequest = function(){
+			if(this.xhrRequest !== null){
+				this.xhrRequest.abort();
+				this.xhrRequest = null;
+			}
+		};
 
 		/**
 		 * Returns the URL that will be used to fetch the data. Returns null if URL is not set
@@ -119,7 +130,7 @@
 		this.xhrError = function(jqXHR, textStatus, errorThrown){
 			self.notifyObservers(luga.data.CONST.EVENTS.XHR_ERROR, {
 				dataSet: self,
-				message: luga.string.format(luga.data.CONST.ERROR_MESSAGES.XHR_FAILURE, [self.url, jqXHR.status, errorThrown])
+				message: luga.string.format(CONST.ERROR_MESSAGES.XHR_FAILURE, [self.url, jqXHR.status, errorThrown])
 			});
 		};
 
