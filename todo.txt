@@ -73,6 +73,12 @@ data.Region:
 - Add ability to define dataset programmatically, not only with custom attribute
 - Validate required attributes
 
+- Add custom attributes:
+  data-lugads-setrowid
+  data-lugads-setrowindex
+  data-lugads-state
+  data-lugads-sort
+
 -------------
 
 DATA FUTURE:
