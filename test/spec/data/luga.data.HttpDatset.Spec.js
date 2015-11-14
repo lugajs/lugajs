@@ -11,7 +11,7 @@ describe("luga.data.HttpDataSet", function(){
 		expect(jQuery.isFunction(testDs.select)).toBeTruthy();
 	});
 
-	it("Is an abstract class. That can't be invoked directly", function(){
+	it("Is an abstract class. Throws an exception if invoked directly", function(){
 		expect(function(){
 			new luga.data.HttpDataSet({id: "tryThis"});
 		}).toThrow();

@@ -7,7 +7,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.1";
+	luga.data.version = "0.1.1";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.datasetRegistry = {};
 
@@ -20,6 +20,8 @@ if(typeof(luga) === "undefined"){
 		},
 		ERROR_MESSAGES: {
 			INVALID_ID_PARAMETER: "Luga.DataSet: id parameter is required",
+			INVALID_PRIMITIVE: "Luga.DataSet: records can be either an array of objects or a single object. Primitives are not accepted",
+			INVALID_PRIMITIVE_ARRAY: "Luga.DataSet: records can be either an array of name/value pairs or a single object. Array of primitives are not accepted",
 			INVALID_ROW_ID_PARAMETER: "Luga.DataSet: invalid rowId parameter",
 			INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter",
 			HTTP_DATA_SET_ABSTRACT: "luga.data.HttpDataSet is an abstract class",
@@ -64,7 +66,7 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {object} luga.data.DataSet.options
 	 *
 	 * @property {string}              id        Unique identifier. Required
-	 * @property {array|object|null}   records   Records to be loaded, either one single object or an array of objects.  Default to null
+	 * @property {array.<object>|object}          records   Records to be loaded, either one single object or an array of name/value pairs
 	 * @property {function|null}       filter    A filter functions to be called once for each row in the dataSet. Default to null
 	 */
 
@@ -103,7 +105,7 @@ if(typeof(luga) === "undefined"){
 		 * Adds rows to a dataSet
 		 * Be aware that the dataSet use passed data by reference
 		 * That is, it uses those objects as its row object internally. It does not make a copy
-		 * @param  {array|object|null} records    Either one single object or an array of objects. Required
+		 * @param  {array.<object>|object} records    Either one single object or an array of name/value pairs. Required
 		 * @fires dataChanged
 		 */
 		this.insert = function(records){
@@ -113,9 +115,17 @@ if(typeof(luga) === "undefined"){
 				recordsHolder = records;
 			}
 			else{
+				// Ensure we don't have primitive values
+				if(jQuery.isPlainObject(records) === false){
+					throw(luga.data.CONST.ERROR_MESSAGES.INVALID_PRIMITIVE);
+				}
 				recordsHolder.push(records);
 			}
 			for(var i = 0; i < recordsHolder.length; i++){
+				// Ensure we don't have primitive values
+				if(jQuery.isPlainObject(recordsHolder[i]) === false){
+					throw(luga.data.CONST.ERROR_MESSAGES.INVALID_PRIMITIVE_ARRAY);
+				}
 				// Create new PK
 				var recordID = this.records.length;
 				recordsHolder[i][luga.data.CONST.PK_KEY] = recordID;
@@ -131,7 +141,7 @@ if(typeof(luga) === "undefined"){
 		 * Be aware that modifying any property of a returned object results in a modification of the internal records (since records are passed by reference)
 		 * @param {function|null} filter   An optional filter function. If specified only records matching the filter will be returned. Default to null
 		 *                                 The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
-		 * @return {object}
+		 * @return {array.<luga.data.DataSet.row>}
 		 */
 		this.select = function(filter){
 			if(filter === undefined){
@@ -175,7 +185,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns the row object associated with the given uniqe identifier
 		 * @param {string} rowId  Required
-		 * @return {object}
+		 * @return {luga.data.DataSet.row}
 		 */
 		this.getRowById = function(rowId){
 			if(this.recordsHash[rowId] !== undefined){

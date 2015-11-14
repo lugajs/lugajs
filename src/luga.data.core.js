@@ -7,7 +7,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.1";
+	luga.data.version = "0.1.1";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.datasetRegistry = {};
 
@@ -20,6 +20,8 @@ if(typeof(luga) === "undefined"){
 		},
 		ERROR_MESSAGES: {
 			INVALID_ID_PARAMETER: "Luga.DataSet: id parameter is required",
+			INVALID_PRIMITIVE: "Luga.DataSet: records can be either an array of objects or a single object. Primitives are not accepted",
+			INVALID_PRIMITIVE_ARRAY: "Luga.DataSet: records can be either an array of name/value pairs or a single object. Array of primitives are not accepted",
 			INVALID_ROW_ID_PARAMETER: "Luga.DataSet: invalid rowId parameter",
 			INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter",
 			HTTP_DATA_SET_ABSTRACT: "luga.data.HttpDataSet is an abstract class",

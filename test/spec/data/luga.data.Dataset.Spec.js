@@ -69,6 +69,49 @@ describe("luga.data.Dataset", function(){
 			});
 		});
 
+		describe("options.records", function(){
+			it("Pre-load data inside the dataSet", function(){
+				var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
+				expect(ds.select()).toEqual(testRecords);
+			});
+			it("If not specified the dataSet is empty", function(){
+				expect(testDs.records).toEqual([]);
+				expect(testDs.select().length).toEqual(0);
+			});
+			describe("Can be either:", function(){
+				it("An array of name/value pairs", function(){
+					var arrayRecords = [];
+					arrayRecords.push({name: "Nicole"});
+					arrayRecords.push({name: "Kate"});
+					var ds = new luga.data.DataSet({id: "myDs", records: arrayRecords});
+					expect(ds.records).toEqual(arrayRecords);
+					expect(ds.select().length).toEqual(2);
+				});
+				it("Or a single object", function(){
+					var recObj = {name: "Ciccio", lastname: "Pasticcio"};
+					var ds = new luga.data.DataSet({id: "myDs", records: recObj});
+					expect(ds.select().length).toEqual(1);
+				});
+			});
+
+			describe("Throws an exception if:", function(){
+				it("The passed array contains one primitive values", function(){
+					var arrayRecords = [];
+					arrayRecords.push({name: "Nicole"});
+					// Simple value!
+					arrayRecords.push("Kate");
+					expect(function(){
+						var ds = new luga.data.DataSet({id: "myDs", records: arrayRecords});
+					}).toThrow();
+				});
+				it("The passed single object is a primitive values", function(){
+					expect(function(){
+						var ds = new luga.data.DataSet({id: "myDs", records: "test"});
+					}).toThrow();
+				});
+			});
+		});
+
 	});
 
 	describe(".select():", function(){

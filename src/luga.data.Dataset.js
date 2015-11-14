@@ -11,7 +11,7 @@
 	 * @typedef {object} luga.data.DataSet.options
 	 *
 	 * @property {string}              id        Unique identifier. Required
-	 * @property {array|object|null}   records   Records to be loaded, either one single object or an array of objects.  Default to null
+	 * @property {array.<object>|object}          records   Records to be loaded, either one single object or an array of name/value pairs
 	 * @property {function|null}       filter    A filter functions to be called once for each row in the dataSet. Default to null
 	 */
 
@@ -50,7 +50,7 @@
 		 * Adds rows to a dataSet
 		 * Be aware that the dataSet use passed data by reference
 		 * That is, it uses those objects as its row object internally. It does not make a copy
-		 * @param  {array|object|null} records    Either one single object or an array of objects. Required
+		 * @param  {array.<object>|object} records    Either one single object or an array of name/value pairs. Required
 		 * @fires dataChanged
 		 */
 		this.insert = function(records){
@@ -60,9 +60,17 @@
 				recordsHolder = records;
 			}
 			else{
+				// Ensure we don't have primitive values
+				if(jQuery.isPlainObject(records) === false){
+					throw(luga.data.CONST.ERROR_MESSAGES.INVALID_PRIMITIVE);
+				}
 				recordsHolder.push(records);
 			}
 			for(var i = 0; i < recordsHolder.length; i++){
+				// Ensure we don't have primitive values
+				if(jQuery.isPlainObject(recordsHolder[i]) === false){
+					throw(luga.data.CONST.ERROR_MESSAGES.INVALID_PRIMITIVE_ARRAY);
+				}
 				// Create new PK
 				var recordID = this.records.length;
 				recordsHolder[i][luga.data.CONST.PK_KEY] = recordID;
@@ -78,7 +86,7 @@
 		 * Be aware that modifying any property of a returned object results in a modification of the internal records (since records are passed by reference)
 		 * @param {function|null} filter   An optional filter function. If specified only records matching the filter will be returned. Default to null
 		 *                                 The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
-		 * @return {object}
+		 * @return {array.<luga.data.DataSet.row>}
 		 */
 		this.select = function(filter){
 			if(filter === undefined){
@@ -122,7 +130,7 @@
 		/**
 		 * Returns the row object associated with the given uniqe identifier
 		 * @param {string} rowId  Required
-		 * @return {object}
+		 * @return {luga.data.DataSet.row}
 		 */
 		this.getRowById = function(rowId){
 			if(this.recordsHash[rowId] !== undefined){
