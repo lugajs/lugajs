@@ -38,13 +38,13 @@ data.Dataset:
 - getRowIndex(row) (use array.indexOf())
 - getCurrentRowIndex()      (use getRowIndex(getCurrentRow()))
 - getRowByIndex(index)      (use array.indexOf())
-- setCurrentRowIndex(index) (use array.indexOf())
+- setCurrentRowByIndex(index) (use array.indexOf())
 
 - update()
 
-- Implement sorting
-- Implement column types
 - Implement state (empty?, loading, error, ready)
+- Implement column types (with getters/setters)
+- Implement sorting (with getters/setters)
 
 - Local storage persistence? It would require serialization of full dataSet
 
@@ -56,10 +56,13 @@ data.DetailSet:
 
 data.HttpDatset:
 
-- Use options.dataType in jQuery.ajax() to handle dataType mismatches?
+- Use options.dataType in jQuery.ajax() to handle dataType mismatches
 
 
 data.JsonDataSet:
+
+- Add .rawJson to store raw JSON
+- Add .getRawJson()
 
 - Modify loadRecords() to handle more complex JSON structures like Spry?
 - Implement subPaths?
