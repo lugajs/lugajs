@@ -413,60 +413,56 @@ describe("luga.ajaxform", function(){
 
 		describe(".send()", function(){
 
-			describe("Whenever called", function(){
+			describe("First", function(){
 
-				describe("First", function(){
-
-					it("Serializes the form using luga.form.toQueryString()", function(){
-						basicSender.send();
-						expect(luga.form.toQueryString).toHaveBeenCalled();
-					});
-
+				it("Serializes the form using luga.form.toQueryString()", function(){
+					basicSender.send();
+					expect(luga.form.toQueryString).toHaveBeenCalled();
 				});
 
-				describe("Then: if options.before is defined:", function(){
+			});
 
-					it("Calls it", function(){
-						// No options.before here
-						basicSender.send();
-						expect(ajaxFormHandlers.customBefore).not.toHaveBeenCalled();
-						// Options.before here
-						configSender.send();
-						expect(ajaxFormHandlers.customBefore).toHaveBeenCalled();
-					});
+			describe("Then: if options.before is defined:", function(){
 
-					it("Passing the form's DOM node as first argument", function(){
-						configSender.send();
-						expect(ajaxFormHandlers.customBefore).toHaveBeenCalledWith(jQuery("#basic")[0]);
-					});
-
+				it("Calls it", function(){
+					// No options.before here
+					basicSender.send();
+					expect(ajaxFormHandlers.customBefore).not.toHaveBeenCalled();
+					// Options.before here
+					configSender.send();
+					expect(ajaxFormHandlers.customBefore).toHaveBeenCalled();
 				});
 
-				describe("Then:", function(){
-
-					it("Send the serialize form's data using jQuery.ajax()", function(){
-						configSender.send();
-						expect(jQuery.ajax).toHaveBeenCalled();
-					});
-
+				it("Passing the form's DOM node as first argument", function(){
+					configSender.send();
+					expect(ajaxFormHandlers.customBefore).toHaveBeenCalledWith(jQuery("#basic")[0]);
 				});
 
-				describe("Finally: if options.after is defined:", function(){
+			});
 
-					it("Calls it", function(){
-						// No options.after here
-						basicSender.send();
-						expect(ajaxFormHandlers.customAfter).not.toHaveBeenCalled();
-						// Options.after here
-						configSender.send();
-						expect(ajaxFormHandlers.customAfter).toHaveBeenCalled();
-					});
+			describe("Then:", function(){
 
-					it("Passing the form's DOM node as first argument", function(){
-						configSender.send();
-						expect(ajaxFormHandlers.customAfter).toHaveBeenCalledWith(jQuery("#basic")[0]);
-					});
+				it("Send the serialize form's data using jQuery.ajax()", function(){
+					configSender.send();
+					expect(jQuery.ajax).toHaveBeenCalled();
+				});
 
+			});
+
+			describe("Finally: if options.after is defined:", function(){
+
+				it("Calls it", function(){
+					// No options.after here
+					basicSender.send();
+					expect(ajaxFormHandlers.customAfter).not.toHaveBeenCalled();
+					// Options.after here
+					configSender.send();
+					expect(ajaxFormHandlers.customAfter).toHaveBeenCalled();
+				});
+
+				it("Passing the form's DOM node as first argument", function(){
+					configSender.send();
+					expect(ajaxFormHandlers.customAfter).toHaveBeenCalledWith(jQuery("#basic")[0]);
 				});
 
 			});
@@ -475,60 +471,56 @@ describe("luga.ajaxform", function(){
 
 		describe(".sendJson()", function(){
 
-			describe("Whenever called", function(){
+			describe("First", function(){
 
-				describe("First", function(){
-
-					it("Convert the form into JSON using luga.form.toHash()", function(){
-						basicSender.sendJson();
-						expect(luga.form.toHash).toHaveBeenCalled();
-					});
-
+				it("Convert the form into JSON using luga.form.toHash()", function(){
+					basicSender.sendJson();
+					expect(luga.form.toHash).toHaveBeenCalled();
 				});
 
-				describe("Then: if options.before is defined:", function(){
+			});
 
-					it("Calls it", function(){
-						// No options.before here
-						basicSender.sendJson();
-						expect(ajaxFormHandlers.customBefore).not.toHaveBeenCalled();
-						// Options.before here
-						configSender.sendJson();
-						expect(ajaxFormHandlers.customBefore).toHaveBeenCalled();
-					});
+			describe("Then: if options.before is defined:", function(){
 
-					it("Passing the form's DOM node as first argument", function(){
-						configSender.sendJson();
-						expect(ajaxFormHandlers.customBefore).toHaveBeenCalledWith(jQuery("#basic")[0]);
-					});
-
+				it("Calls it", function(){
+					// No options.before here
+					basicSender.sendJson();
+					expect(ajaxFormHandlers.customBefore).not.toHaveBeenCalled();
+					// Options.before here
+					configSender.sendJson();
+					expect(ajaxFormHandlers.customBefore).toHaveBeenCalled();
 				});
 
-				describe("Then:", function(){
-
-					it("Send the serialize form's data using jQuery.ajax()", function(){
-						configSender.sendJson();
-						expect(jQuery.ajax).toHaveBeenCalled();
-					});
-
+				it("Passing the form's DOM node as first argument", function(){
+					configSender.sendJson();
+					expect(ajaxFormHandlers.customBefore).toHaveBeenCalledWith(jQuery("#basic")[0]);
 				});
 
-				describe("Finally: if options.after is defined:", function(){
+			});
 
-					it("Calls it", function(){
-						// No options.after here
-						basicSender.sendJson();
-						expect(ajaxFormHandlers.customAfter).not.toHaveBeenCalled();
-						// Options.after here
-						configSender.sendJson();
-						expect(ajaxFormHandlers.customAfter).toHaveBeenCalled();
-					});
+			describe("Then:", function(){
 
-					it("Passing the form's DOM node as first argument", function(){
-						configSender.sendJson();
-						expect(ajaxFormHandlers.customAfter).toHaveBeenCalledWith(jQuery("#basic")[0]);
-					});
+				it("Send the serialize form's data using jQuery.ajax()", function(){
+					configSender.sendJson();
+					expect(jQuery.ajax).toHaveBeenCalled();
+				});
 
+			});
+
+			describe("Finally: if options.after is defined:", function(){
+
+				it("Calls it", function(){
+					// No options.after here
+					basicSender.sendJson();
+					expect(ajaxFormHandlers.customAfter).not.toHaveBeenCalled();
+					// Options.after here
+					configSender.sendJson();
+					expect(ajaxFormHandlers.customAfter).toHaveBeenCalled();
+				});
+
+				it("Passing the form's DOM node as first argument", function(){
+					configSender.sendJson();
+					expect(ajaxFormHandlers.customAfter).toHaveBeenCalledWith(jQuery("#basic")[0]);
 				});
 
 			});
