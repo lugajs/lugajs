@@ -7,7 +7,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.1.1";
+	luga.data.version = "0.1.2";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.datasetRegistry = {};
 
@@ -19,13 +19,7 @@ if(typeof(luga) === "undefined"){
 			DATA_SET: "data-lugads-dataset"
 		},
 		ERROR_MESSAGES: {
-			INVALID_ID_PARAMETER: "Luga.DataSet: id parameter is required",
-			INVALID_PRIMITIVE: "Luga.DataSet: records can be either an array of objects or a single object. Primitives are not accepted",
-			INVALID_PRIMITIVE_ARRAY: "Luga.DataSet: records can be either an array of name/value pairs or a single object. Array of primitives are not accepted",
-			INVALID_ROW_ID_PARAMETER: "Luga.DataSet: invalid rowId parameter",
-			INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter",
-			HTTP_DATA_SET_ABSTRACT: "luga.data.HttpDataSet is an abstract class",
-			XHR_FAILURE: "Failed to retrieve: {0}. HTTP status: {1}. Error: {2}"
+			INVALID_ID_PARAMETER: "Luga.DataSet: id parameter is required"
 		},
 		EVENTS: {
 			CURRENT_ROW_CHANGED: "currentRowChanged",
@@ -36,7 +30,7 @@ if(typeof(luga) === "undefined"){
 		SELECTORS: {
 			REGION: "*[data-lugads-region]"
 		},
-		XHR_TIMEOUT: 10000
+		XHR_TIMEOUT: 10000 // Keep this accessible to everybody
 	};
 
 	/**
@@ -65,9 +59,9 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.data.DataSet.options
 	 *
-	 * @property {string}              id        Unique identifier. Required
-	 * @property {array.<object>|object}          records   Records to be loaded, either one single object or an array of name/value pairs
-	 * @property {function|null}       filter    A filter functions to be called once for each row in the dataSet. Default to null
+	 * @property {string}              id         Unique identifier. Required
+	 * @property {array.<object>|object} records  Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
+	 * @property {function|null}       filter     A filter functions to be called once for each row in the da,taSet. Default to null
 	 */
 
 	/**
@@ -87,8 +81,18 @@ if(typeof(luga) === "undefined"){
 			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 		}
 		luga.extend(luga.Notifier, this);
+
 		/** @type {luga.data.DataSet} */
 		var self = this;
+
+		var CONST = {
+			ERROR_MESSAGES: {
+				INVALID_PRIMITIVE: "Luga.DataSet: records can be either an array of objects or a single object. Primitives are not accepted",
+				INVALID_PRIMITIVE_ARRAY: "Luga.DataSet: records can be either an array of name/value pairs or a single object. Array of primitives are not accepted",
+				INVALID_ROW_ID_PARAMETER: "Luga.DataSet: invalid rowId parameter",
+				INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter",
+			}
+		};
 
 		this.id = options.id;
 		/** @type {array.<luga.data.DataSet.row>} */
@@ -148,7 +152,7 @@ if(typeof(luga) === "undefined"){
 				return;
 			}
 			if(jQuery.isFunction(filter) === false){
-				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
+				throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			this.records = filterRecords(selectAll(), filter);
 			applyFilter();
@@ -202,7 +206,7 @@ if(typeof(luga) === "undefined"){
 		 * Adds rows to a dataSet
 		 * Be aware that the dataSet use passed data by reference
 		 * That is, it uses those objects as its row object internally. It does not make a copy
-		 * @param  {array.<object>|object} records    Either one single object or an array of name/value pairs. Required
+		 * @param  {array.<object>|object} records   Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs. Required
 		 * @fires dataChanged
 		 */
 		this.insert = function(records){
@@ -214,14 +218,14 @@ if(typeof(luga) === "undefined"){
 			else{
 				// Ensure we don't have primitive values
 				if(jQuery.isPlainObject(records) === false){
-					throw(luga.data.CONST.ERROR_MESSAGES.INVALID_PRIMITIVE);
+					throw(CONST.ERROR_MESSAGES.INVALID_PRIMITIVE);
 				}
 				recordsHolder.push(records);
 			}
 			for(var i = 0; i < recordsHolder.length; i++){
 				// Ensure we don't have primitive values
 				if(jQuery.isPlainObject(recordsHolder[i]) === false){
-					throw(luga.data.CONST.ERROR_MESSAGES.INVALID_PRIMITIVE_ARRAY);
+					throw(CONST.ERROR_MESSAGES.INVALID_PRIMITIVE_ARRAY);
 				}
 				// Create new PK
 				var recordID = this.records.length;
@@ -245,7 +249,7 @@ if(typeof(luga) === "undefined"){
 				return selectAll();
 			}
 			if(jQuery.isFunction(filter) === false){
-				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
+				throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			return filterRecords(selectAll(), filter);
 		};
@@ -262,7 +266,7 @@ if(typeof(luga) === "undefined"){
 				return;
 			}
 			if(this.getRowById(rowId) === null){
-				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_ROW_ID_PARAMETER);
+				throw(CONST.ERROR_MESSAGES.INVALID_ROW_ID_PARAMETER);
 			}
 			var notificationData = { oldRowId: this.currentRowId, newRowId: rowId, dataSet: this };
 			this.currentRowId = rowId;
@@ -278,7 +282,7 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.setFilter = function(filter){
 			if(jQuery.isFunction(filter) === false){
-				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
+				throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			this.filter = filter;
 			applyFilter();
@@ -320,12 +324,21 @@ if(typeof(luga) === "undefined"){
 	 * @fires xhrError
 	 */
 	luga.data.HttpDataSet = function(options){
-		if(this.constructor === luga.data.HttpDataSet){
-			throw(luga.data.CONST.ERROR_MESSAGES.HTTP_DATA_SET_ABSTRACT);
-		}
 		luga.extend(luga.data.DataSet, this, [options]);
 		/** @type {luga.data.HttpDataSet} */
 		var self = this;
+
+		var CONST = {
+			ERROR_MESSAGES: {
+				HTTP_DATA_SET_ABSTRACT: "luga.data.HttpDataSet is an abstract class",
+				XHR_FAILURE: "Failed to retrieve: {0}. HTTP status: {1}. Error: {2}",
+				NEED_URL_TO_LOAD: "Unable to call loadData(). DataSet is missing a URL"
+			}
+		};
+
+		if(this.constructor === luga.data.HttpDataSet){
+			throw(CONST.ERROR_MESSAGES.HTTP_DATA_SET_ABSTRACT);
+		}
 
 		this.url = null;
 		if(options.url !== undefined){
@@ -344,13 +357,6 @@ if(typeof(luga) === "undefined"){
 
 		this.xhrRequest = null;
 
-		this.cancelRequest = function(){
-			if(this.xhrRequest !== null){
-				this.xhrRequest.abort();
-				this.xhrRequest = null;
-			}
-		};
-
 		/* Private methods */
 
 		var loadUrl = function(){
@@ -364,6 +370,16 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/* Public methods */
+
+		/**
+		 * Abort any pending XHR request
+		 */
+		this.cancelRequest = function(){
+			if(this.xhrRequest !== null){
+				this.xhrRequest.abort();
+				this.xhrRequest = null;
+			}
+		};
 
 		/**
 		 * Returns the URL that will be used to fetch the data. Returns null if URL is not set
@@ -380,7 +396,7 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.loadData = function(){
 			if(this.url === null){
-				return;
+				throw(CONST.ERROR_MESSAGES.NEED_URL_TO_LOAD);
 			}
 			this.notifyObservers(luga.data.CONST.EVENTS.LOADING, this);
 			this.cancelRequest();
@@ -409,7 +425,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * Will be called whenever an XHR request fails, notify observers ("xhrError")
+		 * Is called whenever an XHR request fails, notify observers ("xhrError")
 		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
 		 * @param {string}   textStatus   HTTP status
 		 * @param {string}   errorThrown  Error message from jQuery
@@ -418,7 +434,10 @@ if(typeof(luga) === "undefined"){
 		this.xhrError = function(jqXHR, textStatus, errorThrown){
 			self.notifyObservers(luga.data.CONST.EVENTS.XHR_ERROR, {
 				dataSet: self,
-				message: luga.string.format(luga.data.CONST.ERROR_MESSAGES.XHR_FAILURE, [self.url, jqXHR.status, errorThrown])
+				message: luga.string.format(CONST.ERROR_MESSAGES.XHR_FAILURE, [self.url, jqXHR.status, errorThrown]),
+				jqXHR: jqXHR,
+				textStatus: textStatus,
+				errorThrown: errorThrown
 			});
 		};
 
@@ -454,6 +473,14 @@ if(typeof(luga) === "undefined"){
 		/* Public methods */
 
 		/**
+		 * Returns the path to be used to extract data out of the JSON data structure
+		 * @returns {string|null}
+		 */
+		this.getPath = function(){
+			return this.path;
+		};
+
+		/**
 		 * Receives HTTP response, extracts and loads records out of it
 		 * @param {*}        response     Data returned from the server
 		 * @param {string}   textStatus   HTTP status
@@ -469,14 +496,6 @@ if(typeof(luga) === "undefined"){
 					self.insert(response[self.path]);
 				}
 			}
-		};
-
-		/**
-		 * Returns the path to be used to extract data out of the JSON data structure
-		 * @returns {string|null}
-		 */
-		this.getPath = function(){
-			return this.path;
 		};
 
 		/**

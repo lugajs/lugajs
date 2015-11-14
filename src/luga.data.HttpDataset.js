@@ -28,7 +28,8 @@
 		var CONST = {
 			ERROR_MESSAGES: {
 				HTTP_DATA_SET_ABSTRACT: "luga.data.HttpDataSet is an abstract class",
-				XHR_FAILURE: "Failed to retrieve: {0}. HTTP status: {1}. Error: {2}"
+				XHR_FAILURE: "Failed to retrieve: {0}. HTTP status: {1}. Error: {2}",
+				NEED_URL_TO_LOAD: "Unable to call loadData(). DataSet is missing a URL"
 			}
 		};
 
@@ -92,7 +93,7 @@
 		 */
 		this.loadData = function(){
 			if(this.url === null){
-				return;
+				throw(CONST.ERROR_MESSAGES.NEED_URL_TO_LOAD);
 			}
 			this.notifyObservers(luga.data.CONST.EVENTS.LOADING, this);
 			this.cancelRequest();
@@ -121,7 +122,7 @@
 		};
 
 		/**
-		 * Will be called whenever an XHR request fails, notify observers ("xhrError")
+		 * Is called whenever an XHR request fails, notify observers ("xhrError")
 		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
 		 * @param {string}   textStatus   HTTP status
 		 * @param {string}   errorThrown  Error message from jQuery
@@ -130,7 +131,10 @@
 		this.xhrError = function(jqXHR, textStatus, errorThrown){
 			self.notifyObservers(luga.data.CONST.EVENTS.XHR_ERROR, {
 				dataSet: self,
-				message: luga.string.format(CONST.ERROR_MESSAGES.XHR_FAILURE, [self.url, jqXHR.status, errorThrown])
+				message: luga.string.format(CONST.ERROR_MESSAGES.XHR_FAILURE, [self.url, jqXHR.status, errorThrown]),
+				jqXHR: jqXHR,
+				textStatus: textStatus,
+				errorThrown: errorThrown
 			});
 		};
 

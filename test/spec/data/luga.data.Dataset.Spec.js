@@ -62,7 +62,7 @@ describe("luga.data.Dataset", function(){
 			it("Is null by default", function(){
 				expect(testDs.filter).toBeNull();
 			});
-			it("Throws an exception if it is not a function", function(){
+			it("Throws an exception if the passed filter is not a function", function(){
 				expect(function(){
 					var ds = new luga.data.DataSet({id: "myDs", filter: "test"});
 				}).toThrow();
@@ -87,7 +87,7 @@ describe("luga.data.Dataset", function(){
 					expect(ds.records).toEqual(arrayRecords);
 					expect(ds.select().length).toEqual(2);
 				});
-				it("Or a single object", function(){
+				it("Or a single object containing value/name pairs", function(){
 					var recObj = {name: "Ciccio", lastname: "Pasticcio"};
 					var ds = new luga.data.DataSet({id: "myDs", records: recObj});
 					expect(ds.select().length).toEqual(1);
@@ -95,7 +95,7 @@ describe("luga.data.Dataset", function(){
 			});
 
 			describe("Throws an exception if:", function(){
-				it("The passed array contains one primitive values", function(){
+				it("The passed array contains one primitive value", function(){
 					var arrayRecords = [];
 					arrayRecords.push({name: "Nicole"});
 					// Simple value!
@@ -104,7 +104,7 @@ describe("luga.data.Dataset", function(){
 						var ds = new luga.data.DataSet({id: "myDs", records: arrayRecords});
 					}).toThrow();
 				});
-				it("The passed single object is a primitive values", function(){
+				it("The passed single object is a primitive value", function(){
 					expect(function(){
 						var ds = new luga.data.DataSet({id: "myDs", records: "test"});
 					}).toThrow();
@@ -121,18 +121,18 @@ describe("luga.data.Dataset", function(){
 			testDs.delete();
 			expect(testDs.select().length).toEqual(0);
 		});
-		it("Then it triggers a 'dataChanged' notification", function(){
+		it("Then triggers a 'dataChanged' notification", function(){
 			testDs.insert(testRecords);
 			testDs.delete();
 			expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith(testDs);
 		});
-		describe("It accepts an optional filter function as an argument", function(){
+		describe("Accepts an optional filter function as an argument", function(){
 			it("If specified only records matching the filter will be deleted", function(){
 				var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
 				ds.delete(removeUk);
 				expect(ds.select().length).toEqual(5);
 			});
-			it("Throws an exception if it is not a function", function(){
+			it("Throws an exception if the passed filter is not a function", function(){
 				expect(function(){
 					testDs.delete("test");
 				}).toThrow();
@@ -155,7 +155,7 @@ describe("luga.data.Dataset", function(){
 			expect(testDs.getRecordsCount()).toEqual(7);
 			expect(testDs.select()).toEqual(testRecords);
 		});
-		it("Then it triggers a 'dataChanged' notification", function(){
+		it("Then triggers a 'dataChanged' notification", function(){
 			testDs.deleteFilter();
 			expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith(testDs);
 		});
@@ -182,6 +182,9 @@ describe("luga.data.Dataset", function(){
 			testDs.setFilter(removeUk);
 			expect(testDs.getRecordsCount()).toEqual(5);
 		});
+		it("Returns 0 on an empty dataSet", function(){
+			expect(testDs.getRecordsCount()).toEqual(0);
+		});
 	});
 
 	describe(".getRowById()", function(){
@@ -190,62 +193,85 @@ describe("luga.data.Dataset", function(){
 			var row = testDs.getRowById(2);
 			expect(row).toEqual(testRecords[2]);
 		});
-		it("Returns null if the dataSet contains no data", function(){
-			var row = testDs.getRowById(2);
-			expect(row).toBeNull();
-		});
-		it("Or if no available record matches the given rowId", function(){
-			testDs.insert(testRecords);
-			var row = testDs.getRowById(99);
-			expect(row).toBeNull();
+		describe("Returns null if:", function(){
+			it("The dataSet contains no data", function(){
+				var row = testDs.getRowById(2);
+				expect(row).toBeNull();
+			});
+			it("No available record matches the given rowId", function(){
+				testDs.insert(testRecords);
+				var row = testDs.getRowById(99);
+				expect(row).toBeNull();
+			});
 		});
 	});
 
 	describe(".insert()", function(){
+
 		it("Adds records to a dataSet", function(){
 			testDs.insert({ firstName: "Nicole", lastName: "Kidman" });
 			testDs.insert({ firstName: "Elisabeth", lastName: "Banks" });
 			expect(testDs.getRecordsCount()).toEqual(2);
-		});
-		it("Accepts either a single record", function(){
-			expect(testDs.getRecordsCount()).toEqual(0);
-			testDs.insert({ firstName: "Nicole", lastName: "Kidman" });
-			expect(testDs.getRecordsCount()).toEqual(1);
-		});
-		it("Or an array of records", function(){
-			expect(testDs.getRecordsCount()).toEqual(0);
-			testDs.insert(testRecords);
-			expect(testDs.getRecordsCount()).toEqual(7);
 		});
 		it("Fires a 'dataChanged' notification. Sending the whole dataSet along the way", function(){
 			testDs.insert(testRecords);
 			expect(testObserver.onDataChangedHandler).toHaveBeenCalled();
 			expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith(testDs);
 		});
-		it("It will automatically create one PK field that is the equivalent of the row's index within the array", function(){
+		it("Automatically add a PK field that is the equivalent of the row's index within the array", function(){
 			testDs.insert(testRecords);
 			expect(testDs.records[0][luga.data.CONST.PK_KEY]).toEqual(0);
 			expect(testDs.records[6][luga.data.CONST.PK_KEY]).toEqual(6);
 		});
 
+		describe("Accepts either:", function(){
+			it("An array of name/value pairs", function(){
+				expect(testDs.getRecordsCount()).toEqual(0);
+				testDs.insert(testRecords);
+				expect(testDs.getRecordsCount()).toEqual(7);
+			});
+			it("Or a single object containing value/name pairs", function(){
+				expect(testDs.getRecordsCount()).toEqual(0);
+				testDs.insert({ firstName: "Nicole", lastName: "Kidman" });
+				expect(testDs.getRecordsCount()).toEqual(1);
+			});
+		});
+
+		describe("Throws an exception if:", function(){
+			it("The passed array contains one primitive value", function(){
+				var arrayRecords = [];
+				arrayRecords.push({name: "Nicole"});
+				// Simple value!
+				arrayRecords.push("Kate");
+				expect(function(){
+					testDs.insert(arrayRecords);
+				}).toThrow();
+			});
+			it("The passed single object is a primitive value", function(){
+				expect(function(){
+					testDs.insert(new Date());
+				}).toThrow();
+			});
+		});
+
 	});
 
-	describe(".select():", function(){
-		it("Returns an array of the internal row objects that store the records in the dataSet", function(){
+	describe(".select()", function(){
+		it("Returns an array of the internal row objects stored inside the dataSet", function(){
 			var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
 			expect(ds.select()).toEqual(testRecords);
 			expect(ds.select().length).toEqual(7);
 		});
-		it("If the dataSet contains a filter function, it returns the filtered records", function(){
+		it("If the dataSet contains a filter function, returns the row objects matching the filter", function(){
 			var ds = new luga.data.DataSet({id: "myDs", records: testRecords, filter: removeUk});
 			expect(ds.select().length).toEqual(5);
 		});
 		describe("It accepts an optional filter function as an argument", function(){
-			it("If specified only records matching the filter will be returned", function(){
+			it("If specified, only records matching the filter will be returned", function(){
 				var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
 				expect(ds.select(removeUk).length).toEqual(5);
 			});
-			it("Throws an exception if it is not a function", function(){
+			it("Throws an exception if the passed filter is not a function", function(){
 				expect(function(){
 					testDs.select("test");
 				}).toThrow();
@@ -253,7 +279,7 @@ describe("luga.data.Dataset", function(){
 		});
 	});
 
-	describe(".setFilter():", function(){
+	describe(".setFilter()", function(){
 		beforeEach(function(){
 			testDs.insert(testRecords);
 			testDs.setFilter(removeUk);
@@ -263,37 +289,53 @@ describe("luga.data.Dataset", function(){
 				testDs.setFilter("test");
 			}).toThrow();
 		});
-		it("Replaces current filter with a new filter functions", function(){
-			testDs.setFilter(removeBrasil);
-			expect(testDs.filter).toEqual(removeBrasil);
+
+		describe("First:", function(){
+			it("Replaces current filter (if any), with a new filter functions", function(){
+				testDs.setFilter(removeBrasil);
+				expect(testDs.filter).toEqual(removeBrasil);
+			});
 		});
-		it("And apply the new filter", function(){
-			expect(testDs.getRecordsCount()).toEqual(5);
-			testDs.setFilter(removeBrasil);
-			expect(testDs.getRecordsCount()).toEqual(6);
+		describe("Then:", function(){
+			it("Apply the new filter to the records", function(){
+				expect(testDs.getRecordsCount()).toEqual(5);
+				testDs.setFilter(removeBrasil);
+				expect(testDs.getRecordsCount()).toEqual(6);
+			});
 		});
-		it("Then it triggers a 'dataChanged' notification", function(){
-			testDs.setFilter(removeBrasil);
-			expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith(testDs);
+		describe("Finally", function(){
+			it("Triggers a 'dataChanged' notification", function(){
+				testDs.setFilter(removeBrasil);
+				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith(testDs);
+			});
 		});
+
 	});
 
 	describe(".setCurrentRowId()", function(){
-		it("Sets the current row of the data set to the row matching the given rowId", function(){
-			testDs.insert(testRecords);
-			testDs.setCurrentRowId(3);
-			expect(testDs.getCurrentRowId()).toEqual(3);
-		});
+
 		it("Throws an exception if the given rowId is invalid", function(){
 			expect(function(){
 				testDs.setCurrentRowId(3);
 			}).toThrow();
 		});
-		it("Triggers a 'currentRowChanged' notification", function(){
-			testDs.insert(testRecords);
-			testDs.setCurrentRowId(3);
-			expect(testObserver.onCurrentRowChangedHandler).toHaveBeenCalled();
+
+		describe("First:", function(){
+			it("Sets the current row of the dataSet to the row matching the given rowId", function(){
+				testDs.insert(testRecords);
+				testDs.setCurrentRowId(3);
+				expect(testDs.getCurrentRowId()).toEqual(3);
+			});
 		});
+
+		describe("Then:", function(){
+			it("Triggers a 'currentRowChanged' notification", function(){
+				testDs.insert(testRecords);
+				testDs.setCurrentRowId(3);
+				expect(testObserver.onCurrentRowChangedHandler).toHaveBeenCalled();
+			});
+		});
+
 	});
 
 });

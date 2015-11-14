@@ -40,6 +40,17 @@ describe("luga.data.HttpDataSet", function(){
 
 	});
 
+	describe(".cancelRequest()", function(){
+		it("Abort any pending XHR request", function(){
+			var ds = new luga.data.JsonDataSet({id: "myDs"});
+			ds.setUrl("test.json");
+			ds.loadData();
+			expect(ds.xhrRequest).not.toBeNull();
+			ds.cancelRequest();
+			expect(ds.xhrRequest).toBeNull();
+		});
+	});
+
 	describe(".getUrl()", function(){
 		it("Returns the URL that will be used to fetch the data", function(){
 			var ds = new luga.data.JsonDataSet({id: "myDs", url: "test.json"});
@@ -73,41 +84,75 @@ describe("luga.data.HttpDataSet", function(){
 			spyOn(testObserver, "onXhrErrorHandler");
 		});
 
-		it("Fires off XHR request to fetch and load the data", function(done){
-			testDs.loadData();
-			setTimeout(function(){
-				expect(testDs.getRecordsCount()).toEqual(7);
-				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith(testDs);
-				done();
-			}, DEFAULT_TIMEOUT);
+		it("Throws an exception if the dataSet's URL is null", function(){
+			var ds = new luga.data.JsonDataSet({id: "myDs"});
+			expect(function(){
+				ds.loadData();
+			}).toThrow();
 		});
 
-		it("Triggers a 'loading' notification as soon as it's called", function(){
-			testDs.loadData();
-			expect(testObserver.onLoadingHandler).toHaveBeenCalledWith(testDs);
+		describe("First:", function(){
+			it("Triggers a 'loading' notification", function(){
+				testDs.loadData();
+				expect(testObserver.onLoadingHandler).toHaveBeenCalledWith(testDs);
+			});
 		});
 
-		it("Invokes .xhrError() in case of an HTTP error", function(done){
-			spyOn(testDs, "xhrError");
-			testDs.setUrl("missing.json");
-			testDs.loadData();
-			setTimeout(function(){
-				expect(testDs.xhrError).toHaveBeenCalled();
-				done();
-			}, DEFAULT_TIMEOUT);
+		describe("Then:", function(){
+			it("Call .cancelRequest() to abort any pending request", function(){
+				spyOn(testDs, "cancelRequest").and.callFake(function(){
+				});
+				testDs.loadData();
+				expect(testDs.cancelRequest).toHaveBeenCalled();
+			});
 		});
 
-		it("Triggers an 'xhrError' notification in case of an HTTP error", function(done){
-			testDs.setUrl("missing.json");
-			testDs.loadData();
-			setTimeout(function(){
-				expect(testObserver.onXhrErrorHandler).toHaveBeenCalled();
-				done();
-			}, DEFAULT_TIMEOUT);
+		describe("Then:", function(){
+			it("Call .delete() empty the dataSet", function(){
+				spyOn(testDs, "delete").and.callFake(function(){
+				});
+				testDs.delete();
+				expect(testDs.delete).toHaveBeenCalled();
+			});
+		});
+
+		describe("Finally:", function(){
+			it("Fires off XHR request to fetch and load the data", function(done){
+				testDs.loadData();
+				setTimeout(function(){
+					expect(testDs.getRecordsCount()).toEqual(7);
+					done();
+				}, DEFAULT_TIMEOUT);
+			});
+		});
+
+		describe("In case of an HTTP error", function(){
+
+			describe("First:", function(){
+				it("Invokes .xhrError()", function(done){
+					spyOn(testDs, "xhrError");
+					testDs.setUrl("missing.json");
+					testDs.loadData();
+					setTimeout(function(){
+						expect(testDs.xhrError).toHaveBeenCalled();
+						done();
+					}, DEFAULT_TIMEOUT);
+				});
+			});
+			describe("Then:", function(){
+				it("Triggers an 'xhrError' notification in case of an HTTP error", function(done){
+					testDs.setUrl("missing.json");
+					testDs.loadData();
+					setTimeout(function(){
+						expect(testObserver.onXhrErrorHandler).toHaveBeenCalled();
+						done();
+					}, DEFAULT_TIMEOUT);
+				});
+			});
+
 		});
 
 	});
-
 
 	describe(".loadRecords()", function(){
 		it("Is an abstract method, child classes must implement it to extract records from XHR response", function(){
@@ -119,6 +164,12 @@ describe("luga.data.HttpDataSet", function(){
 		it("Set the URL that will be used to fetch the data", function(){
 			testDs.setUrl("test.json");
 			expect(testDs.getUrl()).toEqual("test.json");
+		});
+	});
+
+	describe(".xhrError()", function(){
+		it("Is the default handler for XHR errors", function(){
+			expect(testDs.xhrError).toBeDefined();
 		});
 	});
 

@@ -32,7 +32,7 @@ describe("luga.data.JsonDataset", function(){
 		});
 	});
 
-	describe(".loadData()", function() {
+	describe(".loadData()", function(){
 
 		var peopleDs, peopleObserver;
 		beforeEach(function(){
@@ -49,34 +49,54 @@ describe("luga.data.JsonDataset", function(){
 			spyOn(peopleObserver, "onDataChangedHandler");
 		});
 
-		it("Extract records out of the JSON data structure based on the current path", function(done) {
-			peopleDs.loadData();
-			setTimeout(function() {
-				expect(peopleDs.getRecordsCount()).toEqual(7);
-				expect(peopleObserver.onDataChangedHandler).toHaveBeenCalledWith(peopleDs);
-				done();
-			}, DEFAULT_TIMEOUT);
+		describe("First:", function(){
+			it("Extract records out of the fetched JSON data based on the current path", function(done){
+				peopleDs.loadData();
+				setTimeout(function(){
+					expect(peopleDs.getRecordsCount()).toEqual(7);
+					done();
+				}, DEFAULT_TIMEOUT);
+			});
+
+			it("The nature and amount of records may vary depending on the path", function(done){
+				peopleDs.setPath("jazzPlayers");
+				peopleDs.loadData();
+				setTimeout(function(){
+					expect(peopleDs.getRecordsCount()).toEqual(4);
+					done();
+				}, DEFAULT_TIMEOUT);
+			});
 		});
 
-		it("A different path will extract a different set of records", function(done) {
-			peopleDs.setPath("jazzPlayers");
-			peopleDs.loadData();
-			setTimeout(function() {
-				expect(peopleDs.getRecordsCount()).toEqual(4);
-				expect(peopleObserver.onDataChangedHandler).toHaveBeenCalledWith(peopleDs);
-				done();
-			}, DEFAULT_TIMEOUT);
+		describe("Then:", function(){
+			it("Triggers a 'dataChange' notification", function(done){
+				peopleDs.loadData();
+				setTimeout(function(){
+					expect(peopleObserver.onDataChangedHandler).toHaveBeenCalledWith(peopleDs);
+					done();
+				}, DEFAULT_TIMEOUT);
+			});
 		});
 
-		it("A path that has no matches inside the JSON data will result in an empty dataSet", function(done) {
-			peopleDs.setPath("invalid");
-			peopleDs.loadData();
-			setTimeout(function() {
-				expect(peopleDs.getRecordsCount()).toEqual(0);
-				expect(peopleObserver.onDataChangedHandler).not.toHaveBeenCalledWith(peopleDs);
-				done();
-			}, DEFAULT_TIMEOUT);
+		describe("If the path has no matches inside the JSON data:", function(){
+			it("No record will be added to the dataSet", function(done){
+				peopleDs.setPath("invalid");
+				peopleDs.loadData();
+				setTimeout(function(){
+					expect(peopleDs.getRecordsCount()).toEqual(0);
+					done();
+				}, DEFAULT_TIMEOUT);
+			});
+			it("The 'dataChange' will not be triggered", function(done){
+				peopleDs.setPath("invalid");
+				peopleDs.loadData();
+				setTimeout(function(){
+					expect(peopleObserver.onDataChangedHandler).not.toHaveBeenCalledWith(peopleDs);
+					done();
+				}, DEFAULT_TIMEOUT);
+			});
 		});
+
 
 	});
 

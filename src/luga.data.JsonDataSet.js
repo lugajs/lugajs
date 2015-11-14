@@ -27,6 +27,14 @@
 		/* Public methods */
 
 		/**
+		 * Returns the path to be used to extract data out of the JSON data structure
+		 * @returns {string|null}
+		 */
+		this.getPath = function(){
+			return this.path;
+		};
+
+		/**
 		 * Receives HTTP response, extracts and loads records out of it
 		 * @param {*}        response     Data returned from the server
 		 * @param {string}   textStatus   HTTP status
@@ -42,14 +50,6 @@
 					self.insert(response[self.path]);
 				}
 			}
-		};
-
-		/**
-		 * Returns the path to be used to extract data out of the JSON data structure
-		 * @returns {string|null}
-		 */
-		this.getPath = function(){
-			return this.path;
 		};
 
 		/**
