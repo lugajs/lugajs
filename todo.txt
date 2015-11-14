@@ -35,9 +35,6 @@ DATA:
 
 data.Dataset:
 
-- hasFilter()
-  Update resetCurrentRow()
-
 - getRowIndex(row) (use array.indexOf())
 - getCurrentRowIndex()      (use getRowIndex(getCurrentRow()))
 - getRowByIndex(index)      (use array.indexOf())

@@ -84,6 +84,10 @@
 			return filtered;
 		};
 
+		var hasFilter = function(){
+			return (self.filter !== null);
+		};
+
 		var selectAll = function(){
 			if(self.filteredRecords !== null){
 				return self.filteredRecords;
@@ -214,7 +218,7 @@
 		 */
 		this.resetCurrentRow = function(){
 			// We have a filter
-			if(this.filter !== null){
+			if(hasFilter() === true){
 				if(this.filteredRecords.length > 0){
 					// First among the filtered records
 					this.setCurrentRowId(this.filteredRecords[0][luga.data.CONST.PK_KEY]);
