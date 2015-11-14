@@ -234,7 +234,7 @@ describe("luga.data.Dataset", function(){
 			expect(testDs.getCurrentRowId()).toEqual(2);
 		});
 
-		it("Returns 0 on a newly created dataSet", function(){
+		it("Returns zero on a newly created dataSet", function(){
 			testDs.insert(testRecords);
 			expect(testDs.getCurrentRowId()).toEqual(0);
 		});
@@ -262,7 +262,7 @@ describe("luga.data.Dataset", function(){
 			testDs.setFilter(removeUk);
 			expect(testDs.getRecordsCount()).toEqual(5);
 		});
-		it("Returns 0 on an empty dataSet", function(){
+		it("Returns zero on an empty dataSet", function(){
 			expect(testDs.getRecordsCount()).toEqual(0);
 		});
 	});
@@ -338,7 +338,7 @@ describe("luga.data.Dataset", function(){
 
 	describe(".resetCurrentRow()", function(){
 
-		it("Set currentRowId to 0", function(){
+		it("Set currentRowId to zero", function(){
 			testDs.insert(testRecords);
 			testDs.setCurrentRowId(2);
 			testDs.resetCurrentRow();
