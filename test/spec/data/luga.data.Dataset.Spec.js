@@ -243,9 +243,17 @@ describe("luga.data.Dataset", function(){
 			expect(baseDs.getCurrentRowId()).toEqual(2);
 		});
 
-		it("Returns zero on a newly created dataSet", function(){
-			baseDs.insert(testRecords);
-			expect(baseDs.getCurrentRowId()).toEqual(0);
+		describe("Returns zero if:", function(){
+			it("Records are added to the dataSet", function(){
+				baseDs.insert(testRecords);
+				expect(baseDs.getCurrentRowId()).toEqual(0);
+			});
+			it("A filter was just applied to the dataSet", function(){
+				baseDs.insert(testRecords);
+				baseDs.setCurrentRowId(2);
+				baseDs.setFilter(removeUk);
+				expect(baseDs.getCurrentRowId()).toEqual(0);
+			});
 		});
 
 		describe("Returns null if:", function(){
@@ -424,8 +432,8 @@ describe("luga.data.Dataset", function(){
 			var ds = new luga.data.DataSet({id: "myDs", records: testRecords, filter: removeUk});
 			expect(ds.select().length).toEqual(5);
 		});
-		describe("It accepts an optional filter function as an argument", function(){
-			it("If specified, only records matching the filter will be returned", function(){
+		describe("Accepts an optional filter function as an argument", function(){
+			it("In this case, only records matching the filter will be returned", function(){
 				var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
 				expect(ds.select(removeUk).length).toEqual(5);
 			});
