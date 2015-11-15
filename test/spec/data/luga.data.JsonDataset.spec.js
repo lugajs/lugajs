@@ -57,7 +57,14 @@ describe("luga.data.JsonDataset", function(){
 					done();
 				}, DEFAULT_TIMEOUT);
 			});
-
+			it("Records are extracted even if the HTTP's Content-Type is not application/json (as long as it contains JSON data)", function(done){
+				var txtDs = new luga.data.JsonDataSet({id: "jsonDs", url: "fixtures/data/people.txt", path: "ladies"});
+				txtDs.loadData();
+				setTimeout(function(){
+					expect(txtDs.getRecordsCount()).toEqual(7);
+					done();
+				}, DEFAULT_TIMEOUT);
+			});
 			it("The nature and amount of records may vary depending on the path", function(done){
 				peopleDs.setPath("jazzPlayers");
 				peopleDs.loadData();

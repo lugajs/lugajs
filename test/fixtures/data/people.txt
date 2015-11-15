@@ -1,0 +1,17 @@
+{
+	"ladies":[
+		{ "firstName": "Nicole", "lastName": "Kidman", "country": "Australia" },
+		{ "firstName": "Kate", "lastName": "Beckinsale", "country": "UK" },
+		{ "firstName": "Jennifer", "lastName": "Connelly", "country": "USA" },
+		{ "firstName": "Salma", "lastName": "Hayek", "country": "Mexico" },
+		{ "firstName": "Gisele", "lastName": "Bundchen", "country": "Brasil" },
+		{ "firstName": "Elisabeth", "lastName": "Banks", "country": "USA" },
+		{ "firstName": "Liz", "lastName": "Hurley", "country": "UK" }
+	],
+	"jazzPlayers":[
+		{ "firstName": "John", "lastName": "Coltrane", "country": "USA" },
+		{ "firstName": "Sonny", "lastName": "Rollins", "country": "USA" },
+		{ "firstName": "Tete", "lastName": "Montoliu", "country": "Spain" },
+		{ "firstName": "Dexter", "lastName": "Gordon", "country": "USA" }
+	]
+}

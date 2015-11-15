@@ -51,19 +51,24 @@
 		if(options.cache !== undefined){
 			this.cache = options.cache;
 		}
-
+		// Concrete implementations can override this
+		this.dataType = null;
 		this.xhrRequest = null;
 
 		/* Private methods */
 
 		var loadUrl = function(){
-			self.xhrRequest = jQuery.ajax({
+			var xhrOptions = {
 				url: self.url,
 				success: self.loadRecords,
 				timeout: self.timeout,
 				cache: self.cache,
 				error: self.xhrError
-			});
+			};
+			if(self.dataType !== null){
+				xhrOptions.dataType = self.dataType;
+			}
+			self.xhrRequest = jQuery.ajax(xhrOptions);
 		};
 
 		/* Public methods */

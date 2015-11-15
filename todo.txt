@@ -53,8 +53,6 @@ data.DetailSet:
 
 data.HttpDatset:
 
-- Use options.dataType in jQuery.ajax() to handle dataType mismatches
-
 
 data.JsonDataSet:
 
