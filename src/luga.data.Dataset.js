@@ -177,6 +177,17 @@
 		};
 
 		/**
+		 * Returns the index at which a row can be found in the dataSet, or -1 if it is not present
+		 * @param {luga.data.DataSet.row} row
+		 */
+		this.getRowIndex = function(row){
+			if(hasFilter() === true){
+				return this.filteredRecords.indexOf(row);
+			}
+			return this.records.indexOf(row);
+		};
+
+		/**
 		 * Adds rows to a dataSet
 		 * Be aware that the dataSet use passed data by reference
 		 * That is, it uses those objects as its row object internally. It does not make a copy

@@ -133,6 +133,10 @@ if(typeof(luga) === "undefined"){
 			return filtered;
 		};
 
+		var hasFilter = function(){
+			return (self.filter !== null);
+		};
+
 		var selectAll = function(){
 			if(self.filteredRecords !== null){
 				return self.filteredRecords;
@@ -222,6 +226,17 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
+		 * Returns the index at which a row can be found in the dataSet, or -1 if it is not present
+		 * @param {luga.data.DataSet.row} row
+		 */
+		this.getRowIndex = function(row){
+			if(hasFilter() === true){
+				return this.filteredRecords.indexOf(row);
+			}
+			return this.records.indexOf(row);
+		};
+
+		/**
 		 * Adds rows to a dataSet
 		 * Be aware that the dataSet use passed data by reference
 		 * That is, it uses those objects as its row object internally. It does not make a copy
@@ -263,7 +278,7 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.resetCurrentRow = function(){
 			// We have a filter
-			if(this.filter !== null){
+			if(hasFilter() === true){
 				if(this.filteredRecords.length > 0){
 					// First among the filtered records
 					this.setCurrentRowId(this.filteredRecords[0][luga.data.CONST.PK_KEY]);
