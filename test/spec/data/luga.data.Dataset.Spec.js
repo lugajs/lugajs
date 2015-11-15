@@ -71,6 +71,15 @@ describe("luga.data.Dataset", function(){
 			it("Is null by default", function(){
 				expect(baseDs.filter).toBeNull();
 			});
+
+			it("Will cause the filter to be applied as soon as any record is loaded", function(){
+				var filteredDs = new luga.data.DataSet({id: "test", filter: removeAus});
+				filteredDs.insert(testRecords);
+				expect(testRecords.length).toEqual(7);
+				// Minus one, since Aussies get filtered out
+				expect(filteredDs.getRecordsCount()).toEqual(6);
+			});
+
 			it("Throws an exception if the passed filter is not a function", function(){
 				expect(function(){
 					var ds = new luga.data.DataSet({id: "myDs", filter: "test"});
