@@ -37,7 +37,7 @@ DATA:
 
 data.Dataset:
 
-- update()
+- update(filter, setter)
 
 - Implement state (empty?, loading, error, ready)
 - Implement column types (with getters/setters)
@@ -87,12 +87,9 @@ DATA FUTURE:
 - Implement pagination
 - Implement navbar widget
 
-- Use Underscore JS?
-
 data.Autosuggest:
 
 - Implement widget
-
 
 data.XmlDataset:
 
