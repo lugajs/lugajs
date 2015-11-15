@@ -67,7 +67,7 @@
 		};
 
 		var applyFilter = function(){
-			if(self.filter !== null){
+			if(hasFilter() === true){
 				self.filteredRecords = filterRecords(self.records, self.filter);
 				self.resetCurrentRow();
 			}
@@ -89,7 +89,7 @@
 		};
 
 		var selectAll = function(){
-			if(self.filteredRecords !== null){
+			if(hasFilter() === true){
 				return self.filteredRecords;
 			}
 			return self.records;

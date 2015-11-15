@@ -94,7 +94,7 @@ describe("luga.data.Dataset", function(){
 					arrayRecords.push({name: "Kate"});
 					var ds = new luga.data.DataSet({id: "myDs", records: arrayRecords});
 					expect(ds.records).toEqual(arrayRecords);
-					expect(ds.select().length).toEqual(2);
+					expect(ds.getRecordsCount()).toEqual(2);
 				});
 				it("Or a single object containing value/name pairs", function(){
 					var recObj = {name: "Ciccio", lastname: "Pasticcio"};
@@ -127,16 +127,16 @@ describe("luga.data.Dataset", function(){
 
 		it("Delete all records", function(){
 			baseDs.insert(testRecords);
-			expect(baseDs.select().length).toEqual(7);
+			expect(baseDs.getRecordsCount()).toEqual(7);
 			baseDs.delete();
-			expect(baseDs.select().length).toEqual(0);
+			expect(baseDs.getRecordsCount()).toEqual(0);
 		});
 
 		describe("Accepts an optional filter function as an argument", function(){
 			it("If specified only records matching the filter will be deleted", function(){
 				var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
 				ds.delete(removeUk);
-				expect(ds.select().length).toEqual(5);
+				expect(ds.getRecordsCount()).toEqual(5);
 			});
 			it("Throws an exception if the passed filter is not a function", function(){
 				expect(function(){
