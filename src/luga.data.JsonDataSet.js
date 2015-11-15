@@ -56,10 +56,10 @@
 
 		/**
 		 * Set the path to be used to extract data out of the JSON data structure
-		 * @param {string} newPath
+		 * @param {string} path
 		 */
-		this.setPath = function(newPath){
-			this.path = newPath;
+		this.setPath = function(path){
+			this.path = path;
 		};
 
 	};
