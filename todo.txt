@@ -1,3 +1,5 @@
+- Consider creating a Bower package
+
 -------------
 
 DOCS:
@@ -88,6 +90,8 @@ DATA FUTURE:
 - Once mature. Add it to default Gulp task
 - Implement pagination
 - Implement navbar widget
+
+- Use Underscore JS?
 
 data.Autosuggest:
 
