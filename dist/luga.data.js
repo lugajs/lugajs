@@ -61,7 +61,7 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @property {string}              id         Unique identifier. Required
 	 * @property {array.<object>|object} records  Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
-	 * @property {function|null}       filter     A filter functions to be called once for each row in the da,taSet. Default to null
+	 * @property {function|null}       filter     A filter functions to be called once for each row in the dataSet. Default to null
 	 */
 
 	/**
@@ -202,6 +202,18 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.getCurrentRowId = function(){
 			return this.currentRowId;
+		};
+
+		/**
+		 * Returns a zero-based index at which the current row can be found, or -1 if the dataSet is empty
+		 * @returns {number}
+		 */
+		this.getCurrentRowIndex = function(){
+			var row = this.getCurrentRow();
+			if(row !== undefined){
+				return this.getRowIndex(row);
+			}
+			return -1;
 		};
 
 		/**

@@ -156,6 +156,18 @@
 		};
 
 		/**
+		 * Returns a zero-based index at which the current row can be found, or -1 if the dataSet is empty
+		 * @returns {number}
+		 */
+		this.getCurrentRowIndex = function(){
+			var row = this.getCurrentRow();
+			if(row !== undefined){
+				return this.getRowIndex(row);
+			}
+			return -1;
+		};
+
+		/**
 		 * Returns the number of records in the dataSet
 		 * If the dataSet has a filter, returns the number of filtered records
 		 * @return {number}

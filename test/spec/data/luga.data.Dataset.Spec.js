@@ -269,6 +269,40 @@ describe("luga.data.Dataset", function(){
 		});
 	});
 
+	describe(".getCurrentRowIndex()", function(){
+
+		it("Returns a zero-based index at which the current row can be found", function(){
+			baseDs.insert(testRecords);
+			baseDs.setCurrentRowId(2);
+			expect(baseDs.getCurrentRowIndex()).toEqual(2);
+		});
+
+		describe("Returns 0 if:", function(){
+			it("Records are added to the dataSet", function(){
+				baseDs.insert(testRecords);
+				expect(baseDs.getCurrentRowIndex()).toEqual(0);
+			});
+			it("A filter was just applied to the dataSet", function(){
+				baseDs.insert(testRecords);
+				baseDs.setCurrentRowId(2);
+				baseDs.setFilter(removeUk);
+				expect(baseDs.getCurrentRowIndex()).toEqual(0);
+			});
+		});
+
+		describe("Returns -1 if:", function(){
+			it("The dataSet is empty", function(){
+				expect(baseDs.getCurrentRowIndex()).toEqual(-1);
+			});
+			it("All the records are filtered out", function(){
+				baseDs.insert(testRecords);
+				expect(baseDs.getCurrentRowIndex()).toEqual(0);
+				baseDs.setFilter(removeAll);
+				expect(baseDs.getCurrentRowIndex()).toEqual(-1);
+			});
+		});
+	});
+
 	describe(".getRecordsCount()", function(){
 		it("Returns the number of records in the dataSet", function(){
 			baseDs.insert(testRecords);
