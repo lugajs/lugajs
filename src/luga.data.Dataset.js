@@ -123,17 +123,6 @@
 		};
 
 		/**
-		 * Remove the current filter function
-		 * Triggers a "dataChanged" notification
-		 * @fires dataChanged
-		 */
-		this.deleteFilter = function(){
-			this.filter = null;
-			this.filteredRecords = null;
-			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
-		};
-
-		/**
 		 * Returns the current row object
 		 * By default, the current row is the first row of the dataSet, but this can be changed by calling setCurrentRow() or setCurrentRowIndex().
 		 * @return {luga.data.DataSet.row}
@@ -282,6 +271,17 @@
 				this.setCurrentRowId(null);
 			}
 			return;
+		};
+
+		/**
+		 * Remove the current filter function
+		 * Triggers a "dataChanged" notification
+		 * @fires dataChanged
+		 */
+		this.resetFilter = function(){
+			this.filter = null;
+			this.filteredRecords = null;
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
 		};
 
 		/**

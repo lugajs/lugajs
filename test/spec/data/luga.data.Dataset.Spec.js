@@ -174,27 +174,6 @@ describe("luga.data.Dataset", function(){
 
 	});
 
-	describe(".deleteFilter()", function(){
-		beforeEach(function(){
-			baseDs.insert(testRecords);
-			baseDs.setFilter(removeUk);
-		});
-		it("Deletes current filter", function(){
-			expect(baseDs.getRecordsCount()).toEqual(5);
-			baseDs.deleteFilter();
-			expect(baseDs.filter).toBeNull();
-		});
-		it("Resets the records to their unfiltered status", function(){
-			baseDs.deleteFilter();
-			expect(baseDs.getRecordsCount()).toEqual(7);
-			expect(baseDs.select()).toEqual(testRecords);
-		});
-		it("Then triggers a 'dataChanged' notification", function(){
-			baseDs.deleteFilter();
-			expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith(baseDs);
-		});
-	});
-
 	describe(".getCurrentRow()", function(){
 
 		it("Returns first row object on a newly created dataSet", function(){
@@ -484,6 +463,35 @@ describe("luga.data.Dataset", function(){
 				baseDs.setFilter(removeAll);
 				baseDs.resetCurrentRow();
 				expect(baseDs.getCurrentRowId()).toBeNull();
+			});
+		});
+
+	});
+
+	describe(".resetFilter()", function(){
+		beforeEach(function(){
+			baseDs.insert(testRecords);
+			baseDs.setFilter(removeUk);
+		});
+
+		describe("First:", function(){
+			it("Deletes current filter", function(){
+				expect(baseDs.getRecordsCount()).toEqual(5);
+				baseDs.resetFilter();
+				expect(baseDs.filter).toBeNull();
+			});
+		});
+		describe("Then:", function(){
+			it("Resets the records to their unfiltered status", function(){
+				baseDs.resetFilter();
+				expect(baseDs.getRecordsCount()).toEqual(7);
+				expect(baseDs.select()).toEqual(testRecords);
+			});
+		});
+		describe("Finally:", function(){
+			it("Then triggers a 'dataChanged' notification", function(){
+				baseDs.resetFilter();
+				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith(baseDs);
 			});
 		});
 

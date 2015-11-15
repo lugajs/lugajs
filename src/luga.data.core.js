@@ -7,7 +7,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.1.3";
+	luga.data.version = "0.1.4";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.datasetRegistry = {};
 
