@@ -37,8 +37,9 @@ DATA:
 
 data.Dataset:
 
-- getRowByIndex(index)      (use array.indexOf())
-- setCurrentRowByIndex(index) (use array.indexOf())
+- setCurrentRow(row)
+- getRowByIndex(index)        (use array.indexOf())
+- setCurrentRowByIndex(index) (setCurrentRow(getRowByIndex(index)))
 
 - update()
 

@@ -479,6 +479,77 @@ describe("luga.data.Dataset", function(){
 		});
 	});
 
+	describe(".setCurrentRowId()", function(){
+
+		it("Throws an exception if the given rowId is invalid", function(){
+			expect(function(){
+				baseDs.setCurrentRowId(3);
+			}).toThrow();
+		});
+
+		describe("First:", function(){
+			it("Sets the current row of the dataSet to the row matching the given rowId", function(){
+				baseDs.insert(testRecords);
+				baseDs.setCurrentRowId(3);
+				expect(baseDs.getCurrentRowId()).toEqual(3);
+			});
+		});
+
+		describe("Then:", function(){
+			it("Triggers a 'currentRowChanged' notification", function(){
+				baseDs.insert(testRecords);
+				baseDs.setCurrentRowId(3);
+				expect(testObserver.onCurrentRowChangedHandler).toHaveBeenCalled();
+			});
+		});
+
+	});
+
+	describe(".setCurrentRow()", function(){
+
+		describe("Given a row:", function(){
+
+			describe("First:", function(){
+				it("Sets the current row of the dataSet to the one matching the given row", function(){
+					baseDs.insert(testRecords);
+					var row3 = baseDs.getRowById(3);
+					baseDs.setCurrentRow(row3);
+					expect(baseDs.getCurrentRowId()).toEqual(3);
+				});
+			});
+
+			describe("Then:", function(){
+				it("Triggers a 'currentRowChanged' notification", function(){
+					baseDs.insert(testRecords);
+					var row3 = baseDs.getRowById(3);
+					baseDs.setCurrentRow(row3);
+					expect(testObserver.onCurrentRowChangedHandler).toHaveBeenCalled();
+				});
+			});
+
+			describe("Throws an exception if:", function(){
+				it("The dataSet is empty", function(){
+					var row = loadedDs.getRowById(2);
+					expect(function(){
+						baseDs.setCurrentRow(row);
+					}).toThrow();
+				});
+				it("No available record matches the given row", function(){
+					var arrayRecords = [];
+					arrayRecords.push({name: "Nicole"});
+					arrayRecords.push({name: "Kate"});
+					var ds = new luga.data.DataSet({id: "myDs", records: arrayRecords});
+					var row = loadedDs.getRowById(2);
+					expect(function(){
+						ds.setCurrentRow(row);
+					}).toThrow();
+				});
+			});
+
+		});
+
+	});
+
 	describe(".setFilter()", function(){
 		beforeEach(function(){
 			baseDs.insert(testRecords);
@@ -507,32 +578,6 @@ describe("luga.data.Dataset", function(){
 			it("Triggers a 'dataChanged' notification", function(){
 				baseDs.setFilter(removeBrasil);
 				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith(baseDs);
-			});
-		});
-
-	});
-
-	describe(".setCurrentRowId()", function(){
-
-		it("Throws an exception if the given rowId is invalid", function(){
-			expect(function(){
-				baseDs.setCurrentRowId(3);
-			}).toThrow();
-		});
-
-		describe("First:", function(){
-			it("Sets the current row of the dataSet to the row matching the given rowId", function(){
-				baseDs.insert(testRecords);
-				baseDs.setCurrentRowId(3);
-				expect(baseDs.getCurrentRowId()).toEqual(3);
-			});
-		});
-
-		describe("Then:", function(){
-			it("Triggers a 'currentRowChanged' notification", function(){
-				baseDs.insert(testRecords);
-				baseDs.setCurrentRowId(3);
-				expect(testObserver.onCurrentRowChangedHandler).toHaveBeenCalled();
 			});
 		});
 

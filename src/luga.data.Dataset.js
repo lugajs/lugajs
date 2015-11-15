@@ -40,6 +40,7 @@
 			ERROR_MESSAGES: {
 				INVALID_PRIMITIVE: "Luga.DataSet: records can be either an array of objects or a single object. Primitives are not accepted",
 				INVALID_PRIMITIVE_ARRAY: "Luga.DataSet: records can be either an array of name/value pairs or a single object. Array of primitives are not accepted",
+				INVALID_ROW_PARAMETER: "Luga.DataSet: invalid row parameter. No available record matches the given row",
 				INVALID_ROW_ID_PARAMETER: "Luga.DataSet: invalid rowId parameter",
 				INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter"
 			}
@@ -189,7 +190,7 @@
 		};
 
 		/**
-		 * Returns the index at which a row can be found in the dataSet, or -1 if it is not present
+		 * Returns the index at which a row can be found in the dataSet, or -1 if no available record matches the given row
 		 * @param {luga.data.DataSet.row} row
 		 */
 		this.getRowIndex = function(row){
@@ -304,6 +305,19 @@
 			}
 			this.currentRowId = rowId;
 			this.notifyObservers(luga.data.CONST.EVENTS.CURRENT_ROW_CHANGED, notificationData);
+		};
+
+		/**
+		 * Set the passed row as currentRow
+		 * Throws an exception if no available record matches the given row
+		 * @param {luga.data.DataSet.row} row
+		 */
+		this.setCurrentRow = function(row){
+			var fetchedRowId = this.getRowIndex(row);
+			if(fetchedRowId === -1){
+				throw(CONST.ERROR_MESSAGES.INVALID_ROW_PARAMETER);
+			}
+			this.setCurrentRowId(fetchedRowId);
 		};
 
 		/**
