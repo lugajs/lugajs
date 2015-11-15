@@ -11,9 +11,15 @@ describe("luga.data", function(){
 		expect(jQuery.isPlainObject(luga.data.datasetRegistry)).toBeTruthy();
 	});
 
-	it("For each dataSet created, a reference is stored inside the registry", function(){
-		var ds = new luga.data.DataSet({id: "myDs"});
-		expect(luga.data.datasetRegistry["myDs"]).toEqual(ds);
+	describe("A reference is stored inside the registry for each:", function(){
+		it("Newly created dataSet", function(){
+			var ds = new luga.data.DataSet({id: "myDs"});
+			expect(luga.data.datasetRegistry["myDs"]).toEqual(ds);
+		});
+		it("Newly created detailSet", function(){
+			var ds = new luga.data.DetailSet({id: "myDs"});
+			expect(luga.data.datasetRegistry["myDs"]).toEqual(ds);
+		});
 	});
 
 	describe(".version", function(){

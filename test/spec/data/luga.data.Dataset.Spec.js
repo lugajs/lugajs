@@ -43,7 +43,7 @@ describe("luga.data.Dataset", function(){
 		spyOn(testObserver, "onCurrentRowChangedHandler");
 	});
 
-	it("Is the base dataset class", function(){
+	it("Is the base dataSet class", function(){
 		expect(jQuery.isFunction(luga.data.DataSet)).toBeTruthy();
 	});
 

@@ -16,7 +16,7 @@
 	 */
 
 	/**
-	 * Base Dataset class
+	 * Base DataSet class
 	 *
 	 * @param {luga.data.DataSet.options} options
 	 * @constructor

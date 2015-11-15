@@ -41,7 +41,6 @@
 			this.node.html(this.generateHtml());
 		};
 
-
 		/* Events Handlers */
 
 		this.onDataChangedHandler = function(data){

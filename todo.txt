@@ -35,6 +35,8 @@ VALIDATOR:
 
 DATA:
 
+- Add JSDoc @typedef for event data
+
 data.Dataset:
 
 - update(filter, setter)
@@ -48,7 +50,12 @@ data.Dataset:
 
 data.DetailSet:
 
-- Implement from scratch
+- Throw exception if dataSet is not passed
+- Load row inside constructor
+- onDataChangedHandler()
+- onCurrentRowChanged()
+
+- Add master/detail sample to docs
 
 
 data.HttpDatset:
