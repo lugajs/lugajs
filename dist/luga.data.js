@@ -7,7 +7,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.1.2";
+	luga.data.version = "0.1.3";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.datasetRegistry = {};
 
@@ -91,6 +91,7 @@ if(typeof(luga) === "undefined"){
 				INVALID_PRIMITIVE_ARRAY: "Luga.DataSet: records can be either an array of name/value pairs or a single object. Array of primitives are not accepted",
 				INVALID_ROW_PARAMETER: "Luga.DataSet: invalid row parameter. No available record matches the given row",
 				INVALID_ROW_ID_PARAMETER: "Luga.DataSet: invalid rowId parameter",
+				INVALID_ROW_INDEX_PARAMETER: "Luga.DataSet: invalid parameter. Row index is out of range",
 				INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter"
 			}
 		};
@@ -227,7 +228,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * Returns the row object associated with the given uniqe identifier
+		 * Returns the row object associated with the given unique identifier
 		 * @param {string} rowId  Required
 		 * @return {luga.data.DataSet.row}
 		 */
@@ -236,6 +237,26 @@ if(typeof(luga) === "undefined"){
 				return this.recordsHash[rowId];
 			}
 			return null;
+		};
+
+		/**
+		 * Returns the row object associated with the given index
+		 * Throws an exception if the index is out of range
+		 * @param {number} index  Required
+		 * @return {luga.data.DataSet.row}
+		 */
+		this.getRowByIndex = function(index){
+			var fetchedRow;
+			if(hasFilter() === true){
+				fetchedRow = this.filteredRecords[index];
+			}
+			else{
+				fetchedRow = this.records[index];
+			}
+			if(fetchedRow === undefined){
+				throw(CONST.ERROR_MESSAGES.INVALID_ROW_INDEX_PARAMETER);
+			}
+			return fetchedRow;
 		};
 
 		/**
@@ -367,6 +388,15 @@ if(typeof(luga) === "undefined"){
 				throw(CONST.ERROR_MESSAGES.INVALID_ROW_PARAMETER);
 			}
 			this.setCurrentRowId(fetchedRowId);
+		};
+
+		/**
+		 * Sets the current row of the dataSet to the one matching the given index
+		 * Throws an exception if the index is out of range
+		 * @param {number} index
+		 */
+		this.setCurrentRowByIndex = function(index){
+			this.setCurrentRow(this.getRowByIndex(index));
 		};
 
 		/**

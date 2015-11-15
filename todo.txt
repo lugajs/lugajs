@@ -37,9 +37,6 @@ DATA:
 
 data.Dataset:
 
-- getRowByIndex(index)        (use array.indexOf())
-- setCurrentRowByIndex(index) (setCurrentRow(getRowByIndex(index)))
-
 - update()
 
 - Implement state (empty?, loading, error, ready)

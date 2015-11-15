@@ -337,6 +337,39 @@ describe("luga.data.Dataset", function(){
 		});
 	});
 
+	describe(".getRowByIndex()", function(){
+
+		describe("Given a zero-based index:", function(){
+
+			describe("Returns the row object at the given index:", function(){
+				it("Among records", function(){
+					baseDs.insert(testRecords);
+					expect(baseDs.getRowByIndex(2)).toEqual(testRecords[2]);
+				});
+				it("Or filtered records", function(){
+					baseDs.insert(testRecords);
+					baseDs.setFilter(removeAus);
+					expect(baseDs.getRowByIndex(2)).toEqual(testRecords[3]);
+				});
+			});
+
+			describe("Throws an exception if:", function(){
+				it("The dataSet is empty", function(){
+					expect(function(){
+						baseDs.getRowByIndex(1);
+					}).toThrow();
+				});
+				it("The given index is out of range", function(){
+					baseDs.insert(testRecords);
+					expect(function(){
+						baseDs.getRowByIndex(99);
+					}).toThrow();
+				});
+			});
+		});
+
+	});
+
 	describe(".getRowIndex()", function(){
 
 		describe("Given a row:", function(){
@@ -542,6 +575,45 @@ describe("luga.data.Dataset", function(){
 					var row = loadedDs.getRowById(2);
 					expect(function(){
 						ds.setCurrentRow(row);
+					}).toThrow();
+				});
+			});
+
+		});
+
+	});
+
+	describe(".setCurrentRowByIndex()", function(){
+
+		describe("Given a zero-based index:", function(){
+
+			describe("First:", function(){
+				it("Sets the current row of the dataSet to the one matching the given index", function(){
+					baseDs.insert(testRecords);
+					baseDs.setCurrentRowByIndex(3);
+					expect(baseDs.getCurrentRowIndex()).toEqual(3);
+				});
+			});
+
+			describe("Then:", function(){
+				it("Triggers a 'currentRowChanged' notification", function(){
+					baseDs.insert(testRecords);
+					var row3 = baseDs.getRowById(3);
+					baseDs.setCurrentRow(row3);
+					expect(testObserver.onCurrentRowChangedHandler).toHaveBeenCalled();
+				});
+			});
+
+			describe("Throws an exception if:", function(){
+				it("The dataSet is empty", function(){
+					expect(function(){
+						baseDs.setCurrentRowByIndex(1);
+					}).toThrow();
+				});
+				it("The given index is out of range", function(){
+					baseDs.insert(testRecords);
+					expect(function(){
+						baseDs.setCurrentRowByIndex(99);
 					}).toThrow();
 				});
 			});
