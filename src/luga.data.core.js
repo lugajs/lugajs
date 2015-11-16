@@ -16,7 +16,7 @@ if(typeof(luga) === "undefined"){
 		CUSTOM_ATTRIBUTES: {
 			REGION: "data-lugads-region",
 			TEMPLATE: "data-lugads-template",
-			DATA_SET: "data-lugads-dataset"
+			DATA_SOURCE: "data-lugads-datasource"
 		},
 		ERROR_MESSAGES: {
 			INVALID_ID_PARAMETER: "Luga.DataSet: id parameter is required"

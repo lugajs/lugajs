@@ -9,6 +9,7 @@
 	<script src="../../../lib/handlebars.min.js"></script>
 	<script src="../../../dist/luga.min.js"></script>
 	<script src="../../../dist/luga.data.min.js"></script>
+
 	<script src="../../docs.js"></script>
 
 	<script>
@@ -41,12 +42,12 @@
 
 		<section>
 			<h1>Template from &lt;script&gt; tag</h1>
-			<div data-lugads-region="scriptTemplate" data-lugads-dataset="ladiesDs" data-lugads-template="ladiesTemplate"></div>
+			<div data-lugads-region="scriptTemplate" data-lugads-datasource="ladiesDs" data-lugads-template="ladiesTemplate"></div>
 		</section>
 
 		<section>
 			<h1>Embedded template</h1>
-			<div data-lugads-region="embedRegion" data-lugads-dataset="ladiesDs">
+			<div data-lugads-region="embedRegion" data-lugads-datasource="ladiesDs">
 				<ul class="people">
 					{{#each records}}
 					<li>{{firstName}} {{lastName}}</li>

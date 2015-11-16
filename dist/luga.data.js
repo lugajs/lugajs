@@ -16,7 +16,7 @@ if(typeof(luga) === "undefined"){
 		CUSTOM_ATTRIBUTES: {
 			REGION: "data-lugads-region",
 			TEMPLATE: "data-lugads-template",
-			DATA_SET: "data-lugads-dataset"
+			DATA_SOURCE: "data-lugads-datasource"
 		},
 		ERROR_MESSAGES: {
 			INVALID_ID_PARAMETER: "Luga.DataSet: id parameter is required"
@@ -719,7 +719,7 @@ if(typeof(luga) === "undefined"){
 		var self = this;
 
 		this.node = jQuery(options.node);
-		this.dsId = this.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.DATA_SET);
+		this.dsId = this.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE);
 		/** @type {luga.data.DataSet} */
 		this.dataSet = luga.data.getDataSet(this.dsId);
 		this.dataSet.addObserver(this);

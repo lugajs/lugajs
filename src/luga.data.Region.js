@@ -21,7 +21,7 @@
 		var self = this;
 
 		this.node = jQuery(options.node);
-		this.dsId = this.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.DATA_SET);
+		this.dsId = this.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE);
 		/** @type {luga.data.DataSet} */
 		this.dataSet = luga.data.getDataSet(this.dsId);
 		this.dataSet.addObserver(this);
