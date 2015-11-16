@@ -18,9 +18,6 @@ if(typeof(luga) === "undefined"){
 			TEMPLATE: "data-lugads-template",
 			DATA_SOURCE: "data-lugads-datasource"
 		},
-		ERROR_MESSAGES: {
-			INVALID_ID_PARAMETER: "Luga.DataSet: id parameter is required"
-		},
 		EVENTS: {
 			CURRENT_ROW_CHANGED: "currentRowChanged",
 			DATA_CHANGED: "dataChanged",

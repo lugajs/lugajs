@@ -42,19 +42,10 @@
 	 * @throws
 	 */
 	luga.data.DataSet = function(options){
-		if(options.id === undefined){
-			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_ID_PARAMETER);
-		}
-		if((options.filter !== undefined) && (jQuery.isFunction(options.filter) === false)){
-			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
-		}
-		luga.extend(luga.Notifier, this);
-
-		/** @type {luga.data.DataSet} */
-		var self = this;
 
 		var CONST = {
 			ERROR_MESSAGES: {
+				INVALID_ID_PARAMETER: "Luga.DataSet: id parameter is required",
 				INVALID_PRIMITIVE: "Luga.DataSet: records can be either an array of objects or a single object. Primitives are not accepted",
 				INVALID_PRIMITIVE_ARRAY: "Luga.DataSet: records can be either an array of name/value pairs or a single object. Array of primitives are not accepted",
 				INVALID_ROW_PARAMETER: "Luga.DataSet: invalid row parameter. No available record matches the given row",
@@ -63,6 +54,17 @@
 				INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter"
 			}
 		};
+
+		if(options.id === undefined){
+			throw(CONST.ERROR_MESSAGES.INVALID_ID_PARAMETER);
+		}
+		if((options.filter !== undefined) && (jQuery.isFunction(options.filter) === false)){
+			throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
+		}
+		luga.extend(luga.Notifier, this);
+
+		/** @type {luga.data.DataSet} */
+		var self = this;
 
 		this.id = options.id;
 		/** @type {array.<luga.data.DataSet.row>} */

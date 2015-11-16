@@ -18,14 +18,25 @@
 	 * @fires dataChanged
 	 */
 	luga.data.DetailSet = function(options){
+
+		var CONST = {
+			ERROR_MESSAGES: {
+				INVALID_ID_PARAMETER: "Luga.DetailSet: id parameter is required",
+				INVALID_DS_PARAMETER: "Luga.DetailSet: dataSet parameter is required"
+			}
+		};
+
+		if(options.id === undefined){
+			throw(CONST.ERROR_MESSAGES.INVALID_ID_PARAMETER);
+		}
+		if(options.dataSet === undefined){
+			throw(CONST.ERROR_MESSAGES.INVALID_DS_PARAMETER);
+		}
+
 		luga.extend(luga.Notifier, this);
 
 		/** @type {luga.data.DetailSet} */
 		var self = this;
-
-		var CONST = {
-
-		};
 
 		this.id = options.id;
 		this.dataSet = options.dataSet;
