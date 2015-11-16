@@ -48,7 +48,6 @@ data.Dataset:
 
 data.DetailSet:
 
-- Throw exception if dataSet is not passed
 - Load row inside constructor
 - onDataChangedHandler()
 - onCurrentRowChanged()
@@ -72,7 +71,7 @@ data.JsonDataSet:
 data.Region:
 
 - Write unit test!
-- Throw exception if datasource is not found
+- Throw exception if dataSource is not found
 - Investigate external template files
 
 - Add ability to define dataset programmatically, not only with custom attribute
