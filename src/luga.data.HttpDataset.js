@@ -2,6 +2,12 @@
 	"use strict";
 
 	/**
+	 * @typedef {object} luga.data.DataSet.loading
+	 *
+	 * @property {luga.data.DataSet} dataSet
+	 */
+
+	/**
 	 * @typedef {object} luga.data.HttpDataSet.xhrError
 	 *
 	 * @property {string} message

@@ -7,9 +7,9 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.1.5";
+	luga.data.version = "0.1.6";
 	/** @type {hash.<luga.data.DataSet>} */
-	luga.data.datasetRegistry = {};
+	luga.data.dataSourceRegistry = {};
 
 	luga.data.CONST = {
 		PK_KEY: "rowID",
@@ -34,14 +34,14 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Returns a dataSet from the registry
-	 * Returns null if no dataSet matches the given id
+	 * Returns a dataSource from the registry
+	 * Returns null if no source matches the given id
 	 * @param {string} id
-	 * @returns {luga.data.DataSet}
+	 * @returns {luga.data.DataSet|luga.data.DetailSet|}
 	 */
-	luga.data.getDataSet = function(id){
-		if(luga.data.datasetRegistry[id] !== undefined){
-			return luga.data.datasetRegistry[id];
+	luga.data.getDataSource = function(id){
+		if(luga.data.dataSourceRegistry[id] !== undefined){
+			return luga.data.dataSourceRegistry[id];
 		}
 		return null;
 	};
@@ -59,7 +59,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.data.DataSet.dataChanged
 	 *
-	 * @property {luga.data.DataSet}     dataSet
+	 * @property {luga.data.DataSet} dataSet
 	 */
 
 	/**
@@ -124,7 +124,7 @@ if(typeof(luga) === "undefined"){
 		this.filter = null;
 		this.currentRowId = null;
 
-		luga.data.datasetRegistry[this.id] = this;
+		luga.data.dataSourceRegistry[this.id] = this;
 
 		/* Private methods */
 
@@ -499,13 +499,19 @@ if(typeof(luga) === "undefined"){
 		/** @type {luga.data.DataSet.row} */
 		this.record = null;
 
-		luga.data.datasetRegistry[this.id] = this;
+		luga.data.dataSourceRegistry[this.id] = this;
 
 	};
 
 }());
 (function(){
 	"use strict";
+
+	/**
+	 * @typedef {object} luga.data.DataSet.loading
+	 *
+	 * @property {luga.data.DataSet} dataSet
+	 */
 
 	/**
 	 * @typedef {object} luga.data.HttpDataSet.xhrError
@@ -754,8 +760,8 @@ if(typeof(luga) === "undefined"){
 
 		this.node = jQuery(options.node);
 		this.dsId = this.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE);
-		/** @type {luga.data.DataSet} */
-		this.dataSet = luga.data.getDataSet(this.dsId);
+		/** @type {luga.data.DataSet|luga.data.DetailSet} */
+		this.dataSet = luga.data.getDataSource(this.dsId);
 		this.dataSet.addObserver(this);
 
 		this.templateId = this.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.TEMPLATE);

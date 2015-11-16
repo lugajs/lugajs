@@ -94,7 +94,7 @@ describe("luga.data.HttpDataSet", function(){
 		describe("First:", function(){
 			it("Triggers a 'loading' notification", function(){
 				testDs.loadData();
-				expect(testObserver.onLoadingHandler).toHaveBeenCalledWith(testDs);
+				expect(testObserver.onLoadingHandler).toHaveBeenCalledWith({dataSet:testDs});
 			});
 		});
 

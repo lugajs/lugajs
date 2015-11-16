@@ -12,18 +12,18 @@ describe("luga.data", function(){
 	});
 
 	it("Stores a registry of dataSets available on the current page", function(){
-		expect(luga.data.datasetRegistry).toBeDefined();
-		expect(jQuery.isPlainObject(luga.data.datasetRegistry)).toBeTruthy();
+		expect(luga.data.dataSourceRegistry).toBeDefined();
+		expect(jQuery.isPlainObject(luga.data.dataSourceRegistry)).toBeTruthy();
 	});
 
 	describe("A reference is stored inside the registry for each:", function(){
 		it("Newly created dataSet", function(){
 			var ds = new luga.data.DataSet({id: "myDs"});
-			expect(luga.data.datasetRegistry["myDs"]).toEqual(ds);
+			expect(luga.data.dataSourceRegistry["myDs"]).toEqual(ds);
 		});
 		it("Newly created detailSet", function(){
 			var ds = new luga.data.DetailSet({id: "myDs", dataSet: emptyDs});
-			expect(luga.data.datasetRegistry["myDs"]).toEqual(ds);
+			expect(luga.data.dataSourceRegistry["myDs"]).toEqual(ds);
 		});
 	});
 
@@ -33,13 +33,13 @@ describe("luga.data", function(){
 		});
 	});
 
-	describe(".getDataSet():", function(){
+	describe(".getDataSource():", function(){
 		it("Returns a dataSet from the registry", function(){
 			var ds = new luga.data.DataSet({id: "myDs"});
-			expect(luga.data.getDataSet("myDs")).toEqual(ds);
+			expect(luga.data.getDataSource("myDs")).toEqual(ds);
 		});
 		it("Returns null if no dataSet matches the given id", function(){
-			expect(luga.data.getDataSet("missing")).toBeNull();
+			expect(luga.data.getDataSource("missing")).toBeNull();
 		});
 	});
 

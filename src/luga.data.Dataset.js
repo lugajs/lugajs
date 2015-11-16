@@ -10,7 +10,7 @@
 	/**
 	 * @typedef {object} luga.data.DataSet.dataChanged
 	 *
-	 * @property {luga.data.DataSet}     dataSet
+	 * @property {luga.data.DataSet} dataSet
 	 */
 
 	/**
@@ -75,7 +75,7 @@
 		this.filter = null;
 		this.currentRowId = null;
 
-		luga.data.datasetRegistry[this.id] = this;
+		luga.data.dataSourceRegistry[this.id] = this;
 
 		/* Private methods */
 

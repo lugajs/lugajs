@@ -7,9 +7,9 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.1.5";
+	luga.data.version = "0.1.6";
 	/** @type {hash.<luga.data.DataSet>} */
-	luga.data.datasetRegistry = {};
+	luga.data.dataSourceRegistry = {};
 
 	luga.data.CONST = {
 		PK_KEY: "rowID",
@@ -34,14 +34,14 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Returns a dataSet from the registry
-	 * Returns null if no dataSet matches the given id
+	 * Returns a dataSource from the registry
+	 * Returns null if no source matches the given id
 	 * @param {string} id
-	 * @returns {luga.data.DataSet}
+	 * @returns {luga.data.DataSet|luga.data.DetailSet|}
 	 */
-	luga.data.getDataSet = function(id){
-		if(luga.data.datasetRegistry[id] !== undefined){
-			return luga.data.datasetRegistry[id];
+	luga.data.getDataSource = function(id){
+		if(luga.data.dataSourceRegistry[id] !== undefined){
+			return luga.data.dataSourceRegistry[id];
 		}
 		return null;
 	};
