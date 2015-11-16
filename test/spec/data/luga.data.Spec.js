@@ -2,6 +2,11 @@
 
 describe("luga.data", function(){
 
+	var emptyDs;
+	beforeEach(function(){
+		emptyDs = new luga.data.DataSet({id: "test"});
+	});
+
 	it("Lives inside its own namespace", function(){
 		expect(luga.data).toBeDefined();
 	});
@@ -17,7 +22,7 @@ describe("luga.data", function(){
 			expect(luga.data.datasetRegistry["myDs"]).toEqual(ds);
 		});
 		it("Newly created detailSet", function(){
-			var ds = new luga.data.DetailSet({id: "myDs"});
+			var ds = new luga.data.DetailSet({id: "myDs", dataSet: emptyDs});
 			expect(luga.data.datasetRegistry["myDs"]).toEqual(ds);
 		});
 	});
