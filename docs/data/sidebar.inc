@@ -5,6 +5,6 @@
 	</ul>
 	<h2>Samples</h2>
 	<ul>
-		<li><a href="../samples/basic.htm">Basic databinding</a></li>
+		<li><a href="../samples/databinding-basic.htm">Basic databinding</a></li>
 	</ul>
 </nav>
