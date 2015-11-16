@@ -37,13 +37,23 @@ if(typeof(luga) === "undefined"){
 	 * Returns a dataSource from the registry
 	 * Returns null if no source matches the given id
 	 * @param {string} id
-	 * @returns {luga.data.DataSet|luga.data.DetailSet|}
+	 * @returns {luga.data.DataSet|luga.data.DetailSet}
 	 */
 	luga.data.getDataSource = function(id){
 		if(luga.data.dataSourceRegistry[id] !== undefined){
 			return luga.data.dataSourceRegistry[id];
 		}
 		return null;
+	};
+
+	/**
+	 * Returns a dataSource from the registry
+	 * Returns null if no source matches the given id
+	 * @param {string}                                id
+	 * @param {luga.data.DataSet|luga.data.DetailSet} dataSource
+	 */
+	luga.data.setDataSource = function(id, dataSource){
+		luga.data.dataSourceRegistry[id] = dataSource;
 	};
 
 }());

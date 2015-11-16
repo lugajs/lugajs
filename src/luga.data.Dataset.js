@@ -75,7 +75,7 @@
 		this.filter = null;
 		this.currentRowId = null;
 
-		luga.data.dataSourceRegistry[this.id] = this;
+		luga.data.setDataSource(this.id, this);
 
 		/* Private methods */
 

@@ -34,7 +34,7 @@
 		/** @type {luga.data.DataSet.row} */
 		this.record = null;
 
-		luga.data.dataSourceRegistry[this.id] = this;
+		luga.data.setDataSource(this.id, this);
 
 	};
 
