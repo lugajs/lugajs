@@ -74,6 +74,7 @@ data.JsonDataSet:
 data.Region:
 
 - Write unit test!
+- Throw exception if datasource is not found
 - Investigate external template files
 
 - Add ability to define dataset programmatically, not only with custom attribute
