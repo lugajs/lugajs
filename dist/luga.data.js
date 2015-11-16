@@ -517,9 +517,33 @@ if(typeof(luga) === "undefined"){
 		this.dataSet.addObserver(this);
 
 		/** @type {luga.data.DataSet.row} */
-		this.record = null;
+		this.row = null;
 
 		luga.data.setDataSource(this.id, this);
+
+		this.fetchRow = function(){
+			self.row = self.dataSet.getCurrentRow();
+		};
+
+		/* Events Handlers */
+
+		/**
+		 * @param {luga.data.DataSet.dataChanged} data
+		 */
+		this.onDataChangedHandler = function(data){
+			self.fetchRow();
+		};
+
+		/**
+		 * @param {luga.data.DataSet.currentRowChanged} data
+		 */
+		this.onCurrentRowChanged = function(data){
+			self.fetchRow();
+		};
+
+		/* Constructor */
+
+		this.fetchRow();
 
 	};
 
