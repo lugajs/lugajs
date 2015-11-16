@@ -35,8 +35,6 @@ VALIDATOR:
 
 DATA:
 
-- Add JSDoc @typedef for event data
-
 data.Dataset:
 
 - update(filter, setter)

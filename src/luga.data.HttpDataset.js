@@ -2,6 +2,15 @@
 	"use strict";
 
 	/**
+	 * @typedef {object} luga.data.HttpDataSet.xhrError
+	 *
+	 * @property {string} message
+	 * @property {object} jqXHR        jQuery wrapper around XMLHttpRequest
+	 * @property {string} textStatus
+	 * @property {string} errorThrown
+	 */
+
+	/**
 	 * @typedef {object} luga.data.HttpDataSet.options
 	 *
 	 * @extends luga.data.DataSet.options
@@ -102,7 +111,7 @@
 			if(this.url === null){
 				throw(CONST.ERROR_MESSAGES.NEED_URL_TO_LOAD);
 			}
-			this.notifyObservers(luga.data.CONST.EVENTS.LOADING, this);
+			this.notifyObservers(luga.data.CONST.EVENTS.LOADING, {dataSet: this});
 			this.cancelRequest();
 			this.delete();
 			loadUrl();

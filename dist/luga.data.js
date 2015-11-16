@@ -57,6 +57,22 @@ if(typeof(luga) === "undefined"){
 	 */
 
 	/**
+	 * @typedef {object} luga.data.DataSet.dataChanged
+	 *
+	 * @property {luga.data.DataSet}     dataSet
+	 */
+
+	/**
+	 * @typedef {object} luga.data.DataSet.currentRowChanged
+	 *
+	 * @property {string}                oldRowId
+	 * @property {luga.data.DataSet.row} oldRow
+	 * @property {string}                currentRowId
+	 * @property {luga.data.DataSet.row} currentRow
+	 * @property {luga.data.DataSet}     dataSet
+	 */
+
+	/**
 	 * @typedef {object} luga.data.DataSet.options
 	 *
 	 * @property {string}              id         Unique identifier. Required
@@ -157,7 +173,7 @@ if(typeof(luga) === "undefined"){
 		this.clearFilter = function(){
 			this.filter = null;
 			this.filteredRecords = null;
-			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSet: this});
 		};
 
 		/**
@@ -181,7 +197,7 @@ if(typeof(luga) === "undefined"){
 			this.records = filterRecords(selectAll(), filter);
 			applyFilter();
 			this.resetCurrentRow();
-			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSet: this});
 		};
 
 		/**
@@ -307,7 +323,7 @@ if(typeof(luga) === "undefined"){
 			}
 			this.setCurrentRowId(0);
 			applyFilter();
-			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSet: this});
 		};
 
 		/**
@@ -368,7 +384,16 @@ if(typeof(luga) === "undefined"){
 			if(this.currentRowId === rowId){
 				return;
 			}
-			var notificationData = { oldRowId: this.currentRowId, newRowId: rowId, dataSet: this };
+			/**
+			 * @type {luga.data.DataSet.currentRowChanged}
+			 */
+			var notificationData = {
+				oldRowId: this.currentRowId,
+				oldRow: this.getRowById(this.currentRowId),
+				currentRowId: rowId,
+				currentRow: this.getRowById(rowId),
+				dataSet: this
+			};
 			// Set to null
 			if((rowId === null) && (this.currentRowId !== null)){
 				this.currentRowId = null;
@@ -423,7 +448,7 @@ if(typeof(luga) === "undefined"){
 			}
 			this.filter = filter;
 			applyFilter();
-			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSet: this});
 		};
 
 		/* Constructor */
@@ -481,6 +506,15 @@ if(typeof(luga) === "undefined"){
 }());
 (function(){
 	"use strict";
+
+	/**
+	 * @typedef {object} luga.data.HttpDataSet.xhrError
+	 *
+	 * @property {string} message
+	 * @property {object} jqXHR        jQuery wrapper around XMLHttpRequest
+	 * @property {string} textStatus
+	 * @property {string} errorThrown
+	 */
 
 	/**
 	 * @typedef {object} luga.data.HttpDataSet.options
@@ -583,7 +617,7 @@ if(typeof(luga) === "undefined"){
 			if(this.url === null){
 				throw(CONST.ERROR_MESSAGES.NEED_URL_TO_LOAD);
 			}
-			this.notifyObservers(luga.data.CONST.EVENTS.LOADING, this);
+			this.notifyObservers(luga.data.CONST.EVENTS.LOADING, {dataSet: this});
 			this.cancelRequest();
 			this.delete();
 			loadUrl();
@@ -742,6 +776,9 @@ if(typeof(luga) === "undefined"){
 
 		/* Events Handlers */
 
+		/**
+		 * @param {luga.data.DataSet.dataChanged} data
+		 */
 		this.onDataChangedHandler = function(data){
 			self.render();
 		};
