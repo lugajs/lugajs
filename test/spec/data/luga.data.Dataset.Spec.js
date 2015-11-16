@@ -155,7 +155,7 @@ describe("luga.data.Dataset", function(){
 		describe("Finally:", function(){
 			it("Triggers a 'dataChanged' notification", function(){
 				baseDs.clearFilter();
-				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSet:baseDs});
+				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource:baseDs});
 			});
 		});
 
@@ -197,7 +197,7 @@ describe("luga.data.Dataset", function(){
 			it("Triggers a 'dataChanged' notification", function(){
 				baseDs.insert(testRecords);
 				baseDs.delete();
-				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSet:baseDs});
+				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource:baseDs});
 			});
 		});
 
@@ -423,7 +423,7 @@ describe("luga.data.Dataset", function(){
 		it("Fires a 'dataChanged' notification. Sending the whole dataSet along the way", function(){
 			baseDs.insert(testRecords);
 			expect(testObserver.onDataChangedHandler).toHaveBeenCalled();
-			expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSet:baseDs});
+			expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource:baseDs});
 		});
 		it("Automatically add a PK field that is the equivalent of the row's index within the array", function(){
 			baseDs.insert(testRecords);
@@ -657,7 +657,7 @@ describe("luga.data.Dataset", function(){
 		describe("Finally", function(){
 			it("Triggers a 'dataChanged' notification", function(){
 				baseDs.setFilter(removeBrasil);
-				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSet:baseDs});
+				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource:baseDs});
 			});
 		});
 

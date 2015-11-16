@@ -79,7 +79,7 @@ describe("luga.data.JsonDataset", function(){
 			it("Triggers a 'dataChange' notification", function(done){
 				peopleDs.loadData();
 				setTimeout(function(){
-					expect(peopleObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSet:peopleDs});
+					expect(peopleObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource:peopleDs});
 					done();
 				}, DEFAULT_TIMEOUT);
 			});

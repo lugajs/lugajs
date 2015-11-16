@@ -2,6 +2,12 @@ if(typeof(luga) === "undefined"){
 	throw("Unable to find Luga JS Core");
 }
 
+/**
+ * @typedef {object} luga.data.dataSourceChanged
+ *
+ * @property {luga.data.DataSet|luga.data.DetailSet} dataSource
+ */
+
 (function(){
 	"use strict";
 
@@ -61,12 +67,6 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {object} luga.data.DataSet.row
 	 *
 	 * @property {string} rowID  Artificial PK
-	 */
-
-	/**
-	 * @typedef {object} luga.data.DataSet.dataChanged
-	 *
-	 * @property {luga.data.DataSet} dataSet
 	 */
 
 	/**
@@ -182,7 +182,7 @@ if(typeof(luga) === "undefined"){
 		this.clearFilter = function(){
 			this.filter = null;
 			this.filteredRecords = null;
-			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSet: this});
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
 		/**
@@ -206,7 +206,7 @@ if(typeof(luga) === "undefined"){
 			this.records = filterRecords(selectAll(), filter);
 			applyFilter();
 			this.resetCurrentRow();
-			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSet: this});
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
 		/**
@@ -332,7 +332,7 @@ if(typeof(luga) === "undefined"){
 			}
 			this.setCurrentRowId(0);
 			applyFilter();
-			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSet: this});
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
 		/**
@@ -457,7 +457,7 @@ if(typeof(luga) === "undefined"){
 			}
 			this.filter = filter;
 			applyFilter();
-			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSet: this});
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
 		/* Constructor */
@@ -528,7 +528,7 @@ if(typeof(luga) === "undefined"){
 		/* Events Handlers */
 
 		/**
-		 * @param {luga.data.DataSet.dataChanged} data
+		 * @param {luga.data.dataSourceChanged} data
 		 */
 		this.onDataChangedHandler = function(data){
 			self.fetchRow();
@@ -827,7 +827,7 @@ if(typeof(luga) === "undefined"){
 		/* Events Handlers */
 
 		/**
-		 * @param {luga.data.DataSet.dataChanged} data
+		 * @param {luga.data.dataSourceChanged} data
 		 */
 		this.onDataChangedHandler = function(data){
 			self.render();

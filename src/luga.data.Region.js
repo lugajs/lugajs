@@ -45,7 +45,7 @@
 		/* Events Handlers */
 
 		/**
-		 * @param {luga.data.DataSet.dataChanged} data
+		 * @param {luga.data.dataSourceChanged} data
 		 */
 		this.onDataChangedHandler = function(data){
 			self.render();

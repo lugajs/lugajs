@@ -8,12 +8,6 @@
 	 */
 
 	/**
-	 * @typedef {object} luga.data.DataSet.dataChanged
-	 *
-	 * @property {luga.data.DataSet} dataSet
-	 */
-
-	/**
 	 * @typedef {object} luga.data.DataSet.currentRowChanged
 	 *
 	 * @property {string}                oldRowId
@@ -126,7 +120,7 @@
 		this.clearFilter = function(){
 			this.filter = null;
 			this.filteredRecords = null;
-			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSet: this});
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
 		/**
@@ -150,7 +144,7 @@
 			this.records = filterRecords(selectAll(), filter);
 			applyFilter();
 			this.resetCurrentRow();
-			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSet: this});
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
 		/**
@@ -276,7 +270,7 @@
 			}
 			this.setCurrentRowId(0);
 			applyFilter();
-			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSet: this});
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
 		/**
@@ -401,7 +395,7 @@
 			}
 			this.filter = filter;
 			applyFilter();
-			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSet: this});
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
 		/* Constructor */

@@ -2,6 +2,12 @@ if(typeof(luga) === "undefined"){
 	throw("Unable to find Luga JS Core");
 }
 
+/**
+ * @typedef {object} luga.data.dataSourceChanged
+ *
+ * @property {luga.data.DataSet|luga.data.DetailSet} dataSource
+ */
+
 (function(){
 	"use strict";
 
