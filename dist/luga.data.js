@@ -65,13 +65,14 @@ if(typeof(luga) === "undefined"){
 	 */
 
 	/**
-	 * Base Dataset class
+	 * Base DataSet class
 	 *
 	 * @param {luga.data.DataSet.options} options
 	 * @constructor
 	 * @extends luga.Notifier
 	 * @fires dataChanged
 	 * @fires currentRowChanged
+	 * @throws
 	 */
 	luga.data.DataSet = function(options){
 		if(options.id === undefined){
@@ -155,6 +156,7 @@ if(typeof(luga) === "undefined"){
 		 *                                 The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
 		 * @fires currentRowChanged
 		 * @fires dataChanged
+		 * @throws
 		 */
 		this.delete = function(filter){
 			if(filter === undefined){
@@ -233,6 +235,7 @@ if(typeof(luga) === "undefined"){
 		 * Throws an exception if the index is out of range
 		 * @param {number} index  Required
 		 * @return {luga.data.DataSet.row}
+		 * @throws
 		 */
 		this.getRowByIndex = function(index){
 			var fetchedRow;
@@ -265,6 +268,7 @@ if(typeof(luga) === "undefined"){
 		 * That is, it uses those objects as its row object internally. It does not make a copy
 		 * @param  {array.<object>|object} records   Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs. Required
 		 * @fires dataChanged
+		 * @throws
 		 */
 		this.insert = function(records){
 			// If we only get one record, we put it inside an array anyway,
@@ -339,6 +343,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {function|null} filter   An optional filter function. If specified only records matching the filter will be returned. Default to null
 		 *                                 The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
 		 * @return {array.<luga.data.DataSet.row>}
+		 * @throws
 		 */
 		this.select = function(filter){
 			if(filter === undefined){
@@ -356,6 +361,7 @@ if(typeof(luga) === "undefined"){
 		 * Triggers a "currentRowChanged" notification
 		 * @param {number|null} rowId  Required
 		 * @fires currentRowChanged
+		 * @throws
 		 */
 		this.setCurrentRowId = function(rowId){
 			// No need to do anything
@@ -381,6 +387,8 @@ if(typeof(luga) === "undefined"){
 		 * Set the passed row as currentRow
 		 * Throws an exception if no available record matches the given row
 		 * @param {luga.data.DataSet.row} row
+		 * @fires currentRowChanged
+		 * @throws
 		 */
 		this.setCurrentRow = function(row){
 			var fetchedRowId = this.getRowIndex(row);
@@ -394,6 +402,7 @@ if(typeof(luga) === "undefined"){
 		 * Sets the current row of the dataSet to the one matching the given index
 		 * Throws an exception if the index is out of range
 		 * @param {number} index
+		 * @throws
 		 */
 		this.setCurrentRowByIndex = function(index){
 			this.setCurrentRow(this.getRowByIndex(index));
@@ -406,6 +415,7 @@ if(typeof(luga) === "undefined"){
 		 *                            The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
 		 * @fires currentRowChanged
 		 * @fires dataChanged
+		 * @throws
 		 */
 		this.setFilter = function(filter){
 			if(jQuery.isFunction(filter) === false){
@@ -432,6 +442,47 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	/**
+	 * @typedef {object} luga.data.DetailSet.options
+	 *
+	 * @property {string}              id     Unique identifier. Required
+	 * @property {luga.data.DataSet} dataSet  Master dataSet
+	 */
+
+	/**
+	 * DetailSet class
+	 * Register itself as observer of the passed dataSet and act as the details in a master/details scenario
+	 *
+	 * @param {luga.data.DetailSet.options} options
+	 * @constructor
+	 * @extends luga.Notifier
+	 * @fires dataChanged
+	 */
+	luga.data.DetailSet = function(options){
+		luga.extend(luga.Notifier, this);
+
+		/** @type {luga.data.DetailSet} */
+		var self = this;
+
+		var CONST = {
+
+		};
+
+		this.id = options.id;
+		this.dataSet = options.dataSet;
+		this.dataSet.addObserver(this);
+
+		/** @type {luga.data.DataSet.row} */
+		this.record = null;
+
+		luga.data.datasetRegistry[this.id] = this;
+
+	};
+
+}());
+(function(){
+	"use strict";
+
+	/**
 	 * @typedef {object} luga.data.HttpDataSet.options
 	 *
 	 * @extends luga.data.DataSet.options
@@ -449,6 +500,7 @@ if(typeof(luga) === "undefined"){
 	 * @abstract
 	 * @fires loading
 	 * @fires xhrError
+	 * @throws
 	 */
 	luga.data.HttpDataSet = function(options){
 		luga.extend(luga.data.DataSet, this, [options]);
@@ -525,6 +577,7 @@ if(typeof(luga) === "undefined"){
 		 * Fires off XHR request to fetch and load the data, notify observers ("loading" first, "dataChanged" after records are loaded).
 		 * Does nothing if URL is not set
 		 * @fires loading
+		 * @throws
 		 */
 		this.loadData = function(){
 			if(this.url === null){
@@ -634,10 +687,10 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Set the path to be used to extract data out of the JSON data structure
-		 * @param {string} newPath
+		 * @param {string} path
 		 */
-		this.setPath = function(newPath){
-			this.path = newPath;
+		this.setPath = function(path){
+			this.path = path;
 		};
 
 	};
@@ -656,6 +709,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Data Region class
 	 * @param {luga.data.Region.options} options
+	 * @throws
 	 */
 	luga.data.Region = function(options){
 		if(typeof(Handlebars) === "undefined"){
@@ -685,7 +739,6 @@ if(typeof(luga) === "undefined"){
 		this.render = function(){
 			this.node.html(this.generateHtml());
 		};
-
 
 		/* Events Handlers */
 

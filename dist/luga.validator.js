@@ -151,7 +151,7 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @constructs
 	 * @param {luga.validator.FormValidator.options} options
-	 *
+	 * @throws
 	 */
 	luga.validator.FormValidator = function(options){
 		/** @type {luga.validator.FormValidator.options} */
@@ -365,7 +365,7 @@ if(typeof(luga) === "undefined"){
 	 * @constructs
 	 * @abstract
 	 * @param {luga.validator.BaseFieldValidator.options} options
-	 *
+	 * @throws
 	 */
 	luga.validator.BaseFieldValidator = function(options){
 
@@ -458,7 +458,7 @@ if(typeof(luga) === "undefined"){
 	 * @constructs
 	 * @extends luga.validator.BaseFieldValidator
 	 * @param {luga.validator.TextValidator.options} options
-	 *
+	 * @throws
 	 */
 	luga.validator.TextValidator = function(options){
 
@@ -587,7 +587,7 @@ if(typeof(luga) === "undefined"){
 	 * @constructs
 	 * @extends luga.validator.BaseFieldValidator
 	 * @param {luga.validator.SelectValidator.options} options
-	 *
+	 * @throws
 	 */
 	luga.validator.SelectValidator = function(options){
 
@@ -668,7 +668,7 @@ if(typeof(luga) === "undefined"){
 	 * @constructs
 	 * @abstract
 	 * @param {luga.validator.BaseFieldValidator.options} options
-	 *
+	 * @throws
 	 */
 	luga.validator.BaseGroupValidator = function(options){
 
@@ -879,6 +879,9 @@ if(typeof(luga) === "undefined"){
 		return false;
 	};
 
+	/**
+	 * @throws
+	 */
 	luga.validator.rules.equalto = function(fieldNode, validator){
 		var secondFieldNode = jQuery("#" + validator.config.equalto);
 		if(secondFieldNode.length === 0){
@@ -949,6 +952,9 @@ if(typeof(luga) === "undefined"){
 		return false;
 	};
 
+	/**
+	 * @throws
+	 */
 	luga.validator.rules.pattern = function(fieldNode, validator){
 		var regExpObj = luga.validator.patterns[validator.config.pattern];
 		if(regExpObj !== undefined){
@@ -1112,6 +1118,7 @@ if(typeof(luga) === "undefined"){
 	 * Programmatically validate a field
 	 * @param {luga.validator.api.validateField.options}
 	 * @returns {boolean}
+	 * @throws
 	 */
 	luga.validator.api.validateField = function(options){
 		if(luga.form.utils.isInputField(options.fieldNode) === false){

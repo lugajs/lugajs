@@ -31,7 +31,7 @@ if(typeof(luga) === "undefined"){
 			rootObject = window;
 		}
 		for(var i = 0; i < parts.length; i++){
-			if(rootObject[parts[i]]=== undefined ){
+			if(rootObject[parts[i]] === undefined){
 				rootObject[parts[i]] = {};
 			}
 			rootObject = rootObject[parts[i]];
@@ -91,6 +91,7 @@ if(typeof(luga) === "undefined"){
 	 * Provides the base functionality necessary to maintain a list of observers and send notifications to them.
 	 * It's forbidden to use this class directly, it can only be used as a base class.
 	 * The Notifier class does not define any notification messages, so it is up to the developer to define the notifications sent via the Notifier.
+	 * @throws
 	 */
 	luga.Notifier = function(){
 		if(this.constructor === luga.Notifier){
@@ -116,6 +117,7 @@ if(typeof(luga) === "undefined"){
 		 * The interface for this methods is as follows:
 		 * observer.onCompleteHandler = function(data){};
 		 * @param  observer  Observer object
+		 * @throws
 		 */
 		this.addObserver = function(observer){
 			if(jQuery.type(observer) !== "object"){
@@ -131,6 +133,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {string}  eventName  Name of the event
 		 * @param {object}  data       Object containing data to be passed from the point of notification to all interested observers.
 		 *                             If there is no relevant data to pass, use an empty object.
+		 * @throws
 		 */
 		this.notifyObservers = function(eventName, data){
 			if(jQuery.type(data) !== "object"){
@@ -187,6 +190,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {jquery}   rootNode     jQuery object wrapping the root node
 	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @return {string}               A URI encoded string
+	 * @throws
 	 */
 	luga.form.toQueryString = function(rootNode, demoronize){
 
@@ -249,6 +253,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {jquery}   rootNode     jQuery object wrapping the root node
 	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @return {object}               A JavaScript object containing name/value pairs
+	 * @throws
 	 */
 	luga.form.toHash = function(rootNode, demoronize){
 

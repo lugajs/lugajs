@@ -11,6 +11,7 @@
 	/**
 	 * Data Region class
 	 * @param {luga.data.Region.options} options
+	 * @throws
 	 */
 	luga.data.Region = function(options){
 		if(typeof(Handlebars) === "undefined"){

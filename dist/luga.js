@@ -31,7 +31,7 @@ if(typeof(luga) === "undefined"){
 			rootObject = window;
 		}
 		for(var i = 0; i < parts.length; i++){
-			if(rootObject[parts[i]]=== undefined ){
+			if(rootObject[parts[i]] === undefined){
 				rootObject[parts[i]] = {};
 			}
 			rootObject = rootObject[parts[i]];
@@ -91,6 +91,7 @@ if(typeof(luga) === "undefined"){
 	 * Provides the base functionality necessary to maintain a list of observers and send notifications to them.
 	 * It's forbidden to use this class directly, it can only be used as a base class.
 	 * The Notifier class does not define any notification messages, so it is up to the developer to define the notifications sent via the Notifier.
+	 * @throws
 	 */
 	luga.Notifier = function(){
 		if(this.constructor === luga.Notifier){
@@ -116,6 +117,7 @@ if(typeof(luga) === "undefined"){
 		 * The interface for this methods is as follows:
 		 * observer.onCompleteHandler = function(data){};
 		 * @param  observer  Observer object
+		 * @throws
 		 */
 		this.addObserver = function(observer){
 			if(jQuery.type(observer) !== "object"){
@@ -131,6 +133,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {string}  eventName  Name of the event
 		 * @param {object}  data       Object containing data to be passed from the point of notification to all interested observers.
 		 *                             If there is no relevant data to pass, use an empty object.
+		 * @throws
 		 */
 		this.notifyObservers = function(eventName, data){
 			if(jQuery.type(data) !== "object"){
@@ -187,6 +190,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {jquery}   rootNode     jQuery object wrapping the root node
 	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @return {string}               A URI encoded string
+	 * @throws
 	 */
 	luga.form.toQueryString = function(rootNode, demoronize){
 
@@ -249,6 +253,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {jquery}   rootNode     jQuery object wrapping the root node
 	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @return {object}               A JavaScript object containing name/value pairs
+	 * @throws
 	 */
 	luga.form.toHash = function(rootNode, demoronize){
 
@@ -614,6 +619,7 @@ if(typeof(luga) === "undefined"){
 	 * Form handler. Invoke its sender() method to serialize the form and send its contents using XHR
 	 * @param options {luga.ajaxform.Sender.options}
 	 * @constructor
+	 * @throws
 	 */
 	luga.ajaxform.Sender = function(options){
 		// Ensure it's a jQuery object
@@ -641,6 +647,9 @@ if(typeof(luga) === "undefined"){
 			throw(luga.ajaxform.CONST.MESSAGES.MISSING_FORM);
 		}
 
+		/**
+		 * @throws
+		 */
 		var handleAfter = function(){
 			if(self.config.after !== null){
 				var callBack = luga.lookup(self.config.after);
@@ -651,6 +660,9 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
+		/**
+		 * @throws
+		 */
 		var handleBefore = function(){
 			if(self.config.before !== null){
 				var callBack = luga.lookup(self.config.before);
@@ -661,6 +673,9 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
+		/**
+		 * @throws
+		 */
 		var handleError = function(textStatus, jqXHR, errorThrown){
 			var callBack = luga.lookup(self.config.error);
 			if(callBack === null){
@@ -669,6 +684,9 @@ if(typeof(luga) === "undefined"){
 			callBack.apply(null, [self.config.errormsg, self.config.formNode, textStatus, errorThrown, jqXHR]);
 		};
 
+		/**
+		 * @throws
+		 */
 		var handleSuccess = function(textStatus, jqXHR){
 			var callBack = luga.lookup(self.config.success);
 			if(callBack === null){
@@ -816,6 +834,12 @@ if(typeof(luga) === "undefined"){
 			jQuery(config.rootNode).html(response);
 		};
 
+		/**
+		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
+		 * @param {string}   textStatus   HTTP status
+		 * @param {string}   errorThrown
+		 * @throws
+		 */
 		var onError = function(qXHR, textStatus, errorThrown){
 			throw(luga.string.format(luga.csi.CONST.MESSAGES.FILE_NOT_FOUND, [config.url]));
 		};
@@ -1016,7 +1040,7 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @constructs
 	 * @param {luga.validator.FormValidator.options} options
-	 *
+	 * @throws
 	 */
 	luga.validator.FormValidator = function(options){
 		/** @type {luga.validator.FormValidator.options} */
@@ -1230,7 +1254,7 @@ if(typeof(luga) === "undefined"){
 	 * @constructs
 	 * @abstract
 	 * @param {luga.validator.BaseFieldValidator.options} options
-	 *
+	 * @throws
 	 */
 	luga.validator.BaseFieldValidator = function(options){
 
@@ -1323,7 +1347,7 @@ if(typeof(luga) === "undefined"){
 	 * @constructs
 	 * @extends luga.validator.BaseFieldValidator
 	 * @param {luga.validator.TextValidator.options} options
-	 *
+	 * @throws
 	 */
 	luga.validator.TextValidator = function(options){
 
@@ -1452,7 +1476,7 @@ if(typeof(luga) === "undefined"){
 	 * @constructs
 	 * @extends luga.validator.BaseFieldValidator
 	 * @param {luga.validator.SelectValidator.options} options
-	 *
+	 * @throws
 	 */
 	luga.validator.SelectValidator = function(options){
 
@@ -1533,7 +1557,7 @@ if(typeof(luga) === "undefined"){
 	 * @constructs
 	 * @abstract
 	 * @param {luga.validator.BaseFieldValidator.options} options
-	 *
+	 * @throws
 	 */
 	luga.validator.BaseGroupValidator = function(options){
 
@@ -1744,6 +1768,9 @@ if(typeof(luga) === "undefined"){
 		return false;
 	};
 
+	/**
+	 * @throws
+	 */
 	luga.validator.rules.equalto = function(fieldNode, validator){
 		var secondFieldNode = jQuery("#" + validator.config.equalto);
 		if(secondFieldNode.length === 0){
@@ -1814,6 +1841,9 @@ if(typeof(luga) === "undefined"){
 		return false;
 	};
 
+	/**
+	 * @throws
+	 */
 	luga.validator.rules.pattern = function(fieldNode, validator){
 		var regExpObj = luga.validator.patterns[validator.config.pattern];
 		if(regExpObj !== undefined){
@@ -1977,6 +2007,7 @@ if(typeof(luga) === "undefined"){
 	 * Programmatically validate a field
 	 * @param {luga.validator.api.validateField.options}
 	 * @returns {boolean}
+	 * @throws
 	 */
 	luga.validator.api.validateField = function(options){
 		if(luga.form.utils.isInputField(options.fieldNode) === false){

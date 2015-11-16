@@ -23,6 +23,7 @@
 	 * @extends luga.Notifier
 	 * @fires dataChanged
 	 * @fires currentRowChanged
+	 * @throws
 	 */
 	luga.data.DataSet = function(options){
 		if(options.id === undefined){
@@ -106,6 +107,7 @@
 		 *                                 The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
 		 * @fires currentRowChanged
 		 * @fires dataChanged
+		 * @throws
 		 */
 		this.delete = function(filter){
 			if(filter === undefined){
@@ -184,6 +186,7 @@
 		 * Throws an exception if the index is out of range
 		 * @param {number} index  Required
 		 * @return {luga.data.DataSet.row}
+		 * @throws
 		 */
 		this.getRowByIndex = function(index){
 			var fetchedRow;
@@ -216,6 +219,7 @@
 		 * That is, it uses those objects as its row object internally. It does not make a copy
 		 * @param  {array.<object>|object} records   Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs. Required
 		 * @fires dataChanged
+		 * @throws
 		 */
 		this.insert = function(records){
 			// If we only get one record, we put it inside an array anyway,
@@ -290,6 +294,7 @@
 		 * @param {function|null} filter   An optional filter function. If specified only records matching the filter will be returned. Default to null
 		 *                                 The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
 		 * @return {array.<luga.data.DataSet.row>}
+		 * @throws
 		 */
 		this.select = function(filter){
 			if(filter === undefined){
@@ -307,6 +312,7 @@
 		 * Triggers a "currentRowChanged" notification
 		 * @param {number|null} rowId  Required
 		 * @fires currentRowChanged
+		 * @throws
 		 */
 		this.setCurrentRowId = function(rowId){
 			// No need to do anything
@@ -333,6 +339,7 @@
 		 * Throws an exception if no available record matches the given row
 		 * @param {luga.data.DataSet.row} row
 		 * @fires currentRowChanged
+		 * @throws
 		 */
 		this.setCurrentRow = function(row){
 			var fetchedRowId = this.getRowIndex(row);
@@ -346,6 +353,7 @@
 		 * Sets the current row of the dataSet to the one matching the given index
 		 * Throws an exception if the index is out of range
 		 * @param {number} index
+		 * @throws
 		 */
 		this.setCurrentRowByIndex = function(index){
 			this.setCurrentRow(this.getRowByIndex(index));
@@ -358,6 +366,7 @@
 		 *                            The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
 		 * @fires currentRowChanged
 		 * @fires dataChanged
+		 * @throws
 		 */
 		this.setFilter = function(filter){
 			if(jQuery.isFunction(filter) === false){

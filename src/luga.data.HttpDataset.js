@@ -19,6 +19,7 @@
 	 * @abstract
 	 * @fires loading
 	 * @fires xhrError
+	 * @throws
 	 */
 	luga.data.HttpDataSet = function(options){
 		luga.extend(luga.data.DataSet, this, [options]);
@@ -95,6 +96,7 @@
 		 * Fires off XHR request to fetch and load the data, notify observers ("loading" first, "dataChanged" after records are loaded).
 		 * Does nothing if URL is not set
 		 * @fires loading
+		 * @throws
 		 */
 		this.loadData = function(){
 			if(this.url === null){

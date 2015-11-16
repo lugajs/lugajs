@@ -42,6 +42,12 @@ if(typeof(luga) === "undefined"){
 			jQuery(config.rootNode).html(response);
 		};
 
+		/**
+		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
+		 * @param {string}   textStatus   HTTP status
+		 * @param {string}   errorThrown
+		 * @throws
+		 */
 		var onError = function(qXHR, textStatus, errorThrown){
 			throw(luga.string.format(luga.csi.CONST.MESSAGES.FILE_NOT_FOUND, [config.url]));
 		};
