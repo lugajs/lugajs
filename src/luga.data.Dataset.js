@@ -101,6 +101,17 @@
 		/* Public methods */
 
 		/**
+		 * Remove the current filter function
+		 * Triggers a "dataChanged" notification
+		 * @fires dataChanged
+		 */
+		this.clearFilter = function(){
+			this.filter = null;
+			this.filteredRecords = null;
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
+		};
+
+		/**
 		 * Delete records matching the given filter
 		 * If no filter is passed, delete all records
 		 * @param {function|null} filter   An optional filter function. If specified only records matching the filter will be returned. Default to null
@@ -275,17 +286,6 @@
 				this.setCurrentRowId(null);
 			}
 			return;
-		};
-
-		/**
-		 * Remove the current filter function
-		 * Triggers a "dataChanged" notification
-		 * @fires dataChanged
-		 */
-		this.resetFilter = function(){
-			this.filter = null;
-			this.filteredRecords = null;
-			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
 		};
 
 		/**

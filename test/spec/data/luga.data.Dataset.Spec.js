@@ -132,6 +132,35 @@ describe("luga.data.Dataset", function(){
 
 	});
 
+	describe(".clearFilter()", function(){
+		beforeEach(function(){
+			baseDs.insert(testRecords);
+			baseDs.setFilter(removeUk);
+		});
+
+		describe("First:", function(){
+			it("Deletes current filter", function(){
+				expect(baseDs.getRecordsCount()).toEqual(5);
+				baseDs.clearFilter();
+				expect(baseDs.filter).toBeNull();
+			});
+		});
+		describe("Then:", function(){
+			it("Resets the records to their unfiltered status", function(){
+				baseDs.clearFilter();
+				expect(baseDs.getRecordsCount()).toEqual(7);
+				expect(baseDs.select()).toEqual(testRecords);
+			});
+		});
+		describe("Finally:", function(){
+			it("Triggers a 'dataChanged' notification", function(){
+				baseDs.clearFilter();
+				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith(baseDs);
+			});
+		});
+
+	});
+
 	describe(".delete()", function(){
 
 		it("Delete all records", function(){
@@ -387,8 +416,8 @@ describe("luga.data.Dataset", function(){
 	describe(".insert()", function(){
 
 		it("Adds records to a dataSet", function(){
-			baseDs.insert({ firstName: "Nicole", lastName: "Kidman" });
-			baseDs.insert({ firstName: "Elisabeth", lastName: "Banks" });
+			baseDs.insert({firstName: "Nicole", lastName: "Kidman"});
+			baseDs.insert({firstName: "Elisabeth", lastName: "Banks"});
 			expect(baseDs.getRecordsCount()).toEqual(2);
 		});
 		it("Fires a 'dataChanged' notification. Sending the whole dataSet along the way", function(){
@@ -410,7 +439,7 @@ describe("luga.data.Dataset", function(){
 			});
 			it("Or a single object containing value/name pairs", function(){
 				expect(baseDs.getRecordsCount()).toEqual(0);
-				baseDs.insert({ firstName: "Nicole", lastName: "Kidman" });
+				baseDs.insert({firstName: "Nicole", lastName: "Kidman"});
 				expect(baseDs.getRecordsCount()).toEqual(1);
 			});
 		});
@@ -463,35 +492,6 @@ describe("luga.data.Dataset", function(){
 				baseDs.setFilter(removeAll);
 				baseDs.resetCurrentRow();
 				expect(baseDs.getCurrentRowId()).toBeNull();
-			});
-		});
-
-	});
-
-	describe(".resetFilter()", function(){
-		beforeEach(function(){
-			baseDs.insert(testRecords);
-			baseDs.setFilter(removeUk);
-		});
-
-		describe("First:", function(){
-			it("Deletes current filter", function(){
-				expect(baseDs.getRecordsCount()).toEqual(5);
-				baseDs.resetFilter();
-				expect(baseDs.filter).toBeNull();
-			});
-		});
-		describe("Then:", function(){
-			it("Resets the records to their unfiltered status", function(){
-				baseDs.resetFilter();
-				expect(baseDs.getRecordsCount()).toEqual(7);
-				expect(baseDs.select()).toEqual(testRecords);
-			});
-		});
-		describe("Finally:", function(){
-			it("Then triggers a 'dataChanged' notification", function(){
-				baseDs.resetFilter();
-				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith(baseDs);
 			});
 		});
 

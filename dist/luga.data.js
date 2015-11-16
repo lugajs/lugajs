@@ -7,7 +7,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.1.4";
+	luga.data.version = "0.1.5";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.datasetRegistry = {};
 
@@ -148,6 +148,17 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/* Public methods */
+
+		/**
+		 * Remove the current filter function
+		 * Triggers a "dataChanged" notification
+		 * @fires dataChanged
+		 */
+		this.clearFilter = function(){
+			this.filter = null;
+			this.filteredRecords = null;
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
+		};
 
 		/**
 		 * Delete records matching the given filter
@@ -324,17 +335,6 @@ if(typeof(luga) === "undefined"){
 				this.setCurrentRowId(null);
 			}
 			return;
-		};
-
-		/**
-		 * Remove the current filter function
-		 * Triggers a "dataChanged" notification
-		 * @fires dataChanged
-		 */
-		this.resetFilter = function(){
-			this.filter = null;
-			this.filteredRecords = null;
-			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, this);
 		};
 
 		/**

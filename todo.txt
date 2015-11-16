@@ -39,8 +39,6 @@ DATA:
 
 data.Dataset:
 
-- Rename resetFilter() to clearFilter()
-
 - update(filter, setter)
 
 - Implement state (empty?, loading, error, ready)
