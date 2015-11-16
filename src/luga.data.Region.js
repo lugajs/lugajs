@@ -4,7 +4,7 @@
 	/**
 	 * @typedef {object} luga.data.Region.options
 	 *
-	 * @property {jquery} node     Either a jQuery object wrapping the node or the naked DOM object that will contain the region. Required
+	 * @property {jquery} node  Either a jQuery object wrapping the node or the naked DOM object that will contain the region. Required
 	 *
 	 */
 
@@ -23,8 +23,8 @@
 		this.node = jQuery(options.node);
 		this.dsId = this.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE);
 		/** @type {luga.data.DataSet|luga.data.DetailSet} */
-		this.dataSet = luga.data.getDataSource(this.dsId);
-		this.dataSet.addObserver(this);
+		this.dataSource = luga.data.getDataSource(this.dsId);
+		this.dataSource.addObserver(this);
 
 		this.templateId = this.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.TEMPLATE);
 		if(this.templateId !== undefined){
@@ -35,7 +35,7 @@
 		}
 
 		this.generateHtml = function(){
-			return this.template(this.dataSet);
+			return this.template(this.dataSource);
 		};
 
 		this.render = function(){
