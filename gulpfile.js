@@ -112,36 +112,44 @@ function releaseLib(key){
 
 gulp.task("concatLibs", function(){
 	return gulp.src(getAllLibsSrc())
-		.pipe(concat(CONST.CONCATENATED_FILE))
-		.pipe(changed(CONST.DIST_FOLDER))
-		.pipe(gulp.dest(CONST.DIST_FOLDER))
-		.pipe(rename({
-			extname: CONST.MIN_SUFFIX
-		}))
-		.pipe(uglify({
-			mangle: false
-		}))
-		.pipe(header(assembleBanner(pkg.displayName, "")))
 		.pipe(sourcemaps.init())
-		.pipe(sourcemaps.write("."))
+			.pipe(concat(CONST.CONCATENATED_FILE))
+			.pipe(changed(CONST.DIST_FOLDER))
+			.pipe(gulp.dest(CONST.DIST_FOLDER))
+			.pipe(rename({
+				extname: CONST.MIN_SUFFIX
+			}))
+			.pipe(uglify({
+				mangle: false
+			}))
+			.pipe(header(assembleBanner(pkg.displayName, "")))
+		.pipe(sourcemaps.write(".", {
+			includeContent: true,
+			sourceRoot: "."
+		}))
 		.pipe(gulp.dest(CONST.DIST_FOLDER));
 });
 
 gulp.task("data", function(){
 	var dataVersion = getDataVersion();
 	return gulp.src(getAllDataFragmentsSrc())
-		.pipe(concat(CONST.CONCATENATED_DATA_FILE))
-		.pipe(changed(CONST.DIST_FOLDER))
-		.pipe(gulp.dest(CONST.DIST_FOLDER))
-		.pipe(rename({
-			extname: CONST.MIN_SUFFIX
-		}))
-		.pipe(uglify({
-			mangle: false
-		}))
-		.pipe(header(assembleBanner(pkg.dataLibDisplayName, dataVersion)))
 		.pipe(sourcemaps.init())
-		.pipe(sourcemaps.write("."))
+			.pipe(concat(CONST.CONCATENATED_DATA_FILE))
+			.pipe(changed(CONST.DIST_FOLDER))
+			.pipe(gulp.dest(CONST.DIST_FOLDER))
+
+
+			.pipe(rename({
+				extname: CONST.MIN_SUFFIX
+			}))
+			.pipe(uglify({
+				mangle: false
+			}))
+			.pipe(header(assembleBanner(pkg.dataLibDisplayName, dataVersion)))
+		.pipe(sourcemaps.write(".", {
+			includeContent: true,
+			sourceRoot: "."
+		}))
 		.pipe(gulp.dest(CONST.DIST_FOLDER));
 });
 
