@@ -4,8 +4,6 @@
 
 DOCS:
 
-- Document browser's compatibility (IE9 and above, jQuery 2.x)
-
 - Switch from em to rem
 - Use flexbox CSS
 - Review/improve luga.css
