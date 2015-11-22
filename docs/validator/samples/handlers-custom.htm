@@ -9,18 +9,18 @@
 	<script src="../../../dist/luga.min.js"></script>
 	<script src="../../docs.js"></script>
 	<script>
-		//<!--
+		//<![CDATA[
 		handlers = {};
-		handlers.before = function(formNode){
+		handlers.before = function(formNode, event){
 			alert("I am a custom before handler");
 		};
 		handlers.error = function(formNode, validators){
 			alert("I am a custom error handler");
 		};
-		handlers.after = function(formNode){
+		handlers.after = function(formNode, event){
 			alert("I am a custom after handler");
 		};
-		//-->
+		//]]>
 	</script>
 </head>
 <body>
@@ -40,13 +40,13 @@
 			<ol>
 				<li>&lt;script&gt;</li>
 				<li>handlers = {};</li>
-				<li>handlers.before = function(formNode){</li>
+				<li>handlers.before = function(formNode, event){</li>
 				<li>	alert("I am a custom before handler");</li>
 				<li>};</li>
 				<li>handlers.error = function(formNode, validators){</li>
 				<li>	alert("I am a custom error handler");</li>
 				<li>};</li>
-				<li>handlers.after = function(formNode){</li>
+				<li>handlers.after = function(formNode, event){</li>
 				<li>	alert("I am a custom after handler");</li>
 				<li>};</li>
 				<li>&lt;/script&gt;</li>

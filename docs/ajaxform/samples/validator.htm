@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<title>Luga Ajaxform :: Integrating with Luga Validator</title>
+	<link rel="stylesheet" href="../../../src/luga.css" />
+	<link rel="stylesheet" href="../../docs.css" />
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../dist/luga.min.js"></script>
+	<script src="../../docs.js"></script>
+</head>
+<body>
+
+	<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
+	<div data-lugacsi="../sidebar.inc"></div>
+
+	<div class="content">
+
+		<section>
+			<h1>Integrating with Luga Validator</h1>
+			<p>
+				If you want to first use Luga Validator and then send the form using Ajaxform,
+				you can leverage the data-lugavalidator-after attribute and the build-in luga.ajaxform.handlers.afterValidation function
+			</p>
+		</section>
+
+		<code>
+			<ol>
+				<li>&lt;form data-lugavalidator-validate="true" data-lugavalidator-after="luga.ajaxform.handlers.afterValidation"&gt;</li>
+				<li>	&lt;input type="text" name="name" /&gt;</li>
+				<li>	&lt; type="submit" value="Submit"/&gt;</li>
+				<li>&lt;/form&gt;</li>
+			</ol>
+		</code>
+
+		<form data-lugavalidator-validate="true" data-lugavalidator-after="luga.ajaxform.handlers.afterValidation">
+			<h1>First validate, then send by XHR </h1>
+			<table>
+				<tr>
+					<td><label for="age">Age (required, positive integer, min 18, max 75)</label></td>
+					<td><input type="text" id="age" name="age" data-lugavalidator-required="true" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Please insert a valid age" data-lugavalidator-pattern="positiveinteger" data-lugavalidator-minnumber="18" data-lugavalidator-maxnumber="75" data-lugavalidator-filters="numbersonly" value="18"/></td>
+				</tr>
+				<tr>
+					<td><label for="name">Name (required)</label></td>
+					<td><input type="text" id="name" name="name" data-lugavalidator-required="true" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Please insert a name"/></td>
+				</tr>
+				<tr>
+					<td><label for="email">Email (required, email)</label></td>
+					<td><input type="text" id="email" name="email" data-lugavalidator-required="true" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Please insert a valid email" data-lugavalidator-email="true"/></td>
+				</tr>
+				<tr>
+					<td><label for="date">Date (not required, date, YYYY-MM-DD)</label></td>
+					<td><input type="text" id="date" name="date" data-lugavalidator-message="Please insert a valid date using the YYYY-MM-DD format" data-lugavalidator-errorclass="invalid" data-lugavalidator-datepattern="YYYY-MM-DD" value="2005-05-09"/></td>
+				</tr>
+				<tr>
+					<td><label for="comments">Comments (not required, min 3 chars, max 10)</label></td>
+					<td><textarea id="comments" name="comments" cols="20" rows="3" data-lugavalidator-message="Comments should be from 3 to 10 chars" data-lugavalidator-errorclass="invalid" data-lugavalidator-minlength="3" data-lugavalidator-maxlength="10"></textarea></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><input type="submit" value="Submit"/></td>
+				</tr>
+			</table>
+		</form>
+
+	</div>
+
+	<div data-lugacsi="../../footer.inc"></div>
+
+</body>
+</html>

@@ -9,7 +9,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.validator");
 
-	luga.validator.version = "0.9.9";
+	luga.validator.version = "0.9.10";
 
 	/* Validation handlers */
 
@@ -203,7 +203,7 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.validate = function(event){
 			self.init();
-			self.before();
+			self.before(event);
 			// Keep track of already validated fields (to skip already validated checkboxes or radios)
 			var executedValidators = {};
 			for(var i = 0; i < self.validators.length; i++){
@@ -229,7 +229,7 @@ if(typeof(luga) === "undefined"){
 					// Disable submit buttons to avoid multiple submits
 					self.disableSubmit();
 				}
-				self.after();
+				self.after(event);
 			}
 			return self.dirtyValidators;
 		};
@@ -252,11 +252,11 @@ if(typeof(luga) === "undefined"){
 			return self.dirtyValidators.length === 0;
 		};
 
-		this.before = function(){
+		this.before = function(event){
 			if(self.config.before !== null){
 				var callBack = luga.lookup(self.config.before);
 				if(callBack !== null){
-					callBack.apply(null, [self.config.formNode]);
+					callBack.apply(null, [self.config.formNode, event]);
 				}
 				else{
 					alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.before]));
@@ -274,11 +274,11 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
-		this.after = function(){
+		this.after = function(event){
 			if(self.config.after !== null){
 				var callBack = luga.lookup(self.config.after);
 				if(callBack !== null){
-					callBack.apply(null, [self.config.formNode]);
+					callBack.apply(null, [self.config.formNode, event]);
 				}
 				else{
 					alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.after]));

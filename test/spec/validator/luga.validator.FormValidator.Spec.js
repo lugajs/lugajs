@@ -281,9 +281,10 @@ describe("luga.validator.FormValidator", function(){
 				expect(formValidator.isValid()).toBeFalsy();
 				expect(formValidatorHandlers.before).toHaveBeenCalled();
 			});
-			it("Passing the form's DOM node as first argument", function(){
-				formValidator.validate();
-				expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm[0]);
+			it("Passing the form's DOM node as first argument, the submit event as second", function(){
+				var formEvent = new jQuery.Event();
+				formValidator.validate(formEvent);
+				expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm[0], formEvent);
 			});
 
 			it("Then: error handler is called", function(){
@@ -308,9 +309,10 @@ describe("luga.validator.FormValidator", function(){
 				expect(formValidator.isValid()).toBeTruthy();
 				expect(formValidatorHandlers.before).toHaveBeenCalled();
 			});
-			it("Passing the form's DOM node as first argument", function(){
-				formValidator.validate();
-				expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm[0]);
+			it("Passing the form's DOM node as first argument, the submit event as second", function(){
+				var formEvent = new jQuery.Event();
+				formValidator.validate(formEvent);
+				expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm[0], formEvent);
 			});
 
 			it("The error handler is not called", function(){
@@ -326,11 +328,12 @@ describe("luga.validator.FormValidator", function(){
 				expect(formValidator.isValid()).toBeTruthy();
 				expect(formValidatorHandlers.after).toHaveBeenCalled();
 			});
-			it("Passing the form's DOM node as first argument", function(){
+			it("Passing the form's DOM node as first argument, the submit event as second", function(){
+				var formEvent = new jQuery.Event();
 				jQuery("#myName").val("filled");
-				formValidator.validate();
+				formValidator.validate(formEvent);
 				expect(formValidator.isValid()).toBeTruthy();
-				expect(formValidatorHandlers.after).toHaveBeenCalledWith(jForm[0]);
+				expect(formValidatorHandlers.after).toHaveBeenCalledWith(jForm[0], formEvent);
 			});
 
 		});

@@ -11,6 +11,7 @@
 		<li><a href="../samples/success-handler.htm">Success handler</a></li>
 		<li><a href="../samples/error-handler.htm">Error handler</a></li>
 		<li><a href="../samples/before-after.htm">Before/after entry points</a></li>
+		<li><a href="../samples/validator.htm">Integrating with Validator</a></li>
 	</ul>
 		<h2>API</h2>
     	<ul>

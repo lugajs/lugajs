@@ -8,7 +8,7 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.ajaxform");
-	luga.ajaxform.version = "0.7.0";
+	luga.ajaxform.version = "0.7.1";
 
 	/* Success and error handlers */
 	luga.namespace("luga.ajaxform.handlers");
@@ -52,6 +52,20 @@ if(typeof(luga) === "undefined"){
 		// Clean-up any existing box
 		luga.utils.removeDisplayBox(formNode);
 		luga.utils.displayErrorMessage(formNode, msg);
+	};
+
+	/**
+	 * Utility function to be used as after handler by Luga Validator
+	 *
+	 * @param {jquery}       formNode  jQuery object wrapping the form
+	 * @param {jquery.Event} event     jQuery object wrapping the submit event
+	 */
+	luga.ajaxform.handlers.afterValidation = function(formNode, event){
+		event.preventDefault();
+		var sender = new luga.ajaxform.Sender({
+			formNode: formNode
+		});
+		sender.send();
 	};
 
 	luga.ajaxform.CONST = {
@@ -216,7 +230,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/*
-		AS above, just send  data as raw JSON
+		 AS above, just send  data as raw JSON
 		 */
 		this.sendJson = function(){
 
