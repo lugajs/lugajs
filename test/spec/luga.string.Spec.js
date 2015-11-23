@@ -24,16 +24,25 @@ describe("luga.string", function(){
 
 		describe("The second argument can be either:", function(){
 
-			it("An array", function(){
-				expect(luga.string.format("My name is {0} {1}", ["Ciccio", "Pasticcio"])).toEqual("My name is Ciccio Pasticcio");
-				expect(luga.string.format("This {0} is just a {0}", ["test"])).toEqual("This test is just a test");
+			describe("An array:", function(){
+
+				it("In which case placeholders need to be numbers", function(){
+					expect(luga.string.format("My name is {0} {1}", ["Ciccio", "Pasticcio"])).toEqual("My name is Ciccio Pasticcio");
+					expect(luga.string.format("This {0} is just a {0}", ["test"])).toEqual("This test is just a test");
+				});
+
 			});
-			it("An object", function(){
-				expect(luga.string.format("My name is {firstName} {lastName}", {
-					firstName: "Ciccio",
-					lastName: "Pasticcio"
-				})).toEqual("My name is Ciccio Pasticcio");
-				expect(luga.string.format("This {str} is just a {str}", {str: "test"})).toEqual("This test is just a test");
+
+			describe("An object containing name/value pairs:", function(){
+
+				it("In which case placeholders need to be keys", function(){
+					expect(luga.string.format("My name is {firstName} {lastName}", {
+						firstName: "Ciccio",
+						lastName: "Pasticcio"
+					})).toEqual("My name is Ciccio Pasticcio");
+					expect(luga.string.format("This {str} is just a {str}", {str: "test"})).toEqual("This test is just a test");
+				});
+
 			});
 
 		});
