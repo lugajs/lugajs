@@ -490,6 +490,8 @@ if(typeof(luga) === "undefined"){
 	 * @constructor
 	 * @extends luga.Notifier
 	 * @fires dataChanged
+	 * @listens dataChanged
+	 * @listens currentRowChanged
 	 */
 	luga.data.DetailSet = function(options){
 
@@ -537,7 +539,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * @param {luga.data.DataSet.currentRowChanged} data
 		 */
-		this.onCurrentRowChanged = function(data){
+		this.onCurrentRowChangedHandler = function(data){
 			self.fetchRow();
 		};
 
@@ -793,6 +795,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Data Region class
 	 * @param {luga.data.Region.options} options
+	 * @listens dataChanged
 	 * @throws
 	 */
 	luga.data.Region = function(options){

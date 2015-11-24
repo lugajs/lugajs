@@ -11,6 +11,7 @@
 	/**
 	 * Data Region class
 	 * @param {luga.data.Region.options} options
+	 * @listens dataChanged
 	 * @throws
 	 */
 	luga.data.Region = function(options){

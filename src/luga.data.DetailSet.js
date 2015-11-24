@@ -16,6 +16,8 @@
 	 * @constructor
 	 * @extends luga.Notifier
 	 * @fires dataChanged
+	 * @listens dataChanged
+	 * @listens currentRowChanged
 	 */
 	luga.data.DetailSet = function(options){
 
@@ -63,7 +65,7 @@
 		/**
 		 * @param {luga.data.DataSet.currentRowChanged} data
 		 */
-		this.onCurrentRowChanged = function(data){
+		this.onCurrentRowChangedHandler = function(data){
 			self.fetchRow();
 		};
 
