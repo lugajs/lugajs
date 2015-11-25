@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta charset="utf-8" />
+	<meta charset="utf-8"/>
 	<title>Luga DataSet :: Master-details</title>
-	<link rel="stylesheet" href="../../../src/luga.css" />
-	<link rel="stylesheet" href="../../docs.css" />
+	<link rel="stylesheet" href="../../../src/luga.css"/>
+	<link rel="stylesheet" href="../../docs.css"/>
 	<script src="../../../lib/jquery/jquery.min.js"></script>
 	<script src="../../../lib/handlebars.min.js"></script>
 	<script src="../../../dist/luga.min.js"></script>
@@ -27,35 +27,45 @@
 			{{/each}}
 		</ul>
 	</script>
+	<script id="detailsTemplate" type="text/x-handlebars-template">
+		<ul>
+			<li>Firstname: {{firstName}}</li>
+			<li>Lastname: {{lastName}}</li>
+			<li>Country: {{country}}</li>
+		</ul>
+	</script>
 
 </head>
 <body>
 
-	<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
-	<div data-lugacsi="../sidebar.inc"></div>
+<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
+<div data-lugacsi="../sidebar.inc"></div>
 
-	<div class="content">
+<div class="content">
 
-		<section>
-			<h1>Master-details</h1>
-			<p>TODO: write explanation</p>
-		</section>
+	<section>
+		<h1>Master-details</h1>
 
-		<section>
-			<h1>Master</h1>
-			<div data-lugads-region="masterRegion" data-lugads-datasource="ladies" data-lugads-template="masterTemplate"></div>
-		</section>
+		<p>TODO: write explanation</p>
+	</section>
 
-		<section>
-			<h1>Details</h1>
-			<div data-lugads-region="detailsRegion" data-lugads-datasource="lady">
-				<li>Firstname: {{firstName}} lastname: {{lastName}} country: {{country}}</li>
-			</div>
-		</section>
+	<section>
+		<h1>Master</h1>
 
-	</div>
+		<div data-lugads-region="masterRegion" data-lugads-datasource="ladies"
+			 data-lugads-template="masterTemplate"></div>
+	</section>
 
-	<div data-lugacsi="../../footer.inc"></div>
+	<section>
+		<h1>Details</h1>
+
+		<div data-lugads-region="detailsRegion" data-lugads-datasource="lady"
+			 data-lugads-template="detailsTemplate"></div>
+	</section>
+
+</div>
+
+<div data-lugacsi="../../footer.inc"></div>
 
 </body>
 </html>
