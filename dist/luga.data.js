@@ -13,12 +13,12 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.1.6";
+	luga.data.version = "0.1.7";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
 	luga.data.CONST = {
-		PK_KEY: "rowID",
+		PK_KEY: "rowId",
 		CUSTOM_ATTRIBUTES: {
 			REGION: "data-lugads-region",
 			TEMPLATE: "data-lugads-template",
@@ -209,6 +209,11 @@ if(typeof(luga) === "undefined"){
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
+		this.getContext = function(){
+			// TODO: Should only returns records
+			return this;
+		};
+
 		/**
 		 * Returns the current row object
 		 * By default, the current row is the first row of the dataSet, but this can be changed by calling setCurrentRow() or setCurrentRowIndex().
@@ -397,7 +402,7 @@ if(typeof(luga) === "undefined"){
 			 * @type {luga.data.DataSet.currentRowChanged}
 			 */
 			var notificationData = {
-				oldRowId: this.currentRowId,
+				oldRowId: this.getCurrentRowId(),
 				oldRow: this.getRowById(this.currentRowId),
 				currentRowId: rowId,
 				currentRow: this.getRowById(rowId),
@@ -438,7 +443,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {number} index
 		 * @throws
 		 */
-		this.setCurrentRowByIndex = function(index){
+		this.setCurrentRowIndex = function(index){
 			this.setCurrentRow(this.getRowByIndex(index));
 		};
 
@@ -478,7 +483,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.data.DetailSet.options
 	 *
-	 * @property {string}              id     Unique identifier. Required
+	 * @property {string}            id       Unique identifier. Required
 	 * @property {luga.data.DataSet} dataSet  Master dataSet
 	 */
 
@@ -523,8 +528,16 @@ if(typeof(luga) === "undefined"){
 
 		luga.data.setDataSource(this.id, this);
 
+		/**
+		 * @returns {luga.data.DataSet.row}
+		 */
+		this.getContext = function(){
+			return this.row;
+		};
+
 		this.fetchRow = function(){
 			self.row = self.dataSet.getCurrentRow();
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
 		/* Events Handlers */
@@ -820,7 +833,7 @@ if(typeof(luga) === "undefined"){
 		}
 
 		this.generateHtml = function(){
-			return this.template(this.dataSource);
+			return this.template(this.dataSource.getContext());
 		};
 
 		this.render = function(){

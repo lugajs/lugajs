@@ -35,6 +35,8 @@ DATA:
 
 data.Dataset:
 
+- Fix
+
 - update(filter, setter)
 
 - Implement state (empty?, loading, error, ready)
@@ -47,7 +49,7 @@ data.Dataset:
 data.DetailSet:
 
 - Write unit test!
-- Add master/detail sample to docs
+- Improve master/detail sample page. Use setCurrentRowId()
 
 
 data.HttpDatset:

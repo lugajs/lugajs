@@ -4,7 +4,7 @@
 	/**
 	 * @typedef {object} luga.data.DetailSet.options
 	 *
-	 * @property {string}              id     Unique identifier. Required
+	 * @property {string}            id       Unique identifier. Required
 	 * @property {luga.data.DataSet} dataSet  Master dataSet
 	 */
 
@@ -49,8 +49,16 @@
 
 		luga.data.setDataSource(this.id, this);
 
+		/**
+		 * @returns {luga.data.DataSet.row}
+		 */
+		this.getContext = function(){
+			return this.row;
+		};
+
 		this.fetchRow = function(){
 			self.row = self.dataSet.getCurrentRow();
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
 		/* Events Handlers */

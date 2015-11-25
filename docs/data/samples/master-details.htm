@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta charset="utf-8" />
-	<title>Luga DataSet :: Basic databinding</title>
+	<title>Luga DataSet :: Master-details</title>
 	<link rel="stylesheet" href="../../../src/luga.css" />
 	<link rel="stylesheet" href="../../docs.css" />
 	<script src="../../../lib/jquery/jquery.min.js"></script>
@@ -14,15 +14,16 @@
 
 	<script>
 		luga.namespace("test");
-		test.ladiesDs = new luga.data.JsonDataSet({id: "ladiesDs", url: "../../../test/fixtures/data/people.json", path: "ladies"});
+		test.ladiesMaster = new luga.data.JsonDataSet({id: "ladies", url: "../../../test/fixtures/data/people.json", path: "ladies"});
+		test.ladyDetails = new luga.data.DetailSet({id: "lady", dataSet: test.ladiesMaster});
 		jQuery(document).ready(function(){
-			test.ladiesDs.loadData();
+			test.ladiesMaster.loadData();
 		});
 	</script>
-	<script id="ladiesTemplate" type="text/x-handlebars-template">
+	<script id="masterTemplate" type="text/x-handlebars-template">
 		<ul class="people">
 			{{#each records}}
-			<li>{{firstName}} {{lastName}}</li>
+			<li><a href="#" onclick="test.ladiesMaster.setCurrentRowIndex({{@index}})">{{lastName}}</a></li>
 			{{/each}}
 		</ul>
 	</script>
@@ -36,23 +37,19 @@
 	<div class="content">
 
 		<section>
-			<h1>Basic template with databinding</h1>
+			<h1>Master-details</h1>
 			<p>TODO: write explanation</p>
 		</section>
 
 		<section>
-			<h1>Template from &lt;script&gt; tag</h1>
-			<div data-lugads-region="scriptTemplate" data-lugads-datasource="ladiesDs" data-lugads-template="ladiesTemplate"></div>
+			<h1>Master</h1>
+			<div data-lugads-region="masterRegion" data-lugads-datasource="ladies" data-lugads-template="masterTemplate"></div>
 		</section>
 
 		<section>
-			<h1>Embedded template</h1>
-			<div data-lugads-region="embedRegion" data-lugads-datasource="ladiesDs">
-				<ul class="people">
-					{{#each records}}
-					<li>{{firstName}} {{lastName}}</li>
-					{{/each}}
-				</ul>
+			<h1>Details</h1>
+			<div data-lugads-region="detailsRegion" data-lugads-datasource="lady">
+				<li>Firstname: {{firstName}} lastname: {{lastName}} country: {{country}}</li>
 			</div>
 		</section>
 

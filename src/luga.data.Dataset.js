@@ -147,6 +147,11 @@
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
+		this.getContext = function(){
+			// TODO: Should only returns records
+			return this;
+		};
+
 		/**
 		 * Returns the current row object
 		 * By default, the current row is the first row of the dataSet, but this can be changed by calling setCurrentRow() or setCurrentRowIndex().
@@ -335,7 +340,7 @@
 			 * @type {luga.data.DataSet.currentRowChanged}
 			 */
 			var notificationData = {
-				oldRowId: this.currentRowId,
+				oldRowId: this.getCurrentRowId(),
 				oldRow: this.getRowById(this.currentRowId),
 				currentRowId: rowId,
 				currentRow: this.getRowById(rowId),
@@ -376,7 +381,7 @@
 		 * @param {number} index
 		 * @throws
 		 */
-		this.setCurrentRowByIndex = function(index){
+		this.setCurrentRowIndex = function(index){
 			this.setCurrentRow(this.getRowByIndex(index));
 		};
 

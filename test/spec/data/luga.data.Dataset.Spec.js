@@ -155,7 +155,7 @@ describe("luga.data.Dataset", function(){
 		describe("Finally:", function(){
 			it("Triggers a 'dataChanged' notification", function(){
 				baseDs.clearFilter();
-				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource:baseDs});
+				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource: baseDs});
 			});
 		});
 
@@ -197,7 +197,7 @@ describe("luga.data.Dataset", function(){
 			it("Triggers a 'dataChanged' notification", function(){
 				baseDs.insert(testRecords);
 				baseDs.delete();
-				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource:baseDs});
+				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource: baseDs});
 			});
 		});
 
@@ -423,7 +423,7 @@ describe("luga.data.Dataset", function(){
 		it("Fires a 'dataChanged' notification. Sending the whole dataSet along the way", function(){
 			baseDs.insert(testRecords);
 			expect(testObserver.onDataChangedHandler).toHaveBeenCalled();
-			expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource:baseDs});
+			expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource: baseDs});
 		});
 		it("Automatically add a PK field that is the equivalent of the row's index within the array", function(){
 			baseDs.insert(testRecords);
@@ -520,32 +520,6 @@ describe("luga.data.Dataset", function(){
 		});
 	});
 
-	describe(".setCurrentRowId()", function(){
-
-		it("Throws an exception if the given rowId is invalid", function(){
-			expect(function(){
-				baseDs.setCurrentRowId(3);
-			}).toThrow();
-		});
-
-		describe("First:", function(){
-			it("Sets the current row of the dataSet to the row matching the given rowId", function(){
-				baseDs.insert(testRecords);
-				baseDs.setCurrentRowId(3);
-				expect(baseDs.getCurrentRowId()).toEqual(3);
-			});
-		});
-
-		describe("Then:", function(){
-			it("Triggers a 'currentRowChanged' notification", function(){
-				baseDs.insert(testRecords);
-				baseDs.setCurrentRowId(3);
-				expect(testObserver.onCurrentRowChangedHandler).toHaveBeenCalled();
-			});
-		});
-
-	});
-
 	describe(".setCurrentRow()", function(){
 
 		describe("Given a row:", function(){
@@ -591,14 +565,40 @@ describe("luga.data.Dataset", function(){
 
 	});
 
-	describe(".setCurrentRowByIndex()", function(){
+	describe(".setCurrentRowId()", function(){
+
+		it("Throws an exception if the given rowId is invalid", function(){
+			expect(function(){
+				baseDs.setCurrentRowId(3);
+			}).toThrow();
+		});
+
+		describe("First:", function(){
+			it("Sets the current row of the dataSet to the row matching the given rowId", function(){
+				baseDs.insert(testRecords);
+				baseDs.setCurrentRowId(3);
+				expect(baseDs.getCurrentRowId()).toEqual(3);
+			});
+		});
+
+		describe("Then:", function(){
+			it("Triggers a 'currentRowChanged' notification", function(){
+				baseDs.insert(testRecords);
+				baseDs.setCurrentRowId(3);
+				expect(testObserver.onCurrentRowChangedHandler).toHaveBeenCalled();
+			});
+		});
+
+	});
+
+	describe(".setCurrentRowIndex()", function(){
 
 		describe("Given a zero-based index:", function(){
 
 			describe("First:", function(){
 				it("Sets the current row of the dataSet to the one matching the given index", function(){
 					baseDs.insert(testRecords);
-					baseDs.setCurrentRowByIndex(3);
+					baseDs.setCurrentRowIndex(3);
 					expect(baseDs.getCurrentRowIndex()).toEqual(3);
 				});
 			});
@@ -615,13 +615,13 @@ describe("luga.data.Dataset", function(){
 			describe("Throws an exception if:", function(){
 				it("The dataSet is empty", function(){
 					expect(function(){
-						baseDs.setCurrentRowByIndex(1);
+						baseDs.setCurrentRowIndex(1);
 					}).toThrow();
 				});
 				it("The given index is out of range", function(){
 					baseDs.insert(testRecords);
 					expect(function(){
-						baseDs.setCurrentRowByIndex(99);
+						baseDs.setCurrentRowIndex(99);
 					}).toThrow();
 				});
 			});
@@ -657,7 +657,7 @@ describe("luga.data.Dataset", function(){
 		describe("Finally", function(){
 			it("Triggers a 'dataChanged' notification", function(){
 				baseDs.setFilter(removeBrasil);
-				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource:baseDs});
+				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource: baseDs});
 			});
 		});
 
