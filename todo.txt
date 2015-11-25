@@ -35,7 +35,7 @@ DATA:
 
 data.Dataset:
 
-- Fix
+- Fix getContext() and binding to region/template
 
 - update(filter, setter)
 
