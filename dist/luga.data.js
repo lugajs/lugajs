@@ -13,7 +13,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.1.7";
+	luga.data.version = "0.1.8";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -209,9 +209,11 @@ if(typeof(luga) === "undefined"){
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
+		/**
+		 * @returns {{records: array.<luga.data.DataSet.row>}}
+		 */
 		this.getContext = function(){
-			// TODO: Should only returns records
-			return this;
+			return {records: self.select()};
 		};
 
 		/**

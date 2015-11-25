@@ -35,7 +35,7 @@ DATA:
 
 data.Dataset:
 
-- Fix getContext() and binding to region/template
+- Test .getContext()
 
 - update(filter, setter)
 
@@ -49,7 +49,6 @@ data.Dataset:
 data.DetailSet:
 
 - Write unit test!
-- Improve master/detail sample page. Use setCurrentRowId()
 
 
 data.HttpDatset:
@@ -70,6 +69,8 @@ data.Region:
 - Write unit test!
 - Throw exception if dataSource is not found
 - Investigate external template files
+
+- Add ability to instatiate different classes, with custom/different templating, depending on data-lugads-regiontype
 
 - Add ability to define dataset programmatically, not only with custom attribute
 - Validate required attributes

@@ -147,9 +147,11 @@
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
+		/**
+		 * @returns {{records: array.<luga.data.DataSet.row>}}
+		 */
 		this.getContext = function(){
-			// TODO: Should only returns records
-			return this;
+			return {records: self.select()};
 		};
 
 		/**
