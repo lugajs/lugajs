@@ -33,6 +33,11 @@ VALIDATOR:
 
 DATA:
 
+Prevent usage of classes without using new:
+	if((this instanceof luga.data.JsonDataSet) === false) {
+		throw(CONST)
+	}
+
 data.Dataset:
 
 - Test .getContext()
