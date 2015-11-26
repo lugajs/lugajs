@@ -31,13 +31,12 @@ describe("luga.data.Dataset", function(){
 			return null;
 		};
 
-		var ObserverClass = function(){
-			this.onDataChangedHandler = function(data){
-			};
-			this.onCurrentRowChangedHandler = function(data){
-			};
+		testObserver = {
+			onDataChangedHandler: function(){
+			},
+			onCurrentRowChangedHandler: function(){
+			}
 		};
-		testObserver = new ObserverClass();
 		baseDs.addObserver(testObserver);
 		spyOn(testObserver, "onDataChangedHandler");
 		spyOn(testObserver, "onCurrentRowChangedHandler");
@@ -134,7 +133,7 @@ describe("luga.data.Dataset", function(){
 
 	describe("Once initialized", function(){
 		it("Calls luga.data.setDataSource()", function(){
-			spyOn(luga.data, "setDataSource").and.callFake(function() {
+			spyOn(luga.data, "setDataSource").and.callFake(function(){
 			});
 			var ds = new luga.data.DataSet({id: "test"});
 			expect(luga.data.setDataSource).toHaveBeenCalledWith("test", ds);
