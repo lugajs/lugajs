@@ -11,7 +11,7 @@ describe("luga.data", function(){
 		expect(luga.data).toBeDefined();
 	});
 
-	it("Stores a registry of dataSets available on the current page", function(){
+	it("Stores a registry of dataSources available on the current page", function(){
 		expect(luga.data.dataSourceRegistry).toBeDefined();
 		expect(jQuery.isPlainObject(luga.data.dataSourceRegistry)).toBeTruthy();
 	});
