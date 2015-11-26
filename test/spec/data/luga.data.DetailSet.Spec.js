@@ -9,7 +9,6 @@ describe("luga.data.DetailSet", function(){
 		emptyDs = new luga.data.DataSet({id: "test"});
 		loadedDs = new luga.data.DataSet({id: "myDs", records: testRecords});
 
-
 		detailSet = new luga.data.DetailSet({id: "detailTest", dataSet: loadedDs});
 		emptyDetailSet = new luga.data.DetailSet({id: "detailTest", dataSet: emptyDs});
 
@@ -51,9 +50,9 @@ describe("luga.data.DetailSet", function(){
 			});
 		});
 
-		describe("Once initialized", function(){
+		describe("Once initialized:", function(){
 			it("Calls luga.data.setDataSource()", function(){
-				spyOn(luga.data, "setDataSource").and.callFake(function() {
+				spyOn(luga.data, "setDataSource").and.callFake(function(){
 				});
 				var testDetailSet = new luga.data.DetailSet({id: "test", dataSet: emptyDs});
 				expect(luga.data.setDataSource).toHaveBeenCalledWith("test", testDetailSet);
@@ -64,6 +63,12 @@ describe("luga.data.DetailSet", function(){
 			it("Points its .row property to options.dataSet's current row", function(){
 				expect(emptyDetailSet.row).toEqual(emptyDs.getCurrentRow());
 				expect(detailSet.row).toEqual(loadedDs.getCurrentRow());
+			});
+		});
+
+		describe(".getContext()", function(){
+			it("Returns the associated dataSet's current row", function(){
+				expect(detailSet.getContext()).toEqual(loadedDs.getCurrentRow());
 			});
 		});
 
