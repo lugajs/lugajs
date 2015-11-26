@@ -46,7 +46,11 @@ data.Dataset:
 
 data.DetailSet:
 
-- Write unit test!
+- Test:
+  getContext()
+  fetchRow()
+  onDataChangedHandler()
+  onCurrentRowChangedHandler()
 
 
 data.HttpDatset:
