@@ -203,6 +203,15 @@ describe("luga.data.Dataset", function(){
 
 	});
 
+	describe(".getContext()", function(){
+
+		it("Returns an object with the 'records' key containing current records", function(){
+			baseDs.insert(testRecords);
+			expect(baseDs.getContext()).toEqual({records: baseDs.select()});
+		});
+
+	});
+
 	describe(".getCurrentRow()", function(){
 
 		it("Returns first row object on a newly created dataSet", function(){
