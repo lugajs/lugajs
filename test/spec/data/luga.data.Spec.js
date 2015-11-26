@@ -43,4 +43,12 @@ describe("luga.data", function(){
 		});
 	});
 
+	describe(".setDataSource():", function(){
+		it("Adds a dataSource inside the registry", function(){
+			var myDataSource = {type: "whatever"};
+			luga.data.setDataSource("testDs", myDataSource);
+			expect(luga.data.getDataSource("testDs")).toEqual(myDataSource);
+		});
+	});
+
 });
