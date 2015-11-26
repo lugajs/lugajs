@@ -1,5 +1,8 @@
 - Consider creating a Bower package
 
+- Error checking for constructors called without new:
+if(this === window){throw()}
+
 -------------
 
 DOCS:
