@@ -77,8 +77,7 @@
 			self.fetchRow();
 		};
 
-		/* Constructor */
-
+		/* Fetch row without notifying observers */
 		self.row = self.dataSet.getCurrentRow();
 
 	};
