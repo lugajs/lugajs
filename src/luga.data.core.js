@@ -50,8 +50,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Returns a dataSource from the registry
-	 * Returns null if no source matches the given id
+	 * Adds a dataSource inside the registry
 	 * @param {string}                                id
 	 * @param {luga.data.DataSet|luga.data.DetailSet} dataSource
 	 */
