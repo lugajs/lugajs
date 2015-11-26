@@ -35,8 +35,6 @@ DATA:
 
 data.Dataset:
 
-- Test .getContext()
-
 - update(filter, setter)
 
 - Implement state (empty?, loading, error, ready)
