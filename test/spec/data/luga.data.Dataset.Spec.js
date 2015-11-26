@@ -132,6 +132,15 @@ describe("luga.data.Dataset", function(){
 
 	});
 
+	describe("Once initialized", function(){
+		it("Calls luga.data.setDataSource()", function(){
+			spyOn(luga.data, "setDataSource").and.callFake(function() {
+			});
+			var ds = new luga.data.DataSet({id: "test"});
+			expect(luga.data.setDataSource).toHaveBeenCalledWith("test", ds);
+		});
+	});
+
 	describe(".clearFilter()", function(){
 		beforeEach(function(){
 			baseDs.insert(testRecords);

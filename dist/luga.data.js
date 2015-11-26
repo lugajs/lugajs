@@ -560,7 +560,7 @@ if(typeof(luga) === "undefined"){
 
 		/* Constructor */
 
-		this.fetchRow();
+		self.row = self.dataSet.getCurrentRow();
 
 	};
 
