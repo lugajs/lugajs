@@ -79,7 +79,7 @@
 
 		/* Constructor */
 
-		this.fetchRow();
+		self.row = self.dataSet.getCurrentRow();
 
 	};
 
