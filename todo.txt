@@ -46,10 +46,6 @@ data.Dataset:
 
 data.DetailSet:
 
-- Test:
-  onDataChangedHandler()
-  onCurrentRowChangedHandler()
-
 
 data.HttpDatset:
 

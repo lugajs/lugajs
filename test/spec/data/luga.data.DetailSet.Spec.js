@@ -100,6 +100,32 @@ describe("luga.data.DetailSet", function(){
 
 		});
 
+		describe(".onCurrentRowChangedHandler()", function(){
+			it("Is invoked whenever the associated dataSet's currentRow changes", function(){
+				spyOn(detailSet, "onCurrentRowChangedHandler");
+				loadedDs.setCurrentRowIndex(2);
+				expect(detailSet.onCurrentRowChangedHandler).toHaveBeenCalled();
+			});
+			it("Invokes .fetchRow()", function(){
+				spyOn(detailSet, "fetchRow");
+				loadedDs.setCurrentRowIndex(2);
+				expect(detailSet.fetchRow).toHaveBeenCalled();
+			});
+		});
+
+		describe(".onDataChangedHandler()", function(){
+			it("Is invoked whenever the associated dataSet's data changes", function(){
+				spyOn(emptyDetailSet, "onDataChangedHandler");
+				emptyDs.insert(testRecords);
+				expect(emptyDetailSet.onDataChangedHandler).toHaveBeenCalled();
+			});
+			it("Invokes .fetchRow()", function(){
+				spyOn(emptyDetailSet, "fetchRow");
+				emptyDs.insert(testRecords);
+				expect(emptyDetailSet.fetchRow).toHaveBeenCalled();
+			});
+		});
+
 	});
 
 });
