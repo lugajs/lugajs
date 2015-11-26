@@ -2,7 +2,7 @@ describe("luga.data.DetailSet", function(){
 
 	"use strict";
 
-	var emptyDs, loadedDs, testRecords, detailSet, emptyDetailSet;
+	var emptyDs, loadedDs, testRecords, detailSet, emptyDetailSet, testObserver;
 	beforeEach(function(){
 
 		testRecords = getJSONFixture("data/ladies.json");
@@ -11,6 +11,13 @@ describe("luga.data.DetailSet", function(){
 
 		detailSet = new luga.data.DetailSet({id: "detailTest", dataSet: loadedDs});
 		emptyDetailSet = new luga.data.DetailSet({id: "detailTest", dataSet: emptyDs});
+
+		testObserver = {
+			onDataChangedHandler: function(){
+			}
+		};
+		detailSet.addObserver(testObserver);
+		spyOn(testObserver, "onDataChangedHandler");
 
 	});
 
@@ -70,6 +77,27 @@ describe("luga.data.DetailSet", function(){
 			it("Returns the associated dataSet's current row", function(){
 				expect(detailSet.getContext()).toEqual(loadedDs.getCurrentRow());
 			});
+		});
+
+		describe(".fetchRow()", function(){
+
+			describe("First:", function(){
+				it("Grabs the associated dataSet's current row", function(){
+					spyOn(loadedDs, "getCurrentRow").and.callFake(function(){
+					});
+					detailSet.fetchRow();
+					expect(loadedDs.getCurrentRow).toHaveBeenCalled();
+					expect(loadedDs.getCurrentRow()).toEqual(detailSet.row);
+				});
+			});
+
+			describe("Then:", function(){
+				it("Triggers a 'dataChanged' notification", function(){
+					detailSet.fetchRow();
+					expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource: detailSet});
+				});
+			});
+
 		});
 
 	});

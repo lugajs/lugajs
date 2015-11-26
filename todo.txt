@@ -47,7 +47,6 @@ data.Dataset:
 data.DetailSet:
 
 - Test:
-  fetchRow()
   onDataChangedHandler()
   onCurrentRowChangedHandler()
 
