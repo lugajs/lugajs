@@ -63,19 +63,16 @@ data.JsonDataSet:
 data.Region:
 
 - Write unit test!
-- Throw exception if dataSource is not found
-- Investigate external template files
 
-- Add ability to instatiate different classes, with custom/different templating, depending on data-lugads-regiontype
+- Add ability to instantiate region programmatically, not only with custom attribute
 
-- Add ability to define dataset programmatically, not only with custom attribute
-- Validate required attributes
-
-- Add custom attributes:
+- Add custom attributes for common events:
   data-lugads-setrowid
   data-lugads-setrowindex
   data-lugads-state
   data-lugads-sort
+
+- Investigate external template files
 
 -------------
 

@@ -213,9 +213,9 @@ describe("luga.data.Dataset", function(){
 
 	describe(".getContext()", function(){
 
-		it("Returns an object with the 'records' key containing current records", function(){
+		it("Returns an object with the 'context' key containing current records", function(){
 			baseDs.insert(testRecords);
-			expect(baseDs.getContext()).toEqual({records: baseDs.select()});
+			expect(baseDs.getContext()).toEqual({context: baseDs.select()});
 		});
 
 	});

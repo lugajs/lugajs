@@ -53,12 +53,4 @@
 		};
 	};
 
-	jQuery(document).ready(function(){
-		jQuery(luga.data.CONST.SELECTORS.REGION).each(function(index, item){
-			new luga.data.Region({
-				node: jQuery(item)
-			});
-		});
-	});
-
 }());

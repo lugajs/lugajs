@@ -148,10 +148,10 @@
 		};
 
 		/**
-		 * @returns {{records: array.<luga.data.DataSet.row>}}
+		 * @returns {{context: array.<luga.data.DataSet.row>}}
 		 */
 		this.getContext = function(){
-			return {records: self.select()};
+			return {context: self.select()};
 		};
 
 		/**

@@ -7,5 +7,6 @@
 	<ul>
 		<li><a href="../samples/databinding-basic.htm">Basic databinding</a></li>
 		<li><a href="../samples/master-details.htm">Master-details</a></li>
+		<li><a href="../samples/custom-region-type.htm">Custom templating</a></li>
 	</ul>
 </nav>

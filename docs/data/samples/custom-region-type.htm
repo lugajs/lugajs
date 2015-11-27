@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8"/>
+	<title>Luga DataSet :: Custom region and templating</title>
+	<link rel="stylesheet" href="../../../src/luga.css"/>
+	<link rel="stylesheet" href="../../docs.css"/>
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../lib/handlebars.min.js"></script>
+	<script src="../../../dist/luga.min.js"></script>
+	<script src="../../../dist/luga.data.min.js"></script>
+
+	<script src="../../docs.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+	<script>
+		luga.namespace("test");
+		test.ladiesMaster = new luga.data.JsonDataSet({
+			id: "ladies",
+			url: "../../../test/fixtures/data/people.json",
+			path: "ladies"
+		});
+		test.ladyDetails = new luga.data.DetailSet({id: "lady", dataSet: test.ladiesMaster});
+		jQuery(document).ready(function(){
+			test.ladiesMaster.loadData();
+		});
+
+		/**
+		 * This very crude and crappy implementation of a custom region handler is just for demo purpose
+		 * @param {luga.data.Region.options} options
+		 * @listens dataChanged
+		 */
+		var customRegion = function(options){
+
+			this.node = options.node;
+			this.dsId = this.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE);
+			/** @type {luga.data.DataSet|luga.data.DetailSet} */
+			this.dataSource = luga.data.getDataSource(this.dsId);
+			this.dataSource.addObserver(this);
+
+			/**
+			 * @param {luga.data.dataSourceChanged} data
+			 */
+			this.onDataChangedHandler = function(data){
+				var records = data.dataSource.getContext().context;
+				var htmlStr = "<ul class='people'>";
+				for(var i = 0; i < records.length; i++){
+					var item = records[i];
+					htmlStr += "<li>";
+					htmlStr += "<a href='#' onclick='test.ladiesMaster.setCurrentRowId(" + item.rowId + ")'>";
+					htmlStr += item.lastName;
+					htmlStr += "</a></li>";
+				}
+				htmlStr += "</ul>";
+				this.node.html(htmlStr);
+			};
+		};
+
+		var underscoreTemplate = function(options){
+			this.node = options.node;
+			this.dsId = this.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE);
+			/** @type {luga.data.DataSet|luga.data.DetailSet} */
+			this.dataSource = luga.data.getDataSource(this.dsId);
+			this.dataSource.addObserver(this);
+
+			var templateId = this.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.TEMPLATE);
+			var templateStr = jQuery("#" + templateId).html();
+			this.template = _.template(templateStr);
+
+			/**
+			 * @param {luga.data.dataSourceChanged} data
+			 */
+			this.onDataChangedHandler = function(data){
+				var record = data.dataSource.getContext();
+				this.node.html(this.template(record));
+			};
+		};
+
+	</script>
+
+	<script id="detailsTemplate" type="text/x-underscore-template">
+		<ul>
+			<li>Firstname: <%= firstName %></li>
+			<li>Lastname: <%= lastName %></li>
+			<li>Country: <%= country %></li>
+		</ul>
+	</script>
+
+</head>
+<body>
+
+<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
+<div data-lugacsi="../sidebar.inc"></div>
+
+<div class="content">
+
+	<section>
+		<h1>Custom regions and templating</h1>
+
+		<p>
+			You can customize the way a region is rendered, either using a different templating engine or not using
+			templating at all.
+		</p>
+
+		<p>
+			Add the data-lugads-regiontype attribute with a value that matches an existing JavaScript constructor
+			function.
+			The constructor will be invoked, passing as a unique argument a set of key/value pairs, with a "node" key
+			containing a jQuery object wrapping the region's HTML node.
+		</p>
+
+		<p>
+			The region handler should first register as observer of it dataSource,
+			then implement a public onDataChangedHandler() method that will be invoked every time the data inside the
+			dataSource changed.
+		</p>
+
+		<p>
+			For default rendering, using Handlebars for templating, there is no need to specify the
+			data-lugads-regiontype attribute, since luga.data.Region is used by default.
+		</p>
+	</section>
+
+	<section>
+		<h1>Master (with no templating)</h1>
+
+		<div data-lugads-region="masterRegion" data-lugads-datasource="ladies"
+			 data-lugads-regiontype="customRegion"></div>
+	</section>
+
+	<section>
+		<h1>Details (with Underscore JS template)</h1>
+
+		<div data-lugads-region="detailsRegion" data-lugads-datasource="lady" data-lugads-template="detailsTemplate"
+			 data-lugads-regiontype="underscoreTemplate"></div>
+	</section>
+
+</div>
+
+<div data-lugacsi="../../footer.inc"></div>
+
+</body>
+</html>
