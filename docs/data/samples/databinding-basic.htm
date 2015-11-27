@@ -21,7 +21,7 @@
 	</script>
 	<script id="ladiesTemplate" type="text/x-handlebars-template">
 		<ul class="people">
-			{{#each records}}
+			{{#each context}}
 			<li>{{firstName}} {{lastName}}</li>
 			{{/each}}
 		</ul>
@@ -49,7 +49,7 @@
 			<h1>Embedded template</h1>
 			<div data-lugads-region="embedRegion" data-lugads-datasource="ladiesDs">
 				<ul class="people">
-					{{#each records}}
+					{{#each context}}
 					<li>{{firstName}} {{lastName}}</li>
 					{{/each}}
 				</ul>
