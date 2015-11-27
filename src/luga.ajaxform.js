@@ -122,6 +122,7 @@ if(typeof(luga) === "undefined"){
 		// Ensure it's a jQuery object
 		options.formNode = jQuery(options.formNode);
 		this.config = {
+			formNode: null, // Required
 			// Either: form attribute, custom attribute, incoming option or current URL
 			action: options.formNode.attr("action") || options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.ACTION) || document.location.href,
 			// Either: form attribute, custom attribute, incoming option or default
