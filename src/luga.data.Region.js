@@ -27,13 +27,17 @@
 		this.dataSource = luga.data.getDataSource(this.dsId);
 		this.dataSource.addObserver(this);
 
-		this.templateId = this.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.TEMPLATE);
-		if(this.templateId !== undefined){
-			this.template = Handlebars.compile(jQuery("#" + this.templateId).html());
-		}
-		else{
-			this.template = Handlebars.compile(this.node.html());
-		}
+		var fetchTemplate = function(node){
+			var templateId = node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.TEMPLATE);
+			if(templateId !== undefined){
+				return Handlebars.compile(jQuery("#" + templateId).html());
+			}
+			else{
+				return Handlebars.compile(node.html());
+			}
+		};
+
+		this.template = fetchTemplate(this.node);
 
 		this.generateHtml = function(){
 			return this.template(this.dataSource.getContext());
