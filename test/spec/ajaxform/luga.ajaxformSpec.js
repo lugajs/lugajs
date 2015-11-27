@@ -245,7 +245,7 @@ describe("luga.ajaxform", function(){
 
 				it("Is mandatory", function(){
 					expect(function(){
-						var formHandler = new luga.ajaxform.Sender({});
+						new luga.ajaxform.Sender({});
 					}).toThrow();
 				});
 				it("Throws an exception if the associated form node does not exists", function(){
