@@ -19,12 +19,18 @@
 			throw("Unable to find Handlebars");
 		}
 
+		// Ensure it's a jQuery object
+		options.node = jQuery(options.node);
+		this.config = {
+			node: null, // Required
+			// Either: custom attribute or incoming option or default
+			dsId: options.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE)
+		}
+		luga.merge(this.config, options);
 		var self = this;
 
-		this.node = jQuery(options.node);
-		this.dsId = this.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE);
 		/** @type {luga.data.DataSet|luga.data.DetailSet} */
-		this.dataSource = luga.data.getDataSource(this.dsId);
+		this.dataSource = luga.data.getDataSource(this.config.dsId);
 		this.dataSource.addObserver(this);
 
 		/**
@@ -41,7 +47,7 @@
 			}
 		};
 
-		this.template = fetchTemplate(this.node);
+		this.template = fetchTemplate(this.config.node);
 
 		/**
 		 * @returns {string}
@@ -51,7 +57,7 @@
 		};
 
 		this.render = function(){
-			this.node.html(this.generateHtml());
+			this.config.node.html(this.generateHtml());
 		};
 
 		/* Events Handlers */

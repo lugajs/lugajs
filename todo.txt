@@ -63,8 +63,7 @@ data.JsonDataSet:
 data.Region:
 
 - Write unit test!
-
-- Add ability to instantiate region programmatically, not only with custom attribute
+- Test ability to instantiate region programmatically, not only with custom attribute
 
 - Add custom attributes for common events:
   data-lugads-setrowid
