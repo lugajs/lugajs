@@ -27,6 +27,10 @@
 		this.dataSource = luga.data.getDataSource(this.dsId);
 		this.dataSource.addObserver(this);
 
+		/**
+		 * @param {jquery} node
+		 * @returns {string}
+		 */
 		var fetchTemplate = function(node){
 			var templateId = node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.TEMPLATE);
 			if(templateId !== undefined){
@@ -39,6 +43,9 @@
 
 		this.template = fetchTemplate(this.node);
 
+		/**
+		 * @returns {string}
+		 */
 		this.generateHtml = function(){
 			return this.template(this.dataSource.getContext());
 		};
