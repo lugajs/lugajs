@@ -15,12 +15,24 @@
 	 * @throws
 	 */
 	luga.data.Region = function(options){
+
+		var CONST = {
+			ERROR_MESSAGES: {
+				MISSING_HANDLEBARS: "Unable to find Handlebars",
+				MISSING_NODE: "luga.data.Region was unable find the region node"
+			}
+		}
+
 		if(typeof(Handlebars) === "undefined"){
-			throw("Unable to find Handlebars");
+			throw(CONST.ERROR_MESSAGES.MISSING_HANDLEBARS);
 		}
 
 		// Ensure it's a jQuery object
 		options.node = jQuery(options.node);
+		if(options.node.length === 0){
+			throw(CONST.MESSAGES.MISSING_NODE);
+		}
+
 		this.config = {
 			node: null, // Required
 			// Either: custom attribute or incoming option or default
