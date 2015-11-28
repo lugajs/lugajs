@@ -1,13 +1,11 @@
-/* globals formValidatorHandlers */
-
-"use strict";
-
 // Override the default error handler to avoid triggering alert messages
 luga.validator.CONST.HANDLERS.FORM_ERROR = "luga.validator.handlers.errorBox";
 
 window.formValidatorHandlers = {};
 
 describe("luga.validator.FormValidator", function(){
+
+	"use strict";
 
 	var basicFormValidator, attributeFormValidator, configFormValidator;
 	beforeEach(function(){

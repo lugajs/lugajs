@@ -1,6 +1,6 @@
-"use strict";
-
 describe("luga", function(){
+
+	"use strict";
 
 	it("Requires jQuery in order to work", function(){
 		expect(jQuery).toBeDefined();

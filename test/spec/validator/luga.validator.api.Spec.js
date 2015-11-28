@@ -1,8 +1,6 @@
-/* global luga, it, describe, expect, loadFixtures */
-
-"use strict";
-
 describe("luga.validator.api", function(){
+
+	"use strict";
 
 	it("Contains Validator's static APIs", function(){
 		expect(luga.validator.api).toBeDefined();

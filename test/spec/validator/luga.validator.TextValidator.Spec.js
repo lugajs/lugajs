@@ -1,10 +1,8 @@
-/* globals textValidatorHandlers */
-
-"use strict";
-
 window.textValidatorHandlers = {};
 
 describe("luga.validator.TextValidator", function(){
+
+	"use strict";
 
 	it("Throws an exception if the associated field node does not exists", function(){
 		expect(function(){

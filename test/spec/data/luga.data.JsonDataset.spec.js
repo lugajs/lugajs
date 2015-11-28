@@ -1,6 +1,7 @@
 describe("luga.data.JsonDataset", function(){
 
 	"use strict";
+
 	var testDs, DEFAULT_TIMEOUT;
 	beforeEach(function(){
 		testDs = new luga.data.JsonDataSet({id: "jsonDs", url: "fixtures/data/ladies.json"});

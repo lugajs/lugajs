@@ -1,6 +1,6 @@
-"use strict";
-
 describe("luga.utils", function(){
+
+	"use strict";
 
 	it("Contains generic, static methods and utilities", function(){
 		expect(luga.utils).toBeDefined();

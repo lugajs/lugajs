@@ -1,6 +1,6 @@
-"use strict";
-
 describe("luga.string", function(){
+
+	"use strict";
 
 	it("Contains string-related API", function(){
 		expect(luga.string).toBeDefined();

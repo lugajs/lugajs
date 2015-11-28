@@ -1,6 +1,6 @@
-"use strict";
-
 describe("luga.data", function(){
+
+	"use strict";
 
 	var emptyDs;
 	beforeEach(function(){

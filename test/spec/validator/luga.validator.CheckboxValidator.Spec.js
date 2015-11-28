@@ -1,8 +1,6 @@
-/* global luga, it, describe, expect, loadFixtures */
-
-"use strict";
-
 describe("luga.validator.CheckboxValidator", function(){
+
+	"use strict";
 
 	it("Validates each group of checkboxes as a single unit", function(){
 

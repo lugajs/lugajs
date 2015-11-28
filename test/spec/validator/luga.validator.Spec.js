@@ -1,6 +1,6 @@
-"use strict";
-
 describe("luga.validator", function(){
+
+	"use strict";
 
 	it("Lives inside its own namespace", function(){
 		expect(luga.validator).toBeDefined();

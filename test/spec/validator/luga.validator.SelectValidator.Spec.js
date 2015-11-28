@@ -1,6 +1,6 @@
-"use strict";
-
 describe("luga.validator.SelectValidator", function(){
+
+	"use strict";
 
 	it("Throws an exception if the associated field node does not exists", function(){
 		expect(function(){

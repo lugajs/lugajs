@@ -1,6 +1,6 @@
-"use strict";
-
 describe("luga.form", function(){
+
+	"use strict";
 
 	it("Contains form-related API", function(){
 		expect(luga.form).toBeDefined();
