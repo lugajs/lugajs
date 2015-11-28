@@ -124,5 +124,28 @@ describe("luga.data.Region", function(){
 			});
 		});
 
+		describe(".generateHtml()", function(){
+			it("Pass the dataSource's context to the compiled template", function(){
+				spyOn(configRegion, "template");
+				configRegion.generateHtml()
+				expect(configRegion.template).toHaveBeenCalledWith(configRegion.dataSource.getContext());
+			});
+		});
+
+		describe(".render()", function(){
+			it("Calls .generateHtml() and inject the generated HTML inside the node", function(){
+				var testRegion = new luga.data.Region({
+					node: testDiv,
+					dsId: "testDs",
+					templateId: "ladiesTemplate"
+				});
+				spyOn(testRegion, "generateHtml").and.callThrough();
+				var newHtml = testRegion.generateHtml();
+				testRegion.render();
+				expect(testRegion.generateHtml).toHaveBeenCalled();
+				expect(testRegion.config.node.html()).toEqual(newHtml);
+			});
+		});
+
 	});
 });
