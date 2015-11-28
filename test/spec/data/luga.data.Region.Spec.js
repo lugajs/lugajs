@@ -18,7 +18,6 @@ describe("luga.data.Region", function(){
 	describe("Accepts an Options object as single argument", function(){
 
 		describe("options.node", function(){
-
 			it("Is mandatory", function(){
 				expect(function(){
 					new luga.data.Region({dsId: "testDs"});
@@ -31,7 +30,6 @@ describe("luga.data.Region", function(){
 					});
 				}).toThrow();
 			});
-
 		});
 
 		describe("options.dsId", function(){
@@ -48,16 +46,20 @@ describe("luga.data.Region", function(){
 			});
 
 			describe("either:", function(){
-
 				it("Retrieves the value from the node's data-lugads-datasource custom attribute", function(){
 					expect(attributesRegion.config.dsId).toEqual("testDs");
 				});
 				it("Uses the value specified inside the option argument", function(){
 					expect(configRegion.config.dsId).toEqual("testDs");
 				});
-
 			});
 
+		});
+
+		describe("Once initialized:", function(){
+			it("Register itself as observer of the associated dataSource", function(){
+				expect(loadedDs.observers[0]).toEqual(configRegion);
+			});
 		});
 
 	});

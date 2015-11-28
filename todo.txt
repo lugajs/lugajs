@@ -62,9 +62,11 @@ data.JsonDataSet:
 
 data.Region:
 
-- Write unit test!
-
-- Test ability to instantiate region programmatically, not only with custom attribute
+- Test:
+  this.template
+  generateHtml()
+  render()
+  onDataChangedHandler()
 
 - Add custom attributes for common events:
   data-lugads-setrowid
