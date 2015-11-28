@@ -13,7 +13,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.1.9";
+	luga.data.version = "0.1.10";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -839,8 +839,10 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.data.Region.options
 	 *
-	 * @property {jquery} node  Either a jQuery object wrapping the node or the naked DOM object that will contain the region. Required
-	 *
+	 * @property {jquery} node        Either a jQuery object wrapping the node or the naked DOM object that will contain the region. Required
+	 * @property {string} dsId        DataSource's id. Can be specified inside the data-lugads-datasource too. Required
+	 * @property {string} templateId  Id of HTML element containing the template. Can be specified inside the data-lugads-template too.
+	 *                                If not available it assumes the node contains the template
 	 */
 
 	/**
@@ -854,7 +856,8 @@ if(typeof(luga) === "undefined"){
 		var CONST = {
 			ERROR_MESSAGES: {
 				MISSING_HANDLEBARS: "Unable to find Handlebars",
-				MISSING_NODE: "luga.data.Region was unable find the region node"
+				MISSING_NODE: "luga.data.Region was unable find the region node",
+				MISSING_TEMPLATE_NODE: "luga.data.Region was unable find an HTML element with id: {0} containing an Handlebars template"
 			}
 		};
 
@@ -870,8 +873,9 @@ if(typeof(luga) === "undefined"){
 
 		this.config = {
 			node: null, // Required
-			// Either: custom attribute or incoming option or default
-			dsId: options.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE) || null
+			// Either: custom attribute or incoming option
+			dsId: options.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE) || null,
+			templateId: options.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.TEMPLATE) || null
 		};
 		luga.merge(this.config, options);
 		var self = this;
@@ -888,9 +892,12 @@ if(typeof(luga) === "undefined"){
 		 * @returns {string}
 		 */
 		var fetchTemplate = function(node){
-			var templateId = node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.TEMPLATE);
-			if(templateId !== undefined){
-				return Handlebars.compile(jQuery("#" + templateId).html());
+			if(self.config.templateId !== null){
+				var templateNode = jQuery("#" + self.config.templateId);
+				if(templateNode.length !== 1){
+					throw(luga.string.format(CONST.ERROR_MESSAGES.MISSING_TEMPLATE_NODE, [self.config.templateId]));
+				}
+				return Handlebars.compile(templateNode.html());
 			}
 			else{
 				return Handlebars.compile(node.html());

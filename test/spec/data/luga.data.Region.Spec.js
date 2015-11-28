@@ -5,12 +5,18 @@ describe("luga.data.Region", function(){
 	var testRecords, loadedDs, testDiv, attributesDiv, configRegion, attributesRegion;
 	beforeEach(function(){
 
+		loadFixtures("data/Region/ladies.htm");
+
 		testRecords = getJSONFixture("data/ladies.json");
 		loadedDs = new luga.data.DataSet({id: "testDs", records: testRecords});
-		testDiv = jQuery("<div></div>");
-		attributesDiv = jQuery("<div data-lugads-datasource='testDs'></div>");
+		testDiv = jQuery("<div>Ciao Mamma</div>");
+		attributesDiv = jQuery("<div data-lugads-datasource='testDs' data-lugads-template='ladiesTemplate'></div>");
 
-		configRegion = new luga.data.Region({node: testDiv, dsId: "testDs"});
+		configRegion = new luga.data.Region({
+			node: testDiv,
+			dsId: "testDs",
+			templateId: "ladiesTemplate"
+		});
 		attributesRegion = new luga.data.Region({node: attributesDiv});
 
 	});
@@ -51,6 +57,62 @@ describe("luga.data.Region", function(){
 				});
 				it("Uses the value specified inside the option argument", function(){
 					expect(configRegion.config.dsId).toEqual("testDs");
+				});
+			});
+
+		});
+
+		describe("options.templateId", function(){
+
+			describe("either:", function(){
+				it("Retrieves the value from the node's data-lugads-template custom attribute", function(){
+					expect(attributesRegion.config.templateId).toEqual("ladiesTemplate");
+				});
+				it("Uses the value specified inside the option argument", function(){
+					expect(configRegion.config.templateId).toEqual("ladiesTemplate");
+				});
+				it("Throws an exception if unable to find an HTML element matching the given id", function(){
+					expect(function(){
+						new luga.data.Region({
+							node: testDiv,
+							dsId: "testDs",
+							templateId: "missing"
+						});
+					}).toThrow();
+				});
+				it("Default to null", function(){
+					var testRegion = new luga.data.Region({
+						node: testDiv,
+						dsId: "testDs"
+					});
+					expect(testRegion.config.templateId).toBeNull();
+				});
+			});
+
+		});
+
+		describe(".template stores the compiled Handlebars template", function(){
+
+			describe("If options.templateId is null:", function(){
+				it("Assumes the node's HTML contains the template", function(){
+					spyOn(Handlebars, "compile");
+					new luga.data.Region({
+						node: testDiv,
+						dsId: "testDs"
+					});
+					expect(Handlebars.compile).toHaveBeenCalledWith(testDiv.html());
+				});
+			});
+
+			describe("Else:", function(){
+				it("Assumes the HTML element matching options.templateId contains the template", function(){
+					spyOn(Handlebars, "compile");
+					new luga.data.Region({
+						node: testDiv,
+						dsId: "testDs",
+						templateId: "ladiesTemplate"
+					});
+					expect(Handlebars.compile).toHaveBeenCalledWith(jQuery("#ladiesTemplate").html());
 				});
 			});
 

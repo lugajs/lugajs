@@ -1,0 +1,15 @@
+<script id="ladiesTemplate" type="text/x-handlebars-template">
+	<ul class="people">
+		{{#each context}}
+		<li>{{firstName}} {{lastName}}</li>
+		{{/each}}
+	</ul>
+</script>
+
+<div id="embedTemplate" data-lugads-region="embedRegion" data-lugads-datasource="loadedDs">
+	<ul class="people">
+		{{#each context}}
+		<li>{{firstName}} {{lastName}}</li>
+		{{/each}}
+	</ul>
+</div>
