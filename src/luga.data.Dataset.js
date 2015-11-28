@@ -136,6 +136,7 @@
 			if(filter === undefined){
 				deleteAll();
 				this.resetCurrentRow();
+				this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 				return;
 			}
 			if(jQuery.isFunction(filter) === false){
