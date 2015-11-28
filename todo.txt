@@ -62,9 +62,6 @@ data.JsonDataSet:
 
 data.Region:
 
-- Test:
-  onDataChangedHandler()
-
 - Add custom attributes for common events:
   data-lugads-setrowid
   data-lugads-setrowindex

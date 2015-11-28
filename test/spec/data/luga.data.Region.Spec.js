@@ -127,7 +127,7 @@ describe("luga.data.Region", function(){
 		describe(".generateHtml()", function(){
 			it("Pass the dataSource's context to the compiled template", function(){
 				spyOn(configRegion, "template");
-				configRegion.generateHtml()
+				configRegion.generateHtml();
 				expect(configRegion.template).toHaveBeenCalledWith(configRegion.dataSource.getContext());
 			});
 		});
@@ -144,6 +144,16 @@ describe("luga.data.Region", function(){
 				testRegion.render();
 				expect(testRegion.generateHtml).toHaveBeenCalled();
 				expect(testRegion.config.node.html()).toEqual(newHtml);
+			});
+		});
+
+		describe(".onDataChangedHandler()", function(){
+			it("Calls .render() whenever the associated dataSource triggers a 'dataChanged' event", function(){
+				spyOn(configRegion, "onDataChangedHandler").and.callThrough();
+				spyOn(configRegion, "render");
+				loadedDs.delete(); // Removes all records, triggers a 'dataChanged' event
+				expect(configRegion.onDataChangedHandler).toHaveBeenCalled();
+				expect(configRegion.render).toHaveBeenCalled();
 			});
 		});
 
