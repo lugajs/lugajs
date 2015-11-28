@@ -65,14 +65,16 @@
 
 			var templateId = this.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.TEMPLATE);
 			var templateStr = jQuery("#" + templateId).html();
-			this.template = _.template(templateStr);
+			var compiledTemplate = _.template(templateStr);
 
 			/**
 			 * @param {luga.data.dataSourceChanged} data
 			 */
 			this.onDataChangedHandler = function(data){
-				var record = data.dataSource.getContext();
-				this.node.html(this.template(record));
+				var context = data.dataSource.getContext();
+				if(context != null){
+					this.node.html(compiledTemplate(context));
+				}
 			};
 		};
 
