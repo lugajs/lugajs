@@ -63,9 +63,6 @@ data.JsonDataSet:
 data.Region:
 
 - Write unit test!
-- Throw an exception if:
-  options.dsId is missing
-  options.dsId does not matches a dataSource inside the registry
 
 - Test ability to instantiate region programmatically, not only with custom attribute
 

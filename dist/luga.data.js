@@ -850,22 +850,37 @@ if(typeof(luga) === "undefined"){
 	 * @throws
 	 */
 	luga.data.Region = function(options){
+
+		var CONST = {
+			ERROR_MESSAGES: {
+				MISSING_HANDLEBARS: "Unable to find Handlebars",
+				MISSING_NODE: "luga.data.Region was unable find the region node"
+			}
+		};
+
 		if(typeof(Handlebars) === "undefined"){
-			throw("Unable to find Handlebars");
+			throw(CONST.ERROR_MESSAGES.MISSING_HANDLEBARS);
 		}
 
 		// Ensure it's a jQuery object
 		options.node = jQuery(options.node);
+		if(options.node.length === 0){
+			throw(CONST.MESSAGES.MISSING_NODE);
+		}
+
 		this.config = {
 			node: null, // Required
 			// Either: custom attribute or incoming option or default
-			dsId: options.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE)
-		}
+			dsId: options.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE) || null
+		};
 		luga.merge(this.config, options);
 		var self = this;
 
 		/** @type {luga.data.DataSet|luga.data.DetailSet} */
 		this.dataSource = luga.data.getDataSource(this.config.dsId);
+		if(this.dataSource === null){
+			throw(luga.string.format(luga.data.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE, [this.config.dsId]));
+		}
 		this.dataSource.addObserver(this);
 
 		/**
