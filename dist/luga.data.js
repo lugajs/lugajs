@@ -909,10 +909,8 @@ if(typeof(luga) === "undefined"){
 		this.template = fetchTemplate(this.config.node);
 
 		this.applyTraits = function(){
-			luga.data.regionTraits.setRowId({
-				node: this.config.node,
-				dataSource: this.dataSource
-			});
+			luga.data.regionTraits.setRowId({node: this.config.node, dataSource: this.dataSource});
+			luga.data.regionTraits.setRowIndex({node: this.config.node, dataSource: this.dataSource});
 		};
 
 		/**

@@ -126,22 +126,30 @@ describe("luga.data.Region", function(){
 
 		describe(".applyTraits()", function(){
 
-			describe("Calls the following traits (passing node and dataSource):", function(){
+			describe("Calls the following traits (passing {node: config.node, dataSource: this.dataSource}):", function(){
 
-				var testRegion;
+				var testRegion, optionsObj;
 				beforeEach(function(){
 					testRegion = new luga.data.Region({
 						node: testDiv,
 						dsId: "testDs",
 						templateId: "ladiesTemplate"
 					});
+					optionsObj = {node: testDiv, dataSource: loadedDs};
 				});
 
 				it("luga.data.regionTraits.setRowId()", function(){
 					spyOn(luga.data.regionTraits, "setRowId");
 					configRegion.applyTraits();
-					expect(luga.data.regionTraits.setRowId).toHaveBeenCalledWith({node: testDiv, dataSource: loadedDs});
+					expect(luga.data.regionTraits.setRowId).toHaveBeenCalledWith(optionsObj);
 				});
+
+				it("luga.data.regionTraits.setRowIndex()", function(){
+					spyOn(luga.data.regionTraits, "setRowIndex");
+					configRegion.applyTraits();
+					expect(luga.data.regionTraits.setRowIndex).toHaveBeenCalledWith(optionsObj);
+				});
+
 
 			});
 
