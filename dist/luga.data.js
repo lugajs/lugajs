@@ -429,7 +429,7 @@ if(typeof(luga) === "undefined"){
 		 * Sets the current row of the data set to the row matching the given rowId
 		 * Throws an exception if the given rowId is invalid
 		 * Triggers a "currentRowChanged" notification
-		 * @param {number|null} rowId  Required
+		 * @param {string|null} rowId  Required
 		 * @fires currentRowChanged
 		 * @throws
 		 */
@@ -952,10 +952,12 @@ if(typeof(luga) === "undefined"){
 
 	var CONST = {
 		CUSTOM_ATTRIBUTES: {
-			SET_ROW_ID: "data-lugads-setrowid"
+			SET_ROW_ID: "data-lugads-setrowid",
+			SET_ROW_INDEX: "data-lugads-setrowindex"
 		},
 		SELECTORS: {
-			SET_ROW_ID: "*[data-lugads-setrowid]"
+			SET_ROW_ID: "*[data-lugads-setrowid]",
+			SET_ROW_INDEX: "*[data-lugads-setrowindex]"
 		}
 	};
 
@@ -970,6 +972,21 @@ if(typeof(luga) === "undefined"){
 				event.preventDefault();
 				var rowId = jItem.attr(CONST.CUSTOM_ATTRIBUTES.SET_ROW_ID);
 				options.dataSource.setCurrentRowId(rowId);
+			});
+		});
+	};
+
+	/**
+	 * Handles data-lugads-setrowindex
+	 * @param {luga.data.regionTraits.options} options
+	 */
+	luga.data.regionTraits.setRowIndex = function(options){
+		options.node.find(CONST.SELECTORS.SET_ROW_INDEX).each(function(index, item){
+			var jItem = jQuery(item);
+			jItem.click(function(event){
+				event.preventDefault();
+				var rowIndex = parseInt(jItem.attr(CONST.CUSTOM_ATTRIBUTES.SET_ROW_INDEX), 10);
+				options.dataSource.setCurrentRowIndex(rowIndex);
 			});
 		});
 	};

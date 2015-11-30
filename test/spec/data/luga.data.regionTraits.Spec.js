@@ -45,4 +45,29 @@ describe("luga.data.regionTraits", function(){
 
 	});
 
+	describe(".setRowIndex()", function(){
+
+		describe("Handles the data-lugads-setrowid custom attribute", function(){
+
+			it("Attach a onclick='dataSource.setCurrentRowIndex(rowIndex)' event to each HTML tag containing it", function(){
+				spyOn(ladiesDs, "setCurrentRowIndex");
+
+				var testDiv = jQuery("#setrowindex");
+				luga.data.regionTraits.setRowIndex({
+					node: testDiv,
+					dataSource: ladiesDs
+				});
+				var firstItem = jQuery(testDiv.find(CONST.LINK_LI_SELECTOR)[0]);
+				var secondItem = jQuery(testDiv.find(CONST.LINK_LI_SELECTOR)[1]);
+
+				firstItem.click();
+				expect(ladiesDs.setCurrentRowIndex).toHaveBeenCalledWith(0);
+				secondItem.click();
+				expect(ladiesDs.setCurrentRowIndex).toHaveBeenCalledWith(1);
+			});
+
+		});
+
+	});
+
 });
