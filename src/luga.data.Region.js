@@ -71,6 +71,10 @@
 
 		this.template = fetchTemplate(this.config.node);
 
+		this.attachEvents = function() {
+			// TODO: implement
+		};
+
 		/**
 		 * @returns {string}
 		 */
@@ -80,6 +84,7 @@
 
 		this.render = function(){
 			this.config.node.html(this.generateHtml());
+			this.attachEvents();
 		};
 
 		/* Events Handlers */

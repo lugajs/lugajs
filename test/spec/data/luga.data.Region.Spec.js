@@ -133,18 +133,40 @@ describe("luga.data.Region", function(){
 		});
 
 		describe(".render()", function(){
-			it("Calls .generateHtml() and inject the generated HTML inside the node", function(){
-				var testRegion = new luga.data.Region({
+
+			var testRegion;
+			beforeEach(function(){
+				testRegion = new luga.data.Region({
 					node: testDiv,
 					dsId: "testDs",
 					templateId: "ladiesTemplate"
 				});
-				spyOn(testRegion, "generateHtml").and.callThrough();
-				var newHtml = testRegion.generateHtml();
-				testRegion.render();
-				expect(testRegion.generateHtml).toHaveBeenCalled();
-				expect(testRegion.config.node.html()).toEqual(newHtml);
 			});
+
+			describe("First:", function(){
+				it("Calls .generateHtml()", function(){
+					spyOn(testRegion, "generateHtml").and.callThrough();
+					testRegion.render();
+					expect(testRegion.generateHtml).toHaveBeenCalled();
+				});
+			});
+
+			describe("Then:", function(){
+				it("Injects the generated HTML inside the node", function(){
+					var newHtml = testRegion.generateHtml();
+					testRegion.render();
+					expect(testRegion.config.node.html()).toEqual(newHtml);
+				});
+			});
+
+			describe("Finally:", function(){
+				it("Calls .attachEvents()", function(){
+					spyOn(testRegion, "attachEvents").and.callThrough();
+					testRegion.render();
+					expect(testRegion.attachEvents).toHaveBeenCalled();
+				});
+			});
+
 		});
 
 		describe(".onDataChangedHandler()", function(){
