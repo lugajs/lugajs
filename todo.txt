@@ -62,7 +62,7 @@ data.JsonDataSet:
 
 data.Region:
 
-- Add custom attributes for common events:
+- Add custom attributes (plus trait methods):
   data-lugads-setrowid
   data-lugads-setrowindex
   data-lugads-state

@@ -71,7 +71,7 @@
 
 		this.template = fetchTemplate(this.config.node);
 
-		this.attachEvents = function() {
+		this.applyTraits = function() {
 			// TODO: implement
 		};
 
@@ -84,7 +84,7 @@
 
 		this.render = function(){
 			this.config.node.html(this.generateHtml());
-			this.attachEvents();
+			this.applyTraits();
 		};
 
 		/* Events Handlers */

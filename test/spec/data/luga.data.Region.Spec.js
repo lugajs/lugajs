@@ -160,10 +160,10 @@ describe("luga.data.Region", function(){
 			});
 
 			describe("Finally:", function(){
-				it("Calls .attachEvents()", function(){
-					spyOn(testRegion, "attachEvents").and.callThrough();
+				it("Calls .applyTraits()", function(){
+					spyOn(testRegion, "applyTraits").and.callThrough();
 					testRegion.render();
-					expect(testRegion.attachEvents).toHaveBeenCalled();
+					expect(testRegion.applyTraits).toHaveBeenCalled();
 				});
 			});
 
