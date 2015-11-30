@@ -2,7 +2,7 @@ describe("luga.data.regionTraits", function(){
 
 	"use strict";
 
-	var CONST, ladiesRecords, ladiesDs, ladiesDiv, ladiesRegion;
+	var CONST, ladiesRecords, ladiesDs;
 	beforeEach(function(){
 
 		CONST = {
@@ -13,12 +13,6 @@ describe("luga.data.regionTraits", function(){
 
 		ladiesRecords = getJSONFixture("data/ladies.json");
 		ladiesDs = new luga.data.DataSet({id: "testDs", records: ladiesRecords});
-		ladiesDiv = jQuery("#ladies");
-
-		ladiesRegion = new luga.data.Region({
-			node: ladiesDiv,
-			dsId: "testDs"
-		});
 
 	});
 
@@ -30,14 +24,17 @@ describe("luga.data.regionTraits", function(){
 
 		describe("Handles the data-lugads-setrowid custom attribute", function(){
 
-			it("Attach a onclick='dataSource.setCurrentRowId(rowId)' event to each HTML tag using it", function(){
+			it("Attach a onclick='dataSource.setCurrentRowId(rowId)' event to each HTML tag containing it", function(){
 				spyOn(ladiesDs, "setCurrentRowId");
+
+				var testDiv = jQuery("#setrowid");
 				luga.data.regionTraits.setRowId({
-					node: ladiesDiv,
+					node: testDiv,
 					dataSource: ladiesDs
 				});
-				var firstItem = jQuery(ladiesDiv.find(CONST.LINK_LI_SELECTOR)[0]);
-				var secondItem = jQuery(ladiesDiv.find(CONST.LINK_LI_SELECTOR)[1]);
+				var firstItem = jQuery(testDiv.find(CONST.LINK_LI_SELECTOR)[0]);
+				var secondItem = jQuery(testDiv.find(CONST.LINK_LI_SELECTOR)[1]);
+
 				firstItem.click();
 				expect(ladiesDs.setCurrentRowId).toHaveBeenCalledWith("0");
 				secondItem.click();
