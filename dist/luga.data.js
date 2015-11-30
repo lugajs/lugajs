@@ -907,6 +907,10 @@ if(typeof(luga) === "undefined"){
 
 		this.template = fetchTemplate(this.config.node);
 
+		this.applyTraits = function() {
+			// TODO: implement
+		};
+
 		/**
 		 * @returns {string}
 		 */
@@ -916,6 +920,7 @@ if(typeof(luga) === "undefined"){
 
 		this.render = function(){
 			this.config.node.html(this.generateHtml());
+			this.applyTraits();
 		};
 
 		/* Events Handlers */
@@ -927,5 +932,12 @@ if(typeof(luga) === "undefined"){
 			self.render();
 		};
 	};
+
+}());
+(function(){
+	"use strict";
+
+	luga.namespace("luga.data.regionTraits");
+
 
 }());
