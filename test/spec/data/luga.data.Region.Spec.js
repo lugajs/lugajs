@@ -124,6 +124,29 @@ describe("luga.data.Region", function(){
 			});
 		});
 
+		describe(".applyTraits()", function(){
+
+			describe("Calls the following traits (passing node and dataSource):", function(){
+
+				var testRegion;
+				beforeEach(function(){
+					testRegion = new luga.data.Region({
+						node: testDiv,
+						dsId: "testDs",
+						templateId: "ladiesTemplate"
+					});
+				});
+
+				it("luga.data.regionTraits.setRowId()", function(){
+					spyOn(luga.data.regionTraits, "setRowId");
+					configRegion.applyTraits();
+					expect(luga.data.regionTraits.setRowId).toHaveBeenCalledWith({node: testDiv, dataSource: loadedDs});
+				});
+
+			});
+
+		});
+
 		describe(".generateHtml()", function(){
 			it("Pass the dataSource's context to the compiled template", function(){
 				spyOn(configRegion, "template");

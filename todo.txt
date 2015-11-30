@@ -62,11 +62,10 @@ data.JsonDataSet:
 
 data.Region:
 
-- Add custom attributes (plus trait methods):
-  data-lugads-setrowid
+- Add custom attributes (and matching trait methods):
   data-lugads-setrowindex
-  data-lugads-state
   data-lugads-sort
+  data-lugads-state
 
 - Investigate external template files
 

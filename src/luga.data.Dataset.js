@@ -330,7 +330,7 @@
 		 * Sets the current row of the data set to the row matching the given rowId
 		 * Throws an exception if the given rowId is invalid
 		 * Triggers a "currentRowChanged" notification
-		 * @param {number|null} rowId  Required
+		 * @param {string|number|null} rowId  Required
 		 * @fires currentRowChanged
 		 * @throws
 		 */

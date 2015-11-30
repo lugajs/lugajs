@@ -13,6 +13,7 @@
 	/**
 	 * Data Region class
 	 * @param {luga.data.Region.options} options
+	 * @constructor
 	 * @listens dataChanged
 	 * @throws
 	 */
@@ -71,8 +72,11 @@
 
 		this.template = fetchTemplate(this.config.node);
 
-		this.applyTraits = function() {
-			// TODO: implement
+		this.applyTraits = function(){
+			luga.data.regionTraits.setRowId({
+				node: this.config.node,
+				dataSource: this.dataSource
+			});
 		};
 
 		/**
