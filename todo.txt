@@ -37,9 +37,10 @@ data.Dataset:
 
 - update(filter, setter)
 
-- Implement state (empty?, loading, error, ready)
 - Implement column types (with getters/setters)
 - Implement sorting (with getters/setters)
+
+- Implement state (empty?, loading, error, ready). Should we use a trait to handle visibility?
 
 - Local storage persistence? It would require serialization of full dataSet
 
