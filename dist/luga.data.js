@@ -12,14 +12,15 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.data");
+	luga.namespace("luga.data.region");
 
-	luga.data.version = "0.1.10";
+	luga.data.version = "0.2.0";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
 	luga.data.CONST = {
 		PK_KEY: "rowId",
-		DEFAULT_REGION_TYPE: "luga.data.Region",
+		DEFAULT_REGION_TYPE: "luga.data.region.Handlebars",
 		CUSTOM_ATTRIBUTES: {
 			REGION: "data-lugads-region",
 			REGION_TYPE: "data-lugads-regiontype",
@@ -838,7 +839,7 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	/**
-	 * @typedef {object} luga.data.Region.options
+	 * @typedef {object} luga.data.region.options
 	 *
 	 * @property {jquery} node        Either a jQuery object wrapping the node or the naked DOM object that will contain the region. Required
 	 * @property {string} dsId        DataSource's id. Can be specified inside the data-lugads-datasource too. Required
@@ -853,13 +854,13 @@ if(typeof(luga) === "undefined"){
 	 * @listens dataChanged
 	 * @throws
 	 */
-	luga.data.Region = function(options){
+	luga.data.region.Handlebars = function(options){
 
 		var CONST = {
 			ERROR_MESSAGES: {
 				MISSING_HANDLEBARS: "Unable to find Handlebars",
-				MISSING_NODE: "luga.data.Region was unable find the region node",
-				MISSING_TEMPLATE_NODE: "luga.data.Region was unable find an HTML element with id: {0} containing an Handlebars template"
+				MISSING_NODE: "luga.data.region.Handlebars was unable find the region node",
+				MISSING_TEMPLATE_NODE: "luga.data.region.Handlebars was unable find an HTML element with id: {0} containing an Handlebars template"
 			}
 		};
 
@@ -909,8 +910,14 @@ if(typeof(luga) === "undefined"){
 		this.template = fetchTemplate(this.config.node);
 
 		this.applyTraits = function(){
-			luga.data.regionTraits.setRowId({node: this.config.node, dataSource: this.dataSource});
-			luga.data.regionTraits.setRowIndex({node: this.config.node, dataSource: this.dataSource});
+			luga.data.region.traits.setRowId({
+				node: this.config.node,
+				dataSource: this.dataSource
+			});
+			luga.data.region.traits.setRowIndex({
+				node: this.config.node,
+				dataSource: this.dataSource
+			});
 		};
 
 		/**
@@ -939,10 +946,10 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.namespace("luga.data.regionTraits");
+	luga.namespace("luga.data.region.traits");
 
 	/**
-	 * @typedef {object} luga.data.regionTraits.options
+	 * @typedef {object} luga.data.region.traits.options
 	 *
 	 * @property {jquery}                                 node          A jQuery object wrapping the Region's node. Required
 	 * @property {luga.data.DataSet|luga.data.DetailSet}  dataSource    DataSource. Required
@@ -961,9 +968,9 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Handles data-lugads-setrowid
-	 * @param {luga.data.regionTraits.options} options
+	 * @param {luga.data.region.traits.options} options
 	 */
-	luga.data.regionTraits.setRowId = function(options){
+	luga.data.region.traits.setRowId = function(options){
 		options.node.find(CONST.SELECTORS.SET_ROW_ID).each(function(index, item){
 			var jItem = jQuery(item);
 			jItem.click(function(event){
@@ -976,9 +983,9 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Handles data-lugads-setrowindex
-	 * @param {luga.data.regionTraits.options} options
+	 * @param {luga.data.region.traits.options} options
 	 */
-	luga.data.regionTraits.setRowIndex = function(options){
+	luga.data.region.traits.setRowIndex = function(options){
 		options.node.find(CONST.SELECTORS.SET_ROW_INDEX).each(function(index, item){
 			var jItem = jQuery(item);
 			jItem.click(function(event){

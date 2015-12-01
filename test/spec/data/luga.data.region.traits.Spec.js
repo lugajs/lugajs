@@ -1,4 +1,4 @@
-describe("luga.data.regionTraits", function(){
+describe("luga.data.region.traits", function(){
 
 	"use strict";
 
@@ -9,7 +9,7 @@ describe("luga.data.regionTraits", function(){
 			LINK_LI_SELECTOR: "li a"
 		};
 
-		loadFixtures("data/regionTraits/generic.htm");
+		loadFixtures("data/region/traits/generic.htm");
 
 		ladiesRecords = getJSONFixture("data/ladies.json");
 		ladiesDs = new luga.data.DataSet({id: "testDs", records: ladiesRecords});
@@ -17,7 +17,7 @@ describe("luga.data.regionTraits", function(){
 	});
 
 	it("Stores a sets of traits that can be used to extend the functionality of a region", function(){
-		expect(luga.data.regionTraits).toBeDefined();
+		expect(luga.data.region.traits).toBeDefined();
 	});
 
 	describe(".setRowId()", function(){
@@ -28,7 +28,7 @@ describe("luga.data.regionTraits", function(){
 				spyOn(ladiesDs, "setCurrentRowId");
 
 				var testDiv = jQuery("#setrowid");
-				luga.data.regionTraits.setRowId({
+				luga.data.region.traits.setRowId({
 					node: testDiv,
 					dataSource: ladiesDs
 				});
@@ -53,7 +53,7 @@ describe("luga.data.regionTraits", function(){
 				spyOn(ladiesDs, "setCurrentRowIndex");
 
 				var testDiv = jQuery("#setrowindex");
-				luga.data.regionTraits.setRowIndex({
+				luga.data.region.traits.setRowIndex({
 					node: testDiv,
 					dataSource: ladiesDs
 				});

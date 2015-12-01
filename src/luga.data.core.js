@@ -12,14 +12,15 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.data");
+	luga.namespace("luga.data.region");
 
-	luga.data.version = "0.1.10";
+	luga.data.version = "0.2.0";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
 	luga.data.CONST = {
 		PK_KEY: "rowId",
-		DEFAULT_REGION_TYPE: "luga.data.Region",
+		DEFAULT_REGION_TYPE: "luga.data.region.Handlebars",
 		CUSTOM_ATTRIBUTES: {
 			REGION: "data-lugads-region",
 			REGION_TYPE: "data-lugads-regiontype",

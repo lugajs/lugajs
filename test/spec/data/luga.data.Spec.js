@@ -59,7 +59,7 @@ describe("luga.data", function(){
 					}).toThrow();
 				});
 				it("If it fails to lookup a function matching the value of the data-lugads-regiontype attribute", function(){
-					var baseDs = new luga.data.DataSet({id: "testDs"});
+					new luga.data.DataSet({id: "testDs"});
 					expect(function(){
 						luga.data.initRegion(jQuery("<div data-lugads-region='test' data-lugads-datasource='testDs' data-lugads-regiontype='missing'>"));
 					}).toThrow();
@@ -67,18 +67,18 @@ describe("luga.data", function(){
 			});
 
 			describe("If the data-lugads-regiontype attribute is not specified:", function(){
-				it("Creates a new instance of luga.data.Region. Passing the given node as options.node", function(){
-					var baseDs = new luga.data.DataSet({id: "testDs"});
+				it("Creates a new instance of luga.data.region.Handlebars. Passing the given node as options.node", function(){
+					new luga.data.DataSet({id: "testDs"});
 					var regionNode = jQuery("<div data-lugads-region='test' data-lugads-datasource='testDs'>");
-					spyOn(luga.data, "Region");
+					spyOn(luga.data.region, "Handlebars");
 					luga.data.initRegion(regionNode);
-					expect(luga.data.Region).toHaveBeenCalledWith({node: regionNode});
+					expect(luga.data.region.Handlebars).toHaveBeenCalledWith({node: regionNode});
 				});
 			});
 
 			describe("Else:", function(){
 				it("Creates a new instance of whatever constructor function is specified inside the data-lugads-regiontype attribute. Passing the given node as options.node", function(){
-					var baseDs = new luga.data.DataSet({id: "testDs"});
+					new luga.data.DataSet({id: "testDs"});
 					window.mock = {
 						regionHandler: function(){}
 					}

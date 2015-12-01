@@ -2,7 +2,7 @@
 	"use strict";
 
 	/**
-	 * @typedef {object} luga.data.Region.options
+	 * @typedef {object} luga.data.region.options
 	 *
 	 * @property {jquery} node        Either a jQuery object wrapping the node or the naked DOM object that will contain the region. Required
 	 * @property {string} dsId        DataSource's id. Can be specified inside the data-lugads-datasource too. Required
@@ -17,13 +17,13 @@
 	 * @listens dataChanged
 	 * @throws
 	 */
-	luga.data.Region = function(options){
+	luga.data.region.Handlebars = function(options){
 
 		var CONST = {
 			ERROR_MESSAGES: {
 				MISSING_HANDLEBARS: "Unable to find Handlebars",
-				MISSING_NODE: "luga.data.Region was unable find the region node",
-				MISSING_TEMPLATE_NODE: "luga.data.Region was unable find an HTML element with id: {0} containing an Handlebars template"
+				MISSING_NODE: "luga.data.region.Handlebars was unable find the region node",
+				MISSING_TEMPLATE_NODE: "luga.data.region.Handlebars was unable find an HTML element with id: {0} containing an Handlebars template"
 			}
 		};
 
@@ -73,8 +73,14 @@
 		this.template = fetchTemplate(this.config.node);
 
 		this.applyTraits = function(){
-			luga.data.regionTraits.setRowId({node: this.config.node, dataSource: this.dataSource});
-			luga.data.regionTraits.setRowIndex({node: this.config.node, dataSource: this.dataSource});
+			luga.data.region.traits.setRowId({
+				node: this.config.node,
+				dataSource: this.dataSource
+			});
+			luga.data.region.traits.setRowIndex({
+				node: this.config.node,
+				dataSource: this.dataSource
+			});
 		};
 
 		/**
