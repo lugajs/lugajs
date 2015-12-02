@@ -152,7 +152,7 @@ describe("luga.data.region.Handlebars", function(){
 					});
 				});
 
-				it("luga.data.regionTraits.setRowIndex()", function(){
+				it("luga.data.region.traits.setRowIndex()", function(){
 					spyOn(luga.data.region.traits, "setRowIndex");
 					configRegion.applyTraits();
 					expect(luga.data.region.traits.setRowIndex).toHaveBeenCalledWith(optionsObj);
