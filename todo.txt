@@ -33,6 +33,10 @@ VALIDATOR:
 
 DATA:
 
+data.sort:
+
+- Implement getter with validation instead of: luga.data.sort[columnToSortType][sortOrder]
+
 data.Dataset:
 
 - update(filter, setter)
@@ -40,14 +44,14 @@ data.Dataset:
 - Test luga.data.sort.isValidOrder()
 
 - Test new dataSet methods:
- sort()
- getSortColumn()
- getSortOrder()
- getColumnType()
- setColumnType()
+  sort()
+  getSortColumn()
+  getSortOrder()
+  getColumnType()
+  setColumnType()
 
-- Implement state (empty?, loading, error, ready). Should we use a trait to handle visibility?
-- Local storage persistence? It would require serialization of full dataSet
+- Implement state (empty?, loading, error, ready). Use a trait to handle visibility?
+- Local storage persistence? It would require serialization of full dataSet (including filter!)
 
 
 data.JsonDataSet:
