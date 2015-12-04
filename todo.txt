@@ -58,8 +58,8 @@ data.Dataset:
 data.JsonDataSet:
 
 - Add .rawJson to store raw JSON
-- .getRawJson()
-- .setRawJson()
+- getRawJson()
+- setRawJson()
 
 - Modify loadRecords() to handle more complex JSON structures like Spry?
 - Implement subPaths?
