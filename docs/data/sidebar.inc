@@ -6,6 +6,7 @@
 	<h2>DataSet</h2>
 	<ul>
 		<li><a href="../samples/databinding-basic.htm">Basic databinding</a></li>
+		<li><a href="../samples/sort.htm">Sorting</a></li>
 	</ul>
 	<h2>DetailsSet</h2>
 	<ul>

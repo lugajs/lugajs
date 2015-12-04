@@ -14,12 +14,13 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.data");
 	luga.namespace("luga.data.region");
 
-	luga.data.version = "0.2.0";
+	luga.data.version = "0.2.1";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
 	luga.data.CONST = {
 		PK_KEY: "rowId",
+		COL_TYPES: ["date", "number", "string"],
 		DEFAULT_REGION_TYPE: "luga.data.region.Handlebars",
 		CUSTOM_ATTRIBUTES: {
 			REGION: "data-lugads-region",
@@ -30,6 +31,8 @@ if(typeof(luga) === "undefined"){
 		EVENTS: {
 			CURRENT_ROW_CHANGED: "currentRowChanged",
 			DATA_CHANGED: "dataChanged",
+			DATA_SORTED: "dataSorted",
+			PRE_DATA_SORTED: "preDataSorted",
 			LOADING: "loading",
 			XHR_ERROR: "xhrError"
 		},
@@ -43,7 +46,6 @@ if(typeof(luga) === "undefined"){
 		},
 		XHR_TIMEOUT: 10000 // Keep this accessible to everybody
 	};
-
 	/**
 	 * Returns a dataSource from the registry
 	 * Returns null if no source matches the given id

@@ -70,4 +70,26 @@ describe("luga.data.region.traits", function(){
 
 	});
 
+	describe(".sort()", function(){
+
+		describe("Handles the data-lugads-sort custom attribute", function(){
+
+			it("Attach a onclick='dataSource.sort(columnName)' event to each HTML tag containing it", function(){
+				spyOn(ladiesDs, "sort");
+
+				var testDiv = jQuery("#sort");
+				luga.data.region.traits.sort({
+					node: testDiv,
+					dataSource: ladiesDs
+				});
+				var firstItem = jQuery(testDiv.find(CONST.LINK_LI_SELECTOR)[0]);
+
+				firstItem.click();
+				expect(ladiesDs.sort).toHaveBeenCalledWith("lastName");
+			});
+
+		});
+
+	});
+
 });

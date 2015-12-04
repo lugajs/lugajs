@@ -37,18 +37,17 @@ data.Dataset:
 
 - update(filter, setter)
 
-- Implement column types (with getters/setters)
-- Implement sorting (with getters/setters)
+- Test luga.data.sort.isValidOrder()
+
+- Test new dataSet methods:
+ sort()
+ getSortColumn()
+ getSortOrder()
+ getColumnType()
+ setColumnType()
 
 - Implement state (empty?, loading, error, ready). Should we use a trait to handle visibility?
-
 - Local storage persistence? It would require serialization of full dataSet
-
-
-data.DetailSet:
-
-
-data.HttpDatset:
 
 
 data.JsonDataSet:

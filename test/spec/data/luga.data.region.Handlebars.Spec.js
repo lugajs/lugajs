@@ -146,10 +146,7 @@ describe("luga.data.region.Handlebars", function(){
 				it("luga.data.region.traits.setRowId()", function(){
 					spyOn(luga.data.region.traits, "setRowId");
 					configRegion.applyTraits();
-					expect(luga.data.region.traits.setRowId).toHaveBeenCalledWith({
-						node: testDiv,
-						dataSource: loadedDs
-					});
+					expect(luga.data.region.traits.setRowId).toHaveBeenCalledWith(optionsObj);
 				});
 
 				it("luga.data.region.traits.setRowIndex()", function(){
@@ -158,6 +155,11 @@ describe("luga.data.region.Handlebars", function(){
 					expect(luga.data.region.traits.setRowIndex).toHaveBeenCalledWith(optionsObj);
 				});
 
+				it("luga.data.region.traits.sort()", function(){
+					spyOn(luga.data.region.traits, "sort");
+					configRegion.applyTraits();
+					expect(luga.data.region.traits.sort).toHaveBeenCalledWith(optionsObj);
+				});
 
 			});
 

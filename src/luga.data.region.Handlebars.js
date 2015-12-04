@@ -73,14 +73,13 @@
 		this.template = fetchTemplate(this.config.node);
 
 		this.applyTraits = function(){
-			luga.data.region.traits.setRowId({
+			var traitData = {
 				node: this.config.node,
 				dataSource: this.dataSource
-			});
-			luga.data.region.traits.setRowIndex({
-				node: this.config.node,
-				dataSource: this.dataSource
-			});
+			};
+			luga.data.region.traits.setRowId(traitData);
+			luga.data.region.traits.setRowIndex(traitData);
+			luga.data.region.traits.sort(traitData);
 		};
 
 		/**

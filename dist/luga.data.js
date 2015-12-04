@@ -14,12 +14,13 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.data");
 	luga.namespace("luga.data.region");
 
-	luga.data.version = "0.2.0";
+	luga.data.version = "0.2.1";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
 	luga.data.CONST = {
 		PK_KEY: "rowId",
+		COL_TYPES: ["date", "number", "string"],
 		DEFAULT_REGION_TYPE: "luga.data.region.Handlebars",
 		CUSTOM_ATTRIBUTES: {
 			REGION: "data-lugads-region",
@@ -30,6 +31,8 @@ if(typeof(luga) === "undefined"){
 		EVENTS: {
 			CURRENT_ROW_CHANGED: "currentRowChanged",
 			DATA_CHANGED: "dataChanged",
+			DATA_SORTED: "dataSorted",
+			PRE_DATA_SORTED: "preDataSorted",
 			LOADING: "loading",
 			XHR_ERROR: "xhrError"
 		},
@@ -43,7 +46,6 @@ if(typeof(luga) === "undefined"){
 		},
 		XHR_TIMEOUT: 10000 // Keep this accessible to everybody
 	};
-
 	/**
 	 * Returns a dataSource from the registry
 	 * Returns null if no source matches the given id
@@ -118,6 +120,16 @@ if(typeof(luga) === "undefined"){
 	 */
 
 	/**
+	 * @typedef {object} luga.data.DataSet.dataSorted
+	 *
+	 * @property {luga.data.DataSet}    dataSet
+	 * @property {array<string>}        oldSortColumns
+	 * @property {luga.data.sort.ORDER} oldSortOrder
+	 * @property {array<string>}        newSortColumns
+	 * @property {luga.data.sort.ORDER} newSortOrder
+	 */
+
+	/**
 	 * @typedef {object} luga.data.DataSet.options
 	 *
 	 * @property {string}              id         Unique identifier. Required
@@ -133,19 +145,24 @@ if(typeof(luga) === "undefined"){
 	 * @extends luga.Notifier
 	 * @fires dataChanged
 	 * @fires currentRowChanged
+	 * @fires dataSorted
+	 * @fires preDataSorted
 	 * @throws
 	 */
 	luga.data.DataSet = function(options){
 
 		var CONST = {
 			ERROR_MESSAGES: {
+				INVALID_COL_TYPE: "Luga.DataSet.setColumnType(): Invalid type passed {0}",
 				INVALID_ID_PARAMETER: "Luga.DataSet: id parameter is required",
+				INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter",
 				INVALID_PRIMITIVE: "Luga.DataSet: records can be either an array of objects or a single object. Primitives are not accepted",
 				INVALID_PRIMITIVE_ARRAY: "Luga.DataSet: records can be either an array of name/value pairs or a single object. Array of primitives are not accepted",
 				INVALID_ROW_PARAMETER: "Luga.DataSet: invalid row parameter. No available record matches the given row",
 				INVALID_ROW_ID_PARAMETER: "Luga.DataSet: invalid rowId parameter",
 				INVALID_ROW_INDEX_PARAMETER: "Luga.DataSet: invalid parameter. Row index is out of range",
-				INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter"
+				INVALID_SORT_COLUMNS: "Luga.DataSet.sort(): Unable to sort dataSet. You must supply one or more column name",
+				INVALID_SORT_ORDER: "Luga.DataSet.sort(): Unable to sort dataSet. Invalid sort order passed {0}"
 			}
 		};
 
@@ -170,6 +187,10 @@ if(typeof(luga) === "undefined"){
 		/** @type {null|function} */
 		this.filter = null;
 		this.currentRowId = null;
+
+		this.columnTypes = {};
+		this.lastSortColumns = [];
+		this.lastSortOrder = "";
 
 		luga.data.setDataSource(this.id, this);
 
@@ -246,6 +267,18 @@ if(typeof(luga) === "undefined"){
 			applyFilter();
 			this.resetCurrentRow();
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
+		};
+
+		/**
+		 * Returns the column type of the specified column. Either "date", "number" or "string"
+		 * @param {string} columnName
+		 * @returns {string}
+		 */
+		this.getColumnType = function(columnName){
+			if(this.columnTypes[columnName] !== undefined){
+				return this.columnTypes[columnName];
+			}
+			return "string";
 		};
 
 		/**
@@ -345,6 +378,24 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
+		 * Returns the name of the column used for the most recent sort
+		 * Returns an empty string if no sort has been performed yet
+		 * @returns {string}
+		 */
+		this.getSortColumn = function(){
+			return (this.lastSortColumns && this.lastSortColumns.length > 0) ? this.lastSortColumns[0] : "";
+		};
+
+		/**
+		 * Returns the order used for the most recent sort
+		 * Returns an empty string if no sort has been performed yet
+		 * @returns {string}
+		 */
+		this.getSortOrder = function(){
+			return this.lastSortOrder ? this.lastSortOrder : "";
+		};
+
+		/**
 		 * Adds rows to a dataSet
 		 * Be aware that the dataSet use passed data by reference
 		 * That is, it uses those objects as its row object internally. It does not make a copy
@@ -427,6 +478,25 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
+		 * Set a column type for a column. Required for proper sorting of numeric data.
+		 * By default data is sorted alpha-numerically, if you want it sorted numerically, set the proper columnType
+		 * @param {string|array<string>} columnNames
+		 * @param {string}               columnType   Either "date", "number" or "string"
+		 */
+		this.setColumnType = function(columnNames, columnType){
+			if(jQuery.isArray(columnNames) === false){
+				columnNames = [columnNames];
+			}
+			for(var i = 0; i < columnNames.length; i++){
+				var colName = columnNames[i];
+				if(luga.data.CONST.COL_TYPES.indexOf(colName) === -1){
+					throw(luga.string.format(CONST.ERROR_MESSAGES.INVALID_COL_TYPE, [colName]));
+				}
+				this.columnTypes[colName] = columnType;
+			}
+		};
+
+		/**
 		 * Sets the current row of the data set to the row matching the given rowId
 		 * Throws an exception if the given rowId is invalid
 		 * Triggers a "currentRowChanged" notification
@@ -504,6 +574,97 @@ if(typeof(luga) === "undefined"){
 			this.filter = filter;
 			applyFilter();
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
+		};
+
+		/**
+		 * Sort the data
+		 * @param {string|array<string>}  columnNames Required, either a single column name or an array of names
+		 * @param {luga.data.sort.ORDER}  sortOrder   Either "ascending", "descending" or "toggle". Optional, default to "toggle"
+		 */
+		this.sort = function(columnNames, sortOrder){
+			/*
+			 Very special thanks to Kin Blas https://github.com/jblas
+			 */
+			if((columnNames === undefined) || (columnNames === null)){
+				throw(CONST.ERROR_MESSAGES.INVALID_SORT_COLUMNS);
+			}
+			if(sortOrder === undefined){
+				sortOrder = luga.data.sort.ORDER.TOG;
+			}
+			if(luga.data.sort.isValidOrder(sortOrder) === false){
+				throw(luga.string.format(CONST.ERROR_MESSAGES.INVALID_SORT_ORDER, [sortOrder]));
+			}
+
+			var sortColumns = assembleSortColumns(columnNames);
+
+			if(sortOrder === luga.data.sort.ORDER.TOG){
+				sortOrder = defineToggleSortOrder(sortColumns);
+			}
+
+			/** @type {luga.data.DataSet.dataSorted} */
+			var notificationData = {
+				dataSet: this,
+				oldSortColumns: this.lastSortColumns,
+				oldSortOrder: this.lastSortOrder,
+				newSortColumns: sortColumns,
+				newSortOrder: sortOrder
+			};
+
+			this.notifyObservers(luga.data.CONST.EVENTS.PRE_DATA_SORTED, notificationData);
+
+			var sortColumnName = sortColumns[sortColumns.length - 1];
+			var sortColumnType = this.getColumnType(sortColumnName);
+			var sortFunction = luga.data.sort[sortColumnType][sortOrder](sortColumnName);
+
+			for(var i = sortColumns.length - 2; i >= 0; i--){
+				var columnToSortName = sortColumns[i];
+				var columnToSortType = this.getColumnType(columnToSortName);
+				sortFunction = buildSecondarySortFunction(luga.data.sort[columnToSortType][sortOrder](columnToSortName), sortFunction);
+			}
+
+			this.records.sort(sortFunction);
+			applyFilter();
+
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
+			this.resetCurrentRow();
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_SORTED, notificationData);
+
+			// Keep state
+			this.lastSortColumns = sortColumns.slice(0); // Copy the array.
+			this.lastSortOrder = sortOrder;
+
+		};
+
+		var buildSecondarySortFunction = function(funcA, funcB){
+			return function(a, b){
+				var ret = funcA(a, b);
+				if(ret === 0){
+					ret = funcB(a, b);
+				}
+				return ret;
+			};
+		};
+
+		var assembleSortColumns = function(columnNames){
+			// If only one column name was specified for sorting
+			// Do a secondary sort on PK so we get a stable sort order
+			if(jQuery.isArray(columnNames) === false){
+				return [columnNames, luga.data.CONST.PK_KEY];
+			}
+			if(columnNames.length < 2 && columnNames[0] !== luga.data.CONST.PK_KEY){
+				columnNames.push(luga.data.CONST.PK_KEY);
+				return columnNames;
+			}
+			return columnNames;
+		};
+
+		var defineToggleSortOrder = function(sortColumns){
+			if((self.lastSortColumns.length > 0) && (self.lastSortColumns[0] === sortColumns[0]) && (self.lastSortOrder === luga.data.sort.ORDER.ASC)){
+				return luga.data.sort.ORDER.DESC;
+			}
+			else{
+				return luga.data.sort.ORDER.ASC;
+			}
 		};
 
 		/* Constructor */
@@ -910,14 +1071,13 @@ if(typeof(luga) === "undefined"){
 		this.template = fetchTemplate(this.config.node);
 
 		this.applyTraits = function(){
-			luga.data.region.traits.setRowId({
+			var traitData = {
 				node: this.config.node,
 				dataSource: this.dataSource
-			});
-			luga.data.region.traits.setRowIndex({
-				node: this.config.node,
-				dataSource: this.dataSource
-			});
+			};
+			luga.data.region.traits.setRowId(traitData);
+			luga.data.region.traits.setRowIndex(traitData);
+			luga.data.region.traits.sort(traitData);
 		};
 
 		/**
@@ -958,11 +1118,13 @@ if(typeof(luga) === "undefined"){
 	var CONST = {
 		CUSTOM_ATTRIBUTES: {
 			SET_ROW_ID: "data-lugads-setrowid",
-			SET_ROW_INDEX: "data-lugads-setrowindex"
+			SET_ROW_INDEX: "data-lugads-setrowindex",
+			SORT: "data-lugads-sort"
 		},
 		SELECTORS: {
 			SET_ROW_ID: "*[data-lugads-setrowid]",
-			SET_ROW_INDEX: "*[data-lugads-setrowindex]"
+			SET_ROW_INDEX: "*[data-lugads-setrowindex]",
+			SORT: "*[data-lugads-sort]"
 		}
 	};
 
@@ -994,6 +1156,181 @@ if(typeof(luga) === "undefined"){
 				options.dataSource.setCurrentRowIndex(rowIndex);
 			});
 		});
+	};
+
+	/**
+	 * Handles data-lugads-sort
+	 * @param {luga.data.region.traits.options} options
+	 */
+	luga.data.region.traits.sort = function(options){
+		options.node.find(CONST.SELECTORS.SORT).each(function(index, item){
+			var jItem = jQuery(item);
+			jItem.click(function(event){
+				event.preventDefault();
+				var sortCol = jItem.attr(CONST.CUSTOM_ATTRIBUTES.SORT);
+				options.dataSource.sort(sortCol);
+			});
+		});
+	};
+
+}());
+(function(){
+	"use strict";
+
+	luga.namespace("luga.data.sort");
+
+	/**
+	 * @typedef {string} luga.data.sort.ORDER
+	 * @enum {string}
+	 */
+	luga.data.sort.ORDER = {
+		ASC: "ascending",
+		DESC: "descending",
+		TOG: "toggle"
+	};
+
+	luga.data.sort.isValidOrder = function(order){
+		for(var key in luga.data.sort.ORDER){
+			if(luga.data.sort.ORDER[key] === order){
+				return true;
+			}
+		}
+		return false;
+	};
+
+	/*
+	 Very special thanks to Kin Blas https://github.com/jblas
+	 */
+
+	luga.namespace("luga.data.sort.date");
+
+	luga.data.sort.date.ascending = function(prop){
+		return function(a, b){
+			var dA = a[prop];
+			var dB = b[prop];
+			dA = dA ? (new Date(dA)) : 0;
+			dB = dB ? (new Date(dB)) : 0;
+			return dA - dB;
+		};
+	};
+
+	luga.data.sort.date.descending = function(prop){
+		return function(a, b){
+			var dA = a[prop];
+			var dB = b[prop];
+			dA = dA ? (new Date(dA)) : 0;
+			dB = dB ? (new Date(dB)) : 0;
+			return dB - dA;
+		};
+	};
+
+	luga.namespace("luga.data.sort.number");
+
+	luga.data.sort.number.ascending = function(prop){
+		return function(a, b){
+			a = a[prop];
+			b = b[prop];
+			if(a === undefined || b === undefined){
+				return (a === b) ? 0 : (a ? 1 : -1);
+			}
+			return a - b;
+		};
+	};
+
+	luga.data.sort.number.descending = function(prop){
+		return function(a, b){
+			a = a[prop];
+			b = b[prop];
+			if(a === undefined || b === undefined){
+				return (a === b) ? 0 : (a ? -1 : 1);
+			}
+			return b - a;
+		};
+	};
+
+	luga.namespace("luga.data.sort.string");
+
+	luga.data.sort.string.ascending = function(prop){
+		return function(a, b){
+
+			a = a[prop];
+			b = b[prop];
+
+			if(a === undefined || b === undefined){
+				return (a === b) ? 0 : (a ? 1 : -1);
+			}
+			var tA = a.toString();
+			var tB = b.toString();
+			var tAlower = tA.toLowerCase();
+			var tBlower = tB.toLowerCase();
+			var minLen = tA.length > tB.length ? tB.length : tA.length;
+
+			for(var i = 0; i < minLen; i++){
+				var aLowerChar = tAlower.charAt(i);
+				var bLowerChar = tBlower.charAt(i);
+				var aChar = tA.charAt(i);
+				var bChar = tB.charAt(i);
+				if(aLowerChar > bLowerChar){
+					return 1;
+				}
+				else if(aLowerChar < bLowerChar){
+					return -1;
+				}
+				else if(aChar > bChar){
+					return 1;
+				}
+				else if(aChar < bChar){
+					return -1;
+				}
+			}
+			if(tA.length === tB.length){
+				return 0;
+			}
+			else if(tA.length > tB.length){
+				return 1;
+			}
+			return -1;
+		};
+	};
+
+	luga.data.sort.string.descending = function(prop){
+		return function(a, b){
+			a = a[prop];
+			b = b[prop];
+			if(a === undefined || b === undefined){
+				return (a === b) ? 0 : (a ? -1 : 1);
+			}
+			var tA = a.toString();
+			var tB = b.toString();
+			var tAlower = tA.toLowerCase();
+			var tBlower = tB.toLowerCase();
+			var minLen = tA.length > tB.length ? tB.length : tA.length;
+			for(var i = 0; i < minLen; i++){
+				var aLowerChar = tAlower.charAt(i);
+				var bLowerChar = tBlower.charAt(i);
+				var aChar = tA.charAt(i);
+				var bChar = tB.charAt(i);
+				if(aLowerChar > bLowerChar){
+					return -1;
+				}
+				else if(aLowerChar < bLowerChar){
+					return 1;
+				}
+				else if(aChar > bChar){
+					return -1;
+				}
+				else if(aChar < bChar){
+					return 1;
+				}
+			}
+			if(tA.length === tB.length){
+				return 0;
+			}
+			else if(tA.length > tB.length){
+				return -1;
+			}
+			return 1;
+		};
 	};
 
 }());

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8"/>
+	<title>Luga DataSet :: Sorting</title>
+	<link rel="stylesheet" href="../../../src/luga.css"/>
+	<link rel="stylesheet" href="../../docs.css"/>
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../lib/handlebars.min.js"></script>
+	<script src="../../../dist/luga.min.js"></script>
+	<script src="../../../dist/luga.data.min.js"></script>
+
+	<script src="../../docs.js"></script>
+
+	<script>
+		luga.namespace("test");
+		test.ladiesMaster = new luga.data.JsonDataSet({id: "ladies", url: "../../../test/fixtures/data/people.json", path: "ladies"});
+		test.ladyDetails = new luga.data.DetailSet({id: "lady", dataSet: test.ladiesMaster});
+		jQuery(document).ready(function(){
+			test.ladiesMaster.loadData();
+		});
+	</script>
+	<script id="masterTemplate" type="text/x-handlebars-template">
+		<table>
+			<th>
+				<a href="#" data-lugads-sort="firstName">Sort</a>
+			</th>
+			<th>
+				<a href="#" data-lugads-sort="lastName">Sort</a>
+			</th>
+			<th>
+				<a href="#" data-lugads-sort="country">Sort</a>
+			</th>
+			{{#each context}}
+			<tr>
+				<td>{{firstName}}</td>
+				<td>{{lastName}}</td>
+				<td>{{country}}</td>
+			</tr>
+			{{/each}}
+		</table>
+	</script>
+	<script id="detailsTemplate" type="text/x-handlebars-template">
+		<ul>
+			<li>Firstname: {{firstName}}</li>
+			<li>Lastname: {{lastName}}</li>
+			<li>Country: {{country}}</li>
+		</ul>
+	</script>
+
+</head>
+<body>
+
+<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
+<div data-lugacsi="../sidebar.inc"></div>
+
+<div class="content">
+
+	<section>
+		<h1>Master-details</h1>
+
+		<p>TODO: write explanation</p>
+	</section>
+
+	<section>
+		<h1>Master</h1>
+
+		<div data-lugads-region="masterRegion" data-lugads-datasource="ladies"
+			 data-lugads-template="masterTemplate"></div>
+	</section>
+
+	<section>
+		<h1>Details</h1>
+
+		<div data-lugads-region="detailsRegion" data-lugads-datasource="lady"
+			 data-lugads-template="detailsTemplate"></div>
+	</section>
+
+</div>
+
+<div data-lugacsi="../../footer.inc"></div>
+
+</body>
+</html>

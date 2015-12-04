@@ -13,11 +13,13 @@
 	var CONST = {
 		CUSTOM_ATTRIBUTES: {
 			SET_ROW_ID: "data-lugads-setrowid",
-			SET_ROW_INDEX: "data-lugads-setrowindex"
+			SET_ROW_INDEX: "data-lugads-setrowindex",
+			SORT: "data-lugads-sort"
 		},
 		SELECTORS: {
 			SET_ROW_ID: "*[data-lugads-setrowid]",
-			SET_ROW_INDEX: "*[data-lugads-setrowindex]"
+			SET_ROW_INDEX: "*[data-lugads-setrowindex]",
+			SORT: "*[data-lugads-sort]"
 		}
 	};
 
@@ -47,6 +49,21 @@
 				event.preventDefault();
 				var rowIndex = parseInt(jItem.attr(CONST.CUSTOM_ATTRIBUTES.SET_ROW_INDEX), 10);
 				options.dataSource.setCurrentRowIndex(rowIndex);
+			});
+		});
+	};
+
+	/**
+	 * Handles data-lugads-sort
+	 * @param {luga.data.region.traits.options} options
+	 */
+	luga.data.region.traits.sort = function(options){
+		options.node.find(CONST.SELECTORS.SORT).each(function(index, item){
+			var jItem = jQuery(item);
+			jItem.click(function(event){
+				event.preventDefault();
+				var sortCol = jItem.attr(CONST.CUSTOM_ATTRIBUTES.SORT);
+				options.dataSource.sort(sortCol);
 			});
 		});
 	};
