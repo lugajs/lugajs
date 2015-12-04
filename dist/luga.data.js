@@ -591,7 +591,7 @@ if(typeof(luga) === "undefined"){
 			if(sortOrder === undefined){
 				sortOrder = luga.data.sort.ORDER.TOG;
 			}
-			if(luga.data.sort.isValidOrder(sortOrder) === false){
+			if(luga.data.sort.isValidSortOrder(sortOrder) === false){
 				throw(luga.string.format(CONST.ERROR_MESSAGES.INVALID_SORT_ORDER, [sortOrder]));
 			}
 
@@ -614,12 +614,13 @@ if(typeof(luga) === "undefined"){
 
 			var sortColumnName = sortColumns[sortColumns.length - 1];
 			var sortColumnType = this.getColumnType(sortColumnName);
-			var sortFunction = luga.data.sort[sortColumnType][sortOrder](sortColumnName);
+			var sortFunction = luga.data.sort.getSortStrategy(sortColumnType, sortOrder);
 
 			for(var i = sortColumns.length - 2; i >= 0; i--){
 				var columnToSortName = sortColumns[i];
 				var columnToSortType = this.getColumnType(columnToSortName);
-				sortFunction = buildSecondarySortFunction(luga.data.sort[columnToSortType][sortOrder](columnToSortName), sortFunction);
+				var sortStrategy = luga.data.sort.getSortStrategy(columnToSortType, sortOrder);
+				sortFunction = buildSecondarySortFunction(sortStrategy(columnToSortName), sortFunction);
 			}
 
 			this.records.sort(sortFunction);
@@ -1189,13 +1190,41 @@ if(typeof(luga) === "undefined"){
 		TOG: "toggle"
 	};
 
-	luga.data.sort.isValidOrder = function(order){
+	var CONST = {
+		ERROR_MESSAGES: {
+			UNSUPPORTED_DATA_TYPE: "luga.data.sort. Unsupported dataType: {0",
+			UNSUPPORTED_SORT_ORDER: "luga.data.sort. Unsupported sortOrder: {0}"
+		}
+	};
+
+	/**
+	 * Return true if the passed order is supported
+	 * @param {string}  sortOrder
+	 * @returns {boolean}
+	 */
+	luga.data.sort.isValidSortOrder = function(sortOrder){
 		for(var key in luga.data.sort.ORDER){
-			if(luga.data.sort.ORDER[key] === order){
+			if(luga.data.sort.ORDER[key] === sortOrder){
 				return true;
 			}
 		}
 		return false;
+	};
+
+	/**
+	 * Retrieve the relevant sort function matching the given combination of dataType and sortOrder
+	 * @param {string}               dataType
+	 * @param {luga.data.sort.ORDER} sortOrder
+	 * @returns {function}
+	 */
+	luga.data.sort.getSortStrategy = function(dataType, sortOrder){
+		if(luga.data.sort[dataType] === undefined){
+			throw(luga.string.format(CONST.ERROR_MESSAGES.UNSUPPORTED_DATA_TYPE, [dataType]));
+		}
+		if(luga.data.sort[dataType][sortOrder] === undefined){
+			throw(luga.string.format(CONST.ERROR_MESSAGES.UNSUPPORTED_SORT_ORDER, [sortOrder]));
+		}
+		return luga.data.sort[dataType][sortOrder];
 	};
 
 	/*

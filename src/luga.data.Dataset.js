@@ -489,7 +489,7 @@
 			if(sortOrder === undefined){
 				sortOrder = luga.data.sort.ORDER.TOG;
 			}
-			if(luga.data.sort.isValidOrder(sortOrder) === false){
+			if(luga.data.sort.isValidSortOrder(sortOrder) === false){
 				throw(luga.string.format(CONST.ERROR_MESSAGES.INVALID_SORT_ORDER, [sortOrder]));
 			}
 
@@ -512,12 +512,13 @@
 
 			var sortColumnName = sortColumns[sortColumns.length - 1];
 			var sortColumnType = this.getColumnType(sortColumnName);
-			var sortFunction = luga.data.sort[sortColumnType][sortOrder](sortColumnName);
+			var sortFunction = luga.data.sort.getSortStrategy(sortColumnType, sortOrder);
 
 			for(var i = sortColumns.length - 2; i >= 0; i--){
 				var columnToSortName = sortColumns[i];
 				var columnToSortType = this.getColumnType(columnToSortName);
-				sortFunction = buildSecondarySortFunction(luga.data.sort[columnToSortType][sortOrder](columnToSortName), sortFunction);
+				var sortStrategy = luga.data.sort.getSortStrategy(columnToSortType, sortOrder);
+				sortFunction = buildSecondarySortFunction(sortStrategy(columnToSortName), sortFunction);
 			}
 
 			this.records.sort(sortFunction);

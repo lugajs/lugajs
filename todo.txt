@@ -35,13 +35,14 @@ DATA:
 
 data.sort:
 
-- Implement getter with validation instead of: luga.data.sort[columnToSortType][sortOrder]
+- Test
+  luga.data.sort.isValidSortOrder()
+  luga.data.sort.getSortStrategy()
+
 
 data.Dataset:
 
-- update(filter, setter)
-
-- Test luga.data.sort.isValidOrder()
+- Add update(filter, setter)
 
 - Test new dataSet methods:
   sort()
