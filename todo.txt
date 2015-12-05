@@ -36,7 +36,6 @@ DATA:
 data.sort:
 
 - Test
-  luga.data.sort.isValidSortOrder()
   luga.data.sort.getSortStrategy()
 
 
