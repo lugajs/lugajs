@@ -37,7 +37,7 @@ data.Dataset:
 
 - Add update(filter, setter)
 
-- Test new dataSet methods:
+- Test new methods:
   sort()
   getSortColumn()
   getSortOrder()
