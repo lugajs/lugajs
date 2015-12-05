@@ -26,6 +26,7 @@
 			{{/each}}
 		</ul>
 	</script>
+	<script id="ladiesTable" type="text/x-handlebars-template" src="../templates/ladies-table.htm"></script>
 
 </head>
 <body>
@@ -41,12 +42,7 @@
 		</section>
 
 		<section>
-			<h1>Template from &lt;script&gt; tag</h1>
-			<div data-lugads-region="scriptTemplate" data-lugads-datasource="ladiesDs" data-lugads-template="ladiesTemplate"></div>
-		</section>
-
-		<section>
-			<h1>Embedded template</h1>
+			<h1>Inline template</h1>
 			<div data-lugads-region="embedRegion" data-lugads-datasource="ladiesDs">
 				<ul class="people">
 					{{#each context}}
@@ -54,6 +50,16 @@
 					{{/each}}
 				</ul>
 			</div>
+		</section>
+
+		<section>
+			<h1>Embed template</h1>
+			<div data-lugads-region="scriptTemplate" data-lugads-datasource="ladiesDs" data-lugads-template="ladiesTemplate"></div>
+		</section>
+
+		<section>
+			<h1>External template</h1>
+			<div data-lugads-region="scriptTemplate" data-lugads-datasource="ladiesDs" data-lugads-template="ladiesTable"></div>
 		</section>
 
 	</div>

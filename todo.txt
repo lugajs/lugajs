@@ -67,9 +67,6 @@ data.JsonDataSet:
 
 data.Region:
 
-- Implement external templates:
-  Async fetchTemplate() then render() if getRecordsCount() > 0?
-
 - Make Region an event (regionRendered?) notifier?
 - Retrieve corresponding region object from a given HTML node?
 

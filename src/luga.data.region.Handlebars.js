@@ -23,6 +23,7 @@
 			ERROR_MESSAGES: {
 				MISSING_HANDLEBARS: "Unable to find Handlebars",
 				MISSING_NODE: "luga.data.region.Handlebars was unable find the region node",
+				MISSING_TEMPLATE_FILE: "luga.data.region.Handlebars was unable to retrieve file: {0} containing an Handlebars template",
 				MISSING_TEMPLATE_NODE: "luga.data.region.Handlebars was unable find an HTML element with id: {0} containing an Handlebars template"
 			}
 		};
@@ -52,25 +53,45 @@
 			throw(luga.string.format(luga.data.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE, [this.config.dsId]));
 		}
 		this.dataSource.addObserver(this);
+		this.template = "";
 
 		/**
 		 * @param {jquery} node
 		 * @returns {string}
 		 */
 		var fetchTemplate = function(node){
-			if(self.config.templateId !== null){
+			// Inline template
+			if(self.config.templateId === null){
+				self.template = Handlebars.compile(node.html());
+			}
+			else{
 				var templateNode = jQuery("#" + self.config.templateId);
 				if(templateNode.length !== 1){
 					throw(luga.string.format(CONST.ERROR_MESSAGES.MISSING_TEMPLATE_NODE, [self.config.templateId]));
 				}
-				return Handlebars.compile(templateNode.html());
-			}
-			else{
-				return Handlebars.compile(node.html());
+				var templateSrc = templateNode.attr("src");
+				if(templateSrc === undefined){
+					// Embed template
+					self.template = Handlebars.compile(templateNode.html());
+				}
+				else{
+					// External template
+					var xhrOptions = {
+						url: templateSrc,
+						dataType: "text",
+						success: function(response, textStatus, jqXHR){
+							self.template = Handlebars.compile(response);
+							self.render();
+						},
+						error: function(jqXHR, textStatus, errorThrown){
+							throw(luga.string.format(CONST.ERROR_MESSAGES.MISSING_TEMPLATE_FILE, [templateSrc]));
+						}
+					};
+					jQuery.ajax(xhrOptions);
+				}
 			}
 		};
 
-		this.template = fetchTemplate(this.config.node);
 
 		this.applyTraits = function(){
 			var traitData = {
@@ -90,8 +111,10 @@
 		};
 
 		this.render = function(){
-			this.config.node.html(this.generateHtml());
-			this.applyTraits();
+			if(this.template !== ""){
+				this.config.node.html(this.generateHtml());
+				this.applyTraits();
+			}
 		};
 
 		/* Events Handlers */
@@ -102,6 +125,10 @@
 		this.onDataChangedHandler = function(data){
 			self.render();
 		};
+
+		/* Constructor */
+		fetchTemplate(this.config.node);
+
 	};
 
 }());
