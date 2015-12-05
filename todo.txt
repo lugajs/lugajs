@@ -33,12 +33,6 @@ VALIDATOR:
 
 DATA:
 
-data.sort:
-
-- Test
-  luga.data.sort.getSortStrategy()
-
-
 data.Dataset:
 
 - Add update(filter, setter)
