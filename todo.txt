@@ -35,6 +35,7 @@ DATA:
 
 data.Dataset:
 
+- Add a method replyEvent(eventName)
 - Add update(filter, setter)
 
 - Test new methods:
@@ -58,8 +59,9 @@ data.JsonDataSet:
 - Implement subPaths?
 
 
-data.Region:
+data.region.Handlebars:
 
+- Pass an array of traits to the constructor
 - Make Region an event (regionRendered?) notifier?
 - Retrieve corresponding region object from a given HTML node?
 
