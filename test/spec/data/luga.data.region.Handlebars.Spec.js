@@ -131,7 +131,7 @@ describe("luga.data.region.Handlebars", function(){
 
 		describe(".applyTraits()", function(){
 
-			describe("Calls the following traits (passing {node: config.node, dataSource: this.dataSource}):", function(){
+			describe("Calls the following default traits (passing {node: config.node, dataSource: this.dataSource}):", function(){
 
 				var testRegion, optionsObj;
 				beforeEach(function(){

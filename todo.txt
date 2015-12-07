@@ -62,7 +62,7 @@ data.JsonDataSet:
 
 data.region.Handlebars:
 
-- Pass an array of traits to the constructor
+- Add data-lugads-traits attribute
 - Allows to pass dataSet object to the constructor, not just dataSet's id
 - Make Region an event (regionRendered?) notifier?
 
