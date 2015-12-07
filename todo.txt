@@ -37,8 +37,7 @@ DATA:
 data.Dataset:
 
 - Add getFirstRowPK()
-
-- Add a method replyEvent(eventName)
+- Add replyEvent(eventName)
 - Add update(filter, setter)
 
 - Test new methods:
