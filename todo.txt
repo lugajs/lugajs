@@ -1,4 +1,5 @@
 - Consider creating a Bower package
+- Special form serializer for JSON based fields?
 
 -------------
 
@@ -62,8 +63,12 @@ data.JsonDataSet:
 data.region.Handlebars:
 
 - Pass an array of traits to the constructor
+- Allows to pass dataSet object to the constructor, not just dataSet's id
 - Make Region an event (regionRendered?) notifier?
-- Retrieve corresponding region object from a given HTML node?
+
+- Test API to construct a region programmatically
+
+- Utility to retrieve corresponding region object from a given HTML node?
 
 -------------
 
