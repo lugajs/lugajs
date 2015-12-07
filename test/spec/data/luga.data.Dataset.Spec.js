@@ -430,6 +430,25 @@ describe("luga.data.Dataset", function(){
 
 	});
 
+	describe(".getSortColumn()", function(){
+
+		describe("If no sort operation has been performed yet:", function(){
+			it("Returns an empty string ", function(){
+				expect(baseDs.getSortColumn()).toEqual("");
+			});
+		});
+
+		describe("Else:", function(){
+			it("Returns the name of the column most recently used for sorting", function(){
+				loadedDs.sort("firstName")
+				expect(loadedDs.getSortColumn()).toEqual("firstName");
+				loadedDs.sort("country")
+				expect(loadedDs.getSortColumn()).toEqual("country");
+			});
+		});
+
+	});
+
 	describe(".getSortOrder()", function(){
 
 		describe("If no sort operation has been performed yet:", function(){

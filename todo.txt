@@ -40,7 +40,6 @@ data.Dataset:
 
 - Test new methods:
   sort()
-  getSortColumn()
   getColumnType()
   setColumnType()
 
