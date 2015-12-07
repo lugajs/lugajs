@@ -430,6 +430,25 @@ describe("luga.data.Dataset", function(){
 
 	});
 
+	describe(".getSortOrder()", function(){
+
+		describe("If no sort operation has been performed yet:", function(){
+			it("Returns an empty string ", function(){
+				expect(baseDs.getSortOrder()).toEqual("");
+			});
+		});
+
+		describe("Else:", function(){
+			it("Returns the most recently used sort order", function(){
+				loadedDs.sort("firstName")
+				expect(loadedDs.getSortOrder()).toEqual("ascending");
+				loadedDs.sort("firstName")
+				expect(loadedDs.getSortOrder()).toEqual("descending");
+			});
+		});
+
+	});
+
 	describe(".insert()", function(){
 
 		it("Adds records to a dataSet", function(){

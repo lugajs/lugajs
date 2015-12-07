@@ -36,14 +36,11 @@ DATA:
 
 data.Dataset:
 
-- Add getFirstRowPK()
-- Add replyEvent(eventName)
 - Add update(filter, setter)
 
 - Test new methods:
   sort()
   getSortColumn()
-  getSortOrder()
   getColumnType()
   setColumnType()
 
@@ -63,9 +60,9 @@ data.JsonDataSet:
 
 data.region.Handlebars:
 
-- Add data-lugads-traits attribute
+- Add data-lugads-traits attribute (comma-delimited)
 - Allows to pass dataSet object to the constructor, not just dataSet's id
-- Make Region an event (regionRendered?) notifier?
+- Make Region an event notifier (regionRendered?)
 
 - Test API to construct a region programmatically
 
