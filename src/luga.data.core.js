@@ -14,12 +14,13 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.data");
 	luga.namespace("luga.data.region");
 
-	luga.data.version = "0.2.2";
+	luga.data.version = "0.2.3";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
 	luga.data.CONST = {
 		PK_KEY: "rowId",
+		PK_KEY_PREFIX: "lugaPk_",
 		COL_TYPES: ["date", "number", "string"],
 		DEFAULT_REGION_TYPE: "luga.data.region.Handlebars",
 		CUSTOM_ATTRIBUTES: {

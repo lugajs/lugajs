@@ -224,12 +224,12 @@ describe("luga.data.Dataset", function(){
 
 		it("Returns first row object on a newly created dataSet", function(){
 			baseDs.insert(testRecords);
-			expect(baseDs.getCurrentRow()).toEqual(baseDs.recordsHash[0]);
+			expect(baseDs.getCurrentRow()).toEqual(baseDs.recordsHash["lugaPk_0"]);
 		});
 		it("Returns the current row object if it was changed at run-time", function(){
 			baseDs.insert(testRecords);
-			baseDs.setCurrentRowId(2);
-			expect(baseDs.getCurrentRow()).toEqual(baseDs.recordsHash[2]);
+			baseDs.setCurrentRowId("lugaPk_2");
+			expect(baseDs.getCurrentRow()).toEqual(baseDs.recordsHash["lugaPk_2"]);
 		});
 
 		describe("Returns the first row among filtered records if:", function(){
@@ -240,7 +240,7 @@ describe("luga.data.Dataset", function(){
 			});
 			it("A filter is set at run-time", function(){
 				baseDs.insert(testRecords);
-				expect(baseDs.getCurrentRow()).toEqual(baseDs.recordsHash[0]);
+				expect(baseDs.getCurrentRow()).toEqual(baseDs.recordsHash["lugaPk_0"]);
 				baseDs.setFilter(removeAus);
 				expect(baseDs.getCurrentRow()).toEqual(baseDs.filteredRecords[0]);
 			});
@@ -252,7 +252,7 @@ describe("luga.data.Dataset", function(){
 			});
 			it("All the records are filtered out", function(){
 				baseDs.insert(testRecords);
-				expect(baseDs.getCurrentRow()).toEqual(baseDs.recordsHash[0]);
+				expect(baseDs.getCurrentRow()).toEqual(baseDs.recordsHash["lugaPk_0"]);
 				baseDs.setFilter(removeAll);
 				expect(baseDs.getCurrentRow()).toBeNull();
 			});
@@ -264,20 +264,20 @@ describe("luga.data.Dataset", function(){
 
 		it("Returns the rowId of the current row", function(){
 			baseDs.insert(testRecords);
-			baseDs.setCurrentRowId(2);
-			expect(baseDs.getCurrentRowId()).toEqual(2);
+			baseDs.setCurrentRowId("lugaPk_2");
+			expect(baseDs.getCurrentRowId()).toEqual("lugaPk_2");
 		});
 
 		describe("Returns zero if:", function(){
 			it("Records are added to the dataSet", function(){
 				baseDs.insert(testRecords);
-				expect(baseDs.getCurrentRowId()).toEqual(0);
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_0");
 			});
 			it("A filter was just applied to the dataSet", function(){
 				baseDs.insert(testRecords);
-				baseDs.setCurrentRowId(2);
+				baseDs.setCurrentRowId("lugaPk_2");
 				baseDs.setFilter(removeUk);
-				expect(baseDs.getCurrentRowId()).toEqual(0);
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_0");
 			});
 		});
 
@@ -287,7 +287,7 @@ describe("luga.data.Dataset", function(){
 			});
 			it("All the records are filtered out", function(){
 				baseDs.insert(testRecords);
-				expect(baseDs.getCurrentRow()).toEqual(baseDs.recordsHash[0]);
+				expect(baseDs.getCurrentRow()).toEqual(baseDs.recordsHash["lugaPk_0"]);
 				baseDs.setFilter(removeAll);
 				expect(baseDs.getCurrentRowId()).toBeNull();
 			});
@@ -298,7 +298,7 @@ describe("luga.data.Dataset", function(){
 
 		it("Returns a zero-based index at which the current row can be found", function(){
 			baseDs.insert(testRecords);
-			baseDs.setCurrentRowId(2);
+			baseDs.setCurrentRowId("lugaPk_2");
 			expect(baseDs.getCurrentRowIndex()).toEqual(2);
 		});
 
@@ -309,7 +309,7 @@ describe("luga.data.Dataset", function(){
 			});
 			it("A filter was just applied to the dataSet", function(){
 				baseDs.insert(testRecords);
-				baseDs.setCurrentRowId(2);
+				baseDs.setCurrentRowId("lugaPk_2");
 				baseDs.setFilter(removeUk);
 				expect(baseDs.getCurrentRowIndex()).toEqual(0);
 			});
@@ -346,7 +346,7 @@ describe("luga.data.Dataset", function(){
 	describe(".getRowById()", function(){
 		it("Returns the row object associated with the given rowId", function(){
 			baseDs.insert(testRecords);
-			var row = baseDs.getRowById(2);
+			var row = baseDs.getRowById("lugaPk_2");
 			expect(row).toEqual(testRecords[2]);
 		});
 		describe("Returns null if:", function(){
@@ -401,13 +401,13 @@ describe("luga.data.Dataset", function(){
 
 			describe("Returns a zero-based index at which a row can be found:", function(){
 				it("Among records", function(){
-					var row = loadedDs.getRowById(2); // Jennifer
+					var row = loadedDs.getRowById("lugaPk_2"); // Jennifer
 					expect(loadedDs.getRowIndex(row)).toEqual(2);
 				});
 				it("Or filtered records", function(){
 					baseDs.insert(testRecords);
 					baseDs.setFilter(removeUk);
-					var row = baseDs.getRowById(2);
+					var row = baseDs.getRowById("lugaPk_2");
 					expect(loadedDs.getRowIndex(row)).toEqual(2);
 				});
 			});
@@ -444,8 +444,8 @@ describe("luga.data.Dataset", function(){
 		});
 		it("Automatically add a PK field that is the equivalent of the row's index within the array", function(){
 			baseDs.insert(testRecords);
-			expect(baseDs.records[0][luga.data.CONST.PK_KEY]).toEqual(0);
-			expect(baseDs.records[6][luga.data.CONST.PK_KEY]).toEqual(6);
+			expect(baseDs.records[0][luga.data.CONST.PK_KEY]).toEqual("lugaPk_0");
+			expect(baseDs.records[6][luga.data.CONST.PK_KEY]).toEqual("lugaPk_6");
 		});
 
 		describe("Accepts either:", function(){
@@ -482,21 +482,21 @@ describe("luga.data.Dataset", function(){
 
 	describe(".resetCurrentRow()", function(){
 
-		it("Set currentRowId to zero", function(){
+		it("Set currentRowId to 'lugaPk_0'", function(){
 			baseDs.insert(testRecords);
-			baseDs.setCurrentRowId(2);
+			baseDs.setCurrentRowId("lugaPk_2");
 			baseDs.resetCurrentRow();
-			expect(baseDs.getCurrentRowId()).toEqual(0);
+			expect(baseDs.getCurrentRowId()).toEqual("lugaPk_0");
 		});
 
 		it("Set currentRowId to the rowId of the first filtered record if the dataSet is associated with a filter", function(){
 			var noAussieDs = new luga.data.DataSet({id: "test", filter: removeAus});
 			noAussieDs.insert(testRecords);
-			expect(noAussieDs.getCurrentRowId()).toEqual(1);
-			noAussieDs.setCurrentRowId(2);
-			expect(noAussieDs.getCurrentRowId()).toEqual(2);
+			expect(noAussieDs.getCurrentRowId()).toEqual("lugaPk_1");
+			noAussieDs.setCurrentRowId("lugaPk_2");
+			expect(noAussieDs.getCurrentRowId()).toEqual("lugaPk_2");
 			noAussieDs.resetCurrentRow();
-			expect(noAussieDs.getCurrentRowId()).toEqual(1);
+			expect(noAussieDs.getCurrentRowId()).toEqual("lugaPk_1");
 		});
 
 		describe("Set currentRowId to null if:", function(){
@@ -544,16 +544,16 @@ describe("luga.data.Dataset", function(){
 			describe("First:", function(){
 				it("Sets the current row of the dataSet to the one matching the given row", function(){
 					baseDs.insert(testRecords);
-					var row3 = baseDs.getRowById(3);
+					var row3 = baseDs.getRowById("lugaPk_3");
 					baseDs.setCurrentRow(row3);
-					expect(baseDs.getCurrentRowId()).toEqual(3);
+					expect(baseDs.getCurrentRowId()).toEqual("lugaPk_3");
 				});
 			});
 
 			describe("Then:", function(){
 				it("Triggers a 'currentRowChanged' notification", function(){
 					baseDs.insert(testRecords);
-					var row3 = baseDs.getRowById(3);
+					var row3 = baseDs.getRowById("lugaPk_3");
 					baseDs.setCurrentRow(row3);
 					expect(testObserver.onCurrentRowChangedHandler).toHaveBeenCalled();
 				});
@@ -561,7 +561,7 @@ describe("luga.data.Dataset", function(){
 
 			describe("Throws an exception if:", function(){
 				it("The dataSet is empty", function(){
-					var row = loadedDs.getRowById(2);
+					var row = loadedDs.getRowById("lugaPk_2");
 					expect(function(){
 						baseDs.setCurrentRow(row);
 					}).toThrow();
@@ -571,7 +571,7 @@ describe("luga.data.Dataset", function(){
 					arrayRecords.push({name: "Nicole"});
 					arrayRecords.push({name: "Kate"});
 					var ds = new luga.data.DataSet({id: "myDs", records: arrayRecords});
-					var row = loadedDs.getRowById(2);
+					var row = loadedDs.getRowById("lugaPk_2");
 					expect(function(){
 						ds.setCurrentRow(row);
 					}).toThrow();
@@ -586,22 +586,22 @@ describe("luga.data.Dataset", function(){
 
 		it("Throws an exception if the given rowId is invalid", function(){
 			expect(function(){
-				baseDs.setCurrentRowId(3);
+				baseDs.setCurrentRowId("test");
 			}).toThrow();
 		});
 
 		describe("First:", function(){
 			it("Sets the current row of the dataSet to the row matching the given rowId", function(){
 				baseDs.insert(testRecords);
-				baseDs.setCurrentRowId(3);
-				expect(baseDs.getCurrentRowId()).toEqual(3);
+				baseDs.setCurrentRowId("lugaPk_3");
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_3");
 			});
 		});
 
 		describe("Then:", function(){
 			it("Triggers a 'currentRowChanged' notification", function(){
 				baseDs.insert(testRecords);
-				baseDs.setCurrentRowId(3);
+				baseDs.setCurrentRowId("lugaPk_3");
 				expect(testObserver.onCurrentRowChangedHandler).toHaveBeenCalled();
 			});
 		});
@@ -623,7 +623,7 @@ describe("luga.data.Dataset", function(){
 			describe("Then:", function(){
 				it("Triggers a 'currentRowChanged' notification", function(){
 					baseDs.insert(testRecords);
-					var row3 = baseDs.getRowById(3);
+					var row3 = baseDs.getRowById("lugaPk_3");
 					baseDs.setCurrentRow(row3);
 					expect(testObserver.onCurrentRowChangedHandler).toHaveBeenCalled();
 				});

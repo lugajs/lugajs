@@ -14,12 +14,13 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.data");
 	luga.namespace("luga.data.region");
 
-	luga.data.version = "0.2.2";
+	luga.data.version = "0.2.3";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
 	luga.data.CONST = {
 		PK_KEY: "rowId",
+		PK_KEY_PREFIX: "lugaPk_",
 		COL_TYPES: ["date", "number", "string"],
 		DEFAULT_REGION_TYPE: "luga.data.region.Handlebars",
 		CUSTOM_ATTRIBUTES: {
@@ -422,12 +423,12 @@ if(typeof(luga) === "undefined"){
 					throw(CONST.ERROR_MESSAGES.INVALID_PRIMITIVE_ARRAY);
 				}
 				// Create new PK
-				var recordID = this.records.length;
+				var recordID = luga.data.CONST.PK_KEY_PREFIX + this.records.length;
 				recordsHolder[i][luga.data.CONST.PK_KEY] = recordID;
-				this.recordsHash[this.records.length] = recordsHolder[i];
+				this.recordsHash[recordID] = recordsHolder[i];
 				this.records.push(recordsHolder[i]);
 			}
-			this.setCurrentRowId(0);
+			this.setCurrentRowId(this.records[0][luga.data.CONST.PK_KEY]);
 			applyFilter();
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
@@ -545,7 +546,7 @@ if(typeof(luga) === "undefined"){
 			if(fetchedRowId === -1){
 				throw(CONST.ERROR_MESSAGES.INVALID_ROW_PARAMETER);
 			}
-			this.setCurrentRowId(fetchedRowId);
+			this.setCurrentRowId(luga.data.CONST.PK_KEY_PREFIX + fetchedRowId);
 		};
 
 		/**
