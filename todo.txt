@@ -10,7 +10,8 @@
 DOCS:
 
 - Switch from em to rem
-- Use flexbox CSS
+- Use flexbox or Bootstrap?
+- Improve format of API docs
 - Review/improve luga.css
 - Layout forms with labels on top of fields
 
@@ -19,6 +20,7 @@ DOCS:
 AJAXFORM:
 
 - Parse and handle error messages from server
+- Use live service for test
 - Standardize JSON schema for error messages
 
 -------------
@@ -48,6 +50,7 @@ data.Dataset:
   setColumnType()
 
 - Implement state (empty?, loading, error, ready). Use a trait to handle visibility?
+
 - Local storage persistence? It would require serialization of full dataSet (including filter!)
 
 
@@ -57,8 +60,8 @@ data.JsonDataSet:
 - getRawJson()
 - setRawJson()
 
-- Modify loadRecords() to handle more complex JSON structures like Spry?
-- Implement subPaths?
+- Modify loadRecords() to handle more complex JSON structures. Use luga.lookupProperty()
+- Implement subPaths like Spry?
 
 
 data.region.Handlebars:
