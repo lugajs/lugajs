@@ -8,7 +8,7 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.version = "0.4.1";
+	luga.version = "0.4.2";
 
 	luga.CONST = {
 		ERROR_MESSAGES: {
@@ -178,8 +178,7 @@ if(typeof(luga) === "undefined"){
 		},
 		MESSAGES: {
 			MISSING_FORM: "Unable to load form"
-		},
-		HASH_DELIMITER: ","
+		}
 	};
 
 	/**
@@ -247,8 +246,7 @@ if(typeof(luga) === "undefined"){
 	 * Returns a JavaScript object containing name/value pairs from fields contained inside a given root node
 	 * Only fields considered successful are returned:
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
-	 * Values of multiple checked checkboxes and multiple select are included as a single entry, comma-delimited value
-	 * You can change the delimiter by setting the value of luga.form.CONST.HASH_DELIMITER
+	 * Values of multiple checked checkboxes and multiple select are included as a single entry, with array value
 	 *
 	 * @param {jquery}   rootNode     jQuery object wrapping the root node
 	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
@@ -271,7 +269,7 @@ if(typeof(luga) === "undefined"){
 				switch(fieldType){
 
 					case "select-multiple":
-						fieldValue = jQuery(fields[i]).val().join(luga.form.CONST.HASH_DELIMITER);
+						fieldValue = jQuery(fields[i]).val();
 						break;
 
 					case "checkbox":
@@ -293,7 +291,7 @@ if(typeof(luga) === "undefined"){
 						map[fieldName] = fieldValue;
 					}
 					else{
-						map[fieldName] += luga.form.CONST.HASH_DELIMITER + fieldValue;
+						map[fieldName] = [map[fieldName], fieldValue];
 					}
 				}
 
@@ -639,6 +637,7 @@ if(typeof(luga) === "undefined"){
 		// Ensure it's a jQuery object
 		options.formNode = jQuery(options.formNode);
 		this.config = {
+			formNode: null, // Required
 			// Either: form attribute, custom attribute, incoming option or current URL
 			action: options.formNode.attr("action") || options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.ACTION) || document.location.href,
 			// Either: form attribute, custom attribute, incoming option or default
