@@ -54,7 +54,7 @@ describe("luga.form", function(){
 		});
 
 		it("Returns a JavaScript object containing name/value pairs from fields contained inside a given node", function(){
-			expect(luga.form.toHash(jQuery("#basicValue"))).toEqual({firstname: "ciccio", lastname: "pasticcio", radio: 'yes'});
+			expect(luga.form.toHash(jQuery("#basicValue"))).toEqual({firstname: "ciccio", lastname: "pasticcio", radio: "yes"});
 			expect(luga.form.toHash(jQuery("#basicNoValue"))).toEqual({firstname: "", lastname: ""});
 		});
 
