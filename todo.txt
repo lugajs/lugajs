@@ -5,6 +5,8 @@
 - Add luga.lookupProperty()
 - Add luga.setProperty()
 
+- Add custom X-Requested-With every time XHR is used
+
 -------------
 
 DOCS:
