@@ -35,7 +35,11 @@ CORE:
 - Document luga.extend()?
 
 -------------
+
 VALIDATOR:
+
+- Improve Bootstrap integration. Add alerts with messages
+
 -------------
 
 DATA:
