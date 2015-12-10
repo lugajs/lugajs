@@ -384,9 +384,9 @@ if(typeof(luga) === "undefined"){
 	 * luga.string.format("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"});
 	 * => "My name is Ciccio Pasticcio"
 	 *
-	 * @param  {string}  str     String containing placeholders
-	 * @param  {*}       args    Either an array of strings or an objects containing name/value pairs in string format
-	 * @return {string}          The newly assembled string
+	 * @param  {string}  str                   String containing placeholders
+	 * @param  {object|array.<string>} args    Either an array of strings or an objects containing name/value pairs in string format
+	 * @return {string} The newly assembled string
 	 */
 	luga.string.format = function(str, args){
 		var pattern = null;
