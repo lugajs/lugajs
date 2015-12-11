@@ -59,18 +59,17 @@ data.Dataset:
   getColumnType()
   setColumnType()
 
-- Add update(filter, setter)
+- Implement update(filter, setter)
 
 - Local storage persistence? It would require serialization of full dataSet (including filter!)
 
 
 data.JsonDataSet:
 
-- Add .rawJson to store raw JSON
-- getRawJson()
-- setRawJson()
+- Add .rawJson property to store raw JSON
+- Implement getRawJson()
+- Implement setRawJson()
 
-- Modify loadRecords() to handle more than one-level-deep JSON structures. Use luga.lookupProperty()
 - Handle sosphisticated paths? Implement subPaths like Spry?
 
 
