@@ -74,14 +74,14 @@ describe("luga", function(){
 
 	});
 
-	describe(".lookup()", function(){
+	describe(".lookupFunction()", function(){
 
 		describe("Given the name of a function as a string", function(){
 
 			it("Returns the relevant function if it finds it inside the window/global scope", function(){
 				window.MyLookup = function(){
 				};
-				var result = luga.lookup("MyLookup");
+				var result = luga.lookupFunction("MyLookup");
 				expect(result).not.toBeNull();
 				expect(jQuery.isFunction(result)).toBeTruthy();
 			});
@@ -90,18 +90,18 @@ describe("luga", function(){
 				window.myLookUpSpace = {};
 				myLookUpSpace.myFunction = function(){
 				};
-				var result = luga.lookup("myLookUpSpace.myFunction");
+				var result = luga.lookupFunction("myLookUpSpace.myFunction");
 				expect(result).not.toBeNull();
 				expect(jQuery.isFunction(result)).toBeTruthy();
 			});
 
-			it("Returns null if the function does not exist", function(){
-				expect(luga.lookup("missing")).toBeNull();
+			it("Returns undefined if the function does not exist", function(){
+				expect(luga.lookupFunction("missing")).toBeUndefined();
 			});
 
 			it("Or if a corresponding variable exists, but it's not a function", function(){
 				window.str = "ciao";
-				expect(luga.lookup("str")).toBeNull();
+				expect(luga.lookupFunction("str")).toBeUndefined();
 			});
 
 		});

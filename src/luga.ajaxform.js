@@ -8,7 +8,7 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.ajaxform");
-	luga.ajaxform.version = "0.7.1";
+	luga.ajaxform.version = "0.7.2";
 
 	/* Success and error handlers */
 	luga.namespace("luga.ajaxform.handlers");
@@ -150,8 +150,8 @@ if(typeof(luga) === "undefined"){
 		 */
 		var handleAfter = function(){
 			if(self.config.after !== null){
-				var callBack = luga.lookup(self.config.after);
-				if(callBack === null){
+				var callBack = luga.lookupFunction(self.config.after);
+				if(callBack === undefined){
 					throw(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.after]));
 				}
 				callBack.apply(null, [self.config.formNode]);
@@ -163,8 +163,8 @@ if(typeof(luga) === "undefined"){
 		 */
 		var handleBefore = function(){
 			if(self.config.before !== null){
-				var callBack = luga.lookup(self.config.before);
-				if(callBack === null){
+				var callBack = luga.lookupFunction(self.config.before);
+				if(callBack === undefined){
 					throw(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.before]));
 				}
 				callBack.apply(null, [self.config.formNode]);
@@ -175,8 +175,8 @@ if(typeof(luga) === "undefined"){
 		 * @throws
 		 */
 		var handleError = function(textStatus, jqXHR, errorThrown){
-			var callBack = luga.lookup(self.config.error);
-			if(callBack === null){
+			var callBack = luga.lookupFunction(self.config.error);
+			if(callBack === undefined){
 				throw(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.error]));
 			}
 			callBack.apply(null, [self.config.errormsg, self.config.formNode, textStatus, errorThrown, jqXHR]);
@@ -186,8 +186,8 @@ if(typeof(luga) === "undefined"){
 		 * @throws
 		 */
 		var handleSuccess = function(textStatus, jqXHR){
-			var callBack = luga.lookup(self.config.success);
-			if(callBack === null){
+			var callBack = luga.lookupFunction(self.config.success);
+			if(callBack === undefined){
 				throw(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.success]));
 			}
 			callBack.apply(null, [self.config.successmsg, self.config.formNode, textStatus, jqXHR]);

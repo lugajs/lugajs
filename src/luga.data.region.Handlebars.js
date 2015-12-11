@@ -112,8 +112,8 @@
 				dataSource: this.dataSource
 			};
 			for(var i = 0; i < this.traits.length; i++){
-				var func = luga.lookup(this.traits[i]);
-				if(jQuery.isFunction(func) === true){
+				var func = luga.lookupFunction(this.traits[i]);
+				if(func !== undefined){
 					func(traitData);
 				}
 				else{

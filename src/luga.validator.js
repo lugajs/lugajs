@@ -9,7 +9,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.validator");
 
-	luga.validator.version = "0.9.10";
+	luga.validator.version = "0.9.11";
 
 	/* Validation handlers */
 
@@ -254,8 +254,8 @@ if(typeof(luga) === "undefined"){
 
 		this.before = function(event){
 			if(self.config.before !== null){
-				var callBack = luga.lookup(self.config.before);
-				if(callBack !== null){
+				var callBack = luga.lookupFunction(self.config.before);
+				if(callBack !== undefined){
 					callBack.apply(null, [self.config.formNode, event]);
 				}
 				else{
@@ -265,8 +265,8 @@ if(typeof(luga) === "undefined"){
 		};
 
 		this.error = function(){
-			var callBack = luga.lookup(self.config.error);
-			if(callBack !== null){
+			var callBack = luga.lookupFunction(self.config.error);
+			if(callBack !== undefined){
 				callBack.apply(null, [self.config.formNode, self.dirtyValidators]);
 			}
 			else{
@@ -276,8 +276,8 @@ if(typeof(luga) === "undefined"){
 
 		this.after = function(event){
 			if(self.config.after !== null){
-				var callBack = luga.lookup(self.config.after);
-				if(callBack !== null){
+				var callBack = luga.lookupFunction(self.config.after);
+				if(callBack !== undefined){
 					callBack.apply(null, [self.config.formNode, event]);
 				}
 				else{
@@ -529,8 +529,8 @@ if(typeof(luga) === "undefined"){
 					return false;
 				}
 				// It's a conditional validation. Invoke the relevant function if available
-				var functionReference = luga.lookup(requiredAtt);
-				if(functionReference !== null){
+				var functionReference = luga.lookupFunction(requiredAtt);
+				if(functionReference !== undefined){
 					return functionReference.apply(null, [self.node]);
 				}
 				else{
@@ -1095,8 +1095,8 @@ if(typeof(luga) === "undefined"){
 		var formValidator = new luga.validator.FormValidator(options);
 		var dirtyValidators = formValidator.validate();
 		if(dirtyValidators.length > 0){
-			var callBack = luga.lookup(options.error);
-			if(callBack === null){
+			var callBack = luga.lookupFunction(options.error);
+			if(callBack === undefined){
 				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [options.error]));
 			}
 			else{
@@ -1131,8 +1131,8 @@ if(typeof(luga) === "undefined"){
 		var fieldValidator = new luga.validator.fieldValidatorFactory.getInstance(options);
 		fieldValidator.validate(null);
 		if(fieldValidator.isValid() === true){
-			var callBack = luga.lookup(options.error);
-			if(callBack === null){
+			var callBack = luga.lookupFunction(options.error);
+			if(callBack === undefined){
 				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [options.error]));
 			}
 			else{
@@ -1184,8 +1184,8 @@ if(typeof(luga) === "undefined"){
 			}
 		}
 		if(dirtyValidators.length > 0){
-			var callBack = luga.lookup(options.error);
-			if(callBack === null){
+			var callBack = luga.lookupFunction(options.error);
+			if(callBack === undefined){
 				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [options.error]));
 			}
 			else{

@@ -14,7 +14,7 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.data");
 	luga.namespace("luga.data.region");
 
-	luga.data.version = "0.2.3";
+	luga.data.version = "0.2.4";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -87,8 +87,8 @@ if(typeof(luga) === "undefined"){
 		if(regionType === undefined){
 			regionType = luga.data.CONST.DEFAULT_REGION_TYPE;
 		}
-		var RegionClass = luga.lookup(regionType);
-		if(RegionClass === null){
+		var RegionClass = luga.lookupFunction(regionType);
+		if(RegionClass === undefined){
 			throw(luga.string.format(luga.data.CONST.ERROR_MESSAGES.MISSING_REGION_TYPE_FUNCTION, [regionType]));
 		}
 		new RegionClass({node: node});

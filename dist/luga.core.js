@@ -8,7 +8,7 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.version = "0.4.2";
+	luga.version = "0.4.3";
 
 	luga.CONST = {
 		ERROR_MESSAGES: {
@@ -47,7 +47,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Merge the contents of two objects together into the first object
+	 * Shallow-merge the contents of two objects together into the first object
 	 * It wraps jQuery's extend to make names less ambiguous
 	 *
 	 * @param {object} target
@@ -60,12 +60,12 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Given the name of a function as a string, return the relevant function, if any
 	 * Returns null, if the reference has not been found.
-	 * @param {string} reference   Fully qualified name of a function
-	 * @returns {*}                The javascript reference to the function
+	 * @param {string} reference       Fully qualified name of a function
+	 * @returns {function|undefined}   The javascript reference to the function, undefined if nothing is fund or if it's not a function
 	 */
-	luga.lookup = function(reference){
+	luga.lookupFunction = function(reference){
 		if(!reference){
-			return null;
+			return undefined;
 		}
 		if(jQuery.isFunction(reference) === true){
 			return reference;
@@ -78,13 +78,13 @@ if(typeof(luga) === "undefined"){
 				object = object[part];
 			}
 			else{
-				return null;
+				return undefined;
 			}
 		}
 		if(jQuery.isFunction(object)){
 			return object;
 		}
-		return null;
+		return undefined;
 	};
 
 	/**
@@ -384,9 +384,9 @@ if(typeof(luga) === "undefined"){
 	 * luga.string.format("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"});
 	 * => "My name is Ciccio Pasticcio"
 	 *
-	 * @param  {string}  str     String containing placeholders
-	 * @param  {*}       args    Either an array of strings or an objects containing name/value pairs in string format
-	 * @return {string}          The newly assembled string
+	 * @param  {string}  str                   String containing placeholders
+	 * @param  {object|array.<string>} args    Either an array of strings or an objects containing name/value pairs in string format
+	 * @return {string} The newly assembled string
 	 */
 	luga.string.format = function(str, args){
 		var pattern = null;

@@ -8,7 +8,7 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.version = "0.4.2";
+	luga.version = "0.4.3";
 
 	luga.CONST = {
 		ERROR_MESSAGES: {
@@ -47,7 +47,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Merge the contents of two objects together into the first object
+	 * Shallow-merge the contents of two objects together into the first object
 	 * It wraps jQuery's extend to make names less ambiguous
 	 *
 	 * @param {object} target
@@ -60,12 +60,12 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Given the name of a function as a string, return the relevant function, if any
 	 * Returns null, if the reference has not been found.
-	 * @param {string} reference   Fully qualified name of a function
-	 * @returns {*}                The javascript reference to the function
+	 * @param {string} reference       Fully qualified name of a function
+	 * @returns {function|undefined}   The javascript reference to the function, undefined if nothing is fund or if it's not a function
 	 */
-	luga.lookup = function(reference){
+	luga.lookupFunction = function(reference){
 		if(!reference){
-			return null;
+			return undefined;
 		}
 		if(jQuery.isFunction(reference) === true){
 			return reference;
@@ -78,13 +78,13 @@ if(typeof(luga) === "undefined"){
 				object = object[part];
 			}
 			else{
-				return null;
+				return undefined;
 			}
 		}
 		if(jQuery.isFunction(object)){
 			return object;
 		}
-		return null;
+		return undefined;
 	};
 
 	/**
@@ -384,9 +384,9 @@ if(typeof(luga) === "undefined"){
 	 * luga.string.format("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"});
 	 * => "My name is Ciccio Pasticcio"
 	 *
-	 * @param  {string}  str     String containing placeholders
-	 * @param  {*}       args    Either an array of strings or an objects containing name/value pairs in string format
-	 * @return {string}          The newly assembled string
+	 * @param  {string}  str                   String containing placeholders
+	 * @param  {object|array.<string>} args    Either an array of strings or an objects containing name/value pairs in string format
+	 * @return {string} The newly assembled string
 	 */
 	luga.string.format = function(str, args){
 		var pattern = null;
@@ -523,7 +523,7 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.ajaxform");
-	luga.ajaxform.version = "0.7.1";
+	luga.ajaxform.version = "0.7.2";
 
 	/* Success and error handlers */
 	luga.namespace("luga.ajaxform.handlers");
@@ -665,8 +665,8 @@ if(typeof(luga) === "undefined"){
 		 */
 		var handleAfter = function(){
 			if(self.config.after !== null){
-				var callBack = luga.lookup(self.config.after);
-				if(callBack === null){
+				var callBack = luga.lookupFunction(self.config.after);
+				if(callBack === undefined){
 					throw(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.after]));
 				}
 				callBack.apply(null, [self.config.formNode]);
@@ -678,8 +678,8 @@ if(typeof(luga) === "undefined"){
 		 */
 		var handleBefore = function(){
 			if(self.config.before !== null){
-				var callBack = luga.lookup(self.config.before);
-				if(callBack === null){
+				var callBack = luga.lookupFunction(self.config.before);
+				if(callBack === undefined){
 					throw(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.before]));
 				}
 				callBack.apply(null, [self.config.formNode]);
@@ -690,8 +690,8 @@ if(typeof(luga) === "undefined"){
 		 * @throws
 		 */
 		var handleError = function(textStatus, jqXHR, errorThrown){
-			var callBack = luga.lookup(self.config.error);
-			if(callBack === null){
+			var callBack = luga.lookupFunction(self.config.error);
+			if(callBack === undefined){
 				throw(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.error]));
 			}
 			callBack.apply(null, [self.config.errormsg, self.config.formNode, textStatus, errorThrown, jqXHR]);
@@ -701,8 +701,8 @@ if(typeof(luga) === "undefined"){
 		 * @throws
 		 */
 		var handleSuccess = function(textStatus, jqXHR){
-			var callBack = luga.lookup(self.config.success);
-			if(callBack === null){
+			var callBack = luga.lookupFunction(self.config.success);
+			if(callBack === undefined){
 				throw(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.success]));
 			}
 			callBack.apply(null, [self.config.successmsg, self.config.formNode, textStatus, jqXHR]);
@@ -812,7 +812,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.csi");
 
-	luga.csi.version = "1.1.0";
+	luga.csi.version = "1.1.1";
 
 	luga.csi.CONST = {
 		NODE_SELECTOR: "div[data-lugacsi]",
@@ -872,8 +872,8 @@ if(typeof(luga) === "undefined"){
 				timeout: config.XHR_TIMEOUT,
 				success: function(response, textStatus, jqXHR){
 					config.success.apply(null, [response, textStatus, jqXHR]);
-					var afterHandler = luga.lookup(config.after);
-					if(afterHandler !== null){
+					var afterHandler = luga.lookupFunction(config.after);
+					if(afterHandler !== undefined){
 						afterHandler.apply(null, [config.rootNode, config.url, response]);
 					}
 				},
@@ -911,7 +911,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.validator");
 
-	luga.validator.version = "0.9.10";
+	luga.validator.version = "0.9.11";
 
 	/* Validation handlers */
 
@@ -1156,8 +1156,8 @@ if(typeof(luga) === "undefined"){
 
 		this.before = function(event){
 			if(self.config.before !== null){
-				var callBack = luga.lookup(self.config.before);
-				if(callBack !== null){
+				var callBack = luga.lookupFunction(self.config.before);
+				if(callBack !== undefined){
 					callBack.apply(null, [self.config.formNode, event]);
 				}
 				else{
@@ -1167,8 +1167,8 @@ if(typeof(luga) === "undefined"){
 		};
 
 		this.error = function(){
-			var callBack = luga.lookup(self.config.error);
-			if(callBack !== null){
+			var callBack = luga.lookupFunction(self.config.error);
+			if(callBack !== undefined){
 				callBack.apply(null, [self.config.formNode, self.dirtyValidators]);
 			}
 			else{
@@ -1178,8 +1178,8 @@ if(typeof(luga) === "undefined"){
 
 		this.after = function(event){
 			if(self.config.after !== null){
-				var callBack = luga.lookup(self.config.after);
-				if(callBack !== null){
+				var callBack = luga.lookupFunction(self.config.after);
+				if(callBack !== undefined){
 					callBack.apply(null, [self.config.formNode, event]);
 				}
 				else{
@@ -1431,8 +1431,8 @@ if(typeof(luga) === "undefined"){
 					return false;
 				}
 				// It's a conditional validation. Invoke the relevant function if available
-				var functionReference = luga.lookup(requiredAtt);
-				if(functionReference !== null){
+				var functionReference = luga.lookupFunction(requiredAtt);
+				if(functionReference !== undefined){
 					return functionReference.apply(null, [self.node]);
 				}
 				else{
@@ -1997,8 +1997,8 @@ if(typeof(luga) === "undefined"){
 		var formValidator = new luga.validator.FormValidator(options);
 		var dirtyValidators = formValidator.validate();
 		if(dirtyValidators.length > 0){
-			var callBack = luga.lookup(options.error);
-			if(callBack === null){
+			var callBack = luga.lookupFunction(options.error);
+			if(callBack === undefined){
 				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [options.error]));
 			}
 			else{
@@ -2033,8 +2033,8 @@ if(typeof(luga) === "undefined"){
 		var fieldValidator = new luga.validator.fieldValidatorFactory.getInstance(options);
 		fieldValidator.validate(null);
 		if(fieldValidator.isValid() === true){
-			var callBack = luga.lookup(options.error);
-			if(callBack === null){
+			var callBack = luga.lookupFunction(options.error);
+			if(callBack === undefined){
 				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [options.error]));
 			}
 			else{
@@ -2086,8 +2086,8 @@ if(typeof(luga) === "undefined"){
 			}
 		}
 		if(dirtyValidators.length > 0){
-			var callBack = luga.lookup(options.error);
-			if(callBack === null){
+			var callBack = luga.lookupFunction(options.error);
+			if(callBack === undefined){
 				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [options.error]));
 			}
 			else{

@@ -7,7 +7,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.csi");
 
-	luga.csi.version = "1.1.0";
+	luga.csi.version = "1.1.1";
 
 	luga.csi.CONST = {
 		NODE_SELECTOR: "div[data-lugacsi]",
@@ -67,8 +67,8 @@ if(typeof(luga) === "undefined"){
 				timeout: config.XHR_TIMEOUT,
 				success: function(response, textStatus, jqXHR){
 					config.success.apply(null, [response, textStatus, jqXHR]);
-					var afterHandler = luga.lookup(config.after);
-					if(afterHandler !== null){
+					var afterHandler = luga.lookupFunction(config.after);
+					if(afterHandler !== undefined){
 						afterHandler.apply(null, [config.rootNode, config.url, response]);
 					}
 				},

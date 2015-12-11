@@ -1,7 +1,6 @@
 - Consider creating a Bower package
 - Special form serializer for JSON based fields?
 
-- Rename luga.lookup() to luga.lookupFunction()
 - Add luga.lookupProperty()
 - Add luga.setProperty()
 
