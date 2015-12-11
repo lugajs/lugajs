@@ -41,11 +41,13 @@
 		</table>
 	</script>
 	<script id="detailsTemplate" type="text/x-handlebars-template">
+		{{#context}}
 		<ul>
 			<li>Firstname: {{firstName}}</li>
 			<li>Lastname: {{lastName}}</li>
 			<li>Country: {{country}}</li>
 		</ul>
+		{{/context}}
 	</script>
 
 </head>
