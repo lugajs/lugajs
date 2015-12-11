@@ -397,7 +397,7 @@
 			}
 			for(var i = 0; i < columnNames.length; i++){
 				var colName = columnNames[i];
-				if(luga.data.CONST.COL_TYPES.indexOf(colName) === -1){
+				if(luga.data.CONST.COL_TYPES.indexOf(columnType) === -1){
 					throw(luga.string.format(CONST.ERROR_MESSAGES.INVALID_COL_TYPE, [colName]));
 				}
 				this.columnTypes[colName] = columnType;

@@ -211,6 +211,22 @@ describe("luga.data.Dataset", function(){
 
 	});
 
+	describe(".getColumnType()", function(){
+
+		it("Returns the type of the given column", function(){
+			baseDs.insert(testRecords);
+			baseDs.setColumnType("birthDate", "date")
+			expect(baseDs.getColumnType("birthDate")).toEqual("date");
+
+		});
+
+		it("Returns 'string' if no type was specified", function(){
+			baseDs.insert(testRecords);
+			expect(baseDs.getColumnType("country")).toEqual("string");
+		});
+
+	});
+
 	describe(".getContext()", function(){
 
 		it("Returns the dataSet's context", function(){
@@ -578,63 +594,38 @@ describe("luga.data.Dataset", function(){
 		});
 	});
 
-	describe(".setCurrentRow()", function(){
+	describe(".setColumnType()", function(){
 
-		describe("Given a row:", function(){
+		it("Set the type of the given column", function(){
+			baseDs.insert(testRecords);
+			baseDs.setColumnType("birthDate", "date");
+			expect(baseDs.getColumnType("birthDate")).toEqual("date");
 
-			describe("First:", function(){
-				it("Sets the current row of the dataSet to the one matching the given row", function(){
-					baseDs.insert(testRecords);
-					var row3 = baseDs.getRowById("lugaPk_3");
-					baseDs.setCurrentRow(row3);
-					expect(baseDs.getCurrentRowId()).toEqual("lugaPk_3");
-				});
-			});
-
-			describe("Then:", function(){
-				it("Triggers a 'currentRowChanged' notification", function(){
-					baseDs.insert(testRecords);
-					var row3 = baseDs.getRowById("lugaPk_3");
-					baseDs.setCurrentRow(row3);
-					expect(testObserver.onCurrentRowChangedHandler).toHaveBeenCalled();
-				});
-			});
-
-			describe("Throws an exception if:", function(){
-				it("The dataSet is empty", function(){
-					var row = loadedDs.getRowById("lugaPk_2");
-					expect(function(){
-						baseDs.setCurrentRow(row);
-					}).toThrow();
-				});
-				it("No available record matches the given row", function(){
-					var arrayRecords = [];
-					arrayRecords.push({name: "Nicole"});
-					arrayRecords.push({name: "Kate"});
-					var ds = new luga.data.DataSet({id: "myDs", records: arrayRecords});
-					var row = loadedDs.getRowById("lugaPk_2");
-					expect(function(){
-						ds.setCurrentRow(row);
-					}).toThrow();
-				});
-			});
-
+		});
+		it("Accepts an array of column names as first parameter", function(){
+			baseDs.setColumnType(["birthDate", "country"], "number"); //Makes no sense in real life
+			expect(baseDs.getColumnType("birthDate")).toEqual("number");
+			expect(baseDs.getColumnType("country")).toEqual("number");
+		});
+		it("Throws an exception if the given type is not allowed", function(){
+			expect(function(){
+				baseDs.setColumnType("birthDate", "whatever I want");
+			}).toThrow();
 		});
 
 	});
 
-	describe(".setCurrentRowId()", function(){
+});
 
-		it("Throws an exception if the given rowId is invalid", function(){
-			expect(function(){
-				baseDs.setCurrentRowId("test");
-			}).toThrow();
-		});
+describe(".setCurrentRow()", function(){
+
+	describe("Given a row:", function(){
 
 		describe("First:", function(){
-			it("Sets the current row of the dataSet to the row matching the given rowId", function(){
+			it("Sets the current row of the dataSet to the one matching the given row", function(){
 				baseDs.insert(testRecords);
-				baseDs.setCurrentRowId("lugaPk_3");
+				var row3 = baseDs.getRowById("lugaPk_3");
+				baseDs.setCurrentRow(row3);
 				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_3");
 			});
 		});
@@ -642,83 +633,129 @@ describe("luga.data.Dataset", function(){
 		describe("Then:", function(){
 			it("Triggers a 'currentRowChanged' notification", function(){
 				baseDs.insert(testRecords);
-				baseDs.setCurrentRowId("lugaPk_3");
+				var row3 = baseDs.getRowById("lugaPk_3");
+				baseDs.setCurrentRow(row3);
 				expect(testObserver.onCurrentRowChangedHandler).toHaveBeenCalled();
 			});
 		});
 
-	});
-
-	describe(".setCurrentRowIndex()", function(){
-
-		describe("Given a zero-based index:", function(){
-
-			describe("First:", function(){
-				it("Sets the current row of the dataSet to the one matching the given index", function(){
-					baseDs.insert(testRecords);
-					baseDs.setCurrentRowIndex(3);
-					expect(baseDs.getCurrentRowIndex()).toEqual(3);
-				});
+		describe("Throws an exception if:", function(){
+			it("The dataSet is empty", function(){
+				var row = loadedDs.getRowById("lugaPk_2");
+				expect(function(){
+					baseDs.setCurrentRow(row);
+				}).toThrow();
 			});
-
-			describe("Then:", function(){
-				it("Triggers a 'currentRowChanged' notification", function(){
-					baseDs.insert(testRecords);
-					var row3 = baseDs.getRowById("lugaPk_3");
-					baseDs.setCurrentRow(row3);
-					expect(testObserver.onCurrentRowChangedHandler).toHaveBeenCalled();
-				});
+			it("No available record matches the given row", function(){
+				var arrayRecords = [];
+				arrayRecords.push({name: "Nicole"});
+				arrayRecords.push({name: "Kate"});
+				var ds = new luga.data.DataSet({id: "myDs", records: arrayRecords});
+				var row = loadedDs.getRowById("lugaPk_2");
+				expect(function(){
+					ds.setCurrentRow(row);
+				}).toThrow();
 			});
-
-			describe("Throws an exception if:", function(){
-				it("The dataSet is empty", function(){
-					expect(function(){
-						baseDs.setCurrentRowIndex(1);
-					}).toThrow();
-				});
-				it("The given index is out of range", function(){
-					baseDs.insert(testRecords);
-					expect(function(){
-						baseDs.setCurrentRowIndex(99);
-					}).toThrow();
-				});
-			});
-
 		});
 
 	});
 
-	describe(".setFilter()", function(){
-		beforeEach(function(){
+});
+
+describe(".setCurrentRowId()", function(){
+
+	it("Throws an exception if the given rowId is invalid", function(){
+		expect(function(){
+			baseDs.setCurrentRowId("test");
+		}).toThrow();
+	});
+
+	describe("First:", function(){
+		it("Sets the current row of the dataSet to the row matching the given rowId", function(){
 			baseDs.insert(testRecords);
-			baseDs.setFilter(removeUk);
+			baseDs.setCurrentRowId("lugaPk_3");
+			expect(baseDs.getCurrentRowId()).toEqual("lugaPk_3");
 		});
-		it("Throws an exception if the given filter is not a function", function(){
-			expect(function(){
-				baseDs.setFilter("test");
-			}).toThrow();
+	});
+
+	describe("Then:", function(){
+		it("Triggers a 'currentRowChanged' notification", function(){
+			baseDs.insert(testRecords);
+			baseDs.setCurrentRowId("lugaPk_3");
+			expect(testObserver.onCurrentRowChangedHandler).toHaveBeenCalled();
 		});
+	});
+
+});
+
+describe(".setCurrentRowIndex()", function(){
+
+	describe("Given a zero-based index:", function(){
 
 		describe("First:", function(){
-			it("Replaces current filter (if any), with a new filter functions", function(){
-				baseDs.setFilter(removeBrasil);
-				expect(baseDs.filter).toEqual(removeBrasil);
-			});
-		});
-		describe("Then:", function(){
-			it("Apply the new filter to the records", function(){
-				expect(baseDs.getRecordsCount()).toEqual(5);
-				baseDs.setFilter(removeBrasil);
-				expect(baseDs.getRecordsCount()).toEqual(6);
-			});
-		});
-		describe("Finally", function(){
-			it("Triggers a 'dataChanged' notification", function(){
-				baseDs.setFilter(removeBrasil);
-				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource: baseDs});
+			it("Sets the current row of the dataSet to the one matching the given index", function(){
+				baseDs.insert(testRecords);
+				baseDs.setCurrentRowIndex(3);
+				expect(baseDs.getCurrentRowIndex()).toEqual(3);
 			});
 		});
 
+		describe("Then:", function(){
+			it("Triggers a 'currentRowChanged' notification", function(){
+				baseDs.insert(testRecords);
+				var row3 = baseDs.getRowById("lugaPk_3");
+				baseDs.setCurrentRow(row3);
+				expect(testObserver.onCurrentRowChangedHandler).toHaveBeenCalled();
+			});
+		});
+
+		describe("Throws an exception if:", function(){
+			it("The dataSet is empty", function(){
+				expect(function(){
+					baseDs.setCurrentRowIndex(1);
+				}).toThrow();
+			});
+			it("The given index is out of range", function(){
+				baseDs.insert(testRecords);
+				expect(function(){
+					baseDs.setCurrentRowIndex(99);
+				}).toThrow();
+			});
+		});
+
+	});
+
+});
+
+describe(".setFilter()", function(){
+	beforeEach(function(){
+		baseDs.insert(testRecords);
+		baseDs.setFilter(removeUk);
+	});
+	it("Throws an exception if the given filter is not a function", function(){
+		expect(function(){
+			baseDs.setFilter("test");
+		}).toThrow();
+	});
+
+	describe("First:", function(){
+		it("Replaces current filter (if any), with a new filter functions", function(){
+			baseDs.setFilter(removeBrasil);
+			expect(baseDs.filter).toEqual(removeBrasil);
+		});
+	});
+	describe("Then:", function(){
+		it("Apply the new filter to the records", function(){
+			expect(baseDs.getRecordsCount()).toEqual(5);
+			baseDs.setFilter(removeBrasil);
+			expect(baseDs.getRecordsCount()).toEqual(6);
+		});
+	});
+	describe("Finally", function(){
+		it("Triggers a 'dataChanged' notification", function(){
+			baseDs.setFilter(removeBrasil);
+			expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource: baseDs});
+		});
 	});
 
 });

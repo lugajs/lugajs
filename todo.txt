@@ -51,8 +51,6 @@ data.Dataset:
 
 - Add missing tests for the following methods:
   sort()
-  getColumnType()
-  setColumnType()
 
 - Implement update(filter, setter)
 
