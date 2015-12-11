@@ -93,6 +93,9 @@
 					var xhrOptions = {
 						url: templateSrc,
 						dataType: "text",
+						headers: {
+							"X-Requested-With": luga.data.CONST.USER_AGENT
+						},
 						success: function(response, textStatus, jqXHR){
 							self.template = Handlebars.compile(response);
 							self.render();

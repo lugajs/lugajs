@@ -79,6 +79,9 @@
 				success: self.loadRecords,
 				timeout: self.timeout,
 				cache: self.cache,
+				headers: {
+					"X-Requested-With": luga.data.CONST.USER_AGENT
+				},
 				error: self.xhrError
 			};
 			if(self.dataType !== null){
