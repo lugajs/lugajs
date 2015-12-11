@@ -50,10 +50,17 @@
 		luga.data.setDataSource(this.id, this);
 
 		/**
-		 * @returns {luga.data.DataSet.row}
+		 * @returns {luga.data.DataSet.context}
 		 */
 		this.getContext = function(){
-			return this.row;
+			var context = {
+				context: self.row,
+				recordCount: 1
+			}
+			if(self.row === null) {
+				context.recordCount = 0;
+			}
+			return context;
 		};
 
 		this.fetchRow = function(){

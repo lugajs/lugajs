@@ -28,6 +28,13 @@
 	 */
 
 	/**
+	 * @typedef {object} luga.data.DataSet.context
+	 *
+	 * @property {number}                                               recordCount
+	 * @property {array.<luga.data.DataSet.row>|luga.data.DataSet.row}  context
+	 */
+
+	/**
 	 * @typedef {object} luga.data.DataSet.options
 	 *
 	 * @property {string}              id         Unique identifier. Required
@@ -180,10 +187,13 @@
 		};
 
 		/**
-		 * @returns {{context: array.<luga.data.DataSet.row>}}
+		 * @returns {luga.data.DataSet.context}
 		 */
 		this.getContext = function(){
-			return {context: self.select()};
+			return {
+				context: self.select(),
+				recordCount: self.getRecordsCount()
+			};
 		};
 
 		/**

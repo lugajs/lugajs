@@ -29,9 +29,11 @@
 	</script>
 	<script id="detailsTemplate" type="text/x-handlebars-template">
 		<ul>
+			{{#context}}
 			<li>Firstname: {{firstName}}</li>
 			<li>Lastname: {{lastName}}</li>
 			<li>Country: {{country}}</li>
+			{{/context}}
 		</ul>
 	</script>
 

@@ -71,9 +71,9 @@
 			 * @param {luga.data.dataSourceChanged} data
 			 */
 			this.onDataChangedHandler = function(data){
-				var context = data.dataSource.getContext();
-				if(context != null){
-					this.node.html(compiledTemplate(context));
+				var records = data.dataSource.getContext().context;
+				if(records != null){
+					this.node.html(compiledTemplate(records));
 				}
 			};
 		};

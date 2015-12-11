@@ -74,8 +74,11 @@ describe("luga.data.DetailSet", function(){
 		});
 
 		describe(".getContext()", function(){
-			it("Returns the associated dataSet's current row", function(){
-				expect(detailSet.getContext()).toEqual(loadedDs.getCurrentRow());
+			it("Returns the associated detailSet's context", function(){
+				expect(detailSet.getContext()).toEqual({
+					context: loadedDs.getCurrentRow(),
+					recordCount: 1
+				});
 			});
 		});
 

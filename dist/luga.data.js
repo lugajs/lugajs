@@ -132,6 +132,13 @@ if(typeof(luga) === "undefined"){
 	 */
 
 	/**
+	 * @typedef {object} luga.data.DataSet.context
+	 *
+	 * @property {number}                                               recordCount
+	 * @property {array.<luga.data.DataSet.row>|luga.data.DataSet.row}  context
+	 */
+
+	/**
 	 * @typedef {object} luga.data.DataSet.options
 	 *
 	 * @property {string}              id         Unique identifier. Required
@@ -284,10 +291,13 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * @returns {{context: array.<luga.data.DataSet.row>}}
+		 * @returns {luga.data.DataSet.context}
 		 */
 		this.getContext = function(){
-			return {context: self.select()};
+			return {
+				context: self.select(),
+				recordCount: self.getRecordsCount()
+			};
 		};
 
 		/**
@@ -734,10 +744,17 @@ if(typeof(luga) === "undefined"){
 		luga.data.setDataSource(this.id, this);
 
 		/**
-		 * @returns {luga.data.DataSet.row}
+		 * @returns {luga.data.DataSet.context}
 		 */
 		this.getContext = function(){
-			return this.row;
+			var context = {
+				context: self.row,
+				recordCount: 1
+			}
+			if(self.row === null) {
+				context.recordCount = 0;
+			}
+			return context;
 		};
 
 		this.fetchRow = function(){
