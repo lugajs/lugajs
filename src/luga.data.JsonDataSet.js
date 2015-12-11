@@ -48,8 +48,9 @@
 				self.insert(response);
 			}
 			else{
-				if(response[self.path] !== undefined){
-					self.insert(response[self.path]);
+				var records = luga.lookupProperty(response, self.path);
+				if(records !== undefined){
+					self.insert(records);
 				}
 			}
 		};

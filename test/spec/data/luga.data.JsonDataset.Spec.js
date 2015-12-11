@@ -67,7 +67,7 @@ describe("luga.data.JsonDataset", function(){
 				}, DEFAULT_TIMEOUT);
 			});
 			it("The nature and amount of records may vary depending on the path", function(done){
-				peopleDs.setPath("jazzPlayers");
+				peopleDs.setPath("others.jazzPlayers");
 				peopleDs.loadData();
 				setTimeout(function(){
 					expect(peopleDs.getRecordsCount()).toEqual(4);
