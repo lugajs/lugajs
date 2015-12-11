@@ -172,6 +172,43 @@ describe("luga", function(){
 
 	});
 
+	describe(".setProperty()", function(){
+
+		describe("Given an object, a path and a value", function(){
+
+			var targetObj;
+			beforeEach(function(){
+
+				targetObj = {
+					firstName: "Ciccio",
+					children: [],
+					firstLevel: {
+						secondLevel: "Second"
+					}
+				};
+
+			});
+
+			it("Set the property located at the given path to the given value", function(){
+				luga.setProperty(targetObj, "lastName", "Pasticcio");
+				expect(targetObj.lastName).toEqual("Pasticcio");
+				luga.setProperty(targetObj, "firstLevel.moreSecond", "more");
+				expect(targetObj.firstLevel.moreSecond).toEqual("more");
+			});
+			it("If the path does not exists, it creates it", function(){
+				luga.setProperty(targetObj, "first.second.third", 3);
+				expect(targetObj.first.second.third).toEqual(3);
+			});
+			it("Works on empty objects too", function(){
+				var storage = {};
+				luga.setProperty(storage, "first.second.third", 3);
+				expect(storage.first.second.third).toEqual(3);
+			});
+
+		});
+
+	});
+
 	describe(".Notifier", function(){
 		var notifierObj, observerObj, uselessObj;
 

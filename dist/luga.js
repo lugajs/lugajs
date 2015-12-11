@@ -108,6 +108,32 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
+	 * Given an object, a path and a value, set the property located at the given path to the given value
+	 * If the path does not exists, it creates it
+	 * @param {object} object  Target object
+	 * @param {string} path    Dot-delimited string
+	 * @param {*}      value
+	 */
+	luga.setProperty = function(object, path, value){
+		var parts = path.split(".");
+		while(parts.length > 0){
+			var part = parts.shift();
+			if(object[part] !== undefined){
+				// Keep looping
+				object = object[part];
+			}
+			else if(parts.length > 0){
+				// Create the missing element and keep looping
+				object[part] = {};
+				object = object[part];
+			}
+			else{
+				object[part] = value;
+			}
+		}
+	};
+
+	/**
 	 * Provides the base functionality necessary to maintain a list of observers and send notifications to them.
 	 * It's forbidden to use this class directly, it can only be used as a base class.
 	 * The Notifier class does not define any notification messages, so it is up to the developer to define the notifications sent via the Notifier.
