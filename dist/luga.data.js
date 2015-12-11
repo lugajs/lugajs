@@ -45,6 +45,7 @@ if(typeof(luga) === "undefined"){
 			MISSING_DATA_SOURCE: "Unable to find datasource {0}",
 			MISSING_REGION_TYPE_FUNCTION: "Failed to create region. Unable to find a constructor function named: {0}"
 		},
+		USER_AGENT: "luga.data",
 		XHR_TIMEOUT: 10000 // Keep this accessible to everybody
 	};
 	/**
@@ -847,6 +848,9 @@ if(typeof(luga) === "undefined"){
 				success: self.loadRecords,
 				timeout: self.timeout,
 				cache: self.cache,
+				headers: {
+					"X-Requested-With": luga.data.CONST.USER_AGENT
+				},
 				error: self.xhrError
 			};
 			if(self.dataType !== null){
@@ -1094,6 +1098,9 @@ if(typeof(luga) === "undefined"){
 					var xhrOptions = {
 						url: templateSrc,
 						dataType: "text",
+						headers: {
+							"X-Requested-With": luga.data.CONST.USER_AGENT
+						},
 						success: function(response, textStatus, jqXHR){
 							self.template = Handlebars.compile(response);
 							self.render();
