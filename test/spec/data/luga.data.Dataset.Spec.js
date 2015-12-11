@@ -612,7 +612,6 @@ describe("luga.data.Dataset", function(){
 
 	});
 
-
 	describe(".setCurrentRow()", function(){
 
 		describe("Given a row:", function(){
@@ -792,6 +791,45 @@ describe("luga.data.Dataset", function(){
 					expect(loadedDs.getCurrentRowId()).toEqual("lugaPk_3"); // Salma
 				});
 
+			});
+
+		});
+
+		describe("Depending on the combination of columnType and sortOrder different sort strategies will be used:", function(){
+
+			it("luga.data.sort.date.ascending", function(){
+				spyOn(luga.data.sort.date, "ascending").and.callThrough();
+				loadedDs.setColumnType("birthDate", "date");
+				loadedDs.sort("birthDate", "ascending");
+				expect(luga.data.sort.date.ascending).toHaveBeenCalled();
+			});
+			it("luga.data.sort.date.descending", function(){
+				spyOn(luga.data.sort.date, "descending").and.callThrough()
+				loadedDs.setColumnType("birthDate", "date");
+				loadedDs.sort("birthDate", "descending");
+				expect(luga.data.sort.date.descending).toHaveBeenCalled();
+			});
+			it("luga.data.sort.number.ascending", function(){
+				spyOn(luga.data.sort.number, "ascending").and.callThrough();
+				loadedDs.setColumnType("birthDate", "number");
+				loadedDs.sort("birthDate", "ascending");
+				expect(luga.data.sort.number.ascending).toHaveBeenCalled();
+			});
+			it("luga.data.sort.number.descending", function(){
+				spyOn(luga.data.sort.number, "descending").and.callThrough()
+				loadedDs.setColumnType("birthDate", "number");
+				loadedDs.sort("birthDate", "descending");
+				expect(luga.data.sort.number.descending).toHaveBeenCalled();
+			});
+			it("luga.data.sort.string.ascending", function(){
+				spyOn(luga.data.sort.string, "ascending").and.callThrough();
+				loadedDs.sort("firstName", "ascending");
+				expect(luga.data.sort.string.ascending).toHaveBeenCalled();
+			});
+			it("luga.data.sort.string.descending", function(){
+				spyOn(luga.data.sort.string, "descending").and.callThrough();
+				loadedDs.sort("firstName", "descending");
+				expect(luga.data.sort.string.descending).toHaveBeenCalled();
 			});
 
 		});
