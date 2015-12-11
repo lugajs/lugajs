@@ -49,9 +49,6 @@ data.Dataset:
 - Add the following fields to the context object:
   state, isStateLoading, isStateError, isStateReady
 
-- Add missing tests for the following methods:
-  sort()
-
 - Implement update(filter, setter)
 
 - Write dedicated Handlebars helper for state?
