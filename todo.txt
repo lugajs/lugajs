@@ -1,7 +1,6 @@
-- Consider creating a Bower package
+- Consider creating a Bower package, maybe an NPM one too
 - Special form serializer for JSON based fields?
 
-- Add luga.lookupProperty()
 - Add luga.setProperty()
 
 - Add custom X-Requested-With every time XHR is used
@@ -32,8 +31,11 @@ CORE:
 
 - Implement luga.string.queryToHash()
 
-- Document luga.Notifier?
-- Document luga.extend()?
+- Document luga.Notifier
+- Document luga.extend()
+- Document luga.lookupFunction()
+- Document luga.lookupProperty()
+- Document luga.setProperty()
 
 -------------
 
@@ -48,8 +50,9 @@ DATA:
 data.Dataset:
 
 - Implement state (empty?, loading, error, ready)
-  Use a trait to handle visibility or an Handlebars helper?
+  Write dedicated Handlebars helper?
   How should we handle state inside DetailsSet?
+  Which fields should we add to the context object?
 
 - Test new methods:
   sort()

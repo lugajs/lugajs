@@ -47,6 +47,56 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
+	 * Given the name of a function as a string, return the relevant function, if any
+	 * Returns undefined, if the reference has not been found.
+	 * @param {string} path            Fully qualified name of a function
+	 * @returns {function|undefined}   The javascript reference to the function, undefined if nothing is fund or if it's not a function
+	 */
+	luga.lookupFunction = function(path){
+		if(!path){
+			return undefined;
+		}
+		var reference = luga.lookupProperty(window, path)
+		if(jQuery.isFunction(reference) === true){
+			return reference;
+		}
+		return undefined;
+	};
+
+	/**
+	 * Given an object and a path, returns the property located at the given path
+	 * If nothing exists at that location, returns undefined
+	 * @param {object} object  Target object
+	 * @param {string} path    Dot-delimited string
+	 * @returns {*|undefined}
+	 */
+	luga.lookupProperty = function(object, path){
+		// Either of the two params is invalid
+		if(!object || !path){
+			return undefined;
+		}
+		// Property live at the first level
+		if(object[path] !== undefined){
+			return object[path];
+		}
+		var parts = path.split(".");
+		while(parts.length > 0){
+			var part = parts.shift();
+			if(object[part] !== undefined){
+				if(parts.length === 0){
+					// We got it
+					return object[part];
+				}
+				else{
+					// Keep looping
+					object = object[part];
+				}
+			}
+		}
+		return undefined;
+	};
+
+	/**
 	 * Shallow-merge the contents of two objects together into the first object
 	 * It wraps jQuery's extend to make names less ambiguous
 	 *
@@ -55,36 +105,6 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.merge = function(target, obj){
 		jQuery.extend(target, obj);
-	};
-
-	/**
-	 * Given the name of a function as a string, return the relevant function, if any
-	 * Returns null, if the reference has not been found.
-	 * @param {string} reference       Fully qualified name of a function
-	 * @returns {function|undefined}   The javascript reference to the function, undefined if nothing is fund or if it's not a function
-	 */
-	luga.lookupFunction = function(reference){
-		if(!reference){
-			return undefined;
-		}
-		if(jQuery.isFunction(reference) === true){
-			return reference;
-		}
-		var object = window;
-		var parts = reference.split(".");
-		while(parts.length > 0){
-			var part = parts.shift();
-			if(part in object){
-				object = object[part];
-			}
-			else{
-				return undefined;
-			}
-		}
-		if(jQuery.isFunction(object)){
-			return object;
-		}
-		return undefined;
 	};
 
 	/**

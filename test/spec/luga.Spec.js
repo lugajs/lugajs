@@ -78,11 +78,11 @@ describe("luga", function(){
 
 		describe("Given the name of a function as a string", function(){
 
-			it("Returns the relevant function if it finds it inside the window/global scope", function(){
+			it("Returns the relevant function if it is available inside the window/global scope", function(){
 				window.MyLookup = function(){
 				};
 				var result = luga.lookupFunction("MyLookup");
-				expect(result).not.toBeNull();
+				expect(result).not.toBeUndefined();
 				expect(jQuery.isFunction(result)).toBeTruthy();
 			});
 
@@ -91,17 +91,70 @@ describe("luga", function(){
 				myLookUpSpace.myFunction = function(){
 				};
 				var result = luga.lookupFunction("myLookUpSpace.myFunction");
-				expect(result).not.toBeNull();
+				expect(result).not.toBeUndefined();
 				expect(jQuery.isFunction(result)).toBeTruthy();
 			});
 
-			it("Returns undefined if the function does not exist", function(){
-				expect(luga.lookupFunction("missing")).toBeUndefined();
+			describe("Returns undefined if:", function(){
+
+				it("The function does not exist", function(){
+					expect(luga.lookupFunction("missing")).toBeUndefined();
+				});
+
+				it("A corresponding object exists, but it's not a function", function(){
+					window.str = "ciao";
+					expect(luga.lookupFunction("str")).toBeUndefined();
+				});
+
+				it("The name is undefined, null or an empty string", function(){
+					expect(luga.lookupFunction()).toBeUndefined();
+					expect(luga.lookupFunction(null)).toBeUndefined();
+					expect(luga.lookupFunction("")).toBeUndefined();
+				});
+
 			});
 
-			it("Or if a corresponding variable exists, but it's not a function", function(){
-				window.str = "ciao";
-				expect(luga.lookupFunction("str")).toBeUndefined();
+		});
+
+	});
+
+	describe(".lookupProperty()", function(){
+
+		describe("Given an object and the path of a property as a string", function(){
+
+			it("Returns the propetry's value if it is available at the given path", function(){
+				expect(luga.lookupProperty({key: "test"}, "key")).toEqual("test");
+			});
+
+			it("Supports unlimited nesting levels (if the fully qualified path is passed)", function(){
+				var target = {
+					firstLevel: {
+						secondLevel: {
+							message: "Ciao Mamma!"
+						}
+					}
+				}
+				expect(luga.lookupProperty(target, "firstLevel.secondLevel.message")).toEqual("Ciao Mamma!");
+			});
+
+			describe("Returns undefined if:", function(){
+
+				it("The property does not exist", function(){
+					expect(luga.lookupProperty({}, "missing")).toBeUndefined();
+				});
+
+				it("The object is undefined, null or an empty string", function(){
+					expect(luga.lookupProperty()).toBeUndefined();
+					expect(luga.lookupProperty(null)).toBeUndefined();
+					expect(luga.lookupProperty("")).toBeUndefined();
+				});
+
+				it("The path is undefined, null or an empty string", function(){
+					expect(luga.lookupProperty({})).toBeUndefined();
+					expect(luga.lookupProperty({}, null)).toBeUndefined();
+					expect(luga.lookupProperty({}, "")).toBeUndefined();
+				});
+
 			});
 
 		});
