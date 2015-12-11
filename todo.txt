@@ -44,18 +44,19 @@ DATA:
 
 data.Dataset:
 
-- Implement state (empty?, loading, error, ready)
-  Write dedicated Handlebars helper?
-  How should we handle state inside DetailsSet?
-  Which fields should we add to the context object?
+- Implement state (loading, error, ready)
 
-- Test new methods:
+- Add the following fields to the context object:
+  state, isStateLoading, isStateError, isStateReady
+
+- Add missing tests for the following methods:
   sort()
   getColumnType()
   setColumnType()
 
 - Implement update(filter, setter)
 
+- Write dedicated Handlebars helper for state?
 - Local storage persistence? It would require serialization of full dataSet (including filter!)
 
 
@@ -69,6 +70,8 @@ data.JsonDataSet:
 
 
 data.region.Handlebars:
+
+- Add data-lugads-select trait
 
 - Add data-lugads-traits attribute (comma-delimited)
 - Allows to pass dataSet object to the constructor, not just dataSet's id
