@@ -496,6 +496,24 @@
 		};
 
 		/**
+		 * Set current state
+		 * This method is not inteted to be called outside the dataSet. It's public only to be accessible to subclasses
+		 * @param {luga.data.STATE} newState
+		 */
+		this.setState = function(newState){
+			if(luga.data.utils.isValidState(newState) === false){
+				throw(luga.string.format(CONST.ERROR_MESSAGES.INVALID_STATE, [newState]));
+			}
+			var oldState = this.state;
+			this.state = newState;
+			this.notifyObservers(luga.data.CONST.EVENTS.STATE_CHANGED, {
+				oldState: oldState,
+				currentState: this.state,
+				dataSource: this
+			});
+		};
+
+		/**
 		 * Sort the data
 		 * @param {string|array<string>}  columnNames Required, either a single column name or an array of names
 		 * @param {luga.data.sort.ORDER}  sortOrder   Either "ascending", "descending" or "toggle". Optional, default to "toggle"
@@ -585,24 +603,6 @@
 			else{
 				return luga.data.sort.ORDER.ASC;
 			}
-		};
-
-		/**
-		 * Set current state
-		 * This method is not inteted to be called outside the dataSet. It's public only to be accessible to subclasses
-		 * @param {luga.data.STATE} newState
-		 */
-		this.setState = function(newState){
-			if(luga.data.utils.isValidState(newState) === false){
-				throw(luga.string.format(CONST.ERROR_MESSAGES.INVALID_STATE, [newState]));
-			}
-			var oldState = this.state;
-			this.state = newState;
-			this.notifyObservers(luga.data.CONST.EVENTS.STATE_CHANGED, {
-				oldState: oldState,
-				currentState: this.state,
-				dataSource: this
-			});
 		};
 
 		/* Constructor */
