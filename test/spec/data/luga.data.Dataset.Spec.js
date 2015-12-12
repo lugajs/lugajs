@@ -211,6 +211,14 @@ describe("luga.data.Dataset", function(){
 		});
 
 		describe("Then:", function(){
+			it("Calls .setState('ready')", function(){
+				spyOn(baseDs, "setState");
+				baseDs.delete();
+				expect(baseDs.setState).toHaveBeenCalledWith(luga.data.STATE.READY);
+			});
+		});
+
+		describe("Finally:", function(){
 			it("Triggers a 'dataChanged' notification. Sending the whole dataSet along the way", function(){
 				baseDs.insert(testRecords);
 				baseDs.delete();
@@ -505,20 +513,45 @@ describe("luga.data.Dataset", function(){
 
 	describe(".insert()", function(){
 
-		it("Adds records to a dataSet", function(){
-			baseDs.insert({firstName: "Nicole", lastName: "Kidman"});
-			baseDs.insert({firstName: "Elisabeth", lastName: "Banks"});
-			expect(baseDs.getRecordsCount()).toEqual(2);
-		});
-		it("Fires a 'dataChanged' notification. Sending the whole dataSet along the way", function(){
-			baseDs.insert(testRecords);
-			expect(testObserver.onDataChangedHandler).toHaveBeenCalled();
-			expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource: baseDs});
-		});
-		it("Automatically add a PK field that is the equivalent of the row's index within the array", function(){
-			baseDs.insert(testRecords);
-			expect(baseDs.records[0][luga.data.CONST.PK_KEY]).toEqual("lugaPk_0");
-			expect(baseDs.records[6][luga.data.CONST.PK_KEY]).toEqual("lugaPk_6");
+		describe("First:", function(){
+
+			describe("First:", function(){
+				it("Adds records to a dataSet", function(){
+					baseDs.insert({firstName: "Nicole", lastName: "Kidman"});
+					baseDs.insert({firstName: "Elisabeth", lastName: "Banks"});
+					expect(baseDs.getRecordsCount()).toEqual(2);
+				});
+				it("Automatically adding a PK field called: " + luga.data.CONST.PK_KEY, function(){
+					baseDs.insert(testRecords);
+					expect(baseDs.records[0][luga.data.CONST.PK_KEY]).toEqual("lugaPk_0");
+					expect(baseDs.records[6][luga.data.CONST.PK_KEY]).toEqual("lugaPk_6");
+				});
+			});
+
+			describe("Then:", function(){
+				it("Calls .setCurrentRowId() passing the PK of the first record", function(){
+					spyOn(baseDs, "setCurrentRowId");
+					baseDs.insert(testRecords);
+					expect(baseDs.setCurrentRowId).toHaveBeenCalledWith("lugaPk_0");
+				});
+			});
+
+			describe("Then:", function(){
+				it("Calls .setState('ready')", function(){
+					spyOn(baseDs, "setState");
+					baseDs.insert(testRecords);
+					expect(baseDs.setState).toHaveBeenCalledWith(luga.data.STATE.READY);
+				});
+			});
+
+			describe("Finally::", function(){
+				it("Fires a 'dataChanged' notification. Sending the whole dataSet along the way", function(){
+					baseDs.insert(testRecords);
+					expect(testObserver.onDataChangedHandler).toHaveBeenCalled();
+					expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource: baseDs});
+				});
+			});
+
 		});
 
 		describe("Accepts either:", function(){
@@ -765,6 +798,13 @@ describe("luga.data.Dataset", function(){
 				expect(baseDs.getRecordsCount()).toEqual(6);
 			});
 		});
+		describe("Then:", function(){
+			it("Calls .setState('ready')", function(){
+				spyOn(baseDs, "setState");
+				baseDs.setFilter(removeBrasil);
+				expect(baseDs.setState).toHaveBeenCalledWith(luga.data.STATE.READY);
+			});
+		});
 		describe("Finally", function(){
 			it("Triggers a 'dataChanged' notification. Sending the whole dataSet along the way", function(){
 				baseDs.setFilter(removeBrasil);
@@ -855,13 +895,6 @@ describe("luga.data.Dataset", function(){
 			});
 
 			describe("Then:", function(){
-				it("Triggers a 'dataChanged' notification. Sending the whole dataSet along the way", function(){
-					baseDs.sort("firstName");
-					expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource: baseDs});
-				});
-			});
-
-			describe("Then:", function(){
 				it("Calls .resetCurrentRow()", function(){
 					spyOn(baseDs, "resetCurrentRow").and.callThrough();
 					baseDs.sort("firstName");
@@ -869,10 +902,25 @@ describe("luga.data.Dataset", function(){
 				});
 			});
 
-			describe("Finally", function(){
+			describe("Then:", function(){
+				it("Calls .setState('ready')", function(){
+					spyOn(baseDs, "setState");
+					baseDs.sort("firstName");
+					expect(baseDs.setState).toHaveBeenCalledWith(luga.data.STATE.READY);
+				});
+			});
+
+			describe("Then", function(){
 				it("Triggers a 'dataSorted' notification", function(){
 					baseDs.sort("firstName");
 					expect(testObserver.onDataSortedHandler).toHaveBeenCalled();
+				});
+			});
+
+			describe("Finally:", function(){
+				it("Triggers a 'dataChanged' notification. Sending the whole dataSet along the way", function(){
+					baseDs.sort("firstName");
+					expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource: baseDs});
 				});
 			});
 

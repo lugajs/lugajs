@@ -44,14 +44,12 @@ DATA:
 
 data.Dataset:
 
-- Implement state (loading, error, ready)
-  Broadcast stateChanged event
+- Implement state (loading, error, ready) for detailSet
 
 - Add the following fields to the context object:
   state, isStateLoading, isStateError, isStateReady
 
 - Implement update(filter, setter)
-
 - Write dedicated Handlebars helper for state?
 - Local storage persistence? It would require serialization of full dataSet (including filter!)
 

@@ -164,16 +164,16 @@
 		this.delete = function(filter){
 			if(filter === undefined){
 				deleteAll();
-				this.resetCurrentRow();
-				this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
-				return;
 			}
-			if(jQuery.isFunction(filter) === false){
-				throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
+			else {
+				if(jQuery.isFunction(filter) === false){
+					throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
+				}
+				this.records = filterRecords(selectAll(), filter);
+				applyFilter();
 			}
-			this.records = filterRecords(selectAll(), filter);
-			applyFilter();
 			this.resetCurrentRow();
+			this.setState(luga.data.STATE.READY);
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
@@ -348,6 +348,7 @@
 			}
 			this.setCurrentRowId(this.records[0][luga.data.CONST.PK_KEY]);
 			applyFilter();
+			this.setState(luga.data.STATE.READY);
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
@@ -492,6 +493,7 @@
 			}
 			this.filter = filter;
 			applyFilter();
+			this.setState(luga.data.STATE.READY);
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
@@ -562,12 +564,12 @@
 
 			this.records.sort(sortFunction);
 			applyFilter();
-
-			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 			this.resetCurrentRow();
+			this.setState(luga.data.STATE.READY);
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_SORTED, notificationData);
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 
-			// Keep state
+			// Keep track of sorting criteria
 			this.lastSortColumns = sortColumns.slice(0); // Copy the array.
 			this.lastSortOrder = sortOrder;
 
