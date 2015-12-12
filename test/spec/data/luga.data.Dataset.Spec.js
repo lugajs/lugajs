@@ -35,11 +35,20 @@ describe("luga.data.Dataset", function(){
 			onDataChangedHandler: function(){
 			},
 			onCurrentRowChangedHandler: function(){
+			},
+			onDataSortedHandler: function(){
+			},
+			onPreDataSortedHandler: function(){
+			},
+			onStateChangedHandler: function(){
 			}
 		};
 		baseDs.addObserver(testObserver);
 		spyOn(testObserver, "onDataChangedHandler");
 		spyOn(testObserver, "onCurrentRowChangedHandler");
+		spyOn(testObserver, "onDataSortedHandler");
+		spyOn(testObserver, "onPreDataSortedHandler");
+		spyOn(testObserver, "onStateChangedHandler");
 	});
 
 	it("Is the base dataSet class", function(){
@@ -202,7 +211,7 @@ describe("luga.data.Dataset", function(){
 		});
 
 		describe("Then:", function(){
-			it("Triggers a 'dataChanged' notification", function(){
+			it("Triggers a 'dataChanged' notification. Sending the whole dataSet along the way", function(){
 				baseDs.insert(testRecords);
 				baseDs.delete();
 				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource: baseDs});
@@ -747,10 +756,29 @@ describe("luga.data.Dataset", function(){
 			});
 		});
 		describe("Finally", function(){
-			it("Triggers a 'dataChanged' notification", function(){
+			it("Triggers a 'dataChanged' notification. Sending the whole dataSet along the way", function(){
 				baseDs.setFilter(removeBrasil);
 				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource: baseDs});
 			});
+		});
+
+	});
+
+	xdescribe(".setState()", function(){
+
+		it("Set the dataSet's state", function(){
+			baseDs.setState("ready");
+			expect(baseDs.state).toEqual("ready");
+
+		});
+		it("Throws an exception if the given type is not allowed", function(){
+			expect(function(){
+				baseDs.setState("whatever I want");
+			}).toThrow();
+		});
+		it("Triggers a 'stateChanged' notification. Sending the whole dataSet along the way", function(){
+			baseDs.setState("ready");
+			expect(testObserver.onStateChangedHandler).toHaveBeenCalledWith({dataSource: baseDs});
 		});
 
 	});
@@ -791,6 +819,47 @@ describe("luga.data.Dataset", function(){
 					expect(loadedDs.getCurrentRowId()).toEqual("lugaPk_3"); // Salma
 				});
 
+			});
+
+		});
+
+		describe("Whenever called :", function(){
+
+			describe("First:", function(){
+				it("Triggers a 'preDataSorted' notification", function(){
+					baseDs.sort("firstName");
+					expect(testObserver.onPreDataSortedHandler).toHaveBeenCalled();
+				});
+			});
+
+			describe("Then:", function(){
+				it("Sorts the records", function(){
+					spyOn(baseDs.records, "sort").and.callThrough();
+					baseDs.sort("firstName");
+					expect(baseDs.records.sort).toHaveBeenCalled();
+				});
+			});
+
+			describe("Then:", function(){
+				it("Triggers a 'dataChanged' notification. Sending the whole dataSet along the way", function(){
+					baseDs.sort("firstName");
+					expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource: baseDs});
+				});
+			});
+
+			describe("Then:", function(){
+				it("Calls .resetCurrentRow()", function(){
+					spyOn(baseDs, "resetCurrentRow").and.callThrough();
+					baseDs.sort("firstName");
+					expect(baseDs.resetCurrentRow).toHaveBeenCalled();
+				});
+			});
+
+			describe("Finally", function(){
+				it("Triggers a 'dataSorted' notification", function(){
+					baseDs.sort("firstName");
+					expect(testObserver.onDataSortedHandler).toHaveBeenCalled();
+				});
 			});
 
 		});

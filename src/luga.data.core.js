@@ -33,8 +33,9 @@ if(typeof(luga) === "undefined"){
 			CURRENT_ROW_CHANGED: "currentRowChanged",
 			DATA_CHANGED: "dataChanged",
 			DATA_SORTED: "dataSorted",
-			PRE_DATA_SORTED: "preDataSorted",
 			LOADING: "loading",
+			PRE_DATA_SORTED: "preDataSorted",
+			STATE_CHANGED: "stateChanged",
 			XHR_ERROR: "xhrError"
 		},
 		SELECTORS: {

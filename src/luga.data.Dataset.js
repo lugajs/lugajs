@@ -67,7 +67,8 @@
 				INVALID_ROW_ID_PARAMETER: "Luga.DataSet: invalid rowId parameter",
 				INVALID_ROW_INDEX_PARAMETER: "Luga.DataSet: invalid parameter. Row index is out of range",
 				INVALID_SORT_COLUMNS: "Luga.DataSet.sort(): Unable to sort dataSet. You must supply one or more column name",
-				INVALID_SORT_ORDER: "Luga.DataSet.sort(): Unable to sort dataSet. Invalid sort order passed {0}"
+				INVALID_SORT_ORDER: "Luga.DataSet.sort(): Unable to sort dataSet. Invalid sort order passed {0}",
+				INVALID_STATE: "Luga.DataSet: Unsupported state: {0}"
 			}
 		};
 
@@ -89,6 +90,7 @@
 		this.recordsHash = {};
 		/** @type {null|array.<luga.data.DataSet.row>} */
 		this.filteredRecords = null;
+
 		/** @type {null|function} */
 		this.filter = null;
 		this.currentRowId = null;
@@ -96,6 +98,7 @@
 		this.columnTypes = {};
 		this.lastSortColumns = [];
 		this.lastSortOrder = "";
+		this.state = null;
 
 		luga.data.setDataSource(this.id, this);
 
