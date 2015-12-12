@@ -424,7 +424,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns the row object associated with the given unique identifier
 		 * @param {string} rowId  Required
-		 * @return {luga.data.DataSet.row}
+		 * @return {null|luga.data.DataSet.row}
 		 */
 		this.getRowById = function(rowId){
 			if(this.recordsHash[rowId] !== undefined){
@@ -1109,7 +1109,18 @@ if(typeof(luga) === "undefined"){
 			this.path = options.path;
 		}
 
+		/** @type {null|json} */
+		this.rawJson = null;
+
 		/* Public methods */
+
+		/**
+		 * Returns the raw JSON data structure
+		 * @returns {null|json}
+		 */
+		this.getRawJson = function(){
+			return this.rawJson;
+		};
 
 		/**
 		 * Returns the path to be used to extract data out of the JSON data structure
@@ -1120,18 +1131,28 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * Receives HTTP response, extracts and loads records out of it
-		 * @param {*}        response     Data returned from the server
-		 * @param {string}   textStatus   HTTP status
-		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
+		 * Load records from JSON, without XHR calls
+		 * @param {json} path
+		 */
+		this.loadRawJson = function(json){
+			self.delete();
+			self.loadRecords(json);
+		};
+
+		/**
+		 * Receives JSON data, either from an HTTP response or from a direct call, apply the path, if any, and loads records out of it
+		 * @param {json}     json         Data returned from the server
+		 * @param {string}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
+		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
 		 * @override
 		 */
-		this.loadRecords = function(response, textStatus, jqXHR){
+		this.loadRecords = function(json, textStatus, jqXHR){
+			self.rawJson = json;
 			if(self.path === null){
-				self.insert(response);
+				self.insert(json);
 			}
 			else{
-				var records = luga.lookupProperty(response, self.path);
+				var records = luga.lookupProperty(json, self.path);
 				if(records !== undefined){
 					self.insert(records);
 				}

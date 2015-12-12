@@ -35,6 +35,16 @@ describe("luga.data.JsonDataset", function(){
 		});
 	});
 
+	describe(".getRawJson()", function(){
+		it("Returns the raw JSON data structure", function(){
+			noUrlDs.loadRecords(testRecords);
+			expect(noUrlDs.getRawJson()).toEqual(testRecords);
+		});
+		it("Returns null if no data has been loaded yet", function(){
+			expect(noUrlDs.getRawJson()).toBeNull();
+		});
+	});
+
 	describe(".loadData()", function(){
 
 		var peopleDs, peopleObserver;
@@ -82,7 +92,7 @@ describe("luga.data.JsonDataset", function(){
 			it("Triggers a 'dataChange' notification", function(done){
 				peopleDs.loadData();
 				setTimeout(function(){
-					expect(peopleObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource:peopleDs});
+					expect(peopleObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource: peopleDs});
 					done();
 				}, DEFAULT_TIMEOUT);
 			});
@@ -97,7 +107,7 @@ describe("luga.data.JsonDataset", function(){
 					done();
 				}, DEFAULT_TIMEOUT);
 			});
-			it("The 'dataChange' will not be triggered", function(done){
+			it("The 'dataChanged' event will not be triggered", function(done){
 				peopleDs.setPath("invalid");
 				peopleDs.loadData();
 				setTimeout(function(){
@@ -110,9 +120,37 @@ describe("luga.data.JsonDataset", function(){
 
 	});
 
+	describe(".loadRawJson()", function(){
+
+		describe("Given JSON data", function(){
+
+			it("First calls .delete()", function(){
+				spyOn(noUrlDs, "delete");
+				noUrlDs.loadRawJson(testRecords);
+				expect(noUrlDs.delete).toHaveBeenCalled();
+			});
+			it("Then calls .loadRecords()", function(){
+				spyOn(noUrlDs, "loadRecords");
+				noUrlDs.loadRawJson(testRecords);
+				expect(noUrlDs.loadRecords).toHaveBeenCalledWith(testRecords);
+			});
+
+		});
+
+	});
+
 	describe(".loadRecords()", function(){
 
 		describe("Given JSON data", function(){
+
+			describe("First:", function(){
+
+				it("Set the .rawJson property", function(){
+					noUrlDs.loadRecords(testRecords);
+					expect(noUrlDs.rawJson).toEqual(testRecords);
+				});
+
+			});
 
 			describe("If .path is null:", function(){
 
@@ -128,9 +166,10 @@ describe("luga.data.JsonDataset", function(){
 
 				it("First calls luga.lookupProperty() to extract the relevant data", function(){
 					spyOn(luga, "lookupProperty");
+					var peopleRecords = getJSONFixture("data/people.json");
 					noUrlDs.setPath("others.jazzPlayers");
-					noUrlDs.loadRecords(testRecords);
-					expect(luga.lookupProperty).toHaveBeenCalledWith(testRecords, "others.jazzPlayers");
+					noUrlDs.loadRecords(peopleRecords);
+					expect(luga.lookupProperty).toHaveBeenCalledWith(peopleRecords, "others.jazzPlayers");
 				});
 				it("Then calls .insert(), passing the relevant data", function(){
 					spyOn(noUrlDs, "insert");

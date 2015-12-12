@@ -47,14 +47,6 @@ data.Dataset:
 - Implement update(filter, setter)
 - Local storage persistence? It would require serialization of full dataSet (including filter!)
 
-
-data.JsonDataSet:
-
-- Add .rawJson property to store raw JSON
-- Implement getRawJson()
-- Implement loadRawJson()
-  First call self.delete(), then this.loadRecords()
-
 - Handle sophisticated paths? Implement subPaths like Spry?
 
 

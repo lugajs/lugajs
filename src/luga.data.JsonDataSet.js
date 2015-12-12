@@ -26,7 +26,18 @@
 			this.path = options.path;
 		}
 
+		/** @type {null|json} */
+		this.rawJson = null;
+
 		/* Public methods */
+
+		/**
+		 * Returns the raw JSON data structure
+		 * @returns {null|json}
+		 */
+		this.getRawJson = function(){
+			return this.rawJson;
+		};
 
 		/**
 		 * Returns the path to be used to extract data out of the JSON data structure
@@ -37,6 +48,15 @@
 		};
 
 		/**
+		 * Load records from JSON, without XHR calls
+		 * @param {json} path
+		 */
+		this.loadRawJson = function(json){
+			self.delete();
+			self.loadRecords(json);
+		};
+
+		/**
 		 * Receives JSON data, either from an HTTP response or from a direct call, apply the path, if any, and loads records out of it
 		 * @param {json}     json         Data returned from the server
 		 * @param {string}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
@@ -44,6 +64,7 @@
 		 * @override
 		 */
 		this.loadRecords = function(json, textStatus, jqXHR){
+			self.rawJson = json;
 			if(self.path === null){
 				self.insert(json);
 			}
