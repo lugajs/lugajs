@@ -120,6 +120,7 @@
 			if(this.url === null){
 				throw(CONST.ERROR_MESSAGES.NEED_URL_TO_LOAD);
 			}
+			this.setState(luga.data.STATE.LOADING);
 			this.notifyObservers(luga.data.CONST.EVENTS.LOADING, {dataSet: this});
 			this.cancelRequest();
 			this.delete();
@@ -147,13 +148,14 @@
 		};
 
 		/**
-		 * Is called whenever an XHR request fails, notify observers ("xhrError")
+		 * Is called whenever an XHR request fails, set state to error, notify observers ("xhrError")
 		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
 		 * @param {string}   textStatus   HTTP status
 		 * @param {string}   errorThrown  Error message from jQuery
 		 * @fires xhrError
 		 */
 		this.xhrError = function(jqXHR, textStatus, errorThrown){
+			self.setState(luga.data.STATE.ERROR);
 			self.notifyObservers(luga.data.CONST.EVENTS.XHR_ERROR, {
 				dataSet: self,
 				message: luga.string.format(CONST.ERROR_MESSAGES.XHR_FAILURE, [self.url, jqXHR.status, errorThrown]),

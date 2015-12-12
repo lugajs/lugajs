@@ -68,16 +68,14 @@ describe("luga.data.HttpDataSet", function(){
 
 			testDs = new luga.data.JsonDataSet({id: "jsonDs", url: "fixtures/data/ladies.json"});
 			DEFAULT_TIMEOUT = 2000;
-
-			var ObserverClass = function(){
-				this.onDataChangedHandler = function(data){
-				};
-				this.onLoadingHandler = function(data){
-				};
-				this.onXhrErrorHandler = function(data){
-				};
+			testObserver = {
+				onDataChangedHandler: function(){
+				},
+				onLoadingHandler: function(){
+				},
+				onXhrErrorHandler: function(){
+				}
 			};
-			testObserver = new ObserverClass();
 			testDs.addObserver(testObserver);
 			spyOn(testObserver, "onDataChangedHandler");
 			spyOn(testObserver, "onLoadingHandler");
@@ -92,9 +90,17 @@ describe("luga.data.HttpDataSet", function(){
 		});
 
 		describe("First:", function(){
+			it("Calls .setState('loading')", function(){
+				spyOn(testDs, "setState");
+				testDs.loadData();
+				expect(testDs.setState).toHaveBeenCalledWith(luga.data.STATE.LOADING);
+			});
+		});
+
+		describe("Then:", function(){
 			it("Triggers a 'loading' notification", function(){
 				testDs.loadData();
-				expect(testObserver.onLoadingHandler).toHaveBeenCalledWith({dataSet:testDs});
+				expect(testObserver.onLoadingHandler).toHaveBeenCalledWith({dataSet: testDs});
 			});
 		});
 
@@ -168,9 +174,32 @@ describe("luga.data.HttpDataSet", function(){
 	});
 
 	describe(".xhrError()", function(){
+
 		it("Is the default handler for XHR errors", function(){
 			expect(testDs.xhrError).toBeDefined();
 		});
+
+		describe("First:", function(){
+			it("Calls .setState('error')", function(){
+				spyOn(testDs, "setState");
+				testDs.xhrError({});
+				expect(testDs.setState).toHaveBeenCalledWith(luga.data.STATE.ERROR);
+			});
+		});
+
+		describe("Then:", function(){
+			it("Triggers an 'error' notification", function(){
+				var testObserver = {
+					onXhrErrorHandler: function(){
+					}
+				};
+				spyOn(testObserver, "onXhrErrorHandler");
+				testDs.addObserver(testObserver);
+				testDs.xhrError({});
+				expect(testObserver.onXhrErrorHandler).toHaveBeenCalled();
+			});
+		});
+
 	});
 
 });
