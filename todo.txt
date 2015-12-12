@@ -52,7 +52,8 @@ data.JsonDataSet:
 
 - Add .rawJson property to store raw JSON
 - Implement getRawJson()
-- Implement setRawJson()
+- Implement loadRawJson()
+  First call self.delete(), then this.loadRecords()
 
 - Handle sophisticated paths? Implement subPaths like Spry?
 
@@ -61,9 +62,9 @@ data.region.Handlebars:
 
 - Add data-lugads-traits attribute (comma-delimited)
 - Allows to pass dataSet object to the constructor, not just dataSet's id
-- Make Region an event notifier (regionRendered?)
-
 - Test API to construct a region programmatically
+
+- Make Region an event notifier (regionRendered)
 
 - Add utility to retrieve corresponding region object from a given HTML node
 
