@@ -20,6 +20,39 @@ describe("luga.data.region.traits", function(){
 		expect(luga.data.region.traits).toBeDefined();
 	});
 
+	describe(".select()", function(){
+
+		describe("Handles the data-lugads-select custom attribute", function(){
+
+			it("Attach the specified CSS class to the first row inside the region", function(){
+				var testDiv = jQuery("#select");
+				luga.data.region.traits.select({
+					node: testDiv,
+					dataSource: ladiesDs
+				});
+				var firstItem = jQuery(testDiv.find(CONST.LINK_LI_SELECTOR)[0]);
+				expect(firstItem).toHaveClass("selectedRow");
+			});
+
+			it("Attach an onclick event to each HTML tag containing it. Once clicked, the element will be the only one using the CSS class", function(){
+				var testDiv = jQuery("#select");
+				luga.data.region.traits.select({
+					node: testDiv,
+					dataSource: ladiesDs
+				});
+				var firstItem = jQuery(testDiv.find(CONST.LINK_LI_SELECTOR)[0]);
+				var secondItem = jQuery(testDiv.find(CONST.LINK_LI_SELECTOR)[1]);
+
+				secondItem.click();
+
+				expect(firstItem).not.toHaveClass("selectedRow");
+				expect(secondItem).toHaveClass("selectedRow");
+			});
+
+		});
+
+	});
+
 	describe(".setRowId()", function(){
 
 		describe("Handles the data-lugads-setrowid custom attribute", function(){

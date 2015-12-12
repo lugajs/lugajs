@@ -61,6 +61,7 @@
 
 		/** @type {array.<string>} */
 		this.traits = [
+			"luga.data.region.traits.select",
 			"luga.data.region.traits.setRowId",
 			"luga.data.region.traits.setRowIndex",
 			"luga.data.region.traits.sort"

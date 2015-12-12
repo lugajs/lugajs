@@ -12,14 +12,42 @@
 
 	var CONST = {
 		CUSTOM_ATTRIBUTES: {
+			SELECT: "data-lugads-select",
 			SET_ROW_ID: "data-lugads-setrowid",
 			SET_ROW_INDEX: "data-lugads-setrowindex",
 			SORT: "data-lugads-sort"
 		},
 		SELECTORS: {
+			SELECT: "*[data-lugads-select]",
 			SET_ROW_ID: "*[data-lugads-setrowid]",
 			SET_ROW_INDEX: "*[data-lugads-setrowindex]",
 			SORT: "*[data-lugads-sort]"
+		}
+	};
+
+	/**
+	 * Handles data-lugads-select
+	 * @param {luga.data.region.traits.options} options
+	 */
+	luga.data.region.traits.select = function(options){
+		var nodes = options.node.find(CONST.SELECTORS.SELECT);
+		if(nodes.length > 0){
+
+			var cssClass = nodes.attr(CONST.CUSTOM_ATTRIBUTES.SELECT);
+			// Clean-up
+			nodes.removeClass(cssClass);
+			// Apply CSS to first element
+			nodes.first().addClass(cssClass);
+
+			// Attach click event
+			nodes.each(function(index, item){
+				var jItem = jQuery(item);
+				jItem.click(function(event){
+					event.preventDefault();
+					nodes.removeClass(cssClass);
+					jItem.addClass(cssClass);
+				});
+			});
 		}
 	};
 

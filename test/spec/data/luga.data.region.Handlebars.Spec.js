@@ -143,6 +143,12 @@ describe("luga.data.region.Handlebars", function(){
 					optionsObj = {node: testDiv, dataSource: loadedDs};
 				});
 
+				it("luga.data.region.traits.select()", function(){
+					spyOn(luga.data.region.traits, "select");
+					configRegion.applyTraits();
+					expect(luga.data.region.traits.select).toHaveBeenCalledWith(optionsObj);
+				});
+
 				it("luga.data.region.traits.setRowId()", function(){
 					spyOn(luga.data.region.traits, "setRowId");
 					configRegion.applyTraits();
