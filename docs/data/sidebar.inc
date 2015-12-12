@@ -14,6 +14,7 @@
 	</ul>
 	<h2>Region</h2>
 	<ul>
+		<li><a href="../samples/context-properties.htm">Context properties</a></li>
 		<li><a href="../samples/custom-region-type.htm">Custom templating</a></li>
 	</ul>
 </nav>

@@ -12,9 +12,8 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.data");
-	luga.namespace("luga.data.region");
 
-	luga.data.version = "0.2.4";
+	luga.data.version = "0.2.5";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -33,14 +32,16 @@ if(typeof(luga) === "undefined"){
 			CURRENT_ROW_CHANGED: "currentRowChanged",
 			DATA_CHANGED: "dataChanged",
 			DATA_SORTED: "dataSorted",
+			DATA_LOADING: "dataLoading",
 			PRE_DATA_SORTED: "preDataSorted",
-			LOADING: "loading",
+			STATE_CHANGED: "stateChanged",
 			XHR_ERROR: "xhrError"
 		},
 		SELECTORS: {
 			REGION: "*[data-lugads-region]"
 		},
 		ERROR_MESSAGES: {
+			INVALID_STATE: "luga.data.utils.assembleStateDescription: Unsupported state: {0}",
 			MISSING_DATA_SOURCE_ATTRIBUTE: "Missing required data-lugads-datasource attribute inside region",
 			MISSING_DATA_SOURCE: "Unable to find datasource {0}",
 			MISSING_REGION_TYPE_FUNCTION: "Failed to create region. Unable to find a constructor function named: {0}"
@@ -48,6 +49,7 @@ if(typeof(luga) === "undefined"){
 		USER_AGENT: "luga.data",
 		XHR_TIMEOUT: 10000 // Keep this accessible to everybody
 	};
+
 	/**
 	 * Returns a dataSource from the registry
 	 * Returns null if no source matches the given id
@@ -95,6 +97,60 @@ if(typeof(luga) === "undefined"){
 		new RegionClass({node: node});
 	};
 
+	/**
+	 * @typedef {string} luga.data.STATE
+	 * @enum {string}
+	 */
+	luga.data.STATE = {
+		ERROR: "error",
+		LOADING: "loading",
+		READY: "ready"
+	};
+
+	luga.namespace("luga.data.utils");
+
+	/**
+	 * @typedef {object} luga.data.stateDescription
+	 *
+	 * @property {null|luga.data.STATE}  state
+	 * @property {boolean}          isStateLoading
+	 * @property {boolean}          isStateError
+	 * @property {boolean}          isStateReady
+	 */
+
+	/**
+	 * Given a state string, returns an object containing a boolean field for each possible state
+	 * @param {null|luga.data.STATE} state
+	 * @returns {luga.data.stateDescription}
+	 */
+	luga.data.utils.assembleStateDescription = function(state){
+		if((state !== null) && (luga.data.utils.isValidState(state) === false)){
+			throw(luga.string.format(luga.data.CONST.ERROR_MESSAGES.INVALID_STATE, [state]));
+		}
+		return {
+			state: state,
+			isStateError: (state === luga.data.STATE.ERROR),
+			isStateLoading: (state === luga.data.STATE.LOADING),
+			isStateReady: (state === luga.data.STATE.READY)
+		};
+	};
+
+	/**
+	 * Return true if the passed state is supported
+	 * @param {string}  state
+	 * @returns {boolean}
+	 */
+	luga.data.utils.isValidState = function(state){
+		for(var key in luga.data.STATE){
+			if(luga.data.STATE[key] === state){
+				return true;
+			}
+		}
+		return false;
+	};
+
+	luga.namespace("luga.data.region");
+
 	jQuery(document).ready(function(){
 		jQuery(luga.data.CONST.SELECTORS.REGION).each(function(index, item){
 			luga.data.initRegion(jQuery(item));
@@ -132,7 +188,16 @@ if(typeof(luga) === "undefined"){
 	 */
 
 	/**
+	 * @typedef {object} luga.data.DataSet.stateChanged
+	 *
+	 * @property {luga.data.DataSet}    dataSet
+	 * @property {null|luga.data.STATE}      currentState
+	 * @property {null|luga.data.STATE}      oldState
+	 */
+
+	/**
 	 * @typedef {object} luga.data.DataSet.context
+	 * @extends luga.data.stateDescription
 	 *
 	 * @property {number}                                               recordCount
 	 * @property {array.<luga.data.DataSet.row>|luga.data.DataSet.row}  context
@@ -171,7 +236,8 @@ if(typeof(luga) === "undefined"){
 				INVALID_ROW_ID_PARAMETER: "Luga.DataSet: invalid rowId parameter",
 				INVALID_ROW_INDEX_PARAMETER: "Luga.DataSet: invalid parameter. Row index is out of range",
 				INVALID_SORT_COLUMNS: "Luga.DataSet.sort(): Unable to sort dataSet. You must supply one or more column name",
-				INVALID_SORT_ORDER: "Luga.DataSet.sort(): Unable to sort dataSet. Invalid sort order passed {0}"
+				INVALID_SORT_ORDER: "Luga.DataSet.sort(): Unable to sort dataSet. Invalid sort order passed {0}",
+				INVALID_STATE: "Luga.DataSet: Unsupported state: {0}"
 			}
 		};
 
@@ -187,16 +253,23 @@ if(typeof(luga) === "undefined"){
 		var self = this;
 
 		this.id = options.id;
+
 		/** @type {array.<luga.data.DataSet.row>} */
 		this.records = [];
+
 		/** @type {hash.<luga.data.DataSet.row>} */
 		this.recordsHash = {};
+
 		/** @type {null|array.<luga.data.DataSet.row>} */
 		this.filteredRecords = null;
+
 		/** @type {null|function} */
 		this.filter = null;
-		this.currentRowId = null;
 
+		/** @type {null|luga.data.STATE} */
+		this.state = null;
+
+		this.currentRowId = null;
 		this.columnTypes = {};
 		this.lastSortColumns = [];
 		this.lastSortOrder = "";
@@ -265,16 +338,16 @@ if(typeof(luga) === "undefined"){
 		this.delete = function(filter){
 			if(filter === undefined){
 				deleteAll();
-				this.resetCurrentRow();
-				this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
-				return;
 			}
-			if(jQuery.isFunction(filter) === false){
-				throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
+			else{
+				if(jQuery.isFunction(filter) === false){
+					throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
+				}
+				this.records = filterRecords(selectAll(), filter);
+				applyFilter();
 			}
-			this.records = filterRecords(selectAll(), filter);
-			applyFilter();
 			this.resetCurrentRow();
+			this.setState(luga.data.STATE.READY);
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
@@ -294,10 +367,13 @@ if(typeof(luga) === "undefined"){
 		 * @returns {luga.data.DataSet.context}
 		 */
 		this.getContext = function(){
-			return {
+			var stateDesc = luga.data.utils.assembleStateDescription(self.getState());
+			var rsData = {
 				context: self.select(),
 				recordCount: self.getRecordsCount()
 			};
+			luga.merge(stateDesc, rsData);
+			return stateDesc;
 		};
 
 		/**
@@ -408,6 +484,14 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
+		 * Returns the dataSet's current state
+		 * @return {null|luga.data.STATE}
+		 */
+		this.getState = function(){
+			return this.state;
+		};
+
+		/**
 		 * Adds rows to a dataSet
 		 * Be aware that the dataSet use passed data by reference
 		 * That is, it uses those objects as its row object internally. It does not make a copy
@@ -441,6 +525,7 @@ if(typeof(luga) === "undefined"){
 			}
 			this.setCurrentRowId(this.records[0][luga.data.CONST.PK_KEY]);
 			applyFilter();
+			this.setState(luga.data.STATE.READY);
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
@@ -585,7 +670,30 @@ if(typeof(luga) === "undefined"){
 			}
 			this.filter = filter;
 			applyFilter();
+			this.setState(luga.data.STATE.READY);
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
+		};
+
+		/**
+		 * Set current state
+		 * This method is not intended to be called outside the dataSet. It's public only to be accessible to subclasses
+		 * @param {null|luga.data.STATE} newState
+		 */
+		this.setState = function(newState){
+			if(luga.data.utils.isValidState(newState) === false){
+				throw(luga.string.format(CONST.ERROR_MESSAGES.INVALID_STATE, [newState]));
+			}
+			var oldState = this.state;
+			this.state = newState;
+
+			/** @type {luga.data.DataSet.stateChanged} */
+			var notificationData = {
+				oldState: oldState,
+				currentState: this.state,
+				dataSet: this
+			};
+
+			this.notifyObservers(luga.data.CONST.EVENTS.STATE_CHANGED, notificationData);
 		};
 
 		/**
@@ -637,12 +745,12 @@ if(typeof(luga) === "undefined"){
 
 			this.records.sort(sortFunction);
 			applyFilter();
-
-			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 			this.resetCurrentRow();
+			this.setState(luga.data.STATE.READY);
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_SORTED, notificationData);
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 
-			// Keep state
+			// Keep track of sorting criteria
 			this.lastSortColumns = sortColumns.slice(0); // Copy the array.
 			this.lastSortOrder = sortOrder;
 
@@ -747,19 +855,29 @@ if(typeof(luga) === "undefined"){
 		 * @returns {luga.data.DataSet.context}
 		 */
 		this.getContext = function(){
-			var context = {
+			var stateDesc = luga.data.utils.assembleStateDescription(self.getState());
+			var rsData = {
 				context: self.row,
 				recordCount: 1
+			};
+			if(self.row === null){
+				rsData.recordCount = 0;
 			}
-			if(self.row === null) {
-				context.recordCount = 0;
-			}
-			return context;
+			luga.merge(stateDesc, rsData);
+			return stateDesc;
+		};
+
+		/**
+		 * Returns the detailSet's current state
+		 * @return {null|luga.data.STATE}
+		 */
+		this.getState = function(){
+			return self.dataSet.getState();
 		};
 
 		this.fetchRow = function(){
 			self.row = self.dataSet.getCurrentRow();
-			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
+			self.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
 		/* Events Handlers */
@@ -778,6 +896,13 @@ if(typeof(luga) === "undefined"){
 			self.fetchRow();
 		};
 
+		/**
+		 * @param {luga.data.DataSet.stateChanged} data
+		 */
+		this.onStateChangedHandler = function(data){
+			self.fetchRow();
+		};
+
 		/* Fetch row without notifying observers */
 		self.row = self.dataSet.getCurrentRow();
 
@@ -788,7 +913,7 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	/**
-	 * @typedef {object} luga.data.DataSet.loading
+	 * @typedef {object} luga.data.DataSet.dataLoading
 	 *
 	 * @property {luga.data.DataSet} dataSet
 	 */
@@ -818,7 +943,7 @@ if(typeof(luga) === "undefined"){
 	 * @constructor
 	 * @extends luga.data.DataSet
 	 * @abstract
-	 * @fires loading
+	 * @fires dataLoading
 	 * @fires xhrError
 	 * @throws
 	 */
@@ -897,23 +1022,24 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * Fires off XHR request to fetch and load the data, notify observers ("loading" first, "dataChanged" after records are loaded).
+		 * Fires off XHR request to fetch and load the data, notify observers ("dataLoading" first, "dataChanged" after records are loaded).
 		 * Does nothing if URL is not set
-		 * @fires loading
+		 * @fires dataLoading
 		 * @throws
 		 */
 		this.loadData = function(){
 			if(this.url === null){
 				throw(CONST.ERROR_MESSAGES.NEED_URL_TO_LOAD);
 			}
-			this.notifyObservers(luga.data.CONST.EVENTS.LOADING, {dataSet: this});
+			this.setState(luga.data.STATE.LOADING);
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_LOADING, {dataSet: this});
 			this.cancelRequest();
 			this.delete();
 			loadUrl();
 		};
 
 		/**
-		 * Abstract method, child classes must implement it to extract records from XHR response
+		 * Abstract method, concrete classes must implement it to extract records from XHR response
 		 * @param {*}        response     Data returned from the server
 		 * @param {string}   textStatus   HTTP status
 		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
@@ -933,13 +1059,14 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * Is called whenever an XHR request fails, notify observers ("xhrError")
+		 * Is called whenever an XHR request fails, set state to error, notify observers ("xhrError")
 		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
 		 * @param {string}   textStatus   HTTP status
 		 * @param {string}   errorThrown  Error message from jQuery
 		 * @fires xhrError
 		 */
 		this.xhrError = function(jqXHR, textStatus, errorThrown){
+			self.setState(luga.data.STATE.ERROR);
 			self.notifyObservers(luga.data.CONST.EVENTS.XHR_ERROR, {
 				dataSet: self,
 				message: luga.string.format(CONST.ERROR_MESSAGES.XHR_FAILURE, [self.url, jqXHR.status, errorThrown]),
