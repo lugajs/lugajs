@@ -36,8 +36,13 @@
 			var cssClass = nodes.attr(CONST.CUSTOM_ATTRIBUTES.SELECT);
 			// Clean-up
 			nodes.removeClass(cssClass);
-			// Apply CSS to first element
-			nodes.first().addClass(cssClass);
+			// Default to zero, detailSets have no setCurrentRowIndex() method
+			var index = 0;
+			if(options.dataSource.getCurrentRowIndex !== undefined){
+				index = options.dataSource.getCurrentRowIndex();
+			}
+			// Apply CSS
+			jQuery(nodes.get(index)).addClass(cssClass);
 
 			// Attach click event
 			nodes.each(function(index, item){
