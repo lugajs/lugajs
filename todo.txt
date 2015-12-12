@@ -6,9 +6,9 @@ DOCS:
 
 - Use Bootstrap. Start with Data's docs
 - Move local navigation to the right, better for small screens
-- Improve format of API docs
+- New format of API docs
 - Layout forms with labels on top of fields
-- Review/improve luga.css
+- Move into GitHub pages?
 
 -------------
 
@@ -45,6 +45,7 @@ DATA:
 data.Dataset:
 
 - Implement state (loading, error, ready)
+  Broadcast stateChanged event
 
 - Add the following fields to the context object:
   state, isStateLoading, isStateError, isStateReady
@@ -61,7 +62,7 @@ data.JsonDataSet:
 - Implement getRawJson()
 - Implement setRawJson()
 
-- Handle sosphisticated paths? Implement subPaths like Spry?
+- Handle sophisticated paths? Implement subPaths like Spry?
 
 
 data.region.Handlebars:
@@ -74,7 +75,7 @@ data.region.Handlebars:
 
 - Test API to construct a region programmatically
 
-- Utility to retrieve corresponding region object from a given HTML node?
+- Add utility to retrieve corresponding region object from a given HTML node
 
 -------------
 
