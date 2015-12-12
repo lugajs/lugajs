@@ -82,6 +82,16 @@ describe("luga.data.DetailSet", function(){
 			});
 		});
 
+		describe(".getState()", function(){
+			it("Returns the detailSet's current state", function(){
+				detailSet.state = luga.data.STATE.READY;
+				expect(detailSet.getState()).toEqual(luga.data.STATE.READY);
+			});
+			it("Returns null on an newly created detailSet", function(){
+				expect(detailSet.getState()).toBeNull();
+			});
+		});
+
 		describe(".fetchRow()", function(){
 
 			describe("First:", function(){
@@ -126,6 +136,18 @@ describe("luga.data.DetailSet", function(){
 				spyOn(emptyDetailSet, "fetchRow");
 				emptyDs.insert(testRecords);
 				expect(emptyDetailSet.fetchRow).toHaveBeenCalled();
+			});
+		});
+
+		describe(".onStateChangedHandler()", function(){
+			it("Is invoked whenever the associated dataSet's state changes", function(){
+				spyOn(emptyDetailSet, "onStateChangedHandler");
+				emptyDs.insert(testRecords);
+				expect(emptyDetailSet.onStateChangedHandler).toHaveBeenCalled();
+			});
+			it("Updates the detailSet's state property", function(){
+				emptyDs.insert(testRecords);
+				expect(emptyDetailSet.getState()).toEqual(luga.data.STATE.READY);
 			});
 		});
 

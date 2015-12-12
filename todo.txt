@@ -44,8 +44,6 @@ DATA:
 
 data.Dataset:
 
-- Implement state (loading, error, ready) for detailSet
-
 - Add the following fields to the context object:
   state, isStateLoading, isStateError, isStateReady
 

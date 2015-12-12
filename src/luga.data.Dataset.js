@@ -28,6 +28,14 @@
 	 */
 
 	/**
+	 * @typedef {object} luga.data.DataSet.stateChanged
+	 *
+	 * @property {luga.data.DataSet}    dataSet
+	 * @property {luga.data.STATE}      currentState
+	 * @property {luga.data.STATE}      oldState
+	 */
+
+	/**
 	 * @typedef {object} luga.data.DataSet.context
 	 *
 	 * @property {number}                                               recordCount
@@ -84,21 +92,26 @@
 		var self = this;
 
 		this.id = options.id;
+
 		/** @type {array.<luga.data.DataSet.row>} */
 		this.records = [];
+
 		/** @type {hash.<luga.data.DataSet.row>} */
 		this.recordsHash = {};
+
 		/** @type {null|array.<luga.data.DataSet.row>} */
 		this.filteredRecords = null;
 
 		/** @type {null|function} */
 		this.filter = null;
-		this.currentRowId = null;
 
+		/** @type {luga.data.STATE} */
+		this.state = null;
+
+		this.currentRowId = null;
 		this.columnTypes = {};
 		this.lastSortColumns = [];
 		this.lastSortOrder = "";
-		this.state = null;
 
 		luga.data.setDataSource(this.id, this);
 
@@ -165,7 +178,7 @@
 			if(filter === undefined){
 				deleteAll();
 			}
-			else {
+			else{
 				if(jQuery.isFunction(filter) === false){
 					throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 				}
@@ -508,11 +521,15 @@
 			}
 			var oldState = this.state;
 			this.state = newState;
-			this.notifyObservers(luga.data.CONST.EVENTS.STATE_CHANGED, {
+
+			/** @type {luga.data.DataSet.stateChanged} */
+			var notificationData = {
 				oldState: oldState,
 				currentState: this.state,
-				dataSource: this
-			});
+				dataSet: this
+			};
+
+			this.notifyObservers(luga.data.CONST.EVENTS.STATE_CHANGED, notificationData);
 		};
 
 		/**
