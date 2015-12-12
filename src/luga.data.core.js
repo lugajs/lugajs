@@ -48,6 +48,7 @@ if(typeof(luga) === "undefined"){
 		USER_AGENT: "luga.data",
 		XHR_TIMEOUT: 10000 // Keep this accessible to everybody
 	};
+
 	/**
 	 * Returns a dataSource from the registry
 	 * Returns null if no source matches the given id
@@ -68,6 +69,30 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.data.setDataSource = function(id, dataSource){
 		luga.data.dataSourceRegistry[id] = dataSource;
+	};
+
+	/**
+	 * @typedef {string} luga.data.STATE
+	 * @enum {string}
+	 */
+	luga.data.STATE = {
+		ERROR: "error",
+		LOADING: "loading",
+		READY: "ready"
+	};
+
+	/**
+	 * Return true if the passed state is supported
+	 * @param {string}  state
+	 * @returns {boolean}
+	 */
+	luga.data.isValidState = function(state){
+		for(var key in luga.data.STATE){
+			if(luga.data.STATE[key] === state){
+				return true;
+			}
+		}
+		return false;
 	};
 
 	/**

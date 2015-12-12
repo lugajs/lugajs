@@ -93,6 +93,29 @@ describe("luga.data", function(){
 
 	});
 
+	describe(".isValidState()", function(){
+
+		describe("Returns true if the passed state is either", function(){
+			it("loading", function(){
+				expect(luga.data.isValidState("loading")).toBeTruthy();
+			});
+			it("error", function(){
+				expect(luga.data.isValidState("error")).toBeTruthy();
+			});
+			it("toggle", function(){
+				expect(luga.data.isValidState("ready")).toBeTruthy();
+			});
+		});
+		describe("Otherwise", function(){
+			it("Returns false", function(){
+				expect(luga.data.isValidState("whatever")).toBeFalsy();
+				expect(luga.data.isValidState("test")).toBeFalsy();
+				expect(luga.data.isValidState(0)).toBeFalsy();
+			});
+		});
+
+	});
+
 	describe(".setDataSource()", function(){
 		it("Adds a dataSource inside the registry", function(){
 			var myDataSource = {type: "whatever"};
