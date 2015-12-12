@@ -764,21 +764,25 @@ describe("luga.data.Dataset", function(){
 
 	});
 
-	xdescribe(".setState()", function(){
+	describe(".setState()", function(){
 
 		it("Set the dataSet's state", function(){
 			baseDs.setState("ready");
 			expect(baseDs.state).toEqual("ready");
 
 		});
-		it("Throws an exception if the given type is not allowed", function(){
+		it("Triggers a 'stateChanged' notification", function(){
+			baseDs.setState("ready");
+			expect(testObserver.onStateChangedHandler).toHaveBeenCalledWith({
+				oldState: null,
+				currentState: "ready",
+				dataSource: baseDs
+			});
+		});
+		it("Throws an exception if the given state is not allowed", function(){
 			expect(function(){
 				baseDs.setState("whatever I want");
 			}).toThrow();
-		});
-		it("Triggers a 'stateChanged' notification. Sending the whole dataSet along the way", function(){
-			baseDs.setState("ready");
-			expect(testObserver.onStateChangedHandler).toHaveBeenCalledWith({dataSource: baseDs});
 		});
 
 	});
