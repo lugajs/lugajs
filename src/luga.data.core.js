@@ -72,16 +72,6 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @typedef {string} luga.data.STATE
-	 * @enum {string}
-	 */
-	luga.data.STATE = {
-		ERROR: "error",
-		LOADING: "loading",
-		READY: "ready"
-	};
-
-	/**
 	 * Given a jQuery object wrapping an HTML node, initialize the relevant Region handler
 	 * @param {jquery} node
 	 * @throws
@@ -104,6 +94,16 @@ if(typeof(luga) === "undefined"){
 			throw(luga.string.format(luga.data.CONST.ERROR_MESSAGES.MISSING_REGION_TYPE_FUNCTION, [regionType]));
 		}
 		new RegionClass({node: node});
+	};
+
+	/**
+	 * @typedef {string} luga.data.STATE
+	 * @enum {string}
+	 */
+	luga.data.STATE = {
+		ERROR: "error",
+		LOADING: "loading",
+		READY: "ready"
 	};
 
 	luga.namespace("luga.data.utils");
