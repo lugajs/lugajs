@@ -245,10 +245,9 @@ describe("luga.data.Dataset", function(){
 	describe(".getContext()", function(){
 
 		it("Returns the dataSet's context", function(){
-			expect(loadedDs.getContext()).toEqual({
-				context: loadedDs.select(),
-				recordCount: loadedDs.getRecordsCount()
-			});
+			var context = loadedDs.getContext();
+			expect(context.context).toEqual(loadedDs.select());
+			expect(context.recordCount).toEqual(loadedDs.getRecordsCount());
 		});
 
 	});
@@ -823,11 +822,7 @@ describe("luga.data.Dataset", function(){
 		});
 		it("Triggers a 'stateChanged' notification", function(){
 			baseDs.setState("ready");
-			expect(testObserver.onStateChangedHandler).toHaveBeenCalledWith({
-				oldState: null,
-				currentState: "ready",
-				dataSource: baseDs
-			});
+			expect(testObserver.onStateChangedHandler).toHaveBeenCalled();
 		});
 		it("Throws an exception if the given state is not allowed", function(){
 			expect(function(){

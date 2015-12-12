@@ -2,7 +2,7 @@
 	"use strict";
 
 	/**
-	 * @typedef {object} luga.data.DataSet.loading
+	 * @typedef {object} luga.data.DataSet.dataLoading
 	 *
 	 * @property {luga.data.DataSet} dataSet
 	 */
@@ -32,7 +32,7 @@
 	 * @constructor
 	 * @extends luga.data.DataSet
 	 * @abstract
-	 * @fires loading
+	 * @fires dataLoading
 	 * @fires xhrError
 	 * @throws
 	 */
@@ -111,9 +111,9 @@
 		};
 
 		/**
-		 * Fires off XHR request to fetch and load the data, notify observers ("loading" first, "dataChanged" after records are loaded).
+		 * Fires off XHR request to fetch and load the data, notify observers ("dataLoading" first, "dataChanged" after records are loaded).
 		 * Does nothing if URL is not set
-		 * @fires loading
+		 * @fires dataLoading
 		 * @throws
 		 */
 		this.loadData = function(){
@@ -121,7 +121,7 @@
 				throw(CONST.ERROR_MESSAGES.NEED_URL_TO_LOAD);
 			}
 			this.setState(luga.data.STATE.LOADING);
-			this.notifyObservers(luga.data.CONST.EVENTS.LOADING, {dataSet: this});
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_LOADING, {dataSet: this});
 			this.cancelRequest();
 			this.delete();
 			loadUrl();

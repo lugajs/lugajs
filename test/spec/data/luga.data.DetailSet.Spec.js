@@ -75,20 +75,18 @@ describe("luga.data.DetailSet", function(){
 
 		describe(".getContext()", function(){
 			it("Returns the associated detailSet's context", function(){
-				expect(detailSet.getContext()).toEqual({
-					context: loadedDs.getCurrentRow(),
-					recordCount: 1
-				});
+				var contextMaster = new luga.data.DataSet({id: "contextMaster"});
+				contextMaster.insert(testRecords);
+				var contextDetail = new luga.data.DetailSet({id: "contextDetail", dataSet: contextMaster});
+				var context = contextDetail.getContext();
+				expect(context.context).toEqual(loadedDs.getCurrentRow());
+				expect(context.recordCount).toEqual(1);
 			});
 		});
 
 		describe(".getState()", function(){
-			it("Returns the detailSet's current state", function(){
-				detailSet.state = luga.data.STATE.READY;
-				expect(detailSet.getState()).toEqual(luga.data.STATE.READY);
-			});
-			it("Returns null on an newly created detailSet", function(){
-				expect(detailSet.getState()).toBeNull();
+			it("Returns the associated dataSet's current state", function(){
+				expect(detailSet.getState()).toEqual(loadedDs.getState());
 			});
 		});
 
@@ -121,7 +119,7 @@ describe("luga.data.DetailSet", function(){
 			});
 			it("Invokes .fetchRow()", function(){
 				spyOn(detailSet, "fetchRow");
-				loadedDs.setCurrentRowIndex(2);
+				detailSet.onCurrentRowChangedHandler();
 				expect(detailSet.fetchRow).toHaveBeenCalled();
 			});
 		});
@@ -134,7 +132,7 @@ describe("luga.data.DetailSet", function(){
 			});
 			it("Invokes .fetchRow()", function(){
 				spyOn(emptyDetailSet, "fetchRow");
-				emptyDs.insert(testRecords);
+				emptyDetailSet.onDataChangedHandler();
 				expect(emptyDetailSet.fetchRow).toHaveBeenCalled();
 			});
 		});
@@ -145,9 +143,10 @@ describe("luga.data.DetailSet", function(){
 				emptyDs.insert(testRecords);
 				expect(emptyDetailSet.onStateChangedHandler).toHaveBeenCalled();
 			});
-			it("Updates the detailSet's state property", function(){
-				emptyDs.insert(testRecords);
-				expect(emptyDetailSet.getState()).toEqual(luga.data.STATE.READY);
+			it("Invokes .fetchRow()", function(){
+				spyOn(emptyDetailSet, "fetchRow");
+				emptyDetailSet.onStateChangedHandler();
+				expect(emptyDetailSet.fetchRow).toHaveBeenCalled();
 			});
 		});
 

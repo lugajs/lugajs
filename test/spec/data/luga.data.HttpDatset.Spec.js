@@ -71,14 +71,14 @@ describe("luga.data.HttpDataSet", function(){
 			testObserver = {
 				onDataChangedHandler: function(){
 				},
-				onLoadingHandler: function(){
+				onDataLoadingHandler: function(){
 				},
 				onXhrErrorHandler: function(){
 				}
 			};
 			testDs.addObserver(testObserver);
 			spyOn(testObserver, "onDataChangedHandler");
-			spyOn(testObserver, "onLoadingHandler");
+			spyOn(testObserver, "onDataLoadingHandler");
 			spyOn(testObserver, "onXhrErrorHandler");
 		});
 
@@ -100,7 +100,7 @@ describe("luga.data.HttpDataSet", function(){
 		describe("Then:", function(){
 			it("Triggers a 'loading' notification", function(){
 				testDs.loadData();
-				expect(testObserver.onLoadingHandler).toHaveBeenCalledWith({dataSet: testDs});
+				expect(testObserver.onDataLoadingHandler).toHaveBeenCalledWith({dataSet: testDs});
 			});
 		});
 

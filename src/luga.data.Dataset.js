@@ -31,12 +31,13 @@
 	 * @typedef {object} luga.data.DataSet.stateChanged
 	 *
 	 * @property {luga.data.DataSet}    dataSet
-	 * @property {luga.data.STATE}      currentState
-	 * @property {luga.data.STATE}      oldState
+	 * @property {null|luga.data.STATE}      currentState
+	 * @property {null|luga.data.STATE}      oldState
 	 */
 
 	/**
 	 * @typedef {object} luga.data.DataSet.context
+	 * @extends luga.data.stateDescription
 	 *
 	 * @property {number}                                               recordCount
 	 * @property {array.<luga.data.DataSet.row>|luga.data.DataSet.row}  context
@@ -105,7 +106,7 @@
 		/** @type {null|function} */
 		this.filter = null;
 
-		/** @type {luga.data.STATE} */
+		/** @type {null|luga.data.STATE} */
 		this.state = null;
 
 		this.currentRowId = null;
@@ -206,10 +207,13 @@
 		 * @returns {luga.data.DataSet.context}
 		 */
 		this.getContext = function(){
-			return {
+			var stateDesc = luga.data.utils.assembleStateDescription(self.getState());
+			var rsData = {
 				context: self.select(),
 				recordCount: self.getRecordsCount()
 			};
+			luga.merge(stateDesc, rsData);
+			return stateDesc;
 		};
 
 		/**
@@ -321,7 +325,7 @@
 
 		/**
 		 * Returns the dataSet's current state
-		 * @return {luga.data.STATE}
+		 * @return {null|luga.data.STATE}
 		 */
 		this.getState = function(){
 			return this.state;
@@ -512,8 +516,8 @@
 
 		/**
 		 * Set current state
-		 * This method is not inteted to be called outside the dataSet. It's public only to be accessible to subclasses
-		 * @param {luga.data.STATE} newState
+		 * This method is not intended to be called outside the dataSet. It's public only to be accessible to subclasses
+		 * @param {null|luga.data.STATE} newState
 		 */
 		this.setState = function(newState){
 			if(luga.data.utils.isValidState(newState) === false){

@@ -47,31 +47,30 @@
 		/** @type {luga.data.DataSet.row} */
 		this.row = null;
 
-		/** @type {luga.data.STATE} */
-		this.state = null;
-
 		luga.data.setDataSource(this.id, this);
 
 		/**
 		 * @returns {luga.data.DataSet.context}
 		 */
 		this.getContext = function(){
-			var context = {
+			var stateDesc = luga.data.utils.assembleStateDescription(self.getState());
+			var rsData = {
 				context: self.row,
 				recordCount: 1
-			}
+			};
 			if(self.row === null){
-				context.recordCount = 0;
+				rsData.recordCount = 0;
 			}
-			return context;
+			luga.merge(stateDesc, rsData);
+			return stateDesc;
 		};
 
 		/**
 		 * Returns the detailSet's current state
-		 * @return {luga.data.STATE}
+		 * @return {null|luga.data.STATE}
 		 */
 		this.getState = function(){
-			return self.state;
+			return self.dataSet.getState();
 		};
 
 		this.fetchRow = function(){
@@ -99,7 +98,7 @@
 		 * @param {luga.data.DataSet.stateChanged} data
 		 */
 		this.onStateChangedHandler = function(data){
-			self.state = data.currentState;
+			self.fetchRow();
 		};
 
 		/* Fetch row without notifying observers */

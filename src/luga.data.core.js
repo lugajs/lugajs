@@ -32,7 +32,7 @@ if(typeof(luga) === "undefined"){
 			CURRENT_ROW_CHANGED: "currentRowChanged",
 			DATA_CHANGED: "dataChanged",
 			DATA_SORTED: "dataSorted",
-			LOADING: "loading",
+			DATA_LOADING: "dataLoading",
 			PRE_DATA_SORTED: "preDataSorted",
 			STATE_CHANGED: "stateChanged",
 			XHR_ERROR: "xhrError"
@@ -41,6 +41,7 @@ if(typeof(luga) === "undefined"){
 			REGION: "*[data-lugads-region]"
 		},
 		ERROR_MESSAGES: {
+			INVALID_STATE: "luga.data.utils.assembleStateDescription: Unsupported state: {0}",
 			MISSING_DATA_SOURCE_ATTRIBUTE: "Missing required data-lugads-datasource attribute inside region",
 			MISSING_DATA_SOURCE: "Unable to find datasource {0}",
 			MISSING_REGION_TYPE_FUNCTION: "Failed to create region. Unable to find a constructor function named: {0}"
@@ -107,6 +108,32 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.namespace("luga.data.utils");
+
+	/**
+	 * @typedef {object} luga.data.stateDescription
+	 *
+	 * @property {null|luga.data.STATE}  state
+	 * @property {boolean}          isStateLoading
+	 * @property {boolean}          isStateError
+	 * @property {boolean}          isStateReady
+	 */
+
+	/**
+	 * Given a state string, returns an object containing a boolean field for each possible state
+	 * @param {null|luga.data.STATE} state
+	 * @returns {luga.data.stateDescription}
+	 */
+	luga.data.utils.assembleStateDescription = function(state){
+		if((state !== null) && (luga.data.utils.isValidState(state) === false)){
+			throw(luga.string.format(luga.data.CONST.ERROR_MESSAGES.INVALID_STATE, [state]));
+		}
+		return {
+			state: state,
+			isStateError: (state === luga.data.STATE.ERROR),
+			isStateLoading: (state === luga.data.STATE.LOADING),
+			isStateReady: (state === luga.data.STATE.READY)
+		};
+	};
 
 	/**
 	 * Return true if the passed state is supported
