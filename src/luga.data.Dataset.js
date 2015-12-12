@@ -307,6 +307,14 @@
 		};
 
 		/**
+		 * Returns the dataSet's current state
+		 * @return {luga.data.STATE}
+		 */
+		this.getState = function(){
+			return this.state;
+		};
+
+		/**
 		 * Adds rows to a dataSet
 		 * Be aware that the dataSet use passed data by reference
 		 * That is, it uses those objects as its row object internally. It does not make a copy
@@ -585,7 +593,7 @@
 		 * @param {luga.data.STATE} newState
 		 */
 		this.setState = function(newState){
-			if(luga.data.isValidState(newState) === false){
+			if(luga.data.utils.isValidState(newState) === false){
 				throw(luga.string.format(CONST.ERROR_MESSAGES.INVALID_STATE, [newState]));
 			}
 			var oldState = this.state;

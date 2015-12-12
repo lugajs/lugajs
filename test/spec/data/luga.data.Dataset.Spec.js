@@ -493,6 +493,16 @@ describe("luga.data.Dataset", function(){
 
 	});
 
+	describe(".getState()", function(){
+		it("Returns the dataSet's current state", function(){
+			baseDs.setState("ready");
+			expect(baseDs.getState()).toEqual("ready");
+		});
+		it("Returns null on an newly created dataSet", function(){
+			expect(baseDs.getState()).toBeNull();
+		});
+	});
+
 	describe(".insert()", function(){
 
 		it("Adds records to a dataSet", function(){

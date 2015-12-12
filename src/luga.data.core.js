@@ -12,9 +12,8 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.data");
-	luga.namespace("luga.data.region");
 
-	luga.data.version = "0.2.4";
+	luga.data.version = "0.2.5";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -83,20 +82,6 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Return true if the passed state is supported
-	 * @param {string}  state
-	 * @returns {boolean}
-	 */
-	luga.data.isValidState = function(state){
-		for(var key in luga.data.STATE){
-			if(luga.data.STATE[key] === state){
-				return true;
-			}
-		}
-		return false;
-	};
-
-	/**
 	 * Given a jQuery object wrapping an HTML node, initialize the relevant Region handler
 	 * @param {jquery} node
 	 * @throws
@@ -120,6 +105,24 @@ if(typeof(luga) === "undefined"){
 		}
 		new RegionClass({node: node});
 	};
+
+	luga.namespace("luga.data.utils");
+
+	/**
+	 * Return true if the passed state is supported
+	 * @param {string}  state
+	 * @returns {boolean}
+	 */
+	luga.data.utils.isValidState = function(state){
+		for(var key in luga.data.STATE){
+			if(luga.data.STATE[key] === state){
+				return true;
+			}
+		}
+		return false;
+	};
+
+	luga.namespace("luga.data.region");
 
 	jQuery(document).ready(function(){
 		jQuery(luga.data.CONST.SELECTORS.REGION).each(function(index, item){
