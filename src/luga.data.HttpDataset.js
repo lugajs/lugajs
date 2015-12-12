@@ -127,7 +127,7 @@
 		};
 
 		/**
-		 * Abstract method, child classes must implement it to extract records from XHR response
+		 * Abstract method, concrete classes must implement it to extract records from XHR response
 		 * @param {*}        response     Data returned from the server
 		 * @param {string}   textStatus   HTTP status
 		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
