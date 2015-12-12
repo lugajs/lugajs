@@ -264,7 +264,7 @@
 		/**
 		 * Returns the row object associated with the given unique identifier
 		 * @param {string} rowId  Required
-		 * @return {luga.data.DataSet.row}
+		 * @return {null|luga.data.DataSet.row}
 		 */
 		this.getRowById = function(rowId){
 			if(this.recordsHash[rowId] !== undefined){

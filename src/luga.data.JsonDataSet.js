@@ -37,18 +37,18 @@
 		};
 
 		/**
-		 * Receives HTTP response, extracts and loads records out of it
-		 * @param {*}        response     Data returned from the server
-		 * @param {string}   textStatus   HTTP status
-		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
+		 * Receives JSON data, either from an HTTP response or from a direct call, apply the path, if any, and loads records out of it
+		 * @param {json}     json         Data returned from the server
+		 * @param {string}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
+		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
 		 * @override
 		 */
-		this.loadRecords = function(response, textStatus, jqXHR){
+		this.loadRecords = function(json, textStatus, jqXHR){
 			if(self.path === null){
-				self.insert(response);
+				self.insert(json);
 			}
 			else{
-				var records = luga.lookupProperty(response, self.path);
+				var records = luga.lookupProperty(json, self.path);
 				if(records !== undefined){
 					self.insert(records);
 				}

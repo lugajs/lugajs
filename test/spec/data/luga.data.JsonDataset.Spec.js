@@ -2,8 +2,10 @@ describe("luga.data.JsonDataset", function(){
 
 	"use strict";
 
-	var testDs, DEFAULT_TIMEOUT;
+	var testRecords, noUrlDs, testDs, DEFAULT_TIMEOUT;
 	beforeEach(function(){
+		testRecords = getJSONFixture("data/ladies.json");
+		noUrlDs = new luga.data.JsonDataSet({id: "noUrlDs"});
 		testDs = new luga.data.JsonDataSet({id: "jsonDs", url: "fixtures/data/ladies.json"});
 		DEFAULT_TIMEOUT = 2000;
 	});
@@ -105,6 +107,46 @@ describe("luga.data.JsonDataset", function(){
 			});
 		});
 
+
+	});
+
+	describe(".loadRecords()", function(){
+
+		describe("Given JSON data", function(){
+
+			describe("If .path is null:", function(){
+
+				it("Directely pass the JSON to .insert()", function(){
+					spyOn(noUrlDs, "insert");
+					noUrlDs.loadRecords(testRecords);
+					expect(noUrlDs.insert).toHaveBeenCalledWith(testRecords);
+				});
+
+			});
+
+			describe("Else", function(){
+
+				it("First calls luga.lookupProperty() to extract the relevant data", function(){
+					spyOn(luga, "lookupProperty");
+					noUrlDs.setPath("others.jazzPlayers");
+					noUrlDs.loadRecords(testRecords);
+					expect(luga.lookupProperty).toHaveBeenCalledWith(testRecords, "others.jazzPlayers");
+				});
+				it("Then calls .insert(), passing the relevant data", function(){
+					spyOn(noUrlDs, "insert");
+
+					var peopleRecords = getJSONFixture("data/people.json");
+					var jazzPlayers = luga.lookupProperty(peopleRecords, "others.jazzPlayers");
+
+					noUrlDs.setPath("others.jazzPlayers");
+					noUrlDs.loadRecords(peopleRecords);
+
+					expect(noUrlDs.insert).toHaveBeenCalledWith(jazzPlayers);
+				});
+
+			});
+
+		});
 
 	});
 
