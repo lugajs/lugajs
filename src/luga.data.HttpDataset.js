@@ -76,7 +76,10 @@
 		var loadUrl = function(){
 			var xhrOptions = {
 				url: self.url,
-				success: self.loadRecords,
+				success: function(response, textStatus, jqXHR){
+					self.delete();
+					self.loadRecords(response, textStatus, jqXHR);
+				},
 				timeout: self.timeout,
 				cache: self.cache,
 				headers: {
@@ -123,7 +126,6 @@
 			this.setState(luga.data.STATE.LOADING);
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_LOADING, {dataSet: this});
 			this.cancelRequest();
-			this.delete();
 			loadUrl();
 		};
 

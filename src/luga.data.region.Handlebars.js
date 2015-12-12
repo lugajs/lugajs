@@ -148,6 +148,13 @@
 			self.render();
 		};
 
+		/**
+		 * @param {luga.data.stateChanged} data
+		 */
+		this.onStateChangedHandler = function(data){
+			self.render();
+		};
+
 		/* Constructor */
 		fetchTemplate(this.config.node);
 

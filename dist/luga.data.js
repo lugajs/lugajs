@@ -987,7 +987,10 @@ if(typeof(luga) === "undefined"){
 		var loadUrl = function(){
 			var xhrOptions = {
 				url: self.url,
-				success: self.loadRecords,
+				success: function(response, textStatus, jqXHR){
+					self.delete();
+					self.loadRecords(response, textStatus, jqXHR);
+				},
 				timeout: self.timeout,
 				cache: self.cache,
 				headers: {
@@ -1034,7 +1037,6 @@ if(typeof(luga) === "undefined"){
 			this.setState(luga.data.STATE.LOADING);
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_LOADING, {dataSet: this});
 			this.cancelRequest();
-			this.delete();
 			loadUrl();
 		};
 
@@ -1294,6 +1296,13 @@ if(typeof(luga) === "undefined"){
 		 * @param {luga.data.dataSourceChanged} data
 		 */
 		this.onDataChangedHandler = function(data){
+			self.render();
+		};
+
+		/**
+		 * @param {luga.data.stateChanged} data
+		 */
+		this.onStateChangedHandler = function(data){
 			self.render();
 		};
 
