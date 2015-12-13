@@ -56,6 +56,8 @@ data.region.Handlebars:
 - Allows to pass dataSet object to the constructor, not just dataSet's id
 - Test API to construct a region programmatically
 
+- Apply traits at currentRowchanged? All of them or just selected? Metadata or different args inside the constructor?
+
 - Make Region an event notifier (regionRendered)
 
 - Add utility to retrieve corresponding region object from a given HTML node
