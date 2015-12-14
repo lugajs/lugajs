@@ -49,20 +49,22 @@ data.Dataset:
 - Implement update(filter, setter)
 - Local storage persistence? It would require serialization of full dataSet (including filter!)
 
+
+data.JsonDtaset:
+
 - Handle sophisticated paths? Implement subPaths like Spry?
 
 
 data.region.Handlebars:
 
-- Add data-lugads-traits attribute (comma-delimited)
-- Allows to pass dataSet object to the constructor, not just dataSet's id
 - Test API to construct a region programmatically
-
-- Apply traits at currentRowchanged? All of them or just selected? Metadata or different args inside the constructor?
+- Allows to pass dataSet object to the constructor, not just dataSet's id
+- Add data-lugads-traits attribute (comma-delimited)
 
 - Make Region an event notifier (regionRendered)
-
 - Add utility to retrieve corresponding region object from a given HTML node
+
+- Apply traits at currentRowchanged? All of them or just selected? Metadata or different args inside the constructor?
 
 -------------
 
