@@ -253,6 +253,30 @@ describe("luga.data.region.Handlebars", function(){
 
 		});
 
+		describe("Throws an exception if:", function(){
+
+			it("options.traits contains an invalid function name", function(){
+				var region = new luga.data.region.Handlebars({
+					node: testDiv,
+					dsId: "testDs",
+					templateId: "ladiesTemplate",
+					traits: "missingFunction"
+				});
+				expect(function(){
+					region.applyTraits();
+				}).toThrow();
+			});
+
+			it("data-lugads-traits contains an invalid function name", function(){
+				var regionNode = jQuery("<div data-lugads-region='testRegion' data-lugads-datasource='testDs' data-lugads-traits='window.missingFunction'></div>");
+				var region = new luga.data.region.Handlebars({node: regionNode});
+				expect(function(){
+					region.applyTraits();
+				}).toThrow();
+			});
+
+		});
+
 	});
 
 	describe(".generateHtml()", function(){

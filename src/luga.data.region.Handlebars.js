@@ -137,7 +137,7 @@
 					func(traitData);
 				}
 				else{
-					throw(luga.string.format(CONST.ERROR_MESSAGES.INVALID_TRAIT, [func]));
+					throw(luga.string.format(CONST.ERROR_MESSAGES.INVALID_TRAIT, [this.traits[i]]));
 				}
 			}
 		};

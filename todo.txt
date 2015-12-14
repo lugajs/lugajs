@@ -58,8 +58,6 @@ data.JsonDtaset:
 
 data.region.Handlebars:
 
-- Test exception in .applyTraits() on invalid traits
-
 - Make Region an event notifier (regionRendered)
 - Add utility to retrieve corresponding region object from a given HTML node
 
