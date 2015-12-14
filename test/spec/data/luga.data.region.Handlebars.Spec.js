@@ -10,7 +10,7 @@ describe("luga.data.region.Handlebars", function(){
 		testRecords = getJSONFixture("data/ladies.json");
 		loadedDs = new luga.data.DataSet({id: "testDs", records: testRecords});
 		testDiv = jQuery("<div>Ciao Mamma</div>");
-		attributesDiv = jQuery("<div data-lugads-datasource='testDs' data-lugads-template='ladiesTemplate'></div>");
+		attributesDiv = jQuery("<div data-lugads-region='testRegion' data-lugads-datasource='testDs' data-lugads-template='ladiesTemplate'></div>");
 
 		configRegion = new luga.data.region.Handlebars({
 			node: testDiv,
@@ -29,6 +29,7 @@ describe("luga.data.region.Handlebars", function(){
 	describe("Accepts an Options object as single argument", function(){
 
 		describe("options.node", function(){
+
 			it("Is mandatory", function(){
 				expect(function(){
 					new luga.data.region.Handlebars({dsId: "testDs"});
@@ -40,6 +41,15 @@ describe("luga.data.region.Handlebars", function(){
 						node: jQuery("#missing")
 					});
 				}).toThrow();
+			});
+
+			describe("either:", function(){
+				it("Points to the HTML node using the data-lugads-region custom attribute", function(){
+					expect(attributesRegion.config.node).toEqual(attributesDiv);
+				});
+				it("Uses the value specified inside the option argument", function(){
+					expect(configRegion.config.node).toEqual(testDiv);
+				});
 			});
 		});
 
@@ -67,31 +77,29 @@ describe("luga.data.region.Handlebars", function(){
 
 		});
 
-		describe("options.templateId", function(){
+		describe("options.templateId either", function(){
 
-			describe("either:", function(){
-				it("Retrieves the value from the node's data-lugads-template custom attribute", function(){
-					expect(attributesRegion.config.templateId).toEqual("ladiesTemplate");
-				});
-				it("Uses the value specified inside the option argument", function(){
-					expect(configRegion.config.templateId).toEqual("ladiesTemplate");
-				});
-				it("Throws an exception if unable to find an HTML element matching the given id", function(){
-					expect(function(){
-						new luga.data.region.Handlebars({
-							node: testDiv,
-							dsId: "testDs",
-							templateId: "missing"
-						});
-					}).toThrow();
-				});
-				it("Default to null", function(){
-					var testRegion = new luga.data.region.Handlebars({
+			it("Retrieves the value from the node's data-lugads-template custom attribute", function(){
+				expect(attributesRegion.config.templateId).toEqual("ladiesTemplate");
+			});
+			it("Uses the value specified inside the option argument", function(){
+				expect(configRegion.config.templateId).toEqual("ladiesTemplate");
+			});
+			it("Throws an exception if unable to find an HTML element matching the given id", function(){
+				expect(function(){
+					new luga.data.region.Handlebars({
 						node: testDiv,
-						dsId: "testDs"
+						dsId: "testDs",
+						templateId: "missing"
 					});
-					expect(testRegion.config.templateId).toBeNull();
+				}).toThrow();
+			});
+			it("Default to null", function(){
+				var testRegion = new luga.data.region.Handlebars({
+					node: testDiv,
+					dsId: "testDs"
 				});
+				expect(testRegion.config.templateId).toBeNull();
 			});
 
 		});

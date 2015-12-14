@@ -1,5 +1,5 @@
 - Consider creating a Bower package, maybe an NPM one too
-- Implement a duckType matcher for Jasmine (make it a dedicated project?)
+- Implement a duckType matcher for Jasmine .toMatchDuckType(duckInstance) (make it a dedicated project?)
 
 -------------
 
@@ -58,7 +58,6 @@ data.JsonDtaset:
 
 data.region.Handlebars:
 
-- Test API to construct a region programmatically
 - Allows to pass dataSet object to the constructor, not just dataSet's id
 - Add data-lugads-traits attribute (comma-delimited)
 
