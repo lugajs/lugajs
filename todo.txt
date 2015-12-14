@@ -1,4 +1,5 @@
 - Consider creating a Bower package, maybe an NPM one too
+- Implement a duckType matcher for Jasmine (make it a dedicated project?)
 
 -------------
 
