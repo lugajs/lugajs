@@ -13,7 +13,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.2.6";
+	luga.data.version = "0.2.7";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -1186,32 +1186,28 @@ if(typeof(luga) === "undefined"){
 	 */
 
 	/**
-	 * Data Region class
+	 * Abstract Region class
+	 * Concrete implementations must extend this and implement the .render() method
 	 * @param {luga.data.Region.options} options
 	 * @constructor
+	 * @abstract
 	 * @listens dataChanged
+	 * @listens stateChanged
 	 * @throws
 	 */
-	luga.data.region.Handlebars = function(options){
+	luga.data.region.Base = function(options){
 
-		var CONST = {
+		this.CONST = {
 			ERROR_MESSAGES: {
-				INVALID_TRAIT: "luga.data.region.Handlebars invalid trait: {0} is not a function",
-				MISSING_HANDLEBARS: "Unable to find Handlebars",
-				MISSING_NODE: "luga.data.region.Handlebars was unable find the region node",
-				MISSING_TEMPLATE_FILE: "luga.data.region.Handlebars was unable to retrieve file: {0} containing an Handlebars template",
-				MISSING_TEMPLATE_NODE: "luga.data.region.Handlebars was unable find an HTML element with id: {0} containing an Handlebars template"
+				INVALID_TRAIT: "luga.data.region invalid trait: {0} is not a function",
+				MISSING_NODE: "luga.data.region was unable find the region node"
 			}
 		};
-
-		if(typeof(Handlebars) === "undefined"){
-			throw(CONST.ERROR_MESSAGES.MISSING_HANDLEBARS);
-		}
 
 		// Ensure it's a jQuery object
 		options.node = jQuery(options.node);
 		if(options.node.length === 0){
-			throw(CONST.MESSAGES.MISSING_NODE);
+			throw(this.CONST.ERROR_MESSAGES.MISSING_NODE);
 		}
 
 		this.config = {
@@ -1241,8 +1237,6 @@ if(typeof(luga) === "undefined"){
 		}
 		this.dataSource.addObserver(this);
 
-		this.template = "";
-
 		/** @type {array.<string>} */
 		this.traits = [
 			"luga.data.region.traits.select",
@@ -1259,6 +1253,71 @@ if(typeof(luga) === "undefined"){
 			this.traits = this.traits.concat(this.config.traits.split(","));
 		}
 
+		this.applyTraits = function(){
+			var traitData = {
+				node: this.config.node,
+				dataSource: this.dataSource
+			};
+			for(var i = 0; i < this.traits.length; i++){
+				var func = luga.lookupFunction(this.traits[i]);
+				if(func !== undefined){
+					func(traitData);
+				}
+				else{
+					throw(luga.string.format(this.CONST.ERROR_MESSAGES.INVALID_TRAIT, [this.traits[i]]));
+				}
+			}
+		};
+
+		/**
+		 * @abstract
+		 */
+		this.render = function(){
+			// Concrete implementations must overwrite this
+		};
+
+		/* Events Handlers */
+
+		/**
+		 * @param {luga.data.dataSourceChanged} data
+		 */
+		this.onDataChangedHandler = function(data){
+			self.render();
+		};
+
+		/**
+		 * @param {luga.data.stateChanged} data
+		 */
+		this.onStateChangedHandler = function(data){
+			self.render();
+		};
+
+	};
+
+}());
+(function(){
+	"use strict";
+
+	/**
+	 * Handlebars Region class
+	 * @param {luga.data.Region.options} options
+	 * @constructor
+	 * @throws
+	 */
+	luga.data.region.Handlebars = function(options){
+
+		luga.extend(luga.data.region.Base, this, [options]);
+		var self = this;
+
+		// The messages below are specific to this implementation
+		self.CONST.HANDLEBARS_ERROR_MESSAGES = {
+			MISSING_HANDLEBARS: "Unable to find Handlebars",
+			MISSING_TEMPLATE_FILE: "luga.data.region.Handlebars was unable to retrieve file: {0} containing an Handlebars template",
+			MISSING_TEMPLATE_NODE: "luga.data.region.Handlebars was unable find an HTML element with id: {0} containing an Handlebars template"
+		};
+
+		this.template = "";
+
 		/**
 		 * @param {jquery} node
 		 * @returns {string}
@@ -1271,7 +1330,7 @@ if(typeof(luga) === "undefined"){
 			else{
 				var templateNode = jQuery("#" + self.config.templateId);
 				if(templateNode.length !== 1){
-					throw(luga.string.format(CONST.ERROR_MESSAGES.MISSING_TEMPLATE_NODE, [self.config.templateId]));
+					throw(luga.string.format(self.CONST.HANDLEBARS_ERROR_MESSAGES.MISSING_TEMPLATE_NODE, [self.config.templateId]));
 				}
 				var templateSrc = templateNode.attr("src");
 				if(templateSrc === undefined){
@@ -1291,26 +1350,10 @@ if(typeof(luga) === "undefined"){
 							self.render();
 						},
 						error: function(jqXHR, textStatus, errorThrown){
-							throw(luga.string.format(CONST.ERROR_MESSAGES.MISSING_TEMPLATE_FILE, [templateSrc]));
+							throw(luga.string.format(self.CONST.HANDLEBARS_ERROR_MESSAGES.MISSING_TEMPLATE_FILE, [templateSrc]));
 						}
 					};
 					jQuery.ajax(xhrOptions);
-				}
-			}
-		};
-
-		this.applyTraits = function(){
-			var traitData = {
-				node: this.config.node,
-				dataSource: this.dataSource
-			};
-			for(var i = 0; i < this.traits.length; i++){
-				var func = luga.lookupFunction(this.traits[i]);
-				if(func !== undefined){
-					func(traitData);
-				}
-				else{
-					throw(luga.string.format(CONST.ERROR_MESSAGES.INVALID_TRAIT, [func]));
 				}
 			}
 		};
@@ -1327,22 +1370,6 @@ if(typeof(luga) === "undefined"){
 				this.config.node.html(this.generateHtml());
 				this.applyTraits();
 			}
-		};
-
-		/* Events Handlers */
-
-		/**
-		 * @param {luga.data.dataSourceChanged} data
-		 */
-		this.onDataChangedHandler = function(data){
-			self.render();
-		};
-
-		/**
-		 * @param {luga.data.stateChanged} data
-		 */
-		this.onStateChangedHandler = function(data){
-			self.render();
 		};
 
 		/* Constructor */

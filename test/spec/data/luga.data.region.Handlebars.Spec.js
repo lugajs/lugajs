@@ -3,10 +3,6 @@ describe("luga.data.region.Handlebars", function(){
 	"use strict";
 
 	var testRecords, loadedDs, testDiv, attributesDiv, configRegion, attributesRegion;
-	window.regionHandlebarsMockTraitOne = function(){
-	};
-	window.regionHandlebarsMockTraitTwo = function(){
-	};
 
 	beforeEach(function(){
 
@@ -31,131 +27,11 @@ describe("luga.data.region.Handlebars", function(){
 		expect(jQuery.isFunction(luga.data.region.Handlebars)).toBeTruthy();
 	});
 
-	it("Register itself as observer of the associated dataSource", function(){
-		expect(loadedDs.observers[0]).toEqual(configRegion);
+	it("Extends luga.data.region.Base", function(){
+		expect(jQuery.isFunction(configRegion.applyTraits)).toBeTruthy();
 	});
 
-	describe("Accepts an Options object as single argument", function(){
-
-		describe("options.node", function(){
-
-			it("Is mandatory", function(){
-				expect(function(){
-					new luga.data.region.Handlebars({dsId: "testDs"});
-				}).toThrow();
-			});
-			it("Throws an exception if the associated node does not exists", function(){
-				expect(function(){
-					new luga.data.region.Handlebars({
-						node: jQuery("#missing")
-					});
-				}).toThrow();
-			});
-
-			describe("either:", function(){
-				it("Points to the HTML node using the data-lugads-region custom attribute", function(){
-					expect(attributesRegion.config.node).toEqual(attributesDiv);
-				});
-				it("Uses the value specified inside the option argument", function(){
-					expect(configRegion.config.node).toEqual(testDiv);
-				});
-			});
-		});
-
-		describe("options.ds", function(){
-
-			it("Is mandatory if options.dsId is missing", function(){
-				expect(function(){
-					new luga.data.region.Handlebars({node: testDiv});
-				}).toThrow();
-			});
-			it("Throws an exception if a null value is passed", function(){
-				expect(function(){
-					new luga.data.region.Handlebars({node: testDiv, ds: null});
-				}).toThrow();
-			});
-			it("Uses the value specified inside the option argument", function(){
-				expect(configRegion.config.ds).toEqual(loadedDs);
-			});
-
-		});
-
-		describe("options.dsId", function(){
-
-			it("Is mandatory if options.ds is missing", function(){
-				expect(function(){
-					new luga.data.region.Handlebars({node: testDiv});
-				}).toThrow();
-			});
-			it("Throws an exception if the associated dataSource does not exists", function(){
-				expect(function(){
-					new luga.data.region.Handlebars({node: testDiv, dsId: "missing"});
-				}).toThrow();
-			});
-
-			describe("either:", function(){
-				it("Retrieves the value from the node's data-lugads-datasource custom attribute", function(){
-					expect(attributesRegion.config.dsId).toEqual("testDs");
-				});
-				it("Uses the value specified inside the option argument", function(){
-					var testRegion = new luga.data.region.Handlebars({
-						node: testDiv,
-						dsId: "testDs",
-						templateId: "ladiesTemplate"
-					});
-					expect(testRegion.config.dsId).toEqual("testDs");
-				});
-			});
-
-		});
-
-		describe("options.traits", function(){
-
-			describe("either:", function(){
-
-				describe("Retrieves the value from the node's data-lugads-traits custom attribute:", function(){
-
-					it("Containing a single function's name", function(){
-						var regionNode = jQuery("<div data-lugads-region='testRegion' data-lugads-datasource='testDs' data-lugads-traits='window.regionHandlebarsMockTraitOne'></div>");
-						var region = new luga.data.region.Handlebars({node: regionNode});
-						expect(region.traits.indexOf("window.regionHandlebarsMockTraitOne")).not.toEqual(-1);
-					});
-					it("Or a comma-delimited list of function's names", function(){
-						var regionNode = jQuery("<div data-lugads-region='testRegion' data-lugads-datasource='testDs' data-lugads-traits='window.regionHandlebarsMockTraitOne,window.regionHandlebarsMockTraitTwo'></div>");
-						var region = new luga.data.region.Handlebars({node: regionNode});
-						expect(region.traits.indexOf("window.regionHandlebarsMockTraitOne")).not.toEqual(-1);
-						expect(region.traits.indexOf("window.regionHandlebarsMockTraitTwo")).not.toEqual(-1);
-					});
-
-				});
-
-				describe("Uses the value specified inside the option argument:", function(){
-
-					it("Containing a single function's name", function(){
-						var region = new luga.data.region.Handlebars({
-							node: testDiv,
-							dsId: "testDs",
-							templateId: "ladiesTemplate",
-							traits: "window.regionHandlebarsMockTraitOne"
-						});
-						expect(region.traits.indexOf("window.regionHandlebarsMockTraitOne")).not.toEqual(-1);
-					});
-					it("Or a comma-delimited list of function's names", function(){
-						var region = new luga.data.region.Handlebars({
-							node: testDiv,
-							dsId: "testDs",
-							templateId: "ladiesTemplate",
-							traits: "window.regionHandlebarsMockTraitOne,window.regionHandlebarsMockTraitTwo"
-						});
-						expect(region.traits.indexOf("window.regionHandlebarsMockTraitOne")).not.toEqual(-1);
-						expect(region.traits.indexOf("window.regionHandlebarsMockTraitTwo")).not.toEqual(-1);
-					});
-
-				});
-
-			});
-
-		});
+	describe("Its constructor options are the same as luga.data.region.Base and may also contains:", function(){
 
 		describe("options.templateId either", function(){
 
@@ -213,72 +89,6 @@ describe("luga.data.region.Handlebars", function(){
 
 	});
 
-	describe(".applyTraits()", function(){
-
-		describe("Calls the following default traits (passing {node: config.node, dataSource: this.dataSource}):", function(){
-
-			var testRegion, optionsObj;
-			beforeEach(function(){
-				testRegion = new luga.data.region.Handlebars({
-					node: testDiv,
-					dsId: "testDs",
-					templateId: "ladiesTemplate"
-				});
-				optionsObj = {node: testDiv, dataSource: loadedDs};
-			});
-
-			it("luga.data.region.traits.select()", function(){
-				spyOn(luga.data.region.traits, "select");
-				configRegion.applyTraits();
-				expect(luga.data.region.traits.select).toHaveBeenCalledWith(optionsObj);
-			});
-
-			it("luga.data.region.traits.setRowId()", function(){
-				spyOn(luga.data.region.traits, "setRowId");
-				configRegion.applyTraits();
-				expect(luga.data.region.traits.setRowId).toHaveBeenCalledWith(optionsObj);
-			});
-
-			it("luga.data.region.traits.setRowIndex()", function(){
-				spyOn(luga.data.region.traits, "setRowIndex");
-				configRegion.applyTraits();
-				expect(luga.data.region.traits.setRowIndex).toHaveBeenCalledWith(optionsObj);
-			});
-
-			it("luga.data.region.traits.sort()", function(){
-				spyOn(luga.data.region.traits, "sort");
-				configRegion.applyTraits();
-				expect(luga.data.region.traits.sort).toHaveBeenCalledWith(optionsObj);
-			});
-
-		});
-
-		describe("Throws an exception if:", function(){
-
-			it("options.traits contains an invalid function name", function(){
-				var region = new luga.data.region.Handlebars({
-					node: testDiv,
-					dsId: "testDs",
-					templateId: "ladiesTemplate",
-					traits: "missingFunction"
-				});
-				expect(function(){
-					region.applyTraits();
-				}).toThrow();
-			});
-
-			it("data-lugads-traits contains an invalid function name", function(){
-				var regionNode = jQuery("<div data-lugads-region='testRegion' data-lugads-datasource='testDs' data-lugads-traits='window.missingFunction'></div>");
-				var region = new luga.data.region.Handlebars({node: regionNode});
-				expect(function(){
-					region.applyTraits();
-				}).toThrow();
-			});
-
-		});
-
-	});
-
 	describe(".generateHtml()", function(){
 		it("Pass the dataSource's context to the compiled template", function(){
 			spyOn(configRegion, "template");
@@ -322,16 +132,6 @@ describe("luga.data.region.Handlebars", function(){
 			});
 		});
 
-	});
-
-	describe(".onDataChangedHandler()", function(){
-		it("Calls .render() whenever the associated dataSource triggers a 'dataChanged' event", function(){
-			spyOn(configRegion, "onDataChangedHandler").and.callThrough();
-			spyOn(configRegion, "render");
-			loadedDs.delete(); // Removes all records, triggers a 'dataChanged' event
-			expect(configRegion.onDataChangedHandler).toHaveBeenCalled();
-			expect(configRegion.render).toHaveBeenCalled();
-		});
 	});
 
 });
