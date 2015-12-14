@@ -59,12 +59,12 @@ data.JsonDtaset:
 data.region:
 
 - Add utility to retrieve corresponding region object from a given HTML node
-- Apply traits at currentRowchanged? All of them or just selected? Metadata or different args inside the constructor?
 
 
 data.region.Base:
 
 - Make Region an event notifier (regionRendered)
+- Apply traits at currentRowchanged? All of them or just selected? Metadata or different args inside the constructor?
 
 -------------
 
