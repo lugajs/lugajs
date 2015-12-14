@@ -14,7 +14,7 @@ describe("luga.data.region.Handlebars", function(){
 
 		configRegion = new luga.data.region.Handlebars({
 			node: testDiv,
-			dsId: "testDs",
+			ds: loadedDs,
 			templateId: "ladiesTemplate"
 		});
 		attributesRegion = new luga.data.region.Handlebars({node: attributesDiv});
@@ -53,9 +53,27 @@ describe("luga.data.region.Handlebars", function(){
 			});
 		});
 
+		describe("options.ds", function(){
+
+			it("Is mandatory if options.dsId is missing", function(){
+				expect(function(){
+					new luga.data.region.Handlebars({node: testDiv});
+				}).toThrow();
+			});
+			it("Throws an exception if a null value is passed", function(){
+				expect(function(){
+					new luga.data.region.Handlebars({node: testDiv, ds: null});
+				}).toThrow();
+			});
+			it("Uses the value specified inside the option argument", function(){
+				expect(configRegion.config.ds).toEqual(loadedDs);
+			});
+
+		});
+
 		describe("options.dsId", function(){
 
-			it("Is mandatory", function(){
+			it("Is mandatory if options.ds is missing", function(){
 				expect(function(){
 					new luga.data.region.Handlebars({node: testDiv});
 				}).toThrow();
@@ -71,7 +89,12 @@ describe("luga.data.region.Handlebars", function(){
 					expect(attributesRegion.config.dsId).toEqual("testDs");
 				});
 				it("Uses the value specified inside the option argument", function(){
-					expect(configRegion.config.dsId).toEqual("testDs");
+					var testRegion = new luga.data.region.Handlebars({
+						node: testDiv,
+						dsId: "testDs",
+						templateId: "ladiesTemplate"
+					});
+					expect(testRegion.config.dsId).toEqual("testDs");
 				});
 			});
 

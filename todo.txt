@@ -58,7 +58,6 @@ data.JsonDtaset:
 
 data.region.Handlebars:
 
-- Allows to pass dataSet object to the constructor, not just dataSet's id
 - Add data-lugads-traits attribute (comma-delimited)
 
 - Make Region an event notifier (regionRendered)
