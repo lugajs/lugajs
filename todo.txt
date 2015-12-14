@@ -58,7 +58,7 @@ data.JsonDtaset:
 
 data.region.Handlebars:
 
-- Add data-lugads-traits attribute (comma-delimited)
+- Test exception in .applyTraits() on invalid traits
 
 - Make Region an event notifier (regionRendered)
 - Add utility to retrieve corresponding region object from a given HTML node

@@ -13,7 +13,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.2.5";
+	luga.data.version = "0.2.6";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -23,10 +23,11 @@ if(typeof(luga) === "undefined"){
 		COL_TYPES: ["date", "number", "string"],
 		DEFAULT_REGION_TYPE: "luga.data.region.Handlebars",
 		CUSTOM_ATTRIBUTES: {
+			DATA_SOURCE: "data-lugads-datasource",
 			REGION: "data-lugads-region",
 			REGION_TYPE: "data-lugads-regiontype",
 			TEMPLATE: "data-lugads-template",
-			DATA_SOURCE: "data-lugads-datasource"
+			TRAITS: "data-lugads-traits"
 		},
 		EVENTS: {
 			CURRENT_ROW_CHANGED: "currentRowChanged",
@@ -1218,8 +1219,8 @@ if(typeof(luga) === "undefined"){
 			// Either: custom attribute or incoming option
 			dsId: options.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE) || null,
 			templateId: options.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.TEMPLATE) || null,
-			traits: options.traits || [],
 			// Either: incoming option or null
+			traits: options.traits || null,
 			ds: null
 		};
 		luga.merge(this.config, options);
@@ -1230,9 +1231,10 @@ if(typeof(luga) === "undefined"){
 		if(this.config.ds !== null){
 			// We've got a direct reference from the options
 			this.dataSource = this.config.ds;
-		} else {
+		}
+		else{
 			// We've got a dataSource Id
-			this.dataSource = luga.data.getDataSource(this.config.dsId);;
+			this.dataSource = luga.data.getDataSource(this.config.dsId);
 		}
 		if(this.dataSource === null){
 			throw(luga.string.format(luga.data.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE, [this.config.dsId]));
@@ -1248,8 +1250,13 @@ if(typeof(luga) === "undefined"){
 			"luga.data.region.traits.setRowIndex",
 			"luga.data.region.traits.sort"
 		];
-		if(self.config.traits.length > 0){
-			this.traits = this.traits.concat(options.traits);
+		// Extract traits from custom attribute, if any
+		var attrTraits = this.config.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.TRAITS);
+		if(attrTraits !== undefined){
+			this.traits = this.traits.concat(attrTraits.split(","));
+		}
+		if(this.config.traits !== null){
+			this.traits = this.traits.concat(this.config.traits.split(","));
 		}
 
 		/**

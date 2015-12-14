@@ -13,7 +13,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.2.5";
+	luga.data.version = "0.2.6";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -23,10 +23,11 @@ if(typeof(luga) === "undefined"){
 		COL_TYPES: ["date", "number", "string"],
 		DEFAULT_REGION_TYPE: "luga.data.region.Handlebars",
 		CUSTOM_ATTRIBUTES: {
+			DATA_SOURCE: "data-lugads-datasource",
 			REGION: "data-lugads-region",
 			REGION_TYPE: "data-lugads-regiontype",
 			TEMPLATE: "data-lugads-template",
-			DATA_SOURCE: "data-lugads-datasource"
+			TRAITS: "data-lugads-traits"
 		},
 		EVENTS: {
 			CURRENT_ROW_CHANGED: "currentRowChanged",
