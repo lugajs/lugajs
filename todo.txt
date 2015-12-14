@@ -58,6 +58,7 @@ data.JsonDtaset:
 
 data.region.Handlebars:
 
+- Add an abstract class for regions?
 - Make Region an event notifier (regionRendered)
 - Add utility to retrieve corresponding region object from a given HTML node
 
