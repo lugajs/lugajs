@@ -58,7 +58,7 @@ data.JsonDtaset:
 
 data.region:
 
-- Add utility to retrieve corresponding region object from a given HTML node
+- Add data.region.getReferenceFromNode(node)
 
 
 data.region.Base:
