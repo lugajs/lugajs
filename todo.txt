@@ -37,11 +37,7 @@ CORE:
 - Document luga.setProperty()
 
 -------------
-
 VALIDATOR:
-
-- Improve Bootstrap integration. Add alerts with messages
-
 -------------
 
 DATA:
