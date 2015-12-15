@@ -40,8 +40,8 @@
 		this.config = {
 			node: null, // Required
 			// Either: custom attribute or incoming option
-			dsId: options.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE) || null,
-			templateId: options.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.TEMPLATE) || null,
+			dsId: options.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE) || null,
+			templateId: options.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TEMPLATE) || null,
 			// Either: incoming option or null
 			traits: options.traits || null,
 			ds: null
@@ -60,7 +60,7 @@
 			this.dataSource = luga.data.getDataSource(this.config.dsId);
 		}
 		if(this.dataSource === null){
-			throw(luga.string.format(luga.data.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE, [this.config.dsId]));
+			throw(luga.string.format(luga.data.region.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE, [this.config.dsId]));
 		}
 		this.dataSource.addObserver(this);
 
@@ -72,7 +72,7 @@
 			"luga.data.region.traits.sort"
 		];
 		// Extract traits from custom attribute, if any
-		var attrTraits = this.config.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.TRAITS);
+		var attrTraits = this.config.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TRAITS);
 		if(attrTraits !== undefined){
 			this.traits = this.traits.concat(attrTraits.split(","));
 		}

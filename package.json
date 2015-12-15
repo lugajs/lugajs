@@ -26,7 +26,7 @@
 			"name": "Luga Validator"
 		}
 	},
-	"dataLibFragments": ["core", "Dataset", "DetailSet", "HttpDataset", "JsonDataSet", "region.Base", "region.Handlebars", "region.traits", "sort"],
+	"dataLibFragments": ["core", "Dataset", "DetailSet", "HttpDataset", "JsonDataSet", "region", "region.Base", "region.Handlebars", "region.traits", "sort"],
 	"dataLibDisplayName": "Luga Data",
 	"devDependencies": {
 		"gulp": "~3.9.0",

@@ -21,14 +21,6 @@ if(typeof(luga) === "undefined"){
 		PK_KEY: "rowId",
 		PK_KEY_PREFIX: "lugaPk_",
 		COL_TYPES: ["date", "number", "string"],
-		DEFAULT_REGION_TYPE: "luga.data.region.Handlebars",
-		CUSTOM_ATTRIBUTES: {
-			DATA_SOURCE: "data-lugads-datasource",
-			REGION: "data-lugads-region",
-			REGION_TYPE: "data-lugads-regiontype",
-			TEMPLATE: "data-lugads-template",
-			TRAITS: "data-lugads-traits"
-		},
 		EVENTS: {
 			CURRENT_ROW_CHANGED: "currentRowChanged",
 			DATA_CHANGED: "dataChanged",
@@ -38,14 +30,8 @@ if(typeof(luga) === "undefined"){
 			STATE_CHANGED: "stateChanged",
 			XHR_ERROR: "xhrError"
 		},
-		SELECTORS: {
-			REGION: "*[data-lugads-region]"
-		},
 		ERROR_MESSAGES: {
-			INVALID_STATE: "luga.data.utils.assembleStateDescription: Unsupported state: {0}",
-			MISSING_DATA_SOURCE_ATTRIBUTE: "Missing required data-lugads-datasource attribute inside region",
-			MISSING_DATA_SOURCE: "Unable to find datasource {0}",
-			MISSING_REGION_TYPE_FUNCTION: "Failed to create region. Unable to find a constructor function named: {0}"
+			INVALID_STATE: "luga.data.utils.assembleStateDescription: Unsupported state: {0}"
 		},
 		USER_AGENT: "luga.data",
 		XHR_TIMEOUT: 10000 // Keep this accessible to everybody
@@ -71,31 +57,6 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.data.setDataSource = function(id, dataSource){
 		luga.data.dataSourceRegistry[id] = dataSource;
-	};
-
-	/**
-	 * Given a jQuery object wrapping an HTML node, initialize the relevant Region handler
-	 * @param {jquery} node
-	 * @throws
-	 */
-	luga.data.initRegion = function(node){
-		var dataSourceId = node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE);
-		if(dataSourceId === undefined){
-			throw(luga.data.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE_ATTRIBUTE);
-		}
-		var dataSource = luga.data.getDataSource(dataSourceId);
-		if(dataSource === null){
-			throw(luga.string.format(luga.data.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE, [dataSourceId]));
-		}
-		var regionType = node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.REGION_TYPE);
-		if(regionType === undefined){
-			regionType = luga.data.CONST.DEFAULT_REGION_TYPE;
-		}
-		var RegionClass = luga.lookupFunction(regionType);
-		if(RegionClass === undefined){
-			throw(luga.string.format(luga.data.CONST.ERROR_MESSAGES.MISSING_REGION_TYPE_FUNCTION, [regionType]));
-		}
-		new RegionClass({node: node});
 	};
 
 	/**
@@ -149,14 +110,6 @@ if(typeof(luga) === "undefined"){
 		}
 		return false;
 	};
-
-	luga.namespace("luga.data.region");
-
-	jQuery(document).ready(function(){
-		jQuery(luga.data.CONST.SELECTORS.REGION).each(function(index, item){
-			luga.data.initRegion(jQuery(item));
-		});
-	});
 
 }());
 (function(){
@@ -1174,6 +1127,66 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
+	luga.namespace("luga.data.region");
+
+	luga.data.region.CONST = {
+		DEFAULT_REGION_TYPE: "luga.data.region.Handlebars",
+		CUSTOM_ATTRIBUTES: {
+			DATA_SOURCE: "data-lugads-datasource",
+			REGION: "data-lugads-region",
+			REGION_TYPE: "data-lugads-regiontype",
+			TEMPLATE: "data-lugads-template",
+			TRAITS: "data-lugads-traits"
+		},
+		EVENTS: {
+			REGION_RENDERED: "regionRendered"
+		},
+		SELECTORS: {
+			REGION: "*[data-lugads-region]"
+		},
+		ERROR_MESSAGES: {
+			MISSING_DATA_SOURCE_ATTRIBUTE: "Missing required data-lugads-datasource attribute inside region",
+			MISSING_DATA_SOURCE: "Unable to find datasource {0}",
+			MISSING_REGION_TYPE_FUNCTION: "Failed to create region. Unable to find a constructor function named: {0}"
+		}
+	};
+
+	/**
+	 * Given a jQuery object wrapping an HTML node, initialize the relevant Region handler
+	 * @param {jquery} node
+	 * @throws
+	 */
+	luga.data.region.init = function(node){
+		var dataSourceId = node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE);
+		if(dataSourceId === undefined){
+			throw(luga.data.region.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE_ATTRIBUTE);
+		}
+		var dataSource = luga.data.getDataSource(dataSourceId);
+		if(dataSource === null){
+			throw(luga.string.format(luga.data.region.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE, [dataSourceId]));
+		}
+		var regionType = node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_TYPE);
+		if(regionType === undefined){
+			regionType = luga.data.region.CONST.DEFAULT_REGION_TYPE;
+		}
+		var RegionClass = luga.lookupFunction(regionType);
+		if(RegionClass === undefined){
+			throw(luga.string.format(luga.data.region.CONST.ERROR_MESSAGES.MISSING_REGION_TYPE_FUNCTION, [regionType]));
+		}
+		new RegionClass({node: node});
+	};
+
+
+	jQuery(document).ready(function(){
+		jQuery(luga.data.region.CONST.SELECTORS.REGION).each(function(index, item){
+			luga.data.region.init(jQuery(item));
+		});
+	});
+
+}());
+(function(){
+	"use strict";
+
 	/**
 	 * @typedef {object} luga.data.region.options
 	 *
@@ -1213,8 +1226,8 @@ if(typeof(luga) === "undefined"){
 		this.config = {
 			node: null, // Required
 			// Either: custom attribute or incoming option
-			dsId: options.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE) || null,
-			templateId: options.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.TEMPLATE) || null,
+			dsId: options.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE) || null,
+			templateId: options.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TEMPLATE) || null,
 			// Either: incoming option or null
 			traits: options.traits || null,
 			ds: null
@@ -1233,7 +1246,7 @@ if(typeof(luga) === "undefined"){
 			this.dataSource = luga.data.getDataSource(this.config.dsId);
 		}
 		if(this.dataSource === null){
-			throw(luga.string.format(luga.data.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE, [this.config.dsId]));
+			throw(luga.string.format(luga.data.region.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE, [this.config.dsId]));
 		}
 		this.dataSource.addObserver(this);
 
@@ -1245,7 +1258,7 @@ if(typeof(luga) === "undefined"){
 			"luga.data.region.traits.sort"
 		];
 		// Extract traits from custom attribute, if any
-		var attrTraits = this.config.node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.TRAITS);
+		var attrTraits = this.config.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TRAITS);
 		if(attrTraits !== undefined){
 			this.traits = this.traits.concat(attrTraits.split(","));
 		}
@@ -1535,6 +1548,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/*
+	 Lovingly adapted from Spry
 	 Very special thanks to Kin Blas https://github.com/jblas
 	 */
 

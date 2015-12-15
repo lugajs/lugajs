@@ -21,14 +21,6 @@ if(typeof(luga) === "undefined"){
 		PK_KEY: "rowId",
 		PK_KEY_PREFIX: "lugaPk_",
 		COL_TYPES: ["date", "number", "string"],
-		DEFAULT_REGION_TYPE: "luga.data.region.Handlebars",
-		CUSTOM_ATTRIBUTES: {
-			DATA_SOURCE: "data-lugads-datasource",
-			REGION: "data-lugads-region",
-			REGION_TYPE: "data-lugads-regiontype",
-			TEMPLATE: "data-lugads-template",
-			TRAITS: "data-lugads-traits"
-		},
 		EVENTS: {
 			CURRENT_ROW_CHANGED: "currentRowChanged",
 			DATA_CHANGED: "dataChanged",
@@ -38,14 +30,8 @@ if(typeof(luga) === "undefined"){
 			STATE_CHANGED: "stateChanged",
 			XHR_ERROR: "xhrError"
 		},
-		SELECTORS: {
-			REGION: "*[data-lugads-region]"
-		},
 		ERROR_MESSAGES: {
-			INVALID_STATE: "luga.data.utils.assembleStateDescription: Unsupported state: {0}",
-			MISSING_DATA_SOURCE_ATTRIBUTE: "Missing required data-lugads-datasource attribute inside region",
-			MISSING_DATA_SOURCE: "Unable to find datasource {0}",
-			MISSING_REGION_TYPE_FUNCTION: "Failed to create region. Unable to find a constructor function named: {0}"
+			INVALID_STATE: "luga.data.utils.assembleStateDescription: Unsupported state: {0}"
 		},
 		USER_AGENT: "luga.data",
 		XHR_TIMEOUT: 10000 // Keep this accessible to everybody
@@ -71,31 +57,6 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.data.setDataSource = function(id, dataSource){
 		luga.data.dataSourceRegistry[id] = dataSource;
-	};
-
-	/**
-	 * Given a jQuery object wrapping an HTML node, initialize the relevant Region handler
-	 * @param {jquery} node
-	 * @throws
-	 */
-	luga.data.initRegion = function(node){
-		var dataSourceId = node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE);
-		if(dataSourceId === undefined){
-			throw(luga.data.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE_ATTRIBUTE);
-		}
-		var dataSource = luga.data.getDataSource(dataSourceId);
-		if(dataSource === null){
-			throw(luga.string.format(luga.data.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE, [dataSourceId]));
-		}
-		var regionType = node.attr(luga.data.CONST.CUSTOM_ATTRIBUTES.REGION_TYPE);
-		if(regionType === undefined){
-			regionType = luga.data.CONST.DEFAULT_REGION_TYPE;
-		}
-		var RegionClass = luga.lookupFunction(regionType);
-		if(RegionClass === undefined){
-			throw(luga.string.format(luga.data.CONST.ERROR_MESSAGES.MISSING_REGION_TYPE_FUNCTION, [regionType]));
-		}
-		new RegionClass({node: node});
 	};
 
 	/**
@@ -149,13 +110,5 @@ if(typeof(luga) === "undefined"){
 		}
 		return false;
 	};
-
-	luga.namespace("luga.data.region");
-
-	jQuery(document).ready(function(){
-		jQuery(luga.data.CONST.SELECTORS.REGION).each(function(index, item){
-			luga.data.initRegion(jQuery(item));
-		});
-	});
 
 }());
