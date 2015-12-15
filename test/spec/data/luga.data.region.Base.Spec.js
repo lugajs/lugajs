@@ -2,7 +2,7 @@ describe("luga.data.region.Base", function(){
 
 	"use strict";
 
-	var testRecords, loadedDs, testDiv, attributesDiv, configRegion, attributesRegion;
+	var testRecords, loadedDs, testDiv, attributesDiv, configRegion, attributesRegion,testObserver;
 	window.regionBaseMockTraitOne = function(){
 	};
 	window.regionBaseMockTraitTwo = function(){
@@ -21,6 +21,13 @@ describe("luga.data.region.Base", function(){
 			templateId: "ladiesTemplate"
 		});
 		attributesRegion = new luga.data.region.Base({node: attributesDiv});
+
+		testObserver = {
+			onRegionRenderedHandler: function(){
+			}
+		};
+		configRegion.addObserver(testObserver);
+		spyOn(testObserver, "onRegionRenderedHandler");
 
 	});
 
@@ -238,6 +245,11 @@ describe("luga.data.region.Base", function(){
 		it("Is an abstract method that concrete implementations must implement", function(){
 			expect(configRegion.render).toBeDefined();
 			expect(jQuery.isFunction(configRegion.render)).toBeTruthy();
+		});
+		it("Triggers a 'regionRendered' notification. Passing along the region's description", function(){
+			configRegion.render();
+			var desc = luga.data.region.utils.assembleRegionDescription(configRegion);
+			expect(testObserver.onRegionRenderedHandler).toHaveBeenCalledWith(desc);
 		});
 	});
 

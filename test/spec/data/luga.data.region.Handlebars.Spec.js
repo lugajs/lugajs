@@ -2,7 +2,7 @@ describe("luga.data.region.Handlebars", function(){
 
 	"use strict";
 
-	var testRecords, loadedDs, testDiv, attributesDiv, configRegion, attributesRegion;
+	var testRecords, loadedDs, testDiv, attributesDiv, configRegion, attributesRegion, testObserver;
 
 	beforeEach(function(){
 
@@ -19,6 +19,13 @@ describe("luga.data.region.Handlebars", function(){
 			templateId: "ladiesTemplate"
 		});
 		attributesRegion = new luga.data.region.Handlebars({node: attributesDiv});
+
+		testObserver = {
+			onRegionRenderedHandler: function(){
+			}
+		};
+		configRegion.addObserver(testObserver);
+		spyOn(testObserver, "onRegionRenderedHandler");
 
 	});
 
@@ -124,11 +131,19 @@ describe("luga.data.region.Handlebars", function(){
 			});
 		});
 
-		describe("Finally:", function(){
+		describe("Then:", function(){
 			it("Calls .applyTraits()", function(){
 				spyOn(testRegion, "applyTraits").and.callThrough();
 				testRegion.render();
 				expect(testRegion.applyTraits).toHaveBeenCalled();
+			});
+		});
+
+		describe("Finally:", function(){
+			it("Triggers a 'regionRendered' notification. Passing along the region's description", function(){
+				configRegion.render();
+				var desc = luga.data.region.utils.assembleRegionDescription(configRegion);
+				expect(testObserver.onRegionRenderedHandler).toHaveBeenCalledWith(desc);
 			});
 		});
 

@@ -13,7 +13,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.2.8";
+	luga.data.version = "0.2.9";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -1193,6 +1193,26 @@ if(typeof(luga) === "undefined"){
 		new RegionClass({node: node});
 	};
 
+	luga.namespace("luga.data.region.utils");
+
+	/**
+	 * @typedef {object} luga.data.region.description
+	 *
+	 * @property {jquery}                                node   A jQuery object wrapping the node containing the region.
+	 * @property {luga.data.DataSet|luga.data.DetailSet} ds     DataSource
+	 */
+
+	/**
+	 * Given a region instance, returns an object containing its critical data
+	 * @param {luga.data.region.Base} region
+	 * @returns {luga.data.region.description}
+	 */
+	luga.data.region.utils.assembleRegionDescription = function(region){
+		return {
+			node: region.config.node,
+			ds: region.dataSource
+		};
+	};
 
 	jQuery(document).ready(function(){
 		jQuery(luga.data.region.CONST.SELECTORS.REGION).each(function(index, item){
@@ -1209,9 +1229,9 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @property {jquery} node                                Either a jQuery object wrapping the node or the naked DOM object that will contain the region. Required
 	 * @property {luga.data.DataSet|luga.data.DetailSet} ds   DataSource. Required if dsId is not specified
-	 * @property {string} dsId                                DataSource's id. Can be specified inside the data-lugads-datasource too. Required if ds is not specified
+	 * @property {string} dsId                                DataSource's id. Can be specified inside the data-lugads-datasource attribute too. Required if ds is not specified
 	 * @property {{array.<string>} traits                     An array of function names that will be called every time the Region is rendered. Optional
-	 * @property {string} templateId                          Id of HTML element containing the template. Can be specified inside the data-lugads-template too.
+	 * @property {string} templateId                          Id of HTML element containing the template. Can be specified inside the data-lugads-template attribute too.
 	 *                                                        If not available it assumes the node contains the template
 	 */
 
@@ -1226,6 +1246,8 @@ if(typeof(luga) === "undefined"){
 	 * @throws
 	 */
 	luga.data.region.Base = function(options){
+
+		luga.extend(luga.Notifier, this);
 
 		this.CONST = {
 			ERROR_MESSAGES: {
@@ -1302,6 +1324,8 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.render = function(){
 			// Concrete implementations must overwrite this
+			var desc = luga.data.region.utils.assembleRegionDescription(this);
+			this.notifyObservers(luga.data.region.CONST.EVENTS.REGION_RENDERED, desc);
 		};
 
 		/* Events Handlers */
@@ -1397,6 +1421,8 @@ if(typeof(luga) === "undefined"){
 			if(this.template !== ""){
 				this.config.node.html(this.generateHtml());
 				this.applyTraits();
+				var desc = luga.data.region.utils.assembleRegionDescription(this);
+				this.notifyObservers(luga.data.region.CONST.EVENTS.REGION_RENDERED, desc);
 			}
 		};
 

@@ -59,7 +59,6 @@ data.JsonDtaset:
 
 data.region.Base:
 
-- Make Region an event notifier (regionRendered)
 - Apply traits at currentRowchanged? All of them or just selected? Metadata or different args inside the constructor?
 
 -------------

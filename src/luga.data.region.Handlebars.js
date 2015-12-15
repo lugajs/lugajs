@@ -72,6 +72,8 @@
 			if(this.template !== ""){
 				this.config.node.html(this.generateHtml());
 				this.applyTraits();
+				var desc = luga.data.region.utils.assembleRegionDescription(this);
+				this.notifyObservers(luga.data.region.CONST.EVENTS.REGION_RENDERED, desc);
 			}
 		};
 

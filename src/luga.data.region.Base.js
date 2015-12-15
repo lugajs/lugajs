@@ -101,6 +101,8 @@
 		 */
 		this.render = function(){
 			// Concrete implementations must overwrite this
+			var desc = luga.data.region.utils.assembleRegionDescription(this);
+			this.notifyObservers(luga.data.region.CONST.EVENTS.REGION_RENDERED, desc);
 		};
 
 		/* Events Handlers */
