@@ -27,9 +27,9 @@ CSI:
 
 CORE:
 
-- Implement luga.form.toJson()
 - Implement luga.string.queryToHash()
 
+- Document luga.form.toJson()
 - Document luga.Notifier
 - Document luga.extend()
 - Document luga.lookupFunction()

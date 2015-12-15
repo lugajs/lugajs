@@ -84,6 +84,68 @@ describe("luga.form", function(){
 
 	});
 
+	describe(".toJson()", function(){
+
+		beforeEach(function(){
+			loadFixtures("form/tojson.htm");
+		});
+
+		it("Given a form tag or another element wrapping input fields, serialize them into JSON data", function(){
+			expect(luga.form.toJson(jQuery("#basicValue"))).toEqual({
+				person: {
+					firstname: "ciccio",
+					lastname: "pasticcio",
+				},
+				radio: "yes"
+			});
+			expect(luga.form.toJson(jQuery("#basicNoValue"))).toEqual({
+				person: {
+					firstname: "",
+					lastname: "",
+				}
+			});
+		});
+
+		it("Throws an exception if the given node does not exists", function(){
+			expect(function(){
+				luga.form.toJson(jQuery("#missing"));
+			}).toThrow();
+		});
+
+		it("Ignores unsuccessful fields", function(){
+			expect(luga.form.toJson(jQuery("#unsuccessfulFields"))).toEqual({
+				person: {
+					firstname: "ciccio"
+				}
+			});
+		});
+
+		it("Values of multiple checked checkboxes are included as a single entry, with array value", function(){
+			expect(luga.form.toJson(jQuery("#multiBox"))).toEqual({
+				person: {
+					firstname: "ciccio"
+				},
+				box: ["first", "second"]
+			});
+		});
+
+		it("Values of multiple select are included as a single entry, with comma-delimited value", function(){
+			expect(luga.form.toJson(jQuery("#multiSelect"))).toEqual({
+				person: {
+					firstname: "ciccio"
+				},
+				select: ["first", "second"]
+			});
+		});
+
+		it("Requires luga.form.toHash() in order to work", function(){
+			spyOn(luga.form, "toHash");
+			luga.form.toJson(jQuery("#basicValue"));
+			expect(luga.form.toHash).toHaveBeenCalledWith($("#basicValue"));
+		});
+
+	});
+
 	describe(".utils", function(){
 
 		it("Contains form-related, static methods and utilities", function(){
