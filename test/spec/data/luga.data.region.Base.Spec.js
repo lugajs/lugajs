@@ -29,6 +29,13 @@ describe("luga.data.region.Base", function(){
 		expect(jQuery.isFunction(luga.data.region.Base)).toBeTruthy();
 	});
 
+	it("Implements the luga.Notifier interface", function(){
+		var MockNotifier = function(){
+			luga.extend(luga.Notifier, this);
+		}
+		expect(configRegion).toMatchDuckType(new MockNotifier());
+	});
+
 	it("Register itself as observer of the associated dataSource", function(){
 		expect(loadedDs.observers[0]).toEqual(configRegion);
 	});

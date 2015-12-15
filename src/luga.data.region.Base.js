@@ -24,6 +24,8 @@
 	 */
 	luga.data.region.Base = function(options){
 
+		luga.extend(luga.Notifier, this);
+
 		this.CONST = {
 			ERROR_MESSAGES: {
 				INVALID_TRAIT: "luga.data.region invalid trait: {0} is not a function",
