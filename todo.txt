@@ -56,11 +56,6 @@ data.JsonDtaset:
 - Handle sophisticated paths? Implement subPaths like Spry?
 
 
-data.region:
-
-- Add data.region.getReferenceFromNode(node)
-
-
 data.region.Base:
 
 - Make Region an event notifier (regionRendered)

@@ -13,13 +13,11 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.2.7";
+	luga.data.version = "0.2.8";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
 	luga.data.CONST = {
-		PK_KEY: "rowId",
-		PK_KEY_PREFIX: "lugaPk_",
 		COL_TYPES: ["date", "number", "string"],
 		EVENTS: {
 			CURRENT_ROW_CHANGED: "currentRowChanged",
@@ -33,6 +31,8 @@ if(typeof(luga) === "undefined"){
 		ERROR_MESSAGES: {
 			INVALID_STATE: "luga.data.utils.assembleStateDescription: Unsupported state: {0}"
 		},
+		PK_KEY: "rowId",
+		PK_KEY_PREFIX: "lugaPk_",
 		USER_AGENT: "luga.data",
 		XHR_TIMEOUT: 10000 // Keep this accessible to everybody
 	};
@@ -1130,31 +1130,42 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.data.region");
 
 	luga.data.region.CONST = {
-		DEFAULT_REGION_TYPE: "luga.data.region.Handlebars",
 		CUSTOM_ATTRIBUTES: {
 			DATA_SOURCE: "data-lugads-datasource",
 			REGION: "data-lugads-region",
+			REGION_REFERENCE: "luga-region-reference",
 			REGION_TYPE: "data-lugads-regiontype",
 			TEMPLATE: "data-lugads-template",
 			TRAITS: "data-lugads-traits"
 		},
+		DEFAULT_REGION_TYPE: "luga.data.region.Handlebars",
 		DEFAULT_TRAITS: [
 			"luga.data.region.traits.select",
 			"luga.data.region.traits.setRowId",
 			"luga.data.region.traits.setRowIndex",
 			"luga.data.region.traits.sort"
 		],
+		ERROR_MESSAGES: {
+			MISSING_DATA_SOURCE_ATTRIBUTE: "Missing required data-lugads-datasource attribute inside region",
+			MISSING_DATA_SOURCE: "Unable to find datasource {0}",
+			MISSING_REGION_TYPE_FUNCTION: "Failed to create region. Unable to find a constructor function named: {0}"
+		},
 		EVENTS: {
 			REGION_RENDERED: "regionRendered"
 		},
 		SELECTORS: {
 			REGION: "*[data-lugads-region]"
-		},
-		ERROR_MESSAGES: {
-			MISSING_DATA_SOURCE_ATTRIBUTE: "Missing required data-lugads-datasource attribute inside region",
-			MISSING_DATA_SOURCE: "Unable to find datasource {0}",
-			MISSING_REGION_TYPE_FUNCTION: "Failed to create region. Unable to find a constructor function named: {0}"
 		}
+	};
+
+	/**
+	 * Given a jQuery object wrapping an HTML node, returns the region object associated to it
+	 * Returns undefined if the node is not a region
+	 * @param {jquery} node
+	 * @returns {undefined|luga.data.region.Base}
+	 */
+	luga.data.region.getReferenceFromNode = function(node){
+		return node.data(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE);
 	};
 
 	/**
@@ -1266,6 +1277,9 @@ if(typeof(luga) === "undefined"){
 		if(this.config.traits !== null){
 			this.traits = this.traits.concat(this.config.traits.split(","));
 		}
+
+		// Store reference inside node
+		this.config.node.data(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE, this);
 
 		this.applyTraits = function(){
 			var traitData = {

@@ -33,6 +33,16 @@
 	};
 
 	/**
+	 * Given a jQuery object wrapping an HTML node, returns the region object associated to it
+	 * Returns undefined if the node is not a region
+	 * @param {jquery} node
+	 * @returns {undefined|luga.data.region.Base}
+	 */
+	luga.data.region.getReferenceFromNode = function(node){
+		return node.data(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE);
+	};
+
+	/**
 	 * Given a jQuery object wrapping an HTML node, initialize the relevant Region handler
 	 * @param {jquery} node
 	 * @throws

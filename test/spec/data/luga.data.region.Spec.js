@@ -5,7 +5,34 @@ describe("luga.data.region", function(){
 	it("Lives inside its own namespace", function(){
 		expect(luga.data.region).toBeDefined();
 	});
-	
+
+	describe(".getReferenceFromNode()", function(){
+
+		var testDs, testDiv, testRegion;
+		beforeEach(function(){
+
+			testDs = new luga.data.DataSet({id: "testDs"});
+			testDiv = jQuery("<div>Ciao Mamma</div>");
+			testRegion = new luga.data.region.Base({
+				node: testDiv,
+				ds: testDs
+			});
+
+		});
+
+		describe("Given a jQuery object wrapping an HTML node", function(){
+
+			it("Returns the region object associated to it", function(){
+				expect(luga.data.region.getReferenceFromNode(testDiv)).toEqual(testRegion);
+			});
+			it("Returns undefined if the node is not a region", function(){
+				expect(luga.data.region.getReferenceFromNode(jQuery("<div>"))).toEqual(undefined);
+			});
+
+		});
+
+	});
+
 	describe(".init()", function(){
 
 		describe("Given a jQuery object wrapping a DOM node", function(){
@@ -43,7 +70,8 @@ describe("luga.data.region", function(){
 				it("Creates a new instance of whatever constructor function is specified inside the data-lugads-regiontype attribute. Passing the given node as options.node", function(){
 					new luga.data.DataSet({id: "testDs"});
 					window.mock = {
-						regionHandler: function(){}
+						regionHandler: function(){
+						}
 					}
 					var regionNode = jQuery("<div data-lugads-region='test' data-lugads-datasource='testDs' data-lugads-regiontype='window.mock.regionHandler'>");
 					spyOn(window.mock, "regionHandler");
