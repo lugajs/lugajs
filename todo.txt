@@ -64,6 +64,7 @@ data.region:
 data.region.Base:
 
 - Make Region an event notifier (regionRendered)
+- Move default traits inside an external costant
 - Apply traits at currentRowchanged? All of them or just selected? Metadata or different args inside the constructor?
 
 -------------
