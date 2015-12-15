@@ -41,5 +41,6 @@ var lugaMatchers = {
 };
 
 beforeEach(function(){
+	"use strict";
 	jasmine.addMatchers(lugaMatchers);
 });
