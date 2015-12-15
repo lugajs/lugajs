@@ -33,6 +33,10 @@ describe("luga.data.region.Base", function(){
 		expect(loadedDs.observers[0]).toEqual(configRegion);
 	});
 
+	it("Attach a reference inside the given node, storing it as the luga-region-reference key", function(){
+		expect(testDiv.data(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE)).toEqual(configRegion);
+	});
+
 	describe("Accepts an Options object as single argument", function(){
 
 		describe("options.node", function(){

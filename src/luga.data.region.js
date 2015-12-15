@@ -7,6 +7,7 @@
 		CUSTOM_ATTRIBUTES: {
 			DATA_SOURCE: "data-lugads-datasource",
 			REGION: "data-lugads-region",
+			REGION_REFERENCE: "luga-region-reference",
 			REGION_TYPE: "data-lugads-regiontype",
 			TEMPLATE: "data-lugads-template",
 			TRAITS: "data-lugads-traits"

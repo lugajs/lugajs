@@ -75,6 +75,9 @@
 			this.traits = this.traits.concat(this.config.traits.split(","));
 		}
 
+		// Store reference inside node
+		this.config.node.data(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE, this);
+
 		this.applyTraits = function(){
 			var traitData = {
 				node: this.config.node,
