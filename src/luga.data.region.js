@@ -12,6 +12,12 @@
 			TEMPLATE: "data-lugads-template",
 			TRAITS: "data-lugads-traits"
 		},
+		DEFAULT_TRAITS: [
+			"luga.data.region.traits.select",
+			"luga.data.region.traits.setRowId",
+			"luga.data.region.traits.setRowIndex",
+			"luga.data.region.traits.sort"
+		],
 		EVENTS: {
 			REGION_RENDERED: "regionRendered"
 		},

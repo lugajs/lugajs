@@ -1138,6 +1138,12 @@ if(typeof(luga) === "undefined"){
 			TEMPLATE: "data-lugads-template",
 			TRAITS: "data-lugads-traits"
 		},
+		DEFAULT_TRAITS: [
+			"luga.data.region.traits.select",
+			"luga.data.region.traits.setRowId",
+			"luga.data.region.traits.setRowIndex",
+			"luga.data.region.traits.sort"
+		],
 		EVENTS: {
 			REGION_RENDERED: "regionRendered"
 		},
@@ -1251,12 +1257,7 @@ if(typeof(luga) === "undefined"){
 		this.dataSource.addObserver(this);
 
 		/** @type {array.<string>} */
-		this.traits = [
-			"luga.data.region.traits.select",
-			"luga.data.region.traits.setRowId",
-			"luga.data.region.traits.setRowIndex",
-			"luga.data.region.traits.sort"
-		];
+		this.traits = luga.data.region.CONST.DEFAULT_TRAITS;
 		// Extract traits from custom attribute, if any
 		var attrTraits = this.config.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TRAITS);
 		if(attrTraits !== undefined){
