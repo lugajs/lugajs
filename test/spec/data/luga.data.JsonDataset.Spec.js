@@ -10,12 +10,15 @@ describe("luga.data.JsonDataset", function(){
 		DEFAULT_TIMEOUT = 2000;
 	});
 
-	it("Extends luga.data.HttpDataSet", function(){
-		expect(jQuery.isFunction(testDs.loadData)).toBeTruthy();
-	});
-
 	it("Is the JSON dataset class", function(){
 		expect(jQuery.isFunction(luga.data.JsonDataSet)).toBeTruthy();
+	});
+
+	it("Implements the luga.data.HttpDataSet abstract class", function(){
+		var MockDs = function(options){
+			luga.extend(luga.data.HttpDataSet, this, [options]);
+		}
+		expect(noUrlDs).toMatchDuckType(new MockDs({id:"duck"}, false));
 	});
 
 	describe("Its constructor options are the same as luga.data.HttpDataSet and may also contains:", function(){

@@ -2,6 +2,19 @@ describe("luga.validator.RadioValidator", function(){
 
 	"use strict";
 
+	it("Implements the luga.validator.BaseGroupValidator abstract class", function(){
+		loadFixtures("validator/RadioValidator/required.htm");
+		var validator = luga.validator.fieldValidatorFactory.getInstance({
+			formNode: jQuery("#single"),
+			fieldNode: jQuery("#Nicole")
+		});
+		var MockValidator = function(options){
+			luga.extend(luga.validator.BaseGroupValidator, this, [options]);
+		}
+		var inputGroup = luga.form.utils.getFieldGroup("lady",jQuery("#single"));
+		expect(validator).toMatchDuckType(new MockValidator({inputGroup: inputGroup}));
+	});
+
 	it("Validates each group of radio buttons as a single unit", function(){
 
 		loadFixtures("validator/RadioValidator/required.htm");

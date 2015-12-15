@@ -230,9 +230,11 @@ describe("luga", function(){
 			uselessObj = new UselessObserverClass();
 		});
 
-		it("Is an interface class that cannot be instantiated directly, it can only be used as a base class", function(){
+		it("Is an interface class, it can only be used as a base class", function(){
 			expect(jQuery.isFunction(luga.Notifier)).toBeTruthy();
+		});
 
+		it("Throws an exception if instantiated directly", function(){
 			expect(function(){
 				new luga.Notifier();
 			}).toThrow();

@@ -1,5 +1,4 @@
 - Consider creating a Bower package, maybe an NPM one too
-- Implement a duckType matcher for Jasmine .toMatchDuckType(duckInstance) (make it a dedicated project?)
 - Try istanbul for measuring test coverage
 
 -------------

@@ -4,6 +4,16 @@ describe("luga.validator.TextValidator", function(){
 
 	"use strict";
 
+	it("Implements the luga.validator.BaseFieldValidator abstract class", function(){
+		var validator = luga.validator.fieldValidatorFactory.getInstance({
+			fieldNode: jQuery("<input type='text'>")
+		});
+		var MockValidator = function(options){
+			luga.extend(luga.validator.BaseFieldValidator, this, [options]);
+		}
+		expect(validator).toMatchDuckType(new MockValidator({fieldNode: jQuery("<input type='text'>")}));
+	});
+
 	it("Throws an exception if the associated field node does not exists", function(){
 		expect(function(){
 			new luga.validator.TextValidator({

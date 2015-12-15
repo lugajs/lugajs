@@ -7,14 +7,14 @@ describe("luga.data.HttpDataSet", function(){
 		testDs = new luga.data.JsonDataSet({id: "jsonDs"});
 	});
 
-	it("Extends luga.data.Dataset", function(){
-		expect(jQuery.isFunction(testDs.select)).toBeTruthy();
-	});
-
-	it("Is an abstract class. Throws an exception if invoked directly", function(){
+	it("Is an abstract class. Throws an exception if instantiated directly", function(){
 		expect(function(){
 			new luga.data.HttpDataSet({id: "tryThis"});
 		}).toThrow();
+	});
+
+	it("Extends luga.data.Dataset", function(){
+		expect(testDs).toMatchDuckType(new luga.data.DataSet({id:"duck"}));
 	});
 
 	describe("Its constructor options are the same as luga.data.DataSet and may also contains:", function(){

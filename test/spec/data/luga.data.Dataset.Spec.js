@@ -55,10 +55,11 @@ describe("luga.data.Dataset", function(){
 		expect(jQuery.isFunction(luga.data.DataSet)).toBeTruthy();
 	});
 
-	it("Implements the Notifier interface", function(){
-		expect(jQuery.isFunction(baseDs.addObserver)).toBeTruthy();
-		expect(jQuery.isFunction(baseDs.notifyObservers)).toBeTruthy();
-		expect(jQuery.isArray(baseDs.observers)).toBeTruthy();
+	it("Implements the luga.Notifier interface", function(){
+		var MockNotifier = function(){
+			luga.extend(luga.Notifier, this);
+		}
+		expect(baseDs).toMatchDuckType(new MockNotifier());
 	});
 
 	describe("Accepts an Options object as single argument", function(){

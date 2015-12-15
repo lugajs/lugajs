@@ -27,8 +27,8 @@ describe("luga.data.region.Handlebars", function(){
 		expect(jQuery.isFunction(luga.data.region.Handlebars)).toBeTruthy();
 	});
 
-	it("Extends luga.data.region.Base", function(){
-		expect(jQuery.isFunction(configRegion.applyTraits)).toBeTruthy();
+	it("Implements the luga.data.region.Base abstract class", function(){
+		expect(configRegion).toMatchDuckType(new luga.data.region.Base({node: testDiv, ds: loadedDs}));
 	});
 
 	describe("Its constructor options are the same as luga.data.region.Base and may also contains:", function(){
