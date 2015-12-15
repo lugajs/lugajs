@@ -46,6 +46,8 @@ describe("luga.ajaxform", function(){
 		});
 		spyOn(luga.form, "toHash").and.callThrough(function(){
 		});
+		spyOn(luga.form, "toJson").and.callThrough(function(){
+		});
 		spyOn(jQuery, "ajax").and.callFake(function(){
 		});
 		spyOn(ajaxFormHandlers, "customBefore").and.callFake(function(){
@@ -473,9 +475,9 @@ describe("luga.ajaxform", function(){
 
 			describe("First", function(){
 
-				it("Convert the form into JSON using luga.form.toHash()", function(){
+				it("Convert the form into JSON using luga.form.toJson()", function(){
 					basicSender.sendJson();
-					expect(luga.form.toHash).toHaveBeenCalled();
+					expect(luga.form.toJson).toHaveBeenCalled();
 				});
 
 			});

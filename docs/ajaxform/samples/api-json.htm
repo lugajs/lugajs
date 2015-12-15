@@ -36,17 +36,21 @@
 			First, create a new instance of luga.ajaxform.Sender, then call its sendJson() method instead of the usual send() method.
 		</p>
 		<p>
-			Please be aware that depending if your server is not configured to accept POST and PUT requests, the sample code below may fail
-		</p>
-		<p>
 			For a complete list of available options, see the <a href="../docs/api-syntax.htm">syntax reference</a>
 		</p>
 	</section>
 
-	<form id="getForm">
+	<form>
 		<h1>Send raw JSON</h1>
 		<input type="text" name="name"/>
-		<input type="button" value="Send" onclick="submitAsGet(jQuery('#getForm'))"/>
+		<input type="button" value="Send" onclick="submitAsGet(jQuery(this.form))"/>
+	</form>
+
+	<form>
+		<h1>Send raw JSON with nested parameters</h1>
+		<input type="text" name="person.firstname" value="ciccio"/>
+		<input type="text" name="person.lastname" value="pasticcio"/>
+		<input type="button" value="Send" onclick="submitAsGet(jQuery(this.form))"/>
 	</form>
 
 </div>
