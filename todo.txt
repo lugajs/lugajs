@@ -1,5 +1,6 @@
 - Consider creating a Bower package, maybe an NPM one too
 - Try istanbul for measuring test coverage
+- Spin-off for jasmine-ducktype?
 
 -------------
 
@@ -17,7 +18,7 @@ AJAXFORM:
 
 - Use luga.form.toJson() for sendJson()
 - Parse and handle error messages from server
-- Use live service for test
+- Use live service for samples and docs
 - Standardize JSON schema for error messages
 
 -------------
