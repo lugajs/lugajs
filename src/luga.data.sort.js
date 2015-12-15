@@ -51,6 +51,7 @@
 	};
 
 	/*
+	 Lovingly adapted from Spry
 	 Very special thanks to Kin Blas https://github.com/jblas
 	 */
 
