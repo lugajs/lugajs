@@ -67,6 +67,26 @@
 		new RegionClass({node: node});
 	};
 
+	luga.namespace("luga.data.region.utils");
+
+	/**
+	 * @typedef {object} luga.data.region.description
+	 *
+	 * @property {jquery}                                node   A jQuery object wrapping the node containing the region.
+	 * @property {luga.data.DataSet|luga.data.DetailSet} ds     DataSource
+	 */
+
+	/**
+	 * Given a region instance, returns an object containing its critical data
+	 * @param {luga.data.region.Base} region
+	 * @returns {luga.data.region.description}
+	 */
+	luga.data.region.utils.assembleRegionDescription = function(region){
+		return {
+			node: region.config.node,
+			ds: region.dataSource
+		};
+	};
 
 	jQuery(document).ready(function(){
 		jQuery(luga.data.region.CONST.SELECTORS.REGION).each(function(index, item){
