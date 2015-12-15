@@ -18,8 +18,6 @@ if(typeof(luga) === "undefined"){
 	luga.data.dataSourceRegistry = {};
 
 	luga.data.CONST = {
-		PK_KEY: "rowId",
-		PK_KEY_PREFIX: "lugaPk_",
 		COL_TYPES: ["date", "number", "string"],
 		EVENTS: {
 			CURRENT_ROW_CHANGED: "currentRowChanged",
@@ -33,6 +31,8 @@ if(typeof(luga) === "undefined"){
 		ERROR_MESSAGES: {
 			INVALID_STATE: "luga.data.utils.assembleStateDescription: Unsupported state: {0}"
 		},
+		PK_KEY: "rowId",
+		PK_KEY_PREFIX: "lugaPk_",
 		USER_AGENT: "luga.data",
 		XHR_TIMEOUT: 10000 // Keep this accessible to everybody
 	};
