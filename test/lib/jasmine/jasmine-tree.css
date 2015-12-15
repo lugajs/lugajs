@@ -1,5 +1,5 @@
 /*! 
-jasmine-tree 0.1.1 2015-11-05T22:01:57.232Z
+jasmine-tree 0.1.2 2015-12-15T11:45:51.985Z
 Copyright 2015 Massimo Foti (massimo@massimocorner.com) and Emily Meroni (emily.meroni@gmail.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -13,28 +13,36 @@ body {
   padding-bottom: 20px;
   visibility: visible; }
 
-div.summary.jasmine-tree-summary {
+div.summary.jasmine-tree-summary,
+div.jasmine-summary.jasmine-tree-summary {
   box-sizing: border-box; }
 
-div.summary.jasmine-tree-summary ul.suite {
+div.summary.jasmine-tree-summary ul.suite,
+div.jasmine-summary.jasmine-tree-summary ul.jasmine-suite {
   padding-left: 10px;
   position: relative; }
 
-div.summary.jasmine-tree-summary ul.specs li {
+div.summary.jasmine-tree-summary ul.specs li,
+div.jasmine-summary.jasmine-tree-summary ul.jasmine-specs li {
   padding-left: 10px; }
 
-div.summary.jasmine-tree-summary > ul.suite {
+div.summary.jasmine-tree-summary > ul.suite,
+div.jasmine-summary.jasmine-tree-summary > ul.jasmine-suite {
   border-left: 0; }
 
 div.summary.jasmine-tree-summary > ul.suite:before,
-div.summary.jasmine-tree-summary > ul.suite:after {
+div.summary.jasmine-tree-summary > ul.suite:after,
+div.jasmine-summary.jasmine-tree-summary > ul.jasmine-suite:before,
+div.jasmine-summary.jasmine-tree-summary > ul.jasmine-suite:after {
   border-left: 0;
   border-bottom: 0; }
 
 .html-reporter .summary ul.suite,
-.jasmine_html-reporter .summary ul.suite {
+.jasmine_html-reporter .summary ul.suite,
+.html-reporter .jasmine-summary ul.jasmine-suite,
+.jasmine_html-reporter .jasmine-summary ul.jasmine-suite {
   padding-bottom: 0;
-  padding-top: 14px;
+  padding-top: 1.2em;
   margin-left: 8px;
   margin-top: 0;
   margin-bottom: 0; }
@@ -56,64 +64,46 @@ a.jasmine-tree-trigger {
 a.jasmine-tree-trigger:hover {
   text-decoration: none; }
 
-ul.suite.jasmine-tree-opennode {
+.jasmine-tree-summary {
+  line-height: 1.4em; }
+
+ul.suite.jasmine-tree-opennode,
+ul.jasmine-suite.jasmine-tree-opennode {
   border-left: 1px solid #666666; }
 
 ul.suite::before,
-ul.suite.jasmine-tree-opennode:last-child::before {
-  border-bottom: 1px solid #666666;
-  height: 21px;
-  top: 0; }
-
-ul.suite::before,
+ul.suite::after,
 ul.suite.jasmine-tree-opennode:last-child::before,
-ul.suite::after {
+ul.jasmine-suite::before,
+ul.jasmine-suite::after,
+ul.jasmine-suite.jasmine-tree-opennode:last-child::before {
   border-left: 1px solid #666666;
   content: "";
   left: 0;
   position: absolute;
   width: 8px; }
 
-ul.suite.jasmine-tree-opennode::before,
-ul.suite.jasmine-tree-opennode::after {
-  border-left: 0 none; }
-
-ul.suite::before,
-ul.suite.jasmine-tree-opennode:last-child::before {
-  border-bottom: 1px solid #666666;
-  height: 21px;
-  top: 0; }
-
 ul.suite::before,
 ul.suite.jasmine-tree-opennode:last-child::before,
-ul.suite::after {
-  border-left: 1px solid #666666;
-  content: "";
-  left: 0;
-  position: absolute;
-  width: 8px; }
+ul.jasmine-suite::before,
+ul.jasmine-suite.jasmine-tree-opennode:last-child::before {
+  border-bottom: 1px solid #666666;
+  height: 1.9em;
+  top: 0; }
+
+ul.suite::after,
+ul.jasmine-suite::after {
+  height: 0.7em;
+  top: 1.9em; }
 
 ul.suite.jasmine-tree-opennode::before,
-ul.suite.jasmine-tree-opennode::after {
+ul.suite.jasmine-tree-opennode::after,
+ul.jasmine-suite.jasmine-tree-opennode::before,
+ul.jasmine-suite.jasmine-tree-opennode::after {
   border-left: 0 none; }
 
 ul.suite.jasmine-tree-opennode:last-child,
-ul.suite:last-child::after {
-  border: 0 none; }
-
-ul.suite::after {
-  height: 7px;
-  top: 20.7px; }
-
-ul.suite::before,
-ul.suite.jasmine-tree-opennode:last-child::before,
-ul.suite::after {
-  border-left: 1px solid #666666;
-  content: "";
-  left: 0;
-  position: absolute;
-  width: 8px; }
-
-ul.suite.jasmine-tree-opennode:last-child,
-ul.suite:last-child::after {
+ul.suite:last-child::after,
+ul.jasmine-suite.jasmine-tree-opennode:last-child,
+ul.jasmine-suite:last-child::after {
   border: 0 none; }
