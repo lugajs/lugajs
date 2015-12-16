@@ -1,0 +1,50 @@
+<form id="basicValue">
+	<input type="text" name="person.firstname" value="ciccio"/>
+	<input type="text" name="person.lastname" value="pasticcio"/>
+	<input type="radio" name="radio" value="yes" checked="checked"/>
+	<input type="radio" name="radio" value="no"/>
+	<input type="submit"/>
+</form>
+
+<form id="basicNoValue">
+	<input type="text" name="person.firstname"/>
+	<input type="text" name="person.lastname"/>
+	<input type="radio" name="radio" value="yes"/>
+	<input type="radio" name="radio" value="no"/>
+	<input type="submit"/>
+</form>
+
+<form id="unsuccessfulFields">
+	<fieldset>
+		<input type="text" name="person.firstname" value="ciccio"/>
+		<input type="text" name="person.lastname" value="pasticcio" disabled="disabled"/>
+		<input type="text"/>
+		<button>
+			<textarea></textarea>
+			<input type="reset" name="test"/>
+			<input type="submit"/>
+		</button>
+	</fieldset>
+</form>
+
+<form id="encodedValue">
+	<input type="text" name="person.firstname" value="ciccio"/>
+	<input type="text" name="slash" value="/"/>
+	<input type="text" name="ampersand" value="&"/>
+</form>
+
+<form id="multiBox">
+	<input type="text" name="person.firstname" value="ciccio"/>
+	<input type="checkbox" name="box" value="first" checked="checked"/>
+	<input type="checkbox" name="box" value="second" checked="checked"/>
+	<input type="checkbox" name="box" value="third"/>
+</form>
+
+<form id="multiSelect">
+	<input type="text" name="person.firstname" value="ciccio"/>
+	<select name="select" multiple="multiple">
+		<option value="first" selected="selected">First</option>
+		<option value="second" selected="selected">Second</option>
+		<option value="third">Third</option>
+	</select>
+</form>

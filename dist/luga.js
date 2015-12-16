@@ -8,7 +8,7 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.version = "0.4.3";
+	luga.version = "0.4.4";
 
 	luga.CONST = {
 		ERROR_MESSAGES: {
@@ -214,7 +214,6 @@ if(typeof(luga) === "undefined"){
 	/* Form */
 
 	luga.namespace("luga.form");
-	luga.namespace("luga.form.utils");
 
 	luga.form.CONST = {
 		FIELD_SELECTOR: "input,select,textarea",
@@ -225,6 +224,78 @@ if(typeof(luga) === "undefined"){
 		MESSAGES: {
 			MISSING_FORM: "Unable to load form"
 		}
+	};
+
+	/**
+	 * Returns a JavaScript object containing name/value pairs from fields contained inside a given root node
+	 * Only fields considered successful are returned:
+	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
+	 * Values of multiple checked checkboxes and multiple select are included as a single entry, with array value
+	 *
+	 * @param {jquery}   rootNode     jQuery object wrapping the root node
+	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
+	 * @return {object}               A JavaScript object containing name/value pairs
+	 * @throws
+	 */
+	luga.form.toHash = function(rootNode, demoronize){
+
+		if(rootNode.length === 0){
+			throw(luga.form.CONST.MESSAGES.MISSING_FORM);
+		}
+
+		var map = {};
+		var fields = luga.form.utils.getChildFields(rootNode);
+		for(var i = 0; i < fields.length; i++){
+			if(luga.form.utils.isSuccessfulField(fields[i]) === true){
+				var fieldName = jQuery(fields[i]).attr("name");
+				var fieldValue = null;
+				var fieldType = jQuery(fields[i]).prop("type");
+				switch(fieldType){
+
+					case "select-multiple":
+						fieldValue = jQuery(fields[i]).val();
+						break;
+
+					case "checkbox":
+					case "radio":
+						if(jQuery(fields[i]).prop("checked") === true){
+							fieldValue = jQuery(fields[i]).val();
+						}
+						break;
+
+					default:
+						fieldValue = jQuery(fields[i]).val();
+				}
+
+				if(fieldValue !== null){
+					if(demoronize === true){
+						fieldValue = luga.string.demoronize(fieldValue);
+					}
+					if(map[fieldName] === undefined){
+						map[fieldName] = fieldValue;
+					}
+					else{
+						map[fieldName] = [map[fieldName], fieldValue];
+					}
+				}
+
+			}
+		}
+		return map;
+	};
+
+	/**
+	 * Given a form tag or another element wrapping input fields, serialize them into JSON data
+	 * @param {jquery} rootNode  jQuery object wrapping the form fields
+	 * @returns {json}
+	 */
+	luga.form.toJson = function(rootNode){
+		var flatData = luga.form.toHash(rootNode);
+		var jsonData = {};
+		for(var x in flatData){
+			luga.setProperty(jsonData, x, flatData[x]);
+		}
+		return jsonData;
 	};
 
 	/**
@@ -288,63 +359,7 @@ if(typeof(luga) === "undefined"){
 		return str;
 	};
 
-	/**
-	 * Returns a JavaScript object containing name/value pairs from fields contained inside a given root node
-	 * Only fields considered successful are returned:
-	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
-	 * Values of multiple checked checkboxes and multiple select are included as a single entry, with array value
-	 *
-	 * @param {jquery}   rootNode     jQuery object wrapping the root node
-	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
-	 * @return {object}               A JavaScript object containing name/value pairs
-	 * @throws
-	 */
-	luga.form.toHash = function(rootNode, demoronize){
-
-		if(rootNode.length === 0){
-			throw(luga.form.CONST.MESSAGES.MISSING_FORM);
-		}
-
-		var map = {};
-		var fields = luga.form.utils.getChildFields(rootNode);
-		for(var i = 0; i < fields.length; i++){
-			if(luga.form.utils.isSuccessfulField(fields[i]) === true){
-				var fieldName = jQuery(fields[i]).attr("name");
-				var fieldValue = null;
-				var fieldType = jQuery(fields[i]).prop("type");
-				switch(fieldType){
-
-					case "select-multiple":
-						fieldValue = jQuery(fields[i]).val();
-						break;
-
-					case "checkbox":
-					case "radio":
-						if(jQuery(fields[i]).prop("checked") === true){
-							fieldValue = jQuery(fields[i]).val();
-						}
-						break;
-
-					default:
-						fieldValue = jQuery(fields[i]).val();
-				}
-
-				if(fieldValue !== null){
-					if(demoronize === true){
-						fieldValue = luga.string.demoronize(fieldValue);
-					}
-					if(map[fieldName] === undefined){
-						map[fieldName] = fieldValue;
-					}
-					else{
-						map[fieldName] = [map[fieldName], fieldValue];
-					}
-				}
-
-			}
-		}
-		return map;
-	};
+	luga.namespace("luga.form.utils");
 
 	/**
 	 * Returns true if the given field is successful, false otherwise
@@ -569,7 +584,7 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.ajaxform");
-	luga.ajaxform.version = "0.7.2";
+	luga.ajaxform.version = "0.7.3";
 
 	/* Success and error handlers */
 	luga.namespace("luga.ajaxform.handlers");
@@ -796,7 +811,7 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.sendJson = function(){
 
-			var formData = luga.form.toHash(self.config.formNode, true);
+			var formData = luga.form.toJson(self.config.formNode, true);
 
 			if(self.config.before !== null){
 				handleBefore();
@@ -961,7 +976,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.validator");
 
-	luga.validator.version = "0.9.11";
+	luga.validator.version = "0.9.12";
 
 	/* Validation handlers */
 
@@ -1026,13 +1041,23 @@ if(typeof(luga) === "undefined"){
 	luga.validator.handlers.bootstrap = function(formNode, validators){
 		var ERROR_SELECTOR = ".has-error";
 		var ERROR_CLASS = "has-error";
+		var ALERT_SELECTOR = ".alert-danger";
 
-		// Reset all parents
+		var FAILED_UPDATE = "<div class=\"alert alert-danger\" role=\"alert\">" +
+			"<span style=\"padding-right:10px\" class=\"glyphicon glyphicon-exclamation-sign\">" +
+			"</span>{0}</div>";
+
+		// Reset all fields in the form
 		jQuery(formNode).find(ERROR_SELECTOR).removeClass(ERROR_CLASS);
+		jQuery(formNode).find(ALERT_SELECTOR).remove();
+
 		var focusGiven = false;
 		for(var i = 0; i < validators.length; i++){
+			var fieldNode = jQuery(validators[i].node);
 			// Attach Bootstrap CSS to parent node
-			jQuery(validators[i].node).parent().addClass(ERROR_CLASS);
+			fieldNode.parent().addClass(ERROR_CLASS);
+			// Display alert message
+			fieldNode.before(jQuery(luga.string.format(FAILED_UPDATE, [validators[i].message])));
 			// Give focus to the first invalid text field
 			if((focusGiven === false) && (validators[i].getFocus)){
 				validators[i].getFocus();

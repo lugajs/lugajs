@@ -163,7 +163,7 @@ describe("luga", function(){
 
 	describe(".merge()", function(){
 
-		it("Merges the contents of two objects together into the first object", function(){
+		it("Shallow-merges the contents of two objects together into the first object", function(){
 			var config = {letter: "a", number: 1};
 			var params = {number: 2, symbol: "@"};
 			luga.merge(config, params);

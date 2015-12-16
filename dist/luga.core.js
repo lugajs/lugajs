@@ -8,7 +8,7 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.version = "0.4.3";
+	luga.version = "0.4.4";
 
 	luga.CONST = {
 		ERROR_MESSAGES: {
@@ -214,7 +214,6 @@ if(typeof(luga) === "undefined"){
 	/* Form */
 
 	luga.namespace("luga.form");
-	luga.namespace("luga.form.utils");
 
 	luga.form.CONST = {
 		FIELD_SELECTOR: "input,select,textarea",
@@ -225,6 +224,78 @@ if(typeof(luga) === "undefined"){
 		MESSAGES: {
 			MISSING_FORM: "Unable to load form"
 		}
+	};
+
+	/**
+	 * Returns a JavaScript object containing name/value pairs from fields contained inside a given root node
+	 * Only fields considered successful are returned:
+	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
+	 * Values of multiple checked checkboxes and multiple select are included as a single entry, with array value
+	 *
+	 * @param {jquery}   rootNode     jQuery object wrapping the root node
+	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
+	 * @return {object}               A JavaScript object containing name/value pairs
+	 * @throws
+	 */
+	luga.form.toHash = function(rootNode, demoronize){
+
+		if(rootNode.length === 0){
+			throw(luga.form.CONST.MESSAGES.MISSING_FORM);
+		}
+
+		var map = {};
+		var fields = luga.form.utils.getChildFields(rootNode);
+		for(var i = 0; i < fields.length; i++){
+			if(luga.form.utils.isSuccessfulField(fields[i]) === true){
+				var fieldName = jQuery(fields[i]).attr("name");
+				var fieldValue = null;
+				var fieldType = jQuery(fields[i]).prop("type");
+				switch(fieldType){
+
+					case "select-multiple":
+						fieldValue = jQuery(fields[i]).val();
+						break;
+
+					case "checkbox":
+					case "radio":
+						if(jQuery(fields[i]).prop("checked") === true){
+							fieldValue = jQuery(fields[i]).val();
+						}
+						break;
+
+					default:
+						fieldValue = jQuery(fields[i]).val();
+				}
+
+				if(fieldValue !== null){
+					if(demoronize === true){
+						fieldValue = luga.string.demoronize(fieldValue);
+					}
+					if(map[fieldName] === undefined){
+						map[fieldName] = fieldValue;
+					}
+					else{
+						map[fieldName] = [map[fieldName], fieldValue];
+					}
+				}
+
+			}
+		}
+		return map;
+	};
+
+	/**
+	 * Given a form tag or another element wrapping input fields, serialize them into JSON data
+	 * @param {jquery} rootNode  jQuery object wrapping the form fields
+	 * @returns {json}
+	 */
+	luga.form.toJson = function(rootNode){
+		var flatData = luga.form.toHash(rootNode);
+		var jsonData = {};
+		for(var x in flatData){
+			luga.setProperty(jsonData, x, flatData[x]);
+		}
+		return jsonData;
 	};
 
 	/**
@@ -288,63 +359,7 @@ if(typeof(luga) === "undefined"){
 		return str;
 	};
 
-	/**
-	 * Returns a JavaScript object containing name/value pairs from fields contained inside a given root node
-	 * Only fields considered successful are returned:
-	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
-	 * Values of multiple checked checkboxes and multiple select are included as a single entry, with array value
-	 *
-	 * @param {jquery}   rootNode     jQuery object wrapping the root node
-	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
-	 * @return {object}               A JavaScript object containing name/value pairs
-	 * @throws
-	 */
-	luga.form.toHash = function(rootNode, demoronize){
-
-		if(rootNode.length === 0){
-			throw(luga.form.CONST.MESSAGES.MISSING_FORM);
-		}
-
-		var map = {};
-		var fields = luga.form.utils.getChildFields(rootNode);
-		for(var i = 0; i < fields.length; i++){
-			if(luga.form.utils.isSuccessfulField(fields[i]) === true){
-				var fieldName = jQuery(fields[i]).attr("name");
-				var fieldValue = null;
-				var fieldType = jQuery(fields[i]).prop("type");
-				switch(fieldType){
-
-					case "select-multiple":
-						fieldValue = jQuery(fields[i]).val();
-						break;
-
-					case "checkbox":
-					case "radio":
-						if(jQuery(fields[i]).prop("checked") === true){
-							fieldValue = jQuery(fields[i]).val();
-						}
-						break;
-
-					default:
-						fieldValue = jQuery(fields[i]).val();
-				}
-
-				if(fieldValue !== null){
-					if(demoronize === true){
-						fieldValue = luga.string.demoronize(fieldValue);
-					}
-					if(map[fieldName] === undefined){
-						map[fieldName] = fieldValue;
-					}
-					else{
-						map[fieldName] = [map[fieldName], fieldValue];
-					}
-				}
-
-			}
-		}
-		return map;
-	};
+	luga.namespace("luga.form.utils");
 
 	/**
 	 * Returns true if the given field is successful, false otherwise

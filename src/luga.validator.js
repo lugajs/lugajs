@@ -9,7 +9,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.validator");
 
-	luga.validator.version = "0.9.11";
+	luga.validator.version = "0.9.12";
 
 	/* Validation handlers */
 
@@ -74,13 +74,23 @@ if(typeof(luga) === "undefined"){
 	luga.validator.handlers.bootstrap = function(formNode, validators){
 		var ERROR_SELECTOR = ".has-error";
 		var ERROR_CLASS = "has-error";
+		var ALERT_SELECTOR = ".alert-danger";
 
-		// Reset all parents
+		var FAILED_UPDATE = "<div class=\"alert alert-danger\" role=\"alert\">" +
+			"<span style=\"padding-right:10px\" class=\"glyphicon glyphicon-exclamation-sign\">" +
+			"</span>{0}</div>";
+
+		// Reset all fields in the form
 		jQuery(formNode).find(ERROR_SELECTOR).removeClass(ERROR_CLASS);
+		jQuery(formNode).find(ALERT_SELECTOR).remove();
+
 		var focusGiven = false;
 		for(var i = 0; i < validators.length; i++){
+			var fieldNode = jQuery(validators[i].node);
 			// Attach Bootstrap CSS to parent node
-			jQuery(validators[i].node).parent().addClass(ERROR_CLASS);
+			fieldNode.parent().addClass(ERROR_CLASS);
+			// Display alert message
+			fieldNode.before(jQuery(luga.string.format(FAILED_UPDATE, [validators[i].message])));
 			// Give focus to the first invalid text field
 			if((focusGiven === false) && (validators[i].getFocus)){
 				validators[i].getFocus();

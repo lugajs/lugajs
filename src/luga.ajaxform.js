@@ -8,7 +8,7 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.ajaxform");
-	luga.ajaxform.version = "0.7.2";
+	luga.ajaxform.version = "0.7.3";
 
 	/* Success and error handlers */
 	luga.namespace("luga.ajaxform.handlers");
@@ -235,7 +235,7 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.sendJson = function(){
 
-			var formData = luga.form.toHash(self.config.formNode, true);
+			var formData = luga.form.toJson(self.config.formNode, true);
 
 			if(self.config.before !== null){
 				handleBefore();

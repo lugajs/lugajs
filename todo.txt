@@ -16,7 +16,6 @@ DOCS:
 
 AJAXFORM:
 
-- Use luga.form.toJson() for sendJson()
 - Parse and handle error messages from server
 - Use live service for samples and docs
 - Standardize JSON schema for error messages
@@ -27,9 +26,9 @@ CSI:
 
 CORE:
 
-- Implement luga.form.toJson()
 - Implement luga.string.queryToHash()
 
+- Document luga.form.toJson()
 - Document luga.Notifier
 - Document luga.extend()
 - Document luga.lookupFunction()
@@ -37,11 +36,7 @@ CORE:
 - Document luga.setProperty()
 
 -------------
-
 VALIDATOR:
-
-- Improve Bootstrap integration. Add alerts with messages
-
 -------------
 
 DATA:
