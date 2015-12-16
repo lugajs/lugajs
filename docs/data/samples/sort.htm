@@ -1,16 +1,25 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-	<meta charset="utf-8"/>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Luga DataSet :: Sorting</title>
-	<link rel="stylesheet" href="../../../src/luga.css"/>
-	<link rel="stylesheet" href="../../docs.css"/>
+
+	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
 	<script src="../../../lib/handlebars.min.js"></script>
+	<link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css"/>
+	<script src="../../bootstrap/js/bootstrap.min.js"></script>
+
+	<!-- Luga JS -->
+	<link rel="stylesheet" href="../../../src/luga.css"/>
 	<script src="../../../dist/luga.min.js"></script>
 	<script src="../../../dist/luga.data.min.js"></script>
 
-	<script src="../../docs.js"></script>
+	<!-- Docs -->
+	<link rel="stylesheet" href="../../luga.docs.css"/>
+	<script src="../../luga-docs.js"></script>
 
 	<script>
 		luga.namespace("test");
@@ -20,16 +29,16 @@
 			test.ladiesMaster.loadData();
 		});
 	</script>
-	<script id="masterTemplate" type="text/x-handlebars-template">
-		<table>
+		<script id="masterTemplate" type="text/x-handlebars-template">
+		<table class="table">
 			<th>
-				<a href="#" data-lugads-sort="firstName">Sort</a>
+				<a href="#" data-lugads-sort="firstName">First name</a>
 			</th>
 			<th>
-				<a href="#" data-lugads-sort="lastName">Sort</a>
+				<a href="#" data-lugads-sort="lastName">Last name</a>
 			</th>
 			<th>
-				<a href="#" data-lugads-sort="country">Sort</a>
+				<a href="#" data-lugads-sort="country">Country</a>
 			</th>
 			{{#each context}}
 			<tr>
@@ -51,36 +60,46 @@
 	</script>
 
 </head>
-<body>
 
-<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
-<div data-lugacsi="../sidebar.inc"></div>
+<body class="luga-docs">
 
-<div class="content">
+<div data-lugacsi="../../luga-docs-nav-main.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
 
-	<section>
-		<h1>Master-details</h1>
+<div class="container-fluid">
+	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
-		<p>TODO: write explanation</p>
-	</section>
+		<div class="panel panel-default">
+			<div class="panel-heading">Sort with master-details</div>
+			<div class="panel-body">
+				<p>TODO: write explanation</p>
+			</div>
+		</div>
 
-	<section>
-		<h1>Master</h1>
-
+		<div class="panel panel-default">
+			<div class="panel-heading">Master</div>
+			<div class="panel-body">
+				
 		<div data-lugads-region="masterRegion" data-lugads-datasource="ladies"
 			 data-lugads-template="masterTemplate"></div>
-	</section>
+			</div>
+		</div>
 
-	<section>
-		<h1>Details</h1>
+		<div class="panel panel-default">
+			<div class="panel-heading">Details</div>
+			<div class="panel-body">
 
-		<div data-lugads-region="detailsRegion" data-lugads-datasource="lady"
-			 data-lugads-template="detailsTemplate"></div>
-	</section>
+				<div data-lugads-region="detailsRegion" data-lugads-datasource="lady"
+					 data-lugads-template="detailsTemplate"></div>
+			</div>
+		</div>
+
+	</div>
+
+	<div data-lugacsi="../nav-local.inc"></div>
+
+	<div data-lugacsi="../../luga-docs-footer.inc"></div>
 
 </div>
-
-<div data-lugacsi="../../footer.inc"></div>
 
 </body>
 </html>

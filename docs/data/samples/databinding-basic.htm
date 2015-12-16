@@ -1,20 +1,33 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-	<meta charset="utf-8" />
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Luga DataSet :: Basic databinding</title>
-	<link rel="stylesheet" href="../../../src/luga.css" />
-	<link rel="stylesheet" href="../../docs.css" />
+
+	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
 	<script src="../../../lib/handlebars.min.js"></script>
+	<link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css"/>
+	<script src="../../bootstrap/js/bootstrap.min.js"></script>
+
+	<!-- Luga JS -->
+	<link rel="stylesheet" href="../../../src/luga.css"/>
 	<script src="../../../dist/luga.min.js"></script>
 	<script src="../../../dist/luga.data.min.js"></script>
 
-	<script src="../../docs.js"></script>
+	<!-- Docs -->
+	<link rel="stylesheet" href="../../luga.docs.css"/>
+	<script src="../../luga-docs.js"></script>
 
 	<script>
 		luga.namespace("test");
-		test.ladiesDs = new luga.data.JsonDataSet({id: "ladiesDs", url: "../../../test/fixtures/data/people.json", path: "ladies"});
+		test.ladiesDs = new luga.data.JsonDataSet({
+			id: "ladiesDs",
+			url: "../../../test/fixtures/data/people.json",
+			path: "ladies"
+		});
 		jQuery(document).ready(function(){
 			test.ladiesDs.loadData();
 		});
@@ -29,42 +42,64 @@
 	<script id="ladiesTable" type="text/x-handlebars-template" src="../templates/ladies-table.htm"></script>
 
 </head>
-<body>
 
-	<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
-	<div data-lugacsi="../sidebar.inc"></div>
+<body class="luga-docs">
 
-	<div class="content">
+<div data-lugacsi="../../luga-docs-nav-main.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
 
-		<section>
-			<h1>Basic template with databinding</h1>
-			<p>TODO: write explanation</p>
-		</section>
+<div class="container-fluid">
+	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
-		<section>
-			<h1>Inline template</h1>
-			<div data-lugads-region="embedRegion" data-lugads-datasource="ladiesDs">
-				<ul class="people">
-					{{#each context}}
-					<li>{{firstName}} {{lastName}}</li>
-					{{/each}}
-				</ul>
+		<div class="panel panel-default">
+			<div class="panel-heading">About Luga Data</div>
+			<div class="panel-body">
+				<p>
+					Luga Data is a data-centric library
+				</p>
 			</div>
-		</section>
+		</div>
 
-		<section>
-			<h1>Embed template</h1>
-			<div data-lugads-region="scriptTemplate" data-lugads-datasource="ladiesDs" data-lugads-template="ladiesTemplate"></div>
-		</section>
+		<div class="panel panel-default">
+			<div class="panel-heading">Basic template with databinding</div>
+			<div class="panel-body">
+				<p>TODO: write explanation</p>
+			</div>
+		</div>
 
-		<section>
-			<h1>External template</h1>
-			<div data-lugads-region="scriptTemplate" data-lugads-datasource="ladiesDs" data-lugads-template="ladiesTable"></div>
-		</section>
+		<div class="panel panel-default">
+			<div class="panel-heading">Inline template</div>
+			<div class="panel-body">
+				<div data-lugads-region="embedRegion" data-lugads-datasource="ladiesDs">
+					<ul>
+						{{#each context}}
+						<li>{{firstName}} {{lastName}}</li>
+						{{/each}}
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Embed template</div>
+			<div class="panel-body">
+				<div data-lugads-region="scriptTemplate" data-lugads-datasource="ladiesDs" data-lugads-template="ladiesTemplate"></div>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">External template</div>
+			<div class="panel-body">
+				<div data-lugads-region="scriptTemplate" data-lugads-datasource="ladiesDs" data-lugads-template="ladiesTable"></div>
+			</div>
+		</div>
 
 	</div>
 
-	<div data-lugacsi="../../footer.inc"></div>
+	<div data-lugacsi="../nav-local.inc"></div>
+
+	<div data-lugacsi="../../luga-docs-footer.inc"></div>
+
+</div>
 
 </body>
 </html>
