@@ -2,7 +2,7 @@
 	<ul class="list-group">
 		<li class="luga-docs-list-heading list-group-item">Luga Data</li>
 		<li class="list-group-item">
-			<a href="../docs/index.htm">About</a>
+			<a href="../docs/index.htm">About Luga Data</a>
 		</li>
 		<li class="luga-docs-list-heading list-group-item">Dataset</li>
 		<li class="list-group-item">
