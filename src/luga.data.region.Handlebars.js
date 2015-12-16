@@ -5,6 +5,7 @@
 	 * Handlebars Region class
 	 * @param {luga.data.Region.options} options
 	 * @constructor
+	 * @fires regionRendered
 	 * @throws
 	 */
 	luga.data.region.Handlebars = function(options){
@@ -68,6 +69,10 @@
 			return this.template(this.dataSource.getContext());
 		};
 
+		/*
+		 @override
+		 @fires regionRendered
+		 */
 		this.render = function(){
 			if(this.template !== ""){
 				this.config.node.html(this.generateHtml());

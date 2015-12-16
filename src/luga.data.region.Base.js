@@ -18,6 +18,7 @@
 	 * @param {luga.data.Region.options} options
 	 * @constructor
 	 * @abstract
+	 * @fires regionRendered
 	 * @listens dataChanged
 	 * @listens stateChanged
 	 * @throws
@@ -98,6 +99,7 @@
 
 		/**
 		 * @abstract
+		 * @fires regionRendered
 		 */
 		this.render = function(){
 			// Concrete implementations must overwrite this
