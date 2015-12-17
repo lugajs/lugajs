@@ -36,22 +36,16 @@
 
 		/**
 		 * This very crude implementation of a custom region handler is just for demo purpose
-		 * @param {luga.data.region.options} options
-		 * @listens dataChanged
+		 * @extends luga.data.region.Base
 		 */
 		var customRegion = function(options){
-
-			this.node = options.node;
-			this.dsId = this.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE);
-			/** @type {luga.data.DataSet|luga.data.DetailSet} */
-			this.dataSource = luga.data.getDataSource(this.dsId);
-			this.dataSource.addObserver(this);
+			luga.extend(luga.data.region.Base, this, [options]);
 
 			/**
-			 * @param {luga.data.dataSourceChanged} data
+			 * @override
 			 */
-			this.onDataChangedHandler = function(data){
-				var records = data.dataSource.getContext().context;
+			this.render = function(){
+				var records = this.dataSource.getContext().context;
 				var htmlStr = "<ul class='people'>";
 				for(var i = 0; i < records.length; i++){
 					var item = records[i];
@@ -61,27 +55,28 @@
 					htmlStr += "</a></li>";
 				}
 				htmlStr += "</ul>";
-				this.node.html(htmlStr);
+				this.config.node.html(htmlStr);
 			};
 		};
 
 		var underscoreTemplate = function(options){
 			luga.extend(luga.data.region.Base, this, [options]);
 
+			// Underscore specific part
 			var templateId = this.config.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TEMPLATE);
 			var templateStr = jQuery("#" + templateId).html();
 			var compiledTemplate = _.template(templateStr);
 
 			/**
 			 * @override
-			 * @param {luga.data.dataSourceChanged} data
 			 */
-			this.onDataChangedHandler = function(data){
-				var records = data.dataSource.getContext().context;
-				if(records != null){
+			this.render = function(){
+				var records = this.dataSource.getContext().context;
+				if(records !== null){
 					this.config.node.html(compiledTemplate(records));
 				}
 			};
+
 		};
 
 	</script>
@@ -107,27 +102,16 @@
 			<div class="panel-heading">Custom regions and templating</div>
 			<div class="panel-body">
 				<p>
-					You can customize the way a region is rendered, either using a different templating engine or not
-					using
-					templating at all.
+					You can fully customize the way a region is rendered, either using a different templating engine or not
+					using templating at all.
 				</p>
-
 				<p>
 					Add the data-lugads-regiontype attribute with a value that matches an existing JavaScript
-					constructor
-					function.
-					The constructor will be invoked, passing as a unique argument a set of key/value pairs, with a
-					"node" key
-					containing a jQuery object wrapping the region's HTML node.
+					constructor function.
 				</p>
-
 				<p>
-					The region handler should first register as observer of its dataSource,
-					then implement a public onDataChangedHandler() method that will be invoked every time the data
-					inside the
-					dataSource changed.
+					The constructor should extend the luga.data.region.Base class and override its render() method.
 				</p>
-
 				<p>
 					For default rendering, using Handlebars as template engine, there is no need to specify the
 					data-lugads-regiontype attribute, since luga.data.Region is used by default.
