@@ -20,7 +20,7 @@
 			<a href="../samples/context-properties.htm">Context properties</a>
 		</li>
 		<li class="list-group-item">
-			<a href="../samples/custom-region-type.htm">Custom templating</a>
+			<a href="../samples/custom-region-type.htm">Custom regions</a>
 		</li>
 	</ul>
 </nav>

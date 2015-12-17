@@ -5,6 +5,7 @@
 	 * Handlebars Region class
 	 * @param {luga.data.Region.options} options
 	 * @constructor
+	 * @extends luga.data.region.Base
 	 * @fires regionRendered
 	 * @throws
 	 */

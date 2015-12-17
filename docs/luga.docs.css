@@ -99,15 +99,13 @@ dl, dt, dd, ol, ul, li {
 
 /* Code listings */
 
-code + section {
-	margin-top: 2.8em;
-}
-
 code {
 	background-color: transparent;
 	color: #333333;
 	display: block;
 	font-family: Consolas, "Liberation Mono", Courier, monospace;
+	margin-bottom: 2em;
+	margin-top: 2em;
 }
 
 code ol {
