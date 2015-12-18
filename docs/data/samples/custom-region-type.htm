@@ -11,6 +11,8 @@
 	<script src="../../../lib/handlebars.min.js"></script>
 	<link rel="stylesheet" href="../../../lib/bootstrap/css/bootstrap.min.css"/>
 	<script src="../../../lib/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/prism/prism.css"/>
+	<script src="../../../lib/prism/prism.js"></script>
 
 	<!-- Luga JS -->
 	<link rel="stylesheet" href="../../../src/luga.css"/>
@@ -104,36 +106,33 @@
 					Add the data-lugads-regiontype attribute with a value that matches an existing JavaScript
 					constructor function:
 				</p>
-				<code>
-					<ol>
-						<li>&lt;div data-lugads-region="detailsRegion" data-lugads-datasource="lady" data-lugads-template="detailsTemplate" data-lugads-regiontype="underscoreTemplate&gt;&lt/div&gt;</li>
-					</ol>
-				</code>
+				<pre><code class="language-markup">&lt;div data-lugads-region="detailsRegion" data-lugads-datasource="lady" data-lugads-template="detailsTemplate" data-lugads-regiontype="underscoreTemplate"&gt;&lt/div&gt;</code></pre>
 				<p>
 					The constructor should extend the luga.data.region.Base class and override its render() method:
 				</p>
-				<code>
-					<ol>
-						<li>/**</li>
-						<li> * This simplified implementation of a custom region handler should not be considered production-ready</li>
-						<li> * @extends luga.data.region.Base</li>
-						<li>*/</li>
-						<li>var underscoreTemplate = function(options){</li>
-						<li>	luga.extend(luga.data.region.Base, this, [options]);</li>
-						<li>	// Underscore specific part</li>
-						<li>	var templateId = this.config.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TEMPLATE);</li>
-						<li>	var templateStr = jQuery("#" + templateId).html();</li>
-						<li>	var compiledTemplate = _.template(templateStr);</li>
-						<li>	/** @override */</li>
-						<li>	this.render = function(){</li>
-						<li>		var records = this.dataSource.getContext().context;</li>
-						<li>		if(records !== null){</li>
-						<li>			this.config.node.html(compiledTemplate(records));</li>
-						<li>		}</li>
-						<li>	};</li>
-						<li>};</li>
-					</ol>
-				</code>
+
+<pre><code class="line-numbers language-javascript">/**
+ * This simplified implementation of a custom region handler should not be considered production-ready
+ * @extends luga.data.region.Base
+ */
+var underscoreTemplate = function(options){
+	luga.extend(luga.data.region.Base, this, [options]);
+
+	// Underscore specific part
+	var templateId = this.config.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TEMPLATE);
+	var templateStr = jQuery("#" + templateId).html();
+	var compiledTemplate = _.template(templateStr);
+
+	/** @override */
+	this.render = function(){
+		var records = this.dataSource.getContext().context;
+		if(records !== null){
+			this.config.node.html(compiledTemplate(records));
+		}
+	};
+
+};</code></pre>
+
 				<p>
 					For default rendering, using Handlebars as template engine, there is no need to specify the
 					data-lugads-regiontype attribute, since luga.data.Region is used by default.
