@@ -73,6 +73,7 @@ dl, dt, dd, ol, ul, li {
 	background-color: #FFFFFF;
 	display: block;
 	text-decoration: none;
+	text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.1);
 }
 
 .luga-docs .luga-nav-local .list-group a:before {
@@ -98,7 +99,6 @@ dl, dt, dd, ol, ul, li {
 }
 
 /* Code listings */
-
 pre,
 pre code {
 	background-color: #F9F9F9 !important;
