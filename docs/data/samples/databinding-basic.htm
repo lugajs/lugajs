@@ -35,7 +35,7 @@
 		});
 	</script>
 	<script id="ladiesTemplate" type="text/x-handlebars-template">
-		<ul class="people">
+		<ul class="luga-docs-list">
 			{{#each context}}
 			<li>{{firstName}} {{lastName}}</li>
 			{{/each}}
@@ -62,8 +62,8 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">Inline template</div>
 			<div class="panel-body">
-				<div data-lugads-region="embedRegion" data-lugads-datasource="ladiesDs">
-					<ul>
+				<div data-lugads-region="inlineTempalte" data-lugads-datasource="ladiesDs">
+					<ul class="luga-docs-list">
 						{{#each context}}
 						<li>{{firstName}} {{lastName}}</li>
 						{{/each}}
@@ -75,14 +75,14 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">Embed template</div>
 			<div class="panel-body">
-				<div data-lugads-region="scriptTemplate" data-lugads-datasource="ladiesDs" data-lugads-template="ladiesTemplate"></div>
+				<div data-lugads-region="embedTemplate" data-lugads-datasource="ladiesDs" data-lugads-template="ladiesTemplate"></div>
 			</div>
 		</div>
 
 		<div class="panel panel-default">
 			<div class="panel-heading">External template</div>
 			<div class="panel-body">
-				<div data-lugads-region="scriptTemplate" data-lugads-datasource="ladiesDs" data-lugads-template="ladiesTable"></div>
+				<div data-lugads-region="externalTemplate" data-lugads-datasource="ladiesDs" data-lugads-template="ladiesTable"></div>
 			</div>
 		</div>
 
