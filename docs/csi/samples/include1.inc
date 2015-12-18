@@ -1,4 +1,1 @@
-<section>
-    <h1>include1.inc</h1>
-    <p>This text is included using luga.csi</p>
-</section>
+<p>This text is included using luga.csi</p>

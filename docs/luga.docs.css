@@ -42,6 +42,10 @@ dl, dt, dd, ol, ul, li {
 	text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.1);
 }
 
+.luga-docs .dropdown-menu > .active > a  {
+	color: #FFFFFF !important;
+}
+
 /* Local navigation */
 
 .luga-docs .luga-nav-local .list-group {
@@ -102,4 +106,41 @@ dl, dt, dd, ol, ul, li {
 pre,
 pre code {
 	background-color: #F9F9F9 !important;
+}
+
+/* Table with attributes syntax */
+
+table.luga-docs-attributes {
+	background: #7C93BA;
+	border-radius: 0.4em;
+	box-shadow: rgba(0, 0, 0, .25) 0.15em 0.15em 0.15em;
+	width: 100%;
+}
+
+table.luga-docs-attributes th {
+	color: #FFFFFF;
+	font-size: 1.1em;
+	font-weight: 700;
+	padding: 0.8em;
+	text-align: left;
+}
+
+table.luga-docs-attributes td {
+	background: #EBEBEB;
+	color: #494949;
+	font-weight: 600;
+	padding: 0.8em;
+	white-space: nowrap;
+	width: 25%;
+}
+
+table.luga-docs-attributes td + td {
+	background: #FCFCFC;
+	font-weight: normal;
+	white-space: normal;
+	width: 75%;
+}
+
+table.luga-docs-attributes td p {
+	margin-top: 0;
 }

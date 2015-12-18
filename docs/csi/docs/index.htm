@@ -1,77 +1,116 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-	<meta charset="utf-8" />
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Luga CSI</title>
-	<link rel="stylesheet" href="../../../src/luga.css" />
-	<link rel="stylesheet" href="../../docs.css" />
+
+	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../lib/handlebars.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/bootstrap/css/bootstrap.min.css"/>
+	<script src="../../../lib/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/prism/prism.css"/>
+	<script src="../../../lib/prism/prism.js"></script>
+
+	<!-- Luga JS -->
+	<link rel="stylesheet" href="../../../src/luga.css"/>
 	<script src="../../../dist/luga.min.js"></script>
-	<script src="../../docs.js"></script>
+	<script src="../../../dist/luga.data.min.js"></script>
+
+	<!-- Docs -->
+	<link rel="stylesheet" href="../../luga.docs.css"/>
+	<script src="../../luga-docs.js"></script>
+
 </head>
-<body>
+<body class="luga-docs">
 
-	<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
-	<div data-lugacsi="../sidebar.inc"></div>
+<div data-lugacsi="../../luga-docs-nav-main.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
 
-	<div class="content">
+<div class="container-fluid">
+	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
-		<section>
-			<h1>About luga.csi</h1>
-			<p>
-				luga.csi (client side includes) is a library that let you "include" external files into an HTML document using Ajax, without requiring any kind of server-side functionality.
-			</p>
-			<p>
-				While server-side includes must be used whenever possible, CSI can be handy if you have a collection of HTML documents that must work even without being accessed from an http server;
-				downloadable documentation (like this) or CD-ROM containing HTML files are a typical case.
-			</p>
-			<p>
-				CSI has a minimal footprint, weighting less than 4kb uncompressed.
-			</p>
-			<p>Take a look at the <a href="../samples/basic.htm">samples</a> to see it in action.</p>
-		</section>
+		<div class="panel panel-default">
+			<div class="panel-heading">About Luga CSI</div>
+			<div class="panel-body">
+				<p>
+					Luga CSI (client side includes) is a library that let you "include" external files into an HTML
+					document
+					using XHR, without requiring any kind of server-side functionality.
+				</p>
 
-		<table class="syntax">
-			<th colspan="2">Syntax reference</th>
-			<tr>
-				<td>data-lugacsi</td>
-				<td>
-					Mandatory. Point to the file you want to include. It must be a text file, the extension doesn't really matters, .inc, .txt, .xml, .htm or whatever you see fit.
-					You can use document relative or root relative paths, or even full URLs. Due to browser's security restrictions, you can't include file from a different domain.
-				</td>
-			</tr>
-			<tr>
-				<td>data-lugacsi-after</td>
-				<td>
-					Optional. This attribute allows to specify a function that will be invoked once the include is successfully performed.
-					See <a href="../samples/after.htm">sample page</a>
-				</td>
-			</tr>
-		</table>
+				<p>
+					While server-side includes must be used whenever possible, CSI can be handy if you have a collection
+					of HTML
+					documents that must work even without being accessed from an http server;
+					downloadable documentation (like this) or CD-ROM containing HTML files are a typical case.
+				</p>
 
-		<section>
-			<h1>How to use it</h1>
-			<p>Include the relevant JavaScript files first:</p>
-			<code>
-				<ol>
-					<li>&lt;script src="jquery.min.js"&gt;&lt;/script&gt;</li>
-					<li>&lt;script src="js/<a href="../../../dist/luga.core.min.js">luga.core.min.js</a>"&gt;&lt;/script&gt;</li>
-					<li>&lt;script src="js/<a href="../../../dist/luga.csi.min.js">luga.csi.min.js</a>"&gt;&lt;/script&gt;</li>
-				</ol>
-			</code>
-			<p>Then use an almost plain vanilla HTML &lt;div&gt; tag:</p>
-			<code>
-				<ol>
-					<li>&lt;div data-lugacsi="include1.inc"&gt;&lt;/div&gt;</li>
-				</ol>
-			</code>
-		</section>
+				<p>
+					CSI has a minimal footprint, weighting less than 4kb uncompressed.
+				</p>
 
-		<div data-lugacsi="../../support.inc"></div>
+				<p>Take a look at the <a href="../samples/basic.htm">samples</a> to see it in action.</p>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Getting started</div>
+			<div class="panel-body">
+				<p>In order to use Luga CSI, you must include the JavaScript files. First jQuery, then <a href="../../../dist/luga.core.min.js">Luga Core</a> and
+					<a href="../../../dist/luga.csi.min.js">Luga CSI</a> (in this order)</p>
+
+<pre><code class="language-markup">&lt;script src="js/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script src="js/luga.core.min.js"&gt;&lt;/script&gt;
+&lt;script src="js/luga.csi.min.js"&gt;&lt;/script&gt;
+</code></pre>
+
+				<p>Then use an almost plain vanilla HTML &lt;div&gt; tag:</p>
+				<pre><code class="language-markup">&lt;div data-lugacsi="include1.inc"&gt;&lt;/div&gt;</code></pre>
+
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Syntax reference</div>
+			<div class="panel-body">
+				<table class="table table-bordered luga-docs-attributes">
+					<th>Attribute</th>
+					<th>Description</th>
+					<tr>
+						<td>data-lugacsi</td>
+						<td>
+							Mandatory. Point to the file you want to include. It must be a text file, the extension
+							doesn't really
+							matters, .inc, .txt, .xml, .htm or whatever you see fit.
+							You can use document relative or root relative paths, or even full URLs. Due to browser's
+							security
+							restrictions, you can't include file from a different domain.
+						</td>
+					</tr>
+					<tr>
+						<td>data-lugacsi-after</td>
+						<td>
+							Optional. This attribute allows to specify a function that will be invoked once the include
+							is
+							successfully performed.
+							See <a href="../samples/after.htm">sample page</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+		<div data-lugacsi="../../luga-docs-support.inc"></div>
 
 	</div>
 
-	<div data-lugacsi="../../footer.inc"></div>
+	<div data-lugacsi="../nav-local.inc"></div>
+
+	<div data-lugacsi="../../luga-docs-footer.inc"></div>
+
+</div>
 
 </body>
 </html>

@@ -11,6 +11,8 @@
 	<script src="../../../lib/handlebars.min.js"></script>
 	<link rel="stylesheet" href="../../../lib/bootstrap/css/bootstrap.min.css"/>
 	<script src="../../../lib/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/prism/prism.css"/>
+	<script src="../../../lib/prism/prism.js"></script>
 
 	<!-- Luga JS -->
 	<link rel="stylesheet" href="../../../src/luga.css"/>
@@ -36,7 +38,7 @@
 	</script>
 
 	<script id="masterTemplate" type="text/x-handlebars-template">
-		<table class="table">
+		<table class="table table-bordered table-striped">
 			<th>
 				<a href="#" data-lugads-sort="firstName">First name</a>
 			</th>
@@ -67,7 +69,7 @@
 	</script>
 
 	<script id="playersTemplate" type="text/x-handlebars-template">
-		<table class="table">
+		<table class="table table-bordered table-striped">
 			<th>
 				<a href="#" data-lugads-sort="person.firstName">person.firstName</a>
 			</th>

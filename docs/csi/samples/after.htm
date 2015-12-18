@@ -1,13 +1,28 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-	<meta charset="utf-8"/>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Luga CSI :: data-lugacsi-after sample</title>
-	<link rel="stylesheet" href="../../../src/luga.css"/>
-	<link rel="stylesheet" href="../../docs.css"/>
+
+	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../lib/handlebars.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/bootstrap/css/bootstrap.min.css"/>
+	<script src="../../../lib/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/prism/prism.css"/>
+	<script src="../../../lib/prism/prism.js"></script>
+
+	<!-- Luga JS -->
+	<link rel="stylesheet" href="../../../src/luga.css"/>
 	<script src="../../../dist/luga.min.js"></script>
-	<script src="../../docs.js"></script>
+	<script src="../../../dist/luga.data.min.js"></script>
+
+	<!-- Docs -->
+	<link rel="stylesheet" href="../../luga.docs.css"/>
+	<script src="../../luga-docs.js"></script>
+
 	<script>
 		//<![CDATA[
 		function afterDemo(rootNode, url, response){
@@ -15,43 +30,41 @@
 		}
 		//]]>
 	</script>
+
 </head>
-<body>
+<body class="luga-docs">
 
-<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
-<div data-lugacsi="../sidebar.inc"></div>
+<div data-lugacsi="../../luga-docs-nav-main.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
 
-<div class="content">
-	<div data-lugacsi="include1.inc" data-lugacsi-after="afterDemo"></div>
+<div class="container-fluid">
+	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
-	<section>
-		<h1>The "data-lugacsi-after" attribute</h1>
+		<div class="panel panel-default">
+			<div class="panel-heading">The "data-lugacsi-after" attribute</div>
+			<div class="panel-body">
+				<div data-lugacsi="include1.inc" data-lugacsi-after="afterDemo"></div>
 
-		<p>This attribute allows to specify a function that will be invoked once the include is successfully
-			performed.</p>
-		<code>
-			<ol>
-				<li>&lt;div data-lugacsi="include1.inc" data-lugacsi-after="afterDemo"&gt;&lt;/div&gt;</li>
-			</ol>
-		</code>
+				<p>This attribute allows to specify a function that will be invoked once the include is successfully
+					performed.</p>
 
-		<p>luga.csi will pass three parameters: func(rootNode, url, response)</p>
-		<code>
-			<ol>
-				<li>&lt;script&gt;</li>
-				<li>function afterDemo(rootNode, url, response) {</li>
-				<li> luga.utils.displayMessage(rootNode, "CSI performed successfully. After handler executed as
-					expected");
-				</li>
-				<li>}</li>
-				<li>&lt;/script&gt;</li>
-			</ol>
-		</code>
-	</section>
+<pre><code class="language-markup">&lt;div data-lugacsi="include1.inc" data-lugacsi-after="afterDemo"&gt;&lt;/div&gt;</code></pre>
+
+				<p>luga.csi will pass three parameters: rootNode, url, response</p>
+
+<pre><code class="line-numbers language-javascript">function afterDemo(rootNode, url, response){
+	luga.utils.displayMessage(rootNode, "CSI performed successfully. After handler executed as expected");
+}</code></pre>
+
+			</div>
+		</div>
+
+	</div>
+
+	<div data-lugacsi="../nav-local.inc"></div>
+
+	<div data-lugacsi="../../luga-docs-footer.inc"></div>
 
 </div>
-
-<div data-lugacsi="../../footer.inc"></div>
 
 </body>
 </html>
