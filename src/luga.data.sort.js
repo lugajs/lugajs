@@ -59,8 +59,8 @@
 
 	luga.data.sort.date.ascending = function(prop){
 		return function(a, b){
-			var dA = a[prop];
-			var dB = b[prop];
+			var dA = luga.lookupProperty(a, prop);
+			var dB = luga.lookupProperty(b, prop);
 			dA = dA ? (new Date(dA)) : 0;
 			dB = dB ? (new Date(dB)) : 0;
 			return dA - dB;
@@ -69,8 +69,8 @@
 
 	luga.data.sort.date.descending = function(prop){
 		return function(a, b){
-			var dA = a[prop];
-			var dB = b[prop];
+			var dA = luga.lookupProperty(a, prop);
+			var dB = luga.lookupProperty(b, prop);
 			dA = dA ? (new Date(dA)) : 0;
 			dB = dB ? (new Date(dB)) : 0;
 			return dB - dA;
@@ -81,8 +81,8 @@
 
 	luga.data.sort.number.ascending = function(prop){
 		return function(a, b){
-			a = a[prop];
-			b = b[prop];
+			a = luga.lookupProperty(a, prop);
+			b = luga.lookupProperty(b, prop);
 			if(a === undefined || b === undefined){
 				return (a === b) ? 0 : (a ? 1 : -1);
 			}
@@ -92,8 +92,8 @@
 
 	luga.data.sort.number.descending = function(prop){
 		return function(a, b){
-			a = a[prop];
-			b = b[prop];
+			a = luga.lookupProperty(a, prop);
+			b = luga.lookupProperty(b, prop);
 			if(a === undefined || b === undefined){
 				return (a === b) ? 0 : (a ? -1 : 1);
 			}
@@ -105,10 +105,8 @@
 
 	luga.data.sort.string.ascending = function(prop){
 		return function(a, b){
-
-			a = a[prop];
-			b = b[prop];
-
+			a = luga.lookupProperty(a, prop);
+			b = luga.lookupProperty(b, prop);
 			if(a === undefined || b === undefined){
 				return (a === b) ? 0 : (a ? 1 : -1);
 			}
@@ -148,8 +146,8 @@
 
 	luga.data.sort.string.descending = function(prop){
 		return function(a, b){
-			a = a[prop];
-			b = b[prop];
+			a = luga.lookupProperty(a, prop);
+			b = luga.lookupProperty(b, prop);
 			if(a === undefined || b === undefined){
 				return (a === b) ? 0 : (a ? -1 : 1);
 			}

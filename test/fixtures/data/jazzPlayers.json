@@ -1,0 +1,32 @@
+{
+  "jazzPlayers": [
+    {
+      "person": {
+        "firstName": "John",
+        "lastName": "Coltrane"
+      },
+      "country": "USA"
+    },
+    {
+      "person": {
+        "firstName": "Sonny",
+        "lastName": "Rollins"
+      },
+      "country": "USA"
+    },
+    {
+      "person": {
+        "firstName": "Tete",
+        "lastName": "Montoliu"
+      },
+      "country": "Spain"
+    },
+    {
+      "person": {
+        "firstName": "Dexter",
+        "lastName": "Gordon"
+      },
+      "country": "USA"
+    }
+  ]
+}

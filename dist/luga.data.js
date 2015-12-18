@@ -13,7 +13,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.2.9";
+	luga.data.version = "0.2.10";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -1241,6 +1241,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {luga.data.Region.options} options
 	 * @constructor
 	 * @abstract
+	 * @fires regionRendered
 	 * @listens dataChanged
 	 * @listens stateChanged
 	 * @throws
@@ -1321,6 +1322,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * @abstract
+		 * @fires regionRendered
 		 */
 		this.render = function(){
 			// Concrete implementations must overwrite this
@@ -1354,6 +1356,8 @@ if(typeof(luga) === "undefined"){
 	 * Handlebars Region class
 	 * @param {luga.data.Region.options} options
 	 * @constructor
+	 * @extends luga.data.region.Base
+	 * @fires regionRendered
 	 * @throws
 	 */
 	luga.data.region.Handlebars = function(options){
@@ -1417,6 +1421,10 @@ if(typeof(luga) === "undefined"){
 			return this.template(this.dataSource.getContext());
 		};
 
+		/*
+		 @override
+		 @fires regionRendered
+		 */
 		this.render = function(){
 			if(this.template !== ""){
 				this.config.node.html(this.generateHtml());
@@ -1597,8 +1605,8 @@ if(typeof(luga) === "undefined"){
 
 	luga.data.sort.date.ascending = function(prop){
 		return function(a, b){
-			var dA = a[prop];
-			var dB = b[prop];
+			var dA = luga.lookupProperty(a, prop);
+			var dB = luga.lookupProperty(b, prop);
 			dA = dA ? (new Date(dA)) : 0;
 			dB = dB ? (new Date(dB)) : 0;
 			return dA - dB;
@@ -1607,8 +1615,8 @@ if(typeof(luga) === "undefined"){
 
 	luga.data.sort.date.descending = function(prop){
 		return function(a, b){
-			var dA = a[prop];
-			var dB = b[prop];
+			var dA = luga.lookupProperty(a, prop);
+			var dB = luga.lookupProperty(b, prop);
 			dA = dA ? (new Date(dA)) : 0;
 			dB = dB ? (new Date(dB)) : 0;
 			return dB - dA;
@@ -1619,8 +1627,8 @@ if(typeof(luga) === "undefined"){
 
 	luga.data.sort.number.ascending = function(prop){
 		return function(a, b){
-			a = a[prop];
-			b = b[prop];
+			a = luga.lookupProperty(a, prop);
+			b = luga.lookupProperty(b, prop);
 			if(a === undefined || b === undefined){
 				return (a === b) ? 0 : (a ? 1 : -1);
 			}
@@ -1630,8 +1638,8 @@ if(typeof(luga) === "undefined"){
 
 	luga.data.sort.number.descending = function(prop){
 		return function(a, b){
-			a = a[prop];
-			b = b[prop];
+			a = luga.lookupProperty(a, prop);
+			b = luga.lookupProperty(b, prop);
 			if(a === undefined || b === undefined){
 				return (a === b) ? 0 : (a ? -1 : 1);
 			}
@@ -1643,10 +1651,8 @@ if(typeof(luga) === "undefined"){
 
 	luga.data.sort.string.ascending = function(prop){
 		return function(a, b){
-
-			a = a[prop];
-			b = b[prop];
-
+			a = luga.lookupProperty(a, prop);
+			b = luga.lookupProperty(b, prop);
 			if(a === undefined || b === undefined){
 				return (a === b) ? 0 : (a ? 1 : -1);
 			}
@@ -1686,8 +1692,8 @@ if(typeof(luga) === "undefined"){
 
 	luga.data.sort.string.descending = function(prop){
 		return function(a, b){
-			a = a[prop];
-			b = b[prop];
+			a = luga.lookupProperty(a, prop);
+			b = luga.lookupProperty(b, prop);
 			if(a === undefined || b === undefined){
 				return (a === b) ? 0 : (a ? -1 : 1);
 			}
