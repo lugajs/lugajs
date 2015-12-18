@@ -72,11 +72,9 @@ data.Autosuggest:
 
 - Implement widget
 
-data.XmlDataset:
-
-- options.xpath
-- setXpath()
-- getXpath()
-- loadRecords()
+data.XmlDataset? 
+- Very low priority
+- Non-flat datastructures would be problematic
+- If huge, keep it separated
 
 -------------
