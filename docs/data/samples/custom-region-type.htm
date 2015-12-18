@@ -42,11 +42,11 @@
 			/** @override */
 			this.render = function(){
 				var records = this.dataSource.getContext().context;
-				var htmlStr = "<ul class='people'>";
+				var htmlStr = "<ul  class='luga-docs-list'>";
 				for(var i = 0; i < records.length; i++){
 					var item = records[i];
 					htmlStr += "<li>";
-					htmlStr += "<a href='#' onclick='test.ladiesMaster.setCurrentRowId(\"" + item.rowId + "\")'>";
+					htmlStr += "<a href='javascript:;' onclick='test.ladiesMaster.setCurrentRowId(\"" + item.rowId + "\")'>";
 					htmlStr += item.lastName;
 					htmlStr += "</a></li>";
 				}

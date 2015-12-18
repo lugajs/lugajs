@@ -56,7 +56,7 @@
 			<div class="panel-body">
 				<div data-lugads-region="embedRegion" data-lugads-datasource="ladiesDs">
 
-					<ul style="margin-bottom: 20px">
+					<ul>
 						<li>recordCount: {{recordCount}}</li>
 						<li>state: {{state}}</li>
 						<li>isStateLoading: {{isStateLoading}}</li>
@@ -64,7 +64,7 @@
 						<li>isStateReady: {{isStateReady}}</li>
 					</ul>
 
-					<ul>
+					<ul class="luga-docs-list">
 						{{#each context}}
 						<li>{{firstName}} {{lastName}}</li>
 						{{/each}}
@@ -74,7 +74,7 @@
 
 <pre><code class="line-numbers language-markup">&lt;div data-lugads-region="embedRegion" data-lugads-datasource="ladiesDs"&gt;
 
-	&lt;ul style="margin-bottom: 20px"&gt;
+	&lt;ul&gt;
 		&lt;li&gt;recordCount: {{recordCount}}&lt;/li&gt;
 		&lt;li&gt;state: {{state}}&lt;/li&gt;
 		&lt;li&gt;isStateLoading: {{isStateLoading}}&lt;/li&gt;
@@ -82,7 +82,7 @@
 		&lt;li&gt;isStateReady: {{isStateReady}}&lt;/li&gt;
 	&lt;/ul&gt;
 
-	&lt;ul&gt;
+	&lt;ul class="luga-docs-list"&gt;
 		{{#each context}}
 		&lt;li&gt;{{firstName}} {{lastName}}&lt;/li&gt;
 		{{/each}}
