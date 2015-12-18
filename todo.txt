@@ -49,7 +49,7 @@ data.Dataset:
 
 data.JsonDtaset:
 
-- Handle sophisticated paths? Implement subPaths like Spry?
+- Handle sophisticated paths? Implement subPaths like Spry? Only reason to worry is data inside arrays
 
 
 data.region.Base:
