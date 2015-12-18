@@ -6,8 +6,7 @@
 
 DOCS:
 
-- Use Bootstrap. Start with Data's docs
-- Move local navigation to the right, better for small screens
+- Use Bootstrap to all docs, not just Data section
 - New format of API docs
 - Layout forms with labels on top of fields
 - Move into GitHub pages?
@@ -25,6 +24,8 @@ CSI:
 -------------
 
 CORE:
+
+- Extend luga.lookupProperty() to handle arrays?
 
 - Implement luga.string.queryToHash()
 
@@ -49,7 +50,7 @@ data.Dataset:
 
 data.JsonDtaset:
 
-- Handle sophisticated paths? Implement subPaths like Spry? Only reason to worry is data inside arrays
+- Implement subPaths like Spry? Only reason to worry is data inside arrays
 
 
 data.region.Base:
