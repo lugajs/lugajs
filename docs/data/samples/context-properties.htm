@@ -57,11 +57,11 @@
 				<div data-lugads-region="embedRegion" data-lugads-datasource="ladiesDs">
 
 					<ul style="margin-bottom: 20px">
-						<li>#recordCount: {{recordCount}}</li>
-						<li>#state: {{state}}</li>
-						<li>#isStateLoading: {{isStateLoading}}</li>
-						<li>#isStateError: {{isStateError}}</li>
-						<li>#isStateReady: {{isStateReady}}</li>
+						<li>recordCount: {{recordCount}}</li>
+						<li>state: {{state}}</li>
+						<li>isStateLoading: {{isStateLoading}}</li>
+						<li>isStateError: {{isStateError}}</li>
+						<li>isStateReady: {{isStateReady}}</li>
 					</ul>
 
 					<ul>
@@ -71,6 +71,24 @@
 					</ul>
 
 				</div>
+
+<pre><code class="line-numbers language-markup">&lt;div data-lugads-region="embedRegion" data-lugads-datasource="ladiesDs"&gt;
+
+	&lt;ul style="margin-bottom: 20px"&gt;
+		&lt;li&gt;recordCount: {{recordCount}}&lt;/li&gt;
+		&lt;li&gt;state: {{state}}&lt;/li&gt;
+		&lt;li&gt;isStateLoading: {{isStateLoading}}&lt;/li&gt;
+		&lt;li&gt;isStateError: {{isStateError}}&lt;/li&gt;
+		&lt;li&gt;isStateReady: {{isStateReady}}&lt;/li&gt;
+	&lt;/ul&gt;
+
+	&lt;ul&gt;
+		{{#each context}}
+		&lt;li&gt;{{firstName}} {{lastName}}&lt;/li&gt;
+		{{/each}}
+	&lt;/ul&gt;
+
+&lt;/div&gt;</code></pre>
 			</div>
 		</div>
 
