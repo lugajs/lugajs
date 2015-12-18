@@ -6,7 +6,7 @@
 
 DOCS:
 
-- Use Bootstrap to all docs, not just Data section
+- Use Bootstrap for: Core, Ajaxform and Validator
 - New format of API docs
 - Layout forms with labels on top of fields
 - Move into GitHub pages?

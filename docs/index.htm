@@ -1,110 +1,148 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-	<meta charset="utf-8" />
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Luga JS</title>
-	<link rel="stylesheet" href="../src/luga.css" />
-	<link rel="stylesheet" href="docs.css" />
+
+	<!-- Libs -->
 	<script src="../lib/jquery/jquery.min.js"></script>
+	<link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css"/>
+	<script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+	<!-- Luga JS -->
+	<link rel="stylesheet" href="../src/luga.css"/>
 	<script src="../dist/luga.min.js"></script>
-	<script src="docs.js"></script>
+
+	<!-- Docs -->
+	<link rel="stylesheet" href="luga.docs.css"/>
+
 </head>
-<body>
+<body class="luga-docs">
 
-	<nav class="main">
-		<ul>
-			<li>
-				<a class="current" href="index.htm" title="Home">Luga JS</a>
-			</li>
-			<li>
-				<a href="core/docs/index.htm" title="Core API">Core</a>
-			</li>
-			<li>
-				<a href="ajaxform/docs/index.htm" title="Submit forms without page reloads">Ajaxform</a>
-			</li>
-			<li>
-				<a href="csi/docs/index.htm" title="Client-side include">CSI</a>
-			</li>
-			<li>
-				<a href="validator/docs/index.htm" title="Client-side form validation">Validator</a>
-			</li>
-			<li>
-				<a href="../archive/luga-js.zip" title="Download zip distro">Download</a>
-			</li>
-		</ul>
-	</nav>
-
-	<div class="content">
-
-		<section>
-			<h1>About Luga JS</h1>
-			<p>
-				Luga JS encompass a set of JavaScript libraries, designed to build form and data centric applications, specialized tools that do few things and try to do them well.
-				Luga JS is not intended and will never be a framework, we believe in keeping our tools small, focused and sharp.
-			</p>
-			<p>
-				Luga JS requires jQuery, this doesn't means we believe jQuery is the best JavaScript framework available.
-				We just feel it’s better to use a generic framework for things like XHR, DOM traversing and manipulation, and jQuery is very popular, lightweight and well-know.
-			</p>
-			<p>Right now the following production ready libraries are available:</p>
-			<ul class="list">
-				<li>
-					<a href="ajaxform/docs/index.htm" title="Submit forms without page reloads">Ajaxform</a>: turn any HTML &lt;form&gt; into a form that get submitted by XHR, without the need to reload the page
-				</li>
-				<li>
-					<a href="csi/docs/index.htm" title="Client-side include">CSI</a>: a simple solution to perform includes client-side
-				</li>
-				<li>
-					<a href="validator/docs/index.htm" title="Client-side form validation">Validator</a>: a library for client-side form validation
+<div class="container-fluid">
+	<nav class="navbar navbar-default">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+					data-target="#main-navbar-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="active navbar-brand" href="../../index.htm">Luga JS</a>
+		</div>
+		<!-- Everything may toggle -->
+		<div class="collapse navbar-collapse" id="main-navbar-collapse">
+			<ul class="nav navbar-nav">
+				<li><a href="../../core/docs/index.htm">:: Core ::</a></li>
+				<li><a href="../../ajaxform/docs/index.htm">:: Ajaxform ::</a></li>
+				<li><a href="../../data/docs/index.htm">:: Luga Data::</a></li>
+				<li><a href="../../validator/docs/index.htm">:: Validator ::</a></li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">More <span
+							class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="../../csi/docs/index.htm">CSI</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="https://github.com/MassimoFoti/lugajs">GitHub</a></li>
+						<li><a href="../../../archive/luga-js.zip">Download</a></li>
+					</ul>
 				</li>
 			</ul>
-			<p>
-				Each libraries requires <a href="../dist/luga.core.min.js">luga.core.min.js</a> and is available as separated .js file (either plain or minified).
-				This way you can use them separately, depending on your own needs.
-			</p>
-			<p>
-				As an alternative you can use the <a href="../dist/luga.js">concatenated file</a> that contains all libraries and is also available in <a href="../dist/luga.min.js">minified format</a>
-			</p>
-			<p>
-				The project is hosted on <a href="https://github.com/MassimoFoti/lugajs" title="Luga JS on GitHub">GitHub</a>
-			</p>
-		</section>
+		</div>
+	</nav>
+</div>
 
-		<section>
-			<h1>Unit test</h1>
-			<p>
-				Luga JS contains a comprehensive set of <a href="../test/SpecRunner.htm">unit tests</a>, developed with <a href="https://github.com/jasmine/jasmine">Jasmine</a>
-			</p>
-			<p>
-				The unit tests play a fundamental role in ensuring the code is robust and, at the very same time, provide plenty of useful information about the API
-			</p>
-		</section>
+<div class="container-fluid">
+	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
-		<section>
-			<h1>Browser Compatibility</h1>
-			<p>
-				Luga JS is designed to work in IE9+ and most recent versions of Chrome and FireFox
-			</p>
-			<p>
-				Luga JS is tested alongside <a href="https://jquery.com/browser-support/">jQuery 2.x</a> If you use version 1.x instead, you might run without major issues in older browser versions,
-				but please be aware we do not actively test or support this configuration
-			</p>
-		</section>
+		<div class="panel panel-default">
+			<div class="panel-heading">About Luga JS</div>
+			<div class="panel-body">
+				<p>
+					Luga JS encompass a set of JavaScript libraries, designed to build form and data centric
+					applications, specialized tools that do few things and try to do them well.
+					Luga JS is not intended and will never be a framework, we believe in keeping our tools small,
+					focused and sharp.
+				</p>
 
-		<section>
-			<h1>License</h1>
-			<p>Luga JS is distributed under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> license</p>
-			<p>
-				The Apache License requires preservation of the copyright notice and disclaimer.
-				The Apache License allows the user of the software the freedom to use the software for any purpose, to distribute it, to modify it, and to distribute modified versions of the software
-			</p>
-		</section>
+				<p>
+					Luga JS requires jQuery, this doesn't means we believe jQuery is the best JavaScript framework
+					available.
+					We just feel it’s better to use a generic framework for things like XHR, DOM traversing and
+					manipulation, and jQuery is very popular, lightweight and well-know.
+				</p>
 
-		<div data-lugacsi="support.inc"></div>
+				<p>Right now the following production ready libraries are available:</p>
+				<ul class="luga-docs-list">
+					<li>
+						<a href="ajaxform/docs/index.htm" title="Submit forms without page reloads">Ajaxform</a>: turn
+						any HTML &lt;form&gt; into a form that get submitted by XHR, without the need to reload the page
+					</li>
+					<li>
+						<a href="data/docs/index.htm" title="Dataset and binding">Luga Data</a>: data, binding and
+						dynamically generated HTML
+					</li>
+					<li>
+						<a href="validator/docs/index.htm" title="Client-side form validation">Validator</a>: a library
+						for client-side form validation
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Unit tests</div>
+			<div class="panel-body">
+				<p>
+					Luga JS contains a comprehensive set of <a href="../test/SpecRunner.htm">unit tests</a>, developed
+					with <a href="https://github.com/jasmine/jasmine">Jasmine</a>
+				</p>
+
+				<p>
+					The unit tests play a fundamental role in ensuring the code is robust and, at the very same time,
+					provide plenty of useful information about the API
+				</p>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Browser Compatibility</div>
+			<div class="panel-body">
+				<p>
+					Luga JS is designed to work in IE9+ and most recent versions of Chrome and FireFox
+				</p>
+
+				<p>
+					Luga JS is tested alongside <a href="https://jquery.com/browser-support/">jQuery 2.x</a> If you use
+					version 1.x instead, you might run without major issues in older browser versions,
+					but please be aware we do not actively test or support this configuration
+				</p>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">License</div>
+			<div class="panel-body">
+				<p>Luga JS is distributed under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache
+					2.0</a> license</p>
+
+				<p>
+					The Apache License requires preservation of the copyright notice and disclaimer.
+					The Apache License allows the user of the software the freedom to use the software for any purpose,
+					to distribute it, to modify it, and to distribute modified versions of the software
+				</p>
+			</div>
+		</div>
+
+		<div data-lugacsi="luga-docs-support.inc"></div>
 
 	</div>
 
-	<div data-lugacsi="footer.inc"></div>
+	<div data-lugacsi="luga-docs-footer.inc"></div>
+
+</div>
 
 </body>
 </html>
