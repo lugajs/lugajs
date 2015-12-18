@@ -48,21 +48,21 @@ dl, dt, dd, ol, ul, li {
 
 /* Local navigation */
 
-.luga-docs .luga-nav-local luga-docs-list-group {
+.luga-docs .luga-nav-local .list-group {
 	border: 0.1em solid #7C93BA;
 	box-shadow: 0.15em 0.15em 0.15em rgba(0, 0, 0, 0.25)
 }
 
-.luga-docs .luga-nav-local luga-docs-list-group {
+.luga-docs .luga-nav-local .list-group {
 	border-radius: 4px;
 }
 
-.luga-docs .luga-nav-local luga-docs-list-group luga-docs-list-group-item {
+.luga-docs .luga-nav-local .list-group .list-group-item {
 	border-left: none;
 	border-right: none;
 }
 
-.luga-docs .luga-nav-local luga-docs-list-group li.luga-docs-list-heading {
+.luga-docs .luga-nav-local .list-group li.luga-docs-list-heading {
 	background: #7C93BA;
 	border: none;
 	color: #FFFFFF;
@@ -73,14 +73,14 @@ dl, dt, dd, ol, ul, li {
 	text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.1);
 }
 
-.luga-docs .luga-nav-local luga-docs-list-group a {
+.luga-docs .luga-nav-local .list-group a {
 	background-color: #FFFFFF;
 	display: block;
 	text-decoration: none;
 	text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.1);
 }
 
-.luga-docs .luga-nav-local luga-docs-list-group a:before {
+.luga-docs .luga-nav-local .list-group a:before {
 	content: ":: ";
 }
 
