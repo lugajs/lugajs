@@ -6,6 +6,9 @@
 
 DOCS:
 
+- Try Prism JS: http://prismjs.com/
+  http://prismjs.com/plugins/line-numbers/
+
 - Use Bootstrap to all docs, not just Data section
 - New format of API docs
 - Layout forms with labels on top of fields
