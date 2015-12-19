@@ -120,6 +120,10 @@ pre code {
 	margin: 0;
 }
 
+pre + pre {
+	border-top: none;
+}
+
 /* List */
 
 ul.luga-docs-list,
