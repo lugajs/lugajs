@@ -48,7 +48,8 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Given the name of a function as a string, return the relevant function, if any
-	 * Returns undefined, if the reference has not been found.
+	 * Returns undefined, if the reference has not been found
+	 * Supports namespaces (if the fully qualified path is passed)
 	 * @param {string} path            Fully qualified name of a function
 	 * @returns {function|undefined}   The javascript reference to the function, undefined if nothing is fund or if it's not a function
 	 */

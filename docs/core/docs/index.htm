@@ -72,6 +72,50 @@
 		</div>
 
 		<div class="panel panel-default">
+			<div class="panel-heading luga-docs-api-heading">luga.lookupFunction(path)</div>
+			<div class="panel-body">
+				Given the name of a function as a string, return the relevant function, if any.
+				<br>
+				If nothing exists at that location, returns undefined.
+				<br>
+				Supports namespaces (if the fully qualified path is passed).
+			</div>
+			<table class="table table-bordered luga-docs-api">
+				<th colspan="3">Parameters</th>
+				<tr>
+					<td>path</td>
+					<td>
+						string
+					</td>
+					<td>
+						Fully qualified name of a function
+					</td>
+				</tr>
+			</table>
+
+			<table class="table table-bordered luga-docs-api">
+				<th>Returns</th>
+				<tr>
+					<td>function|undefined</td>
+				</tr>
+			</table>
+			<table class="table table-bordered luga-docs-api">
+				<th>Examples</th>
+			</table>
+
+<pre><code class="language-javascript">myLookup = function(){
+};
+luga.lookupFunction("myLookup");
+// => Reference to the function</code></pre>
+<pre><code class="language-javascript">myLookUpSpace = {};
+	myFunction = function(){
+};
+luga.lookupFunction("myLookUpSpace.myFunction");
+// => Reference to the function</code></pre>
+
+		</div>
+
+		<div class="panel panel-default">
 			<div class="panel-heading luga-docs-api-heading">luga.lookupProperty(object, path)</div>
 			<div class="panel-body">
 				Given an object and a path, returns the property located at the given path.
