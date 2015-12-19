@@ -38,13 +38,12 @@ DATA:
 data.Dataset:
 
 - Implement update(filter, setter)
+- Allow custom sorter for complex objects
 - Local storage persistence? It would require serialization of full dataSet (including filter!)
 
+data.PagedDataset:
 
-data.JsonDtaset:
-
-- Implement subPaths like Spry? Only reason to worry is data inside arrays
-
+- Implement
 
 data.region.Base:
 
@@ -52,19 +51,24 @@ data.region.Base:
 
 -------------
 
+DATA WIDGETS:
+
+- ShowMore widget
+  10 records at time (fetchedRecords)
+  Once done change button's label
+  Mixed client/server (set a threshold)
+
+- Pagination widget (needs PagedDataset)
+- Navbar widget (needs PagedDataset)
+- Autosuggest widget
+
+-------------
+
 DATA FUTURE:
 
-- Once mature. Add it to default Gulp task
-- Implement pagination
-- Implement navbar widget
+- Add it to default Gulp task
 
-data.Autosuggest:
-
-- Implement widget
-
-data.XmlDataset? 
-- Very low priority
-- Non-flat datastructures would be problematic
-- If huge, keep it separated
+- data.Rss2Dataset
+  Limited functionality, only for demo and massimocorner.com
 
 -------------
