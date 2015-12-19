@@ -18,7 +18,7 @@ dl, dt, dd, ol, ul, li {
 
 .luga-docs .navbar {
 	background-color: #FFFFFF;
-	border: 0.1em solid #7C93BA;
+	border: 1px solid #7C93BA;
 	box-shadow: 0.15em 0.15em 0.15em rgba(0, 0, 0, 0.25);
 	margin-left: 15px;
 	margin-right: 15px;
@@ -49,7 +49,7 @@ dl, dt, dd, ol, ul, li {
 /* Local navigation */
 
 .luga-docs .luga-nav-local .list-group {
-	border: 0.1em solid #7C93BA;
+	border: 1px solid #7C93BA;
 	box-shadow: 0.15em 0.15em 0.15em rgba(0, 0, 0, 0.25)
 }
 
@@ -87,7 +87,7 @@ dl, dt, dd, ol, ul, li {
 /* Panels */
 
 .luga-docs .panel-default {
-	border: 0.1em solid #7C93BA;
+	border: 1px solid #7C93BA;
 	box-shadow: 0.15em 0.15em 0.15em rgba(0, 0, 0, 0.25)
 }
 
@@ -151,9 +151,13 @@ ol.luga-docs-list li {
 table.luga-docs-attributes,
 table.luga-docs-api {
 	background: #7C93BA;
-	border: 0.1em solid #7C93BA;
+	border: 1px solid #7C93BA;
 	box-shadow: rgba(0, 0, 0, .25) 0.15em 0.15em 0.15em;
 	width: 100%;
+}
+
+table.luga-docs-api + table.luga-docs-api {
+	border-top: 1px solid #DDDDDD;
 }
 
 table.luga-docs-api th,

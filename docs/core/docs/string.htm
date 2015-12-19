@@ -92,12 +92,15 @@
 					<td>string</td>
 				</tr>
 			</table>
+			<table class="table table-bordered luga-docs-api">
+				<th>Examples</th>
+			</table>
 
-<pre><code class="language-javascript">//Example passing strings inside an array:
+<pre><code class="language-javascript">// Using an array:
 luga.string.format("My name is {0} {1}", ["Ciccio", "Pasticcio"]);
 // => "My name is Ciccio Pasticcio"
 
-// Example passing strings inside an object:
+// Using an object:
 luga.string.format("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"});
 // => "My name is Ciccio Pasticcio"</code></pre>
 
