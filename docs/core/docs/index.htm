@@ -72,6 +72,36 @@
 		</div>
 
 		<div class="panel panel-default">
+			<div class="panel-heading luga-docs-api-heading">luga.merge(target, obj)</div>
+			<div class="panel-body">
+				Shallow-merge the contents of two objects together into the first object.
+				It wraps jQuery's extend to make names less ambiguous
+			</div>
+			<table class="table table-bordered luga-docs-api">
+				<th colspan="3">Parameters</th>
+				<tr>
+					<td>target</td>
+					<td>
+						object
+					</td>
+					<td>
+						An object that will receive the new properties
+					</td>
+				</tr>
+				<tr>
+					<td>obj</td>
+					<td>
+						object
+					</td>
+					<td>
+						An object containing additional properties to merge in
+					</td>
+				</tr>
+			</table>
+
+		</div>
+
+		<div class="panel panel-default">
 			<div class="panel-heading luga-docs-api-heading">luga.namespace(ns, rootObject)</div>
 			<div class="panel-body">
 				Creates namespaces to be used for scoping variables and classes so that they are not global.
@@ -99,36 +129,6 @@
 				</tr>
 			</table>
 		   <pre><code class="language-javascript">luga.namespace("luga.utils");</code></pre>
-
-		</div>
-
-		<div class="panel panel-default">
-			<div class="panel-heading luga-docs-api-heading">luga.merge(target, obj)</div>
-			<div class="panel-body">
-				Shallow-merge the contents of two objects together into the first object.
-				It wraps jQuery's extend to make names less ambiguous
-			</div>
-			<table class="table table-bordered luga-docs-api">
-				<th colspan="3">Parameters</th>
-				<tr>
-					<td>target</td>
-					<td>
-						object
-					</td>
-					<td>
-						An object that will receive the new properties
-					</td>
-				</tr>
-				<tr>
-					<td>obj</td>
-					<td>
-						object
-					</td>
-					<td>
-						An object containing additional properties to merge in
-					</td>
-				</tr>
-			</table>
 
 		</div>
 
