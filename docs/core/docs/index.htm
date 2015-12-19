@@ -85,7 +85,7 @@
 				<tr>
 					<td>path</td>
 					<td>
-						string
+						{string}
 					</td>
 					<td>
 						Fully qualified name of a function
@@ -94,9 +94,9 @@
 			</table>
 
 			<table class="table table-bordered luga-docs-api">
-				<th>Returns</th>
+				<th>Return type</th>
 				<tr>
-					<td>function|undefined</td>
+					<td>{function|undefined}</td>
 				</tr>
 			</table>
 			<table class="table table-bordered luga-docs-api">
@@ -129,7 +129,7 @@ luga.lookupFunction("myLookUpSpace.myFunction");
 				<tr>
 					<td>object</td>
 					<td>
-						object
+						{object}
 					</td>
 					<td>
 						Target object
@@ -138,7 +138,7 @@ luga.lookupFunction("myLookUpSpace.myFunction");
 				<tr>
 					<td>path</td>
 					<td>
-						string
+						{string}
 					</td>
 					<td>
 						Dot-delimited string
@@ -147,9 +147,9 @@ luga.lookupFunction("myLookUpSpace.myFunction");
 			</table>
 
 			<table class="table table-bordered luga-docs-api">
-				<th>Returns</th>
+				<th>Return type</th>
 				<tr>
-					<td>*|undefined</td>
+					<td>{*|undefined}</td>
 				</tr>
 			</table>
 			<table class="table table-bordered luga-docs-api">
@@ -183,7 +183,7 @@ luga.lookupProperty(target, "firstLevel.secondLevel.missing");
 				<tr>
 					<td>target</td>
 					<td>
-						object
+						{object}
 					</td>
 					<td>
 						An object that will receive the new properties
@@ -192,7 +192,7 @@ luga.lookupProperty(target, "firstLevel.secondLevel.missing");
 				<tr>
 					<td>obj</td>
 					<td>
-						object
+						{object}
 					</td>
 					<td>
 						An object containing additional properties to merge in
@@ -213,7 +213,7 @@ luga.lookupProperty(target, "firstLevel.secondLevel.missing");
 				<tr>
 					<td>ns</td>
 					<td>
-						string
+						{string}
 					</td>
 					<td>
 						Namespace as string
@@ -222,7 +222,7 @@ luga.lookupProperty(target, "firstLevel.secondLevel.missing");
 				<tr>
 					<td>rootObject</td>
 					<td>
-						object
+						{object}
 					</td>
 					<td>
 						Optional root object. Default to window
@@ -233,6 +233,69 @@ luga.lookupProperty(target, "firstLevel.secondLevel.missing");
 				<th>Examples</th>
 			</table>
 		   <pre><code class="language-javascript">luga.namespace("luga.utils");</code></pre>
+
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading luga-docs-api-heading">luga.setProperty(object, path, value)</div>
+			<div class="panel-body">
+				Given an object, a path and a value, set the property located at the given path to the given value.
+				<br>
+				If the path does not exists, it creates it.
+			</div>
+			<table class="table table-bordered luga-docs-api">
+				<th colspan="3">Parameters</th>
+				<tr>
+					<td>object</td>
+					<td>
+						{object}
+					</td>
+					<td>
+						Target object
+					</td>
+				</tr>
+				<tr>
+					<td>path</td>
+					<td>
+						{string}
+					</td>
+					<td>
+						Fully qualified property name
+					</td>
+				</tr>
+				<tr>
+					<td>value</td>
+					<td>
+						{*}
+					</td>
+					<td>
+						Value
+					</td>
+				</tr>
+			</table>
+
+			<table class="table table-bordered luga-docs-api">
+				<th>Examples</th>
+			</table>
+
+<pre><code class="language-javascript">var targetObj = {
+	firstName: "Ciccio",
+	children: [],
+	firstLevel: {
+		secondLevel: "Second"
+	}
+};
+
+luga.setProperty(targetObj, "lastName", "Pasticcio");
+// => targetObj.lastName = "Pasticcio"
+
+luga.setProperty(targetObj, "firstLevel.moreSecond", "more");
+// => targetObj.firstLevel.moreSecond = "more"
+
+// If the path does not exists, creates it
+luga.setProperty(targetObj, "first.second.third", 3);
+// => targetObj.first.second.third = 3
+</code></pre>
 
 		</div>
 

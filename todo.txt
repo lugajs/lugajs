@@ -28,7 +28,6 @@ CORE:
 
 - Document luga.Notifier
 - Document luga.extend()
-- Document luga.setProperty()
 
 -------------
 VALIDATOR:

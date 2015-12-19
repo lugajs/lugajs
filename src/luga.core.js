@@ -113,7 +113,7 @@ if(typeof(luga) === "undefined"){
 	 * Given an object, a path and a value, set the property located at the given path to the given value
 	 * If the path does not exists, it creates it
 	 * @param {object} object  Target object
-	 * @param {string} path    Dot-delimited string
+	 * @param {string} path    Fully qualified property name
 	 * @param {*}      value
 	 */
 	luga.setProperty = function(object, path, value){
