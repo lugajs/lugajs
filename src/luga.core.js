@@ -66,6 +66,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Given an object and a path, returns the property located at the given path
 	 * If nothing exists at that location, returns undefined
+	 * Supports unlimited nesting levels (if the fully qualified path is passed)
 	 * @param {object} object  Target object
 	 * @param {string} path    Dot-delimited string
 	 * @returns {*|undefined}
