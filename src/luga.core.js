@@ -285,7 +285,10 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Given a form tag or another element wrapping input fields, serialize them into JSON data
+	 * Given a form tag or another element wrapping input fields, serialize their value into JSON data
+	 * If fields names contains dots, their are handled as nested properties
+	 * Only fields considered successful are returned:
+	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 * @param {jquery} rootNode  jQuery object wrapping the form fields
 	 * @returns {json}
 	 */

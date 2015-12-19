@@ -24,11 +24,8 @@ CSI:
 
 CORE:
 
-- Extend luga.lookupProperty() to handle arrays?
-
 - Implement luga.string.queryToHash()
 
-- Document luga.form.toJson()
 - Document luga.Notifier
 - Document luga.extend()
 - Document luga.lookupFunction()
