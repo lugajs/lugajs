@@ -100,8 +100,8 @@ if(typeof(luga) === "undefined"){
 	 * Shallow-merge the contents of two objects together into the first object
 	 * It wraps jQuery's extend to make names less ambiguous
 	 *
-	 * @param {object} target
-	 * @param {object} obj
+	 * @param {object} target  An object that will receive the new properties
+	 * @param {object} obj     An object containing additional properties to merge in
 	 */
 	luga.merge = function(target, obj){
 		jQuery.extend(target, obj);
@@ -304,7 +304,7 @@ if(typeof(luga) === "undefined"){
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 *
 	 * @param {jquery}   rootNode     jQuery object wrapping the root node
-	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
+	 * @param {boolean}  demoronize   If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @return {string}               A URI encoded string
 	 * @throws
 	 */

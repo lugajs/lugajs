@@ -1,57 +1,119 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<title>Luga Validator :: API Syntax reference</title>
-	<link rel="stylesheet" href="../../../src/luga.css" />
-	<link rel="stylesheet" href="../../docs.css" />
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>luga.form</title>
+
+	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../lib/handlebars.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/bootstrap/css/bootstrap.min.css"/>
+	<script src="../../../lib/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/prism/prism.css"/>
+	<script src="../../../lib/prism/prism.js"></script>
+
+	<!-- Luga JS -->
+	<link rel="stylesheet" href="../../../src/luga.css"/>
 	<script src="../../../dist/luga.min.js"></script>
-	<script src="../../docs.js"></script>
+	<script src="../../../dist/luga.data.min.js"></script>
+
+	<!-- Docs -->
+	<link rel="stylesheet" href="../../luga.docs.css"/>
+	<script src="../../luga-docs.js"></script>
+
 </head>
-<body>
+<body class="luga-docs">
 
-	<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
-	<div data-lugacsi="../sidebar.inc"></div>
+<div data-lugacsi="../../luga-docs-nav-main.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
 
-	<div class="content">
+<div class="container-fluid">
+	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
-		<table class="syntax">
-			<th colspan="2">luga.form API methods</th>
-			<tr>
-				<td>luga.form.toQueryString(rootNode, demoronize)</td>
-				<td><pre>
-/**
- * Returns a URI encoded string of name/value pairs from fields contained inside a given root node
- * Only fields considered successful are returned:
- * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
- *
- * @param {jquery}   rootNode     jQuery object wrapping the root node
- * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
- * @return {string}               A URI encoded string
- */
-				</pre></td>
-			</tr>
-			<tr>
-				<td>luga.form.toHash(rootNode, demoronize)</td>
-				<td><pre>
-/**
- * Returns a JavaScript object containing name/value pairs from fields contained inside a given root node
- * Only fields considered successful are returned:
- * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
- * Values of multiple checked checkboxes and multiple select are included as a single entry, with array value
- *
- * @param {jquery}   rootNode     jQuery object wrapping the root node
- * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
- * @return {object}               A JavaScript object containing name/value pairs
- */
-				</pre></td>
-			</tr>
-		</table>
+		<div class="panel panel-default">
+			<div class="panel-heading luga-docs-api-heading">luga.form.toQueryString(rootNode, demoronize)</div>
+			<div class="panel-body">
+				Returns a URI encoded string of name/value pairs from fields contained inside a given root node.
+				Only fields considered successful are returned: <br>
+				<a href="http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2">http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2</a>
+			</div>
+			<table class="table table-bordered luga-docs-api">
+				<th colspan="3">Parameters</th>
+				<tr>
+					<td>rootNode</td>
+					<td>
+						jQuery
+					</td>
+					<td>
+						jQuery object wrapping the root node
+					</td>
+				</tr>
+				<tr>
+					<td>demoronize</td>
+					<td>
+						boolean
+					</td>
+					<td>
+						If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
+					</td>
+				</tr>
+			</table>
+			<table class="table table-bordered luga-docs-api">
+				<th>Returns</th>
+				<tr>
+					<td>A URI encoded string</td>
+				</tr>
+			</table>
+
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading luga-docs-api-heading">luga.form.toHash(rootNode, demoronize)</div>
+			<div class="panel-body">
+				Returns a JavaScript object containing name/value pairs from fields contained inside a given root node.
+				Only fields considered successful are returned: <br>
+				<a href="http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2">http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2</a>
+				<br>
+				Values of multiple checked checkboxes and multiple select are included as a single entry, with array value
+			</div>
+			<table class="table table-bordered luga-docs-api">
+				<th colspan="3">Parameters</th>
+				<tr>
+					<td>rootNode</td>
+					<td>
+						jQuery
+					</td>
+					<td>
+						jQuery object wrapping the root node
+					</td>
+				</tr>
+				<tr>
+					<td>demoronize</td>
+					<td>
+						boolean
+					</td>
+					<td>
+						If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
+					</td>
+				</tr>
+			</table>
+			<table class="table table-bordered luga-docs-api">
+				<th>Returns</th>
+				<tr>
+					<td>A JavaScript object containing name/value pairs</td>
+				</tr>
+			</table>
+
+		</div>
 
 	</div>
 
-	<div data-lugacsi="../../footer.inc"></div>
+	<div data-lugacsi="../nav-local.inc"></div>
+
+	<div data-lugacsi="../../luga-docs-footer.inc"></div>
+
+</div>
 
 </body>
 </html>

@@ -32,7 +32,7 @@ dl, dt, dd, ol, ul, li {
 	font-weight: 700;
 }
 
-.luga-docs .navbar-default .navbar-nav > .active > a{
+.luga-docs .navbar-default .navbar-nav > .active > a {
 	background: #7C93BA;
 	color: #FFFFFF !important;
 	text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.1);
@@ -42,7 +42,7 @@ dl, dt, dd, ol, ul, li {
 	text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.1);
 }
 
-.luga-docs .dropdown-menu > .active > a  {
+.luga-docs .dropdown-menu > .active > a {
 	color: #FFFFFF !important;
 }
 
@@ -102,10 +102,22 @@ dl, dt, dd, ol, ul, li {
 	background-color: #EBEBEB;
 }
 
+.luga-docs .panel-heading.luga-docs-api-heading {
+	background: #7C93BA;
+	color: #FFFFFF;
+	font-weight: 700;
+	text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.1);
+}
+
 /* Code listings */
 pre,
 pre code {
 	background-color: #F9F9F9 !important;
+}
+
+.panel > pre {
+	border-radius: 0;
+	margin: 0;
 }
 
 /* List */
@@ -130,39 +142,51 @@ ol.luga-docs-list li {
 	list-style: decimal outside none;
 }
 
-/* Table with attributes syntax */
+/* Table with attributes/api syntax */
 
-table.luga-docs-attributes {
+table.luga-docs-attributes,
+table.luga-docs-api {
 	background: #7C93BA;
-	border-radius: 0.4em;
+	border: 0.1em solid #7C93BA;
 	box-shadow: rgba(0, 0, 0, .25) 0.15em 0.15em 0.15em;
 	width: 100%;
 }
 
+table.luga-docs-api th,
 table.luga-docs-attributes th {
-	color: #FFFFFF;
-	font-size: 1.1em;
 	font-weight: 700;
 	padding: 0.8em;
 	text-align: left;
 }
 
+table.luga-docs-api th {
+	background-color: #F5F2F0;
+	color: #3362B4;
+}
+
+table.luga-docs-attributes th {
+	background: #7C93BA;
+	color: #FFFFFF;
+}
+
+table.luga-docs-attributes th {
+	font-size: 1.1em;
+}
+
 table.luga-docs-attributes td {
-	background: #EBEBEB;
 	color: #494949;
 	font-weight: 600;
+}
+
+table.luga-docs-api td,
+table.luga-docs-attributes td {
+	background: #FCFCFC;
 	padding: 0.8em;
 	white-space: nowrap;
-	width: 25%;
 }
 
+table.luga-docs-api td + td,
 table.luga-docs-attributes td + td {
-	background: #FCFCFC;
 	font-weight: normal;
 	white-space: normal;
-	width: 75%;
-}
-
-table.luga-docs-attributes td p {
-	margin-top: 0;
 }

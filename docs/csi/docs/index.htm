@@ -58,12 +58,13 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">Getting started</div>
 			<div class="panel-body">
-				<p>In order to use Luga CSI, you must include the JavaScript files. First jQuery, then <a href="../../../dist/luga.core.min.js">Luga Core</a> and
+				<p>In order to use Luga CSI, you must include the JavaScript files. First jQuery, then <a
+						href="../../../dist/luga.core.min.js">Luga Core</a> and
 					<a href="../../../dist/luga.csi.min.js">Luga CSI</a> (in this order)</p>
 
 <pre><code class="language-markup">&lt;script src="js/jquery.min.js"&gt;&lt;/script&gt;
-&lt;script src="js/luga.core.min.js"&gt;&lt;/script&gt;
-&lt;script src="js/luga.csi.min.js"&gt;&lt;/script&gt;
+	&lt;script src="js/luga.core.min.js"&gt;&lt;/script&gt;
+	&lt;script src="js/luga.csi.min.js"&gt;&lt;/script&gt;
 </code></pre>
 
 				<p>Then use an almost plain vanilla HTML &lt;div&gt; tag:</p>
@@ -73,33 +74,30 @@
 		</div>
 
 		<div class="panel panel-default">
-			<div class="panel-heading">Syntax reference</div>
-			<div class="panel-body">
-				<table class="table table-bordered luga-docs-attributes">
-					<th>Attribute</th>
-					<th>Description</th>
-					<tr>
-						<td>data-lugacsi</td>
-						<td>
-							Mandatory. Point to the file you want to include. It must be a text file, the extension
-							doesn't really
-							matters, .inc, .txt, .xml, .htm or whatever you see fit.
-							You can use document relative or root relative paths, or even full URLs. Due to browser's
-							security
-							restrictions, you can't include file from a different domain.
-						</td>
-					</tr>
-					<tr>
-						<td>data-lugacsi-after</td>
-						<td>
-							Optional. This attribute allows to specify a function that will be invoked once the include
-							is
-							successfully performed.
-							See <a href="../samples/after.htm">sample page</a>
-						</td>
-					</tr>
-				</table>
-			</div>
+			<table class="table table-bordered luga-docs-attributes">
+				<th>Attribute</th>
+				<th>Description</th>
+				<tr>
+					<td>data-lugacsi</td>
+					<td>
+						Mandatory. Point to the file you want to include. It must be a text file, the extension
+						doesn't really
+						matters, .inc, .txt, .xml, .htm or whatever you see fit.
+						You can use document relative or root relative paths, or even full URLs. Due to browser's
+						security
+						restrictions, you can't include file from a different domain.
+					</td>
+				</tr>
+				<tr>
+					<td>data-lugacsi-after</td>
+					<td>
+						Optional. This attribute allows to specify a function that will be invoked once the include
+						is
+						successfully performed.
+						See <a href="../samples/after.htm">sample page</a>
+					</td>
+				</tr>
+			</table>
 		</div>
 
 		<div data-lugacsi="../../luga-docs-support.inc"></div>
