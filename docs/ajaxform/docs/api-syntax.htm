@@ -1,70 +1,181 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-	<meta charset="utf-8" />
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Luga Ajaxform :: API Syntax reference</title>
-	<link rel="stylesheet" href="../../../src/luga.css" />
-	<link rel="stylesheet" href="../../docs.css" />
+
+	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../lib/handlebars.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/bootstrap/css/bootstrap.min.css"/>
+	<script src="../../../lib/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/prism/prism.css"/>
+	<script src="../../../lib/prism/prism.js"></script>
+
+	<!-- Luga JS -->
+	<link rel="stylesheet" href="../../../src/luga.css"/>
 	<script src="../../../dist/luga.min.js"></script>
-	<script src="../../docs.js"></script>
+	<script src="../../../dist/luga.data.min.js"></script>
+
+	<!-- Docs -->
+	<link rel="stylesheet" href="../../luga.docs.css"/>
+	<script src="../../luga-docs.js"></script>
+
 </head>
-<body>
+<body class="luga-docs">
 
-	<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
-	<div data-lugacsi="../sidebar.inc"></div>
+<div data-lugacsi="../../luga-docs-nav-main.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
 
-	<div class="content">
+<div class="container-fluid">
+	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
-		<section>
-			<h1>API Syntax reference</h1>
-			<p>
-				While Luga Ajaxform makes it very easy to handle forms in a declarative way, you can use it programmatically too.
-				First you can create a new instance of luga.ajaxform.Sender, then you call its send() method.
-				See <a href="../samples/api.htm">samples</a>
-			</p>
-			<p>
-				It's important to note that each and every options available as custom attribute can be passed to luga.ajaxform.Sender 's constructor too.
-				See below for a full list
-			</p>
-		</section>
+		<div class="panel panel-default">
+			<div class="panel-heading">API Syntax reference</div>
+			<div class="panel-body">
+				<p>
+					While Luga Ajaxform makes it very easy to handle forms in a declarative way, you can use it programmatically too.
+					First you can create a new instance of luga.ajaxform.Sender, then you call its send() or sendJson() method.
+					See <a href="../samples/api.htm">samples</a>
+				</p>
+				<p>
+					It's important to note that each and every options available as <a href="syntax.htm">custom attribute</a> can be passed to luga.ajaxform.Sender 's constructor too.
+					See below for a full list
+				</p>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading luga-docs-api-heading">luga.ajaxform.Sender(options)</div>
+			<div class="panel-body">
+				Form handler's constructor. You can invoke its <a href="../samples/api.htm">send()</a> or <a href="../samples/api-json.htm">sendJson()</a> method to serialize the form and send its contents using XHR
+			</div>
+			<table class="table table-bordered luga-docs-api">
+				<th colspan="3">Parameters</th>
+				<tr>
+					<td>options.formNode</td>
+					<td>
+						{jquery}
+					</td>
+					<td>
+						A jQuery object wrapping the form. Required
+					</td>
+				</tr>
+				<tr>
+					<td>options.action</td>
+					<td>
+						{string}
+					</td>
+					<td>
+						URL to where the form will be send. Default to the current URL
+					</td>
+				</tr>
+				<tr>
+					<td>options.method</td>
+					<td>
+						{string}
+					</td>
+					<td>
+						HTTP method to be used. Default to GET
+					</td>
+				</tr>
+				<tr>
+					<td>options.timeout</td>
+					<td>
+						{number}
+					</td>
+					<td>
+						Timeout to be used during the HTTP call (milliseconds). Default to 30000
+					</td>
+				</tr>
+				<tr>
+					<td>options.success</td>
+					<td>
+						{string}
+					</td>
+					<td>
+						Name of the function to be invoked if the form is successfully submitted. Default to "luga.ajaxform.handlers.replaceForm"
+					</td>
+				</tr>
+				<tr>
+					<td>options.error</td>
+					<td>
+						{string}
+					</td>
+					<td>
+						Name of the function to be invoked if the HTTP call failed. Default to "luga.ajaxform.handlers.errorAlert"
+					</td>
+				</tr>
+				<tr>
+					<td>options.successmsg</td>
+					<td>
+						{string}
+					</td>
+					<td>
+						Message that will be displayed to the user if the form is successfully submitted. Default to "Thanks for submitting the form"
+					</td>
+				</tr>
+				<tr>
+					<td>options.errormsg</td>
+					<td>
+						{string}
+					</td>
+					<td>
+						Message that will be displayed to the user if the HTTP call failed. Default to "Failed to submit the form"
+					</td>
+				</tr>
+				<tr>
+					<td>options.before</td>
+					<td>
+						{string}
+					</td>
+					<td>
+						Name of the function to be invoked before the form is send. Default to null
+					</td>
+				</tr>
+				<tr>
+					<td>options.after</td>
+					<td>
+						{string}
+					</td>
+					<td>
+						Name of the function to be invoked after the form is send. Default to null
+					</td>
+				</tr>
 
-		<table class="syntax">
-			<th colspan="2">Constructor</th>
-			<tr>
-				<td>luga.ajaxform.Sender(options)</td>
-				<td><pre>
-/**
- * @typedef {object} luga.ajaxform.Sender.options
- *
- * @property formNode    {jquery}  Either a jQuery object wrapping the form or the naked DOM object. Required
- * @property action      {string}  URL to where the form will be send. Default to the current URL
- * @property method      {string}  HTTP method to be used. Default to GET
- * @property timeout     {integer} Timeout to be used during the HTTP call (milliseconds). Default to 30000
- * @property success     {string}  Name of the function to be invoked if the form is successfully submitted.
- *                                 Default to luga.ajaxform.handlers.replaceForm
- * @property error       {string}  Name of the function to be invoked if the HTTP call failed.
- *                                 Default to luga.ajaxform.handlers.errorAlert
- * @property successmsg  {string}  Message that will be displayed to the user if the form is successfully submitted.
- *                                 Default to "Thanks for submitting the form"
- * @property errormsg    {string}  Message that will be displayed to the user if the HTTP call failed.
- *                                 Default to "Failed to submit the form"
- * @property before      {string}  Name of the function to be invoked before the form is send. Default to null
- * @property after       {string}  Name of the function to be invoked after the form is send. Default to null
- */
+			</table>
+			<table class="table table-bordered luga-docs-api">
+				<th>Examples</th>
+			</table>
 
-/**
- * Form handler. Invoke its sender() method to serialize the form and send its contents using XHR
- * @param options {luga.ajaxform.Sender.options}
- * @constructor
- */
-				</pre></td>
-			</tr>
-		</table>
+<pre><code class="language-javascript">// Minimal set-up, leverage default
+var simpleSender = new luga.ajaxform.Sender({
+	formNode: jQuery("#basic")
+})
+
+// Using all options
+var fullOptionSender = new luga.ajaxform.Sender({
+	formNode: jQuery("#basic"),
+	action: "configAction",
+	method: "POST",
+	timeout: 40000,
+	success: "customSuccessHandler",
+	successmsg: "Success",
+	error: "customErrorHandler",
+	errormsg: "Error",
+	before: "customBefore",
+	after: "customAfter"
+})</code></pre>
+
+		</div>
 
 	</div>
 
-	<div data-lugacsi="../../footer.inc"></div>
+	<div data-lugacsi="../nav-local.inc"></div>
+
+	<div data-lugacsi="../../luga-docs-footer.inc"></div>
+
+</div>
 
 </body>
 </html>

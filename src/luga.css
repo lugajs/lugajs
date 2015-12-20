@@ -50,6 +50,7 @@ input[type="button"] {
 	cursor: pointer;
 	font-variant: small-caps;
 	letter-spacing: 0.1em;
+	margin-bottom: 1em;
 	padding: 0.2em 1em;
 }
 

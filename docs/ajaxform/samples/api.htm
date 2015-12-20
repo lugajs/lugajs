@@ -1,13 +1,28 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-	<meta charset="utf-8"/>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Luga Ajaxform :: Api samples: send()</title>
-	<link rel="stylesheet" href="../../../src/luga.css"/>
-	<link rel="stylesheet" href="../../docs.css"/>
+
+	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../lib/handlebars.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/bootstrap/css/bootstrap.min.css"/>
+	<script src="../../../lib/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/prism/prism.css"/>
+	<script src="../../../lib/prism/prism.js"></script>
+
+	<!-- Luga JS -->
+	<link rel="stylesheet" href="../../../src/luga.css"/>
 	<script src="../../../dist/luga.min.js"></script>
-	<script src="../../docs.js"></script>
+	<script src="../../../dist/luga.data.min.js"></script>
+
+	<!-- Docs -->
+	<link rel="stylesheet" href="../../luga.docs.css"/>
+	<script src="../../luga-docs.js"></script>
+
 	<script>
 		//<![CDATA[
 		function submitAsGet(formNode){
@@ -21,37 +36,66 @@
 		};
 		//]]>
 	</script>
+
 </head>
-<body>
+<body class="luga-docs">
 
-<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
-<div data-lugacsi="../sidebar.inc"></div>
+<div data-lugacsi="../../luga-docs-nav-main.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
 
-<div class="content">
+<div class="container-fluid">
+	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
-	<section>
-		<h1>Programmatically use Ajaxform</h1>
-		<p>
-			Instead of using custom attributes you can implement a script based solution.
-			First, create a new instance of luga.ajaxform.Sender, then call its send() method
-		</p>
-		<p>
-			Please be aware that depending if your server is not configured to accept POST requests, the sample code below may fail
-		</p>
-		<p>
-			For a complete list of available options, see the <a href="../docs/api-syntax.htm">syntax reference</a>
-		</p>
-	</section>
+		<div class="panel panel-default">
+			<div class="panel-heading">Programmatically use Ajaxform</div>
+			<div class="panel-body">
+				<p>
+					Instead of using custom attributes you can implement a script based solution.
+					First, create a new instance of luga.ajaxform.Sender, then call its send() method
+				</p>
+				<p>
+					For a complete list of available options, see the <a href="../docs/api-syntax.htm">syntax reference</a>
+				</p>
 
-	<form id="getForm">
-		<h1>Use XHR programmatically</h1>
-		<input type="text" name="name"/>
-		<input type="button" value="Send" onclick="submitAsGet(jQuery('#getForm'))"/>
-	</form>
+<pre><code class="language-javascript">function submitAsGet(formNode){
+	var sender = new luga.ajaxform.Sender({
+		formNode: formNode,
+		action: "../action.json",
+		method: "GET",
+		successmsg: "Form send with GET"
+	});
+	sender.send();
+};
+</code></pre>
+
+<pre><code class="language-markup">&lt;form id="getForm"&gt;
+	&lt;input type="text" name="name"/&gt;
+	&lt;input type="button" value="Send" onclick="submitAsGet(jQuery('#getForm'))"/&gt;
+&lt;/form&gt;</code></pre>
+
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Use XHR programmatically</div>
+			<div class="panel-body">
+				<form action="../action.json" class="form-inline" id="getForm">
+					<div class="form-group">
+						<input type="text" name="name"/>
+					</div>
+					<div class="form-group">
+						<input type="button" value="Submit" class="btn btn-default" onclick="submitAsGet(jQuery('#getForm'))"/>
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+
+	<div data-lugacsi="../nav-local.inc"></div>
+
+	<div data-lugacsi="../../luga-docs-footer.inc"></div>
 
 </div>
-
-<div data-lugacsi="../../footer.inc"></div>
 
 </body>
 </html>
