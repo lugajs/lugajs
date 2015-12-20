@@ -69,6 +69,6 @@ DATA FUTURE:
 - Add it to default Gulp task
 
 - data.Rss2Dataset
-  Limited functionality, only for demo and massimocorner.com
+  https://validator.w3.org/feed/docs/rss2.html
 
 -------------
