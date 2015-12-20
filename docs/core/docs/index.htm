@@ -199,6 +199,15 @@ luga.lookupProperty(target, "firstLevel.secondLevel.missing");
 					</td>
 				</tr>
 			</table>
+			<table class="table table-bordered luga-docs-api">
+				<th>Examples</th>
+			</table>
+
+<pre><code class="language-javascript">var config = {letter: "a", number: 1};
+var params = {number: 2, symbol: "@"};
+luga.merge(config, params);
+// =>  config = { letter: "a", number: 2, symbol: "@" }
+</code></pre>
 
 		</div>
 
