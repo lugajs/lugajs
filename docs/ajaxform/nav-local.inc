@@ -9,7 +9,7 @@
 			<a href="../docs/getting-started.htm">Getting started</a>
 		</li>
 		<li class="list-group-item">
-			<a href="../docs/syntax.htm">Syntax reference</a>
+			<a href="../docs/syntax.htm">HTML Syntax reference</a>
 		</li>
 
 		<li class="luga-docs-list-heading list-group-item">Samples</li>
@@ -23,10 +23,10 @@
 			<a href="../samples/error-handler.htm">Error handler</a>
 		</li>
 		<li class="list-group-item">
-			<a href="../samples/before-after.htm">Before/after entry points</a>
+			<a href="../samples/before-after.htm">Before/after entry handlers</a>
 		</li>
 		<li class="list-group-item">
-			<a href="../samples/validator.htm">Integrating with Validator</a>
+			<a href="../samples/validator.htm">With Luga Validator</a>
 		</li>
 
 		<li class="luga-docs-list-heading list-group-item">API</li>
@@ -34,7 +34,7 @@
 			<a href="../docs/api-syntax.htm">API syntax reference</a>
 		</li>
 		<li class="list-group-item">
-			<a href="../samples/api.htm">Samples</a>
+			<a href="../samples/api.htm">JavaScript sample</a>
 		</li>
 		<li class="list-group-item">
 			<a href="../samples/api-json.htm">Send raw JSON</a>

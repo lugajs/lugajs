@@ -124,7 +124,7 @@ pre + pre {
 	border-top: none;
 }
 
-/* List */
+/* Lists */
 
 ul.luga-docs-list,
 ol.luga-docs-list {
@@ -144,6 +144,12 @@ ul.luga-docs-list li {
 
 ol.luga-docs-list li {
 	list-style: decimal outside none;
+}
+
+/* Forms */
+
+.luga-docs .form-control {
+	width: inherit;
 }
 
 /* Table with attributes/api syntax */

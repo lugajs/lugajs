@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<title>Luga Ajaxform :: Api samples: send()</title>
 
 	<!-- Libs -->
@@ -78,12 +78,12 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">Use XHR programmatically</div>
 			<div class="panel-body">
-				<form action="../action.json" class="form-inline" id="getForm">
+				<form action="../action.json" id="getForm">
 					<div class="form-group">
-						<input type="text" name="name"/>
+						<input type="text" class="form-control" name="name"/>
 					</div>
 					<div class="form-group">
-						<input type="button" value="Submit" class="btn btn-default" onclick="submitAsGet(jQuery('#getForm'))"/>
+						<input type="button" value="Submit" onclick="submitAsGet(jQuery('#getForm'))"/>
 					</div>
 				</form>
 			</div>
