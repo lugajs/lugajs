@@ -8,7 +8,7 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.version = "0.4.4";
+	luga.version = "0.4.5";
 
 	luga.CONST = {
 		ERROR_MESSAGES: {
@@ -48,7 +48,8 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Given the name of a function as a string, return the relevant function, if any
-	 * Returns undefined, if the reference has not been found.
+	 * Returns undefined, if the reference has not been found
+	 * Supports namespaces (if the fully qualified path is passed)
 	 * @param {string} path            Fully qualified name of a function
 	 * @returns {function|undefined}   The javascript reference to the function, undefined if nothing is fund or if it's not a function
 	 */
@@ -66,6 +67,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Given an object and a path, returns the property located at the given path
 	 * If nothing exists at that location, returns undefined
+	 * Supports unlimited nesting levels (if the fully qualified path is passed)
 	 * @param {object} object  Target object
 	 * @param {string} path    Dot-delimited string
 	 * @returns {*|undefined}
@@ -100,8 +102,8 @@ if(typeof(luga) === "undefined"){
 	 * Shallow-merge the contents of two objects together into the first object
 	 * It wraps jQuery's extend to make names less ambiguous
 	 *
-	 * @param {object} target
-	 * @param {object} obj
+	 * @param {object} target  An object that will receive the new properties
+	 * @param {object} obj     An object containing additional properties to merge in
 	 */
 	luga.merge = function(target, obj){
 		jQuery.extend(target, obj);
@@ -111,7 +113,7 @@ if(typeof(luga) === "undefined"){
 	 * Given an object, a path and a value, set the property located at the given path to the given value
 	 * If the path does not exists, it creates it
 	 * @param {object} object  Target object
-	 * @param {string} path    Dot-delimited string
+	 * @param {string} path    Fully qualified property name
 	 * @param {*}      value
 	 */
 	luga.setProperty = function(object, path, value){
@@ -285,7 +287,10 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Given a form tag or another element wrapping input fields, serialize them into JSON data
+	 * Given a form tag or another element wrapping input fields, serialize their value into JSON data
+	 * If fields names contains dots, their are handled as nested properties
+	 * Only fields considered successful are returned:
+	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 * @param {jquery} rootNode  jQuery object wrapping the form fields
 	 * @returns {json}
 	 */
@@ -304,7 +309,7 @@ if(typeof(luga) === "undefined"){
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 *
 	 * @param {jquery}   rootNode     jQuery object wrapping the root node
-	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
+	 * @param {boolean}  demoronize   If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @return {string}               A URI encoded string
 	 * @throws
 	 */
@@ -494,8 +499,8 @@ if(typeof(luga) === "undefined"){
 
 	luga.utils.CONST = {
 		CSS_CLASSES: {
-			MESSAGE: "luga_message",
-			ERROR_MESSAGE: "luga_error_message"
+			MESSAGE: "luga-message",
+			ERROR_MESSAGE: "luga-error-message"
 		},
 		MSG_BOX_ID: "lugaMessageBox"
 	};
@@ -2056,7 +2061,7 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {object} luga.validator.api.validateForm.options
 	 *
 	 * @property {jquery} formNode       Either a jQuery object wrapping the form or the naked DOM object. Required
-	 * @property {function} error        Function to be invoked to handle/display validation messages.
+	 * @property {function} error        Name of the function to be invoked to handle/display validation messages.
 	 *                                   Default to luga.validator.errorAlert
 	 */
 

@@ -8,7 +8,7 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.version = "0.4.4";
+	luga.version = "0.4.5";
 
 	luga.CONST = {
 		ERROR_MESSAGES: {
@@ -499,8 +499,8 @@ if(typeof(luga) === "undefined"){
 
 	luga.utils.CONST = {
 		CSS_CLASSES: {
-			MESSAGE: "luga_message",
-			ERROR_MESSAGE: "luga_error_message"
+			MESSAGE: "luga-message",
+			ERROR_MESSAGE: "luga-error-message"
 		},
 		MSG_BOX_ID: "lugaMessageBox"
 	};

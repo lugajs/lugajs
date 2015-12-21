@@ -6,7 +6,6 @@
 
 DOCS:
 
-- Refactor luga.css
 - Move into GitHub pages?
 
 -------------

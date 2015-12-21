@@ -16,27 +16,27 @@ input[data-lugavalidator-required="true"] {
 	background-repeat: no-repeat;
 }
 
-div.luga_message,
-div.luga_error_message {
+div.luga-message,
+div.luga-error-message {
 	border-radius: 0.4em;
 	box-shadow: rgba(0, 0, 0, .25) 0.15em 0.15em 0.15em;
 	margin-bottom: 3em;
 	padding: 1em 2em;
 }
 
-div.luga_message {
+div.luga-message {
 	background-color: #FFFFFF;
 	border: 0.1em solid #7C93BA;
 	color: #3362B4;
 }
 
-div.luga_error_message {
+div.luga-error-message {
 	background-color: #FFE813;
 	border: 0.1em #BB0000 solid;
 	color: #333333;
 }
 
-div.luga_error_message em {
+div.luga-error-message em {
 	font-weight: bold;
 	padding-right: 0.5em;
 }
