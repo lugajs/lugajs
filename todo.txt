@@ -8,6 +8,7 @@ DOCS:
 
 - Use Bootstrap for: Ajaxform and Validator
 - Layout forms with labels on top of fields
+- Refactor luga.css
 - Move into GitHub pages?
 
 -------------
