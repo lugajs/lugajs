@@ -1,65 +1,100 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-	<meta charset="utf-8" />
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<title>Luga Validator :: Radio buttons validation</title>
-	<link rel="stylesheet" href="../../../src/luga.css" />
-	<link rel="stylesheet" href="../../docs.css" />
+
+	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../lib/handlebars.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/bootstrap/css/bootstrap.min.css"/>
+	<script src="../../../lib/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/prism/prism.css"/>
+	<script src="../../../lib/prism/prism.js"></script>
+
+	<!-- Luga JS -->
+	<link rel="stylesheet" href="../../../src/luga.css"/>
 	<script src="../../../dist/luga.min.js"></script>
-	<script src="../../docs.js"></script>
+	<script src="../../../dist/luga.data.min.js"></script>
+
+	<!-- Docs -->
+	<link rel="stylesheet" href="../../luga.docs.css"/>
+	<script src="../../luga-docs.js"></script>
+
 </head>
-<body>
+<body class="luga-docs">
 
-	<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
-	<div data-lugacsi="../sidebar.inc"></div>
+<div data-lugacsi="../../luga-docs-nav-main.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
 
-	<div class="content">
+<div class="container-fluid">
+	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
-		<section>
-			<h1>Radio buttons</h1>
-			<p>
-				Radio buttons are a special kind of field, since they come in groups, sharing the same name but having different values.
-			</p>
-			<p>
-				Luga Validator validates a set of checkboxes with the same name as a unique entity.
-				So, inside a set of checkboxes, you can define the validation attributes only once (if you specify attributes with conflicting values, the last one wins):
-			</p>
-			<code>
-				<ol>
-					<li>&lt;input name="drink" type="radio" class="boxes" value="Nicole" data-lugavalidator-required="true" /&gt;</li>
-					<li>&lt;input name="drink" type="radio" class="boxes" value="Kate" /&gt;</li>
-				</ol>
-			</code>
+		<div class="panel panel-default">
+			<div class="panel-heading">Radio buttons</div>
+			<div class="panel-body">
 
-		</section>
+				<p>
+					Radio buttons are a special kind of field, since they come in groups, sharing the same name but having different values.
+				</p>
+				<p>
+					Luga Validator validates a set of radios with the same name as a unique entity.
+					So, inside a set of radios, you can define the validation attributes only once (if you specify attributes with conflicting values, the last one wins):
+				</p>
+				
+<pre><code class="language-markup">&lt;input name="drink" type="radio" class="boxes" value="Nicole" data-lugavalidator-required="true"/&gt;
+&lt;input name="drink" type="radio" class="boxes" value="Kate"/&gt;
+</code></pre>
 
-		<form data-lugavalidator-validate="true">
-			<h1>Just a drink</h1>
+			</div>
+		</div>
 
-			<p>You would like to take a drink with: (you can pick only one, sorry)</p>
-			<table>
-				<tr>
-					<td>
-						<label><input name="drink" type="radio" class="boxes" value="Nicole" data-lugavalidator-required="true" data-lugavalidator-message="Please select a lady" /> Nicole Kidman</label>
-						<label><input name="drink" type="radio" class="boxes" value="Kate" /> Kate Beckinsale</label>
-						<label><input name="drink" type="radio" class="boxes" value="Jennifer" /> Jennifer Connelly</label>
-						<label><input name="drink" type="radio" class="boxes" value="Salma" /> Salma Hayek</label>
-						<label><input name="drink" type="radio" class="boxes" value="Gisele" /> Gisele Bundchen</label>
-						<label><input name="drink" type="radio" class="boxes" value="Emmanuelle" /> Emmanuelle Beart</label>
-						<label><input name="drink" type="radio" class="boxes" value="Liz" /> Liz Hurley</label>
-					</td>
-				</tr>
-				<tr>
-					<td><input type="submit" value="Submit" /></td>
-				</tr>
-			</table>
+		<div class="panel panel-default">
+			<div class="panel-heading">Just a drink</div>
+			<div class="panel-body">
 
-		</form>
+				<form data-lugavalidator-validate="true">
+					<p class="help-block">You would like to take a drink with: (you can pick only one, sorry)</p>
+
+					<div class="radio">
+						<label><input name="drink" type="radio" class="boxes" value="Nicole"
+									  data-lugavalidator-required="true"
+									  data-lugavalidator-message="Please select a lady"/> Nicole Kidman</label>
+					</div>
+					<div class="radio">
+						<label><input name="drink" type="radio" class="boxes" value="Kate"/> Kate Beckinsale</label>
+					</div>
+					<div class="radio">
+						<label><input name="drink" type="radio" class="boxes" value="Jennifer"/> Jennifer
+							Connelly</label>
+					</div>
+					<div class="radio">
+						<label><input name="drink" type="radio" value="Salma"/> Salma Hayek</label></div>
+					<div class="radio">
+						<label><input name="drink" type="radio" value="Gisele"/> Gisele Bundchen</label></div>
+					<div class="radio">
+						<label><input name="drink" type="radio" value="Emmanuelle"/> Emmanuelle Beart</label>
+					</div>
+					<div class="radio">
+						<label><input name="drink" type="radio" value="Liz"/> Liz Hurley</label>
+					</div>
+
+					<div class="form-group">
+						<input type="submit" value="Submit"/>
+					</div>
+				</form>
+
+			</div>
+		</div>
 
 	</div>
 
-	<div data-lugacsi="../../footer.inc"></div>
+	<div data-lugacsi="../nav-local.inc"></div>
+
+	<div data-lugacsi="../../luga-docs-footer.inc"></div>
+
+</div>
 
 </body>
 </html>

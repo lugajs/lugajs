@@ -1,79 +1,103 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-	<meta charset="utf-8" />
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<title>Luga Validator :: Custom date patterns</title>
-	<link rel="stylesheet" href="../../../src/luga.css" />
-	<link rel="stylesheet" href="../../docs.css" />
+
+	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../lib/handlebars.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/bootstrap/css/bootstrap.min.css"/>
+	<script src="../../../lib/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/prism/prism.css"/>
+	<script src="../../../lib/prism/prism.js"></script>
+
+	<!-- Luga JS -->
+	<link rel="stylesheet" href="../../../src/luga.css"/>
 	<script src="../../../dist/luga.min.js"></script>
-	<script src="../../docs.js"></script>
+	<script src="../../../dist/luga.data.min.js"></script>
+
+	<!-- Docs -->
+	<link rel="stylesheet" href="../../luga.docs.css"/>
+	<script src="../../luga-docs.js"></script>
+
 	<script>
 		// <![CDATA[
 		luga.validator.dateSpecs["D M YYYY"] = luga.validator.createDateSpecObj("^\([0-3]?[0-9]\)\\s\([0-2]?[0-9]\)\\s\([0-9]{4}\)$", 2, 1, 0, " ");
 		// ]]>
 	</script>
+
 </head>
-<body>
+<body class="luga-docs">
 
-	<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
-	<div data-lugacsi="../sidebar.inc"></div>
+<div data-lugacsi="../../luga-docs-nav-main.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
 
-	<div class="content">
+<div class="container-fluid">
+	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
-		<section>
+		<div class="panel panel-default">
+			<div class="panel-heading">Custom date patterns</div>
+			<div class="panel-body">
 
-			<h1>Custom date patterns</h1>
-			<p>
-				Luga Validator has built-in pattern for 14 different date formats. To create a new custom date format you will take advantage of the its extensibility.
-			</p>
-			<p>
-				Rules for date validation are stored inside luga.validator.datePatterns, a JavaScript object, acting as a container for both built-in and custom date validation patterns.
-				In order to add our own, you can call the luga.validator.createDateSpecObj function
-			</p>
-			<p>
-				luga.validator.createDateSpecObj() function requires 5 arguments:
-			</p>
-			<ol class="list">
-				<li>Regular expression that will validate date formatting</li>
-				<li>Position (zero based) of the years inside our date format</li>
-				<li>Position (zero based) of the months inside our date format</li>
-				<li>Position (zero based) of the days inside our date format</li>
-				<li>String used to separate between days/months/years</li>
-			</ol>
-			<p>
-				The resulting JavaScript code is:
-			</p>
-			<code>
-				<ol>
-					<li>&lt;script&gt;</li>
-					<li>luga.validator.dateSpecs["D M YYYY"] = luga.validator.createDateSpecObj("^\([0-3]?[0-9]\)\\s\([0-2]?[0-9]\)\\s\([0-9]{4}\)$", 2, 1, 0, " ");</li>
-					<li>&lt;/script&gt;</li>
+				<p>
+					Luga Validator has built-in pattern for 14 different date formats. To create a new custom date format you will take advantage of the its extensibility.
+				</p>
+				<p>
+					Rules for date validation are stored inside luga.validator.datePatterns, a JavaScript object, acting as a container for both built-in and custom date validation patterns.
+					In order to add our own, you can call the luga.validator.createDateSpecObj function
+				</p>
+				<p>
+					luga.validator.createDateSpecObj() function requires 5 arguments:
+				</p>
+				<ol class="luga-docs-list">
+					<li>Regular expression that will validate date formatting</li>
+					<li>Position (zero based) of the years inside our date format</li>
+					<li>Position (zero based) of the months inside our date format</li>
+					<li>Position (zero based) of the days inside our date format</li>
+					<li>String used to separate between days/months/years</li>
 				</ol>
-			</code>
+				<p>
+					The resulting JavaScript code is:
+				</p>
 
-			<p>
-				The HTML will look like:
-			</p>
+<pre><code class="language-javascript">luga.validator.dateSpecs["D M YYYY"] = luga.validator.createDateSpecObj("^\([0-3]?[0-9]\)\\s\([0-2]?[0-9]\)\\s\([0-9]{4}\)$", 2, 1, 0, " ");</code></pre>
 
-			<code>
-				<ol>
-					<li>&lt;input type="text" name="mydate" data-lugavalidator-required="true" data-lugavalidator-datepattern="spacedate" data-lugavalidator-message="Please use D M YYYY!" /&gt;</li>
-				</ol>
-			</code>
+				<p>
+					The HTML will look like:
+				</p>
 
-		</section>
+<pre><code class="language-markup">&lt;input type="text" name="mydate"
+	data-lugavalidator-required="true"
+	data-lugavalidator-datepattern="D M YYYY"
+	data-lugavalidator-message="Please use D M YYYY!" /&gt;</code></pre>
 
-		<form data-lugavalidator-validate="true">
-			<h1>Custom date validation</h1>
-				Custom date (required, date, D M YYYY)
-				<input type="text" name="mydate" data-lugavalidator-required="true" data-lugavalidator-datepattern="D M YYYY" data-lugavalidator-message="Please use D M YYYY!" />
-				<input type="submit" value="Submit" />
-		</form>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Custom date validation</div>
+			<div class="panel-body">
+				<form data-lugavalidator-validate="true">
+					<div class="form-group">
+						<label for="mydate" class="control-label">Custom date (required, date, D M YYYY)</label>
+						<input type="text" class="form-control" name="mydate" id="mydate" data-lugavalidator-required="true" data-lugavalidator-datepattern="D M YYYY" data-lugavalidator-message="Please use D M YYYY!"/>
+					</div>
+					<div class="form-group">
+						<input type="submit" value="Submit"/>
+					</div>
+				</form>
+			</div>
+		</div>
 
 	</div>
 
-	<div data-lugacsi="../../footer.inc"></div>
+	<div data-lugacsi="../nav-local.inc"></div>
+
+	<div data-lugacsi="../../luga-docs-footer.inc"></div>
+
+</div>
 
 </body>
 </html>

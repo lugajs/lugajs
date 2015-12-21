@@ -1,72 +1,95 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-	<meta charset="utf-8" />
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<title>Luga Validator :: Custom patterns</title>
-	<link rel="stylesheet" href="../../../src/luga.css" />
-	<link rel="stylesheet" href="../../docs.css" />
+
+	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../lib/handlebars.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/bootstrap/css/bootstrap.min.css"/>
+	<script src="../../../lib/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/prism/prism.css"/>
+	<script src="../../../lib/prism/prism.js"></script>
+
+	<!-- Luga JS -->
+	<link rel="stylesheet" href="../../../src/luga.css"/>
 	<script src="../../../dist/luga.min.js"></script>
-	<script src="../../docs.js"></script>
+	<script src="../../../dist/luga.data.min.js"></script>
+
+	<!-- Docs -->
+	<link rel="stylesheet" href="../../luga.docs.css"/>
+	<script src="../../luga-docs.js"></script>
+
 	<script>
 		// <![CDATA[
 		luga.validator.patterns.httpstart = new RegExp("^http://");
 		// ]]>
 	</script>
+
 </head>
-<body>
+<body class="luga-docs">
 
-	<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
-	<div data-lugacsi="../sidebar.inc"></div>
+<div data-lugacsi="../../luga-docs-nav-main.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
 
-	<div class="content">
+<div class="container-fluid">
+	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
-		<section>
+		<div class="panel panel-default">
+			<div class="panel-heading">Custom patterns</div>
+			<div class="panel-body">
 
-			<h1>Custom patterns</h1>
-			<p>
-				Luga Validator was designed with extensibility in mind. That's why all the validation rules and patterns are stored inside a JavaScript object.
-			</p>
-			<p>
-				For this custom validation you want to be sure the user enters a string starting with http://. Our regular expression is <strong>^http://</strong>
-			</p>
-			<p>
-				Luga Validator stores all patterns inside luga.validator.patterns, a JavaScript object, acting as a container for both built-in and custom patterns.
-			</p>
-			<p>
-				So all you need to do is to add the following line of JavaScript code:
-			</p>
+				<p>
+					Luga Validator was designed with extensibility in mind. That's why all the validation rules and patterns are stored inside a JavaScript object.
+				</p>
+				<p>
+					For this custom validation you want to be sure the user enters a string starting with http://. Our regular expression is <strong>^http://</strong>
+				</p>
+				<p>
+					Luga Validator stores all patterns inside luga.validator.patterns, a JavaScript object, acting as a container for both built-in and custom patterns.
+				</p>
+				<p>
+					So all you need to do is to add the following line of JavaScript code:
+				</p>
 
-			<code>
-				<ol>
-					<li>&lt;script&gt;</li>
-					<li>luga.validator.patterns.httpstart = new RegExp("^http://");</li>
-					<li>&lt;/script&gt;</li>
-				</ol>
-			</code>
+<pre><code class="language-javascript">luga.validator.patterns.httpstart = new RegExp("^http://");</code></pre>
 
-			<p>
-				The HTML will look like:
-			</p>
+				<p>
+					The HTML will look like:
+				</p>
 
-			<code>
-				<ol>
-					<li>&lt;input type="text" name="theurl" data-lugavalidator-required="true" data-lugavalidator-pattern="httpstart" data-lugavalidator-message="Please URL!" /&gt;</li>
-				</ol>
-			</code>
+<pre><code class="language-markup">&lt;input type="text" name="theurl"
+	data-lugavalidator-required="true"
+	data-lugavalidator-pattern="httpstart"
+	data-lugavalidator-message="Please URL!"/&gt;</code></pre>
 
-		</section>
+			</div>
+		</div>
 
-		<form data-lugavalidator-validate="true">
-			<h1>Enter an URL</h1>
-			Url: (must start with http://)
-			<input type="text" name="theurl" value="test" data-lugavalidator-required="true" data-lugavalidator-pattern="httpstart" data-lugavalidator-message="Please URL!" />
-			<input type="submit" value="Submit" />
-		</form>
+		<div class="panel panel-default">
+			<div class="panel-heading">Enter an URL</div>
+			<div class="panel-body">
+				<form data-lugavalidator-validate="true">
+					<div class="form-group">
+						<label for="theurl" class="control-label">Url: (must start with http://)</label>
+						<input type="text" class="form-control" name="theurl" id="theurl" value="test" data-lugavalidator-required="true" data-lugavalidator-pattern="httpstart" data-lugavalidator-message="Please URL!" />
+					</div>
+					<div class="form-group">
+						<input type="submit" value="Submit"/>
+					</div>
+				</form>
+			</div>
+		</div>
 
 	</div>
 
-	<div data-lugacsi="../../footer.inc"></div>
+	<div data-lugacsi="../nav-local.inc"></div>
+
+	<div data-lugacsi="../../luga-docs-footer.inc"></div>
+
+</div>
 
 </body>
 </html>

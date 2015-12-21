@@ -1,13 +1,28 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-	<meta charset="utf-8" />
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<title>Luga Validator :: Custom handlers</title>
-	<link rel="stylesheet" href="../../../src/luga.css" />
-	<link rel="stylesheet" href="../../docs.css" />
+
+	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../lib/handlebars.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/bootstrap/css/bootstrap.min.css"/>
+	<script src="../../../lib/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/prism/prism.css"/>
+	<script src="../../../lib/prism/prism.js"></script>
+
+	<!-- Luga JS -->
+	<link rel="stylesheet" href="../../../src/luga.css"/>
 	<script src="../../../dist/luga.min.js"></script>
-	<script src="../../docs.js"></script>
+	<script src="../../../dist/luga.data.min.js"></script>
+
+	<!-- Docs -->
+	<link rel="stylesheet" href="../../luga.docs.css"/>
+	<script src="../../luga-docs.js"></script>
+
 	<script>
 		//<![CDATA[
 		handlers = {};
@@ -22,43 +37,70 @@
 		};
 		//]]>
 	</script>
+
 </head>
-<body>
+<body class="luga-docs">
 
-	<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
-	<div data-lugacsi="../sidebar.inc"></div>
+<div data-lugacsi="../../luga-docs-nav-main.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
 
-	<div class="content">
+<div class="container-fluid">
+	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
-		<form data-lugavalidator-validate="true" data-lugavalidator-before="handlers.before" data-lugavalidator-error="handlers.error" data-lugavalidator-after="handlers.after">
-			<h1>Custom handlers</h1>
-			<input type="text" name="name" data-lugavalidator-required="true" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Invalid!"/>
-			<input type="submit" value="Submit"/>
-		</form>
+		<div class="panel panel-default">
+			<div class="panel-heading">Custom handlers</div>
+			<div class="panel-body">
 
-		<code>
-			<ol>
-				<li>&lt;script&gt;</li>
-				<li>handlers = {};</li>
-				<li>handlers.before = function(formNode, event){</li>
-				<li>	alert("I am a custom before handler");</li>
-				<li>};</li>
-				<li>handlers.error = function(formNode, validators){</li>
-				<li>	alert("I am a custom error handler");</li>
-				<li>};</li>
-				<li>handlers.after = function(formNode, event){</li>
-				<li>	alert("I am a custom after handler");</li>
-				<li>};</li>
-				<li>&lt;/script&gt;</li>
-			</ol>
-			<ol>
-				<li>&lt;form data-lugavalidator-before="handlers.before" data-lugavalidator-error="handlers.error"  data-lugavalidator-after="handlers.after"&gt;</li>
-			</ol>
-		</code>
+				<p>
+					Luga Validator let you run <a href="custom-error.htm">your own error handlers</a>, you can also specify some JavaScript function to execute before or after validation.
+				</p>
+
+<pre><code class="language-javascript">handlers = {};
+handlers.before = function(formNode, event){
+	alert("I am a custom before handler");
+};
+handlers.error = function(formNode, validators){
+	alert("I am a custom error handler");
+};
+handlers.after = function(formNode, event){
+	alert("I am a custom after handler");
+};</code></pre>
+
+				<p>
+					The HTML will look like:
+				</p>
+
+<pre><code class="language-markup">&lt;form data-lugavalidator-validate="true"
+	data-lugavalidator-before="handlers.before"
+	data-lugavalidator-error="handlers.error"
+	data-lugavalidator-after="handlers.after"&gt;</code></pre>
+
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Custom handlers</div>
+			<div class="panel-body">
+				<form data-lugavalidator-validate="true"
+					  data-lugavalidator-before="handlers.before"
+					  data-lugavalidator-error="handlers.error"
+					  data-lugavalidator-after="handlers.after">
+					<div class="form-group">
+						<input type="text" class="form-control" name="name" data-lugavalidator-required="true" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Invalid!"/>
+					</div>
+					<div class="form-group">
+						<input type="submit" value="Submit"/>
+					</div>
+				</form>
+			</div>
+		</div>
 
 	</div>
 
-	<div data-lugacsi="../../footer.inc"></div>
+	<div data-lugacsi="../nav-local.inc"></div>
+
+	<div data-lugacsi="../../luga-docs-footer.inc"></div>
+
+</div>
 
 </body>
 </html>

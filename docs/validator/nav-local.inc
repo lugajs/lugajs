@@ -12,7 +12,7 @@
 			<a href="../docs/syntax.htm">HTML Syntax reference</a>
 		</li>
 		<li class="list-group-item">
-			<a href="../docs/syntax.htm">FAQ/troubleshooting</a>
+			<a href="../docs/faq.htm">FAQ/troubleshooting</a>
 		</li>
 
 		<li class="luga-docs-list-heading list-group-item">Samples</li>

@@ -1,13 +1,28 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-	<meta charset="utf-8" />
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<title>Luga Validator :: Custom error handler</title>
-	<link rel="stylesheet" href="../../../src/luga.css" />
-	<link rel="stylesheet" href="../../docs.css" />
+
+	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../lib/handlebars.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/bootstrap/css/bootstrap.min.css"/>
+	<script src="../../../lib/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/prism/prism.css"/>
+	<script src="../../../lib/prism/prism.js"></script>
+
+	<!-- Luga JS -->
+	<link rel="stylesheet" href="../../../src/luga.css"/>
 	<script src="../../../dist/luga.min.js"></script>
-	<script src="../../docs.js"></script>
+	<script src="../../../dist/luga.data.min.js"></script>
+
+	<!-- Docs -->
+	<link rel="stylesheet" href="../../luga.docs.css"/>
+	<script src="../../luga-docs.js"></script>
+
 	<script>
 		// <![CDATA[
 		function errorOnLabels(formNode, validators){
@@ -22,12 +37,12 @@
 					flagLabel(fieldLabel, validators[i].message);
 				}
 			}
-		}
+		};
 
 		function flagLabel(label, message){
 			label.attr("data-orig-html", label.html());
 			label.html("<strong>" + message + "</strong>");
-		}
+		};
 
 		function getLinkedLabel(labels, fieldId){
 			for(var i = 0; i < labels.length; i++){
@@ -36,7 +51,7 @@
 				}
 			}
 			return null;
-		}
+		};
 
 		function resetLabels(labels){
 			for(var i = 0; i < labels.length; i++){
@@ -45,130 +60,195 @@
 					node.html(node.attr("data-orig-html"));
 				}
 			}
-		}
+		};
 		// ]]>
 	</script>
+
 </head>
-<body>
+<body class="luga-docs">
 
-	<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
-	<div data-lugacsi="../sidebar.inc"></div>
+<div data-lugacsi="../../luga-docs-nav-main.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
 
-	<div class="content">
+<div class="container-fluid">
+	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
-		<section>
+		<div class="panel panel-default">
+			<div class="panel-heading">Customizing errors notification</div>
+			<div class="panel-body">
+				<p>
+					By default Luga Validator uses JavaScript alert boxes to display errors to the user.
+					If you want to display errors in a custom, more user friendly way, you can take advantage of extensibility.
+				</p>
+				<p>
+					First of all you must attach a data-lugavalidator-error attribute to the &lt;form&gt; tag:
+				</p>
 
-			<h1>Customizing errors notification</h1>
-			<p>
-				By default Luga Validator uses JavaScript alert boxes to display errors to the user.
-				If you want to display errors in a custom, more user friendly way, you can take advantage of extensibility.
-			</p>
-			<p>
-				First of all you must attach a data-lugavalidator-error attribute to the &lt;form&gt; tag:
-			</p>
-			<code>
-				<ol>
-					<li>&lt;form data-lugavalidator-validate="true" data-lugavalidator-error="errorOnLabels"&gt;</li>
+<pre><code class="language-markup">&lt;form data-lugavalidator-validate="true" data-lugavalidator-error="errorOnLabels"&gt;
+</code></pre>
+
+				<p>
+					The validator will invoke a JavaScript function based on the value of the data-lugavalidator-error attribute (errorOnLabels in this case).
+					Passing two arguments to our custom JavaScript code:
+				</p>
+				<ol class="luga-docs-list">
+					<li>formNode: a reference to the form's tag DOM node</li>
+					<li>validators: an array of validator objects</li>
 				</ol>
-			</code>
-			<p>
-				The validator will invoke a JavaScript function based on the value of the data-lugavalidator-error attribute (errorOnLabels in this case).
-			</p>
-			<p>
-				The validator will pass two arguments to our custom JavaScript code:
-			</p>
-			<ol class="list">
-				<li>formNode: a reference to the form's tag DOM node</li>
-				<li>validators: an array of validator objects</li>
-			</ol>
-			<p>
-				You can iterate over the validators array (using a for loop) and, for each validator object, refer to its <strong>name</strong> and <strong>message</strong> properties.
-			</p>
-			<p>
-				This example shows error messages displayed as the field's label.
-				This solves the issue of error messages not being listed by the validator in the order in which they appear on the page layout, as each error message is displayed next to the relevant field.
-			</p>
-			<code>
-				<ol>
-					<li>&lt;script&gt;</li>
-					<li>function errorOnLabels(formNode, validators){</li>
-					<li>	var labels = jQuery(formNode).find("label");</li>
-					<li>	// Reset all the labels</li>
-					<li>	resetLabels(labels);</li>
-					<li>	for(var i=0; i&lt;validators.length; i++){</li>
-					<li>	// Find the relevant label for this field validator</li>
-					<li>	var fieldLabel = getLinkedLabel(labels, validators[i].name);</li>
-					<li>	if(fieldLabel !== null){</li>
-					<li>		// Flag the labels</li>
-					<li>		flagLabel(fieldLabel, validators[i].message);</li>
-					<li>	}</li>
-					<li>}</li>
-					<li></li>
-					<li>function flagLabel(label, message){</li>
-					<li>	label.attr("data-orig-html", label.html());</li>
-					<li>	label.html("&lt;strong&gt;" + message + "&lt;/strong&gt;");</li>
-					<li>}</li>
-					<li></li>
-					<li>function getLinkedLabel(labels, fieldId){</li>
-					<li>	for(var i=0; i&lt;labels.length; i++){</li>
-					<li>		if(jQuery(labels[i]).attr("for") === fieldId){</li>
-					<li>			return jQuery(labels[i]);</li>
-					<li>		}</li>
-					<li>	}</li>
-					<li>	return null;</li>
-					<li>}</li>
-					<li></li>
-					<li>function resetLabels(labels){</li>
-					<li>	for(var i=0; i&lt;labels.length; i++){</li>
-					<li>		var node = jQuery(labels[i]);</li>
-					<li>		if(node.attr("data-orig-html")){</li>
-					<li>			node.html(node.attr("data-orig-html"));</li>
-					<li>		}</li>
-					<li>	}</li>
-					<li>}</li>
-					<li>&lt;/script&gt;</li>
-				</ol>
-			</code>
-			<p>
-				Please note the error handler function gets invoked even if the form doesn't contain errors. In this case the "validators" argument contains an empty array.
-				This way it can reset error display and clean-up the GUI. This is especially important for forms that get submitted using Ajax, without refreshing the page.
-			</p>
-		</section>
+				<p>
+					You can iterate over the validators array (using a for loop) and, for each validator object, refer to its <strong>name</strong> and <strong>message</strong> properties.
+				</p>
+				<p>
+					This example shows error messages displayed as the field's label.
+					This solves the issue of error messages not being listed by the validator in the order in which they appear on the page layout, as each error message is displayed next to the relevant field.
+				</p>
 
+<pre><code class="language-javascript">function errorOnLabels(formNode, validators){
+	var labels = jQuery(formNode).find("label");
+	// Reset all the labels
+	resetLabels(labels);
+	for(var i = 0; i < validators.length; i++){
+		// Find the relevant label for this field validator
+		var fieldLabel = getLinkedLabel(labels, validators[i].name);
+		if(fieldLabel !== null){
+			// Flag the labels
+			flagLabel(fieldLabel, validators[i].message);
+		}
+	}
+};
 
-		<form data-lugavalidator-validate="true" data-lugavalidator-error="errorOnLabels">
-			<h1>Display error messages inside labels</h1>
-			<table>
-				<tr>
-					<td><label for="age">Age (required, positive integer, min 18, max 75)</label></td>
-					<td><input type="text" id="age" name="age" data-lugavalidator-required="true" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Please insert a valid age" data-lugavalidator-pattern="positiveinteger" data-lugavalidator-minnumber="18" data-lugavalidator-maxnumber="75" data-lugavalidator-filters="numbersonly" value="18"/></td>
-				</tr>
-				<tr>
-					<td><label for="name">Name (required)</label></td>
-					<td><input type="text" id="name" name="name" data-lugavalidator-required="true" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Please insert a name"/></td>
-				</tr>
-				<tr>
-					<td><label for="email">Email (required, email)</label></td>
-					<td><input type="text" id="email" name="email" data-lugavalidator-required="true" data-lugavalidator-errorclass="invalid" data-lugavalidator-message="Please insert a valid email" data-lugavalidator-email="true"/></td>
-				</tr>
-				<tr>
-					<td><label for="date">Date (not required, date, YYYY-MM-DD)</label></td>
-					<td><input type="text" id="date" name="date" data-lugavalidator-message="Please insert a date (YYYY-MM-DD) format" data-lugavalidator-errorclass="invalid" data-lugavalidator-datepattern="YYYY-MM-DD" value="2005-05-09"/></td>
-				</tr>
-				<tr>
-					<td><label for="comments">Comments (not required, min 3 chars, max 10)</label></td>
-					<td><textarea id="comments" name="comments" cols="20" rows="3" data-lugavalidator-message="Comments should be from 3 to 10 chars" data-lugavalidator-errorclass="invalid" data-lugavalidator-minlength="3" data-lugavalidator-maxlength="10"></textarea></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td><input type="submit" value="Submit"/></td>
-				</tr>
-			</table>
-		</form>
+function flagLabel(label, message){
+	label.attr("data-orig-html", label.html());
+	label.html("<strong>" + message + "</strong>");
+};
+
+function getLinkedLabel(labels, fieldId){
+	for(var i = 0; i < labels.length; i++){
+		if(jQuery(labels[i]).attr("for") === fieldId){
+			return jQuery(labels[i]);
+		}
+	}
+	return null;
+};
+
+function resetLabels(labels){
+	for(var i = 0; i < labels.length; i++){
+		var node = jQuery(labels[i]);
+		if(node.attr("data-orig-html")){
+			node.html(node.attr("data-orig-html"));
+		}
+	}
+};
+</code></pre>
+
+				<p>
+					The error handler function gets invoked even if the form doesn't contain errors. In this case the "validators" argument contains an empty array.
+					This way it can reset error display and clean-up the GUI. This is especially important for forms that get submitted using Ajax, without refreshing the page.
+				</p>
+
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Display error messages inside labels</div>
+			<div class="panel-body">
+				<form data-lugavalidator-validate="true" data-lugavalidator-error="errorOnLabels">
+					<div class="form-group">
+						<label for="age">Age (required, positive integer, min 18, max 75)</label>
+						<input type="text" class="form-control" id="age" name="age" value="18"
+							   data-lugavalidator-required="true"
+							   data-lugavalidator-errorclass="invalid"
+							   data-lugavalidator-message="Please insert a valid age"
+							   data-lugavalidator-pattern="positiveinteger"
+							   data-lugavalidator-minnumber="18"
+							   data-lugavalidator-maxnumber="75"
+							   data-lugavalidator-filters="numbersonly"/>
+					</div>
+					<div class="form-group">
+						<label for="name" class="control-label">Name (required)</label>
+						<input type="text" class="form-control" id="name" name="name"
+							   data-lugavalidator-required="true"
+							   data-lugavalidator-errorclass="invalid"
+							   data-lugavalidator-message="Please insert a name"/>
+					</div>
+					<div class="form-group">
+						<label for="email" class="control-label">Email</label>
+						<input type="text" class="form-control" id="email" name="email"
+							   data-lugavalidator-required="true"
+							   data-lugavalidator-errorclass="invalid"
+							   data-lugavalidator-message="Please insert a valid email"
+							   data-lugavalidator-email="true"/>
+					</div>
+					<div class="form-group">
+						<label for="date">Date (not required, date, YYYY-MM-DD)</label>
+						<input type="text" class="form-control" id="date" name="date" value="2005-05-09"
+							   data-lugavalidator-message="Please insert a valid date using the YYYY-MM-DD format"
+							   data-lugavalidator-errorclass="invalid"
+							   data-lugavalidator-datepattern="YYYY-MM-DD"/>
+					</div>
+					<div class="form-group">
+						<label for="comments">Comments (not required, min 3 chars, max 10)</label>
+						<textarea id="comments" class="form-control" name="comments" cols="20" rows="3"
+								  data-lugavalidator-message="Comments should be from 3 to 10 chars"
+								  data-lugavalidator-errorclass="invalid"
+								  data-lugavalidator-minlength="3"
+								  data-lugavalidator-maxlength="10">
+						</textarea>
+					</div>
+
+					<p class="help-block">
+						Italy's major contributions to modern civilization? Pick at least one:
+					</p>
+
+					<div class="checkbox">
+						<label><input type="checkbox" name="italy" value="Pizza"
+									  data-lugavalidator-minchecked="1"
+									  data-lugavalidator-message="Please select at least one contribution"/>Pizza</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" name="italy" value="Spaghetti"/>Spaghetti</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" name="italy" value="Sophia"/>Sophia Loren</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" name="italy" value="Leonardo"/>Leonardo Da Vinci</label>
+					</div>
+
+					<p class="help-block">
+						You would like to take a drink with? (You can pick only one, sorry):
+					</p>
+
+					<div class="radio">
+						<label><input type="radio" name="lady"  value="Nicole Kidman"
+									  data-lugavalidator-required="true"
+									  data-lugavalidator-errorclass="invalid"
+									  data-lugavalidator-message="Select a Lady"/>Nicole Kidman</label>
+					</div>
+					<div class="radio">
+						<label><input type="radio" name="lady" value="Kate Beckinsale"/>Kate Beckinsale</label>
+					</div>
+					<div class="radio">
+						<label><input type="radio" name="lady" value="Jennifer Connelly"/>Jennifer Connelly</label>
+					</div>
+					<div class="radio">
+						<label><input type="radio" name="lady" value="Liz Hurley"/>Liz Hurley</label>
+					</div>
+
+					<div class="form-group">
+						<input type="submit" value="Submit"/>
+					</div>
+				</form>
+				
+			</div>
+		</div>
 
 	</div>
 
-	<div data-lugacsi="../../footer.inc"></div>
+	<div data-lugacsi="../nav-local.inc"></div>
+
+	<div data-lugacsi="../../luga-docs-footer.inc"></div>
+
+</div>
 
 </body>
 </html>

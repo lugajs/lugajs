@@ -6,6 +6,10 @@ html, body.luga-docs {
 	font-size: 13px;
 }
 
+.luga-docs .container-fluid {
+	max-width: 1400px;
+}
+
 /* List reset */
 dl, dt, dd, ol, ul, li {
 	border: 0;
@@ -181,6 +185,11 @@ ol.luga-docs-list li {
 .luga-docs textarea:focus {
 	background-image: none !important;
 	border: 0.2em #BB0000 solid;
+}
+
+.luga-docs label {
+	color: #333333;
+	font-weight: normal;
 }
 
 /* Table with attributes/api syntax */

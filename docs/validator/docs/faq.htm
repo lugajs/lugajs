@@ -1,110 +1,127 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-	<meta charset="utf-8" />
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<title>Luga Validator :: FAQ/troubleshooting</title>
-	<link rel="stylesheet" href="../../../src/luga.css" />
-	<link rel="stylesheet" href="../../docs.css" />
+
+	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../lib/handlebars.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/bootstrap/css/bootstrap.min.css"/>
+	<script src="../../../lib/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/prism/prism.css"/>
+	<script src="../../../lib/prism/prism.js"></script>
+
+	<!-- Luga JS -->
+	<link rel="stylesheet" href="../../../src/luga.css"/>
 	<script src="../../../dist/luga.min.js"></script>
-	<script src="../../docs.js"></script>
+	<script src="../../../dist/luga.data.min.js"></script>
+
+	<!-- Docs -->
+	<link rel="stylesheet" href="../../luga.docs.css"/>
+	<script src="../../luga-docs.js"></script>
+
 </head>
-<body>
+<body class="luga-docs">
 
-	<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
-	<div data-lugacsi="../sidebar.inc"></div>
+<div data-lugacsi="../../luga-docs-nav-main.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
 
-	<div class="content">
+<div class="container-fluid">
+	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
-		<section>
-
-			<h1>When things go wrong...</h1>
-
-			<div>
-				<p class="question">
-					Case sensitivity
-				</p>
-				<p class="answer">
+		<div class="panel panel-default">
+			<div class="panel-heading">Case sensitivity</div>
+			<div class="panel-body">
+				<p>
 					Since it makes heavy use of DOM and JavaScript, everything inside Luga Validator is case sensitive.
-					The whole library has been designed with power users in mind, so it doesn't tolerate sloppy coding (most of the time it will fail silently instead of throwing JavaScript errors)
+					The whole library has been designed with power users in mind, so it doesn't tolerate sloppy coding
+					(most of the time it will fail silently instead of throwing JavaScript errors)
 				</p>
 			</div>
+		</div>
 
-			<div>
-				<p class="question">
-					The submit button's value isn't passed to the server-side script
-				</p>
-				<p class="answer">
-					By default submit buttons are disabled after the form is submitted. This prevents multiple submits but also prevents the value of the submit buttons from being passed as part of the HTTP request.
-					Set the data-lugavalidator-blocksubmit attribute of the &lt;form&gt; tag to false if you want prevent this behavior
+		<div class="panel panel-default">
+			<div class="panel-heading">The submit button's value isn't passed to the server-side script</div>
+			<div class="panel-body">
+				<p>
+					By default submit buttons are disabled after the form is submitted. This prevents multiple submits
+					but also prevents the value of the submit buttons from being passed as part of the HTTP request.
+					Set the data-lugavalidator-blocksubmit attribute of the &lt;form&gt; tag to false if you want
+					prevent this behavior
 				</p>
 			</div>
+		</div>
 
-			<div>
-				<p class="question">
-					The onsubmit event
-				</p>
-				<p class="answer">
-					Whenever you set the data-lugavalidator-validate to true, the validation is automatically triggered by the form's onsubmit event.
+		<div class="panel panel-default">
+			<div class="panel-heading">The onsubmit event</div>
+			<div class="panel-body">
+				<p>
+					Whenever you set the data-lugavalidator-validate to true, the validation is automatically triggered
+					by the form's onsubmit event.
 					In case you want to execute some other JavaScript code, please use the <a href="../samples/handlers-custom.htm">custom handlers</a>.
-				If you attach other code to the onsubmit event, there is no guarantee about the order in which they will be executed and they could conflict with Luga Validator, preventing the validation to be executed at all </p>
-			</div>
-
-			<div>
-				<p class="question">
-					Error messages aren't listed in the correct order
-				</p>
-				<p class="answer">
-				Most of the times they will, sometimes they won't, you can't count on it. If you are concerned about this issue, you can display error messages <a href="../samples/custom-error.htm">next to their relevant field</a> </p>
-			</div>
-
-		</section>
-
-
-		<section>
-
-			<h1>FAQ</h1>
-
-			<div>
-				<p class="question">
-					Which browsers are supported?
-				</p>
-				<p class="answer">
-					The library is tested with FireFox, Chrome, Safari and IE8+
+					If you attach other code to the onsubmit event, there is no guarantee about the order in which they
+					will be executed and they could conflict with Luga Validator,
+					preventing the validation to be executed at all
 				</p>
 			</div>
+		</div>
 
-			<div>
-				<p class="question">
-					I don't know JavaScript, can I still use it?
-				</p>
-				<p class="answer">
-					JavaScript programming knowledge isn't required in order to use the Validator. Some decent understanding of JavaScript can indeed help you out whenever you need to extend it
+		<div class="panel panel-default">
+			<div class="panel-heading">Error messages aren't listed in the correct order</div>
+			<div class="panel-body">
+				<p>
+					Most of the times they will, sometimes they won't, you can't count on it.
+					If you are concerned about this issue, you can display error messages <a
+						href="../samples/custom-error.htm">next to their relevant field</a>
 				</p>
 			</div>
+		</div>
 
-			<div>
-				<p class="question">
-					Can I use images as my submit buttons?
-				</p>
-				<p class="answer">
-					You can use images or &lt;button&gt; tags as submit buttons, but unlike standard form buttons, the Validator will not disable them after successful validation
+		<div class="panel panel-default">
+			<div class="panel-heading">Which browsers are supported?</div>
+			<div class="panel-body">
+				<p>
+					The library is tested with FireFox, Chrome, Safari and IE9+
 				</p>
 			</div>
+		</div>
 
-			<div>
-				<p class="question">
-					Is it open source?
-				</p>
-				<p class="answer">
-				Yes, Luga Validator is distributed under the <a href="../../../../http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2 license</a> </p>
+		<div class="panel panel-default">
+			<div class="panel-heading">I don't know JavaScript, can I still use it?</div>
+			<div class="panel-body">
+				<p>
+					JavaScript programming knowledge isn't required in order to use the Validator. Some decent
+					understanding of JavaScript can indeed help you out whenever you need to extend it
+				</p>Is it open source?mages as my submit buttons?
 			</div>
+			<div class="panel-body">
+				<p>
+					You can use images or &lt;button&gt; tags as submit buttons, but unlike standard form buttons, the
+					Validator will not disable them after successful validation
+				</p>
+			</div>
+		</div>
 
-		</section>
+		<div class="panel panel-default">
+			<div class="panel-heading">Is it open source?</div>
+			<div class="panel-body">
+				<p>
+					Yes, Luga Validator is distributed under the <a href="../../../../http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2 license</a>
+				</p>
+			</div>
+		</div>
+
+		<div data-lugacsi="../../luga-docs-support.inc"></div>
 
 	</div>
 
-	<div data-lugacsi="../../footer.inc"></div>
+	<div data-lugacsi="../nav-local.inc"></div>
+
+	<div data-lugacsi="../../luga-docs-footer.inc"></div>
+
+</div>
 
 </body>
 </html>

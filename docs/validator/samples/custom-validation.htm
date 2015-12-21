@@ -1,74 +1,101 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-	<meta charset="utf-8" />
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<title>Luga Validator :: Custom validation</title>
-	<link rel="stylesheet" href="../../../src/luga.css" />
-	<link rel="stylesheet" href="../../docs.css" />
+
+	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../lib/handlebars.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/bootstrap/css/bootstrap.min.css"/>
+	<script src="../../../lib/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/prism/prism.css"/>
+	<script src="../../../lib/prism/prism.js"></script>
+
+	<!-- Luga JS -->
+	<link rel="stylesheet" href="../../../src/luga.css"/>
 	<script src="../../../dist/luga.min.js"></script>
-	<script src="../../docs.js"></script>
+	<script src="../../../dist/luga.data.min.js"></script>
+
+	<!-- Docs -->
+	<link rel="stylesheet" href="../../luga.docs.css"/>
+	<script src="../../luga-docs.js"></script>
+
 	<script>
 		// <![CDATA[
 		luga.validator.rules.lowercase = function(fieldNode){
 			var lowerStr = fieldNode.val().toLowerCase();
 			return (lowerStr === fieldNode.val());
-		}
+		};
 		// ]]>
 	</script>
+
 </head>
-<body>
+<body class="luga-docs">
 
-	<div data-lugacsi="../../main-nav.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
-	<div data-lugacsi="../sidebar.inc"></div>
+<div data-lugacsi="../../luga-docs-nav-main.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
 
-	<div class="content">
+<div class="container-fluid">
+	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
-		<section>
+		<div class="panel panel-default">
+			<div class="panel-heading">Custom validation</div>
+			<div class="panel-body">
+				<p>
+					Luga Validator was designed with extensibility in mind. There will always be the need for custom validation.
+					Luga Validator stores all rules inside tmt.validator.rules, a JavaScript object, acting as a container for both built-in and custom validation rules.
+				</p>
+				<p>
+					In order to invoke the custom validation rule, you need to add a custom attribute to the field that exactly matches the name of the custom validation.
+					Then the validator will call our custom method passing the field's DOM node as an argument and expecting a boolean as return value:
+				</p>
 
-			<h1>Custom validation</h1>
-			<p>
-				Luga Validator was designed with extensibility in mind. There will always be the need for custom validation.
-				Luga Validator stores all rules inside tmt.validator.rules, a JavaScript object, acting as a container for both built-in and custom validation rules.
-			</p>
-			<p>
-				In order to invoke the custom validation rule, you need to add a custom attribute to the field that exactly matches the name of the custom validation.
-				Then the validator will call our custom method passing the field's DOM node as an argument and expecting a boolean as return value:
-			</p>
+<pre><code class="language-javascript">luga.validator.rules.lowercase = function(fieldNode){
+	var lowerStr = fieldNode.val().toLowerCase();
+	return (lowerStr === fieldNode.val());
+};</code></pre>
 
-			<code>
-				<ol>
-					<li>&lt;script&gt;</li>
-					<li>luga.validator.rules.lowercase = function(fieldNode){</li>
-					<li>	var lowerStr = fieldNode.val().toLowerCase();</li>
-					<li>	return (lowerStr === fieldNode.val());</li>
-					<li>}</li>
-					<li>&lt;/script&gt;</li>
-				</ol>
-			</code>
+				<p>
+					The HTML will look like:
+				</p>
 
-			<p>
-				The HTML will look like:
-			</p>
+<pre><code class="language-markup">&lt;input type="text" name="mylowercase"
+	data-lugavalidator-required="true"
+	data-lugavalidator-lowercase="true"
+	data-lugavalidator-message="Only lowercase!"
+	value="MixedCase"/&gt;</code></pre>
 
-			<code>
-				<ol>
-					<li>&lt;input type="text" name="mylowercase" data-lugavalidator-required="true" data-lugavalidator-lowercase="true" data-lugavalidator-message="Only lowercase!" value="MixedCase" /&gt;</li>
-				</ol>
-			</code>
+			</div>
+		</div>
 
-		</section>
-
-		<form data-lugavalidator-validate="true">
-			<h1>Lowercase</h1>
-			Lowercase (letters must be lowercase, required)
-			<input type="text" name="mylowercase" data-lugavalidator-required="true" data-lugavalidator-lowercase="true" data-lugavalidator-message="Only lowercase!" value="MixedCase" />
-			<input type="submit" value="Submit" />
-		</form>
+		<div class="panel panel-default">
+			<div class="panel-heading">Only lowercase</div>
+			<div class="panel-body">
+				<form data-lugavalidator-validate="true">
+					<div class="form-group">
+						<label for="mylowercase" class="control-label">Letters must be lowercase, required</label>
+						<input type="text" class="form-control" name="mylowercase" id="mylowercase"
+							   data-lugavalidator-required="true"
+							   data-lugavalidator-lowercase="true"
+							   data-lugavalidator-message="Only lowercase!"
+							   value="MixedCase"/>
+					</div>
+					<div class="form-group">
+						<input type="submit" value="Submit"/>
+					</div>
+				</form>
+			</div>
+		</div>
 
 	</div>
 
-	<div data-lugacsi="../../footer.inc"></div>
+	<div data-lugacsi="../nav-local.inc"></div>
+
+	<div data-lugacsi="../../luga-docs-footer.inc"></div>
+
+</div>
 
 </body>
 </html>
