@@ -46,9 +46,9 @@
 	/**
 	 * @typedef {object} luga.data.DataSet.options
 	 *
-	 * @property {string}              id         Unique identifier. Required
-	 * @property {array.<object>|object} records  Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
-	 * @property {function|null}       filter     A filter functions to be called once for each row in the dataSet. Default to null
+	 * @property {string}                id         Unique identifier. Required
+	 * @property {array.<object>|object} records    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
+	 * @property {function|null}         filter     A filter functions to be called once for each row in the dataSet. Default to null
 	 */
 
 	/**

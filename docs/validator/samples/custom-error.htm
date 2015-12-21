@@ -103,7 +103,7 @@
 					This solves the issue of error messages not being listed by the validator in the order in which they appear on the page layout, as each error message is displayed next to the relevant field.
 				</p>
 
-<pre><code class="language-javascript">function errorOnLabels(formNode, validators){
+<pre><code class="line-numbers language-javascript">function errorOnLabels(formNode, validators){
 	var labels = jQuery(formNode).find("label");
 	// Reset all the labels
 	resetLabels(labels);
