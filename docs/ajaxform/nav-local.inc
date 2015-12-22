@@ -31,13 +31,13 @@
 
 		<li class="luga-docs-list-heading list-group-item">API</li>
 		<li class="list-group-item">
-			<a href="../docs/api-syntax.htm">API syntax reference</a>
+			<a href="../api/syntax.htm">API syntax reference</a>
 		</li>
 		<li class="list-group-item">
-			<a href="../samples/api.htm">JavaScript sample</a>
+			<a href="../api/samples.htm">JavaScript sample</a>
 		</li>
 		<li class="list-group-item">
-			<a href="../samples/api-json.htm">Send raw JSON</a>
+			<a href="../api/raw-json.htm">Send raw JSON</a>
 		</li>
 
 	</ul>
