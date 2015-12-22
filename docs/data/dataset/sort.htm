@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="shortcut icon" type="image/png" href="../../luga-favicon.png"/>
-	<title>Luga DataSet :: Master-details</title>
+	<title>Luga Data :: DataSet :: Sorting</title>
 
 	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
@@ -26,32 +26,68 @@
 
 	<script>
 		luga.namespace("test");
-		test.ladiesMaster = new luga.data.JsonDataSet({
-			id: "ladies",
-			url: "../../../test/fixtures/data/people.json",
-			path: "ladies"
-		});
+		test.ladiesMaster = new luga.data.JsonDataSet({id: "ladies", url: "../../../test/fixtures/data/people.json", path: "ladies"});
 		test.ladyDetails = new luga.data.DetailSet({id: "lady", dataSet: test.ladiesMaster});
+
+		test.jazzPlayers = new luga.data.JsonDataSet({id: "players", url: "../../../test/fixtures/data/jazzPlayers.json", path: "jazzPlayers"});
+
 		jQuery(document).ready(function(){
 			test.ladiesMaster.loadData();
+			test.jazzPlayers.loadData();
 		});
+
 	</script>
 
 	<script id="masterTemplate" type="text/x-handlebars-template">
-		<ul class="luga-docs-list">
+		<table class="table table-bordered table-striped">
+			<th>
+				<a href="#" data-lugads-sort="firstName">First name</a>
+			</th>
+			<th>
+				<a href="#" data-lugads-sort="lastName">Last name</a>
+			</th>
+			<th>
+				<a href="#" data-lugads-sort="country">Country</a>
+			</th>
 			{{#each context}}
-			<li><a href="#" data-lugads-setrowid="{{rowId}}">{{lastName}}</a></li>
+			<tr>
+				<td>{{firstName}}</td>
+				<td>{{lastName}}</td>
+				<td>{{country}}</td>
+			</tr>
 			{{/each}}
-		</ul>
+		</table>
 	</script>
+
 	<script id="detailsTemplate" type="text/x-handlebars-template">
+		{{#context}}
 		<ul>
-			{{#context}}
 			<li>Firstname: {{firstName}}</li>
 			<li>Lastname: {{lastName}}</li>
 			<li>Country: {{country}}</li>
-			{{/context}}
 		</ul>
+		{{/context}}
+	</script>
+
+	<script id="playersTemplate" type="text/x-handlebars-template">
+		<table class="table table-bordered table-striped">
+			<th>
+				<a href="#" data-lugads-sort="person.firstName">person.firstName</a>
+			</th>
+			<th>
+				<a href="#" data-lugads-sort="person.lastName">person.lastName</a>
+			</th>
+			<th>
+				<a href="#" data-lugads-sort="country">Country</a>
+			</th>
+			{{#each context}}
+			<tr>
+				<td>{{person.firstName}}</td>
+				<td>{{person.lastName}}</td>
+				<td>{{country}}</td>
+			</tr>
+			{{/each}}
+		</table>
 	</script>
 
 </head>
@@ -64,7 +100,7 @@
 	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
 		<div class="panel panel-default">
-			<div class="panel-heading">Master-details</div>
+			<div class="panel-heading">Sort with master-details</div>
 			<div class="panel-body">
 				<p>TODO: write explanation</p>
 			</div>
@@ -73,21 +109,35 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">Master</div>
 			<div class="panel-body">
-				<div data-lugads-region="masterRegion" data-lugads-datasource="ladies"
-					 data-lugads-template="masterTemplate"></div>
+				
+		<div data-lugads-region="masterRegion" data-lugads-datasource="ladies"
+			 data-lugads-template="masterTemplate"></div>
 			</div>
 		</div>
 
 		<div class="panel panel-default">
 			<div class="panel-heading">Details</div>
 			<div class="panel-body">
+
 				<div data-lugads-region="detailsRegion" data-lugads-datasource="lady"
 					 data-lugads-template="detailsTemplate"></div>
 			</div>
 		</div>
 
-	</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">Sort on nested data structure</div>
+			<div class="panel-body">
 
+				<p>
+					TODO: write explanation
+				</p>
+
+				<div data-lugads-region="playersRegion" data-lugads-datasource="players"
+					 data-lugads-template="playersTemplate"></div>
+			</div>
+		</div>
+
+	</div>
 
 	<div data-lugacsi="../nav-local.inc"></div>
 

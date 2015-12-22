@@ -6,21 +6,24 @@
 		</li>
 		<li class="luga-docs-list-heading list-group-item">Dataset</li>
 		<li class="list-group-item">
-			<a href="../samples/databinding-basic.htm">Basic databinding</a>
+			<a href="../dataset/databinding-basic.htm">Basic databinding</a>
 		</li>
 		<li class="list-group-item">
-			<a href="../samples/sort.htm">Sorting</a>
+			<a href="../dataset/sort.htm">Sorting</a>
 		</li>
 		<li class="luga-docs-list-heading list-group-item">DetailsSet</li>
 		<li class="list-group-item">
-			<a href="../samples/master-details.htm">Master-details</a>
+			<a href="../detailset/master-details.htm">Master-details</a>
 		</li>
 		<li class="luga-docs-list-heading list-group-item">Region</li>
 		<li class="list-group-item">
-			<a href="../samples/context-properties.htm">Context properties</a>
+			<a href="../region/handlebars.htm">HTML templating</a>
 		</li>
 		<li class="list-group-item">
-			<a href="../samples/custom-region-type.htm">Custom regions</a>
+			<a href="../region/context.htm">Context data</a>
+		</li>
+		<li class="list-group-item">
+			<a href="../region/custom-region-type.htm">Custom regions</a>
 		</li>
 	</ul>
 </nav>

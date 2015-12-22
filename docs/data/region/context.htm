@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="shortcut icon" type="image/png" href="../../luga-favicon.png"/>
+	<title>Luga Data :: Region :: Context</title>
+
+	<!-- Libs -->
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../lib/handlebars.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/bootstrap/css/bootstrap.min.css"/>
+	<script src="../../../lib/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/prism/prism.css"/>
+	<script src="../../../lib/prism/prism.js"></script>
+
+	<!-- Luga JS -->
+	<link rel="stylesheet" href="../../../src/luga.css"/>
+	<script src="../../../dist/luga.min.js"></script>
+	<script src="../../../dist/luga.data.min.js"></script>
+
+	<!-- Docs -->
+	<link rel="stylesheet" href="../../luga.docs.css"/>
+	<script src="../../luga-docs.js"></script>
+
+	<script>
+		luga.namespace("test");
+		test.ladiesDs = new luga.data.JsonDataSet({
+			id: "ladiesDs",
+			url: "../../../test/fixtures/data/people.json",
+			path: "ladies"
+		});
+		jQuery(document).ready(function(){
+			test.ladiesDs.loadData();
+		});
+	</script>
+
+</head>
+
+<body class="luga-docs">
+
+<div data-lugacsi="../../luga-docs-nav-main.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
+
+<div class="container-fluid">
+	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+
+		<div class="panel panel-default">
+			<div class="panel-heading">The context object</div>
+			<div class="panel-body">
+				<p>
+					Every time a dataSource (either a dataSet or a detailSet) notify a region about changes inside its data or state, it send along a <strong>context</strong> object.
+					All the data stored inside the context property and can be referred from a template.
+				</p>
+				<div class="alert alert-info" role="alert">
+					<strong>Heads up!</strong> In the case of a dataSet the context contains an array of records, for a detailSet instead, it contain a single object, with name/value pairs (if any).
+				</div>
+				<p>
+					The context object also contains some additional properties, metadata that reflect the dataSource current state:
+				</p>
+				<table class="table table-bordered luga-docs-api">
+					<th colspan="3">Context properties</th>
+					<tr>
+						<td>recordCount</td>
+						<td>
+							{number}
+						</td>
+						<td>
+							The amount of records currently available
+						</td>
+					</tr>
+					<tr>
+						<td>state</td>
+						<td>
+							{string}
+						</td>
+						<td>
+							Current dataSource state, expressed as a string
+						</td>
+					</tr>
+					<tr>
+						<td>isStateLoading</td>
+						<td>
+							{boolean}
+						</td>
+						<td>
+							True if the dataSource is currently loading data
+						</td>
+					</tr>
+					<tr>
+						<td>isStateError</td>
+						<td>
+							{boolean}
+						</td>
+						<td>
+							True if the dataSource encountered an error during an XHR request
+						</td>
+					</tr>
+					<tr>
+						<td>isStateReady</td>
+						<td>
+							{boolean}
+						</td>
+						<td>
+							True if the dataSource is ready to be used
+						</td>
+					</tr>
+				</table>
+
+				<p>
+					All these properties can be used inside a region's template.
+					Information about state can be especially useful for displaying different content depending on the datasource state.
+				</p>
+
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Context properties in action</div>
+			<div class="panel-body">
+
+<pre><code class="line-numbers language-markup">&lt;div data-lugads-region="contextDemo" data-lugads-datasource="ladiesDs"&gt;
+
+	&lt;ul&gt;
+		&lt;li&gt;recordCount: {{recordCount}}&lt;/li&gt;
+		&lt;li&gt;state: {{state}}&lt;/li&gt;
+		&lt;li&gt;isStateLoading: {{isStateLoading}}&lt;/li&gt;
+		&lt;li&gt;isStateError: {{isStateError}}&lt;/li&gt;
+		&lt;li&gt;isStateReady: {{isStateReady}}&lt;/li&gt;
+	&lt;/ul&gt;
+
+	&lt;ul class="luga-docs-list"&gt;
+		{{#each context}}
+			&lt;li&gt;{{firstName}} {{lastName}}&lt;/li&gt;
+		{{/each}}
+	&lt;/ul&gt;
+
+&lt;/div&gt;</code></pre>
+
+<div data-lugads-region="contextDemo" data-lugads-datasource="ladiesDs">
+
+					<ul>
+						<li>recordCount: {{recordCount}}</li>
+						<li>state: {{state}}</li>
+						<li>isStateLoading: {{isStateLoading}}</li>
+						<li>isStateError: {{isStateError}}</li>
+						<li>isStateReady: {{isStateReady}}</li>
+					</ul>
+
+					<ul class="luga-docs-list">
+						{{#each context}}
+						<li>{{firstName}} {{lastName}}</li>
+						{{/each}}
+					</ul>
+
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+	<div data-lugacsi="../nav-local.inc"></div>
+
+	<div data-lugacsi="../../luga-docs-footer.inc"></div>
+
+</div>
+
+</body>
+</html>

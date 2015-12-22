@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="shortcut icon" type="image/png" href="../../luga-favicon.png"/>
-	<title>Luga DataSet :: Custom region and templating</title>
+	<title>Luga Data :: Region :: Custom region</title>
 
 	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
@@ -107,8 +107,10 @@
 					Add the data-lugads-regiontype attribute with a value that matches an existing JavaScript
 					constructor function:
 				</p>
-<pre><code class="language-markup">&lt;div data-lugads-region="detailsRegion" data-lugads-datasource="lady"
-	data-lugads-template="detailsTemplate" data-lugads-regiontype="underscoreTemplate"&gt;&lt/div&gt;</code></pre>
+<pre><code class="language-markup">&lt;div data-lugads-region="detailsRegion"
+	data-lugads-datasource="lady"
+	data-lugads-template="detailsTemplate"
+	data-lugads-regiontype="underscoreTemplate"&gt;&lt/div&gt;</code></pre>
 				<p>
 					The constructor should extend the luga.data.region.Base class and override its render() method:
 				</p>
