@@ -49,32 +49,32 @@
 
 		<li class="luga-docs-list-heading list-group-item">Extensibility</li>
 		<li class="list-group-item">
-			<a href="../samples/custom-patterns.htm">Custom patterns</a>
+			<a href="../extensibility/custom-patterns.htm">Custom patterns</a>
 		</li>
 		<li class="list-group-item">
-			<a href="../samples/custom-date-patterns.htm">Custom date patterns</a>
+			<a href="../extensibility/custom-date-patterns.htm">Custom date patterns</a>
 		</li>
 		<li class="list-group-item">
-			<a href="../samples/custom-validation.htm">Custom validation rules</a>
+			<a href="../extensibility/custom-validation.htm">Custom validation rules</a>
 		</li>
 		<li class="list-group-item">
-			<a href="../samples/handlers-custom.htm">Custom handlers</a>
+			<a href="../extensibility/handlers-custom.htm">Custom handlers</a>
 		</li>
 		<li class="list-group-item">
-			<a href="../samples/custom-error.htm">Custom error handler</a>
+			<a href="../extensibility/custom-error.htm">Custom error handler</a>
 		</li>
 
 		<li class="luga-docs-list-heading list-group-item">Bootstrap</li>
 		<li class="list-group-item">
-			<a href="../samples/bootstrap.htm">Bootstrap integration</a>
+			<a href="../bootstrap/samples.htm">Bootstrap integration</a>
 		</li>
 
 		<li class="luga-docs-list-heading list-group-item">API</li>
 		<li class="list-group-item">
-			<a href="../docs/api-syntax.htm">API syntax reference</a>
+			<a href="../api/syntax.htm">API syntax reference</a>
 		</li>
 		<li class="list-group-item">
-			<a href="../samples/api.htm">JavaScript sample</a>
+			<a href="../api/samples.htm">JavaScript sample</a>
 		</li>
 
 	</ul>
