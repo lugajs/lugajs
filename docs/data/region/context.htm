@@ -50,10 +50,12 @@
 			<div class="panel-body">
 				<p>
 					Every time a dataSource (either a dataSet or a detailSet) notify a region about changes inside its data or state, it send along a <strong>context</strong> object.
-					All the data stored inside the context property and can be referred from a template.
+					All the data stored inside this object can be referred from a template.
 				</p>
 				<div class="alert alert-info" role="alert">
-					<strong>Heads up!</strong> In the case of a dataSet the context contains an array of records, for a detailSet instead, it contain a single object, with name/value pairs (if any).
+					<strong>Heads up!</strong><br>
+					In the case of a dataSet the context contains an array, inside the <strong>entities</strong> property.<br>
+					For a detailSet instead, it contains an <strong>entity</strong> property that can be either an object of name/value pairs or null.
 				</div>
 				<p>
 					The context object also contains some additional properties, metadata that reflect the dataSource current state:
@@ -66,7 +68,7 @@
 							{number}
 						</td>
 						<td>
-							The amount of records currently available
+							The amount of records currently stored inside the dataSet (not available for detailSet)
 						</td>
 					</tr>
 					<tr>
@@ -109,7 +111,10 @@
 
 				<p>
 					All these properties can be used inside a region's template.
-					Information about state can be especially useful for displaying different content depending on the datasource state.
+					Information about state can be especially useful for <a href="state.htm">displaying different content depending on the datasource state</a>.
+				</p>
+				<p>
+					<a href="../extensibility/custom-dataset.htm">Custom dataSets</a> may add their own metadata or return a customized context
 				</p>
 
 			</div>
@@ -130,7 +135,7 @@
 	&lt;/ul&gt;
 
 	&lt;ul class="luga-docs-list"&gt;
-		{{#each context}}
+		{{#each entities}}
 			&lt;li&gt;{{firstName}} {{lastName}}&lt;/li&gt;
 		{{/each}}
 	&lt;/ul&gt;
@@ -148,7 +153,7 @@
 					</ul>
 
 					<ul class="luga-docs-list">
-						{{#each context}}
+						{{#each entities}}
 						<li>{{firstName}} {{lastName}}</li>
 						{{/each}}
 					</ul>

@@ -2,6 +2,13 @@
 	"use strict";
 
 	/**
+	 * @typedef {object} luga.data.DetailSet.context
+	 * @extends luga.data.stateDescription
+	 *
+	 * @property {null|luga.data.DataSet.row} entity
+	 */
+
+	/**
 	 * @typedef {object} luga.data.DetailSet.options
 	 *
 	 * @property {string}            id       Unique identifier. Required
@@ -50,19 +57,15 @@
 		luga.data.setDataSource(this.id, this);
 
 		/**
-		 * @returns {luga.data.DataSet.context}
+		 * @returns {luga.data.DetailSet.context}
 		 */
 		this.getContext = function(){
-			var stateDesc = luga.data.utils.assembleStateDescription(self.getState());
-			var rsData = {
-				context: self.row,
-				recordCount: 1
+			var context = {
+				entity: self.row
 			};
-			if(self.row === null){
-				rsData.recordCount = 0;
-			}
-			luga.merge(stateDesc, rsData);
-			return stateDesc;
+			var stateDesc = luga.data.utils.assembleStateDescription(self.getState());
+			luga.merge(context, stateDesc);
+			return context;
 		};
 
 		/**

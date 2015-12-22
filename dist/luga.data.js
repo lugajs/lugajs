@@ -13,7 +13,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.2.10";
+	luga.data.version = "0.3.0";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -153,16 +153,16 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {object} luga.data.DataSet.context
 	 * @extends luga.data.stateDescription
 	 *
-	 * @property {number}                                               recordCount
-	 * @property {array.<luga.data.DataSet.row>|luga.data.DataSet.row}  context
+	 * @property {number}                         recordCount
+	 * @property {array.<luga.data.DataSet.row>}  entities
 	 */
 
 	/**
 	 * @typedef {object} luga.data.DataSet.options
 	 *
-	 * @property {string}              id         Unique identifier. Required
-	 * @property {array.<object>|object} records  Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
-	 * @property {function|null}       filter     A filter functions to be called once for each row in the dataSet. Default to null
+	 * @property {string}                id         Unique identifier. Required
+	 * @property {array.<object>|object} records    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
+	 * @property {function|null}         filter     A filter functions to be called once for each row in the dataSet. Default to null
 	 */
 
 	/**
@@ -321,13 +321,13 @@ if(typeof(luga) === "undefined"){
 		 * @returns {luga.data.DataSet.context}
 		 */
 		this.getContext = function(){
-			var stateDesc = luga.data.utils.assembleStateDescription(self.getState());
-			var rsData = {
-				context: self.select(),
+			var context = {
+				entities: self.select(),
 				recordCount: self.getRecordsCount()
 			};
-			luga.merge(stateDesc, rsData);
-			return stateDesc;
+			var stateDesc = luga.data.utils.assembleStateDescription(self.getState());
+			luga.merge(context, stateDesc);
+			return context;
 		};
 
 		/**
@@ -758,6 +758,13 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	/**
+	 * @typedef {object} luga.data.DetailSet.context
+	 * @extends luga.data.stateDescription
+	 *
+	 * @property {null|luga.data.DataSet.row} entity
+	 */
+
+	/**
 	 * @typedef {object} luga.data.DetailSet.options
 	 *
 	 * @property {string}            id       Unique identifier. Required
@@ -806,19 +813,15 @@ if(typeof(luga) === "undefined"){
 		luga.data.setDataSource(this.id, this);
 
 		/**
-		 * @returns {luga.data.DataSet.context}
+		 * @returns {luga.data.DetailSet.context}
 		 */
 		this.getContext = function(){
-			var stateDesc = luga.data.utils.assembleStateDescription(self.getState());
-			var rsData = {
-				context: self.row,
-				recordCount: 1
+			var context = {
+				entity: self.row
 			};
-			if(self.row === null){
-				rsData.recordCount = 0;
-			}
-			luga.merge(stateDesc, rsData);
-			return stateDesc;
+			var stateDesc = luga.data.utils.assembleStateDescription(self.getState());
+			luga.merge(context, stateDesc);
+			return context;
 		};
 
 		/**

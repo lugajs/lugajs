@@ -79,8 +79,7 @@ describe("luga.data.DetailSet", function(){
 				contextMaster.insert(testRecords);
 				var contextDetail = new luga.data.DetailSet({id: "contextDetail", dataSet: contextMaster});
 				var context = contextDetail.getContext();
-				expect(context.context).toEqual(loadedDs.getCurrentRow());
-				expect(context.recordCount).toEqual(1);
+				expect(context.entity).toEqual(loadedDs.getCurrentRow());
 			});
 		});
 

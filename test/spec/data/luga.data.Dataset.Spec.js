@@ -247,7 +247,7 @@ describe("luga.data.Dataset", function(){
 
 		it("Returns the dataSet's context", function(){
 			var context = loadedDs.getContext();
-			expect(context.context).toEqual(loadedDs.select());
+			expect(context.entities).toEqual(loadedDs.select());
 			expect(context.recordCount).toEqual(loadedDs.getRecordsCount());
 		});
 

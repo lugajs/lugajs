@@ -37,7 +37,7 @@
 	</script>
 	<script id="ladiesTemplate" type="text/x-handlebars-template">
 		<ul class="luga-docs-list">
-			{{#each context}}
+			{{#each entities}}
 			<li>{{firstName}} {{lastName}}</li>
 			{{/each}}
 		</ul>
@@ -62,8 +62,14 @@
 					The template itself can be inline, embed, or external.
 				</p>
 				<p>
-					In case you have special needs or would like to use a different templating engine, you can write <a href="custom-region-type.htm">your own region implementation</a>.
+					In case you have special needs or would like to use a different templating engine, you can write <a href="../extensibility/custom-region-type.htm">your own region implementation</a>.
 				</p>
+
+				<div class="alert alert-info" role="alert">
+					<strong>Heads up!</strong><br>
+					The fields contained inside the context data provided by your dataSource (either a dataSet or detailSet), <a href="context.htm">may vary</a>.
+				</div>
+
 			</div>
 		</div>
 
@@ -76,13 +82,14 @@
 				</p>
 
 				<div class="alert alert-warning" role="alert">
-					<strong>Warning!</strong> You may encounter problems if your inline template contains &lt;table&gt; tags.
+					<strong>Warning!</strong><br>
+					You may encounter problems if your inline template contains &lt;table&gt; tags.
 					Certain browsers try to parse and render it. If you need tables, you better use embed or external templates.
 				</div>
 
 <pre><code class="line-numbers language-markup">&lt;div data-lugads-region="inlineTempalte" data-lugads-datasource="ladiesDs"&gt;
 	&lt;ul class="luga-docs-list"&gt;
-		{{#each context}}
+		{{#each entities}}
 		&lt;li&gt;{{firstName}} {{lastName}}&lt;/li&gt;
 		{{/each}}
 	&lt;/ul&gt;
@@ -91,7 +98,7 @@
 				
 				<div data-lugads-region="inlineTempalte" data-lugads-datasource="ladiesDs">
 					<ul class="luga-docs-list">
-						{{#each context}}
+						{{#each entities}}
 						<li>{{firstName}} {{lastName}}</li>
 						{{/each}}
 					</ul>
@@ -116,7 +123,7 @@
 				
 <pre><code class="line-numbers language-markup">&lt;script id="ladiesTemplate" type="text/x-handlebars-template"&gt;
 	&lt;ul class="luga-docs-list"&gt;
-		{{#each context}}
+		{{#each entities}}
 		&lt;li&gt;{{firstName}} {{lastName}}&lt;/li&gt;
 		{{/each}}
 	&lt;/ul&gt;

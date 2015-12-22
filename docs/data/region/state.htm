@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="shortcut icon" type="image/png" href="../../luga-favicon.png"/>
-	<title>Luga Data :: DataSet :: Basic databinding</title>
+	<title>Luga Data :: Region :: Use state</title>
 
 	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
@@ -24,25 +24,6 @@
 	<link rel="stylesheet" href="../../luga.docs.css"/>
 	<script src="../../luga-docs.js"></script>
 
-	<script>
-		luga.namespace("test");
-		test.ladiesDs = new luga.data.JsonDataSet({
-			id: "ladiesDs",
-			url: "../../../test/fixtures/data/people.json",
-			path: "ladies"
-		});
-		jQuery(document).ready(function(){
-			test.ladiesDs.loadData();
-		});
-	</script>
-	<script id="ladiesTemplate" type="text/x-handlebars-template">
-		<ul class="luga-docs-list">
-			{{#each entities}}
-			<li>{{firstName}} {{lastName}}</li>
-			{{/each}}
-		</ul>
-	</script>
-
 </head>
 
 <body class="luga-docs">
@@ -53,16 +34,11 @@
 	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
 		<div class="panel panel-default">
-			<div class="panel-heading">Databinding</div>
+			<div class="panel-heading">Title</div>
 			<div class="panel-body">
-				<p>TODO: write explanation</p>
-			</div>
-		</div>
-
-		<div class="panel panel-default">
-			<div class="panel-heading">Embed template</div>
-			<div class="panel-body">
-				<div data-lugads-region="embedTemplate" data-lugads-datasource="ladiesDs" data-lugads-template="ladiesTemplate"></div>
+				<p>
+					TODO
+				</p>
 			</div>
 		</div>
 

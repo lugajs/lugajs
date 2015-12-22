@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="shortcut icon" type="image/png" href="../../luga-favicon.png"/>
-	<title>Luga Data :: Region :: Custom region</title>
+	<title>Luga Data :: Extensibility :: Custom region</title>
 
 	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
@@ -42,7 +42,7 @@
 
 			/** @override */
 			this.render = function(){
-				var records = this.dataSource.getContext().context;
+				var records = this.dataSource.getContext().entities;
 				var htmlStr = "<ul  class='luga-docs-list'>";
 				for(var i = 0; i < records.length; i++){
 					var item = records[i];
@@ -69,9 +69,14 @@
 
 			/** @override */
 			this.render = function(){
-				var records = this.dataSource.getContext().context;
-				if(records !== null){
-					this.config.node.html(compiledTemplate(records));
+				var context = this.dataSource.getContext();
+				// DetailSet
+				if((context.entity !== undefined) && (context.entity !== null)){
+					this.config.node.html(compiledTemplate(context.entity));
+				}
+				// DataSet
+				if(context.entities !== undefined){
+					this.config.node.html(compiledTemplate(context.entities));
 				}
 			};
 
@@ -129,9 +134,14 @@ var underscoreTemplate = function(options){
 
 	/** @override */
 	this.render = function(){
-		var records = this.dataSource.getContext().context;
-		if(records !== null){
-			this.config.node.html(compiledTemplate(records));
+		var context = this.dataSource.getContext();
+		// DetailSet
+		if((context.entity !== undefined) && (context.entity !== null)){
+			this.config.node.html(compiledTemplate(context.entity));
+		}
+		// DataSet
+		if(context.entities !== undefined){
+			this.config.node.html(compiledTemplate(context.entities));
 		}
 	};
 

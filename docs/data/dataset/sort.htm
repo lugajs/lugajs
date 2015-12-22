@@ -49,7 +49,7 @@
 			<th>
 				<a href="#" data-lugads-sort="country">Country</a>
 			</th>
-			{{#each context}}
+			{{#each entities}}
 			<tr>
 				<td>{{firstName}}</td>
 				<td>{{lastName}}</td>
@@ -60,13 +60,13 @@
 	</script>
 
 	<script id="detailsTemplate" type="text/x-handlebars-template">
-		{{#context}}
+		{{#entity}}
 		<ul>
 			<li>Firstname: {{firstName}}</li>
 			<li>Lastname: {{lastName}}</li>
 			<li>Country: {{country}}</li>
 		</ul>
-		{{/context}}
+		{{/entity}}
 	</script>
 
 	<script id="playersTemplate" type="text/x-handlebars-template">
@@ -80,7 +80,7 @@
 			<th>
 				<a href="#" data-lugads-sort="country">Country</a>
 			</th>
-			{{#each context}}
+			{{#each entities}}
 			<tr>
 				<td>{{person.firstName}}</td>
 				<td>{{person.lastName}}</td>

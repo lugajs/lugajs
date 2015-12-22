@@ -39,8 +39,8 @@
 	 * @typedef {object} luga.data.DataSet.context
 	 * @extends luga.data.stateDescription
 	 *
-	 * @property {number}                                               recordCount
-	 * @property {array.<luga.data.DataSet.row>|luga.data.DataSet.row}  context
+	 * @property {number}                         recordCount
+	 * @property {array.<luga.data.DataSet.row>}  entities
 	 */
 
 	/**
@@ -207,13 +207,13 @@
 		 * @returns {luga.data.DataSet.context}
 		 */
 		this.getContext = function(){
-			var stateDesc = luga.data.utils.assembleStateDescription(self.getState());
-			var rsData = {
-				context: self.select(),
+			var context = {
+				entities: self.select(),
 				recordCount: self.getRecordsCount()
 			};
-			luga.merge(stateDesc, rsData);
-			return stateDesc;
+			var stateDesc = luga.data.utils.assembleStateDescription(self.getState());
+			luga.merge(context, stateDesc);
+			return context;
 		};
 
 		/**

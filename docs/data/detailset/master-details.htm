@@ -39,18 +39,18 @@
 
 	<script id="masterTemplate" type="text/x-handlebars-template">
 		<ul class="luga-docs-list">
-			{{#each context}}
+			{{#each entities}}
 			<li><a href="#" data-lugads-setrowid="{{rowId}}">{{lastName}}</a></li>
 			{{/each}}
 		</ul>
 	</script>
 	<script id="detailsTemplate" type="text/x-handlebars-template">
 		<ul>
-			{{#context}}
+			{{#entity}}
 			<li>Firstname: {{firstName}}</li>
 			<li>Lastname: {{lastName}}</li>
 			<li>Country: {{country}}</li>
-			{{/context}}
+			{{/entity}}
 		</ul>
 	</script>
 
