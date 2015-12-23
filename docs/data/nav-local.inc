@@ -3,7 +3,7 @@
 
 		<li class="luga-docs-list-heading list-group-item">Luga Data</li>
 		<li class="list-group-item">
-			<a href="../docs/index.htm">About Luga Data</a>
+			<a href="../docs/index.htm">About/Getting started</a>
 		</li>
 		<li class="list-group-item">
 			<a href="../docs/notifier.htm">Notifier/Observer</a>
