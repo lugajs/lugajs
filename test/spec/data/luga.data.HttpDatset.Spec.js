@@ -4,37 +4,41 @@ describe("luga.data.HttpDataSet", function(){
 
 	var testDs;
 	beforeEach(function(){
-		testDs = new luga.data.JsonDataSet({id: "jsonDs"});
+		testDs = new luga.data.JsonDataSet({uuid: "jsonDs"});
 	});
 
 	it("Is an abstract class. Throws an exception if instantiated directly", function(){
 		expect(function(){
-			new luga.data.HttpDataSet({id: "tryThis"});
+			new luga.data.HttpDataSet({uuid: "tryThis"});
 		}).toThrow();
 	});
 
+	afterEach(function() {
+		luga.data.dataSourceRegistry = {};
+	});
+
 	it("Extends luga.data.Dataset", function(){
-		expect(testDs).toMatchDuckType(new luga.data.DataSet({id:"duck"}));
+		expect(testDs).toMatchDuckType(new luga.data.DataSet({uuid: "duck"}));
 	});
 
 	describe("Its constructor options are the same as luga.data.DataSet and may also contains:", function(){
 
 		it("options.url", function(){
-			var ds = new luga.data.JsonDataSet({id: "myDs", url: "test.json"});
+			var ds = new luga.data.JsonDataSet({uuid: "myDs", url: "test.json"});
 			expect(ds.url).toEqual("test.json");
 		});
 
 		it("options.timeout (timeout for XHR requests))", function(){
-			var ds = new luga.data.JsonDataSet({id: "myDs"});
+			var ds = new luga.data.JsonDataSet({uuid: "myDs"});
 			expect(ds.timeout).toEqual(luga.data.CONST.XHR_TIMEOUT);
-			var fastDs = new luga.data.JsonDataSet({id: "fastDs", timeout: 200});
+			var fastDs = new luga.data.JsonDataSet({uuid: "fastDs", timeout: 200});
 			expect(fastDs.timeout).toEqual(200);
 		});
 
 		it("options.cache (a flag to turn on XHR caching)", function(){
-			var ds = new luga.data.JsonDataSet({id: "myDs"});
+			var ds = new luga.data.JsonDataSet({uuid: "myDs"});
 			expect(ds.cache).toBe(true);
-			var fastDs = new luga.data.JsonDataSet({id: "fastDs", cache: false});
+			var fastDs = new luga.data.JsonDataSet({uuid: "fastDs", cache: false});
 			expect(fastDs.cache).toBe(false);
 		});
 
@@ -42,7 +46,7 @@ describe("luga.data.HttpDataSet", function(){
 
 	describe(".cancelRequest()", function(){
 		it("Abort any pending XHR request", function(){
-			var ds = new luga.data.JsonDataSet({id: "myDs"});
+			var ds = new luga.data.JsonDataSet({uuid: "myDs"});
 			ds.setUrl("test.json");
 			ds.loadData();
 			expect(ds.xhrRequest).not.toBeNull();
@@ -53,7 +57,7 @@ describe("luga.data.HttpDataSet", function(){
 
 	describe(".getUrl()", function(){
 		it("Returns the URL that will be used to fetch the data", function(){
-			var ds = new luga.data.JsonDataSet({id: "myDs", url: "test.json"});
+			var ds = new luga.data.JsonDataSet({uuid: "myDs", url: "test.json"});
 			expect(ds.getUrl()).toEqual("test.json");
 		});
 		it("Returns null if URL is not set", function(){
@@ -66,7 +70,7 @@ describe("luga.data.HttpDataSet", function(){
 		var testDs, DEFAULT_TIMEOUT, testObserver;
 		beforeEach(function(){
 
-			testDs = new luga.data.JsonDataSet({id: "jsonDs", url: "fixtures/data/ladies.json"});
+			testDs = new luga.data.JsonDataSet({uuid: "uniqueDs", url: "fixtures/data/ladies.json"});
 			DEFAULT_TIMEOUT = 2000;
 			testObserver = {
 				onDataChangedHandler: function(){
@@ -83,7 +87,7 @@ describe("luga.data.HttpDataSet", function(){
 		});
 
 		it("Throws an exception if the dataSet's URL is null", function(){
-			var ds = new luga.data.JsonDataSet({id: "myDs"});
+			var ds = new luga.data.JsonDataSet({uuid: "myDs"});
 			expect(function(){
 				ds.loadData();
 			}).toThrow();

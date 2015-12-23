@@ -26,10 +26,10 @@
 
 	<script>
 		luga.namespace("test");
-		test.ladiesMaster = new luga.data.JsonDataSet({id: "ladies", url: "../../../test/fixtures/data/people.json", path: "ladies"});
-		test.ladyDetails = new luga.data.DetailSet({id: "lady", dataSet: test.ladiesMaster});
+		test.ladiesMaster = new luga.data.JsonDataSet({uuid: "ladies", url: "../../../test/fixtures/data/people.json", path: "ladies"});
+		test.ladyDetails = new luga.data.DetailSet({uuid: "lady", dataSet: test.ladiesMaster});
 
-		test.jazzPlayers = new luga.data.JsonDataSet({id: "players", url: "../../../test/fixtures/data/jazzPlayers.json", path: "jazzPlayers"});
+		test.jazzPlayers = new luga.data.JsonDataSet({uuid: "players", url: "../../../test/fixtures/data/jazzPlayers.json", path: "jazzPlayers"});
 
 		jQuery(document).ready(function(){
 			test.ladiesMaster.loadData();
@@ -110,8 +110,8 @@
 			<div class="panel-heading">Master</div>
 			<div class="panel-body">
 				
-		<div data-lugads-region="masterRegion" data-lugads-datasource="ladies"
-			 data-lugads-template="masterTemplate"></div>
+		<div data-lugads-region="masterRegion" data-lugads-datasource-uuid="ladies"
+			 data-lugads-template-id="masterTemplate"></div>
 			</div>
 		</div>
 
@@ -119,8 +119,8 @@
 			<div class="panel-heading">Details</div>
 			<div class="panel-body">
 
-				<div data-lugads-region="detailsRegion" data-lugads-datasource="lady"
-					 data-lugads-template="detailsTemplate"></div>
+				<div data-lugads-region="detailsRegion" data-lugads-datasource-uuid="lady"
+					 data-lugads-template-id="detailsTemplate"></div>
 			</div>
 		</div>
 
@@ -132,8 +132,8 @@
 					TODO: write explanation
 				</p>
 
-				<div data-lugads-region="playersRegion" data-lugads-datasource="players"
-					 data-lugads-template="playersTemplate"></div>
+				<div data-lugads-region="playersRegion" data-lugads-datasource-uuid="players"
+					 data-lugads-template-id="playersTemplate"></div>
 			</div>
 		</div>
 

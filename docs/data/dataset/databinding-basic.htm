@@ -27,7 +27,7 @@
 	<script>
 		luga.namespace("test");
 		test.ladiesDs = new luga.data.JsonDataSet({
-			id: "ladiesDs",
+			uuid: "ladiesDs",
 			url: "../../../test/fixtures/data/people.json",
 			path: "ladies"
 		});
@@ -62,7 +62,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">Embed template</div>
 			<div class="panel-body">
-				<div data-lugads-region="embedTemplate" data-lugads-datasource="ladiesDs" data-lugads-template="ladiesTemplate"></div>
+				<div data-lugads-region="embedTemplate" data-lugads-datasource-uuid="ladiesDs" data-lugads-template-id="ladiesTemplate"></div>
 			</div>
 		</div>
 

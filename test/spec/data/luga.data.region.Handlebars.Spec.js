@@ -9,9 +9,9 @@ describe("luga.data.region.Handlebars", function(){
 		loadFixtures("data/region/Handlebars/ladies.htm");
 
 		testRecords = getJSONFixture("data/ladies.json");
-		loadedDs = new luga.data.DataSet({id: "testDs", records: testRecords});
+		loadedDs = new luga.data.DataSet({uuid: "testDs", records: testRecords});
 		testDiv = jQuery("<div>Ciao Mamma</div>");
-		attributesDiv = jQuery("<div data-lugads-region='testRegion' data-lugads-datasource='testDs' data-lugads-template='ladiesTemplate' ></div>");
+		attributesDiv = jQuery("<div data-lugads-region='testRegion' data-lugads-datasource-uuid='testDs' data-lugads-template-id='ladiesTemplate' ></div>");
 
 		configRegion = new luga.data.region.Handlebars({
 			node: testDiv,
@@ -27,6 +27,10 @@ describe("luga.data.region.Handlebars", function(){
 		configRegion.addObserver(testObserver);
 		spyOn(testObserver, "onRegionRenderedHandler");
 
+	});
+
+	afterEach(function() {
+		luga.data.dataSourceRegistry = {};
 	});
 
 	it("Is the default region type", function(){
@@ -52,7 +56,7 @@ describe("luga.data.region.Handlebars", function(){
 				expect(function(){
 					new luga.data.region.Handlebars({
 						node: testDiv,
-						dsId: "testDs",
+						dsUuid: "testDs",
 						templateId: "missing"
 					});
 				}).toThrow();
@@ -60,7 +64,7 @@ describe("luga.data.region.Handlebars", function(){
 			it("Default to null", function(){
 				var testRegion = new luga.data.region.Handlebars({
 					node: testDiv,
-					dsId: "testDs"
+					dsUuid: "testDs"
 				});
 				expect(testRegion.config.templateId).toBeNull();
 			});
@@ -76,7 +80,7 @@ describe("luga.data.region.Handlebars", function(){
 				spyOn(Handlebars, "compile");
 				new luga.data.region.Handlebars({
 					node: testDiv,
-					dsId: "testDs"
+					dsUuid: "testDs"
 				});
 				expect(Handlebars.compile).toHaveBeenCalledWith(testDiv.html());
 			});
@@ -87,7 +91,7 @@ describe("luga.data.region.Handlebars", function(){
 				spyOn(Handlebars, "compile");
 				new luga.data.region.Handlebars({
 					node: testDiv,
-					dsId: "testDs",
+					dsUuid: "testDs",
 					templateId: "ladiesTemplate"
 				});
 				expect(Handlebars.compile).toHaveBeenCalledWith(jQuery("#ladiesTemplate").html());
@@ -110,7 +114,7 @@ describe("luga.data.region.Handlebars", function(){
 		beforeEach(function(){
 			testRegion = new luga.data.region.Handlebars({
 				node: testDiv,
-				dsId: "testDs",
+				dsUuid: "testDs",
 				templateId: "ladiesTemplate"
 			});
 		});

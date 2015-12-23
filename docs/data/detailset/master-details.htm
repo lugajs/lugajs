@@ -27,11 +27,11 @@
 	<script>
 		luga.namespace("test");
 		test.ladiesMaster = new luga.data.JsonDataSet({
-			id: "ladies",
+			uuid: "ladies",
 			url: "../../../test/fixtures/data/people.json",
 			path: "ladies"
 		});
-		test.ladyDetails = new luga.data.DetailSet({id: "lady", dataSet: test.ladiesMaster});
+		test.ladyDetails = new luga.data.DetailSet({uuid: "lady", dataSet: test.ladiesMaster});
 		jQuery(document).ready(function(){
 			test.ladiesMaster.loadData();
 		});
@@ -40,7 +40,7 @@
 	<script id="masterTemplate" type="text/x-handlebars-template">
 		<ul class="luga-docs-list">
 			{{#each entities}}
-			<li><a href="#" data-lugads-setrowid="{{rowId}}">{{lastName}}</a></li>
+			<li><a href="#" data-lugads-setrowid="{{lugaRowId}}">{{lastName}}</a></li>
 			{{/each}}
 		</ul>
 	</script>
@@ -73,16 +73,16 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">Master</div>
 			<div class="panel-body">
-				<div data-lugads-region="masterRegion" data-lugads-datasource="ladies"
-					 data-lugads-template="masterTemplate"></div>
+				<div data-lugads-region="masterRegion" data-lugads-datasource-uuid="ladies"
+					 data-lugads-template-id="masterTemplate"></div>
 			</div>
 		</div>
 
 		<div class="panel panel-default">
 			<div class="panel-heading">Details</div>
 			<div class="panel-body">
-				<div data-lugads-region="detailsRegion" data-lugads-datasource="lady"
-					 data-lugads-template="detailsTemplate"></div>
+				<div data-lugads-region="detailsRegion" data-lugads-datasource-uuid="lady"
+					 data-lugads-template-id="detailsTemplate"></div>
 			</div>
 		</div>
 

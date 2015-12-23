@@ -6,7 +6,7 @@
 	 *
 	 * @property {jquery} node                                Either a jQuery object wrapping the node or the naked DOM object that will contain the region. Required
 	 * @property {luga.data.DataSet|luga.data.DetailSet} ds   DataSource. Required if dsId is not specified
-	 * @property {string} dsId                                DataSource's id. Can be specified inside the data-lugads-datasource attribute too. Required if ds is not specified
+	 * @property {string} dsUuid                              DataSource's uuid. Can be specified inside the data-lugads-datasource attribute too. Required if ds is not specified
 	 * @property {{array.<string>} traits                     An array of function names that will be called every time the Region is rendered. Optional
 	 * @property {string} templateId                          Id of HTML element containing the template. Can be specified inside the data-lugads-template attribute too.
 	 *                                                        If not available it assumes the node contains the template
@@ -43,8 +43,8 @@
 		this.config = {
 			node: null, // Required
 			// Either: custom attribute or incoming option
-			dsId: options.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE) || null,
-			templateId: options.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TEMPLATE) || null,
+			dsUuid: options.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID) || null,
+			templateId: options.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TEMPLATE_ID) || null,
 			// Either: incoming option or null
 			traits: options.traits || null,
 			ds: null
@@ -60,7 +60,7 @@
 		}
 		else{
 			// We've got a dataSource Id
-			this.dataSource = luga.data.getDataSource(this.config.dsId);
+			this.dataSource = luga.data.getDataSource(this.config.dsUuid);
 		}
 		if(this.dataSource === null){
 			throw(luga.string.format(luga.data.region.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE, [this.config.dsId]));

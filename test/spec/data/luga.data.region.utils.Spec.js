@@ -2,23 +2,27 @@ describe("luga.data.region.utils", function(){
 
 	"use strict";
 
+	var testDs, testDiv, testRegion;
+	beforeEach(function(){
+
+		testDs = new luga.data.DataSet({uuid: "testDs"});
+		testDiv = jQuery("<div>Ciao Mamma</div>");
+		testRegion = new luga.data.region.Base({
+			node: testDiv,
+			ds: testDs
+		});
+
+	});
+
+	afterEach(function() {
+		luga.data.dataSourceRegistry = {};
+	});
+
 	it("Contains generic, static methods and utilities for regions", function(){
 		expect(luga.data.region.utils).toBeDefined();
 	});
 
 	describe(".assembleRegionDescription()", function(){
-
-		var testDs, testDiv, testRegion;
-		beforeEach(function(){
-
-			testDs = new luga.data.DataSet({id: "testDs"});
-			testDiv = jQuery("<div>Ciao Mamma</div>");
-			testRegion = new luga.data.region.Base({
-				node: testDiv,
-				ds: testDs
-			});
-
-		});
 
 		describe("Given a region instance,, returns an object containing the following fields:", function(){
 			it("node (a jQuery object wrapping the node containing the region)", function(){

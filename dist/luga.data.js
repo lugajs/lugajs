@@ -13,7 +13,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.3.0";
+	luga.data.version = "0.3.1";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -29,6 +29,7 @@ if(typeof(luga) === "undefined"){
 			XHR_ERROR: "xhrError"
 		},
 		ERROR_MESSAGES: {
+			DUPLICATED_UUID: "Unable to register dataSource. The uuuid was already used: {0}",
 			INVALID_STATE: "luga.data.utils.assembleStateDescription: Unsupported state: {0}"
 		},
 		PK_KEY: "lugaRowId",
@@ -40,23 +41,27 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Returns a dataSource from the registry
 	 * Returns null if no source matches the given id
-	 * @param {string} id
+	 * @param {string} uuid
 	 * @returns {luga.data.DataSet|luga.data.DetailSet}
 	 */
-	luga.data.getDataSource = function(id){
-		if(luga.data.dataSourceRegistry[id] !== undefined){
-			return luga.data.dataSourceRegistry[id];
+	luga.data.getDataSource = function(uuid){
+		if(luga.data.dataSourceRegistry[uuid] !== undefined){
+			return luga.data.dataSourceRegistry[uuid];
 		}
 		return null;
 	};
 
 	/**
 	 * Adds a dataSource inside the registry
-	 * @param {string}                                id
+	 * @param {string}                                uuid
 	 * @param {luga.data.DataSet|luga.data.DetailSet} dataSource
+	 * @throws
 	 */
-	luga.data.setDataSource = function(id, dataSource){
-		luga.data.dataSourceRegistry[id] = dataSource;
+	luga.data.setDataSource = function(uuid, dataSource){
+		if(luga.data.getDataSource(uuid) !== null){
+			throw(luga.string.format(luga.data.CONST.ERROR_MESSAGES.DUPLICATED_UUID, [uuid]));
+		}
+		luga.data.dataSourceRegistry[uuid] = dataSource;
 	};
 
 	/**
@@ -83,6 +88,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Given a state string, returns an object containing a boolean field for each possible state
 	 * @param {null|luga.data.STATE} state
+	 * @throws
 	 * @returns {luga.data.stateDescription}
 	 */
 	luga.data.utils.assembleStateDescription = function(state){
@@ -144,9 +150,9 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.data.DataSet.stateChanged
 	 *
-	 * @property {luga.data.DataSet}    dataSet
-	 * @property {null|luga.data.STATE}      currentState
-	 * @property {null|luga.data.STATE}      oldState
+	 * @property {luga.data.DataSet}     dataSet
+	 * @property {null|luga.data.STATE}  currentState
+	 * @property {null|luga.data.STATE}  oldState
 	 */
 
 	/**
@@ -160,7 +166,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.data.DataSet.options
 	 *
-	 * @property {string}                id         Unique identifier. Required
+	 * @property {string}                uuid       Unique identifier. Required
 	 * @property {array.<object>|object} records    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
 	 * @property {function|null}         filter     A filter functions to be called once for each row in the dataSet. Default to null
 	 */
@@ -182,7 +188,7 @@ if(typeof(luga) === "undefined"){
 		var CONST = {
 			ERROR_MESSAGES: {
 				INVALID_COL_TYPE: "Luga.DataSet.setColumnType(): Invalid type passed {0}",
-				INVALID_ID_PARAMETER: "Luga.DataSet: id parameter is required",
+				INVALID_UUID_PARAMETER: "Luga.DataSet: uuid parameter is required",
 				INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter",
 				INVALID_PRIMITIVE: "Luga.DataSet: records can be either an array of objects or a single object. Primitives are not accepted",
 				INVALID_PRIMITIVE_ARRAY: "Luga.DataSet: records can be either an array of name/value pairs or a single object. Array of primitives are not accepted",
@@ -195,8 +201,8 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
-		if(options.id === undefined){
-			throw(CONST.ERROR_MESSAGES.INVALID_ID_PARAMETER);
+		if(options.uuid === undefined){
+			throw(CONST.ERROR_MESSAGES.INVALID_UUID_PARAMETER);
 		}
 		if((options.filter !== undefined) && (jQuery.isFunction(options.filter) === false)){
 			throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
@@ -206,7 +212,7 @@ if(typeof(luga) === "undefined"){
 		/** @type {luga.data.DataSet} */
 		var self = this;
 
-		this.id = options.id;
+		this.uuid = options.uuid;
 
 		/** @type {array.<luga.data.DataSet.row>} */
 		this.records = [];
@@ -228,7 +234,7 @@ if(typeof(luga) === "undefined"){
 		this.lastSortColumns = [];
 		this.lastSortOrder = "";
 
-		luga.data.setDataSource(this.id, this);
+		luga.data.setDataSource(this.uuid, this);
 
 		/* Private methods */
 
@@ -767,7 +773,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.data.DetailSet.options
 	 *
-	 * @property {string}            id       Unique identifier. Required
+	 * @property {string}            uuid     Unique identifier. Required
 	 * @property {luga.data.DataSet} dataSet  Master dataSet
 	 */
 
@@ -786,13 +792,13 @@ if(typeof(luga) === "undefined"){
 
 		var CONST = {
 			ERROR_MESSAGES: {
-				INVALID_ID_PARAMETER: "Luga.DetailSet: id parameter is required",
+				INVALID_UUID_PARAMETER: "Luga.DetailSet: id parameter is required",
 				INVALID_DS_PARAMETER: "Luga.DetailSet: dataSet parameter is required"
 			}
 		};
 
-		if(options.id === undefined){
-			throw(CONST.ERROR_MESSAGES.INVALID_ID_PARAMETER);
+		if(options.uuid === undefined){
+			throw(CONST.ERROR_MESSAGES.INVALID_UUID_PARAMETER);
 		}
 		if(options.dataSet === undefined){
 			throw(CONST.ERROR_MESSAGES.INVALID_DS_PARAMETER);
@@ -803,14 +809,14 @@ if(typeof(luga) === "undefined"){
 		/** @type {luga.data.DetailSet} */
 		var self = this;
 
-		this.id = options.id;
+		this.uuid = options.uuid;
 		this.dataSet = options.dataSet;
 		this.dataSet.addObserver(this);
 
 		/** @type {luga.data.DataSet.row} */
 		this.row = null;
 
-		luga.data.setDataSource(this.id, this);
+		luga.data.setDataSource(this.uuid, this);
 
 		/**
 		 * @returns {luga.data.DetailSet.context}
@@ -1134,11 +1140,11 @@ if(typeof(luga) === "undefined"){
 
 	luga.data.region.CONST = {
 		CUSTOM_ATTRIBUTES: {
-			DATA_SOURCE: "data-lugads-datasource",
+			DATA_SOURCE_UUID: "data-lugads-datasource-uuid",
 			REGION: "data-lugads-region",
 			REGION_REFERENCE: "luga-region-reference",
 			REGION_TYPE: "data-lugads-regiontype",
-			TEMPLATE: "data-lugads-template",
+			TEMPLATE_ID: "data-lugads-template-id",
 			TRAITS: "data-lugads-traits"
 		},
 		DEFAULT_REGION_TYPE: "luga.data.region.Handlebars",
@@ -1149,7 +1155,7 @@ if(typeof(luga) === "undefined"){
 			"luga.data.region.traits.sort"
 		],
 		ERROR_MESSAGES: {
-			MISSING_DATA_SOURCE_ATTRIBUTE: "Missing required data-lugads-datasource attribute inside region",
+			MISSING_DATA_SOURCE_ATTRIBUTE: "Missing required data-lugads-datasource-uuid attribute inside region",
 			MISSING_DATA_SOURCE: "Unable to find datasource {0}",
 			MISSING_REGION_TYPE_FUNCTION: "Failed to create region. Unable to find a constructor function named: {0}"
 		},
@@ -1177,7 +1183,7 @@ if(typeof(luga) === "undefined"){
 	 * @throws
 	 */
 	luga.data.region.init = function(node){
-		var dataSourceId = node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE);
+		var dataSourceId = node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID);
 		if(dataSourceId === undefined){
 			throw(luga.data.region.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE_ATTRIBUTE);
 		}
@@ -1232,7 +1238,7 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @property {jquery} node                                Either a jQuery object wrapping the node or the naked DOM object that will contain the region. Required
 	 * @property {luga.data.DataSet|luga.data.DetailSet} ds   DataSource. Required if dsId is not specified
-	 * @property {string} dsId                                DataSource's id. Can be specified inside the data-lugads-datasource attribute too. Required if ds is not specified
+	 * @property {string} dsUuid                              DataSource's uuid. Can be specified inside the data-lugads-datasource attribute too. Required if ds is not specified
 	 * @property {{array.<string>} traits                     An array of function names that will be called every time the Region is rendered. Optional
 	 * @property {string} templateId                          Id of HTML element containing the template. Can be specified inside the data-lugads-template attribute too.
 	 *                                                        If not available it assumes the node contains the template
@@ -1269,8 +1275,8 @@ if(typeof(luga) === "undefined"){
 		this.config = {
 			node: null, // Required
 			// Either: custom attribute or incoming option
-			dsId: options.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE) || null,
-			templateId: options.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TEMPLATE) || null,
+			dsUuid: options.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID) || null,
+			templateId: options.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TEMPLATE_ID) || null,
 			// Either: incoming option or null
 			traits: options.traits || null,
 			ds: null
@@ -1286,7 +1292,7 @@ if(typeof(luga) === "undefined"){
 		}
 		else{
 			// We've got a dataSource Id
-			this.dataSource = luga.data.getDataSource(this.config.dsId);
+			this.dataSource = luga.data.getDataSource(this.config.dsUuid);
 		}
 		if(this.dataSource === null){
 			throw(luga.string.format(luga.data.region.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE, [this.config.dsId]));

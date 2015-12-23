@@ -5,9 +5,13 @@ describe("luga.data.JsonDataset", function(){
 	var testRecords, noUrlDs, testDs, DEFAULT_TIMEOUT;
 	beforeEach(function(){
 		testRecords = getJSONFixture("data/ladies.json");
-		noUrlDs = new luga.data.JsonDataSet({id: "noUrlDs"});
-		testDs = new luga.data.JsonDataSet({id: "jsonDs", url: "fixtures/data/ladies.json"});
+		noUrlDs = new luga.data.JsonDataSet({uuid: "noUrlDs"});
+		testDs = new luga.data.JsonDataSet({uuid: "jsonDs", url: "fixtures/data/ladies.json"});
 		DEFAULT_TIMEOUT = 2000;
+	});
+
+	afterEach(function() {
+		luga.data.dataSourceRegistry = {};
 	});
 
 	it("Is the JSON dataset class", function(){
@@ -18,19 +22,19 @@ describe("luga.data.JsonDataset", function(){
 		var MockDs = function(options){
 			luga.extend(luga.data.HttpDataSet, this, [options]);
 		}
-		expect(noUrlDs).toMatchDuckType(new MockDs({id:"duck"}, false));
+		expect(noUrlDs).toMatchDuckType(new MockDs({uuid: "duck"}, false));
 	});
 
 	describe("Its constructor options are the same as luga.data.HttpDataSet and may also contains:", function(){
 		it("options.path", function(){
-			var ds = new luga.data.JsonDataSet({id: "myDs", path: "myPath"});
+			var ds = new luga.data.JsonDataSet({uuid: "myDs", path: "myPath"});
 			expect(ds.path).toEqual("myPath");
 		});
 	});
 
 	describe(".getPath()", function(){
 		it("Returns the path to be used to extract data out of the JSON data structure", function(){
-			var ds = new luga.data.JsonDataSet({id: "myDs", path: "test"});
+			var ds = new luga.data.JsonDataSet({uuid: "myDs", path: "test"});
 			expect(ds.getPath()).toEqual("test");
 		});
 		it("Returns null if path is not set", function(){
@@ -53,7 +57,7 @@ describe("luga.data.JsonDataset", function(){
 		var peopleDs, peopleObserver;
 		beforeEach(function(){
 
-			peopleDs = new luga.data.JsonDataSet({id: "jsonDs", url: "fixtures/data/people.json", path: "ladies"});
+			peopleDs = new luga.data.JsonDataSet({uuid: "loadDataUniqueDs", url: "fixtures/data/people.json", path: "ladies"});
 			DEFAULT_TIMEOUT = 2000;
 
 			var ObserverClass = function(){
@@ -74,7 +78,7 @@ describe("luga.data.JsonDataset", function(){
 				}, DEFAULT_TIMEOUT);
 			});
 			it("Records are extracted even if the HTTP's Content-Type is not application/json (as long as it contains JSON data)", function(done){
-				var txtDs = new luga.data.JsonDataSet({id: "jsonDs", url: "fixtures/data/people.txt", path: "ladies"});
+				var txtDs = new luga.data.JsonDataSet({uuid: "uniqueDs", url: "fixtures/data/people.txt", path: "ladies"});
 				txtDs.loadData();
 				setTimeout(function(){
 					expect(txtDs.getRecordsCount()).toEqual(7);
@@ -194,7 +198,7 @@ describe("luga.data.JsonDataset", function(){
 
 	describe(".setPath()", function(){
 		it("Set the path to be used to extract data out of the JSON data structure", function(){
-			var ds = new luga.data.JsonDataSet({id: "myDs"});
+			var ds = new luga.data.JsonDataSet({uuid: "myDs"});
 			ds.setPath("test");
 			expect(ds.getPath()).toEqual("test");
 		});

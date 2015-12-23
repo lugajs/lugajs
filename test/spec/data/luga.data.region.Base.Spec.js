@@ -11,9 +11,9 @@ describe("luga.data.region.Base", function(){
 	beforeEach(function(){
 
 		testRecords = getJSONFixture("data/ladies.json");
-		loadedDs = new luga.data.DataSet({id: "testDs", records: testRecords});
+		loadedDs = new luga.data.DataSet({uuid: "testDs", records: testRecords});
 		testDiv = jQuery("<div>Ciao Mamma</div>");
-		attributesDiv = jQuery("<div data-lugads-region='testRegion' data-lugads-datasource='testDs' data-lugads-template='ladiesTemplate' ></div>");
+		attributesDiv = jQuery("<div data-lugads-region='testRegion' data-lugads-datasource-uuid='testDs' data-lugads-template='ladiesTemplate' ></div>");
 
 		configRegion = new luga.data.region.Base({
 			node: testDiv,
@@ -29,6 +29,10 @@ describe("luga.data.region.Base", function(){
 		configRegion.addObserver(testObserver);
 		spyOn(testObserver, "onRegionRenderedHandler");
 
+	});
+
+	afterEach(function() {
+		luga.data.dataSourceRegistry = {};
 	});
 
 	it("Is the base, astract class for regions", function(){
@@ -57,7 +61,7 @@ describe("luga.data.region.Base", function(){
 
 			it("Is mandatory", function(){
 				expect(function(){
-					new luga.data.region.Base({dsId: "testDs"});
+					new luga.data.region.Base({dsUuid: "testDs"});
 				}).toThrow();
 			});
 			it("Throws an exception if the associated node does not exists", function(){
@@ -96,7 +100,7 @@ describe("luga.data.region.Base", function(){
 
 		});
 
-		describe("options.dsId", function(){
+		describe("options.dsUuid", function(){
 
 			it("Is mandatory if options.ds is missing", function(){
 				expect(function(){
@@ -105,21 +109,21 @@ describe("luga.data.region.Base", function(){
 			});
 			it("Throws an exception if the associated dataSource does not exists", function(){
 				expect(function(){
-					new luga.data.region.Base({node: testDiv, dsId: "missing"});
+					new luga.data.region.Base({node: testDiv, dsUuid: "missing"});
 				}).toThrow();
 			});
 
 			describe("either:", function(){
 				it("Retrieves the value from the node's data-lugads-datasource custom attribute", function(){
-					expect(attributesRegion.config.dsId).toEqual("testDs");
+					expect(attributesRegion.config.dsUuid).toEqual("testDs");
 				});
 				it("Uses the value specified inside the option argument", function(){
 					var testRegion = new luga.data.region.Base({
 						node: testDiv,
-						dsId: "testDs",
+						dsUuid: "testDs",
 						templateId: "ladiesTemplate"
 					});
-					expect(testRegion.config.dsId).toEqual("testDs");
+					expect(testRegion.config.dsUuid).toEqual("testDs");
 				});
 			});
 
@@ -132,12 +136,12 @@ describe("luga.data.region.Base", function(){
 				describe("Retrieves the value from the node's data-lugads-traits custom attribute:", function(){
 
 					it("Containing a single function's name", function(){
-						var regionNode = jQuery("<div data-lugads-region='testRegion' data-lugads-datasource='testDs' data-lugads-traits='window.regionBaseMockTraitOne'></div>");
+						var regionNode = jQuery("<div data-lugads-region='testRegion' data-lugads-datasource-uuid='testDs' data-lugads-traits='window.regionBaseMockTraitOne'></div>");
 						var region = new luga.data.region.Base({node: regionNode});
 						expect(region.traits.indexOf("window.regionBaseMockTraitOne")).not.toEqual(-1);
 					});
 					it("Or a comma-delimited list of function's names", function(){
-						var regionNode = jQuery("<div data-lugads-region='testRegion' data-lugads-datasource='testDs' data-lugads-traits='window.regionBaseMockTraitOne,window.regionBaseMockTraitTwo'></div>");
+						var regionNode = jQuery("<div data-lugads-region='testRegion' data-lugads-datasource-uuid='testDs' data-lugads-traits='window.regionBaseMockTraitOne,window.regionBaseMockTraitTwo'></div>");
 						var region = new luga.data.region.Base({node: regionNode});
 						expect(region.traits.indexOf("window.regionBaseMockTraitOne")).not.toEqual(-1);
 						expect(region.traits.indexOf("window.regionBaseMockTraitTwo")).not.toEqual(-1);
@@ -150,7 +154,7 @@ describe("luga.data.region.Base", function(){
 					it("Containing a single function's name", function(){
 						var region = new luga.data.region.Base({
 							node: testDiv,
-							dsId: "testDs",
+							dsUuid: "testDs",
 							templateId: "ladiesTemplate",
 							traits: "window.regionBaseMockTraitOne"
 						});
@@ -159,7 +163,7 @@ describe("luga.data.region.Base", function(){
 					it("Or a comma-delimited list of function's names", function(){
 						var region = new luga.data.region.Base({
 							node: testDiv,
-							dsId: "testDs",
+							dsUuid: "testDs",
 							templateId: "ladiesTemplate",
 							traits: "window.regionBaseMockTraitOne,window.regionBaseMockTraitTwo"
 						});
@@ -183,7 +187,7 @@ describe("luga.data.region.Base", function(){
 			beforeEach(function(){
 				testRegion = new luga.data.region.Base({
 					node: testDiv,
-					dsId: "testDs",
+					dsUuid: "testDs",
 					templateId: "ladiesTemplate"
 				});
 				optionsObj = {node: testDiv, dataSource: loadedDs};
@@ -220,7 +224,7 @@ describe("luga.data.region.Base", function(){
 			it("options.traits contains an invalid function name", function(){
 				var region = new luga.data.region.Base({
 					node: testDiv,
-					dsId: "testDs",
+					dsUuid: "testDs",
 					templateId: "ladiesTemplate",
 					traits: "missingFunction"
 				});
@@ -230,7 +234,7 @@ describe("luga.data.region.Base", function(){
 			});
 
 			it("data-lugads-traits contains an invalid function name", function(){
-				var regionNode = jQuery("<div data-lugads-region='testRegion' data-lugads-datasource='testDs' data-lugads-traits='window.missingFunction'></div>");
+				var regionNode = jQuery("<div data-lugads-region='testRegion' data-lugads-datasource-uuid='testDs' data-lugads-traits='window.missingFunction'></div>");
 				var region = new luga.data.region.Base({node: regionNode});
 				expect(function(){
 					region.applyTraits();

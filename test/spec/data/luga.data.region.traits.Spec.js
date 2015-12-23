@@ -12,8 +12,12 @@ describe("luga.data.region.traits", function(){
 		loadFixtures("data/region/traits/generic.htm");
 
 		ladiesRecords = getJSONFixture("data/ladies.json");
-		ladiesDs = new luga.data.DataSet({id: "testDs", records: ladiesRecords});
+		ladiesDs = new luga.data.DataSet({uuid: "testDs", records: ladiesRecords});
 
+	});
+
+	afterEach(function() {
+		luga.data.dataSourceRegistry = {};
 	});
 
 	it("Stores a sets of traits that can be used to extend the functionality of a region", function(){

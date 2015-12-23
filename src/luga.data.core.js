@@ -13,7 +13,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.3.0";
+	luga.data.version = "0.3.1";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -29,6 +29,7 @@ if(typeof(luga) === "undefined"){
 			XHR_ERROR: "xhrError"
 		},
 		ERROR_MESSAGES: {
+			DUPLICATED_UUID: "Unable to register dataSource. The uuuid was already used: {0}",
 			INVALID_STATE: "luga.data.utils.assembleStateDescription: Unsupported state: {0}"
 		},
 		PK_KEY: "lugaRowId",
@@ -40,23 +41,27 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Returns a dataSource from the registry
 	 * Returns null if no source matches the given id
-	 * @param {string} id
+	 * @param {string} uuid
 	 * @returns {luga.data.DataSet|luga.data.DetailSet}
 	 */
-	luga.data.getDataSource = function(id){
-		if(luga.data.dataSourceRegistry[id] !== undefined){
-			return luga.data.dataSourceRegistry[id];
+	luga.data.getDataSource = function(uuid){
+		if(luga.data.dataSourceRegistry[uuid] !== undefined){
+			return luga.data.dataSourceRegistry[uuid];
 		}
 		return null;
 	};
 
 	/**
 	 * Adds a dataSource inside the registry
-	 * @param {string}                                id
+	 * @param {string}                                uuid
 	 * @param {luga.data.DataSet|luga.data.DetailSet} dataSource
+	 * @throws
 	 */
-	luga.data.setDataSource = function(id, dataSource){
-		luga.data.dataSourceRegistry[id] = dataSource;
+	luga.data.setDataSource = function(uuid, dataSource){
+		if(luga.data.getDataSource(uuid) !== null){
+			throw(luga.string.format(luga.data.CONST.ERROR_MESSAGES.DUPLICATED_UUID, [uuid]));
+		}
+		luga.data.dataSourceRegistry[uuid] = dataSource;
 	};
 
 	/**
@@ -83,6 +88,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Given a state string, returns an object containing a boolean field for each possible state
 	 * @param {null|luga.data.STATE} state
+	 * @throws
 	 * @returns {luga.data.stateDescription}
 	 */
 	luga.data.utils.assembleStateDescription = function(state){

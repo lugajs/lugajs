@@ -11,7 +11,7 @@
 	/**
 	 * @typedef {object} luga.data.DetailSet.options
 	 *
-	 * @property {string}            id       Unique identifier. Required
+	 * @property {string}            uuid     Unique identifier. Required
 	 * @property {luga.data.DataSet} dataSet  Master dataSet
 	 */
 
@@ -30,13 +30,13 @@
 
 		var CONST = {
 			ERROR_MESSAGES: {
-				INVALID_ID_PARAMETER: "Luga.DetailSet: id parameter is required",
+				INVALID_UUID_PARAMETER: "Luga.DetailSet: id parameter is required",
 				INVALID_DS_PARAMETER: "Luga.DetailSet: dataSet parameter is required"
 			}
 		};
 
-		if(options.id === undefined){
-			throw(CONST.ERROR_MESSAGES.INVALID_ID_PARAMETER);
+		if(options.uuid === undefined){
+			throw(CONST.ERROR_MESSAGES.INVALID_UUID_PARAMETER);
 		}
 		if(options.dataSet === undefined){
 			throw(CONST.ERROR_MESSAGES.INVALID_DS_PARAMETER);
@@ -47,14 +47,14 @@
 		/** @type {luga.data.DetailSet} */
 		var self = this;
 
-		this.id = options.id;
+		this.uuid = options.uuid;
 		this.dataSet = options.dataSet;
 		this.dataSet.addObserver(this);
 
 		/** @type {luga.data.DataSet.row} */
 		this.row = null;
 
-		luga.data.setDataSource(this.id, this);
+		luga.data.setDataSource(this.uuid, this);
 
 		/**
 		 * @returns {luga.data.DetailSet.context}

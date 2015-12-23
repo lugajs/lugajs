@@ -30,9 +30,9 @@
 	/**
 	 * @typedef {object} luga.data.DataSet.stateChanged
 	 *
-	 * @property {luga.data.DataSet}    dataSet
-	 * @property {null|luga.data.STATE}      currentState
-	 * @property {null|luga.data.STATE}      oldState
+	 * @property {luga.data.DataSet}     dataSet
+	 * @property {null|luga.data.STATE}  currentState
+	 * @property {null|luga.data.STATE}  oldState
 	 */
 
 	/**
@@ -46,7 +46,7 @@
 	/**
 	 * @typedef {object} luga.data.DataSet.options
 	 *
-	 * @property {string}                id         Unique identifier. Required
+	 * @property {string}                uuid       Unique identifier. Required
 	 * @property {array.<object>|object} records    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
 	 * @property {function|null}         filter     A filter functions to be called once for each row in the dataSet. Default to null
 	 */
@@ -68,7 +68,7 @@
 		var CONST = {
 			ERROR_MESSAGES: {
 				INVALID_COL_TYPE: "Luga.DataSet.setColumnType(): Invalid type passed {0}",
-				INVALID_ID_PARAMETER: "Luga.DataSet: id parameter is required",
+				INVALID_UUID_PARAMETER: "Luga.DataSet: uuid parameter is required",
 				INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter",
 				INVALID_PRIMITIVE: "Luga.DataSet: records can be either an array of objects or a single object. Primitives are not accepted",
 				INVALID_PRIMITIVE_ARRAY: "Luga.DataSet: records can be either an array of name/value pairs or a single object. Array of primitives are not accepted",
@@ -81,8 +81,8 @@
 			}
 		};
 
-		if(options.id === undefined){
-			throw(CONST.ERROR_MESSAGES.INVALID_ID_PARAMETER);
+		if(options.uuid === undefined){
+			throw(CONST.ERROR_MESSAGES.INVALID_UUID_PARAMETER);
 		}
 		if((options.filter !== undefined) && (jQuery.isFunction(options.filter) === false)){
 			throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
@@ -92,7 +92,7 @@
 		/** @type {luga.data.DataSet} */
 		var self = this;
 
-		this.id = options.id;
+		this.uuid = options.uuid;
 
 		/** @type {array.<luga.data.DataSet.row>} */
 		this.records = [];
@@ -114,7 +114,7 @@
 		this.lastSortColumns = [];
 		this.lastSortOrder = "";
 
-		luga.data.setDataSource(this.id, this);
+		luga.data.setDataSource(this.uuid, this);
 
 		/* Private methods */
 

@@ -5,9 +5,9 @@ describe("luga.data.Dataset", function(){
 	var baseDs, loadedDs, testRecords, removeUk, removeAus, removeBrasil, removeAll, testObserver;
 	beforeEach(function(){
 
-		baseDs = new luga.data.DataSet({id: "test"});
+		baseDs = new luga.data.DataSet({uuid: "test"});
 		testRecords = getJSONFixture("data/ladies.json");
-		loadedDs = new luga.data.DataSet({id: "myDs", records: testRecords});
+		loadedDs = new luga.data.DataSet({uuid: "myDs", records: testRecords});
 
 		removeUk = function(dataSet, row, rowIndex){
 			if(row.country === "UK"){
@@ -51,6 +51,10 @@ describe("luga.data.Dataset", function(){
 		spyOn(testObserver, "onStateChangedHandler");
 	});
 
+	afterEach(function() {
+		luga.data.dataSourceRegistry = {};
+	});
+
 	it("Is the base dataSet class", function(){
 		expect(jQuery.isFunction(luga.data.DataSet)).toBeTruthy();
 	});
@@ -64,10 +68,10 @@ describe("luga.data.Dataset", function(){
 
 	describe("Accepts an Options object as single argument", function(){
 
-		describe("options.id", function(){
+		describe("options.uuid", function(){
 			it("Acts as unique identifier that will be stored inside a global registry", function(){
-				var ds = new luga.data.DataSet({id: "myDs"});
-				expect(luga.data.dataSourceRegistry.myDs).toEqual(ds);
+				var ds = new luga.data.DataSet({uuid: "uniqueDs"});
+				expect(luga.data.dataSourceRegistry["uniqueDs"]).toEqual(ds);
 			});
 			it("Throws an exception if not specified", function(){
 				expect(function(){
@@ -82,7 +86,7 @@ describe("luga.data.Dataset", function(){
 			});
 
 			it("Will cause the filter to be applied as soon as any record is loaded", function(){
-				var filteredDs = new luga.data.DataSet({id: "test", filter: removeAus});
+				var filteredDs = new luga.data.DataSet({uuid: "uniqueDs", filter: removeAus});
 				filteredDs.insert(testRecords);
 				expect(testRecords.length).toEqual(7);
 				// Minus one, since Aussies get filtered out
@@ -91,14 +95,14 @@ describe("luga.data.Dataset", function(){
 
 			it("Throws an exception if the passed filter is not a function", function(){
 				expect(function(){
-					var ds = new luga.data.DataSet({id: "myDs", filter: "test"});
+					var ds = new luga.data.DataSet({uuid: "uniqueDs", filter: "test"});
 				}).toThrow();
 			});
 		});
 
 		describe("options.records", function(){
 			it("Pre-load data inside the dataSet", function(){
-				var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
+				var ds = new luga.data.DataSet({uuid: "uniqueDs", records: testRecords});
 				expect(ds.select()).toEqual(testRecords);
 			});
 			it("If not specified the dataSet is empty", function(){
@@ -110,13 +114,13 @@ describe("luga.data.Dataset", function(){
 					var arrayRecords = [];
 					arrayRecords.push({name: "Nicole"});
 					arrayRecords.push({name: "Kate"});
-					var ds = new luga.data.DataSet({id: "myDs", records: arrayRecords});
+					var ds = new luga.data.DataSet({uuid: "uniqueDs", records: arrayRecords});
 					expect(ds.records).toEqual(arrayRecords);
 					expect(ds.getRecordsCount()).toEqual(2);
 				});
 				it("Or a single object containing value/name pairs", function(){
 					var recObj = {name: "Ciccio", lastname: "Pasticcio"};
-					var ds = new luga.data.DataSet({id: "myDs", records: recObj});
+					var ds = new luga.data.DataSet({uuid: "uniqueDs", records: recObj});
 					expect(ds.select().length).toEqual(1);
 				});
 			});
@@ -128,12 +132,12 @@ describe("luga.data.Dataset", function(){
 					// Simple value!
 					arrayRecords.push("Kate");
 					expect(function(){
-						var ds = new luga.data.DataSet({id: "myDs", records: arrayRecords});
+						var ds = new luga.data.DataSet({uuid: "uniqueDs", records: arrayRecords});
 					}).toThrow();
 				});
 				it("The passed single object is a primitive value", function(){
 					expect(function(){
-						var ds = new luga.data.DataSet({id: "myDs", records: "test"});
+						var ds = new luga.data.DataSet({uuid: "uniqueDs", records: "test"});
 					}).toThrow();
 				});
 			});
@@ -145,8 +149,8 @@ describe("luga.data.Dataset", function(){
 		it("Calls luga.data.setDataSource()", function(){
 			spyOn(luga.data, "setDataSource").and.callFake(function(){
 			});
-			var ds = new luga.data.DataSet({id: "test"});
-			expect(luga.data.setDataSource).toHaveBeenCalledWith("test", ds);
+			var ds = new luga.data.DataSet({uuid: "uniqueDs"});
+			expect(luga.data.setDataSource).toHaveBeenCalledWith("uniqueDs", ds);
 		});
 	});
 
@@ -190,7 +194,7 @@ describe("luga.data.Dataset", function(){
 
 		describe("Accepts an optional filter function as an argument", function(){
 			it("If specified only records matching the filter will be deleted", function(){
-				var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
+				var ds = new luga.data.DataSet({uuid: "uniqueDs", records: testRecords});
 				ds.delete(removeUk);
 				expect(ds.getRecordsCount()).toEqual(5);
 			});
@@ -267,7 +271,7 @@ describe("luga.data.Dataset", function(){
 
 		describe("Returns the first row among filtered records if:", function(){
 			it("The dataSet has a filter associated with it", function(){
-				var noAussieDs = new luga.data.DataSet({id: "test", filter: removeAus});
+				var noAussieDs = new luga.data.DataSet({uuid: "uniqueDs", filter: removeAus});
 				noAussieDs.insert(testRecords);
 				expect(noAussieDs.getCurrentRow()).toEqual(noAussieDs.filteredRecords[0]);
 			});
@@ -454,7 +458,7 @@ describe("luga.data.Dataset", function(){
 					var arrayRecords = [];
 					arrayRecords.push({name: "Nicole"});
 					arrayRecords.push({name: "Kate"});
-					var ds = new luga.data.DataSet({id: "myDs", records: arrayRecords});
+					var ds = new luga.data.DataSet({uuid: "uniqueDs", records: arrayRecords});
 					var row = loadedDs.getRowById(2);
 					expect(ds.getRowIndex(row)).toEqual(-1);
 				});
@@ -596,7 +600,7 @@ describe("luga.data.Dataset", function(){
 		});
 
 		it("Set currentRowId to the rowId of the first filtered record if the dataSet is associated with a filter", function(){
-			var noAussieDs = new luga.data.DataSet({id: "test", filter: removeAus});
+			var noAussieDs = new luga.data.DataSet({uuid: "uniqueDs", filter: removeAus});
 			noAussieDs.insert(testRecords);
 			expect(noAussieDs.getCurrentRowId()).toEqual("lugaPk_1");
 			noAussieDs.setCurrentRowId("lugaPk_2");
@@ -622,17 +626,17 @@ describe("luga.data.Dataset", function(){
 
 	describe(".select()", function(){
 		it("Returns an array of the internal row objects stored inside the dataSet", function(){
-			var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
+			var ds = new luga.data.DataSet({uuid: "uniqueDs", records: testRecords});
 			expect(ds.select()).toEqual(testRecords);
 			expect(ds.select().length).toEqual(7);
 		});
 		it("If the dataSet contains a filter function, returns the row objects matching the filter", function(){
-			var ds = new luga.data.DataSet({id: "myDs", records: testRecords, filter: removeUk});
+			var ds = new luga.data.DataSet({uuid: "uniqueDs", records: testRecords, filter: removeUk});
 			expect(ds.select().length).toEqual(5);
 		});
 		describe("Accepts an optional filter function as an argument", function(){
 			it("In this case, only records matching the filter will be returned", function(){
-				var ds = new luga.data.DataSet({id: "myDs", records: testRecords});
+				var ds = new luga.data.DataSet({uuid: "uniqueDs", records: testRecords});
 				expect(ds.select(removeUk).length).toEqual(5);
 			});
 			it("Throws an exception if the passed filter is not a function", function(){
@@ -697,7 +701,7 @@ describe("luga.data.Dataset", function(){
 					var arrayRecords = [];
 					arrayRecords.push({name: "Nicole"});
 					arrayRecords.push({name: "Kate"});
-					var ds = new luga.data.DataSet({id: "myDs", records: arrayRecords});
+					var ds = new luga.data.DataSet({uuid: "uniqueDs", records: arrayRecords});
 					var row = loadedDs.getRowById("lugaPk_2");
 					expect(function(){
 						ds.setCurrentRow(row);

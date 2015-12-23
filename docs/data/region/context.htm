@@ -27,7 +27,7 @@
 	<script>
 		luga.namespace("test");
 		test.ladiesDs = new luga.data.JsonDataSet({
-			id: "ladiesDs",
+			uuid: "ladiesDs",
 			url: "../../../test/fixtures/data/people.json",
 			path: "ladies"
 		});
@@ -124,7 +124,7 @@
 			<div class="panel-heading">Context properties in action</div>
 			<div class="panel-body">
 
-<pre><code class="line-numbers language-markup">&lt;div data-lugads-region="contextDemo" data-lugads-datasource="ladiesDs"&gt;
+<pre><code class="line-numbers language-markup">&lt;div data-lugads-region="contextDemo" data-lugads-datasource-uuid="ladiesDs"&gt;
 
 	&lt;ul&gt;
 		&lt;li&gt;recordCount: {{recordCount}}&lt;/li&gt;
@@ -142,7 +142,7 @@
 
 &lt;/div&gt;</code></pre>
 
-<div data-lugads-region="contextDemo" data-lugads-datasource="ladiesDs">
+<div data-lugads-region="contextDemo" data-lugads-datasource-uuid="ladiesDs">
 
 					<ul>
 						<li>recordCount: {{recordCount}}</li>

@@ -5,11 +5,11 @@
 
 	luga.data.region.CONST = {
 		CUSTOM_ATTRIBUTES: {
-			DATA_SOURCE: "data-lugads-datasource",
+			DATA_SOURCE_UUID: "data-lugads-datasource-uuid",
 			REGION: "data-lugads-region",
 			REGION_REFERENCE: "luga-region-reference",
 			REGION_TYPE: "data-lugads-regiontype",
-			TEMPLATE: "data-lugads-template",
+			TEMPLATE_ID: "data-lugads-template-id",
 			TRAITS: "data-lugads-traits"
 		},
 		DEFAULT_REGION_TYPE: "luga.data.region.Handlebars",
@@ -20,7 +20,7 @@
 			"luga.data.region.traits.sort"
 		],
 		ERROR_MESSAGES: {
-			MISSING_DATA_SOURCE_ATTRIBUTE: "Missing required data-lugads-datasource attribute inside region",
+			MISSING_DATA_SOURCE_ATTRIBUTE: "Missing required data-lugads-datasource-uuid attribute inside region",
 			MISSING_DATA_SOURCE: "Unable to find datasource {0}",
 			MISSING_REGION_TYPE_FUNCTION: "Failed to create region. Unable to find a constructor function named: {0}"
 		},
@@ -48,7 +48,7 @@
 	 * @throws
 	 */
 	luga.data.region.init = function(node){
-		var dataSourceId = node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE);
+		var dataSourceId = node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID);
 		if(dataSourceId === undefined){
 			throw(luga.data.region.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE_ATTRIBUTE);
 		}
