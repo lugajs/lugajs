@@ -12,6 +12,10 @@
 	<url>
 		<loc>http://www.massimocorner.com/lugajs/docs/csi/docs/index.htm</loc>
 	</url>
+	<!-- Data -->
+	<url>
+		<loc>http://www.massimocorner.com/lugajs/docs/data/docs/index.htm</loc>
+	</url>
 	<!-- Validator -->
 	<url>
 		<loc>http://www.massimocorner.com/lugajs/docs/validator/docs/index.htm</loc>
