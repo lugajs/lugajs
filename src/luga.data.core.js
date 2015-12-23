@@ -31,7 +31,7 @@ if(typeof(luga) === "undefined"){
 		ERROR_MESSAGES: {
 			INVALID_STATE: "luga.data.utils.assembleStateDescription: Unsupported state: {0}"
 		},
-		PK_KEY: "rowId",
+		PK_KEY: "lugaRowId",
 		PK_KEY_PREFIX: "lugaPk_",
 		USER_AGENT: "luga.data",
 		XHR_TIMEOUT: 10000 // Keep this accessible to everybody
