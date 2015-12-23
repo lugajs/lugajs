@@ -10,6 +10,8 @@ DOCS:
 - Talk about CORS?
 - Use a datepicker to document custom trait?
 
+- Explain history and philosophy of luga.data
+
 -------------
 
 AJAXFORM:
