@@ -11,7 +11,13 @@
 
 		<li class="luga-docs-list-heading list-group-item">Dataset</li>
 		<li class="list-group-item">
-			<a href="../dataset/databinding-basic.htm">Databinding</a>
+			<a href="../dataset/getting-started.htm">Getting started</a>
+		</li>
+		<li class="list-group-item">
+			<a href="../dataset/databinding-basic.htm">Basic databinding</a>
+		</li>
+		<li class="list-group-item">
+			<a href="../dataset/filter.htm">Filtering</a>
 		</li>
 		<li class="list-group-item">
 			<a href="../dataset/sort.htm">Sorting</a>
@@ -21,6 +27,17 @@
 		</li>
 		<li class="list-group-item">
 			<a href="../dataset/api.htm">API Syntax reference</a>
+		</li>
+
+		<li class="luga-docs-list-heading list-group-item">JSON Dataset</li>
+		<li class="list-group-item">
+			<a href="../json-dataset/getting-started.htm">Getting started</a>
+		</li>
+		<li class="list-group-item">
+			<a href="../json-dataset/api.htm">API Syntax reference</a>
+		</li>
+		<li class="list-group-item">
+			<a href="../json-dataset/path.htm">Nested JSON</a>
 		</li>
 
 		<li class="luga-docs-list-heading list-group-item">DetailsSet</li>
