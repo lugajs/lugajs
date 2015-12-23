@@ -25,15 +25,17 @@
 	<script src="../../luga-docs.js"></script>
 
 	<script>
-		luga.namespace("test");
-		test.ladiesDs = new luga.data.JsonDataSet({
-			uuid: "ladiesDs",
-			url: "../../../test/fixtures/data/people.json",
-			path: "ladies"
-		});
-		jQuery(document).ready(function(){
-			test.ladiesDs.loadData();
-		});
+		(function(){
+			"use strict";
+			var ladiesDs = new luga.data.JsonDataSet({
+				uuid: "ladiesDs",
+				url: "../../../test/fixtures/data/people.json",
+				path: "ladies"
+			});
+			jQuery(document).ready(function(){
+				ladiesDs.loadData();
+			});
+		}());
 	</script>
 
 </head>

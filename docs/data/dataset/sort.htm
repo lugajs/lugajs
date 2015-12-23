@@ -25,17 +25,26 @@
 	<script src="../../luga-docs.js"></script>
 
 	<script>
-		luga.namespace("test");
-		test.ladiesMaster = new luga.data.JsonDataSet({uuid: "ladies", url: "../../../test/fixtures/data/people.json", path: "ladies"});
-		test.ladyDetails = new luga.data.DetailSet({uuid: "lady", dataSet: test.ladiesMaster});
+		(function(){
+			"use strict";
+			var ladiesMaster = new luga.data.JsonDataSet({
+				uuid: "ladies",
+				url: "../../../test/fixtures/data/people.json",
+				path: "ladies"
+			});
+			var ladyDetails = new luga.data.DetailSet({uuid: "lady", dataSet: ladiesMaster});
 
-		test.jazzPlayers = new luga.data.JsonDataSet({uuid: "players", url: "../../../test/fixtures/data/jazzPlayers.json", path: "jazzPlayers"});
+			var jazzPlayers = new luga.data.JsonDataSet({
+				uuid: "players",
+				url: "../../../test/fixtures/data/jazzPlayers.json",
+				path: "jazzPlayers"
+			});
 
-		jQuery(document).ready(function(){
-			test.ladiesMaster.loadData();
-			test.jazzPlayers.loadData();
-		});
-
+			jQuery(document).ready(function(){
+				ladiesMaster.loadData();
+				jazzPlayers.loadData();
+			});
+		}());
 	</script>
 
 	<script id="masterTemplate" type="text/x-handlebars-template">
