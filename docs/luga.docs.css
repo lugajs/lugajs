@@ -114,18 +114,22 @@ dl, dt, dd, ol, ul, li {
 }
 
 /* Code listings */
-pre,
-pre code {
+.luga-docs pre,
+.luga-docs pre code {
 	background-color: #F9F9F9 !important;
 }
 
-.panel > pre {
+.luga-docs .panel > pre {
 	border-radius: 0;
 	margin: 0;
 }
 
-pre + pre {
+.luga-docs pre + pre {
 	border-top: none;
+}
+
+.luga-docs pre[class*="language-"] {
+	margin: 1.5em 0;
 }
 
 /* Lists */
