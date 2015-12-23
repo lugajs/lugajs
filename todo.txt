@@ -8,6 +8,7 @@ DOCS:
 
 - Move into GitHub pages?
 - Talk about CORS?
+- Use a datepicker to document custom trait?
 
 -------------
 
