@@ -130,6 +130,12 @@ pre + pre {
 
 /* Lists */
 
+ul.luga-docs-list,
+ol.luga-docs-list {
+	margin-left: 0.2em;
+	margin-top: 1em;
+}
+
 ul.luga-docs-list li,
 ol.luga-docs-list li {
 	margin-left: 1em;
