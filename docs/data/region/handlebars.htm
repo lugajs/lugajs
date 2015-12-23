@@ -117,9 +117,10 @@
 					An embed template store Handlebar's code in a &lt;script&gt; tag inside the current page.
 					This way it will not be visible  and parsed by the browser before the JavaScript code gets executed, it will not be indexed by search engines either.
 				</p>
-				<p>
-					It's critical to add the appropriated type attribute to the &lt;script&gt; tag, this way the browser will not execute it as JavaScript code:
-				</p>
+				<div class="alert alert-warning" role="alert">
+					<strong>Warning!</strong><br>
+					It's critical to add the appropriated type attribute to the &lt;script&gt; tag, this way the browser will not execute it as JavaScript code.
+				</div>
 				
 <pre><code class="line-numbers language-markup">&lt;script id="ladiesTemplate" type="text/x-handlebars-template"&gt;
 	&lt;ul class="luga-docs-list"&gt;
@@ -148,6 +149,11 @@
 				<p>
 					For better reusability you can store templates inside external files and reference them in a &lt;script&gt; tag:
 				</p>
+
+				<div class="alert alert-warning" role="alert">
+					<strong>Warning!</strong><br>
+					It's critical to add the appropriated type attribute to the &lt;script&gt; tag, this way the browser will not execute it as JavaScript code.
+				</div>
 
 <pre><code class="language-markup">&lt;script id="ladiesTable" type="text/x-handlebars-template" src="../templates/ladies-table.hbs"&gt;&lt;/script&gt;
 </code></pre>
