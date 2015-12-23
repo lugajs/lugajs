@@ -44,6 +44,9 @@
 		<li class="list-group-item">
 			<a href="../region/state.htm">Leverage state</a>
 		</li>
+		<li class="list-group-item">
+			<a href="../region/syntax.htm">HTML syntax reference</a>
+		</li>
 
 		<li class="luga-docs-list-heading list-group-item">Extensibility</li>
 		<li class="list-group-item">
