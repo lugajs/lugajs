@@ -9,7 +9,7 @@
 			<a href="../docs/getting-started.htm">Getting started</a>
 		</li>
 		<li class="list-group-item">
-			<a href="../docs/syntax.htm">HTML Syntax reference</a>
+			<a href="../docs/syntax.htm">HTML syntax reference</a>
 		</li>
 		<li class="list-group-item">
 			<a href="../docs/faq.htm">FAQ/troubleshooting</a>
