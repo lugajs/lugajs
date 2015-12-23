@@ -50,6 +50,9 @@
 
 		<li class="luga-docs-list-heading list-group-item">Region</li>
 		<li class="list-group-item">
+			<a href="../region/getting-started.htm">Getting started</a>
+		</li>
+		<li class="list-group-item">
 			<a href="../region/handlebars.htm">HTML templating</a>
 		</li>
 		<li class="list-group-item">
