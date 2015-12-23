@@ -39,6 +39,9 @@
 			<a href="../region/context.htm">Context data</a>
 		</li>
 		<li class="list-group-item">
+			<a href="../region/traits.htm">Traits</a>
+		</li>
+		<li class="list-group-item">
 			<a href="../region/state.htm">Leverage state</a>
 		</li>
 
@@ -48,6 +51,9 @@
 		</li>
 		<li class="list-group-item">
 			<a href="../extensibility/custom-region-type.htm">Custom regions</a>
+		</li>
+		<li class="list-group-item">
+			<a href="../extensibility/custom-trait.htm">Custom traits</a>
 		</li>
 
 	</ul>
