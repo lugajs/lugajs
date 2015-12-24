@@ -39,7 +39,7 @@ data.Dataset:
 
 - Implement update(filter, setter)
 - Allow custom sorter for complex objects
-- Local storage persistence? It would require serialization of full dataSet (including filter!)
+- Local storage persistence? It would require serialization of full dataSet (including filter! Pass filters as function names?)
 
 data.PagedDataset:
 
