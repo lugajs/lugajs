@@ -132,6 +132,10 @@ dl, dt, dd, ol, ul, li {
 	margin: 1.5em 0;
 }
 
+table.luga-docs-api + pre[class*="language-"] {
+	margin: 0;
+}
+
 /* Lists */
 
 ul.luga-docs-list,
