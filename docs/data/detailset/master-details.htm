@@ -67,8 +67,23 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">Master-details</div>
 			<div class="panel-body">
-				<p>TODO: write explanation</p>
-
+				<p>
+					In order to implement a master-detail you need both a dataSet for the master region and a detailSet for the details region.
+				</p>
+				<p>
+					You need to pass two arguments to the detailSet's constructor:
+				</p>
+				<p>
+					<strong>uuid</strong> must be an identifier that is unique across the current page.
+				</p>
+				<p>
+					<strong>dataSet</strong> a reference to the master dataSet.
+				</p>
+				<p>
+					The detailSet will register itself as <a href="../docs/notifier.htm">observer</a> of the dataSet,
+					its data binded to the dataSet's current row. As soon as the current row in the dataSet changes,
+					the detailSet will reflect it.
+				</p>
 
 
 <pre><code class="line-numbers language-javascript">(function(){
@@ -80,11 +95,16 @@
 	});
 	// Details
 	var ladyDetails = new luga.data.DetailSet({uuid: "lady", dataSet: ladiesMaster});
+	// Fetch data only once the DOM is ready
 	jQuery(document).ready(function(){
 		ladiesMaster.loadData();
 	});
 }());
 </code></pre>
+				<p>
+					All in all, the detailSet is a much discrete object compared to the dataSet, its <a href="api.htm">API</a> reflect its smaller scope.
+					A detailSet sole purpose is to be used in a master-details GUI.
+				</p>
 
 			</div>
 		</div>
@@ -92,10 +112,38 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">Master</div>
 			<div class="panel-body">
+
+			<p>
+				For the master region you want the ability to click on each single record and change the dataSet's current row accordingly.
+				This will be automatically reflected inside the detail region, since the detailSet is binded to the current row.
+				This feature is available as one of the build-in <a href="../region/traits.htm">traits</a>.
+				The trait used here is setrowid and you can apply the relevant attribute to any HTML tag inside the region:
+			</p>
+
+<pre><code class="line-numbers language-markup">&lt;script id="masterTemplate" type="text/x-handlebars-template"&gt;
+	&lt;ul class="luga-docs-list"&gt;
+		{{#each entities}}
+			&lt;li&gt;&lt;a href="#" data-lugads-setrowid="{{lugaRowId}}"&gt;{{lastName}}&lt;/a&gt;&lt;/li&gt;
+		{{/each}}
+	&lt;/ul&gt;
+&lt;/script&gt;
+
+&lt;div data-lugads-region="masterRegion"
+	 data-lugads-datasource-uuid="ladies"
+	 data-lugads-template-id="masterTemplate"&gt;&lt;/div&gt;
+</code></pre>
+
+				<div class="alert alert-info" role="alert">
+					<strong>Heads up!</strong><br>
+					Pay attention to the <strong>lugaRowId</strong> field used here. This is a special field added by the dataSet,
+					It's kind of an artificial primary key, holding a unique value that can be used whenever you need to refer to a specific row inside the dataSet.
+				</div>
+
 				<div data-lugads-region="masterRegion"
 					 data-lugads-datasource-uuid="ladies"
 					 data-lugads-template-id="masterTemplate"></div>
 			</div>
+
 		</div>
 
 		<div class="panel panel-default">
@@ -107,7 +155,9 @@
 					 data-lugads-template-id="detailsTemplate"></div>
 
 				<p>
-					The code for the detail region is pretty much straightforward, just keep in mind that you are dealing with a single entity here, not a collection of entities.
+					The code for the detail region is pretty much straightforward, a region can render data coming either from a detailSet or a dataSet,
+					They are both valida datasources.
+					Just keep in mind that you are dealing with a single entity here, not a collection of entities.
 					Your template should reflect this:
 				</p>
 				

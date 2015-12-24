@@ -12,7 +12,7 @@
 			<a href="../docs/notifier.htm">Notifier/Observer</a>
 		</li>
 
-		<li class="luga-docs-list-heading list-group-item">Dataset</li>
+		<li class="luga-docs-list-heading list-group-item">DataSet</li>
 		<li class="list-group-item">
 			<a href="../dataset/getting-started.htm">Getting started</a>
 		</li>
@@ -32,7 +32,7 @@
 			<a href="../dataset/api.htm">API Syntax reference</a>
 		</li>
 
-		<li class="luga-docs-list-heading list-group-item">JSON Dataset</li>
+		<li class="luga-docs-list-heading list-group-item">JSON DataSet</li>
 		<li class="list-group-item">
 			<a href="../json-dataset/getting-started.htm">Getting started</a>
 		</li>
