@@ -156,7 +156,7 @@ describe("luga.data.region.Base", function(){
 							node: testDiv,
 							dsUuid: "testDs",
 							templateId: "ladiesTemplate",
-							traits: "window.regionBaseMockTraitOne"
+							traits: ["window.regionBaseMockTraitOne"]
 						});
 						expect(region.traits.indexOf("window.regionBaseMockTraitOne")).not.toEqual(-1);
 					});
@@ -165,7 +165,7 @@ describe("luga.data.region.Base", function(){
 							node: testDiv,
 							dsUuid: "testDs",
 							templateId: "ladiesTemplate",
-							traits: "window.regionBaseMockTraitOne,window.regionBaseMockTraitTwo"
+							traits: ["window.regionBaseMockTraitOne", "window.regionBaseMockTraitTwo"]
 						});
 						expect(region.traits.indexOf("window.regionBaseMockTraitOne")).not.toEqual(-1);
 						expect(region.traits.indexOf("window.regionBaseMockTraitTwo")).not.toEqual(-1);

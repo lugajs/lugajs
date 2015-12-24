@@ -13,7 +13,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.3.1";
+	luga.data.version = "0.3.2";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -1239,7 +1239,7 @@ if(typeof(luga) === "undefined"){
 	 * @property {jquery} node                                Either a jQuery object wrapping the node or the naked DOM object that will contain the region. Required
 	 * @property {luga.data.DataSet|luga.data.DetailSet} ds   DataSource. Required if dsId is not specified
 	 * @property {string} dsUuid                              DataSource's uuid. Can be specified inside the data-lugads-datasource attribute too. Required if ds is not specified
-	 * @property {{array.<string>} traits                     An array of function names that will be called every time the Region is rendered. Optional
+	 * @property {array.<string>} traits                      An array of function names that will be called every time the Region is rendered. Optional
 	 * @property {string} templateId                          Id of HTML element containing the template. Can be specified inside the data-lugads-template attribute too.
 	 *                                                        If not available it assumes the node contains the template
 	 */
@@ -1307,7 +1307,7 @@ if(typeof(luga) === "undefined"){
 			this.traits = this.traits.concat(attrTraits.split(","));
 		}
 		if(this.config.traits !== null){
-			this.traits = this.traits.concat(this.config.traits.split(","));
+			this.traits = this.traits.concat(this.config.traits);
 		}
 
 		// Store reference inside node
