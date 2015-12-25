@@ -37,9 +37,50 @@
 			<div class="panel-heading">API Syntax reference</div>
 			<div class="panel-body">
 				<p>
-					TODO
+
 				</p>
 			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div id="clearFilter" class="panel-heading luga-docs-api-heading">.clearFilter()</div>
+			<div class="panel-body">
+				<p>
+					Remove the current filter function from the dataSet, then triggers a "dataChanged" notification.
+					<a href="filter.htm">See examples</a>
+				</p>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div id="getContext" class="panel-heading luga-docs-api-heading">.setFilter(filter)</div>
+			<div class="panel-body">
+				<p>
+					Replace current filter with a new filter functions, apply the new filter, then triggers a "dataChanged" notification.
+				</p>
+				<p>
+					The filter function is used to non-destructively filter the dataSet based on the function return value.
+					The function is called once for each row in the dataSet.
+					If the filter wishes to add the row to the filtered view of the dataSet, then it must return the row object passed into the function.
+					If it does not want the row to be in the filtered view of the dataSet, then it must return null.
+				</p>
+				<p>
+					<a href="filter.htm">See examples</a>
+				</p>
+			</div>
+			<table class="table table-bordered luga-docs-api">
+				<th colspan="3">Parameters</th>
+				<tr>
+					<td>filter</td>
+					<td>
+						{function}
+					</td>
+					<td>
+						A filter functions to be called once for each row in the data set. Required.
+						The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
+					</td>
+				</tr>
+			</table>
 		</div>
 
 	</div>
