@@ -258,6 +258,10 @@
 		 * @return {number}
 		 */
 		this.getRecordsCount = function(){
+			var allRecords = selectAll();
+			if(allRecords === null){
+				return 0;
+			}
 			return selectAll().length;
 		};
 
@@ -376,14 +380,15 @@
 		this.resetCurrentRow = function(){
 			// We have a filter
 			if(hasFilter() === true){
+				if(this.filteredRecords === null){
+					this.setCurrentRowId(null);
+					return;
+				}
 				if(this.filteredRecords.length > 0){
 					// First among the filtered records
 					this.setCurrentRowId(this.filteredRecords[0][luga.data.CONST.PK_KEY]);
+					return;
 				}
-				else{
-					this.setCurrentRowId(null);
-				}
-				return;
 			}
 			// No filter
 			if(this.records.length > 0){
