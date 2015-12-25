@@ -34,11 +34,63 @@
 	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
 		<div class="panel panel-default">
-			<div class="panel-heading">Title</div>
+			<div class="panel-heading">luga.data.DataSet</div>
 			<div class="panel-body">
 				<p>
-					TODO
+					The dataSet is the most important object in Luga Data, you need to understand it well in order to use the library to its full potential.
+					At its core the dataSet holds an array of objects and let you access them using a common <a href="api.htm">API</a>.
+					It also support <a href="databinding-basic.htm">binding</a> and <a href="../region/handlebars.htm">HTML templating</a>.
 				</p>
+				<p>
+					In order to instantiate an empty dataSet you just call its constructor.
+					The only required parameter is the uuid, an identifier that must be unique and can be used for binding data to <a href="../region/getting-started.htm">regions</a>.
+				</p>
+
+<pre><code class="language-javascript">var testDs = new luga.data.DataSet({uuid: "test"});</code></pre>
+
+				 <p>
+					 Now you can add one record to it:
+				 </p>
+
+<pre><code class="language-javascript">testDs.insert({
+	"firstName": "Nicole",
+	"lastName": "Kidman"
+});</code></pre>
+
+				<p>
+				   You can keep adding data, passing an array of objects, to load them all in one single swap:
+				</p>
+
+<pre><code class="language-javascript">testDs.insert([
+	{ "firstName": "Kate", "lastName": "Beckinsale" },
+	{ "firstName": "Jennifer", "lastName": "Connelly" },
+	{ "firstName": "Salma", "lastName": "Hayek" }
+]);</code></pre>
+
+				<p>
+					Instead of adding data at run-time, we can add all of them upfront, passing them to the constructor:
+				</p>
+
+<pre><code class="language-javascript">var ladies = [
+	{ "firstName": "Nicole", "lastName": "Kidman" },
+	{ "firstName": "Kate", "lastName": "Beckinsale" },
+	{ "firstName": "Jennifer", "lastName": "Connelly" },
+	{ "firstName": "Salma", "lastName": "Hayek" }
+];
+var ladiesDs = new luga.data.DataSet({
+	uuid: "ladies",
+	records: ladies
+});
+</code></pre>
+
+
+				<div class="alert alert-info" role="alert">
+					<strong>Heads up!</strong><br>
+					luga.data.DataSet is the base dataSet class, other classes inherit from it.
+					Very often you may want to consume JSON data from REST endpoint, loading data from an URL.
+					In such cases you should use a <a href="../json-dataset/getting-started.htm">JSON DataSet</a>.
+				</div>
+
 			</div>
 		</div>
 

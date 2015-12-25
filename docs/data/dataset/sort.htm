@@ -40,9 +40,25 @@
 				path: "jazzPlayers"
 			});
 
+			var dateFilter = function(dataSet, row, rowIndex){
+				var dateObj = new Date(row.birthDate);
+				// Turn date into a reasonable string rapresentation
+				// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toUTCString
+				var dateStr = dateObj.toUTCString();
+				row.birthDateFormatted = dateStr;
+				return row;
+			};
+
+			var ladies = new luga.data.JsonDataSet({
+				uuid: "ladiesDate",
+				url: "../../../test/fixtures/data/ladies.json",
+				filter: dateFilter
+			});
+
 			jQuery(document).ready(function(){
 				ladiesMaster.loadData();
 				jazzPlayers.loadData();
+				ladies.loadData();
 			});
 		}());
 	</script>
@@ -99,6 +115,23 @@
 		</table>
 	</script>
 
+	<script id="ladiesTemplate" type="text/x-handlebars-template">
+		<table class="table table-bordered table-striped">
+			<th>
+				Name
+			</th>
+			<th>
+				<a href="#" data-lugads-sort="birthDate">Birth date</a>
+			</th>
+			{{#each entities}}
+			<tr>
+				<td>{{firstName}} {{lastName}}</td>
+				<td>{{birthDateFormatted}}</td>
+			</tr>
+			{{/each}}
+		</table>
+	</script>
+
 </head>
 
 <body class="luga-docs">
@@ -119,17 +152,14 @@
 			<div class="panel-heading">Master</div>
 			<div class="panel-body">
 				
-		<div data-lugads-region="masterRegion" data-lugads-datasource-uuid="ladies"
+		<div data-lugads-region="masterRegion"
+			 data-lugads-datasource-uuid="ladies"
 			 data-lugads-template-id="masterTemplate"></div>
-			</div>
-		</div>
 
-		<div class="panel panel-default">
-			<div class="panel-heading">Details</div>
-			<div class="panel-body">
+			<div data-lugads-region="detailsRegion"
+				 data-lugads-datasource-uuid="lady"
+				 data-lugads-template-id="detailsTemplate"></div>
 
-				<div data-lugads-region="detailsRegion" data-lugads-datasource-uuid="lady"
-					 data-lugads-template-id="detailsTemplate"></div>
 			</div>
 		</div>
 
@@ -141,8 +171,23 @@
 					TODO: write explanation
 				</p>
 
-				<div data-lugads-region="playersRegion" data-lugads-datasource-uuid="players"
+				<div data-lugads-region="playersRegion"
+					 data-lugads-datasource-uuid="players"
 					 data-lugads-template-id="playersTemplate"></div>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div id="dateSort" class="panel-heading">Sort on a different field</div>
+			<div class="panel-body">
+
+				<p>
+					TODO: write explanation
+				</p>
+
+				<div data-lugads-region="ladiessRegion"
+					 data-lugads-datasource-uuid="ladiesDate"
+					 data-lugads-template-id="ladiesTemplate"></div>
 			</div>
 		</div>
 

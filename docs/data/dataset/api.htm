@@ -34,12 +34,57 @@
 	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
 		<div class="panel panel-default">
-			<div class="panel-heading">API Syntax reference</div>
+			<div id="constructor" class="panel-heading luga-docs-api-heading">luga.data.DataSet(options)</div>
 			<div class="panel-body">
 				<p>
+					DataSet's constructor. This class triggers the following notifications:
+
+				<ul class="luga-docs-list">
+				    <li>"dataChanged" every time its data changes.</li>
+					<li>"currentRowChanged" every time its currentRow changes.</li>
+					<li>"dataSorted" once its data is sorted.</li>
+					<li>"preDataSorted" before it attempts to sort its data.</li>
+				</ul>
 
 				</p>
 			</div>
+			<table class="table table-bordered luga-docs-api">
+				<th colspan="3">Parameters</th>
+				<tr>
+					<td>options.uuid</td>
+					<td>
+						{string}
+					</td>
+					<td>
+						Unique identifier. Required
+					</td>
+				</tr>
+				<tr>
+					<td>options.records</td>
+					<td style="white-space: nowrap">
+						{array.&lt;object&gt;|object}
+					</td>
+					<td>
+						Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs. Optional.
+					</td>
+				</tr>
+				<tr>
+					<td>options.filter</td>
+					<td>
+						{function}
+					</td>
+					<td>
+						A filter functions to be called once for each row in the dataSet. Default to null.
+					</td>
+				</tr>
+			</table>
+			<table class="table table-bordered luga-docs-api">
+				<th>Examples</th>
+			</table>
+
+<pre><code class="line-numbers language-javascript">var testDs = new luga.data.DataSet({uuid: "test"});
+</code></pre>
+
 		</div>
 
 		<div class="panel panel-default">
@@ -76,7 +121,7 @@
 						{function}
 					</td>
 					<td>
-						A filter functions to be called once for each row in the data set. Required.
+						A filter functions to be called once for each row in the data set. Required.<br>
 						The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
 					</td>
 				</tr>

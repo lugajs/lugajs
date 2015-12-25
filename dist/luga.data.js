@@ -13,7 +13,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.3.2";
+	luga.data.version = "0.3.3";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -500,7 +500,7 @@ if(typeof(luga) === "undefined"){
 		this.resetCurrentRow = function(){
 			// We have a filter
 			if(hasFilter() === true){
-				if(this.filteredRecords === null){
+				if((this.filteredRecords === null) || (this.filteredRecords.length === 0)){
 					this.setCurrentRowId(null);
 					return;
 				}

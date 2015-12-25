@@ -380,7 +380,7 @@
 		this.resetCurrentRow = function(){
 			// We have a filter
 			if(hasFilter() === true){
-				if(this.filteredRecords === null){
+				if((this.filteredRecords === null) || (this.filteredRecords.length === 0)){
 					this.setCurrentRowId(null);
 					return;
 				}
