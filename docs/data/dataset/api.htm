@@ -61,7 +61,7 @@
 				</tr>
 				<tr>
 					<td>options.records</td>
-					<td style="white-space: nowrap">
+					<td class="luga-docs-type">
 						{array.&lt;object&gt;|object}
 					</td>
 					<td>
@@ -95,6 +95,44 @@
 					<a href="filter.htm">See examples</a>
 				</p>
 			</div>
+		</div>
+
+		<div id="insert" class="panel panel-default">
+			<div class="panel-heading luga-docs-api-heading">.insert(records)</div>
+			<div class="panel-body">
+				Adds rows to a dataSet, then triggers a "dataChanged" notification.
+				Be aware that the dataSet use passed data by reference.
+				That is, it uses those objects as its row object internally. It does not make a copy.
+			</div>
+			<table class="table table-bordered luga-docs-api">
+				<th colspan="3">Parameters</th>
+				<tr>
+					<td>records</td>
+					<td class="luga-docs-type">
+						{array.&lt;object&gt;|object}
+					</td>
+					<td>
+						Records to be loaded, either one single object containing value/name pairs, or an array of objects. Required
+					</td>
+				</tr>
+			</table>
+			<table class="table table-bordered luga-docs-api">
+				<th>Examples</th>
+			</table>
+
+<pre><code class="language-javascript">var testDs = new luga.data.DataSet({uuid: "test"});
+ // Add one single record
+testDs.insert({
+	"firstName": "Nicole",
+	"lastName": "Kidman"
+});
+// Add more records in one single pass
+testDs.insert([
+	{ "firstName": "Kate", "lastName": "Beckinsale" },
+	{ "firstName": "Jennifer", "lastName": "Connelly" },
+	{ "firstName": "Salma", "lastName": "Hayek" }
+]);</code></pre>
+
 		</div>
 
 		<div class="panel panel-default">

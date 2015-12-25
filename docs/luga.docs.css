@@ -228,6 +228,10 @@ table.luga-docs-api th {
 	color: #3362B4;
 }
 
+table.luga-docs-api .luga-docs-type {
+	white-space: nowrap;
+}
+
 table.luga-docs-attributes th {
 	background: #7C93BA;
 	color: #FFFFFF;

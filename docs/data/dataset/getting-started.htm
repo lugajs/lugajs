@@ -39,7 +39,7 @@
 				<p>
 					The dataSet is the most important object in Luga Data, you need to understand it well in order to use the library to its full potential.
 					At its core the dataSet holds an array of objects and let you access them using a common <a href="api.htm">API</a>.
-					It also support <a href="databinding-basic.htm">binding</a> and <a href="../region/handlebars.htm">HTML templating</a>.
+					It also support <a href="databinding.htm">binding</a> and <a href="../region/handlebars.htm">HTML templating</a>.
 				</p>
 				<p>
 					In order to instantiate an empty dataSet you just call its constructor.
@@ -52,7 +52,7 @@
 					 Now you can add one record to it:
 				 </p>
 
-<pre><code class="language-javascript">testDs.insert({
+<pre><code class="line-numbers language-javascript">testDs.insert({
 	"firstName": "Nicole",
 	"lastName": "Kidman"
 });</code></pre>
@@ -61,17 +61,17 @@
 				   You can keep adding data, passing an array of objects, to load them all in one single swap:
 				</p>
 
-<pre><code class="language-javascript">testDs.insert([
+<pre><code class="line-numbers language-javascript">testDs.insert([
 	{ "firstName": "Kate", "lastName": "Beckinsale" },
 	{ "firstName": "Jennifer", "lastName": "Connelly" },
 	{ "firstName": "Salma", "lastName": "Hayek" }
 ]);</code></pre>
 
 				<p>
-					Instead of adding data at run-time, we can add all of them upfront, passing them to the constructor:
+					Instead of adding data at run-time, you can add all of them upfront, passing them to the constructor:
 				</p>
 
-<pre><code class="language-javascript">var ladies = [
+<pre><code class="line-numbers language-javascript">var ladiesData = [
 	{ "firstName": "Nicole", "lastName": "Kidman" },
 	{ "firstName": "Kate", "lastName": "Beckinsale" },
 	{ "firstName": "Jennifer", "lastName": "Connelly" },
@@ -79,10 +79,54 @@
 ];
 var ladiesDs = new luga.data.DataSet({
 	uuid: "ladies",
-	records: ladies
-});
-</code></pre>
+	records: ladiesData
+});</code></pre>
 
+				<p>
+					While a dataSet may reminds you of similar objects you used in Java, C# or PHP for managing data from RDBMS,
+					it's quite a different beast, since it's not limited to tabular data.
+					You can use it to handle a collection of database-like name/value pairs,
+					but you can also use any JSON object, containing more structured, tree-like  data:
+				</p>
+
+ <pre><code class="line-numbers language-javascript">var jazzMenData = [
+	 {
+	 "person": {
+		 "firstName": "John",
+		 "lastName": "Coltrane"
+	 },
+	 "country": "USA"
+	 },
+	 {
+	 "person": {
+		 "firstName": "Sonny",
+		 "lastName": "Rollins"
+	 },
+	 "country": "USA"
+	 },
+	 {
+	 "person": {
+		 "firstName": "Tete",
+		 "lastName": "Montoliu"
+	 },
+	 "country": "Spain"
+	 },
+	 {
+	 "person": {
+		 "firstName": "Dexter",
+		 "lastName": "Gordon"
+	 },
+	 "country": "USA"
+	 }
+];
+ var jazzDsDs = new luga.data.DataSet({
+	 uuid: "jazzMen",
+	 records: jazzMenData
+});</code></pre>
+
+				<p>
+					Now that you have a dataSet, loaded with data, it's time to move to the next step and try <a href="databinding.htm">binding</a>.
+				</p>
 
 				<div class="alert alert-info" role="alert">
 					<strong>Heads up!</strong><br>

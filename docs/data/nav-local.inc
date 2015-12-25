@@ -17,16 +17,13 @@
 			<a href="../dataset/getting-started.htm">Getting started</a>
 		</li>
 		<li class="list-group-item">
-			<a href="../dataset/databinding-basic.htm">Basic databinding</a>
+			<a href="../dataset/databinding.htm">Databinding</a>
 		</li>
 		<li class="list-group-item">
 			<a href="../dataset/filter.htm">Filtering</a>
 		</li>
 		<li class="list-group-item">
 			<a href="../dataset/sort.htm">Sorting</a>
-		</li>
-		<li class="list-group-item">
-			<a href="../dataset/without-region.htm">Without region</a>
 		</li>
 		<li class="list-group-item">
 			<a href="../dataset/api.htm">API Syntax reference</a>
