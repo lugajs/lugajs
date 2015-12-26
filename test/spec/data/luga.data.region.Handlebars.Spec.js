@@ -11,7 +11,7 @@ describe("luga.data.region.Handlebars", function(){
 		testRecords = getJSONFixture("data/ladies.json");
 		loadedDs = new luga.data.DataSet({uuid: "testDs", records: testRecords});
 		testDiv = jQuery("<div>Ciao Mamma</div>");
-		attributesDiv = jQuery("<div data-lugads-region='testRegion' data-lugads-datasource-uuid='testDs' data-lugads-template-id='ladiesTemplate' ></div>");
+		attributesDiv = jQuery("<div data-lugaregion='true' data-lugaregion-datasource-uuid='testDs' data-lugaregion-template-id='ladiesTemplate' ></div>");
 
 		configRegion = new luga.data.region.Handlebars({
 			node: testDiv,
@@ -46,7 +46,7 @@ describe("luga.data.region.Handlebars", function(){
 
 		describe("options.templateId either", function(){
 
-			it("Retrieves the value from the node's data-lugads-template custom attribute", function(){
+			it("Retrieves the value from the node's data-lugaregion-template custom attribute", function(){
 				expect(attributesRegion.config.templateId).toEqual("ladiesTemplate");
 			});
 			it("Uses the value specified inside the option argument", function(){

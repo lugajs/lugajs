@@ -41,7 +41,7 @@
 	<script id="masterTemplate" type="text/x-handlebars-template">
 		<ul class="luga-docs-list">
 			{{#each entities}}
-				<li><a href="#" data-lugads-setrowid="{{lugaRowId}}">{{lastName}}</a></li>
+				<li><a href="#" data-lugaregion-setrowid="{{lugaRowId}}">{{lastName}}</a></li>
 			{{/each}}
 		</ul>
 	</script>
@@ -123,14 +123,14 @@
 <pre><code class="line-numbers language-markup">&lt;script id="masterTemplate" type="text/x-handlebars-template"&gt;
 	&lt;ul class="luga-docs-list"&gt;
 		{{#each entities}}
-			&lt;li&gt;&lt;a href="#" data-lugads-setrowid="{{lugaRowId}}"&gt;{{lastName}}&lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" data-lugaregion-setrowid="{{lugaRowId}}"&gt;{{lastName}}&lt;/a&gt;&lt;/li&gt;
 		{{/each}}
 	&lt;/ul&gt;
 &lt;/script&gt;
 
-&lt;div data-lugads-region="masterRegion"
-	 data-lugads-datasource-uuid="ladies"
-	 data-lugads-template-id="masterTemplate"&gt;&lt;/div&gt;
+&lt;div data-lugaregion="true"
+	 data-lugaregion-datasource-uuid="ladies"
+	 data-lugaregion-template-id="masterTemplate"&gt;&lt;/div&gt;
 </code></pre>
 
 				<div class="alert alert-info" role="alert">
@@ -139,9 +139,9 @@
 					It's kind of an artificial primary key, holding a unique value that can be used whenever you need to refer to a specific row inside the dataSet.
 				</div>
 
-				<div data-lugads-region="masterRegion"
-					 data-lugads-datasource-uuid="ladies"
-					 data-lugads-template-id="masterTemplate"></div>
+				<div data-lugaregion="true"
+					 data-lugaregion-datasource-uuid="ladies"
+					 data-lugaregion-template-id="masterTemplate"></div>
 			</div>
 
 		</div>
@@ -150,9 +150,9 @@
 			<div class="panel-heading">Details</div>
 
 			<div class="panel-body">
-				<div data-lugads-region="detailsRegion"
-					 data-lugads-datasource-uuid="lady"
-					 data-lugads-template-id="detailsTemplate"></div>
+				<div data-lugaregion="true"
+					 data-lugaregion-datasource-uuid="lady"
+					 data-lugaregion-template-id="detailsTemplate"></div>
 
 				<p>
 					The code for the detail region is pretty much straightforward, a region can render data coming either from a detailSet or a dataSet,
@@ -171,9 +171,9 @@
 	&lt;/ul&gt;
 &lt;/script&gt;
 
-&lt;div data-lugads-region="detailsRegion"
-	 data-lugads-datasource-uuid="lady"
-	 data-lugads-template-id="detailsTemplate"&gt;&lt;/div&gt;	
+&lt;div data-lugaregion="true"
+	 data-lugaregion-datasource-uuid="lady"
+	 data-lugaregion-template-id="detailsTemplate"&gt;&lt;/div&gt;
 </code></pre>
 
 			</div>

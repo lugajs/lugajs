@@ -12,21 +12,21 @@
 
 	var CONST = {
 		CUSTOM_ATTRIBUTES: {
-			SELECT: "data-lugads-select",
-			SET_ROW_ID: "data-lugads-setrowid",
-			SET_ROW_INDEX: "data-lugads-setrowindex",
-			SORT: "data-lugads-sort"
+			SELECT: "data-lugaregion-select",
+			SET_ROW_ID: "data-lugaregion-setrowid",
+			SET_ROW_INDEX: "data-lugaregion-setrowindex",
+			SORT: "data-lugaregion-sort"
 		},
 		SELECTORS: {
-			SELECT: "*[data-lugads-select]",
-			SET_ROW_ID: "*[data-lugads-setrowid]",
-			SET_ROW_INDEX: "*[data-lugads-setrowindex]",
-			SORT: "*[data-lugads-sort]"
+			SELECT: "*[data-lugaregion-select]",
+			SET_ROW_ID: "*[data-lugaregion-setrowid]",
+			SET_ROW_INDEX: "*[data-lugaregion-setrowindex]",
+			SORT: "*[data-lugaregion-sort]"
 		}
 	};
 
 	/**
-	 * Handles data-lugads-select
+	 * Handles data-lugaregion-select
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.select = function(options){
@@ -57,7 +57,7 @@
 	};
 
 	/**
-	 * Handles data-lugads-setrowid
+	 * Handles data-lugaregion-setrowid
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.setRowId = function(options){
@@ -72,7 +72,7 @@
 	};
 
 	/**
-	 * Handles data-lugads-setrowindex
+	 * Handles data-lugaregion-setrowindex
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.setRowIndex = function(options){
@@ -87,7 +87,7 @@
 	};
 
 	/**
-	 * Handles data-lugads-sort
+	 * Handles data-lugaregion-sort
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.sort = function(options){

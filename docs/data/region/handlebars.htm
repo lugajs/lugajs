@@ -90,7 +90,7 @@
 					Certain browsers try to parse and render it. If you need tables, you better use embed or external templates.
 				</div>
 
-<pre><code class="line-numbers language-markup">&lt;div data-lugads-region="inlineTempalte" data-lugads-datasource-uuid="ladiesDs"&gt;
+<pre><code class="line-numbers language-markup">&lt;div data-lugaregion="true" data-lugaregion-datasource-uuid="ladiesDs"&gt;
 	&lt;ul class="luga-docs-list"&gt;
 		{{#each entities}}
 		&lt;li&gt;{{firstName}} {{lastName}}&lt;/li&gt;
@@ -99,7 +99,7 @@
 &lt;/div&gt;
 </code></pre>
 				
-				<div data-lugads-region="inlineTempalte" data-lugads-datasource-uuid="ladiesDs">
+				<div data-lugaregion="true" data-lugaregion-datasource-uuid="ladiesDs">
 					<ul class="luga-docs-list">
 						{{#each entities}}
 						<li>{{firstName}} {{lastName}}</li>
@@ -133,15 +133,15 @@
 </code></pre>
 
 				<p>
-					Then you use the data-lugads-template-id custom attribute inside the region:
+					Then you use the data-lugaregion-template-id custom attribute inside the region:
 				</p>
 
-<pre><code class="language-markup">&lt;div data-lugads-region="embedTemplate"
-	data-lugads-datasource-uuid="ladiesDs"
-	data-lugads-template-id="ladiesTemplate"&gt;&lt;/div&gt;
+<pre><code class="language-markup">&lt;div data-lugaregion="true"
+	data-lugaregion-datasource-uuid="ladiesDs"
+	data-lugaregion-template-id="ladiesTemplate"&gt;&lt;/div&gt;
 </code></pre>
 
-				<div data-lugads-region="embedTemplate" data-lugads-datasource-uuid="ladiesDs" data-lugads-template-id="ladiesTemplate"></div>
+				<div data-lugaregion="true" data-lugaregion-datasource-uuid="ladiesDs" data-lugaregion-template-id="ladiesTemplate"></div>
 			</div>
 		</div>
 
@@ -162,15 +162,15 @@
 </code></pre>
 
 				<p>
-					Then you use the data-lugads-template-id custom attribute inside the region, just like you do for embedded templates:
+					Then you use the data-lugaregion-template-id custom attribute inside the region, just like you do for embedded templates:
 				</p>
 
-<pre><code class="language-markup">&lt;div data-lugads-region="externalTemplate"
-	data-lugads-datasource-uuid="ladiesDs"
-	data-lugads-template-id="ladiesTable"&gt;&lt;/div&gt;
+<pre><code class="language-markup">&lt;div data-lugaregion="true"
+	data-lugaregion-datasource-uuid="ladiesDs"
+	data-lugaregion-template-id="ladiesTable"&gt;&lt;/div&gt;
 </code></pre>
 
-				<div data-lugads-region="externalTemplate" data-lugads-datasource-uuid="ladiesDs" data-lugads-template-id="ladiesTable"></div>
+				<div data-lugaregion="true" data-lugaregion-datasource-uuid="ladiesDs" data-lugaregion-template-id="ladiesTable"></div>
 			</div>
 		</div>
 

@@ -5,12 +5,12 @@
 
 	luga.data.region.CONST = {
 		CUSTOM_ATTRIBUTES: {
-			DATA_SOURCE_UUID: "data-lugads-datasource-uuid",
-			REGION: "data-lugads-region",
-			REGION_REFERENCE: "luga-region-reference",
-			REGION_TYPE: "data-lugads-regiontype",
-			TEMPLATE_ID: "data-lugads-template-id",
-			TRAITS: "data-lugads-traits"
+			DATA_SOURCE_UUID: "data-lugaregion-datasource-uuid",
+			REGION: "data-lugaregion",
+			REGION_TYPE: "data-lugaregion-type",
+			TEMPLATE_ID: "data-lugaregion-template-id",
+			TRAITS: "data-lugaregion-traits",
+			REGION_REFERENCE: "luga-region-reference"
 		},
 		DEFAULT_REGION_TYPE: "luga.data.region.Handlebars",
 		DEFAULT_TRAITS: [
@@ -20,7 +20,7 @@
 			"luga.data.region.traits.sort"
 		],
 		ERROR_MESSAGES: {
-			MISSING_DATA_SOURCE_ATTRIBUTE: "Missing required data-lugads-datasource-uuid attribute inside region",
+			MISSING_DATA_SOURCE_ATTRIBUTE: "Missing required data-lugaregion-datasource-uuid attribute inside region",
 			MISSING_DATA_SOURCE: "Unable to find datasource {0}",
 			MISSING_REGION_TYPE_FUNCTION: "Failed to create region. Unable to find a constructor function named: {0}"
 		},
@@ -28,7 +28,7 @@
 			REGION_RENDERED: "regionRendered"
 		},
 		SELECTORS: {
-			REGION: "*[data-lugads-region]"
+			REGION: "*[data-lugaregion='true']"
 		}
 	};
 

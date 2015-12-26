@@ -1145,12 +1145,12 @@ if(typeof(luga) === "undefined"){
 
 	luga.data.region.CONST = {
 		CUSTOM_ATTRIBUTES: {
-			DATA_SOURCE_UUID: "data-lugads-datasource-uuid",
-			REGION: "data-lugads-region",
-			REGION_REFERENCE: "luga-region-reference",
-			REGION_TYPE: "data-lugads-regiontype",
-			TEMPLATE_ID: "data-lugads-template-id",
-			TRAITS: "data-lugads-traits"
+			DATA_SOURCE_UUID: "data-lugaregion-datasource-uuid",
+			REGION: "data-lugaregion",
+			REGION_TYPE: "data-lugaregion-type",
+			TEMPLATE_ID: "data-lugaregion-template-id",
+			TRAITS: "data-lugaregion-traits",
+			REGION_REFERENCE: "luga-region-reference"
 		},
 		DEFAULT_REGION_TYPE: "luga.data.region.Handlebars",
 		DEFAULT_TRAITS: [
@@ -1160,7 +1160,7 @@ if(typeof(luga) === "undefined"){
 			"luga.data.region.traits.sort"
 		],
 		ERROR_MESSAGES: {
-			MISSING_DATA_SOURCE_ATTRIBUTE: "Missing required data-lugads-datasource-uuid attribute inside region",
+			MISSING_DATA_SOURCE_ATTRIBUTE: "Missing required data-lugaregion-datasource-uuid attribute inside region",
 			MISSING_DATA_SOURCE: "Unable to find datasource {0}",
 			MISSING_REGION_TYPE_FUNCTION: "Failed to create region. Unable to find a constructor function named: {0}"
 		},
@@ -1168,7 +1168,7 @@ if(typeof(luga) === "undefined"){
 			REGION_RENDERED: "regionRendered"
 		},
 		SELECTORS: {
-			REGION: "*[data-lugads-region]"
+			REGION: "*[data-lugaregion='true']"
 		}
 	};
 
@@ -1243,9 +1243,9 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @property {jquery} node                                Either a jQuery object wrapping the node or the naked DOM object that will contain the region. Required
 	 * @property {luga.data.DataSet|luga.data.DetailSet} ds   DataSource. Required if dsId is not specified
-	 * @property {string} dsUuid                              DataSource's uuid. Can be specified inside the data-lugads-datasource attribute too. Required if ds is not specified
+	 * @property {string} dsUuid                              DataSource's uuid. Can be specified inside the data-lugaregion-datasource attribute too. Required if ds is not specified
 	 * @property {array.<string>} traits                      An array of function names that will be called every time the Region is rendered. Optional
-	 * @property {string} templateId                          Id of HTML element containing the template. Can be specified inside the data-lugads-template attribute too.
+	 * @property {string} templateId                          Id of HTML element containing the template. Can be specified inside the data-lugaregion-template attribute too.
 	 *                                                        If not available it assumes the node contains the template
 	 */
 
@@ -1468,21 +1468,21 @@ if(typeof(luga) === "undefined"){
 
 	var CONST = {
 		CUSTOM_ATTRIBUTES: {
-			SELECT: "data-lugads-select",
-			SET_ROW_ID: "data-lugads-setrowid",
-			SET_ROW_INDEX: "data-lugads-setrowindex",
-			SORT: "data-lugads-sort"
+			SELECT: "data-lugaregion-select",
+			SET_ROW_ID: "data-lugaregion-setrowid",
+			SET_ROW_INDEX: "data-lugaregion-setrowindex",
+			SORT: "data-lugaregion-sort"
 		},
 		SELECTORS: {
-			SELECT: "*[data-lugads-select]",
-			SET_ROW_ID: "*[data-lugads-setrowid]",
-			SET_ROW_INDEX: "*[data-lugads-setrowindex]",
-			SORT: "*[data-lugads-sort]"
+			SELECT: "*[data-lugaregion-select]",
+			SET_ROW_ID: "*[data-lugaregion-setrowid]",
+			SET_ROW_INDEX: "*[data-lugaregion-setrowindex]",
+			SORT: "*[data-lugaregion-sort]"
 		}
 	};
 
 	/**
-	 * Handles data-lugads-select
+	 * Handles data-lugaregion-select
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.select = function(options){
@@ -1513,7 +1513,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Handles data-lugads-setrowid
+	 * Handles data-lugaregion-setrowid
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.setRowId = function(options){
@@ -1528,7 +1528,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Handles data-lugads-setrowindex
+	 * Handles data-lugaregion-setrowindex
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.setRowIndex = function(options){
@@ -1543,7 +1543,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Handles data-lugads-sort
+	 * Handles data-lugaregion-sort
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.sort = function(options){

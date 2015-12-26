@@ -67,13 +67,13 @@
 	<script id="masterTemplate" type="text/x-handlebars-template">
 		<table class="table table-bordered table-striped">
 			<th>
-				<a href="#" data-lugads-sort="firstName">First name</a>
+				<a href="#" data-lugaregion-sort="firstName">First name</a>
 			</th>
 			<th>
-				<a href="#" data-lugads-sort="lastName">Last name</a>
+				<a href="#" data-lugaregion-sort="lastName">Last name</a>
 			</th>
 			<th>
-				<a href="#" data-lugads-sort="country">Country</a>
+				<a href="#" data-lugaregion-sort="country">Country</a>
 			</th>
 			{{#each entities}}
 			<tr>
@@ -98,13 +98,13 @@
 	<script id="playersTemplate" type="text/x-handlebars-template">
 		<table class="table table-bordered table-striped">
 			<th>
-				<a href="#" data-lugads-sort="person.firstName">person.firstName</a>
+				<a href="#" data-lugaregion-sort="person.firstName">person.firstName</a>
 			</th>
 			<th>
-				<a href="#" data-lugads-sort="person.lastName">person.lastName</a>
+				<a href="#" data-lugaregion-sort="person.lastName">person.lastName</a>
 			</th>
 			<th>
-				<a href="#" data-lugads-sort="country">Country</a>
+				<a href="#" data-lugaregion-sort="country">Country</a>
 			</th>
 			{{#each entities}}
 			<tr>
@@ -122,7 +122,7 @@
 				Name
 			</th>
 			<th>
-				<a href="#" data-lugads-sort="birthDate">Birth date</a>
+				<a href="#" data-lugaregion-sort="birthDate">Birth date</a>
 			</th>
 			{{#each entities}}
 			<tr>
@@ -157,13 +157,13 @@
 					TODO: write explanation
 				</p>
 				
-				<div data-lugads-region="masterRegion"
-					 data-lugads-datasource-uuid="ladies"
-					 data-lugads-template-id="masterTemplate"></div>
+				<div data-lugaregion="true"
+					 data-lugaregion-datasource-uuid="ladies"
+					 data-lugaregion-template-id="masterTemplate"></div>
 
-				<div data-lugads-region="detailsRegion"
-					 data-lugads-datasource-uuid="lady"
-					 data-lugads-template-id="detailsTemplate"></div>
+				<div data-lugaregion="true"
+					 data-lugaregion-datasource-uuid="lady"
+					 data-lugaregion-template-id="detailsTemplate"></div>
 
 			</div>
 		</div>
@@ -176,9 +176,9 @@
 					TODO: write explanation
 				</p>
 
-				<div data-lugads-region="playersRegion"
-					 data-lugads-datasource-uuid="players"
-					 data-lugads-template-id="playersTemplate"></div>
+				<div data-lugaregion="true"
+					 data-lugaregion-datasource-uuid="players"
+					 data-lugaregion-template-id="playersTemplate"></div>
 			</div>
 		</div>
 
@@ -190,9 +190,9 @@
 					TODO: write explanation
 				</p>
 
-				<div data-lugads-region="ladiessRegion"
-					 data-lugads-datasource-uuid="ladiesDate"
-					 data-lugads-template-id="ladiesTemplate"></div>
+				<div data-lugaregion="true"
+					 data-lugaregion-datasource-uuid="ladiesDate"
+					 data-lugaregion-template-id="ladiesTemplate"></div>
 			</div>
 		</div>
 

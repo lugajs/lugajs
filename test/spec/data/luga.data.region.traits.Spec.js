@@ -26,7 +26,7 @@ describe("luga.data.region.traits", function(){
 
 	describe(".select()", function(){
 
-		describe("Handles the data-lugads-select custom attribute", function(){
+		describe("Handles the data-lugaregion-select custom attribute", function(){
 
 			it("Attach the specified CSS class to the first row inside the region", function(){
 				var testDiv = jQuery("#select");
@@ -59,7 +59,7 @@ describe("luga.data.region.traits", function(){
 
 	describe(".setRowId()", function(){
 
-		describe("Handles the data-lugads-setrowid custom attribute", function(){
+		describe("Handles the data-lugaregion-setrowid custom attribute", function(){
 
 			it("Attach a onclick='dataSource.setCurrentRowId(rowId)' event to each HTML tag containing it", function(){
 				spyOn(ladiesDs, "setCurrentRowId");
@@ -84,7 +84,7 @@ describe("luga.data.region.traits", function(){
 
 	describe(".setRowIndex()", function(){
 
-		describe("Handles the data-lugads-setrowid custom attribute", function(){
+		describe("Handles the data-lugaregion-setrowid custom attribute", function(){
 
 			it("Attach a onclick='dataSource.setCurrentRowIndex(rowIndex)' event to each HTML tag containing it", function(){
 				spyOn(ladiesDs, "setCurrentRowIndex");
@@ -109,7 +109,7 @@ describe("luga.data.region.traits", function(){
 
 	describe(".sort()", function(){
 
-		describe("Handles the data-lugads-sort custom attribute", function(){
+		describe("Handles the data-lugaregion-sort custom attribute", function(){
 
 			it("Attach a onclick='dataSource.sort(columnName)' event to each HTML tag containing it", function(){
 				spyOn(ladiesDs, "sort");

@@ -109,13 +109,13 @@
 					using templating at all.
 				</p>
 				<p>
-					Add the data-lugads-regiontype attribute with a value that matches an existing JavaScript
+					Add the data-lugaregion-type attribute with a value that matches an existing JavaScript
 					constructor function:
 				</p>
-<pre><code class="language-markup">&lt;div data-lugads-region="detailsRegion"
-	 data-lugads-datasource-uuid="lady"
-	 data-lugads-template-id="detailsTemplate"
-	 data-lugads-regiontype="underscoreTemplate"&gt;&lt/div&gt;</code></pre>
+<pre><code class="language-markup">&lt;div data-lugaregion="true"
+	 data-lugaregion-datasource-uuid="lady"
+	 data-lugaregion-template-id="detailsTemplate"
+	 data-lugaregion-type="underscoreTemplate"&gt;&lt/div&gt;</code></pre>
 				<p>
 					The constructor should extend the luga.data.region.Base class and override its render() method:
 				</p>
@@ -149,7 +149,7 @@ var underscoreTemplate = function(options){
 
 				<p>
 					For default rendering, using Handlebars as template engine, there is no need to specify the
-					data-lugads-regiontype attribute, since luga.data.Region is used by default.
+					data-lugaregion-type attribute, since luga.data.Region is used by default.
 				</p>
 			</div>
 		</div>
@@ -157,17 +157,17 @@ var underscoreTemplate = function(options){
 		<div class="panel panel-default">
 			<div class="panel-heading">Master (with no templating)</div>
 			<div class="panel-body">
-				<div data-lugads-region="masterRegion" data-lugads-datasource-uuid="ladies"
-					 data-lugads-regiontype="customRegion"></div>
+				<div data-lugaregion="true" data-lugaregion-datasource-uuid="ladies"
+					 data-lugaregion-type="customRegion"></div>
 			</div>
 		</div>
 
 		<div class="panel panel-default">
 			<div class="panel-heading">Details (with Underscore JS template)</div>
 			<div class="panel-body">
-				<div data-lugads-region="detailsRegion" data-lugads-datasource-uuid="lady"
-					 data-lugads-template-id="detailsTemplate"
-					 data-lugads-regiontype="underscoreTemplate"></div>
+				<div data-lugaregion="true" data-lugaregion-datasource-uuid="lady"
+					 data-lugaregion-template-id="detailsTemplate"
+					 data-lugaregion-type="underscoreTemplate"></div>
 			</div>
 		</div>
 

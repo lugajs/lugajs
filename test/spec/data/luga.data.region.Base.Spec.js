@@ -13,7 +13,7 @@ describe("luga.data.region.Base", function(){
 		testRecords = getJSONFixture("data/ladies.json");
 		loadedDs = new luga.data.DataSet({uuid: "testDs", records: testRecords});
 		testDiv = jQuery("<div>Ciao Mamma</div>");
-		attributesDiv = jQuery("<div data-lugads-region='testRegion' data-lugads-datasource-uuid='testDs' data-lugads-template='ladiesTemplate' ></div>");
+		attributesDiv = jQuery("<div data-lugaregion='true' data-lugaregion-datasource-uuid='testDs' data-lugaregion-template='ladiesTemplate' ></div>");
 
 		configRegion = new luga.data.region.Base({
 			node: testDiv,
@@ -73,7 +73,7 @@ describe("luga.data.region.Base", function(){
 			});
 
 			describe("either:", function(){
-				it("Points to the HTML node using the data-lugads-region custom attribute", function(){
+				it("Points to the HTML node using the data-lugaregion custom attribute", function(){
 					expect(attributesRegion.config.node).toEqual(attributesDiv);
 				});
 				it("Uses the value specified inside the option argument", function(){
@@ -114,7 +114,7 @@ describe("luga.data.region.Base", function(){
 			});
 
 			describe("either:", function(){
-				it("Retrieves the value from the node's data-lugads-datasource custom attribute", function(){
+				it("Retrieves the value from the node's data-lugaregion-datasource custom attribute", function(){
 					expect(attributesRegion.config.dsUuid).toEqual("testDs");
 				});
 				it("Uses the value specified inside the option argument", function(){
@@ -133,15 +133,15 @@ describe("luga.data.region.Base", function(){
 
 			describe("either:", function(){
 
-				describe("Retrieves the value from the node's data-lugads-traits custom attribute:", function(){
+				describe("Retrieves the value from the node's data-lugaregion-traits custom attribute:", function(){
 
 					it("Containing a single function's name", function(){
-						var regionNode = jQuery("<div data-lugads-region='testRegion' data-lugads-datasource-uuid='testDs' data-lugads-traits='window.regionBaseMockTraitOne'></div>");
+						var regionNode = jQuery("<div data-lugaregion='true' data-lugaregion-datasource-uuid='testDs' data-lugaregion-traits='window.regionBaseMockTraitOne'></div>");
 						var region = new luga.data.region.Base({node: regionNode});
 						expect(region.traits.indexOf("window.regionBaseMockTraitOne")).not.toEqual(-1);
 					});
 					it("Or a comma-delimited list of function's names", function(){
-						var regionNode = jQuery("<div data-lugads-region='testRegion' data-lugads-datasource-uuid='testDs' data-lugads-traits='window.regionBaseMockTraitOne,window.regionBaseMockTraitTwo'></div>");
+						var regionNode = jQuery("<div data-lugaregion='true' data-lugaregion-datasource-uuid='testDs' data-lugaregion-traits='window.regionBaseMockTraitOne,window.regionBaseMockTraitTwo'></div>");
 						var region = new luga.data.region.Base({node: regionNode});
 						expect(region.traits.indexOf("window.regionBaseMockTraitOne")).not.toEqual(-1);
 						expect(region.traits.indexOf("window.regionBaseMockTraitTwo")).not.toEqual(-1);
@@ -233,8 +233,8 @@ describe("luga.data.region.Base", function(){
 				}).toThrow();
 			});
 
-			it("data-lugads-traits contains an invalid function name", function(){
-				var regionNode = jQuery("<div data-lugads-region='testRegion' data-lugads-datasource-uuid='testDs' data-lugads-traits='window.missingFunction'></div>");
+			it("data-lugaregion-traits contains an invalid function name", function(){
+				var regionNode = jQuery("<div data-lugaregion='true' data-lugaregion-datasource-uuid='testDs' data-lugaregion-traits='window.missingFunction'></div>");
 				var region = new luga.data.region.Base({node: regionNode});
 				expect(function(){
 					region.applyTraits();
