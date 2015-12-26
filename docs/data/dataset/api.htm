@@ -136,7 +136,7 @@ testDs.insert([
 		</div>
 
 		<div class="panel panel-default">
-			<div id="getContext" class="panel-heading luga-docs-api-heading">.setFilter(filter)</div>
+			<div id="setFilter" class="panel-heading luga-docs-api-heading">.setFilter(filter)</div>
 			<div class="panel-body">
 				<p>
 					Replace current filter with a new filter functions, apply the new filter, then triggers a "dataChanged" notification.
@@ -160,7 +160,7 @@ testDs.insert([
 					</td>
 					<td>
 						A filter functions to be called once for each row in the data set. Required.<br>
-						The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
+						The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 					</td>
 				</tr>
 			</table>

@@ -38,12 +38,13 @@
 		(function(){
 			"use strict";
 
-			var dateFilter = function(dataSet, row, rowIndex){
+			var dateFilter = function(row, rowIndex, dataSet){
 				var dateObj = new Date(row.birthDate);
 				// Turn date into a reasonable string rapresentation
 				// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toUTCString
 				var dateStr = dateObj.toUTCString();
-				row.birthDateFormatted = dateStr;
+				var trimmedStr = dateStr.substring(0, dateStr.length -12);
+				row.birthDateFormatted = trimmedStr;
 				return row;
 			};
 
@@ -68,7 +69,7 @@
 					event.preventDefault();
 					var criteria = jQuery("#searchCriteria").val().toLowerCase();
 					// Assemble a filter function on the fly
-					states.setFilter(function(dataSet, row, rowIndex){
+					states.setFilter(function(row, rowIndex, dataSet){
 						if(row.name.toLowerCase().search(criteria) === -1){
 							// Filter out non matching row by returning null
 							return null;
@@ -169,12 +170,13 @@
 					It's better to pass the filter to the constructor:
 				</p>
 
-<pre><code class="line-numbers language-javascript">var dateFilter = function(dataSet, row, rowIndex){
+<pre><code class="line-numbers language-javascript">var dateFilter = function(row, rowIndex, dataSet){
 	var dateObj = new Date(row.birthDate);
 	// Turn date into a reasonable string rapresentation
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toUTCString
 	var dateStr = dateObj.toUTCString();
-	row.birthDateFormatted = dateStr;
+	var trimmedStr = dateStr.substring(0, dateStr.length -12);
+	row.birthDateFormatted = trimmedStr;
 	return row;
 };
 
@@ -243,7 +245,7 @@ var ladies = new luga.data.JsonDataSet({
 	event.preventDefault();
 	var criteria = jQuery("#searchCriteria").val().toLowerCase();
 	// Assemble a filter function on the fly
-	states.setFilter(function(dataSet, row, rowIndex){
+	states.setFilter(function(row, rowIndex, dataSet){
 		if(row.name.toLowerCase().search(criteria) === -1){
 			// Filter out non matching row by returning null
 			return null;

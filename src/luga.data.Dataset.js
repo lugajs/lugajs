@@ -134,7 +134,7 @@
 		var filterRecords = function(orig, filter){
 			var filtered = [];
 			for(var i = 0; i < orig.length; i++){
-				var newRow = filter(this, orig[i], i);
+				var newRow = filter(orig[i], i, this);
 				if(newRow){
 					filtered.push(newRow);
 				}

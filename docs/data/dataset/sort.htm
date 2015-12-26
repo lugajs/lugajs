@@ -40,12 +40,13 @@
 				path: "jazzPlayers"
 			});
 
-			var dateFilter = function(dataSet, row, rowIndex){
+			var dateFilter = function(row, rowIndex, dataSet){
 				var dateObj = new Date(row.birthDate);
 				// Turn date into a reasonable string rapresentation
 				// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toUTCString
 				var dateStr = dateObj.toUTCString();
-				row.birthDateFormatted = dateStr;
+				var trimmedStr = dateStr.substring(0, dateStr.length -12);
+				row.birthDateFormatted = trimmedStr;
 				return row;
 			};
 

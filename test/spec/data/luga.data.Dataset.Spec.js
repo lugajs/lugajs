@@ -9,25 +9,25 @@ describe("luga.data.Dataset", function(){
 		testRecords = getJSONFixture("data/ladies.json");
 		loadedDs = new luga.data.DataSet({uuid: "myDs", records: testRecords});
 
-		removeUk = function(dataSet, row, rowIndex){
+		removeUk = function(row, rowIndex, dataSet){
 			if(row.country === "UK"){
 				return null;
 			}
 			return row;
 		};
-		removeAus = function(dataSet, row, rowIndex){
+		removeAus = function(row, rowIndex, dataSet){
 			if(row.country === "Australia"){
 				return null;
 			}
 			return row;
 		};
-		removeBrasil = function(dataSet, row, rowIndex){
+		removeBrasil = function(row, rowIndex, dataSet){
 			if(row.country === "Brasil"){
 				return null;
 			}
 			return row;
 		};
-		removeAll = function(dataSet, row, rowIndex){
+		removeAll = function(row, rowIndex, dataSet){
 			return null;
 		};
 

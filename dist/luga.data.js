@@ -13,7 +13,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.3.3";
+	luga.data.version = "0.3.4";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -254,7 +254,7 @@ if(typeof(luga) === "undefined"){
 		var filterRecords = function(orig, filter){
 			var filtered = [];
 			for(var i = 0; i < orig.length; i++){
-				var newRow = filter(this, orig[i], i);
+				var newRow = filter(orig[i], i, this);
 				if(newRow){
 					filtered.push(newRow);
 				}
@@ -459,7 +459,7 @@ if(typeof(luga) === "undefined"){
 		 * Adds rows to a dataSet
 		 * Be aware that the dataSet use passed data by reference
 		 * That is, it uses those objects as its row object internally. It does not make a copy
-		 * @param  {array.<object>|object} records   Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs. Required
+		 * @param  {array.<object>|object} records   Records to be loaded, either one single object containing value/name pairs, or an array of objects. Required
 		 * @fires dataChanged
 		 * @throws
 		 */
