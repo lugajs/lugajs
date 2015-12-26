@@ -420,8 +420,8 @@
 		};
 
 		/**
-		 * Set a column type for a column. Required for proper sorting of numeric data.
-		 * By default data is sorted alpha-numerically, if you want it sorted numerically, set the proper columnType
+		 * Set a column type for a column. Required for proper sorting of numeric or date data.
+		 * By default data is sorted alpha-numerically, if you want it sorted numerically or by date, set the proper columnType
 		 * @param {string|array<string>} columnNames
 		 * @param {string}               columnType   Either "date", "number" or "string"
 		 */
@@ -545,6 +545,9 @@
 		 * Sort the data
 		 * @param {string|array<string>}  columnNames Required, either a single column name or an array of names
 		 * @param {luga.data.sort.ORDER}  sortOrder   Either "ascending", "descending" or "toggle". Optional, default to "toggle"
+		 * @fires preDataSorted
+		 * @fires dataSorted
+		 * @fires dataChanged
 		 */
 		this.sort = function(columnNames, sortOrder){
 			/*
