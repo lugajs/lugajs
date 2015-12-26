@@ -542,7 +542,7 @@
 		};
 
 		/**
-		 * Sort the data
+		 * Sorts the dataSet using the given column(s) and sort order
 		 * @param {string|array<string>}  columnNames Required, either a single column name or an array of names
 		 * @param {luga.data.sort.ORDER}  sortOrder   Either "ascending", "descending" or "toggle". Optional, default to "toggle"
 		 * @fires preDataSorted

@@ -1,0 +1,122 @@
+[
+  {
+    "name": "Stanley Biwott",
+    "place": 1,
+    "bib": 5,
+    "time": "2:10:34"
+  },
+  {
+    "name": "Geoffery Kamworor",
+    "place": 2,
+    "bib": 6,
+    "time": "2:10:48"
+  },
+  {
+    "name": "Lelisa Desisa",
+    "place": 3,
+    "bib": 5,
+    "time": "2:12:10"
+  },
+  {
+    "name": "Wilson Kipsang",
+    "place": 4,
+    "bib": 1,
+    "time": "2:12:45"
+  },
+  {
+    "name": "Yemane Tsegay",
+    "place": 5,
+    "bib": 7,
+    "time": "2:13:24"
+  },
+  {
+    "name": "Yuki Kawauchi",
+    "place": 6,
+    "bib": 11,
+    "time": "2:13:29"
+  },
+  {
+    "name": "Meb Keflezighi",
+    "place": 7,
+    "bib": 4,
+    "time": "2:13:32"
+  },
+  {
+    "name": "Craig Leon",
+    "place": 8,
+    "bib": 16,
+    "time": "2:15:16"
+  },
+  {
+    "name": "Birhanu Dare Kemal",
+    "place": 9,
+    "bib": 259,
+    "time": "2:15:40"
+  },
+  {
+    "name": "Kevin Chelimo",
+    "place": 10,
+    "bib": 12,
+    "time": "2:15:49"
+  },
+  {
+    "name": "Andrea Lalli",
+    "place": 11,
+    "bib": 14,
+    "time": "2:17:12"
+  },
+  {
+    "name": "Juan Luis Barrios",
+    "place": 12,
+    "bib": 9,
+    "time": "2:18:06"
+  },
+  {
+    "name": "Diriba Degefa Yigezu",
+    "place": 13,
+    "bib": 261,
+    "time": "2:19:21"
+  },
+  {
+    "name": "Negash Abebe Duki",
+    "place": 14,
+    "bib": 249,
+    "time": "2:20:30"
+  },
+  {
+    "name": "Timothy Chichester",
+    "place": 15,
+    "bib": 258,
+    "time": "2:21:25"
+  },
+  {
+    "name": "Nicholas Arciniaga",
+    "place": 16,
+    "bib": 10,
+    "time": "2:22:07"
+  },
+  {
+    "name": "Khalid En Guady",
+    "place": 17,
+    "bib": 1772,
+    "time": "2:23:13"
+  },
+  {
+    "name": "Carmine Buccilli",
+    "place": 17,
+    "bib": 5,
+    "time": "2:23:48"
+  },
+  {
+    "name": "Abu Kebede Diriba",
+    "place": 19,
+    "bib": 269,
+    "time": "2:24:30"
+  },
+  {
+    "name": "Kojo Kyereme",
+    "place": 20,
+    "bib": 270,
+    "time": "2:26:17"
+  }
+]

@@ -115,7 +115,7 @@
 
 		/**
 		 * Fires off XHR request to fetch and load the data, notify observers ("dataLoading" first, "dataChanged" after records are loaded).
-		 * Does nothing if URL is not set
+		 * Throws an exception if URL is not set
 		 * @fires dataLoading
 		 * @throws
 		 */

@@ -27,6 +27,13 @@
 	<script>
 		(function(){
 			"use strict";
+
+			var marathon = new luga.data.JsonDataSet({
+				uuid: "nyMarathon2015",
+				url: "../../../test/fixtures/data/marathon.json"
+			});
+			marathon.setColumnType("place", "number");
+
 			var ladiesMaster = new luga.data.JsonDataSet({
 				uuid: "ladies",
 				url: "../../../test/fixtures/data/people.json",
@@ -57,11 +64,57 @@
 			});
 
 			jQuery(document).ready(function(){
+
+				marathon.loadData();
 				ladiesMaster.loadData();
 				jazzPlayers.loadData();
 				ladies.loadData();
+
+				jQuery("#sortName").on("click", function(event){
+					event.preventDefault();
+					marathon.sort("name");
+				});
+
+				jQuery("#sortPlace").on("click", function(event){
+					event.preventDefault();
+					marathon.sort("place");
+				});
+
+				jQuery("#sortBib").on("click", function(event){
+					event.preventDefault();
+					marathon.sort("bib");
+				});
+
 			});
 		}());
+	</script>
+
+	<script id="marathonTemplate" type="text/x-handlebars-template">
+		<table class="table table-bordered table-striped">
+			<caption>
+				New York Marathon, 2015
+			</caption>
+			<th>
+				Place
+			</th>
+			<th>
+				Name
+			</th>
+			<th>
+				Bib
+			</th>
+			<th>
+				Time
+			</th>
+			{{#each entities}}
+			<tr>
+				<td>{{place}}</td>
+				<td>{{name}}</td>
+				<td>{{bib}}</td>
+				<td>{{time}}</td>
+			</tr>
+			{{/each}}
+		</table>
 	</script>
 
 	<script id="masterTemplate" type="text/x-handlebars-template">
@@ -145,16 +198,45 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">Sorting a dataSet</div>
 			<div class="panel-body">
-				<p>TODO: write explanation</p>
+
+				<p>
+					You can sort a dataSet by calling its <a href="api.htm#sort">.sort()</a> method.
+					By default data is sorted alphanumerically, in case you have numeric values,
+					you should use <a href="api.htm#setColumnType">.setColumnType()</a> to specify that a specific column must be sort numerically.
+					Failing to do so will yield wrong results.
+				</p>
+				<p>
+					In the example below the "place" column was set to "number", the "bib" column instead was not:
+				</p>
+
+				<form class="form-inline">
+					<button class="btn btn-info" id="sortName">Sorty by name</button>
+					<button class="btn btn-info" id="sortPlace">Sorty by place</button>
+					<button class="btn btn-danger" id="sortBib">Sort by Bib (wrong results!)</button>
+				</form>
+
+				<div data-lugaregion="true"
+					 data-lugaregion-datasource-uuid="nyMarathon2015"
+					 data-lugaregion-template-id="marathonTemplate"></div>
+
+<pre><code class="line-numbers language-javascript">var marathon = new luga.data.JsonDataSet({
+	uuid: "nyMarathon2015",
+	url: "../../../test/fixtures/data/marathon.json"
+});
+marathon.setColumnType("place", "number");
+</code></pre>
+
 			</div>
 		</div>
 
 		<div class="panel panel-default">
-			<div class="panel-heading">Sorting a master-details</div>
+			<div id="sortRegion" class="panel-heading">Sorting regions and master-details</div>
 			<div class="panel-body">
 
 				<p>
-					TODO: write explanation
+					Whenever you have to sort data inside a <a href="../region/handlebars.htm">region</a>,
+					the faster solution is to use <strong>data-lugaregion-sort</strong>, one of the build-in <a href="../region/traits.htm">traits</a>.
+					In case of a master-details sorting the master may change/reset the currently selected row, changing the details too:
 				</p>
 				
 				<div data-lugaregion="true"
@@ -169,30 +251,88 @@
 		</div>
 
 		<div class="panel panel-default">
-			<div class="panel-heading">Sorting nested data</div>
+			<div id="sortJson" class="panel-heading">Sorting nested data</div>
 			<div class="panel-body">
 
 				<p>
-					TODO: write explanation
+					If your dataSet contains <a href="../json-dataset/path.htm">nested data structures</a>, 
+					you just sort on the relevant field, using its full path, with dot-notation: 
 				</p>
 
 				<div data-lugaregion="true"
 					 data-lugaregion-datasource-uuid="players"
 					 data-lugaregion-template-id="playersTemplate"></div>
+				
+<pre><code class="line-numbers language-markup">&lt;table class="table table-bordered table-striped"&gt;
+	&lt;th&gt;
+		&lt;a href="#" data-lugaregion-sort="person.firstName"&gt;person.firstName&lt;/a&gt;
+	&lt;/th&gt;
+	&lt;th&gt;
+		&lt;a href="#" data-lugaregion-sort="person.lastName"&gt;person.lastName&lt;/a&gt;
+	&lt;/th&gt;
+	&lt;th&gt;
+		&lt;a href="#" data-lugaregion-sort="country"&gt;Country&lt;/a&gt;
+	&lt;/th&gt;
+	{{#each entities}}
+	&lt;tr&gt;
+		&lt;td&gt;{{person.firstName}}&lt;/td&gt;
+		&lt;td&gt;{{person.lastName}}&lt;/td&gt;
+		&lt;td&gt;{{country}}&lt;/td&gt;
+	&lt;/tr&gt;
+	{{/each}}
+&lt;/table&gt;
+</code></pre>				
+				
 			</div>
 		</div>
 
 		<div class="panel panel-default">
-			<div id="dateSort" class="panel-heading">Sorting dates</div>
+			<div id="sortDates" class="panel-heading">Sorting dates</div>
 			<div class="panel-body">
 
 				<p>
-					TODO: write explanation
+					Sorting dates can be especially tricky.
+					Sure, you can use <a href="api.htm#setColumnType">.setColumnType()</a> and set the column to date before you sort.
+					But you have to consider that under the hood this requires to turn a string into a date object using JavaScript.
+					Now, that's something that may bring different results depending on the browser, the locale and the operating system you are using!
+				</p>
+				<p>
+					A better, safer, alternative is to have two columns, one storing the original date, in <a href="https://en.wikipedia.org/wiki/ISO_8601#Dates">ISO 8601</a> format,
+					or at least in a format that can be sorted as a string (like a simple YYYY-MM-DD).
+					Then you have another column, containing dates formatted in a user-friendly, human-readable way.
+					This second column is going to be used only for the GUI.
+					You don't want to store or persist it, you are going to calculate it on the fly, either on the back-end or using a <a href="filter.htm">filter</a>.
+					Then you sort on the first column, while displaying the second one.
+				</p>
+				<p>
+					On this example you can see a <a href="filter.htm">filter</a> used to add a human-readable date column (birthDateFormatted), 
+					while sort is performed on the original column (birthDate):
 				</p>
 
 				<div data-lugaregion="true"
 					 data-lugaregion-datasource-uuid="ladiesDate"
 					 data-lugaregion-template-id="ladiesTemplate"></div>
+				
+				<p>
+					The corresponding Handlebars template looks like this:
+				</p>
+				
+<pre><code class="line-numbers language-markup">&lt;table class="table table-bordered table-striped"&gt;
+	&lt;th&gt;
+		Name
+	&lt;/th&gt;
+	&lt;th&gt;
+		&lt;a href="#" data-lugaregion-sort="birthDate"&gt;Birth date&lt;/a&gt;
+	&lt;/th&gt;
+	{{#each entities}}
+		&lt;tr&gt;
+			&lt;td&gt;{{firstName}} {{lastName}}&lt;/td&gt;
+			&lt;td&gt;{{birthDateFormatted}}&lt;/td&gt;
+		&lt;/tr&gt;
+	{{/each}}
+&lt;/table&gt;
+</code></pre>				
+				
 			</div>
 		</div>
 

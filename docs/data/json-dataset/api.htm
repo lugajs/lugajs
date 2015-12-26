@@ -33,13 +33,30 @@
 <div class="container-fluid">
 	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
-		<div class="panel panel-default">
-			<div class="panel-heading">API Syntax reference</div>
+		<div id="sort" class="panel panel-default">
+			<div class="panel-heading luga-docs-api-heading">.loadData(columnNames, sortOrder)</div>
 			<div class="panel-body">
 				<p>
-					TODO
+					Fires off XHR request to fetch and load the data, then notify observers ("dataLoading" first, "dataChanged" after records are loaded).<br>
+					Throws an exception if URL is not set.
 				</p>
 			</div>
+			<table class="table table-bordered luga-docs-api">
+				<th>Examples</th>
+			</table>
+
+<pre><code class="line-numbers language-javascript">(function(){
+	"use strict";
+	var ladiesDs = new luga.data.JsonDataSet({
+		uuid: "ladiesDs",
+		url: "../../../test/fixtures/data/ladies.json"
+	});
+	// Fetch data only once the DOM is ready
+	jQuery(document).ready(function(){
+		ladiesDs.loadData();
+	});
+}());</code></pre>
+
 		</div>
 
 	</div>

@@ -27,13 +27,28 @@
 	<script>
 		(function(){
 			"use strict";
+
+			"use strict";
 			var ladiesDs = new luga.data.JsonDataSet({
 				uuid: "ladiesDs",
 				url: "../../../test/fixtures/data/ladies.json"
 			});
+
 			jQuery(document).ready(function(){
 				ladiesDs.loadData();
+
+				jQuery("#addButton").on("click", function(event){
+					event.preventDefault();
+					// Assemble the new row:
+					var row = {
+						firstName: jQuery("#ladyFirstName").val(),
+						lastName: jQuery("#ladyLastName").val()
+					};
+					ladiesDs.insert(row);
+				});
+
 			});
+
 		}());
 	</script>
 	<script id="ladiesTemplate" type="text/x-handlebars-template">
@@ -73,7 +88,7 @@
 					<strong>url</strong> points to the REST endpoint (a static JSON file for demo purposes).
 				</p>
 				<p>
-					Finally you have to call the <strong>loadData()</strong> method to tell the dataSet it's time to use XHR and fetch the data.
+					Finally you have to call the <a href="../json-dataset/api.htm#loadData">loadData()</a> method to tell the dataSet it's time to use XHR and fetch the data.
 				</p>
 
 <pre><code class="line-numbers language-javascript">(function(){
@@ -97,47 +112,30 @@
 		</div>
 
 		<div class="panel panel-default">
-			<div class="panel-heading">Dynamically generate HTML with region and databinding</div>
+			<div class="panel-heading">Real-time databinding</div>
 			<div class="panel-body">
 
 				<p>
-					Once you have a dataSet available, you can bind it to a region.
+					Once you have a dataSet available, you can bind it to a <a href="../region/getting-started.htm">region</a>.
 					The region will register itself as <a href="../docs/notifier.htm">observer</a> of the dataSet
 					and automatically re-generate the HTML once the dataSet change its <a href="../region/state.htm">state</a> or its data.
 				</p>
 
 				<p>
-					To define a region you add some custom attributes to the whatever HTML tag you want to contain it (<a href="../region/syntax.htm">see the syntax reference</a>).
+				   Enter a new record inside the form below and see it in action:
 				</p>
 
-				<p>
-					The <strong>data-lugaregion-datasource-uuid</strong> attribute must match the dataSet's uuid.
-				</p>
+				<form class="form-inline">
+					<div class="form-group">
+						<input type="text" class="form-control" id="ladyFirstName" placeholder="type first name">
+						<input type="text" class="form-control" id="ladyLastName" placeholder="type last name">
+					</div>
+					<button type="submit" class="btn btn-info" id="addButton">Add record</button>
+				</form>
 
-				<p>
-					You also need the <strong>data-lugaregion-template-id</strong> attribute here, since the HTML template is stored inside a &lt;script&gt; tag
-					<a href="../region/handlebars.htm">(see more options)</a>.
-				</p>
-
-<pre><code class="language-markup">&lt;div data-lugaregion="true"
-	 data-lugaregion-datasource-uuid="ladiesDs"
-	 data-lugaregion-template-id="ladiesTemplate"&gt;&lt;/div&gt;
-</code></pre>
-
-				<p>
-					Our <a href="http://handlebarsjs.com/">Handlebars</a> template looks like this:
-				</p>
-
-<pre><code class="line-numbers language-markup">&lt;script id="ladiesTemplate" type="text/x-handlebars-template"&gt;
-	&lt;ul class="luga-docs-list"&gt;
-		{{#each entities}}
-			&lt;li&gt;{{firstName}} {{lastName}}&lt;/li&gt;
-		{{/each}}
-	&lt;/ul&gt;
-&lt;/script&gt;
-</code></pre>
-
-				<div data-lugaregion="true" data-lugaregion-datasource-uuid="ladiesDs" data-lugaregion-template-id="ladiesTemplate"></div>
+				<div data-lugaregion="true"
+					 data-lugaregion-datasource-uuid="ladiesDs"
+					 data-lugaregion-template-id="ladiesTemplate"></div>
 
 			</div>
 		</div>

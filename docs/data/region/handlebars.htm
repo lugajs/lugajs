@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<link rel="shortcut icon" type="image/png" href="../../luga-favicon.png"/>
-	<title>Luga Data :: Region :: Handlebars templating</title>
+	<title>Luga Data :: Region :: HTML templating</title>
 
 	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
@@ -41,7 +41,7 @@
 	<script id="ladiesTemplate" type="text/x-handlebars-template">
 		<ul class="luga-docs-list">
 			{{#each entities}}
-			<li>{{firstName}} {{lastName}}</li>
+				<li>{{firstName}} {{lastName}}</li>
 			{{/each}}
 		</ul>
 	</script>
@@ -57,27 +57,20 @@
 	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
 		<div class="panel panel-default">
-			<div class="panel-heading">Region and Handlebars templates</div>
+			<div class="panel-heading">HTML templating with Handlebars</div>
 			<div class="panel-body">
 
 				<p>
 					By default Luga regions use <a href="http://handlebarsjs.com/">Handlebars</a> for templating.
 					The template itself can be inline, embed, or external.
+					Pick the option that better suit your needs.
 				</p>
-				<p>
-					In case you have special needs or would like to use a different templating engine, you can write <a href="../extensibility/custom-region-type.htm">your own region implementation</a>.
-				</p>
-
-				<div class="alert alert-info" role="alert">
-					<strong>Heads up!</strong><br>
-					The fields contained inside the context data provided by your dataSource (either a dataSet or detailSet), <a href="context.htm">may vary</a>.
-				</div>
 
 			</div>
 		</div>
 
 		<div class="panel panel-default">
-			<div class="panel-heading">Inline template</div>
+			<div id="inlineTemplate" class="panel-heading">Inline template</div>
 			<div class="panel-body">
 
 				<p>
@@ -93,7 +86,7 @@
 <pre><code class="line-numbers language-markup">&lt;div data-lugaregion="true" data-lugaregion-datasource-uuid="ladiesDs"&gt;
 	&lt;ul class="luga-docs-list"&gt;
 		{{#each entities}}
-		&lt;li&gt;{{firstName}} {{lastName}}&lt;/li&gt;
+			&lt;li&gt;{{firstName}} {{lastName}}&lt;/li&gt;
 		{{/each}}
 	&lt;/ul&gt;
 &lt;/div&gt;
@@ -102,7 +95,7 @@
 				<div data-lugaregion="true" data-lugaregion-datasource-uuid="ladiesDs">
 					<ul class="luga-docs-list">
 						{{#each entities}}
-						<li>{{firstName}} {{lastName}}</li>
+							<li>{{firstName}} {{lastName}}</li>
 						{{/each}}
 					</ul>
 				</div>
@@ -111,7 +104,7 @@
 		</div>
 
 		<div class="panel panel-default">
-			<div class="panel-heading">Embed template</div>
+			<div id="embedTemplate" class="panel-heading">Embed template</div>
 			<div class="panel-body">
 				
 				<p>
@@ -126,7 +119,7 @@
 <pre><code class="line-numbers language-markup">&lt;script id="ladiesTemplate" type="text/x-handlebars-template"&gt;
 	&lt;ul class="luga-docs-list"&gt;
 		{{#each entities}}
-		&lt;li&gt;{{firstName}} {{lastName}}&lt;/li&gt;
+			&lt;li&gt;{{firstName}} {{lastName}}&lt;/li&gt;
 		{{/each}}
 	&lt;/ul&gt;
 &lt;/script&gt;
@@ -137,8 +130,8 @@
 				</p>
 
 <pre><code class="language-markup">&lt;div data-lugaregion="true"
-	data-lugaregion-datasource-uuid="ladiesDs"
-	data-lugaregion-template-id="ladiesTemplate"&gt;&lt;/div&gt;
+	 data-lugaregion-datasource-uuid="ladiesDs"
+	 data-lugaregion-template-id="ladiesTemplate"&gt;&lt;/div&gt;
 </code></pre>
 
 				<div data-lugaregion="true" data-lugaregion-datasource-uuid="ladiesDs" data-lugaregion-template-id="ladiesTemplate"></div>
@@ -146,7 +139,7 @@
 		</div>
 
 		<div class="panel panel-default">
-			<div class="panel-heading">External template</div>
+			<div id="externalTemplate" class="panel-heading">External template</div>
 			<div class="panel-body">
 
 				<p>
@@ -166,8 +159,8 @@
 				</p>
 
 <pre><code class="language-markup">&lt;div data-lugaregion="true"
-	data-lugaregion-datasource-uuid="ladiesDs"
-	data-lugaregion-template-id="ladiesTable"&gt;&lt;/div&gt;
+	 data-lugaregion-datasource-uuid="ladiesDs"
+	 data-lugaregion-template-id="ladiesTable"&gt;&lt;/div&gt;
 </code></pre>
 
 				<div data-lugaregion="true" data-lugaregion-datasource-uuid="ladiesDs" data-lugaregion-template-id="ladiesTable"></div>

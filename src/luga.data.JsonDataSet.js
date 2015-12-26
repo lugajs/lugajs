@@ -57,7 +57,7 @@
 		};
 
 		/**
-		 * Receives JSON data, either from an HTTP response or from a direct call, apply the path, if any, and loads records out of it
+		 * Retrieves JSON data, either from an HTTP response or from a direct call, apply the path, if any, extract and load records out of it
 		 * @param {json}     json         Data returned from the server
 		 * @param {string}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
 		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls

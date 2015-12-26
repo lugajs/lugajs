@@ -113,6 +113,11 @@ dl, dt, dd, ol, ul, li {
 	text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.1);
 }
 
+.luga-docs .panel .form-inline {
+	margin-bottom: 1.5em;
+	margin-top: 1.5em;
+}
+
 /* Code listings */
 .luga-docs pre,
 .luga-docs pre code {
@@ -257,4 +262,13 @@ table.luga-docs-api td + td,
 table.luga-docs-attributes td + td {
 	font-weight: normal;
 	white-space: normal;
+}
+
+/* Tables */
+
+.luga-docs caption {
+	border: 1px solid #DDDDDD;
+	border-bottom: none;
+	padding: 0.8em;
+	text-align: center;
 }

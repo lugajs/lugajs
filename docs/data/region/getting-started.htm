@@ -24,6 +24,26 @@
 	<link rel="stylesheet" href="../../luga.docs.css"/>
 	<script src="../../luga-docs.js"></script>
 
+	<script>
+		(function(){
+			"use strict";
+			var ladiesDs = new luga.data.JsonDataSet({
+				uuid: "ladiesDs",
+				url: "../../../test/fixtures/data/ladies.json"
+			});
+			jQuery(document).ready(function(){
+				ladiesDs.loadData();
+			});
+		}());
+	</script>
+	<script id="ladiesTemplate" type="text/x-handlebars-template">
+		<ul class="luga-docs-list">
+			{{#each entities}}
+			<li>{{firstName}} {{lastName}}</li>
+			{{/each}}
+		</ul>
+	</script>
+
 </head>
 
 <body class="luga-docs">
@@ -34,11 +54,81 @@
 	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
 		<div class="panel panel-default">
-			<div class="panel-heading">Title</div>
+			<div class="panel-heading">Region</div>
 			<div class="panel-body">
 				<p>
-					TODO
+					After you've created a dataSet, you can display its data inside a region.
+					A region is an area on a web page that's bound to a dataSource (either a <a href="../dataset/getting-started.htm">dataSet</a> or a <a href="../detailset/master-details.htm">detailSet</a>).
+					The region displays the records from the dataSource and automatically updates the HTML whenever the data is modified.
 				</p>
+
+				<p>
+					Regions regenerate since they register themselves as <a href="../docs/notifier.htm">observers</a> of the dataSources to which they are bound.
+					Whenever data in any of these source is modified (loaded, updated, sorted, filtered, and so on),
+					the dataSources send notifications to all of their observers, triggering an automatic regeneration by the regions.
+				</p>
+
+				<div class="alert alert-info" role="alert">
+					<strong>Heads up!</strong><br>
+					The fields contained inside the context data provided by your dataSource (either a dataSet or
+					detailSet), <a href="context.htm">may vary</a>.
+				</div>
+
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Dynamically generate HTML with region and databinding</div>
+			<div class="panel-body">
+
+				<p>
+					To define a region you add some custom attributes to the whatever HTML tag you want to contain it (<a href="../region/syntax.htm">see the syntax reference</a>).
+				</p>
+
+				<p>
+					The <strong>data-lugaregion-datasource-uuid</strong> attribute must match the dataSet's uuid.
+				</p>
+
+				<p>
+					You also need the <strong>data-lugaregion-template-id</strong> attribute here,
+					since we are using an <a href="../region/handlebars.htm#embedTemplate"> embed template</a>.
+				</p>
+
+<pre><code class="language-markup">&lt;div data-lugaregion="true"
+	 data-lugaregion-datasource-uuid="ladiesDs"
+	 data-lugaregion-template-id="ladiesTemplate"&gt;&lt;/div&gt;
+</code></pre>
+
+				<p>
+					Our <a href="http://handlebarsjs.com/">Handlebars</a> template looks like this:
+				</p>
+
+<pre><code class="line-numbers language-markup">&lt;script id="ladiesTemplate" type="text/x-handlebars-template"&gt;
+	&lt;ul class="luga-docs-list"&gt;
+		{{#each entities}}
+			&lt;li&gt;{{firstName}} {{lastName}}&lt;/li&gt;
+		{{/each}}
+	&lt;/ul&gt;
+&lt;/script&gt;
+</code></pre>
+
+				<div data-lugaregion="true" data-lugaregion-datasource-uuid="ladiesDs" data-lugaregion-template-id="ladiesTemplate"></div>
+
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Region and Handlebars templates</div>
+			<div class="panel-body">
+
+				<p>
+					By default Luga regions use <a href="handlebars.htm">Handlebars</a> for templating.
+				</p>
+
+				<p>
+					In case you have special needs or would like to use a different templating engine, you can write <a href="../extensibility/custom-region-type.htm">your own region implementation</a>.
+				</p>
+
 			</div>
 		</div>
 

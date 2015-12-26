@@ -40,7 +40,7 @@
 			<a href="../json-dataset/api.htm">API Syntax reference</a>
 		</li>
 
-		<li class="luga-docs-list-heading list-group-item">DetailsSet</li>
+		<li class="luga-docs-list-heading list-group-item">DetailSet</li>
 		<li class="list-group-item">
 			<a href="../detailset/master-details.htm">Master-details</a>
 		</li>

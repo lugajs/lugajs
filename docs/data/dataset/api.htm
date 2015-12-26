@@ -82,7 +82,7 @@
 				<th>Examples</th>
 			</table>
 
-<pre><code class="line-numbers language-javascript">var testDs = new luga.data.DataSet({uuid: "test"});
+<pre><code class="language-javascript">var testDs = new luga.data.DataSet({uuid: "test"});
 </code></pre>
 
 		</div>
@@ -262,15 +262,16 @@ testDs.setColumnType(["numberCol", "moreNumber"], "number");
 			</table>
 		</div>
 
-		<div id="sort" class="panel panel-default">
-			<div class="panel-heading luga-docs-api-heading">.sort(columnNames, sortOrder)</div>
+		<div class="panel panel-default">
+			<div id="sort" class="panel-heading luga-docs-api-heading">.sort(columnNames, sortOrder)</div>
 			<div class="panel-body">
 				<p>
-					Sort the data. Fires the following notifications:
+					Sorts the dataSet using the given column(s) and sort order.
+					Fires the following notifications:
 					"preDataSorted", "dataSorted" and "dataChanged".
 				</p>
 				<p>
-					You can use build-in traits to <a href="sort.htm">sort data within a region</a>.
+					You can use build-in traits to <a href="sort.htm#sortRegion">sort data within a region</a>.
 				</p>
 			</div>
 			<table class="table table-bordered luga-docs-api">
@@ -299,7 +300,7 @@ testDs.setColumnType(["numberCol", "moreNumber"], "number");
 			</table>
 
 <pre><code class="language-javascript">testDs.sort("firstName"); // Toggle sort
-testDs.sort("firstName", "descending");
+testDs.sort("firstName", "ascending");
 testDs.sort("firstName", "descending");</code></pre>
 
 		</div>
