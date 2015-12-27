@@ -29,7 +29,6 @@ CORE:
 
 - Implement luga.string.queryToHash()
 
-- Document luga.Notifier
 - Document luga.extend()
 
 -------------

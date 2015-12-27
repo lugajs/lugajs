@@ -164,7 +164,7 @@ if(typeof(luga) === "undefined"){
 		 * For an event named "complete" they must implement a method named: "onCompleteHandler"
 		 * The interface for this methods is as follows:
 		 * observer.onCompleteHandler = function(data){};
-		 * @param  observer  Observer object
+		 * @param  {object} observer  Observer object
 		 * @throws
 		 */
 		this.addObserver = function(observer){
