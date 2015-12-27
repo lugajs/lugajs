@@ -88,8 +88,10 @@ notifierObj.notifyObservers("restart", { message: "I am staring over" });
 // => Nothing happens here, since observerObj.onRestartHandler() does not exists</code></pre>
 
 				<p>
-					Once you call notifyObservers("complete", { message: "I did the job" }), the notifier will loop over its observers, looking for objects that implement an "onCompleteHandler" method.<br>
-					It's critical to note the naming convention here, for a <strong>"complete"</strong> event, we must have a matching <strong>"onCompleteHandler"</strong> method.
+					Once you call notifyObservers("complete", { message: "I did the job" }), the notifier will loop over its observers, looking for objects that implement an "onCompleteHandler" method.
+				</p>
+				<p>
+					It's critical to note the naming convention here, for a <strong>"complete"</strong> event, there must be a matching <strong>"onCompleteHandler"</strong> method.
 					If a method matching the naming convention is found, it gets executed, passing the notification data as its single argument.
 					If the observer does not implements a matching method, nothing happens.
 				</p>
