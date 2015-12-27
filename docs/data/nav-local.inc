@@ -34,7 +34,7 @@
 			<a href="../json-dataset/getting-started.htm">Getting started</a>
 		</li>
 		<li class="list-group-item">
-			<a href="../json-dataset/path.htm">Nested JSON</a>
+			<a href="../json-dataset/path.htm">Data path</a>
 		</li>
 		<li class="list-group-item">
 			<a href="../json-dataset/api.htm">API Syntax reference</a>

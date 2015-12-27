@@ -33,7 +33,37 @@
 <div class="container-fluid">
 	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
-		<div id="sort" class="panel panel-default">
+		<div id="getRawJson" class="panel panel-default">
+			<div class="panel-heading luga-docs-api-heading">.getRawJson()</div>
+			<div class="panel-body">
+				Returns the raw JSON data structure, if any.
+			</div>
+
+			<table class="table table-bordered luga-docs-api">
+				<th>Return type</th>
+				<tr>
+					<td>{null|json}</td>
+				</tr>
+			</table>
+
+		</div>
+
+		<div id="getPath" class="panel panel-default">
+			<div class="panel-heading luga-docs-api-heading">.getPath()</div>
+			<div class="panel-body">
+				Returns the path to be used to extract data out of the JSON data structure, if any.
+			</div>
+
+			<table class="table table-bordered luga-docs-api">
+				<th>Return type</th>
+				<tr>
+					<td>{null|string}</td>
+				</tr>
+			</table>
+
+		</div>
+
+		<div id="loadData" class="panel panel-default">
 			<div class="panel-heading luga-docs-api-heading">.loadData(columnNames, sortOrder)</div>
 			<div class="panel-body">
 				<p>
@@ -59,6 +89,44 @@
 
 		</div>
 
+		<div id="loadRawJson" class="panel panel-default">
+			<div class="panel-heading luga-docs-api-heading">.loadRawJson(json)</div>
+			<div class="panel-body">
+				<p>
+					First delete any existing records, then load data from the given JSON, without XHR calls.
+				</p>
+			</div>
+			<table class="table table-bordered luga-docs-api">
+				<th colspan="3">Arguments</th>
+				<tr>
+					<td>json</td>
+					<td class="luga-docs-type">
+						{json}
+					</td>
+					<td>
+						Data path, expressed as a set of property names on the objects, separated by dots. Required.
+					</td>
+				</tr>
+			</table>
+			<table class="table table-bordered luga-docs-api">
+				<th>Examples</th>
+			</table>
+
+<pre><code class="line-numbers language-javascript">var myDataSet = new luga.data.JsonDataSet({id: "tasksDataset", path: "data"});
+var options = {
+	success: function(data) {
+		myDataSet.loadRawJson(data);
+	},
+	error: function(error) {
+		console.debug(error);
+	}
+};
+
+$.ajax("http://my.restapi.com/api/list", options);
+</code></pre>
+
+		</div>
+
 		<div id="setPath" class="panel panel-default">
 			<div class="panel-heading luga-docs-api-heading">.setPath(path)</div>
 			<div class="panel-body">
@@ -72,7 +140,7 @@
 						{string}
 					</td>
 					<td>
-						New path to be used. Required
+						Data path, expressed as a set of property names on the objects, separated by dots. Required.
 					</td>
 				</tr>
 			</table>

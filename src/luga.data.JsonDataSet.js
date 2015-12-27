@@ -5,7 +5,8 @@
 	 * @typedef {object} luga.data.JsonDataSet.options
 	 *
 	 * @extends luga.data.HttpDataSet.options
-	 * @property {string|null}   path      Specifies the path to the data within the JSON structure. Default to null
+	 * @property {string|null}   path      Specifies the path to the data within the JSON structure.
+	 *                                     The path is expressed as a set of property names on the objects, separated by dots. Default to null
 	 */
 
 	/**
@@ -41,15 +42,15 @@
 
 		/**
 		 * Returns the path to be used to extract data out of the JSON data structure
-		 * @returns {string|null}
+		 * @returns {null|string}
 		 */
 		this.getPath = function(){
 			return this.path;
 		};
 
 		/**
-		 * Load records from JSON, without XHR calls
-		 * @param {json} path
+		 * First delete any existing records, then load data from the given JSON, without XHR calls
+		 * @param {json} json
 		 */
 		this.loadRawJson = function(json){
 			self.delete();
@@ -78,7 +79,7 @@
 
 		/**
 		 * Set the path to be used to extract data out of the JSON data structure
-		 * @param {string} path
+		 * @param {string} path   Data path, expressed as a set of property names on the objects, separated by dots. Required
 		 */
 		this.setPath = function(path){
 			this.path = path;
