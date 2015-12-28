@@ -38,22 +38,6 @@
 		(function(){
 			"use strict";
 
-			var dateFilter = function(row, rowIndex, dataSet){
-				var dateObj = new Date(row.birthDate);
-				// Turn date into a reasonable string rapresentation
-				// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toUTCString
-				var dateStr = dateObj.toUTCString();
-				var trimmedStr = dateStr.substring(0, dateStr.length -12);
-				row.birthDateFormatted = trimmedStr;
-				return row;
-			};
-
-			var ladies = new luga.data.JsonDataSet({
-				uuid: "ladiesDs",
-				url: "../../../test/fixtures/data/ladies.json",
-				filter: dateFilter
-			});
-
 			var states = new luga.data.JsonDataSet({
 				uuid: "statesDs",
 				url: "../../../test/fixtures/data/usa-states.json"
@@ -62,7 +46,6 @@
 			jQuery(document).ready(function(){
 
 				// Fetch JSON data
-				ladies.loadData();
 				states.loadData();
 
 				jQuery("#searchButton").on("click", function(event){
@@ -88,27 +71,6 @@
 
 			});
 		}());
-	</script>
-	
-	<script id="ladiesTemplate" type="text/x-handlebars-template">
-		<table class="table table-bordered table-striped">
-			<th>
-				Name
-			</th>
-			<th>
-				Birth date (original)
-			</th>
-			<th>
-				Birth date (formatted)
-			</th>
-			{{#each entities}}
-			<tr>
-				<td>{{firstName}} {{lastName}}</td>
-				<td>{{birthDate}}</td>
-				<td>{{birthDateFormatted}}</td>
-			</tr>
-			{{/each}}
-		</table>
 	</script>
 	
 	<script id="statesTemplate" type="text/x-handlebars-template">
@@ -144,73 +106,6 @@
 					The filter is called once for each row in the dataSet.
 					If the filter wishes to add the row to the filtered view of the dataSet, then it must return the row object passed into the function.
 				</p>
-			</div>
-		</div>
-
-		<div class="panel panel-default">
-			<div class="panel-heading">Use filter to add/format data</div>
-			<div class="panel-body">
-				<p>
-					Sometimes you have data that is not suited for a GUI.
-					A typical case is a date in YYYY-MM-DD format, not the most human-readable format.
-					So you want to modify it. The safer approach is to store a formatted copy inside another field.
-					A filter is the perfect solution for such a job.
-				</p>
-				<p>
-					This approach may help whenever you have to <a href="sort.htm#dateSort">sort your data</a> too.
-				</p>
-
-				<div id="ladiesRegion"
-					 data-lugaregion="true"
-					 data-lugaregion-datasource-uuid="ladiesDs"
-					 data-lugaregion-template-id="ladiesTemplate"></div>
-
-				<p>
-					In this case we want to apply the very same filter to each row in the dataset.
-					It's better to pass the filter to the constructor:
-				</p>
-
-<pre><code class="line-numbers language-javascript">var dateFilter = function(row, rowIndex, dataSet){
-	var dateObj = new Date(row.birthDate);
-	// Turn date into a reasonable string rapresentation
-	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toUTCString
-	var dateStr = dateObj.toUTCString();
-	var trimmedStr = dateStr.substring(0, dateStr.length -12);
-	row.birthDateFormatted = trimmedStr;
-	return row;
-};
-
-var ladies = new luga.data.JsonDataSet({
-	uuid: "ladiesDs",
-	url: "../../../test/fixtures/data/ladies.json",
-	filter: dateFilter
-});
-</code></pre>
-				
-				<p>
-					The template can use the additional field added by the filter:
-				</p>
-				
-<pre><code class="line-numbers language-markup">&lt;table class="table table-bordered table-striped"&gt;
-	&lt;th&gt;
-		Name
-	&lt;/th&gt;
-	&lt;th&gt;
-		Birth date (original)
-	&lt;/th&gt;
-	&lt;th&gt;
-		Birth date (formatted)
-	&lt;/th&gt;
-	{{#each entities}}
-	&lt;tr&gt;
-		&lt;td&gt;{{firstName}} {{lastName}}&lt;/td&gt;
-		&lt;td&gt;{{birthDate}}&lt;/td&gt;
-		&lt;td&gt;{{birthDateFormatted}}&lt;/td&gt;
-	&lt;/tr&gt;
-	{{/each}}
-&lt;/table&gt;
-</code></pre>				
-
 			</div>
 		</div>
 

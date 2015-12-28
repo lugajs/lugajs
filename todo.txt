@@ -39,7 +39,6 @@ DATA:
 
 data.Dataset:
 
-- Implement formatter function (passed to constructor)
 - Implement update(filter, setter)
 - Allow custom sorter for complex objects
 - Local storage persistence? It would require serialization of full dataSet (including filter! Pass filters as function names?)

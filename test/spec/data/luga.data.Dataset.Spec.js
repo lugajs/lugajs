@@ -2,12 +2,17 @@ describe("luga.data.Dataset", function(){
 
 	"use strict";
 
-	var baseDs, loadedDs, testRecords, removeUk, removeAus, removeBrasil, removeAll, testObserver;
+	var baseDs, loadedDs, testRecords, addTestCol, removeUk, removeAus, removeBrasil, removeAll, testObserver;
 	beforeEach(function(){
 
 		baseDs = new luga.data.DataSet({uuid: "test"});
 		testRecords = getJSONFixture("data/ladies.json");
 		loadedDs = new luga.data.DataSet({uuid: "myDs", records: testRecords});
+
+		addTestCol = function(row, rowIndex, dataSet){
+			row.testCol = "test";
+			return row;
+		};
 
 		removeUk = function(row, rowIndex, dataSet){
 			if(row.country === "UK"){
@@ -96,6 +101,25 @@ describe("luga.data.Dataset", function(){
 			it("Throws an exception if the passed filter is not a function", function(){
 				expect(function(){
 					var ds = new luga.data.DataSet({uuid: "uniqueDs", filter: "test"});
+				}).toThrow();
+			});
+		});
+
+		describe("options.formatter", function(){
+			it("Is null by default", function(){
+				expect(baseDs.formatter).toBeNull();
+			});
+
+			it("Will cause the formatter to be applied as soon as any record is loaded", function(){
+				var formattedDs = new luga.data.DataSet({uuid: "uniqueDs", formatter: addTestCol});
+				formattedDs.insert(testRecords);
+				// Check to see if the test column was added
+				expect(formattedDs.getCurrentRow().testCol).toEqual("test");
+			});
+
+			it("Throws an exception if the passed formatter is not a function", function(){
+				expect(function(){
+					var ds = new luga.data.DataSet({uuid: "uniqueDs", formatter: "test"});
 				}).toThrow();
 			});
 		});
@@ -537,6 +561,30 @@ describe("luga.data.Dataset", function(){
 					spyOn(baseDs, "setCurrentRowId");
 					baseDs.insert(testRecords);
 					expect(baseDs.setCurrentRowId).toHaveBeenCalledWith("lugaPk_0");
+				});
+			});
+
+			describe("Then:", function(){
+				it("Apply the formatter (if any)", function(){
+					var mock = {
+						formatter: removeAus
+					};
+					spyOn(mock, "formatter").and.callThrough();
+					var formattedDs = new luga.data.DataSet({uuid: "uniqueDs", formatter: mock.formatter});
+					formattedDs.insert(testRecords);
+					expect(mock.formatter).toHaveBeenCalled();
+				});
+			});
+
+			describe("Then:", function(){
+				it("Apply the filter (if any)", function(){
+					var mock = {
+						filter: removeAus
+					};
+					spyOn(mock, "filter").and.callThrough();
+					var filteredDs = new luga.data.DataSet({uuid: "uniqueDs", filter: mock.filter});
+					filteredDs.insert(testRecords);
+					expect(mock.filter).toHaveBeenCalled();
 				});
 			});
 

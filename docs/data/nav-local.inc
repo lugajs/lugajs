@@ -23,6 +23,9 @@
 			<a href="../dataset/filter.htm">Filtering</a>
 		</li>
 		<li class="list-group-item">
+			<a href="../dataset/formatter.htm">Formatting</a>
+		</li>
+		<li class="list-group-item">
 			<a href="../dataset/sort.htm">Sorting</a>
 		</li>
 		<li class="list-group-item">

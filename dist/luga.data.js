@@ -13,7 +13,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.3.4";
+	luga.data.version = "0.3.5";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -168,7 +168,8 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @property {string}                uuid       Unique identifier. Required
 	 * @property {array.<object>|object} records    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
-	 * @property {function|null}         filter     A filter functions to be called once for each row in the dataSet. Default to null
+	 * @property {function}              formatter  A formatting functions to be called once for each row in the dataSet. Default to null
+	 * @property {function}              filter     A filter functions to be called once for each row in the dataSet. Default to null
 	 */
 
 	/**
@@ -189,6 +190,7 @@ if(typeof(luga) === "undefined"){
 			ERROR_MESSAGES: {
 				INVALID_COL_TYPE: "Luga.DataSet.setColumnType(): Invalid type passed {0}",
 				INVALID_UUID_PARAMETER: "Luga.DataSet: uuid parameter is required",
+				INVALID_FORMATTER_PARAMETER: "Luga.DataSet: invalid formatter. You must use a function as formatter",
 				INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter",
 				INVALID_PRIMITIVE: "Luga.DataSet: records can be either an array of objects or a single object. Primitives are not accepted",
 				INVALID_PRIMITIVE_ARRAY: "Luga.DataSet: records can be either an array of name/value pairs or a single object. Array of primitives are not accepted",
@@ -203,6 +205,9 @@ if(typeof(luga) === "undefined"){
 
 		if(options.uuid === undefined){
 			throw(CONST.ERROR_MESSAGES.INVALID_UUID_PARAMETER);
+		}
+		if((options.formatter !== undefined) && (jQuery.isFunction(options.formatter) === false)){
+			throw(CONST.ERROR_MESSAGES.INVALID_FORMATTER_PARAMETER);
 		}
 		if((options.filter !== undefined) && (jQuery.isFunction(options.filter) === false)){
 			throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
@@ -219,6 +224,12 @@ if(typeof(luga) === "undefined"){
 
 		/** @type {hash.<luga.data.DataSet.row>} */
 		this.recordsHash = {};
+
+		/** @type {null|function} */
+		this.formatter = null;
+		if(options.formatter !== undefined){
+			this.formatter = options.formatter;
+		}
 
 		/** @type {null|array.<luga.data.DataSet.row>} */
 		this.filteredRecords = null;
@@ -251,6 +262,12 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
+		var applyFormatter = function(){
+			if(hasFormatter() === true){
+				self.records = filterRecords(self.records, self.formatter);
+			}
+		};
+
 		var filterRecords = function(orig, filter){
 			var filtered = [];
 			for(var i = 0; i < orig.length; i++){
@@ -264,6 +281,10 @@ if(typeof(luga) === "undefined"){
 
 		var hasFilter = function(){
 			return (self.filter !== null);
+		};
+
+		var hasFormatter = function(){
+			return (self.formatter !== null);
 		};
 
 		var selectAll = function(){
@@ -488,6 +509,7 @@ if(typeof(luga) === "undefined"){
 				this.records.push(recordsHolder[i]);
 			}
 			this.setCurrentRowId(this.records[0][luga.data.CONST.PK_KEY]);
+			applyFormatter();
 			applyFilter();
 			this.setState(luga.data.STATE.READY);
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
@@ -540,8 +562,8 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * Set a column type for a column. Required for proper sorting of numeric data.
-		 * By default data is sorted alpha-numerically, if you want it sorted numerically, set the proper columnType
+		 * Set a column type for a column. Required for proper sorting of numeric or date data.
+		 * By default data is sorted alpha-numerically, if you want it sorted numerically or by date, set the proper columnType
 		 * @param {string|array<string>} columnNames
 		 * @param {string}               columnType   Either "date", "number" or "string"
 		 */
@@ -662,9 +684,12 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * Sort the data
+		 * Sorts the dataSet using the given column(s) and sort order
 		 * @param {string|array<string>}  columnNames Required, either a single column name or an array of names
 		 * @param {luga.data.sort.ORDER}  sortOrder   Either "ascending", "descending" or "toggle". Optional, default to "toggle"
+		 * @fires preDataSorted
+		 * @fires dataSorted
+		 * @fires dataChanged
 		 */
 		this.sort = function(columnNames, sortOrder){
 			/*
@@ -994,7 +1019,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Fires off XHR request to fetch and load the data, notify observers ("dataLoading" first, "dataChanged" after records are loaded).
-		 * Does nothing if URL is not set
+		 * Throws an exception if URL is not set
 		 * @fires dataLoading
 		 * @throws
 		 */
@@ -1056,7 +1081,8 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {object} luga.data.JsonDataSet.options
 	 *
 	 * @extends luga.data.HttpDataSet.options
-	 * @property {string|null}   path      Specifies the path to the data within the JSON structure. Default to null
+	 * @property {string|null}   path      Specifies the path to the data within the JSON structure.
+	 *                                     The path is expressed as a set of property names on the objects, separated by dots. Default to null
 	 */
 
 	/**
@@ -1092,15 +1118,15 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Returns the path to be used to extract data out of the JSON data structure
-		 * @returns {string|null}
+		 * @returns {null|string}
 		 */
 		this.getPath = function(){
 			return this.path;
 		};
 
 		/**
-		 * Load records from JSON, without XHR calls
-		 * @param {json} path
+		 * First delete any existing records, then load data from the given JSON, without XHR calls
+		 * @param {json} json
 		 */
 		this.loadRawJson = function(json){
 			self.delete();
@@ -1108,7 +1134,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * Receives JSON data, either from an HTTP response or from a direct call, apply the path, if any, and loads records out of it
+		 * Retrieves JSON data, either from an HTTP response or from a direct call, apply the path, if any, extract and load records out of it
 		 * @param {json}     json         Data returned from the server
 		 * @param {string}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
 		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
@@ -1129,7 +1155,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Set the path to be used to extract data out of the JSON data structure
-		 * @param {string} path
+		 * @param {string} path   Data path, expressed as a set of property names on the objects, separated by dots. Required
 		 */
 		this.setPath = function(path){
 			this.path = path;

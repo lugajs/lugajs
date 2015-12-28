@@ -48,7 +48,8 @@
 	 *
 	 * @property {string}                uuid       Unique identifier. Required
 	 * @property {array.<object>|object} records    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
-	 * @property {function|null}         filter     A filter functions to be called once for each row in the dataSet. Default to null
+	 * @property {function}              formatter  A formatting functions to be called once for each row in the dataSet. Default to null
+	 * @property {function}              filter     A filter functions to be called once for each row in the dataSet. Default to null
 	 */
 
 	/**
@@ -69,6 +70,7 @@
 			ERROR_MESSAGES: {
 				INVALID_COL_TYPE: "Luga.DataSet.setColumnType(): Invalid type passed {0}",
 				INVALID_UUID_PARAMETER: "Luga.DataSet: uuid parameter is required",
+				INVALID_FORMATTER_PARAMETER: "Luga.DataSet: invalid formatter. You must use a function as formatter",
 				INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter",
 				INVALID_PRIMITIVE: "Luga.DataSet: records can be either an array of objects or a single object. Primitives are not accepted",
 				INVALID_PRIMITIVE_ARRAY: "Luga.DataSet: records can be either an array of name/value pairs or a single object. Array of primitives are not accepted",
@@ -83,6 +85,9 @@
 
 		if(options.uuid === undefined){
 			throw(CONST.ERROR_MESSAGES.INVALID_UUID_PARAMETER);
+		}
+		if((options.formatter !== undefined) && (jQuery.isFunction(options.formatter) === false)){
+			throw(CONST.ERROR_MESSAGES.INVALID_FORMATTER_PARAMETER);
 		}
 		if((options.filter !== undefined) && (jQuery.isFunction(options.filter) === false)){
 			throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
@@ -99,6 +104,12 @@
 
 		/** @type {hash.<luga.data.DataSet.row>} */
 		this.recordsHash = {};
+
+		/** @type {null|function} */
+		this.formatter = null;
+		if(options.formatter !== undefined){
+			this.formatter = options.formatter;
+		}
 
 		/** @type {null|array.<luga.data.DataSet.row>} */
 		this.filteredRecords = null;
@@ -131,6 +142,12 @@
 			}
 		};
 
+		var applyFormatter = function(){
+			if(hasFormatter() === true){
+				self.records = filterRecords(self.records, self.formatter);
+			}
+		};
+
 		var filterRecords = function(orig, filter){
 			var filtered = [];
 			for(var i = 0; i < orig.length; i++){
@@ -144,6 +161,10 @@
 
 		var hasFilter = function(){
 			return (self.filter !== null);
+		};
+
+		var hasFormatter = function(){
+			return (self.formatter !== null);
 		};
 
 		var selectAll = function(){
@@ -368,6 +389,7 @@
 				this.records.push(recordsHolder[i]);
 			}
 			this.setCurrentRowId(this.records[0][luga.data.CONST.PK_KEY]);
+			applyFormatter();
 			applyFilter();
 			this.setState(luga.data.STATE.READY);
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
