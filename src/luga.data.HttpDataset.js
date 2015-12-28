@@ -20,10 +20,10 @@
 	 * @typedef {object} luga.data.HttpDataSet.options
 	 *
 	 * @extends luga.data.DataSet.options
-	 * @property {string|null}   url       URL to be fetched. Default to null
-	 * @property {number}        timeout   Timeout (in milliseconds) for the HTTP request. Default to 10 seconds
-	 * @property {boolean}       cache     If set to false, it will force requested pages not to be cached by the browser.
-	 *                                     It works by appending "_={timestamp}" to the querystring. Default to true
+	 * @property {string}    url       URL to be fetched. Default to null
+	 * @property {number}    timeout   Timeout (in milliseconds) for the HTTP request. Default to 10 seconds
+	 * @property {boolean}   cache     If set to false, it will force requested pages not to be cached by the browser.
+	 *                                 It works by appending "_={timestamp}" to the querystring. Default to true
 	 */
 
 	/**
