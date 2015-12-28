@@ -13,6 +13,13 @@ DOCS:
 - Sample of dataSet/binding to a third-party widget?
 - Region scripting and API?
 
+- DataSet API:
+  resetCurrentRow()
+  select()
+  setCurrentRowId()
+  setCurrentRowIndex()
+  setState()
+
 -------------
 
 AJAXFORM:
@@ -28,8 +35,6 @@ CSI:
 CORE:
 
 - Implement luga.string.queryToHash()
-
-- Document luga.extend()
 
 -------------
 VALIDATOR:
