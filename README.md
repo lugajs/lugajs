@@ -12,6 +12,9 @@ Right now the following production ready libraries are available:
 		<a href="http://massimocorner.com/lugajs/docs/csi/docs/index.htm" title="Client-side include">CSI</a>: a simple solution to perform includes client-side
 	</li>
 	<li>
+		<a href="http://massimocorner.com/lugajs/docs/data/docs/index.htm" title="Data, binding and HTML templating">Data</a>: a data-centric library, designed to retrieve data from diverse sources, expose them using a unified API, leverage databinding and HTML templating
+	</li>
+	<li>
 		<a href="http://massimocorner.com/lugajs/docs/validator/docs/index.htm" title="Client-side form validation">Validator</a>: a library for client-side form validation
 	</li>
 </ul> 
