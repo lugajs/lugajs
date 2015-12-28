@@ -70,7 +70,7 @@
 
 		/**
 		 * Returns the detailSet's current state
-		 * @return {null|luga.data.STATE}
+		 * @returns {null|luga.data.STATE}
 		 */
 		this.getState = function(){
 			return self.dataSet.getState();

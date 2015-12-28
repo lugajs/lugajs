@@ -65,7 +65,7 @@
 			<a href="../region/traits.htm">Traits</a>
 		</li>
 		<li class="list-group-item">
-			<a href="../region/state.htm">Leverage state</a>
+			<a href="../region/state.htm">States</a>
 		</li>
 		<li class="list-group-item">
 			<a href="../region/syntax.htm">HTML syntax reference</a>

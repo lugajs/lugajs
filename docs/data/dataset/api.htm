@@ -74,7 +74,7 @@
 						{function}
 					</td>
 					<td>
-						A formatter functions to be called once for each row in the dataSet. Default to null.
+						A formatter functions to be called once for each row in the dataSet (<a href="formatter.htm">read more</a>). Default to null.
 					</td>
 				</tr>
 				<tr>
@@ -83,7 +83,7 @@
 						{function}
 					</td>
 					<td>
-						A filter functions to be called once for each row in the dataSet. Default to null.
+						A filter functions to be called once for each row in the dataSet (<a href="filter.htm">read more</a>). Default to null.
 					</td>
 				</tr>
 			</table>
@@ -104,6 +104,44 @@
 					<a href="filter.htm">See examples</a>
 				</p>
 			</div>
+		</div>
+
+		<div id="delete" class="panel panel-default">
+			<div class="panel-heading luga-docs-api-heading">.delete(filter)</div>
+			<div class="panel-body">
+				Delete records matching the given filter.
+				If no filter is passed, delete all records.
+				Triggers a "currentRowChanged", "stateChanged", then a "dataChanged" notification.
+			</div>
+			<table class="table table-bordered luga-docs-api">
+				<th colspan="3">Arguments</th>
+				<tr>
+					<td>filter</td>
+					<td class="luga-docs-type">
+						{function}
+					</td>
+					<td>
+						A <a href="filter.htm">filter function</a>. If specified only records matching the filter will be returned. Optional.
+						The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
+					</td>
+				</tr>
+			</table>
+			<table class="table table-bordered luga-docs-api">
+				<th>Examples</th>
+			</table>
+
+<pre><code class="language-javascript">var testDs = new luga.data.DataSet({uuid: "test", records: myData});
+// Delete only records where country = "UK"
+testDs.delete(function(row, rowIndex, dataSet){
+	if(row.country === "UK"){
+		return null;
+	}
+	return row;
+});
+// Delete all
+testDs.delete();
+</code></pre>
+
 		</div>
 
 		<div class="panel panel-default">
@@ -134,10 +172,130 @@
 		</div>
 
 		<div class="panel panel-default">
+			<div id="getCurrentRow" class="panel-heading luga-docs-api-heading">.getCurrentRow()</div>
+			<div class="panel-body">
+				Returns the current row object.
+				By default, the current row is the first row of the dataSet, but this can be changed by calling setCurrentRow() or setCurrentRowIndex().
+			</div>
+
+			<table class="table table-bordered luga-docs-api">
+				<th>Return type</th>
+				<tr>
+					<td>{luga.data.DataSet.row}</td>
+				</tr>
+			</table>
+
+		</div>
+
+		<div class="panel panel-default">
+			<div id="getCurrentRowId" class="panel-heading luga-docs-api-heading">.getCurrentRowId()</div>
+			<div class="panel-body">
+				Returns the rowId of the current row. Returns null if there is no current row.
+				Do not confuse the rowId of a row with the index of the row.
+				RowId is a column that contains a unique identifier for the row.
+				This identifier does not change if the rows of the dataSet are sorted.
+			</div>
+
+			<table class="table table-bordered luga-docs-api">
+				<th>Return type</th>
+				<tr>
+					<td>{string}</td>
+				</tr>
+			</table>
+
+		</div>
+
+		<div class="panel panel-default">
+			<div id="getCurrentRowIndex" class="panel-heading luga-docs-api-heading">.getCurrentRowIndex()</div>
+			<div class="panel-body">
+				Returns a zero-based index at which the current row can be found, or -1 if the dataSet is empty.
+			</div>
+
+			<table class="table table-bordered luga-docs-api">
+				<th>Return type</th>
+				<tr>
+					<td>{number}</td>
+				</tr>
+			</table>
+
+		</div>
+
+		<div class="panel panel-default">
+			<div id="getRecordsCount" class="panel-heading luga-docs-api-heading">.getRecordsCount()</div>
+			<div class="panel-body">
+				Returns the number of records in the dataSet.
+				If the dataSet has a filter, returns the number of filtered records.
+			</div>
+
+			<table class="table table-bordered luga-docs-api">
+				<th>Return type</th>
+				<tr>
+					<td>{number}</td>
+				</tr>
+			</table>
+
+		</div>
+
+		<div class="panel panel-default">
+			<div id="getRowById" class="panel-heading luga-docs-api-heading">.getRowById(rowId)</div>
+			<div class="panel-body">
+				Returns the row object associated with the given unique identifier.
+			</div>
+
+			<table class="table table-bordered luga-docs-api">
+				<th>Return type</th>
+				<tr class="luga-docs-type">
+					<td>{null|luga.data.DataSet.row}</td>
+				</tr>
+			</table>
+			<table class="table table-bordered luga-docs-api">
+				<th colspan="3">Arguments</th>
+				<tr>
+					<td>rowId</td>
+					<td>
+						{string}
+					</td>
+					<td>
+						Unique identifier. Required
+					</td>
+				</tr>
+			</table>
+
+		</div>
+
+		<div class="panel panel-default">
+			<div id="getRowByIndex" class="panel-heading luga-docs-api-heading">.getRowByIndex(index)</div>
+			<div class="panel-body">
+				Returns the row object associated with the given index.
+				Throws an exception if the index is out of range.
+			</div>
+
+			<table class="table table-bordered luga-docs-api">
+				<th>Return type</th>
+				<tr class="luga-docs-type">
+					<td>{null|luga.data.DataSet.row}</td>
+				</tr>
+			</table>
+			<table class="table table-bordered luga-docs-api">
+				<th colspan="3">Arguments</th>
+				<tr>
+					<td>index</td>
+					<td>
+						{number}
+					</td>
+					<td>
+						Zero-based index. Required
+					</td>
+				</tr>
+			</table>
+
+		</div>
+
+		<div class="panel panel-default">
 			<div id="getSortColumn" class="panel-heading luga-docs-api-heading">.getSortColumn()</div>
 			<div class="panel-body">
 				Returns the name of the column used for the most recent sort.
-				eturns an empty string if no sort has been performed yet.
+				Returns an empty string if no sort has been performed yet.
 			</div>
 
 			<table class="table table-bordered luga-docs-api">
@@ -165,10 +323,26 @@
 
 		</div>
 
+		<div class="panel panel-default">
+			<div id="getState" class="panel-heading luga-docs-api-heading">.getState()</div>
+			<div class="panel-body">
+				Returns the dataSet's current state.
+			</div>
+
+			<table class="table table-bordered luga-docs-api">
+				<th>Return type</th>
+				<tr class="luga-docs-type">
+					<td>{null|luga.data.STATE}</td>
+				</tr>
+			</table>
+			</table>
+
+		</div>
+
 		<div id="insert" class="panel panel-default">
 			<div class="panel-heading luga-docs-api-heading">.insert(records)</div>
 			<div class="panel-body">
-				Adds rows to a dataSet, then triggers a "dataChanged" notification.
+				Adds rows to a dataSet, then triggers a "stateChanged", then a "dataChanged" notification.
 				Be aware that the dataSet use passed data by reference.
 				That is, it uses those objects as its row object internally. It does not make a copy.
 			</div>

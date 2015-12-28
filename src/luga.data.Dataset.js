@@ -190,9 +190,10 @@
 		/**
 		 * Delete records matching the given filter
 		 * If no filter is passed, delete all records
-		 * @param {function|null} filter   An optional filter function. If specified only records matching the filter will be returned. Default to null
-		 *                                 The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
+		 * @param {function} filter   A filter function. If specified only records matching the filter will be returned. Optional
+		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @fires currentRowChanged
+		 * @fires stateChanged
 		 * @fires dataChanged
 		 * @throws
 		 */
@@ -240,7 +241,7 @@
 		/**
 		 * Returns the current row object
 		 * By default, the current row is the first row of the dataSet, but this can be changed by calling setCurrentRow() or setCurrentRowIndex().
-		 * @return {luga.data.DataSet.row}
+		 * @returns {luga.data.DataSet.row}
 		 */
 		this.getCurrentRow = function(){
 			var row = this.recordsHash[this.getCurrentRowId()];
@@ -253,9 +254,9 @@
 		/**
 		 * Returns the rowId of the current row
 		 * Do not confuse the rowId of a row with the index of the row
-		 * The rowId is a column that contains a unique identifier for the row
-		 * This identifier does not change if the rows of the data set are sorted
-		 * @returns {number}
+		 * RowId is a column that contains a unique identifier for the row
+		 * This identifier does not change if the rows of the dataSet are sorted
+		 * @returns {string}
 		 */
 		this.getCurrentRowId = function(){
 			return this.currentRowId;
@@ -276,7 +277,7 @@
 		/**
 		 * Returns the number of records in the dataSet
 		 * If the dataSet has a filter, returns the number of filtered records
-		 * @return {number}
+		 * @returns {number}
 		 */
 		this.getRecordsCount = function(){
 			var allRecords = selectAll();
@@ -289,7 +290,7 @@
 		/**
 		 * Returns the row object associated with the given unique identifier
 		 * @param {string} rowId  Required
-		 * @return {null|luga.data.DataSet.row}
+		 * @returns {null|luga.data.DataSet.row}
 		 */
 		this.getRowById = function(rowId){
 			if(this.recordsHash[rowId] !== undefined){
@@ -302,7 +303,7 @@
 		 * Returns the row object associated with the given index
 		 * Throws an exception if the index is out of range
 		 * @param {number} index  Required
-		 * @return {luga.data.DataSet.row}
+		 * @returns {luga.data.DataSet.row}
 		 * @throws
 		 */
 		this.getRowByIndex = function(index){
@@ -350,7 +351,7 @@
 
 		/**
 		 * Returns the dataSet's current state
-		 * @return {null|luga.data.STATE}
+		 * @returns {null|luga.data.STATE}
 		 */
 		this.getState = function(){
 			return this.state;
@@ -361,6 +362,7 @@
 		 * Be aware that the dataSet use passed data by reference
 		 * That is, it uses those objects as its row object internally. It does not make a copy
 		 * @param  {array.<object>|object} records   Records to be loaded, either one single object containing value/name pairs, or an array of objects. Required
+		 * @fires stateChanged
 		 * @fires dataChanged
 		 * @throws
 		 */
@@ -427,8 +429,8 @@
 		 * Returns an array of the internal row objects that store the records in the dataSet
 		 * Be aware that modifying any property of a returned object results in a modification of the internal records (since records are passed by reference)
 		 * @param {function|null} filter   An optional filter function. If specified only records matching the filter will be returned. Default to null
-		 *                                 The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
-		 * @return {array.<luga.data.DataSet.row>}
+		 *                                 The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
+		 * @returns {array.<luga.data.DataSet.row>}
 		 * @throws
 		 */
 		this.select = function(filter){
@@ -545,6 +547,7 @@
 		 * Set current state
 		 * This method is not intended to be called outside the dataSet. It's public only to be accessible to subclasses
 		 * @param {null|luga.data.STATE} newState
+		 * @fires stateChanged
 		 */
 		this.setState = function(newState){
 			if(luga.data.utils.isValidState(newState) === false){
