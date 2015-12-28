@@ -73,6 +73,71 @@
 		</div>
 
 		<div class="panel panel-default">
+			<div class="panel-heading luga-docs-api-heading">luga.extend(baseFunc, func, args)</div>
+			<div class="panel-body">
+
+				<p>
+					Offers a simple, minimalist solution for inheritance among classes, without using prototype.
+				</p>
+
+				<div class="alert alert-warning" role="alert">
+					<strong>Warning!</strong><br>
+					luga.extend does not set the constructor property of an object and does not give you a way to call the parent from the child constructor.
+				</div>
+
+			</div>
+
+			<table class="table table-bordered luga-docs-api">
+				<th colspan="3">Arguments</th>
+				<tr>
+					<td>baseFunc</td>
+					<td>
+						{function}
+					</td>
+					<td>
+						Parent constructor function. Required
+					</td>
+				</tr>
+				<tr>
+					<td>func</td>
+					<td>
+						{function}
+					</td>
+					<td>
+						Child constructor function. Required
+					</td>
+				</tr>
+				<tr>
+					<td>args</td>
+					<td>
+						{array}
+					</td>
+					<td>
+						An array of arguments that will be passed to the parent's constructor. Optional
+					</td>
+				</tr>
+			</table>
+
+			<table class="table table-bordered luga-docs-api">
+				<th>Examples</th>
+			</table>
+
+<pre><code class="language-javascript">luga.concreteNotifier = function(options){
+	luga.extend(luga.Notifier, this);
+	this.name = options.name;
+};
+</code></pre>
+<pre><code class="language-javascript">luga.data.region.Handlebars = function(options){
+	luga.extend(luga.data.region.Base, this, [options]);
+	/*
+		More code here, see:
+		src/luga.data.region.Handlebars.js
+	*/
+};</code></pre>
+
+		</div>
+
+		<div class="panel panel-default">
 			<div class="panel-heading luga-docs-api-heading">luga.lookupFunction(path)</div>
 			<div class="panel-body">
 				Given the name of a function as a string, return the relevant function, if any.
