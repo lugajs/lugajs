@@ -30,6 +30,8 @@ var CONST = {
 	VERSION_PATTERN: new RegExp(".version = \"(\\d.\\d(.\\d\\d?)?)\";")
 };
 
+/* Utilities */
+
 function assembleBanner(name, version){
 	var now = new Date();
 	var banner = [
@@ -42,14 +44,6 @@ function assembleBanner(name, version){
 	return banner;
 }
 
-function getLibSrc(key){
-	return CONST.SRC_FOLDER + "/" + CONST.LIB_PREFIX + key + CONST.JS_EXTENSION;
-}
-
-function getDataFragmentSrc(key){
-	return CONST.SRC_FOLDER + "/" + CONST.DATA_PREFIX + key + CONST.JS_EXTENSION;
-}
-
 function getVersionNumber(filePath){
 	var buffer = fs.readFileSync(filePath);
 	var fileStr = buffer.toString("utf8", 0, buffer.length);
@@ -57,19 +51,37 @@ function getVersionNumber(filePath){
 	return version;
 }
 
+function concatAndMinify(src, fileName, name, version){
+	return gulp.src(src)
+		.pipe(sourcemaps.init())
+		.pipe(concat(fileName))
+		.pipe(changed(CONST.DIST_FOLDER))
+		.pipe(header(assembleBanner(name, version))) // Banner for copy
+		.pipe(gulp.dest(CONST.DIST_FOLDER))
+		.pipe(rename({
+			extname: CONST.MIN_SUFFIX
+		}))
+		.pipe(uglify({
+			mangle: false
+		}))
+		.pipe(header(assembleBanner(name, version)))// Banner for minified
+		.pipe(sourcemaps.write(".", {
+			includeContent: true,
+			sourceRoot: "."
+		}))
+		.pipe(gulp.dest(CONST.DIST_FOLDER));
+}
+
+/* For Luga Libs */
+
+function getLibSrc(key){
+	return CONST.SRC_FOLDER + "/" + CONST.LIB_PREFIX + key + CONST.JS_EXTENSION;
+}
+
 function getAllLibsSrc(){
 	var paths = [];
 	for(var x in pkg.libs){
 		paths.push(getLibSrc(x));
-	}
-	return paths;
-}
-
-function getAllDataFragmentsSrc(){
-	var paths = [];
-	for(var i = 0; i < pkg.dataLibFragments.length; i++){
-		var path = getDataFragmentSrc(pkg.dataLibFragments[i]);
-		paths.push(path);
 	}
 	return paths;
 }
@@ -107,27 +119,22 @@ function releaseLib(key){
 		.pipe(gulp.dest(CONST.DIST_FOLDER));
 }
 
-function concatAndMinify(src, fileName, name, version){
-	return gulp.src(src)
-		.pipe(sourcemaps.init())
-		.pipe(concat(fileName))
-		.pipe(changed(CONST.DIST_FOLDER))
-		.pipe(header(assembleBanner(name, version)))
-		.pipe(gulp.dest(CONST.DIST_FOLDER))
-		.pipe(rename({
-			extname: CONST.MIN_SUFFIX
-		}))
-		.pipe(uglify({
-			mangle: false
-		}))
-		.pipe(header(assembleBanner(name, version)))
-		.pipe(sourcemaps.write(".", {
-			includeContent: true,
-			sourceRoot: "."
-		}))
+/* For Luga Data */
 
-		.pipe(gulp.dest(CONST.DIST_FOLDER));
+function getDataFragmentSrc(key){
+	return CONST.SRC_FOLDER + "/" + CONST.DATA_PREFIX + key + CONST.JS_EXTENSION;
 }
+
+function getAllDataFragmentsSrc(){
+	var paths = [];
+	for(var i = 0; i < pkg.dataLibFragments.length; i++){
+		var path = getDataFragmentSrc(pkg.dataLibFragments[i]);
+		paths.push(path);
+	}
+	return paths;
+}
+
+/* Tasks */
 
 gulp.task("concatLibs", function(){
 	return concatAndMinify(getAllLibsSrc(), CONST.CONCATENATED_LUGA_FILE, pkg.displayName, "");
@@ -155,6 +162,7 @@ gulp.task("default", function(callback){
 	runSequence(
 		"concatLibs",
 		"libs",
+		"data",
 		"zip",
 		function(error){
 			if(error){
