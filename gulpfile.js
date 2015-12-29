@@ -98,6 +98,7 @@ function releaseLib(key){
 		// The "changed" task needs to know the destination directory
 		// upfront to be able to figure out which files changed
 		.pipe(changed(CONST.DIST_FOLDER))
+		.pipe(sourcemaps.init())
 		.pipe(uglify({
 			mangle: false
 		}))
@@ -105,8 +106,11 @@ function releaseLib(key){
 			extname: CONST.MIN_SUFFIX
 		}))
 		.pipe(header(assembleBanner(libName, libVersion)))
-		.pipe(sourcemaps.init())
-		.pipe(sourcemaps.write("."))
+
+		.pipe(sourcemaps.write(".", {
+			includeContent: true,
+			sourceRoot: "."
+		}))
 		.pipe(gulp.dest(CONST.DIST_FOLDER));
 }
 
