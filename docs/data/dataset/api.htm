@@ -335,7 +335,6 @@ testDs.delete();
 					<td>{null|luga.data.STATE}</td>
 				</tr>
 			</table>
-			</table>
 
 		</div>
 
@@ -377,6 +376,13 @@ testDs.insert([
 
 		</div>
 
+		<div class="panel panel-default">
+			<div id="resetCurrentRow" class="panel-heading luga-docs-api-heading">.resetCurrentRow()</div>
+			<div class="panel-body">
+				Reset the currentRowId, then triggers a "currentRowChanged" notification.
+			</div>
+		</div>
+
 		<div id="setColumnType" class="panel panel-default">
 			<div class="panel-heading luga-docs-api-heading">.setColumnType(columnNames, columnType)</div>
 			<div class="panel-body">
@@ -412,6 +418,102 @@ testDs.insert([
 testDs.setColumnType(["numberCol", "moreNumber"], "number");
 </code></pre>
 
+		</div>
+
+		<div id="select" class="panel panel-default">
+			<div class="panel-heading luga-docs-api-heading">.select(filter)</div>
+			<div class="panel-body">
+				Returns an array of the internal row objects that store the records in the dataSet.
+				Be aware that modifying any property of a returned object results in a modification of the internal records (since records are passed by reference).
+			</div>
+			<table class="table table-bordered luga-docs-api">
+				<th colspan="3">Arguments</th>
+				<tr>
+					<td>filter</td>
+					<td class="luga-docs-type">
+						{function}
+					</td>
+					<td>
+						An optional filter function. If specified only records matching the filter will be returned. Optional.
+						The function is going to be called with this signature: myFilter(row, rowIndex, dataSet).
+					</td>
+				</tr>
+			</table>
+			<table class="table table-bordered luga-docs-api">
+				<th>Return type</th>
+				<tr class="luga-docs-type">
+					<td>{array.&lt;luga.data.DataSet.row&gt;}</td>
+				</tr>
+			</table>
+			<table class="table table-bordered luga-docs-api">
+				<th>Examples</th>
+			</table>
+
+<pre><code class="language-javascript">var testDs = new luga.data.DataSet({uuid: "test"});
+// Add records in one single pass
+testDs.insert([
+	{ "firstName": "Kate", "lastName": "Beckinsale" },
+	{ "firstName": "Jennifer", "lastName": "Connelly" },
+	{ "firstName": "Salma", "lastName": "Hayek" }
+]);
+testDs.select() // => All records returned
+
+// Filter out "Salma"
+testDs.delete(function(row, rowIndex, dataSet){
+	if(row.firstName === "Salma"){
+		return null;
+	}
+	return row;
+});
+// => Only two records returned
+</code></pre>
+
+		</div>
+
+		<div class="panel panel-default">
+			<div id="setCurrentRowId" class="panel-heading luga-docs-api-heading">.setCurrentRowId(rowId)</div>
+			<div class="panel-body">
+				<p>
+					Sets the current row of the data set to the row matching the given rowId.
+					Throws an exception if the given rowId is invalid.
+					Triggers a "currentRowChanged" notification.
+				</p>
+			</div>
+			<table class="table table-bordered luga-docs-api">
+				<th colspan="3">Arguments</th>
+				<tr>
+					<td>rowId</td>
+					<td>
+						{null|string}
+					</td>
+					<td>
+						New rowId. Required.
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="panel panel-default">
+			<div id="setCurrentRowIndex" class="panel-heading luga-docs-api-heading">.setCurrentRowIndex(index)</div>
+			<div class="panel-body">
+				<p>
+					Sets the current row of the dataSet to the one matching the given index.
+					Throws an exception if the index is out of range.
+					Triggers a "currentRowChanged" notification.
+				</p>
+			</div>
+			<table class="table table-bordered luga-docs-api">
+				<th colspan="3">Arguments</th>
+				<tr>
+					<td>index</td>
+					<td>
+						{number}
+					</td>
+					<td>
+						New index. Required.
+					</td>
+				</tr>
+			</table>
 		</div>
 
 		<div class="panel panel-default">

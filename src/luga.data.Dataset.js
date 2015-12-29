@@ -428,8 +428,8 @@
 		/**
 		 * Returns an array of the internal row objects that store the records in the dataSet
 		 * Be aware that modifying any property of a returned object results in a modification of the internal records (since records are passed by reference)
-		 * @param {function|null} filter   An optional filter function. If specified only records matching the filter will be returned. Default to null
-		 *                                 The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
+		 * @param {function} filter   An optional filter function. If specified only records matching the filter will be returned. Optional
+		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @returns {array.<luga.data.DataSet.row>}
 		 * @throws
 		 */
@@ -517,7 +517,8 @@
 		/**
 		 * Sets the current row of the dataSet to the one matching the given index
 		 * Throws an exception if the index is out of range
-		 * @param {number} index
+		 * @param {number} index  New index. Required
+		 * @fires currentRowChanged
 		 * @throws
 		 */
 		this.setCurrentRowIndex = function(index){
