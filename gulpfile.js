@@ -89,6 +89,7 @@ function copyLib(key){
 		libVersion = getLibVersion(key);
 	}
 	return gulp.src(getLibSrc(key))
+		.pipe(changed(CONST.DIST_FOLDER))
 		.pipe(header(assembleBanner(libName, libVersion)))
 		.pipe(gulp.dest(CONST.DIST_FOLDER));
 }
@@ -122,10 +123,10 @@ function releaseLib(key){
 
 gulp.task("concatLibs", function(){
 	return gulp.src(getAllLibsSrc())
-		.pipe(header(assembleBanner(pkg.displayName, "")))
-			.pipe(sourcemaps.init())
+		.pipe(sourcemaps.init())
 			.pipe(concat(CONST.CONCATENATED_FILE))
 			.pipe(changed(CONST.DIST_FOLDER))
+			.pipe(header(assembleBanner(pkg.displayName, "")))
 			.pipe(gulp.dest(CONST.DIST_FOLDER))
 			.pipe(rename({
 				extname: CONST.MIN_SUFFIX
