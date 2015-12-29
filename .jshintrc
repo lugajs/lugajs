@@ -5,6 +5,7 @@
   "freeze": true,
   "indent": 4,
   "latedef": true,
+  "loopfunc": false,
   "newcap": true,
   "noarg": true,
   "quotmark": "double",
