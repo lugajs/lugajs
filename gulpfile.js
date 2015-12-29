@@ -50,15 +50,8 @@ function getDataFragmentSrc(key){
 	return CONST.SRC_FOLDER + "/" + CONST.DATA_PREFIX + key + CONST.JS_EXTENSION;
 }
 
-function getDataVersion(){
-	var buffer = fs.readFileSync(getDataFragmentSrc(CONST.DATA_CORE_KEY));
-	var fileStr = buffer.toString("utf8", 0, buffer.length);
-	var version = CONST.VERSION_PATTERN.exec(fileStr)[1];
-	return version;
-}
-
-function getLibVersion(key){
-	var buffer = fs.readFileSync(getLibSrc(key));
+function getVersionNumber(filePath){
+	var buffer = fs.readFileSync(filePath);
 	var fileStr = buffer.toString("utf8", 0, buffer.length);
 	var version = CONST.VERSION_PATTERN.exec(fileStr)[1];
 	return version;
@@ -83,11 +76,8 @@ function getAllDataFragmentsSrc(){
 
 function copyLib(key){
 	var libName = pkg.libs[key].name;
+	var libVersion = getVersionNumber(getLibSrc(key));
 
-	var libVersion = pkg.libs[key].version;
-	if(libVersion === undefined){
-		libVersion = getLibVersion(key);
-	}
 	return gulp.src(getLibSrc(key))
 		.pipe(changed(CONST.DIST_FOLDER))
 		.pipe(header(assembleBanner(libName, libVersion)))
@@ -96,11 +86,7 @@ function copyLib(key){
 
 function releaseLib(key){
 	var libName = pkg.libs[key].name;
-
-	var libVersion = pkg.libs[key].version;
-	if(libVersion === undefined){
-		libVersion = getLibVersion(key);
-	}
+	var libVersion = getVersionNumber(getLibSrc(key));
 
 	return gulp.src(getLibSrc(key))
 		// The "changed" task needs to know the destination directory
@@ -121,26 +107,26 @@ function releaseLib(key){
 		.pipe(gulp.dest(CONST.DIST_FOLDER));
 }
 
-function concatAndMinify(src, destName, name, version){
+function concatAndMinify(src, fileName, name, version){
 	return gulp.src(src)
-			.pipe(sourcemaps.init())
-			.pipe(concat(destName))
-			.pipe(changed(CONST.DIST_FOLDER))
-			.pipe(header(assembleBanner(name, version)))
-			.pipe(gulp.dest(CONST.DIST_FOLDER))
-			.pipe(rename({
-				extname: CONST.MIN_SUFFIX
-			}))
-			.pipe(uglify({
-				mangle: false
-			}))
-			.pipe(header(assembleBanner(name, version)))
-			.pipe(sourcemaps.write(".", {
-				includeContent: true,
-				sourceRoot: "."
-			}))
+		.pipe(sourcemaps.init())
+		.pipe(concat(fileName))
+		.pipe(changed(CONST.DIST_FOLDER))
+		.pipe(header(assembleBanner(name, version)))
+		.pipe(gulp.dest(CONST.DIST_FOLDER))
+		.pipe(rename({
+			extname: CONST.MIN_SUFFIX
+		}))
+		.pipe(uglify({
+			mangle: false
+		}))
+		.pipe(header(assembleBanner(name, version)))
+		.pipe(sourcemaps.write(".", {
+			includeContent: true,
+			sourceRoot: "."
+		}))
 
-			.pipe(gulp.dest(CONST.DIST_FOLDER));
+		.pipe(gulp.dest(CONST.DIST_FOLDER));
 }
 
 gulp.task("concatLibs", function(){
@@ -148,7 +134,7 @@ gulp.task("concatLibs", function(){
 });
 
 gulp.task("data", function(){
-	var dataVersion = getDataVersion();
+	var dataVersion = getVersionNumber(getDataFragmentSrc(CONST.DATA_CORE_KEY));
 	return concatAndMinify(getAllDataFragmentsSrc(), CONST.CONCATENATED_DATA_FILE, pkg.dataLibDisplayName, dataVersion);
 });
 
