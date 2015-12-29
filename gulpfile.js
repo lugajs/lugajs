@@ -181,6 +181,7 @@ gulp.task("default", function(callback){
 	runSequence(
 		"concatLibs",
 		"libs",
+		"data",
 		"zip",
 		function(error){
 			if(error){

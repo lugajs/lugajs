@@ -35,18 +35,18 @@ VALIDATOR:
 DATA:
 
 data.Dataset:
-
 - Implement update(filter, setter)
 - Allow custom sorter for complex objects
 - Local storage persistence? Would it be better to persist only data?
 
-data.PagedDataset:
-
-- Implement
-
 data.region.Base:
-
 - Apply traits at currentRowchanged? All of them or just selected? Metadata or different args inside the constructor?
+
+data.Rss2Dataset
+- Implement: https://validator.w3.org/feed/docs/rss2.html
+
+data.PagedDataset:
+- Implement
 
 -------------
 
@@ -62,14 +62,5 @@ DATA WIDGETS:
 - Autosuggest widget
 
 - Use string templating to customize url/endpoint
-
--------------
-
-DATA FUTURE:
-
-- Add it to default Gulp task
-
-- data.Rss2Dataset
-  https://validator.w3.org/feed/docs/rss2.html
 
 -------------
