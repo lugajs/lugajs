@@ -6,9 +6,7 @@
 
 DOCS:
 
-- Move into GitHub pages?
 - Talk about CORS?
-
 - Use a datepicker to document custom trait?
 - Sample of dataSet/binding to a third-party widget?
 
