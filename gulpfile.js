@@ -82,7 +82,14 @@ function getAllDataFragmentsSrc(){
 }
 
 function copyLib(key){
+	var libName = pkg.libs[key].name;
+
+	var libVersion = pkg.libs[key].version;
+	if(libVersion === undefined){
+		libVersion = getLibVersion(key);
+	}
 	return gulp.src(getLibSrc(key))
+		.pipe(header(assembleBanner(libName, libVersion)))
 		.pipe(gulp.dest(CONST.DIST_FOLDER));
 }
 
@@ -98,21 +105,25 @@ function releaseLib(key){
 		// The "changed" task needs to know the destination directory
 		// upfront to be able to figure out which files changed
 		.pipe(changed(CONST.DIST_FOLDER))
-		.pipe(uglify({
-			mangle: false
-		}))
-		.pipe(rename({
-			extname: CONST.MIN_SUFFIX
-		}))
-		.pipe(header(assembleBanner(libName, libVersion)))
 		.pipe(sourcemaps.init())
-		.pipe(sourcemaps.write("."))
+			.pipe(uglify({
+				mangle: false
+			}))
+			.pipe(rename({
+				extname: CONST.MIN_SUFFIX
+			}))
+			.pipe(header(assembleBanner(libName, libVersion)))
+		.pipe(sourcemaps.write(".", {
+			includeContent: true,
+			sourceRoot: "."
+		}))
 		.pipe(gulp.dest(CONST.DIST_FOLDER));
 }
 
 gulp.task("concatLibs", function(){
 	return gulp.src(getAllLibsSrc())
-		.pipe(sourcemaps.init())
+		.pipe(header(assembleBanner(pkg.displayName, "")))
+			.pipe(sourcemaps.init())
 			.pipe(concat(CONST.CONCATENATED_FILE))
 			.pipe(changed(CONST.DIST_FOLDER))
 			.pipe(gulp.dest(CONST.DIST_FOLDER))
@@ -122,11 +133,12 @@ gulp.task("concatLibs", function(){
 			.pipe(uglify({
 				mangle: false
 			}))
-			.pipe(header(assembleBanner(pkg.displayName, "")))
+
 		.pipe(sourcemaps.write(".", {
 			includeContent: true,
 			sourceRoot: "."
 		}))
+		.pipe(header(assembleBanner(pkg.displayName, "")))
 		.pipe(gulp.dest(CONST.DIST_FOLDER));
 });
 
@@ -137,8 +149,6 @@ gulp.task("data", function(){
 			.pipe(concat(CONST.CONCATENATED_DATA_FILE))
 			.pipe(changed(CONST.DIST_FOLDER))
 			.pipe(gulp.dest(CONST.DIST_FOLDER))
-
-
 			.pipe(rename({
 				extname: CONST.MIN_SUFFIX
 			}))

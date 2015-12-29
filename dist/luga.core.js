@@ -1,3 +1,8 @@
+/*! 
+Luga Core 0.4.5 2015-12-29T20:28:11.133Z
+Copyright 2013-2015 Massimo Foti (massimo@massimocorner.com)
+Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
+ */
 if(typeof(jQuery) === "undefined"){
 	throw("Unable to find jQuery");
 }
@@ -41,6 +46,10 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Offers a simple solution for inheritance among classes
+	 *
+	 * @param {function} baseFunc  Parent constructor function. Required
+	 * @param {function} func      Child constructor function. Required
+	 * @param {array}    args      An array of arguments that will be passed to the parent's constructor. Optional
 	 */
 	luga.extend = function(baseFunc, func, args){
 		baseFunc.apply(func, args);
@@ -164,7 +173,7 @@ if(typeof(luga) === "undefined"){
 		 * For an event named "complete" they must implement a method named: "onCompleteHandler"
 		 * The interface for this methods is as follows:
 		 * observer.onCompleteHandler = function(data){};
-		 * @param  observer  Observer object
+		 * @param  {object} observer  Observer object
 		 * @throws
 		 */
 		this.addObserver = function(observer){
@@ -236,7 +245,7 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param {jquery}   rootNode     jQuery object wrapping the root node
 	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
-	 * @return {object}               A JavaScript object containing name/value pairs
+	 * @returns {object}               A JavaScript object containing name/value pairs
 	 * @throws
 	 */
 	luga.form.toHash = function(rootNode, demoronize){
@@ -310,7 +319,7 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param {jquery}   rootNode     jQuery object wrapping the root node
 	 * @param {boolean}  demoronize   If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
-	 * @return {string}               A URI encoded string
+	 * @returns {string}               A URI encoded string
 	 * @throws
 	 */
 	luga.form.toQueryString = function(rootNode, demoronize){
@@ -371,7 +380,7 @@ if(typeof(luga) === "undefined"){
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 *
 	 * @param {jquery}  fieldNode
-	 * @return {boolean}
+	 * @returns {boolean}
 	 */
 	luga.form.utils.isSuccessfulField = function(fieldNode){
 		if(luga.form.utils.isInputField(fieldNode) === false){
@@ -390,7 +399,7 @@ if(typeof(luga) === "undefined"){
 	 * Returns true if the passed node is a form field that we care about
 	 *
 	 * @param {jquery}  fieldNode
-	 * @return {boolean}
+	 * @returns {boolean}
 	 */
 	luga.form.utils.isInputField = function(fieldNode){
 		if(jQuery(fieldNode).prop("type") === undefined){
@@ -409,7 +418,7 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param {string}  name       Name of the field. Mandatory
 	 * @param {jquery}  rootNode   Root node, optional, default to document
-	 * @return {jquery}
+	 * @returns {jquery}
 	 */
 	luga.form.utils.getFieldGroup = function(name, rootNode){
 		var selector = "input[name=" + name + "]";
@@ -420,7 +429,7 @@ if(typeof(luga) === "undefined"){
 	 * Returns an array of input fields contained inside a given root node
 	 *
 	 * @param {jquery}  rootNode   Root node
-	 * @return {Array.<jquery>}
+	 * @returns {Array.<jquery>}
 	 */
 	luga.form.utils.getChildFields = function(rootNode){
 		var fields = [];
@@ -452,7 +461,7 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param  {string}  str                   String containing placeholders
 	 * @param  {object|array.<string>} args    Either an array of strings or an objects containing name/value pairs in string format
-	 * @return {string} The newly assembled string
+	 * @returns {string} The newly assembled string
 	 */
 	luga.string.format = function(str, args){
 		var pattern = null;
@@ -475,7 +484,7 @@ if(typeof(luga) === "undefined"){
 	 * Replace MS Word's non-ISO characters with plausible substitutes
 	 *
 	 * @param {string} str   String containing MS Word's garbage
-	 * @return {string}      The de-moronized string
+	 * @returns {string}      The de-moronized string
 	 */
 	luga.string.demoronize = function(str){
 		str = str.replace(new RegExp(String.fromCharCode(710), "g"), "^");

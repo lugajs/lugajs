@@ -1,3 +1,8 @@
+/*! 
+Luga CSI 1.1.1 2015-12-29T20:28:11.141Z
+Copyright 2013-2015 Massimo Foti (massimo@massimocorner.com)
+Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
+ */
 if(typeof(luga) === "undefined"){
 	throw("Unable to find Luga JS Core");
 }

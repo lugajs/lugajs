@@ -1,3 +1,8 @@
+/*! 
+Luga Validator 0.9.12 2015-12-29T20:28:11.144Z
+Copyright 2013-2015 Massimo Foti (massimo@massimocorner.com)
+Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
+ */
 /* globals alert */
 
 if(typeof(luga) === "undefined"){
