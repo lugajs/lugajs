@@ -51,20 +51,42 @@ function getVersionNumber(filePath){
 	return version;
 }
 
-function concatAndMinify(src, fileName, name, version){
+function distributeFile(src, name, version){
 	return gulp.src(src)
-		.pipe(sourcemaps.init())
-		.pipe(concat(fileName))
+		// The "changed" task needs to know the destination directory upfront
 		.pipe(changed(CONST.DIST_FOLDER))
 		.pipe(header(assembleBanner(name, version))) // Banner for copy
 		.pipe(gulp.dest(CONST.DIST_FOLDER))
-		.pipe(rename({
-			extname: CONST.MIN_SUFFIX
+		.pipe(sourcemaps.init())
+			.pipe(uglify({
+				mangle: false
+			}))
+			.pipe(rename({
+				extname: CONST.MIN_SUFFIX
+			}))
+			.pipe(header(assembleBanner(name, version)))
+		.pipe(sourcemaps.write(".", {
+			includeContent: true,
+			sourceRoot: "."
 		}))
-		.pipe(uglify({
-			mangle: false
-		}))
-		.pipe(header(assembleBanner(name, version)))// Banner for minified
+		.pipe(gulp.dest(CONST.DIST_FOLDER));
+}
+
+function concatAndMinify(src, fileName, name, version){
+	return gulp.src(src)
+		.pipe(sourcemaps.init())
+			.pipe(concat(fileName))
+			// The "changed" task needs to know the destination directory upfront
+			.pipe(changed(CONST.DIST_FOLDER))
+			.pipe(header(assembleBanner(name, version))) // Banner for copy
+			.pipe(gulp.dest(CONST.DIST_FOLDER))
+			.pipe(rename({
+				extname: CONST.MIN_SUFFIX
+			}))
+			.pipe(uglify({
+				mangle: false
+			}))
+			.pipe(header(assembleBanner(name, version)))// Banner for minified
 		.pipe(sourcemaps.write(".", {
 			includeContent: true,
 			sourceRoot: "."
@@ -86,39 +108,6 @@ function getAllLibsSrc(){
 	return paths;
 }
 
-function copyLib(key){
-	var libName = pkg.libs[key].name;
-	var libVersion = getVersionNumber(getLibSrc(key));
-
-	return gulp.src(getLibSrc(key))
-		.pipe(changed(CONST.DIST_FOLDER))
-		.pipe(header(assembleBanner(libName, libVersion)))
-		.pipe(gulp.dest(CONST.DIST_FOLDER));
-}
-
-function releaseLib(key){
-	var libName = pkg.libs[key].name;
-	var libVersion = getVersionNumber(getLibSrc(key));
-
-	return gulp.src(getLibSrc(key))
-		// The "changed" task needs to know the destination directory
-		// upfront to be able to figure out which files changed
-		.pipe(changed(CONST.DIST_FOLDER))
-		.pipe(sourcemaps.init())
-			.pipe(uglify({
-				mangle: false
-			}))
-			.pipe(rename({
-				extname: CONST.MIN_SUFFIX
-			}))
-			.pipe(header(assembleBanner(libName, libVersion)))
-		.pipe(sourcemaps.write(".", {
-			includeContent: true,
-			sourceRoot: "."
-		}))
-		.pipe(gulp.dest(CONST.DIST_FOLDER));
-}
-
 /* For Luga Data */
 
 function getDataFragmentSrc(key){
@@ -136,20 +125,21 @@ function getAllDataFragmentsSrc(){
 
 /* Tasks */
 
-gulp.task("concatLibs", function(){
-	return concatAndMinify(getAllLibsSrc(), CONST.CONCATENATED_LUGA_FILE, pkg.displayName, "");
-});
-
 gulp.task("data", function(){
 	var dataVersion = getVersionNumber(getDataFragmentSrc(CONST.DATA_CORE_KEY));
 	return concatAndMinify(getAllDataFragmentsSrc(), CONST.CONCATENATED_DATA_FILE, pkg.dataLibDisplayName, dataVersion);
 });
 
 gulp.task("libs", function(){
+	// All Luga libs
 	for(var x in pkg.libs){
-		releaseLib(x);
-		copyLib(x);
+		var src = getLibSrc(x);
+		var libName = pkg.libs[x].name;
+		var libVersion = getVersionNumber(src);
+		distributeFile(src, libName, libVersion);
 	}
+	// Concatenated version
+	concatAndMinify(getAllLibsSrc(), CONST.CONCATENATED_LUGA_FILE, pkg.displayName, "");
 });
 
 gulp.task("zip", function(){
@@ -160,7 +150,6 @@ gulp.task("zip", function(){
 
 gulp.task("default", function(callback){
 	runSequence(
-		"concatLibs",
 		"libs",
 		"data",
 		"zip",
