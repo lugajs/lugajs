@@ -11,7 +11,6 @@ DOCS:
 
 - Use a datepicker to document custom trait?
 - Sample of dataSet/binding to a third-party widget?
-- Region scripting and API?
 
 -------------
 
@@ -39,7 +38,7 @@ data.Dataset:
 
 - Implement update(filter, setter)
 - Allow custom sorter for complex objects
-- Local storage persistence? It would require serialization of full dataSet (including filter! Pass filters as function names?)
+- Local storage persistence? Would it be better to persist only data?
 
 data.PagedDataset:
 
