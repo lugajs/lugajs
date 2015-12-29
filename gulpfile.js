@@ -22,7 +22,7 @@ var CONST = {
 	DATA_CORE_KEY: "core",
 	JS_EXTENSION: ".js",
 	MIN_SUFFIX: ".min.js",
-	CONCATENATED_FILE: "luga.js",
+	CONCATENATED_LUGA_FILE: "luga.js",
 	CONCATENATED_DATA_FILE: "luga.data.js",
 	FOLDERS_TO_ARCHIVE: ["LICENSE", "dist/**/*", "docs/**/*", "lib/**/*", "src/**/*", "test/**/*"],
 	ARCHIVE_FILE: "luga-js.zip",
@@ -121,12 +121,12 @@ function releaseLib(key){
 		.pipe(gulp.dest(CONST.DIST_FOLDER));
 }
 
-gulp.task("concatLibs", function(){
-	return gulp.src(getAllLibsSrc())
-		.pipe(sourcemaps.init())
-			.pipe(concat(CONST.CONCATENATED_FILE))
+function concatAndMinify(src, destName, name, version){
+	return gulp.src(src)
+			.pipe(sourcemaps.init())
+			.pipe(concat(destName))
 			.pipe(changed(CONST.DIST_FOLDER))
-			.pipe(header(assembleBanner(pkg.displayName, "")))
+			.pipe(header(assembleBanner(name, version)))
 			.pipe(gulp.dest(CONST.DIST_FOLDER))
 			.pipe(rename({
 				extname: CONST.MIN_SUFFIX
@@ -134,34 +134,22 @@ gulp.task("concatLibs", function(){
 			.pipe(uglify({
 				mangle: false
 			}))
+			.pipe(header(assembleBanner(name, version)))
+			.pipe(sourcemaps.write(".", {
+				includeContent: true,
+				sourceRoot: "."
+			}))
 
-		.pipe(sourcemaps.write(".", {
-			includeContent: true,
-			sourceRoot: "."
-		}))
-		.pipe(header(assembleBanner(pkg.displayName, "")))
-		.pipe(gulp.dest(CONST.DIST_FOLDER));
+			.pipe(gulp.dest(CONST.DIST_FOLDER));
+}
+
+gulp.task("concatLibs", function(){
+	return concatAndMinify(getAllLibsSrc(), CONST.CONCATENATED_LUGA_FILE, pkg.displayName, "");
 });
 
 gulp.task("data", function(){
 	var dataVersion = getDataVersion();
-	return gulp.src(getAllDataFragmentsSrc())
-		.pipe(sourcemaps.init())
-			.pipe(concat(CONST.CONCATENATED_DATA_FILE))
-			.pipe(changed(CONST.DIST_FOLDER))
-			.pipe(gulp.dest(CONST.DIST_FOLDER))
-			.pipe(rename({
-				extname: CONST.MIN_SUFFIX
-			}))
-			.pipe(uglify({
-				mangle: false
-			}))
-			.pipe(header(assembleBanner(pkg.dataLibDisplayName, dataVersion)))
-		.pipe(sourcemaps.write(".", {
-			includeContent: true,
-			sourceRoot: "."
-		}))
-		.pipe(gulp.dest(CONST.DIST_FOLDER));
+	return concatAndMinify(getAllDataFragmentsSrc(), CONST.CONCATENATED_DATA_FILE, pkg.dataLibDisplayName, dataVersion);
 });
 
 gulp.task("libs", function(){
@@ -181,7 +169,6 @@ gulp.task("default", function(callback){
 	runSequence(
 		"concatLibs",
 		"libs",
-		"data",
 		"zip",
 		function(error){
 			if(error){
