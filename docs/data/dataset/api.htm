@@ -383,43 +383,6 @@ testDs.insert([
 			</div>
 		</div>
 
-		<div id="setColumnType" class="panel panel-default">
-			<div class="panel-heading luga-docs-api-heading">.setColumnType(columnNames, columnType)</div>
-			<div class="panel-body">
-				Set a column type for a column. Required for proper sorting of numeric or date data.<br>
-				By default data is sorted alpha-numerically, if you want it sorted numerically or by date, set the proper columnType.
-			</div>
-			<table class="table table-bordered luga-docs-api">
-				<th colspan="3">Arguments</th>
-				<tr>
-					<td>columnNames</td>
-					<td class="luga-docs-type">
-						{string|array&lt;string&gt;}
-					</td>
-					<td>
-						Either a single column name or an array of names. Required
-					</td>
-				</tr>
-				<tr>
-					<td>columnType</td>
-					<td>
-						{string}
-					</td>
-					<td>
-						Either "date", "number" or "string"
-					</td>
-				</tr>
-			</table>
-			<table class="table table-bordered luga-docs-api">
-				<th>Examples</th>
-			</table>
-
-<pre><code class="language-javascript">testDs.setColumnType("birthDate", "date");
-testDs.setColumnType(["numberCol", "moreNumber"], "number");
-</code></pre>
-
-		</div>
-
 		<div id="select" class="panel panel-default">
 			<div class="panel-heading luga-docs-api-heading">.select(filter)</div>
 			<div class="panel-body">
@@ -470,12 +433,50 @@ testDs.delete(function(row, rowIndex, dataSet){
 
 		</div>
 
+		<div id="setColumnType" class="panel panel-default">
+			<div class="panel-heading luga-docs-api-heading">.setColumnType(columnNames, columnType)</div>
+			<div class="panel-body">
+				Set a column type for a column. Required for proper sorting of numeric or date data.<br>
+				By default data is sorted alpha-numerically, if you want it sorted numerically or by date, set the proper columnType.
+			</div>
+			<table class="table table-bordered luga-docs-api">
+				<th colspan="3">Arguments</th>
+				<tr>
+					<td>columnNames</td>
+					<td class="luga-docs-type">
+						{string|array&lt;string&gt;}
+					</td>
+					<td>
+						Either a single column name or an array of names. Required
+					</td>
+				</tr>
+				<tr>
+					<td>columnType</td>
+					<td>
+						{string}
+					</td>
+					<td>
+						Either "date", "number" or "string"
+					</td>
+				</tr>
+			</table>
+			<table class="table table-bordered luga-docs-api">
+				<th>Examples</th>
+			</table>
+
+<pre><code class="language-javascript">testDs.setColumnType("birthDate", "date");
+	testDs.setColumnType(["numberCol", "moreNumber"], "number");
+</code></pre>
+
+		</div>
+
 		<div class="panel panel-default">
 			<div id="setCurrentRowId" class="panel-heading luga-docs-api-heading">.setCurrentRowId(rowId)</div>
 			<div class="panel-body">
 				<p>
 					Sets the current row of the data set to the row matching the given rowId.
 					Throws an exception if the given rowId is invalid.
+					If null is passed, no row is selected.
 					Triggers a "currentRowChanged" notification.
 				</p>
 			</div>
