@@ -557,14 +557,6 @@ describe("luga.data.Dataset", function(){
 			});
 
 			describe("Then:", function(){
-				it("Calls .setCurrentRowId() passing the PK of the first record", function(){
-					spyOn(baseDs, "setCurrentRowId");
-					baseDs.insert(testRecords);
-					expect(baseDs.setCurrentRowId).toHaveBeenCalledWith("lugaPk_0");
-				});
-			});
-
-			describe("Then:", function(){
 				it("Apply the formatter (if any)", function(){
 					var mock = {
 						formatter: removeAus
@@ -585,6 +577,14 @@ describe("luga.data.Dataset", function(){
 					var filteredDs = new luga.data.DataSet({uuid: "uniqueDs", filter: mock.filter});
 					filteredDs.insert(testRecords);
 					expect(mock.filter).toHaveBeenCalled();
+				});
+			});
+
+			describe("Then:", function(){
+				it("Calls .resetCurrentRow()", function(){
+					spyOn(baseDs, "resetCurrentRow");
+					baseDs.insert(testRecords);
+					expect(baseDs.resetCurrentRow).toHaveBeenCalled();
 				});
 			});
 
@@ -640,14 +640,14 @@ describe("luga.data.Dataset", function(){
 
 	describe(".resetCurrentRow()", function(){
 
-		it("Set currentRowId to 'lugaPk_0'", function(){
+		it("Set currentRowId to the first record available", function(){
 			baseDs.insert(testRecords);
 			baseDs.setCurrentRowId("lugaPk_2");
 			baseDs.resetCurrentRow();
 			expect(baseDs.getCurrentRowId()).toEqual("lugaPk_0");
 		});
 
-		it("Set currentRowId to the rowId of the first filtered record if the dataSet is associated with a filter", function(){
+		it("Set currentRow to the first filtered record if the dataSet is associated with a filter", function(){
 			var noAussieDs = new luga.data.DataSet({uuid: "uniqueDs", filter: removeAus});
 			noAussieDs.insert(testRecords);
 			expect(noAussieDs.getCurrentRowId()).toEqual("lugaPk_1");

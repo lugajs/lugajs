@@ -390,9 +390,9 @@
 				this.recordsHash[recordID] = recordsHolder[i];
 				this.records.push(recordsHolder[i]);
 			}
-			this.setCurrentRowId(this.records[0][luga.data.CONST.PK_KEY]);
 			applyFormatter();
 			applyFilter();
+			this.resetCurrentRow();
 			this.setState(luga.data.STATE.READY);
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
@@ -465,6 +465,7 @@
 		/**
 		 * Sets the current row of the data set to the row matching the given rowId
 		 * Throws an exception if the given rowId is invalid
+		 * If null is passed, no row is selected
 		 * Triggers a "currentRowChanged" notification
 		 * @param {string|null} rowId  Required
 		 * @fires currentRowChanged
