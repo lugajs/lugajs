@@ -33,6 +33,7 @@ VALIDATOR:
 DATA:
 
 data.Dataset:
+- Persist currentRowId selection on resetCurrentRow()
 - Implement update(filter, setter)
 - Allow custom sorter for complex objects
 - Local storage persistence? Would it be better to persist only data?
