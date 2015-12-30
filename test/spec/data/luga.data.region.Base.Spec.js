@@ -257,6 +257,16 @@ describe("luga.data.region.Base", function(){
 		});
 	});
 
+	describe(".onCurrentRowChangedHandler()", function(){
+		it("Calls .applyTraits() whenever the associated dataSource triggers a 'currentRowChanged' event", function(){
+			spyOn(configRegion, "onCurrentRowChangedHandler").and.callThrough();
+			spyOn(configRegion, "applyTraits");
+			loadedDs.setCurrentRowIndex(3); // triggers a 'currentRowChanged' event
+			expect(configRegion.onCurrentRowChangedHandler).toHaveBeenCalled();
+			expect(configRegion.applyTraits).toHaveBeenCalled();
+		});
+	});
+
 	describe(".onDataChangedHandler()", function(){
 		it("Calls .render() whenever the associated dataSource triggers a 'dataChanged' event", function(){
 			spyOn(configRegion, "onDataChangedHandler").and.callThrough();
