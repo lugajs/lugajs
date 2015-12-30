@@ -205,7 +205,15 @@
 				if(jQuery.isFunction(filter) === false){
 					throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 				}
-				this.records = filterRecords(selectAll(), filter);
+				var orig = this.records;
+				for(var i = 0; i < orig.length; i++){
+					if(filter(orig[i], i, this) === null){
+						// If matches, delete from array and hash
+						var rowToDelete = orig[i];
+						this.records.splice(i, 1);
+						delete this.recordsHash[rowToDelete[luga.data.CONST.PK_KEY]];
+					}
+				}
 				applyFilter();
 			}
 			this.resetCurrentRow();
@@ -403,10 +411,28 @@
 		};
 
 		/**
-		 * Reset the currentRowId
+		 * Reset the currentRowId. Persist previous selection if possible
 		 * @fires currentRowChanged
 		 */
 		this.resetCurrentRow = function(){
+			// If we have previous selection
+			if(this.currentRowId !== null){
+				// Try to persist
+				var targetRow = this.getRowById(this.currentRowId);
+				if(targetRow !== null){
+					this.setCurrentRowId(this.currentRowId);
+					return;
+				}
+			}
+			// No previous selection
+			this.resetCurrentRowToFirst();
+		};
+
+		/**
+		 * Reset the currentRowId to the first record available
+		 * @fires currentRowChanged
+		 */
+		this.resetCurrentRowToFirst = function(){
 			// We have a filter
 			if(hasFilter() === true){
 				if((this.filteredRecords === null) || (this.filteredRecords.length === 0)){
@@ -414,10 +440,6 @@
 					return;
 				}
 				if(this.filteredRecords.length > 0){
-					// Persist previous selection, if any
-
-
-
 					// First among the filtered records
 					this.setCurrentRowId(this.filteredRecords[0][luga.data.CONST.PK_KEY]);
 					return;
@@ -425,16 +447,12 @@
 			}
 			// No filter
 			if(this.records.length > 0){
-				// Persist previous selection, if any
-
-
 				// First record
 				this.setCurrentRowId(this.records[0][luga.data.CONST.PK_KEY]);
 			}
 			else{
 				this.setCurrentRowId(null);
 			}
-			return;
 		};
 
 		/**
@@ -632,7 +650,7 @@
 
 			this.records.sort(sortFunction);
 			applyFilter();
-			this.resetCurrentRow();
+			this.resetCurrentRowToFirst();
 			this.setState(luga.data.STATE.READY);
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_SORTED, notificationData);
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});

@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.3.5 2015-12-29T22:18:19.102Z
+Luga Data 0.3.6 2015-12-30T13:05:46.784Z
 Copyright 2013-2015 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -18,7 +18,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.3.5";
+	luga.data.version = "0.3.6";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -330,7 +330,15 @@ if(typeof(luga) === "undefined"){
 				if(jQuery.isFunction(filter) === false){
 					throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 				}
-				this.records = filterRecords(selectAll(), filter);
+				var orig = this.records;
+				for(var i = 0; i < orig.length; i++){
+					if(filter(orig[i], i, this) === null){
+						// If matches, delete from array and hash
+						var rowToDelete = orig[i];
+						this.records.splice(i, 1);
+						delete this.recordsHash[rowToDelete[luga.data.CONST.PK_KEY]];
+					}
+				}
 				applyFilter();
 			}
 			this.resetCurrentRow();
@@ -369,11 +377,7 @@ if(typeof(luga) === "undefined"){
 		 * @returns {luga.data.DataSet.row}
 		 */
 		this.getCurrentRow = function(){
-			var row = this.recordsHash[this.getCurrentRowId()];
-			if(row !== undefined){
-				return row;
-			}
-			return null;
+			return this.getRowById(this.getCurrentRowId());
 		};
 
 		/**
@@ -418,10 +422,19 @@ if(typeof(luga) === "undefined"){
 		 * @returns {null|luga.data.DataSet.row}
 		 */
 		this.getRowById = function(rowId){
-			if(this.recordsHash[rowId] !== undefined){
-				return this.recordsHash[rowId];
+			var targetRow = this.recordsHash[rowId];
+			if(targetRow === undefined){
+				// Nothing matches
+				return null;
 			}
-			return null;
+			if(hasFilter() === true){
+				if(this.filteredRecords.indexOf(targetRow) !== -1){
+					return targetRow;
+				}
+				return null;
+			}
+			// No filter, return the matching row
+			return targetRow;
 		};
 
 		/**
@@ -515,18 +528,36 @@ if(typeof(luga) === "undefined"){
 				this.recordsHash[recordID] = recordsHolder[i];
 				this.records.push(recordsHolder[i]);
 			}
-			this.setCurrentRowId(this.records[0][luga.data.CONST.PK_KEY]);
 			applyFormatter();
 			applyFilter();
+			this.resetCurrentRow();
 			this.setState(luga.data.STATE.READY);
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
 		/**
-		 * Reset the currentRowId
+		 * Reset the currentRowId. Persist previous selection if possible
 		 * @fires currentRowChanged
 		 */
 		this.resetCurrentRow = function(){
+			// If we have previous selection
+			if(this.currentRowId !== null){
+				// Try to persist
+				var targetRow = this.getRowById(this.currentRowId);
+				if(targetRow !== null){
+					this.setCurrentRowId(this.currentRowId);
+					return;
+				}
+			}
+			// No previous selection
+			this.resetCurrentRowToFirst();
+		};
+
+		/**
+		 * Reset the currentRowId to the first record available
+		 * @fires currentRowChanged
+		 */
+		this.resetCurrentRowToFirst = function(){
 			// We have a filter
 			if(hasFilter() === true){
 				if((this.filteredRecords === null) || (this.filteredRecords.length === 0)){
@@ -547,7 +578,6 @@ if(typeof(luga) === "undefined"){
 			else{
 				this.setCurrentRowId(null);
 			}
-			return;
 		};
 
 		/**
@@ -590,6 +620,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Sets the current row of the data set to the row matching the given rowId
 		 * Throws an exception if the given rowId is invalid
+		 * If null is passed, no row is selected
 		 * Triggers a "currentRowChanged" notification
 		 * @param {string|null} rowId  Required
 		 * @fires currentRowChanged
@@ -744,7 +775,7 @@ if(typeof(luga) === "undefined"){
 
 			this.records.sort(sortFunction);
 			applyFilter();
-			this.resetCurrentRow();
+			this.resetCurrentRowToFirst();
 			this.setState(luga.data.STATE.READY);
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_SORTED, notificationData);
 			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});

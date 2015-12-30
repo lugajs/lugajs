@@ -329,14 +329,14 @@ describe("luga.data.Dataset", function(){
 			expect(baseDs.getCurrentRowId()).toEqual("lugaPk_2");
 		});
 
-		describe("Returns zero if:", function(){
-			it("Records are added to the dataSet", function(){
+		describe("Returns the first record if:", function(){
+			it("Records are just added to the dataSet", function(){
 				baseDs.insert(testRecords);
 				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_0");
 			});
-			it("A filter was just applied to the dataSet", function(){
+			it("A filter was just applied that removed the currentRow", function(){
 				baseDs.insert(testRecords);
-				baseDs.setCurrentRowId("lugaPk_2");
+				baseDs.setCurrentRowId("lugaPk_1");
 				baseDs.setFilter(removeUk);
 				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_0");
 			});
@@ -368,9 +368,9 @@ describe("luga.data.Dataset", function(){
 				baseDs.insert(testRecords);
 				expect(baseDs.getCurrentRowIndex()).toEqual(0);
 			});
-			it("A filter was just applied to the dataSet", function(){
+			it("A filter was just applied to the dataSet that removed the currentRow", function(){
 				baseDs.insert(testRecords);
-				baseDs.setCurrentRowId("lugaPk_2");
+				baseDs.setCurrentRowId("lugaPk_1");
 				baseDs.setFilter(removeUk);
 				expect(baseDs.getCurrentRowIndex()).toEqual(0);
 			});
@@ -644,32 +644,73 @@ describe("luga.data.Dataset", function(){
 
 	describe(".resetCurrentRow()", function(){
 
+		describe("If the dataSet has no previous current row:", function(){
+
+			it("Calls .resetCurrentRowToFirst()", function(){
+				spyOn(baseDs, "resetCurrentRowToFirst");
+				baseDs.insert(testRecords);
+				baseDs.resetCurrentRow();
+				expect(baseDs.resetCurrentRowToFirst).toHaveBeenCalled();
+			});
+
+		});
+
+		describe("If the dataSet has previous current row:", function(){
+
+			it("Set currentRowId to the previously selected row", function(){
+				// Insert Nicole
+				baseDs.insert(testRecords[0]);
+				// Insert Kate
+				baseDs.insert(testRecords[1]);
+				// Select Kate
+				baseDs.setCurrentRowId("lugaPk_1");
+				baseDs.resetCurrentRow();
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_1");
+			});
+
+			it("Reset normally if the previously selected row is not available", function(){
+				// Insert Nicole
+				baseDs.insert(testRecords[0]);
+				// Insert Kate
+				baseDs.insert(testRecords[1]);
+				// Insert Jennifer
+				baseDs.insert(testRecords[2]);
+				// Select Kate
+				baseDs.setCurrentRowId("lugaPk_1");
+				// Delete UK
+				baseDs.delete(removeUk);
+				baseDs.resetCurrentRow();
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_0");
+			});
+
+		});
+
+	});
+
+	describe(".resetCurrentRowToFirst()", function(){
+
 		it("Set currentRowId to the first record available", function(){
 			baseDs.insert(testRecords);
-			baseDs.setCurrentRowId("lugaPk_2");
-			baseDs.resetCurrentRow();
+			baseDs.resetCurrentRowToFirst();
 			expect(baseDs.getCurrentRowId()).toEqual("lugaPk_0");
 		});
 
 		it("Set currentRow to the first filtered record if the dataSet is associated with a filter", function(){
 			var noAussieDs = new luga.data.DataSet({uuid: "uniqueDs", filter: removeAus});
 			noAussieDs.insert(testRecords);
-			expect(noAussieDs.getCurrentRowId()).toEqual("lugaPk_1");
-			noAussieDs.setCurrentRowId("lugaPk_2");
-			expect(noAussieDs.getCurrentRowId()).toEqual("lugaPk_2");
-			noAussieDs.resetCurrentRow();
+			noAussieDs.resetCurrentRowToFirst();
 			expect(noAussieDs.getCurrentRowId()).toEqual("lugaPk_1");
 		});
 
 		describe("Set currentRowId to null if:", function(){
 			it("The dataSet is empty", function(){
-				baseDs.resetCurrentRow();
+				baseDs.resetCurrentRowToFirst();
 				expect(baseDs.getCurrentRowId()).toBeNull();
 			});
 			it("All the records are filtered out", function(){
 				baseDs.insert(testRecords);
 				baseDs.setFilter(removeAll);
-				baseDs.resetCurrentRow();
+				baseDs.resetCurrentRowToFirst();
 				expect(baseDs.getCurrentRowId()).toBeNull();
 			});
 		});
@@ -947,10 +988,10 @@ describe("luga.data.Dataset", function(){
 			});
 
 			describe("Then:", function(){
-				it("Calls .resetCurrentRow()", function(){
-					spyOn(baseDs, "resetCurrentRow").and.callThrough();
+				it("Calls .resetCurrentRowToFirst()", function(){
+					spyOn(baseDs, "resetCurrentRowToFirst").and.callThrough();
 					baseDs.sort("firstName");
-					expect(baseDs.resetCurrentRow).toHaveBeenCalled();
+					expect(baseDs.resetCurrentRowToFirst).toHaveBeenCalled();
 				});
 			});
 
