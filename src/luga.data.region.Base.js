@@ -110,6 +110,13 @@
 		/* Events Handlers */
 
 		/**
+		 * @param {luga.data.currentRowChanged} data
+		 */
+		this.onCurrentRowChangedHandler = function(data){
+			self.applyTraits();
+		};
+
+		/**
 		 * @param {luga.data.dataSourceChanged} data
 		 */
 		this.onDataChangedHandler = function(data){

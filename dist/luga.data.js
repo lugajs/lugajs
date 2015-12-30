@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.3.6 2015-12-30T13:05:46.784Z
+Luga Data 0.3.6 2015-12-30T15:12:49.464Z
 Copyright 2013-2015 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -1411,6 +1411,13 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/* Events Handlers */
+
+		/**
+		 * @param {luga.data.currentRowChanged} data
+		 */
+		this.onCurrentRowChangedHandler = function(data){
+			self.applyTraits();
+		};
 
 		/**
 		 * @param {luga.data.dataSourceChanged} data
