@@ -244,11 +244,7 @@
 		 * @returns {luga.data.DataSet.row}
 		 */
 		this.getCurrentRow = function(){
-			var row = this.recordsHash[this.getCurrentRowId()];
-			if(row !== undefined){
-				return row;
-			}
-			return null;
+			return this.getRowById(this.getCurrentRowId());
 		};
 
 		/**
@@ -293,10 +289,19 @@
 		 * @returns {null|luga.data.DataSet.row}
 		 */
 		this.getRowById = function(rowId){
-			if(this.recordsHash[rowId] !== undefined){
-				return this.recordsHash[rowId];
+			var targetRow = this.recordsHash[rowId];
+			if(targetRow === undefined){
+				// Nothing matches
+				return null;
 			}
-			return null;
+			if(hasFilter() === true){
+				if(this.filteredRecords.indexOf(targetRow) !== -1){
+					return targetRow;
+				}
+				return null;
+			}
+			// No filter, return the matching row
+			return targetRow;
 		};
 
 		/**
@@ -409,6 +414,10 @@
 					return;
 				}
 				if(this.filteredRecords.length > 0){
+					// Persist previous selection, if any
+
+
+
 					// First among the filtered records
 					this.setCurrentRowId(this.filteredRecords[0][luga.data.CONST.PK_KEY]);
 					return;
@@ -416,6 +425,9 @@
 			}
 			// No filter
 			if(this.records.length > 0){
+				// Persist previous selection, if any
+
+
 				// First record
 				this.setCurrentRowId(this.records[0][luga.data.CONST.PK_KEY]);
 			}

@@ -412,13 +412,17 @@ describe("luga.data.Dataset", function(){
 		});
 		describe("Returns null if:", function(){
 			it("The dataSet is empty", function(){
-				var row = baseDs.getRowById(2);
+				var row = baseDs.getRowById("lugaPk_0");
 				expect(row).toBeNull();
 			});
 			it("No available record matches the given rowId", function(){
 				baseDs.insert(testRecords);
-				var row = baseDs.getRowById(99);
-				expect(row).toBeNull();
+				expect( baseDs.getRowById(99)).toBeNull();
+			});
+			it("A record with the given rowId exists, but it's filtered out", function(){
+				baseDs.insert(testRecords);
+				baseDs.setFilter(removeAus);
+				expect(baseDs.getRowById("lugaPk_0")).toBeNull();
 			});
 		});
 	});
