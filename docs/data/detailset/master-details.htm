@@ -41,7 +41,7 @@
 	<script id="masterTemplate" type="text/x-handlebars-template">
 		<ul class="luga-docs-list">
 			{{#each entities}}
-				<li><a href="#" data-lugaregion-setrowid="{{lugaRowId}}">{{lastName}}</a></li>
+				<li><a href="#" data-lugaregion-setrowid="{{lugaRowId}}" data-lugaregion-select="luga-docs-selected">{{lastName}}</a></li>
 			{{/each}}
 		</ul>
 	</script>
@@ -117,13 +117,16 @@
 				For the master region you want the ability to click on each single record and change the dataSet's current row accordingly.
 				This will be automatically reflected inside the detail region, since the detailSet is binded to the current row.
 				This feature is available as one of the build-in <a href="../region/traits.htm">traits</a>.
-				The trait used here is setrowid and you can apply the relevant attribute to any HTML tag inside the region:
+				The trait used here is <strong>setrowid</strong> and you can apply the relevant attribute to any HTML tag inside the region.<br>
+				You can also see the <strong>select</strong> trait in action here, it applies a CSS class to the currently selected row.
 			</p>
 
 <pre><code class="line-numbers language-markup">&lt;script id="masterTemplate" type="text/x-handlebars-template"&gt;
 	&lt;ul class="luga-docs-list"&gt;
 		{{#each entities}}
-			&lt;li&gt;&lt;a href="#" data-lugaregion-setrowid="{{lugaRowId}}"&gt;{{lastName}}&lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#"
+				data-lugaregion-setrowid="{{lugaRowId}}"
+				data-lugaregion-select="luga-docs-selected"&gt;{{lastName}}&lt;/a&gt;&lt;/li&gt;
 		{{/each}}
 	&lt;/ul&gt;
 &lt;/script&gt;

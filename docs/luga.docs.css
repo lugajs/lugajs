@@ -10,6 +10,13 @@ html, body.luga-docs {
 	max-width: 1400px;
 }
 
+/* Utilities */
+
+.luga-docs .luga-docs-selected {
+	font-style: italic;
+	font-weight: 700;
+}
+
 /* List reset */
 dl, dt, dd, ol, ul, li {
 	border: 0;
