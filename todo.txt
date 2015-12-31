@@ -38,9 +38,6 @@ data.Dataset:
 - Allow custom sorter for complex objects
 - Local storage persistence? Would it be better to persist only data?
 
-data.Rss2Dataset
-- Implement: https://validator.w3.org/feed/docs/rss2.html
-
 data.PagedDataset:
 - Implement
 

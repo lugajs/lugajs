@@ -26,6 +26,11 @@
 			"name": "Luga Validator"
 		}
 	},
+	"standalone": {
+		"data.Rss2Dataset": {
+			"name": "Luga Data - RSS 2.0 DataSet"
+		}
+	},
 	"dataLibFragments": ["core", "Dataset", "DetailSet", "HttpDataset", "JsonDataSet", "region", "region.Base", "region.Handlebars", "region.traits", "sort"],
 	"dataLibDisplayName": "Luga Data",
 	"devDependencies": {

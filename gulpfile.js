@@ -94,11 +94,11 @@ function concatAndMinify(src, fileName, name, version){
 		.pipe(gulp.dest(CONST.DIST_FOLDER));
 }
 
-/* For Luga Libs */
-
 function getLibSrc(key){
 	return CONST.SRC_FOLDER + "/" + CONST.LIB_PREFIX + key + CONST.JS_EXTENSION;
 }
+
+/* For Luga Libs */
 
 function getAllLibsSrc(){
 	var paths = [];
@@ -140,6 +140,16 @@ gulp.task("libs", function(){
 	}
 	// Concatenated version
 	concatAndMinify(getAllLibsSrc(), CONST.CONCATENATED_LUGA_FILE, pkg.displayName, "");
+});
+
+gulp.task("standalone", function(){
+	// All standalone libs
+	for(var x in pkg.standalone){
+		var src = getLibSrc(x);
+		var libName = pkg.standalone[x].name;
+		var libVersion = getVersionNumber(src);
+		distributeFile(src, libName, libVersion);
+	}
 });
 
 gulp.task("zip", function(){

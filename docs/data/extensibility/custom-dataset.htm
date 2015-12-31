@@ -24,6 +24,48 @@
 	<link rel="stylesheet" href="../../luga.docs.css"/>
 	<script src="../../luga-docs.js"></script>
 
+	<!-- Page-specific -->
+	<script src="../../../dist/luga.data.Rss2Dataset.min.js"></script>
+
+	<script>
+		(function(){
+			"use strict";
+
+			var dateFormatter = function(row, rowIndex, dataSet){
+				var dateObj = new Date(row.pubDate);
+				// Turn date into a reasonable string rapresentation
+				// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toUTCString
+				var dateStr = dateObj.toUTCString();
+				var trimmedStr = dateStr.substring(0, dateStr.length -12);
+				row.pubDate = trimmedStr;
+				return row;
+			};
+
+			var rssDs = new luga.data.Rss2Dataset({
+				uuid: "feedDs",
+				url: "http://www.massimocorner.com/rss/news.xml",
+				formatter: dateFormatter
+			});
+
+			jQuery(document).ready(function(){
+				rssDs.loadData();
+			});
+
+		}());
+	</script>
+	<script id="rssTemplate" type="text/x-handlebars-template">
+
+		<table class="table table-bordered table-striped">
+			{{#each items}}
+			<tr>
+				<td>{{pubDate}}</td>
+				<td><a href="{{link}}">{{title}}</a></td>
+			</tr>
+			{{/each}}
+		</table>
+
+	</script>
+
 </head>
 
 <body class="luga-docs">
@@ -34,11 +76,105 @@
 	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
 		<div class="panel panel-default">
-			<div class="panel-heading">Title</div>
+			<div class="panel-heading">Writing custom dataSets</div>
 			<div class="panel-body">
 				<p>
 					TODO (RSS 2.0)
 				</p>
+
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">The JavaScript code</div>
+			<div class="panel-body">
+				<p>
+					Let's take a look at the code, one bit at time.
+					First, we ensure our dataSet inherit from <a href="../../../src/luga.data.HttpDataset.js">luga.data.HttpDataSet</a>.
+					We also override the dataType property. This is going to be used by <a href="api.jquery.com/jquery.ajax/">jQuery.ajax()</a>.
+					In our case we don't want the XML's DOM, we want a plain string since we are going to use <a href="https://api.jquery.com/jQuery.parseXML/">jQuery.parseXML</a> to parse it.
+					That's why we use "text" here:
+				</p>
+
+<pre><code class="language-javascript">luga.extend(luga.data.HttpDataSet, this, [options]);
+/** @type {luga.data.Rss2Dataset} */
+var self = this;
+/** @override */
+this.dataType = "text";
+</code></pre>
+
+				<p>
+					The most important part is the .loadRecords() method.
+					This method is abstract in <a href="../../../src/luga.data.HttpDataset.js">luga.data.HttpDataSet</a> and must be implemented by any class extending it.
+					It's the method that gets invoked after a successfully XHR request.
+				</p>
+				<p>
+					We perform a few actions here. First turn the XML string into a jQuery object, using <a href="https://api.jquery.com/jQuery.parseXML/">jQuery.parseXML</a>.
+					Than we iterate over each &lt;item&gt; element, turn it into an hashmap and insert inside the dataSet.
+					Finally, we store all the metadata contained inside the &lt;channel&gt;, since we want to expose them as part of our <a href="../region/context.htm">context</a>.
+				</p>
+
+<pre><code class="language-javascript">/**
+	* Retrieves XML data, either from an HTTP response or from a direct call
+	* @param {string}   xmlStr       XML document as string. Either returned from the server or passed directly
+	* @param {string}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
+	* @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
+	* @override
+*/
+this.loadRecords = function(xmlStr, textStatus, jqXHR){
+	self.rawXml = xmlStr;
+	var $xml = jQuery(jQuery.parseXML(xmlStr));
+	// Add a record for each &lt;item&gt;
+	$xml.find("item").each(function(index, element){
+		self.insert(itemToHash(jQuery(this)));
+	});
+	setChannelMeta($xml);
+};
+</code></pre>
+
+				<p>
+					Since we want to have a custom <a href="../region/context.htm">context</a>, we need to override getContext() too.
+					Usually this is not required.
+					The code here is very similar to what's used inside <a href="../../../src/luga.data.Dataset.js">luga.data.DataSet</a>.
+					We are just using <strong>items</strong> instead of <strong>entities</strong> to exspose our records.
+					On top of data we add all the &lt;channel&gt; metadata to the context:
+				</p>
+
+<pre><code class="language-javascript">/**
+	* @returns {luga.data.Rss2Dataset.context}
+	* @override
+*/
+this.getContext = function(){
+	var context = {
+		items: self.select(),
+		recordCount: self.getRecordsCount()
+	};
+	var stateDesc = luga.data.utils.assembleStateDescription(self.getState());
+	luga.merge(context, stateDesc);
+	luga.merge(context, this.channelMeta);
+	return context;
+};
+</code></pre>
+
+				<p>
+					There are also some utility, private methods. That are specific to the RSS 2.0.
+					We recommend you to take a look at the source code inside <a href="../../../src/luga.data.Rss2Dataset.js">luga.data.Rss2Dataset</a>
+				</p>
+
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Rss2Dataset in action</div>
+			<div class="panel-body">
+				<p>
+					Here you can see the dataSet in action, retrieving news from <a href="http://www.massimocorner.com/rss/news.xml">http://www.massimocorner.com/rss/news.xml</a>:
+				</p>
+
+				<div data-lugaregion="true"
+					 data-lugaregion-datasource-uuid="feedDs"
+					 data-lugaregion-template-id="rssTemplate"></div>
+
 			</div>
 		</div>
 
