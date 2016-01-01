@@ -1,5 +1,5 @@
 /*! 
-Luga Data - RSS 2.0 DataSet 0.5.0 2016-01-01T08:58:15.901Z
+Luga Data - RSS 2.0 DataSet 0.6.0 2016-01-01T09:48:22.398Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -58,11 +58,11 @@ if(typeof(luga.data) === "undefined"){
 
 		/**
 		 * Extract metadata from <channel>
-		 * @param {jquery} $xml A jQuery wrapper around the XML
+		 * @param {jquery} $channel A jQuery wrapper around the <channel> tag
 		 */
-		var setChannelMeta = function($xml){
+		var setChannelMeta = function($channel){
 			for(var i = 0; i < self.channelElements.length; i++){
-				self.channelMeta[self.channelElements[i]] = $xml.find(self.channelElements[i]).text();
+				self.channelMeta[self.channelElements[i]] = $channel.find(">" + self.channelElements[i]).text();
 			}
 		};
 
@@ -79,7 +79,7 @@ if(typeof(luga.data) === "undefined"){
 			};
 			var stateDesc = luga.data.utils.assembleStateDescription(self.getState());
 			luga.merge(context, stateDesc);
-			luga.merge(context, this.channelMeta);
+			luga.merge(context, self.channelMeta);
 			return context;
 		};
 
@@ -110,15 +110,18 @@ if(typeof(luga.data) === "undefined"){
 		this.loadRecords = function(xmlStr, textStatus, jqXHR){
 			self.rawXml = xmlStr;
 			var $xml = jQuery(jQuery.parseXML(xmlStr));
-			// Add a record for each <item>
+			var items = [];
+			// Collect data from each <item>
 			$xml.find("item").each(function(index, element){
-				self.insert(itemToHash(jQuery(this)));
+				items.push(itemToHash(jQuery(this)));
 			});
-			setChannelMeta($xml);
+			setChannelMeta($xml.find("channel"));
+			// Insert all records
+			self.insert(items);
 		};
 
 	};
 
-	luga.data.Rss2Dataset.version = "0.5.0";
+	luga.data.Rss2Dataset.version = "0.6.0";
 
 }());
