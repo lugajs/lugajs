@@ -38,10 +38,10 @@
 			var SELECTOR = "input[data-trait-datepicker='true']";
 			// Use .find() to only select elements contained inside the region, not outside
 			options.node.find(SELECTOR).each(function(index, item){
-				var jItem = jQuery(item);
-				var dateObj = new Date(jItem.val());
-				jItem.datepicker();
-				jItem.datepicker("setDate", dateObj);
+				var $item = jQuery(item);
+				var dateObj = new Date($item.val());
+				$item.datepicker();
+				$item.datepicker("setDate", dateObj);
 			});
 		};
 
@@ -124,10 +124,10 @@ function datePickerTrait(options){
 	var SELECTOR = "input[data-trait-datepicker='true']";
 	// Use .find() to only select elements contained inside the region, not outside
 	options.node.find(SELECTOR).each(function(index, item){
-		var jItem = jQuery(item);
-		var dateObj = new Date(jItem.val());
-		jItem.datepicker();
-		jItem.datepicker("setDate", dateObj);
+		var $item = jQuery(item);
+		var dateObj = new Date($item.val());
+		$item.datepicker();
+		$item.datepicker("setDate", dateObj);
 	});
 };
 </code></pre>

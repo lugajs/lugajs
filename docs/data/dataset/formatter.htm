@@ -115,7 +115,8 @@
 					 data-lugaregion-template-id="ladiesTemplate"></div>
 
 				<p>
-					Just pass the formatter to the constructor:
+					Just pass the formatter to the constructor.
+					The formatter is called once for each row in the dataSet, with this signature: myFilter(row, rowIndex, dataSet):
 				</p>
 
 <pre><code class="line-numbers language-javascript">var dateFormatter = function(row, rowIndex, dataSet){
