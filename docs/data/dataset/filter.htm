@@ -103,7 +103,7 @@
 					or applied on the fly calling <a href="api.htm#setFilter">.setFilter(filter)</a>.
 				</p>
 				<p>
-					The filter is called once for each row in the dataSet.
+					The filter is called once for each row in the dataSet, with this signature: myFilter(row, rowIndex, dataSet).<br>
 					If the filter wishes to add the row to the filtered view of the dataSet, then it must return the row object passed into the function.
 				</p>
 			</div>

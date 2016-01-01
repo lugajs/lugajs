@@ -34,12 +34,49 @@
 	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
 		<div class="panel panel-default">
-			<div class="panel-heading">Title</div>
+			<div class="panel-heading">Using traits inside regions</div>
 			<div class="panel-body">
 				<p>
-					TODO
+					Traits are special features available inside <a href="getting-started.htm">regions</a>.
+					They are attached to the DOM after the region render its HTML.
+					Traits add capabilities to your <a href="handlebars.htm">templates</a> and can be expressed as custom HTML attributes.
+					There are build-in traits, but you can write your <a href="../extensibility/custom-trait.htm">custom traits</a> too.
 				</p>
 			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<table class="table table-bordered luga-docs-attributes">
+				<th>Attribute</th>
+				<th>Description</th>
+				<tr>
+					<td>data-lugaregion-setrowid</td>
+					<td>
+						Automatically set the clicked row as current row.
+						Essential for master-details. <a href="../detailset/master-details.htm#master">See example</a>.
+					</td>
+				</tr>
+				<tr>
+					<td>data-lugaregion-setrowindex</td>
+					<td>
+						Same as above, just use row's index instead of rowId.
+					</td>
+				</tr>
+				<tr>
+					<td>data-lugaregion-select</td>
+					<td>
+						Apply the given CSS class to the HTML tag that matches the currently selected row.
+						Useful for tracking selection. <a href="../detailset/master-details.htm#master">See example</a>.
+					</td>
+				</tr>
+				<tr>
+					<td>data-lugaregion-sort</td>
+					<td>
+						Sort a dataSet using the given colun name. <a href="../dataset/sort.htm">See example</a>.
+					</td>
+				</tr>
+
+			</table>
 		</div>
 
 	</div>
