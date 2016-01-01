@@ -3,11 +3,12 @@ html, body.luga-docs {
 	box-sizing: border-box;
 	color: #333333;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
+	/* We use px here because any attempt at using non-fixed values make Bootstrap fails on main navigation */
 	font-size: 13px;
 }
 
 .luga-docs .container-fluid {
-	max-width: 1400px;
+	max-width: 100em;
 }
 
 /* Utilities */
@@ -29,11 +30,11 @@ dl, dt, dd, ol, ul, li {
 
 .luga-docs .navbar {
 	background-color: #FFFFFF;
-	border: 1px solid #7C93BA;
+	border: 0.15em solid #7C93BA;
 	box-shadow: 0.15em 0.15em 0.15em rgba(0, 0, 0, 0.25);
-	margin-left: 15px;
-	margin-right: 15px;
-	margin-top: 20px;
+	margin-left: 1em;
+	margin-right: 1em;
+	margin-top: 1em;
 }
 
 .luga-docs .navbar a,
@@ -46,9 +47,9 @@ dl, dt, dd, ol, ul, li {
 .luga-docs .navbar-default .navbar-nav > .active > a {
 	background: #7C93BA;
 	color: #FFFFFF !important;
-	text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.1);
 }
 
+.luga-docs .navbar-default .navbar-nav > .active > a,
 .luga-docs .navbar-default .navbar-nav > li > a:hover {
 	text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.1);
 }
@@ -60,12 +61,12 @@ dl, dt, dd, ol, ul, li {
 /* Local navigation */
 
 .luga-docs .luga-nav-local .list-group {
-	border: 1px solid #7C93BA;
+	border: 0.15em solid #7C93BA;
 	box-shadow: 0.15em 0.15em 0.15em rgba(0, 0, 0, 0.25)
 }
 
 .luga-docs .luga-nav-local .list-group {
-	border-radius: 4px;
+	border-radius: 0.3em;
 }
 
 .luga-docs .luga-nav-local .list-group .list-group-item {
@@ -81,13 +82,16 @@ dl, dt, dd, ol, ul, li {
 	margin: 0;
 	padding: 0.3em 3em;
 	text-align: center;
-	text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.1);
 }
 
 .luga-docs .luga-nav-local .list-group a {
 	background-color: #FFFFFF;
 	display: block;
 	text-decoration: none;
+}
+
+.luga-docs .luga-nav-local .list-group li.luga-docs-list-heading,
+.luga-docs .luga-nav-local .list-group a {
 	text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.1);
 }
 
@@ -98,7 +102,7 @@ dl, dt, dd, ol, ul, li {
 /* Panels */
 
 .luga-docs .panel-default {
-	border: 1px solid #7C93BA;
+	border: 0.15em solid #7C93BA;
 	box-shadow: 0.15em 0.15em 0.15em rgba(0, 0, 0, 0.25)
 }
 
@@ -183,7 +187,7 @@ ol.luga-docs-list li {
 	background-color: #7C93BA;
 	border: 0.1em solid #AAAAAA;
 	border-radius: 1em;
-	box-shadow: rgba(0, 0, 0, .75) 0 2px 6px;
+	box-shadow: rgba(0, 0, 0, .75) 0 0.2em 0.5em;
 	color: #FFFFFF;
 	cursor: pointer;
 	font-variant: small-caps;
@@ -199,7 +203,7 @@ ol.luga-docs-list li {
 .luga-docs input[type="button"]:active,
 .luga-docs input[type="button"]:focus {
 	background-color: #FFFFFF;
-	box-shadow: rgba(0, 0, 0, .25) 0 1px 0;
+	box-shadow: rgba(0, 0, 0, .25) 0 0.15em 0;
 	color: #3362B4;
 }
 
@@ -219,13 +223,13 @@ ol.luga-docs-list li {
 table.luga-docs-attributes,
 table.luga-docs-api {
 	background: #7C93BA;
-	border: 1px solid #7C93BA;
+	border: 0.15em solid #7C93BA;
 	box-shadow: rgba(0, 0, 0, .25) 0.15em 0.15em 0.15em;
 	width: 100%;
 }
 
 table.luga-docs-api + table.luga-docs-api {
-	border-top: 1px solid #DDDDDD;
+	border-top: 0.15em solid #DDDDDD;
 }
 
 table.luga-docs-api th,
@@ -274,7 +278,7 @@ table.luga-docs-attributes td + td {
 /* Tables */
 
 .luga-docs caption {
-	border: 1px solid #DDDDDD;
+	border: 0.15em solid #DDDDDD;
 	border-bottom: none;
 	padding: 0.8em;
 	text-align: center;
