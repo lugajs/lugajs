@@ -6,7 +6,6 @@
 
 DOCS:
 
-- Talk about CORS?
 - Use a datepicker to document custom trait?
 - Sample of dataSet/binding to a third-party widget?
 
@@ -33,7 +32,6 @@ VALIDATOR:
 DATA:
 
 data.Dataset:
-- Prevent formatter from deleting records?
 - Implement update(filter, setter)
 - Allow custom sorter for complex objects
 - Local storage persistence? Would it be better to persist only data?
@@ -43,17 +41,19 @@ data.PagedDataset:
 
 -------------
 
-DATA WIDGETS:
-
-- ShowMore widget
-  10 records at time (fetchedRecords)
-  Once done change button's label
-  Mixed client/server (set a threshold)
-
-- Pagination widget (needs PagedDataset)
-- Navbar widget (needs PagedDataset)
-- Autosuggest widget
+PAGINATION WIDGETS:
 
 - Use string templating to customize url/endpoint
+- Mixed client/server (set a threshold)
+- Request:  offsetStart, offsetEnd
+- Response: recordCount, pageSize, currentPage
+
+- ShowMore widget (needs PagedDataset?)
+  Once done change button's label
+
+- Navbar widget (needs PagedDataset)
+  Different GUI styles: Bootstrap, PageList, LinkList
+
+- Autosuggest widget
 
 -------------
