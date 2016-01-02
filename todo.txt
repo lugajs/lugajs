@@ -6,8 +6,8 @@
 
 DOCS:
 
-- Use a datepicker to document custom trait?
-- Sample of dataSet/binding to a third-party widget?
+- Data: FAQ?
+- Data: Explain states
 
 -------------
 
@@ -32,12 +32,15 @@ VALIDATOR:
 DATA:
 
 data.Dataset:
+- Prevent formatter from deleting records. Implement a method to filter without removing
 - Implement update(filter, setter)
 - Allow custom sorter for complex objects
 - Local storage persistence? Would it be better to persist only data?
 
 data.PagedDataset:
 - Implement
+
+- Autosuggest widget
 
 -------------
 
@@ -48,12 +51,10 @@ PAGINATION WIDGETS:
 - Request:  offsetStart, offsetEnd
 - Response: recordCount, pageSize, currentPage
 
-- ShowMore widget (needs PagedDataset?)
+- ShowMore widget (needs PagedDataset)
   Once done change button's label
 
 - Navbar widget (needs PagedDataset)
   Different GUI styles: Bootstrap, PageList, LinkList
-
-- Autosuggest widget
 
 -------------
