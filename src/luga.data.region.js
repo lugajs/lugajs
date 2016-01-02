@@ -34,7 +34,7 @@
 
 	/**
 	 * Given a jQuery object wrapping an HTML node, returns the region object associated to it
-	 * Returns undefined if the node is not a region
+	 * Returns undefined if the node is not associated to a region
 	 * @param {jquery} node
 	 * @returns {undefined|luga.data.region.Base}
 	 */
