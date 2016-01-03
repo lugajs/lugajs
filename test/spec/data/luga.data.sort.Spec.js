@@ -29,10 +29,15 @@ describe("luga.data.sort", function(){
 			});
 		});
 
-		describe("Throws an exception:", function(){
-			it("If an unsupported combination is passed", function(){
+		describe("Throws an exception if:", function(){
+			it("An unsupported combination is passed", function(){
 				expect(function(){
 					luga.data.sort.getSortStrategy("number", "desc");
+				}).toThrow();
+			});
+			it("The datatype is undefined", function(){
+				expect(function(){
+					luga.data.sort.getSortStrategy();
 				}).toThrow();
 			});
 		});
