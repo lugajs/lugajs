@@ -42,6 +42,9 @@
 		"run-sequence": "~1.1.4",
 		"gulp-rename": "~1.2.2",
 		"gulp-header": "~1.7.1",
-		"gulp-zip": "~3.0.2"
+		"gulp-zip": "~3.0.2",
+		"karma": "^0.13.0",
+		"karma-jasmine": "^0.3.6",
+		"karma-chrome-launcher": "^0.2.0"
 	}
 }
