@@ -1067,6 +1067,46 @@ describe("luga.data.Dataset", function(){
 
 		});
 
+		describe("Leaves order unchanged if:", function(){
+
+			it("A non existing column is passed", function(){
+				loadedDs.sort("missing", "ascending");
+				expect(loadedDs.getCurrentRowId()).toEqual("lugaPk_0");
+				loadedDs.sort("missing", "descending");
+				expect(loadedDs.getCurrentRowId()).toEqual("lugaPk_0");
+
+				loadedDs.setColumnType("missing", "date");
+				loadedDs.sort("missing", "ascending");
+				expect(loadedDs.getCurrentRowId()).toEqual("lugaPk_0");
+				loadedDs.sort("missing", "descending");
+				expect(loadedDs.getCurrentRowId()).toEqual("lugaPk_0");
+
+				loadedDs.setColumnType("missing", "number");
+				loadedDs.sort("missing", "ascending");
+				expect(loadedDs.getCurrentRowId()).toEqual("lugaPk_0");
+				loadedDs.sort("missing", "descending");
+				expect(loadedDs.getCurrentRowId()).toEqual("lugaPk_0");
+			});
+
+		});
+
+		describe("If required", function(){
+
+			it("Compare one character at time:", function(){
+				var records = [
+					{name: "ciccio"},
+					{name: "ciccione"}
+				]
+				baseDs.insert(records);
+				baseDs.sort("name", "ascending");
+
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_0");
+				baseDs.sort("name", "descending");
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_1");
+			});
+
+		});
+
 		describe("Throws an exception if:", function(){
 			it("An invalid sort order is used", function(){
 				expect(function(){
