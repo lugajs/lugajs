@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.3.7 2016-01-03T09:35:03.404Z
+Luga Data 0.3.8 2016-01-03T15:10:25.489Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -18,7 +18,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.3.7";
+	luga.data.version = "0.3.8";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -1556,13 +1556,16 @@ if(typeof(luga) === "undefined"){
 	luga.data.region.traits.select = function(options){
 		var nodes = options.node.find(CONST.SELECTORS.SELECT);
 		if(nodes.length > 0){
-
+			if(options.dataSource.getCurrentRowIndex === undefined){
+				// It's a detailSet, abort
+				return;
+			}
 			var cssClass = nodes.attr(CONST.CUSTOM_ATTRIBUTES.SELECT);
 			// Clean-up
 			nodes.removeClass(cssClass);
-			// Default to zero, detailSets have no setCurrentRowIndex() method
+			// Default to zero
 			var index = 0;
-			if(options.dataSource.getCurrentRowIndex !== undefined){
+			if(options.dataSource.getCurrentRowIndex() !== -1){
 				index = options.dataSource.getCurrentRowIndex();
 			}
 			// Apply CSS

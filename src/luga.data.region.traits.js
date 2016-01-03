@@ -32,13 +32,16 @@
 	luga.data.region.traits.select = function(options){
 		var nodes = options.node.find(CONST.SELECTORS.SELECT);
 		if(nodes.length > 0){
-
+			if(options.dataSource.getCurrentRowIndex === undefined){
+				// It's a detailSet, abort
+				return;
+			}
 			var cssClass = nodes.attr(CONST.CUSTOM_ATTRIBUTES.SELECT);
 			// Clean-up
 			nodes.removeClass(cssClass);
-			// Default to zero, detailSets have no setCurrentRowIndex() method
+			// Default to zero
 			var index = 0;
-			if(options.dataSource.getCurrentRowIndex !== undefined){
+			if(options.dataSource.getCurrentRowIndex() !== -1){
 				index = options.dataSource.getCurrentRowIndex();
 			}
 			// Apply CSS
