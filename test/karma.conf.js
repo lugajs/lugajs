@@ -11,8 +11,10 @@ module.exports = function(config) {
 		browsers: ["Chrome"],
 		frameworks: ["jasmine"],
 		files: [
+			// Libs
 			"lib/jquery/jquery.min.js",
 			"lib/handlebars.min.js",
+
 			// Jasmine libs and configuration
 			"test/lib/jasmine/jasmine-jquery.js",
 			"test/lib/jasmine/jasmine-tree.min.js",
