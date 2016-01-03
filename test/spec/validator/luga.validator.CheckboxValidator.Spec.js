@@ -10,7 +10,7 @@ describe("luga.validator.CheckboxValidator", function(){
 		});
 		var MockValidator = function(options){
 			luga.extend(luga.validator.BaseGroupValidator, this, [options]);
-		}
+		};
 		var inputGroup = luga.form.utils.getFieldGroup("lady",jQuery("#single"));
 		expect(validator).toMatchDuckType(new MockValidator({inputGroup: inputGroup}));
 	});

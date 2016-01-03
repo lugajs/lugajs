@@ -76,7 +76,7 @@ describe("luga.data.region", function(){
 					window.mock = {
 						regionHandler: function(){
 						}
-					}
+					};
 					var regionNode = jQuery("<div data-lugaregion='true' data-lugaregion-datasource-uuid='testDs' data-lugaregion-type='window.mock.regionHandler'>");
 					spyOn(window.mock, "regionHandler");
 					luga.data.region.init(regionNode);

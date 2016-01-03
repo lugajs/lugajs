@@ -67,7 +67,7 @@ describe("luga.data.Dataset", function(){
 	it("Implements the luga.Notifier interface", function(){
 		var MockNotifier = function(){
 			luga.extend(luga.Notifier, this);
-		}
+		};
 		expect(baseDs).toMatchDuckType(new MockNotifier());
 	});
 
@@ -76,7 +76,7 @@ describe("luga.data.Dataset", function(){
 		describe("options.uuid", function(){
 			it("Acts as unique identifier that will be stored inside a global registry", function(){
 				var ds = new luga.data.DataSet({uuid: "uniqueDs"});
-				expect(luga.data.dataSourceRegistry["uniqueDs"]).toEqual(ds);
+				expect(luga.data.dataSourceRegistry.uniqueDs).toEqual(ds);
 			});
 			it("Throws an exception if not specified", function(){
 				expect(function(){
@@ -100,7 +100,7 @@ describe("luga.data.Dataset", function(){
 
 			it("Throws an exception if the passed filter is not a function", function(){
 				expect(function(){
-					var ds = new luga.data.DataSet({uuid: "uniqueDs", filter: "test"});
+					new luga.data.DataSet({uuid: "uniqueDs", filter: "test"});
 				}).toThrow();
 			});
 		});
@@ -119,7 +119,7 @@ describe("luga.data.Dataset", function(){
 
 			it("Throws an exception if the passed formatter is not a function", function(){
 				expect(function(){
-					var ds = new luga.data.DataSet({uuid: "uniqueDs", formatter: "test"});
+					new luga.data.DataSet({uuid: "uniqueDs", formatter: "test"});
 				}).toThrow();
 			});
 		});
@@ -156,12 +156,12 @@ describe("luga.data.Dataset", function(){
 					// Simple value!
 					arrayRecords.push("Kate");
 					expect(function(){
-						var ds = new luga.data.DataSet({uuid: "uniqueDs", records: arrayRecords});
+						new luga.data.DataSet({uuid: "uniqueDs", records: arrayRecords});
 					}).toThrow();
 				});
 				it("The passed single object is a primitive value", function(){
 					expect(function(){
-						var ds = new luga.data.DataSet({uuid: "uniqueDs", records: "test"});
+						new luga.data.DataSet({uuid: "uniqueDs", records: "test"});
 					}).toThrow();
 				});
 			});
@@ -260,7 +260,7 @@ describe("luga.data.Dataset", function(){
 	describe(".getColumnType()", function(){
 
 		it("Returns the type of the given column", function(){
-			loadedDs.setColumnType("birthDate", "date")
+			loadedDs.setColumnType("birthDate", "date");
 			expect(loadedDs.getColumnType("birthDate")).toEqual("date");
 
 		});
@@ -505,9 +505,9 @@ describe("luga.data.Dataset", function(){
 
 		describe("Else:", function(){
 			it("Returns the name of the column most recently used for sorting", function(){
-				loadedDs.sort("firstName")
+				loadedDs.sort("firstName");
 				expect(loadedDs.getSortColumn()).toEqual("firstName");
-				loadedDs.sort("country")
+				loadedDs.sort("country");
 				expect(loadedDs.getSortColumn()).toEqual("country");
 			});
 		});
@@ -524,9 +524,9 @@ describe("luga.data.Dataset", function(){
 
 		describe("Else:", function(){
 			it("Returns the most recently used sort order", function(){
-				loadedDs.sort("firstName")
+				loadedDs.sort("firstName");
 				expect(loadedDs.getSortOrder()).toEqual("ascending");
-				loadedDs.sort("firstName")
+				loadedDs.sort("firstName");
 				expect(loadedDs.getSortOrder()).toEqual("descending");
 			});
 		});
@@ -1028,7 +1028,7 @@ describe("luga.data.Dataset", function(){
 				expect(luga.data.sort.date.ascending).toHaveBeenCalled();
 			});
 			it("luga.data.sort.date.descending", function(){
-				spyOn(luga.data.sort.date, "descending").and.callThrough()
+				spyOn(luga.data.sort.date, "descending").and.callThrough();
 				loadedDs.setColumnType("birthDate", "date");
 				loadedDs.sort("birthDate", "descending");
 				expect(luga.data.sort.date.descending).toHaveBeenCalled();
@@ -1040,7 +1040,7 @@ describe("luga.data.Dataset", function(){
 				expect(luga.data.sort.number.ascending).toHaveBeenCalled();
 			});
 			it("luga.data.sort.number.descending", function(){
-				spyOn(luga.data.sort.number, "descending").and.callThrough()
+				spyOn(luga.data.sort.number, "descending").and.callThrough();
 				loadedDs.setColumnType("birthDate", "number");
 				loadedDs.sort("birthDate", "descending");
 				expect(luga.data.sort.number.descending).toHaveBeenCalled();

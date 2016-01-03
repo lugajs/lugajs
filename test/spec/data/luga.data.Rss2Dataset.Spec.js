@@ -1,3 +1,5 @@
+/* global LUGA_TEST_XHR_BASE */
+
 describe("luga.data.Rss2Dataset", function(){
 
 	"use strict";
@@ -6,7 +8,7 @@ describe("luga.data.Rss2Dataset", function(){
 	beforeEach(function(){
 
 		var response = jQuery.ajax({
-			url: "fixtures/data/rss2.xml",
+			url: LUGA_TEST_XHR_BASE + "fixtures/data/rss2.xml",
 			async: false,
 			dataType: "xml"
 		});
@@ -28,7 +30,7 @@ describe("luga.data.Rss2Dataset", function(){
 	it("Implements the luga.data.HttpDataSet abstract class", function(){
 		var MockDs = function(options){
 			luga.extend(luga.data.Rss2Dataset, this, [options]);
-		}
+		};
 		expect(noUrlDs).toMatchDuckType(new MockDs({uuid: "duck"}, false));
 	});
 

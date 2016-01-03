@@ -133,7 +133,7 @@ describe("luga", function(){
 							message: "Ciao Mamma!"
 						}
 					}
-				}
+				};
 				expect(luga.lookupProperty(target, "firstLevel.secondLevel.message")).toEqual("Ciao Mamma!");
 			});
 
@@ -315,9 +315,9 @@ describe("luga", function(){
 
 		});
 
-		describe('.removeObserver()', function(){
+		describe(".removeObserver()", function(){
 
-			it('Removes the given observer object.', function(){
+			it("Removes the given observer object", function(){
 				notifierObj.addObserver(observerObj);
 				expect(notifierObj.observers.length).toEqual(1);
 				notifierObj.removeObserver(observerObj);

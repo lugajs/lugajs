@@ -3,3 +3,4 @@ Massimo.xml
 node_modules/
 /.htaccess
 .idea/dictionaries/foti.xml
+test/coverage

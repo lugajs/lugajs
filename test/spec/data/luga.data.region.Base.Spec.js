@@ -43,7 +43,7 @@ describe("luga.data.region.Base", function(){
 	it("Implements the luga.Notifier interface", function(){
 		var MockNotifier = function(){
 			luga.extend(luga.Notifier, this);
-		}
+		};
 		expect(configRegion).toMatchDuckType(new MockNotifier());
 	});
 

@@ -8,7 +8,7 @@ describe("luga.validator.SelectValidator", function(){
 		});
 		var MockValidator = function(options){
 			luga.extend(luga.validator.BaseFieldValidator, this, [options]);
-		}
+		};
 		expect(validator).toMatchDuckType(new MockValidator({fieldNode: jQuery("<input type='text'>")}));
 	});
 
@@ -96,9 +96,9 @@ describe("luga.validator.SelectValidator", function(){
 	describe("data-lugavalidator-invalidindex", function(){
 
 		it("Accepts only numbers", function(){
-			var selectNode = jQuery('<select data-lugavalidator-invalidindex="test">');
+			var selectNode = jQuery("<select data-lugavalidator-invalidindex='test'>");
 			expect(function(){
-				var selectValidator = luga.validator.fieldValidatorFactory.getInstance({
+				luga.validator.fieldValidatorFactory.getInstance({
 					fieldNode: selectNode
 				});
 			}).toThrow();

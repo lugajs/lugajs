@@ -1,3 +1,5 @@
+/* global LUGA_TEST_XHR_BASE */
+
 describe("luga.data.JsonDataset", function(){
 
 	"use strict";
@@ -21,7 +23,7 @@ describe("luga.data.JsonDataset", function(){
 	it("Implements the luga.data.HttpDataSet abstract class", function(){
 		var MockDs = function(options){
 			luga.extend(luga.data.HttpDataSet, this, [options]);
-		}
+		};
 		expect(noUrlDs).toMatchDuckType(new MockDs({uuid: "duck"}, false));
 	});
 
@@ -57,7 +59,7 @@ describe("luga.data.JsonDataset", function(){
 		var peopleDs, peopleObserver;
 		beforeEach(function(){
 
-			peopleDs = new luga.data.JsonDataSet({uuid: "loadDataUniqueDs", url: "fixtures/data/people.json", path: "ladies"});
+			peopleDs = new luga.data.JsonDataSet({uuid: "loadDataUniqueDs", url: LUGA_TEST_XHR_BASE + "fixtures/data/people.json", path: "ladies"});
 			DEFAULT_TIMEOUT = 2000;
 
 			var ObserverClass = function(){
@@ -78,7 +80,7 @@ describe("luga.data.JsonDataset", function(){
 				}, DEFAULT_TIMEOUT);
 			});
 			it("Records are extracted even if the HTTP's Content-Type is not application/json (as long as it contains JSON data)", function(done){
-				var txtDs = new luga.data.JsonDataSet({uuid: "uniqueDs", url: "fixtures/data/people.txt", path: "ladies"});
+				var txtDs = new luga.data.JsonDataSet({uuid: "uniqueDs", url: LUGA_TEST_XHR_BASE + "fixtures/data/people.txt", path: "ladies"});
 				txtDs.loadData();
 				setTimeout(function(){
 					expect(txtDs.getRecordsCount()).toEqual(7);

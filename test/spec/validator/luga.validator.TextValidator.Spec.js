@@ -10,7 +10,7 @@ describe("luga.validator.TextValidator", function(){
 		});
 		var MockValidator = function(options){
 			luga.extend(luga.validator.BaseFieldValidator, this, [options]);
-		}
+		};
 		expect(validator).toMatchDuckType(new MockValidator({fieldNode: jQuery("<input type='text'>")}));
 	});
 

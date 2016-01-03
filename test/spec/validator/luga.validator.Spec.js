@@ -54,6 +54,8 @@ describe("luga.validator", function(){
 
 describe("luga.validator.handlers", function(){
 
+	"use strict";
+
 	it("Contains handlers for form validation", function(){
 		expect(luga.validator.handlers).toBeDefined();
 	});
@@ -82,6 +84,8 @@ describe("luga.validator.handlers", function(){
 });
 
 describe("luga.validator.fieldValidatorFactory.getInstance()", function(){
+
+	"use strict";
 
 	describe("Returns either:", function(){
 
@@ -116,6 +120,8 @@ describe("luga.validator.fieldValidatorFactory.getInstance()", function(){
 });
 
 describe("luga.validator.BaseFieldValidator is an abstract class", function(){
+
+	"use strict";
 
 	it("That can't be invoked directly", function(){
 		var textNode = jQuery('<input type="text" data-lugavalidator-required="true" disabled="disabled" data-lugavalidator-errorclass="invalid">');
@@ -179,13 +185,17 @@ describe("luga.validator.BaseFieldValidator is an abstract class", function(){
 });
 
 describe("luga.validator.BaseGroupValidator is an abstract class", function(){
+
+	"use strict";
+
 	it("That can't be invoked directly", function(){
-		var boxNode = jQuery('<input type="checkbox">');
+		var boxNode = jQuery("<input type='checkbox'>");
 		expect(function(){
 			new luga.validator.BaseGroupValidator({
 				fieldNode: boxNode
 			});
 		}).toThrow();
 	});
+
 });
 

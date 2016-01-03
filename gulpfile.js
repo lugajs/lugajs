@@ -1,4 +1,4 @@
-/* globals console, require */
+/* globals console, __dirname, require */
 "use strict";
 
 var gulp = require("gulp");
@@ -131,6 +131,12 @@ gulp.task("data", function(){
 	return concatAndMinify(getAllDataFragmentsSrc(), CONST.CONCATENATED_DATA_FILE, pkg.dataLibDisplayName, dataVersion);
 });
 
+gulp.task("karma", function (done) {
+	new karmaServer({
+		configFile: __dirname + "/test/karma.conf.js"
+	}, done).start();
+});
+
 gulp.task("libs", function(){
 	// All Luga libs
 	for(var x in pkg.libs){
@@ -152,17 +158,6 @@ gulp.task("standalone", function(){
 		distributeFile(src, libName, libVersion);
 	}
 });
-
-/**
- * Run test once and exit
- */
-gulp.task("test", function (done) {
-	new karmaServer({
-		configFile: __dirname + "/test/karma.conf.js",
-		singleRun: true
-	}, done).start();
-});
-
 
 gulp.task("zip", function(){
 	return gulp.src(CONST.FOLDERS_TO_ARCHIVE, {base: "."})

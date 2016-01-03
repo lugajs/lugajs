@@ -38,7 +38,7 @@ describe("luga.validator.FormValidator", function(){
 
 	it("Throws an exception if the associated form node does not exists", function(){
 		expect(function(){
-			var formValidator = new luga.validator.FormValidator({
+			new luga.validator.FormValidator({
 				formNode: jQuery("#missing")
 			});
 		}).toThrow();

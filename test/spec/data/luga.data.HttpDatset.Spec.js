@@ -1,3 +1,5 @@
+/* global LUGA_TEST_XHR_BASE */
+
 describe("luga.data.HttpDataSet", function(){
 
 	"use strict";
@@ -70,7 +72,7 @@ describe("luga.data.HttpDataSet", function(){
 		var testDs, DEFAULT_TIMEOUT, testObserver;
 		beforeEach(function(){
 
-			testDs = new luga.data.JsonDataSet({uuid: "uniqueDs", url: "fixtures/data/ladies.json"});
+			testDs = new luga.data.JsonDataSet({uuid: "uniqueDs", url: LUGA_TEST_XHR_BASE + "fixtures/data/ladies.json"});
 			DEFAULT_TIMEOUT = 2000;
 			testObserver = {
 				onDataChangedHandler: function(){

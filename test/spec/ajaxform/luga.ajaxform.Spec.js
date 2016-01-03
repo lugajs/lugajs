@@ -203,7 +203,7 @@ describe("luga.ajaxform", function(){
 
 			it("Is the default error handler", function(){
 				expect(luga.ajaxform.handlers.errorAlert).toBeDefined();
-				expect(basicSender.config.error).toEqual('luga.ajaxform.handlers.errorAlert');
+				expect(basicSender.config.error).toEqual("luga.ajaxform.handlers.errorAlert");
 			});
 			it("It throws an alert with the given message", function(){
 				spyOn(window, "alert").and.callFake(function(){
@@ -218,7 +218,7 @@ describe("luga.ajaxform", function(){
 
 			it("Is a ready available error handler", function(){
 				expect(luga.ajaxform.handlers.errorBox).toBeDefined();
-				expect(basicSender.config.error).not.toEqual('luga.ajaxform.handlers.errorBox');
+				expect(basicSender.config.error).not.toEqual("luga.ajaxform.handlers.errorBox");
 			});
 
 		});
@@ -227,7 +227,7 @@ describe("luga.ajaxform", function(){
 
 			it("Is the default success handler", function(){
 				expect(luga.ajaxform.handlers.replaceForm).toBeDefined();
-				expect(basicSender.config.success).toEqual('luga.ajaxform.handlers.replaceForm');
+				expect(basicSender.config.success).toEqual("luga.ajaxform.handlers.replaceForm");
 			});
 			it("Replace the form's content with the given message", function(){
 				var formNode = jQuery("form");
@@ -312,7 +312,7 @@ describe("luga.ajaxform", function(){
 			describe("options.success either:", function(){
 
 				it("Default to: 'luga.ajaxform.ajaxFormHandlers.replaceForm'", function(){
-					expect(basicSender.config.success).toEqual('luga.ajaxform.handlers.replaceForm');
+					expect(basicSender.config.success).toEqual("luga.ajaxform.handlers.replaceForm");
 				});
 				it("Retrieves the value from the form's data-lugajax-success custom attribute", function(){
 					expect(customSender.config.success).toEqual("ajaxFormHandlers.customSuccessHandler");
@@ -340,7 +340,7 @@ describe("luga.ajaxform", function(){
 			describe("options.error either:", function(){
 
 				it("Default to: 'luga.ajaxform.ajaxFormHandlers.errorAlert'", function(){
-					expect(basicSender.config.error).toEqual('luga.ajaxform.handlers.errorAlert');
+					expect(basicSender.config.error).toEqual("luga.ajaxform.handlers.errorAlert");
 				});
 				it("Retrieves the value from the form's data-lugajax-error custom attribute", function(){
 					expect(customSender.config.error).toEqual("ajaxFormHandlers.customErrorHandler");
