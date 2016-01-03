@@ -1,6 +1,11 @@
 /* global module */
 
+/*
+Use Karma only for the sake of producing a code coverage report.
+No need to use multiple browsers
+*/
 module.exports = function(config) {
+	"use strict";
 	config.set({
 		basePath: "../",
 		browsers: ["Chrome"],

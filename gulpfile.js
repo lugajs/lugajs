@@ -126,15 +126,16 @@ function getAllDataFragmentsSrc(){
 
 /* Tasks */
 
-gulp.task("data", function(){
-	var dataVersion = getVersionNumber(getDataFragmentSrc(CONST.DATA_CORE_KEY));
-	return concatAndMinify(getAllDataFragmentsSrc(), CONST.CONCATENATED_DATA_FILE, pkg.dataLibDisplayName, dataVersion);
-});
-
-gulp.task("karma", function (done) {
+ gulp.task("coverage", function (done) {
+	// Use Karma only for the sake of producing a code coverage report
 	new karmaServer({
 		configFile: __dirname + "/test/karma.conf.js"
 	}, done).start();
+});
+
+gulp.task("data", function(){
+	var dataVersion = getVersionNumber(getDataFragmentSrc(CONST.DATA_CORE_KEY));
+	return concatAndMinify(getAllDataFragmentsSrc(), CONST.CONCATENATED_DATA_FILE, pkg.dataLibDisplayName, dataVersion);
 });
 
 gulp.task("libs", function(){
