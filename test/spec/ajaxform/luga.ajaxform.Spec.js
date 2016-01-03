@@ -1,12 +1,15 @@
-/* globals ajaxFormHandlers */
+/* globals LUGA_TEST_XHR_BASE, ajaxFormHandlers */
 
 describe("luga.ajaxform", function(){
 
-	var basicSender, attributesSender, customSender, configSender;
+	"use strict";
+
+	var DEFAULT_TIMEOUT, basicSender, attributesSender, customSender, configSender;
 	window.ajaxFormHandlers = {};
 
 	beforeEach(function(){
 		loadFixtures("ajaxform/form.htm");
+		DEFAULT_TIMEOUT = 2000;
 
 		basicSender = new luga.ajaxform.Sender({
 			formNode: jQuery("#basic")
@@ -22,7 +25,7 @@ describe("luga.ajaxform", function(){
 
 		configSender = new luga.ajaxform.Sender({
 			formNode: jQuery("#basic"),
-			action: "configAction",
+			action: LUGA_TEST_XHR_BASE + "fixtures/ajaxform/action.json",
 			method: "POST",
 			timeout: 40000,
 			success: "ajaxFormHandlers.customSuccessHandler",
@@ -48,7 +51,11 @@ describe("luga.ajaxform", function(){
 		});
 		spyOn(luga.form, "toJson").and.callThrough(function(){
 		});
-		spyOn(jQuery, "ajax").and.callFake(function(){
+		spyOn(jQuery, "ajax").and.callThrough(function(){
+		});
+		spyOn(ajaxFormHandlers, "customSuccessHandler").and.callFake(function(){
+		});
+		spyOn(ajaxFormHandlers, "customErrorHandler").and.callFake(function(){
 		});
 		spyOn(ajaxFormHandlers, "customBefore").and.callFake(function(){
 		});
@@ -221,6 +228,16 @@ describe("luga.ajaxform", function(){
 				expect(basicSender.config.error).not.toEqual("luga.ajaxform.handlers.errorBox");
 			});
 
+			it("It calls luga.utils.removeDisplayBox() and luga.utils.displayErrorMessage()", function(){
+				spyOn(luga.utils, "removeDisplayBox").and.callFake(function(){
+				});
+				spyOn(luga.utils, "displayErrorMessage").and.callFake(function(){
+				});
+				luga.ajaxform.handlers.errorBox("test", jQuery("<form>"));
+				expect(luga.utils.removeDisplayBox).toHaveBeenCalled();
+				expect(luga.utils.displayErrorMessage).toHaveBeenCalled();
+			});
+
 		});
 
 		describe(".replaceForm()", function(){
@@ -272,7 +289,7 @@ describe("luga.ajaxform", function(){
 					expect(customSender.config.action).toEqual("customAction");
 				});
 				it("Uses the value specified inside the option argument", function(){
-					expect(configSender.config.action).toEqual("configAction");
+					expect(configSender.config.action).toEqual(LUGA_TEST_XHR_BASE + "fixtures/ajaxform/action.json");
 				});
 
 			});
@@ -447,6 +464,27 @@ describe("luga.ajaxform", function(){
 				it("Send the serialize form's data using jQuery.ajax()", function(){
 					configSender.send();
 					expect(jQuery.ajax).toHaveBeenCalled();
+				});
+
+			});
+
+			describe("Then either:", function(){
+
+				it("Invokes its success handler", function(done){
+					configSender.send();
+					setTimeout(function(){
+						expect(ajaxFormHandlers.customSuccessHandler).toHaveBeenCalled();
+						done();
+					}, DEFAULT_TIMEOUT);
+				});
+
+				it("Invokes its error handler", function(done){
+					configSender.config.action = "missing";
+					configSender.send();
+					setTimeout(function(){
+						expect(ajaxFormHandlers.customErrorHandler).toHaveBeenCalled();
+						done();
+					}, DEFAULT_TIMEOUT);
 				});
 
 			});
