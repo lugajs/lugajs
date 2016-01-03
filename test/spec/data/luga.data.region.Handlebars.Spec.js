@@ -86,16 +86,35 @@ describe("luga.data.region.Handlebars", function(){
 			});
 		});
 
-		describe("Else:", function(){
-			it("Assumes the HTML element matching options.templateId contains the template", function(){
-				spyOn(Handlebars, "compile");
-				new luga.data.region.Handlebars({
-					node: testDiv,
-					dsUuid: "testDs",
-					templateId: "ladiesTemplate"
+		describe("Else, assumes the HTML element matching options.templateId contains the template", function(){
+
+			describe("If the HTML has no 'src' attribute", function(){
+
+				it("Assumes the HTML element contains the template", function(){
+					spyOn(Handlebars, "compile");
+					new luga.data.region.Handlebars({
+						node: testDiv,
+						dsUuid: "testDs",
+						templateId: "ladiesTemplate"
+					});
+					expect(Handlebars.compile).toHaveBeenCalledWith(jQuery("#ladiesTemplate").html());
 				});
-				expect(Handlebars.compile).toHaveBeenCalledWith(jQuery("#ladiesTemplate").html());
+
 			});
+			describe("Else:", function(){
+
+				it("Use jQuery.ajax() to fetch the external template", function(){
+					spyOn(jQuery, "ajax");
+					new luga.data.region.Handlebars({
+						node: testDiv,
+						dsUuid: "testDs",
+						templateId: "missingTemplate"
+					});
+					expect(jQuery.ajax).toHaveBeenCalled();
+				});
+
+			});
+
 		});
 
 	});
