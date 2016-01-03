@@ -11,6 +11,7 @@ var runSequence = require("run-sequence");
 var sourcemaps = require("gulp-sourcemaps");
 var uglify = require("gulp-uglify");
 var zip = require("gulp-zip");
+var karmaServer = require("karma").Server;
 
 var pkg = require("./package.json");
 
@@ -151,6 +152,17 @@ gulp.task("standalone", function(){
 		distributeFile(src, libName, libVersion);
 	}
 });
+
+/**
+ * Run test once and exit
+ */
+gulp.task("test", function (done) {
+	new karmaServer({
+		configFile: __dirname + "/test/karma.conf.js",
+		singleRun: true
+	}, done).start();
+});
+
 
 gulp.task("zip", function(){
 	return gulp.src(CONST.FOLDERS_TO_ARCHIVE, {base: "."})
