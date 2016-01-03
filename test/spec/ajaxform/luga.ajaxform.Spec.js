@@ -26,7 +26,7 @@ describe("luga.ajaxform", function(){
 		configSender = new luga.ajaxform.Sender({
 			formNode: jQuery("#basic"),
 			action: LUGA_TEST_XHR_BASE + "fixtures/ajaxform/action.json",
-			method: "POST",
+			method: "GET",
 			timeout: 40000,
 			success: "ajaxFormHandlers.customSuccessHandler",
 			successmsg: "Success",
@@ -307,7 +307,7 @@ describe("luga.ajaxform", function(){
 					expect(customSender.config.method).toEqual("DELETE");
 				});
 				it("Uses the value specified inside the option argument", function(){
-					expect(configSender.config.method).toEqual("POST");
+					expect(configSender.config.method).toEqual("GET");
 				});
 
 			});
