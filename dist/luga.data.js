@@ -1,6 +1,6 @@
 /*! 
-Luga Data 0.3.6 2015-12-30T15:12:49.464Z
-Copyright 2013-2015 Massimo Foti (massimo@massimocorner.com)
+Luga Data 0.3.7 2016-01-03T09:35:03.404Z
+Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
 if(typeof(luga) === "undefined"){
@@ -18,7 +18,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.3.6";
+	luga.data.version = "0.3.7";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -400,7 +400,6 @@ if(typeof(luga) === "undefined"){
 			if(row !== undefined){
 				return this.getRowIndex(row);
 			}
-			return -1;
 		};
 
 		/**
@@ -409,10 +408,6 @@ if(typeof(luga) === "undefined"){
 		 * @returns {number}
 		 */
 		this.getRecordsCount = function(){
-			var allRecords = selectAll();
-			if(allRecords === null){
-				return 0;
-			}
 			return selectAll().length;
 		};
 
@@ -802,7 +797,7 @@ if(typeof(luga) === "undefined"){
 			if(jQuery.isArray(columnNames) === false){
 				return [columnNames, luga.data.CONST.PK_KEY];
 			}
-			if(columnNames.length < 2 && columnNames[0] !== luga.data.CONST.PK_KEY){
+			else if(columnNames.length < 2 && columnNames[0] !== luga.data.CONST.PK_KEY){
 				columnNames.push(luga.data.CONST.PK_KEY);
 				return columnNames;
 			}
@@ -1175,7 +1170,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Retrieves JSON data, either from an HTTP response or from a direct call, apply the path, if any, extract and load records out of it
-		 * @param {json}     json         Data returned from the server
+		 * @param {json}     json         JSON data. Either returned from the server or passed directly
 		 * @param {string}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
 		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
 		 * @override
@@ -1240,7 +1235,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Given a jQuery object wrapping an HTML node, returns the region object associated to it
-	 * Returns undefined if the node is not a region
+	 * Returns undefined if the node is not associated to a region
 	 * @param {jquery} node
 	 * @returns {undefined|luga.data.region.Base}
 	 */
@@ -1308,7 +1303,7 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {object} luga.data.region.options
 	 *
 	 * @property {jquery} node                                Either a jQuery object wrapping the node or the naked DOM object that will contain the region. Required
-	 * @property {luga.data.DataSet|luga.data.DetailSet} ds   DataSource. Required if dsId is not specified
+	 * @property {luga.data.DataSet|luga.data.DetailSet} ds   DataSource. Required if dsUuid is not specified
 	 * @property {string} dsUuid                              DataSource's uuid. Can be specified inside the data-lugaregion-datasource attribute too. Required if ds is not specified
 	 * @property {array.<string>} traits                      An array of function names that will be called every time the Region is rendered. Optional
 	 * @property {string} templateId                          Id of HTML element containing the template. Can be specified inside the data-lugaregion-template attribute too.

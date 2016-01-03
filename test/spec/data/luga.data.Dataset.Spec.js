@@ -364,7 +364,7 @@ describe("luga.data.Dataset", function(){
 		});
 
 		describe("Returns 0 if:", function(){
-			it("Records are added to the dataSet", function(){
+			it("As soon as reords are added to the dataSet", function(){
 				baseDs.insert(testRecords);
 				expect(baseDs.getCurrentRowIndex()).toEqual(0);
 			});
@@ -504,7 +504,7 @@ describe("luga.data.Dataset", function(){
 		});
 
 		describe("Else:", function(){
-			it("Returns the name of the column most recently used for sorting", function(){
+			it("Returns the name of the single column most recently used for sorting", function(){
 				loadedDs.sort("firstName");
 				expect(loadedDs.getSortColumn()).toEqual("firstName");
 				loadedDs.sort("country");
@@ -934,13 +934,22 @@ describe("luga.data.Dataset", function(){
 
 		describe("Sort the data based on either:", function(){
 
-			describe("Column name/s:", function(){
+			describe("Single column:", function(){
 
-				it("Either single column", function(){
+				it("Passing a string", function(){
 					loadedDs.sort("firstName");
 					expect(loadedDs.getCurrentRowId()).toEqual("lugaPk_5"); // Elisabeth
 				});
-				it("Or multiple (passing an array of names)", function(){
+				it("Passing a single element array", function(){
+					loadedDs.sort(["firstName"]);
+					expect(loadedDs.getCurrentRowId()).toEqual("lugaPk_5"); // Elisabeth
+				});
+
+			});
+
+			describe("Multiple columns:", function(){
+
+				it("Passing an array of names", function(){
 					loadedDs.sort(["firstName", "lastName"]);
 					expect(loadedDs.getCurrentRowId()).toEqual("lugaPk_5"); // Elisabeth
 				});

@@ -275,7 +275,6 @@
 			if(row !== undefined){
 				return this.getRowIndex(row);
 			}
-			return -1;
 		};
 
 		/**
@@ -284,10 +283,6 @@
 		 * @returns {number}
 		 */
 		this.getRecordsCount = function(){
-			var allRecords = selectAll();
-			if(allRecords === null){
-				return 0;
-			}
 			return selectAll().length;
 		};
 
@@ -677,7 +672,7 @@
 			if(jQuery.isArray(columnNames) === false){
 				return [columnNames, luga.data.CONST.PK_KEY];
 			}
-			if(columnNames.length < 2 && columnNames[0] !== luga.data.CONST.PK_KEY){
+			else if(columnNames.length < 2 && columnNames[0] !== luga.data.CONST.PK_KEY){
 				columnNames.push(luga.data.CONST.PK_KEY);
 				return columnNames;
 			}
