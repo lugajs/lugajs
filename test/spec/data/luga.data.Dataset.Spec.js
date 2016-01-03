@@ -1105,6 +1105,21 @@ describe("luga.data.Dataset", function(){
 				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_1");
 			});
 
+			it("Handle upper/lower case:", function(){
+				var records = [
+					{name: "Ciccio"},
+					{name: "ciccio"},
+					{name: "Franco"},
+					{name: "franco"}
+				]
+				baseDs.insert(records);
+				baseDs.sort("name", "ascending");
+
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_0");
+				baseDs.sort("name", "descending");
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_3");
+			});
+
 		});
 
 		describe("Throws an exception if:", function(){
