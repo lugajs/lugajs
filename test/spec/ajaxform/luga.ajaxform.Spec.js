@@ -206,6 +206,24 @@ describe("luga.ajaxform", function(){
 			expect(luga.ajaxform.handlers).toBeDefined();
 		});
 
+		describe(".afterValidation ()", function(){
+
+			it("Should be used as after handler by Luga Validator", function(){
+				expect(luga.ajaxform.handlers.afterValidation).toBeDefined();
+			});
+			it("Block the passed submite event", function(){
+				var mockForm = jQuery("<form>");
+				var mockEvent = {
+					preventDefault: function(){}
+				};
+				spyOn(mockEvent, "preventDefault");
+
+				luga.ajaxform.handlers.afterValidation(mockForm,mockEvent);
+				expect(mockEvent.preventDefault).toHaveBeenCalled();
+			});
+
+		});
+
 		describe(".errorAlert()", function(){
 
 			it("Is the default error handler", function(){
