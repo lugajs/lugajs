@@ -9,6 +9,7 @@
   "newcap": true,
   "noarg": true,
   "quotmark": "double",
+  "sub": true,
   "undef": true,
   "unused": "vars",
   "strict": true,
