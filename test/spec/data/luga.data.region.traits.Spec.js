@@ -53,17 +53,6 @@ describe("luga.data.region.traits", function(){
 				expect(secondItem).toHaveClass("selectedRow");
 			});
 
-			it("Does nothing if the dataSource is empty", function(){
-				var testDiv = jQuery("<div><a data-lugaregion-select='selectedRow' href='#'>Test</a></div>");
-				var emptyDs = new luga.data.DataSet({uuid: "test"});
-				luga.data.region.traits.select({
-					node: testDiv,
-					dataSource: emptyDs
-				});
-				var firstItem = jQuery(testDiv.find("a")[0]);
-				expect(firstItem).not.toHaveClass("selectedRow");
-			});
-
 			it("Does nothing if the dataSource is a detailSet", function(){
 				var testDiv = jQuery("<div><a data-lugaregion-select='selectedRow' href='#'>Test</a></div>");
 				var detailSet = new luga.data.DetailSet({uuid: "detailTest", dataSet: ladiesDs});
