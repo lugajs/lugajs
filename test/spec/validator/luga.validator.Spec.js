@@ -62,8 +62,17 @@ describe("luga.validator.handlers", function(){
 
 	describe("luga.validator.handlers.errorAlert", function(){
 		it("Display error messages inside alert", function(){
-			expect(luga.validator.handlers.errorAlert).toBeDefined();
-			expect(jQuery.isFunction(luga.validator.handlers.errorAlert)).toBeTruthy();
+			spyOn(window, "alert")
+			spyOn(luga.validator.handlers, "errorAlert").and.callThrough();
+			loadFixtures("validator/FormValidator/basic.htm");
+			var formValidator = new luga.validator.FormValidator({
+				formNode: jQuery("#basic"),
+				error: "luga.validator.handlers.errorAlert"
+			});
+
+			formValidator.validate()
+			expect(luga.validator.handlers.errorAlert).toHaveBeenCalled();
+			expect(window.alert).toHaveBeenCalled();
 		});
 	});
 
@@ -76,9 +85,17 @@ describe("luga.validator.handlers", function(){
 
 	describe("luga.validator.handlers.bootstrap", function(){
 		it("Use Bootstrap validation states to display errors", function(){
-			expect(luga.validator.handlers.bootstrap).toBeDefined();
-			expect(jQuery.isFunction(luga.validator.handlers.bootstrap)).toBeTruthy();
+			spyOn(luga.validator.handlers, "bootstrap").and.callThrough();
+			loadFixtures("validator/FormValidator/basic.htm");
+			var formValidator = new luga.validator.FormValidator({
+				formNode: jQuery("#basic"),
+				error: "luga.validator.handlers.bootstrap"
+			});
+
+			formValidator.validate()
+			expect(luga.validator.handlers.bootstrap).toHaveBeenCalled();
 		});
+
 	});
 
 });
