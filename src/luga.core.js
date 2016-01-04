@@ -61,7 +61,7 @@ if(typeof(luga) === "undefined"){
 		if(!path){
 			return undefined;
 		}
-		var reference = luga.lookupProperty(window, path)
+		var reference = luga.lookupProperty(window, path);
 		if(jQuery.isFunction(reference) === true){
 			return reference;
 		}
