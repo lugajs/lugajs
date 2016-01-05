@@ -2,22 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<!-- Entry page -->
 	<url>
-		<loc>http://www.massimocorner.com/lugajs/docs/index.htm</loc>
+		<loc>http://www.lugajs.org/index.htm</loc>
 	</url>
 	<!-- Ajaxform -->
 	<url>
-		<loc>http://www.massimocorner.com/lugajs/docs/ajaxform/docs/index.htm</loc>
+		<loc>http://www.lugajs.org/docs/ajaxform/docs/index.htm</loc>
 	</url>
 	<!-- CSI -->
 	<url>
-		<loc>http://www.massimocorner.com/lugajs/docs/csi/docs/index.htm</loc>
+		<loc>http://www.lugajs.org/docs/csi/docs/index.htm</loc>
 	</url>
 	<!-- Data -->
 	<url>
-		<loc>http://www.massimocorner.com/lugajs/docs/data/docs/index.htm</loc>
+		<loc>http://www.lugajs.org/docs/data/docs/index.htm</loc>
 	</url>
 	<!-- Validator -->
 	<url>
-		<loc>http://www.massimocorner.com/lugajs/docs/validator/docs/index.htm</loc>
+		<loc>http://www.lugajs.org/docs/validator/docs/index.htm</loc>
 	</url>
 </urlset>
