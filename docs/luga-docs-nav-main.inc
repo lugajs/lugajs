@@ -8,7 +8,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="../../index.htm">Luga JS</a>
+			<a class="navbar-brand" href="../../../index.htm">Luga JS</a>
 		</div>
 		<!-- Everything may toggle -->
 		<div class="collapse navbar-collapse" id="main-navbar-collapse">
