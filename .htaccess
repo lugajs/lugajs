@@ -1,2 +1,3 @@
 #Required on lugajs.org
+RewriteEngine Off
 AddType application/json .map
