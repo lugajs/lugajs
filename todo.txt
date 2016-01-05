@@ -31,7 +31,7 @@ VALIDATOR:
 DATA:
 
 data.Dataset:
-- Prevent formatter from deleting records. Implement a method to filter without removing
+- Prevent formatter from deleting records. Implement a method to filter without removing: luga.data.filterEach(collection, filter)
 - Implement update(filter, setter)
 - Allow custom sorter for complex objects
 - Local storage persistence? Would it be better to persist only data?
