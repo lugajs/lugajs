@@ -31,9 +31,6 @@ VALIDATOR:
 DATA:
 
 data.Dataset:
-- Prevent formatter from deleting records. Implement:
-  luga.data.utils.each(collection, action)
-  luga.data.utils.filter(collection, criteria)
 - Implement update(filter, setter)
 - Allow custom sorter for complex objects
 - Local storage persistence? Would it be better to persist only data?

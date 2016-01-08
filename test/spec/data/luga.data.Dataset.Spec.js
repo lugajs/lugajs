@@ -563,7 +563,7 @@ describe("luga.data.Dataset", function(){
 			describe("Then:", function(){
 				it("Apply the formatter (if any)", function(){
 					var mock = {
-						formatter: removeAus
+						formatter: addTestCol
 					};
 					spyOn(mock, "formatter").and.callThrough();
 					var formattedDs = new luga.data.DataSet({uuid: "uniqueDs", formatter: mock.formatter});

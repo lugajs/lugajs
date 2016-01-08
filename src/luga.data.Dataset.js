@@ -137,26 +137,15 @@
 
 		var applyFilter = function(){
 			if(hasFilter() === true){
-				self.filteredRecords = filterRecords(self.records, self.filter);
+				self.filteredRecords = luga.data.utils.filter(self.records, self.filter, self);
 				self.resetCurrentRow();
 			}
 		};
 
 		var applyFormatter = function(){
 			if(hasFormatter() === true){
-				self.records = filterRecords(self.records, self.formatter);
+				luga.data.utils.format(self.records, self.formatter, self);
 			}
-		};
-
-		var filterRecords = function(orig, filter){
-			var filtered = [];
-			for(var i = 0; i < orig.length; i++){
-				var newRow = filter(orig[i], i, this);
-				if(newRow){
-					filtered.push(newRow);
-				}
-			}
-			return filtered;
 		};
 
 		var hasFilter = function(){
@@ -465,7 +454,7 @@
 			if(jQuery.isFunction(filter) === false){
 				throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
-			return filterRecords(selectAll(), filter);
+			return luga.data.utils.filter(selectAll(), filter, self);
 		};
 
 		/**

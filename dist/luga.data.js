@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.3.8 2016-01-03T15:10:25.489Z
+Luga Data 0.3.8 2016-01-08T11:07:49.196Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -35,6 +35,8 @@ if(typeof(luga) === "undefined"){
 		},
 		ERROR_MESSAGES: {
 			DUPLICATED_UUID: "Unable to register dataSource. The uuuid was already used: {0}",
+			INVALID_FILTER: "Invalid action from a filter function. A filter must return either a plain object or null (undefined, primitives etc are not valid return values)",
+			INVALID_FORMATTER: "Invalid action from a formatter function. A formatter must return a plain object (null, undefined, primitives etc are not valid return values)",
 			INVALID_STATE: "luga.data.utils.assembleStateDescription: Unsupported state: {0}"
 		},
 		PK_KEY: "lugaRowId",
@@ -106,6 +108,49 @@ if(typeof(luga) === "undefined"){
 			isStateLoading: (state === luga.data.STATE.LOADING),
 			isStateReady: (state === luga.data.STATE.READY)
 		};
+	};
+
+	/**
+	 * Apply the given filter function to each passed row
+	 * Return an array of filtered rows
+	 * @param {array.<luga.data.DataSet.row>} rows
+	 * @param {function}                      formatter
+	 * @param {luga.data.DataSet}             dataset
+	 * @returns {array.<luga.data.DataSet.row>}
+	 * @throws
+	 */
+	luga.data.utils.filter = function(rows, filter, dataset){
+		var retRows = [];
+		for(var i = 0; i < rows.length; i++){
+			var filteredRow = filter(rows[i], i, dataset);
+			// Row to be removed
+			if(filteredRow === null){
+				continue;
+			}
+			// Invalid row
+			if(jQuery.isPlainObject(filteredRow) === false){
+				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FORMATTER);
+			}
+			// Valid row
+			retRows.push(filteredRow);
+		}
+		return retRows;
+	};
+
+	/**
+	 * Apply the given formatter function to each passed row
+	 * @param {array.<luga.data.DataSet.row>} rows
+	 * @param {function}                      formatter
+	 * @param {luga.data.DataSet}             dataset
+	 * @throws
+	 */
+	luga.data.utils.format = function(rows, formatter, dataset){
+		for(var i = 0; i < rows.length; i++){
+			var formattedRow = formatter(rows[i], i, dataset);
+			if(jQuery.isPlainObject(formattedRow) === false){
+				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FORMATTER);
+			}
+		}
 	};
 
 	/**
@@ -262,26 +307,15 @@ if(typeof(luga) === "undefined"){
 
 		var applyFilter = function(){
 			if(hasFilter() === true){
-				self.filteredRecords = filterRecords(self.records, self.filter);
+				self.filteredRecords = luga.data.utils.filter(self.records, self.filter, self);
 				self.resetCurrentRow();
 			}
 		};
 
 		var applyFormatter = function(){
 			if(hasFormatter() === true){
-				self.records = filterRecords(self.records, self.formatter);
+				luga.data.utils.format(self.records, self.formatter, self);
 			}
-		};
-
-		var filterRecords = function(orig, filter){
-			var filtered = [];
-			for(var i = 0; i < orig.length; i++){
-				var newRow = filter(orig[i], i, this);
-				if(newRow){
-					filtered.push(newRow);
-				}
-			}
-			return filtered;
 		};
 
 		var hasFilter = function(){
@@ -590,7 +624,7 @@ if(typeof(luga) === "undefined"){
 			if(jQuery.isFunction(filter) === false){
 				throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
-			return filterRecords(selectAll(), filter);
+			return luga.data.utils.filter(selectAll(), filter, self);
 		};
 
 		/**
