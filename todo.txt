@@ -40,26 +40,23 @@ data.Dataset:
 
 - Solution for master-details with two REST endpoints?
 
-luga.data.pagination.PagedDataset:
-- Implement
+- luga.data.pagination.JsonDataset:
 
-- Autosuggest widget
+- luga.data.Autosuggest widget
 
 -------------
 
 PAGINATION WIDGETS:
-
-luga.data.pagination namespace
 
 - Use string templating to customize url/endpoint
 - Mixed client/server (set a threshold)
 - Request: offsetStart, offsetEnd
 - Response: recordCount, pageSize, currentPage
 
-- ShowMore widget (needs PagedDataset)
+- luga.data.pagination.ShowMore widget (needs PagedDataset)
   Once done change button's label
 
-- Navbar widget (needs PagedDataset)
+- luga.data.pagination.Navbar widget (needs PagedDataset)
   Different GUI styles: Bootstrap, PageList, LinkList
 
 -------------
