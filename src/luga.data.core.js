@@ -30,8 +30,10 @@ if(typeof(luga) === "undefined"){
 		},
 		ERROR_MESSAGES: {
 			DUPLICATED_UUID: "Unable to register dataSource. The uuuid was already used: {0}",
-			INVALID_FILTER: "Invalid action from a filter function. A filter must return either a plain object or null (undefined, primitives etc are not valid return values)",
-			INVALID_FORMATTER: "Invalid action from a formatter function. A formatter must return a plain object (null, undefined, primitives etc are not valid return values)",
+			INVALID_FILTER_PARAMETER: "Invalid filter. You must use a function as filter",
+			INVALID_FILTER_ACTION: "Invalid action from a filter function. A filter must return either a plain object or null (undefined, primitives etc are not valid return values)",
+			INVALID_UPDATER_PARAMETER: "Invalid updater. You must use a function as updater",
+			INVALID_UPDATER_ACTION: "Invalid action from an updater function. An updater must return a plain object (null, undefined, primitives etc are not valid return values)",
 			INVALID_STATE: "luga.data.utils.assembleStateDescription: Unsupported state: {0}"
 		},
 		PK_KEY: "lugaRowId",
@@ -115,6 +117,9 @@ if(typeof(luga) === "undefined"){
 	 * @throws
 	 */
 	luga.data.utils.filter = function(rows, filter, dataset){
+		if(jQuery.isFunction(filter) === false){
+			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
+		}
 		var retRows = [];
 		for(var i = 0; i < rows.length; i++){
 			var filteredRow = filter(rows[i], i, dataset);
@@ -124,7 +129,7 @@ if(typeof(luga) === "undefined"){
 			}
 			// Invalid row
 			if(jQuery.isPlainObject(filteredRow) === false){
-				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FORMATTER);
+				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FORMATTER_ACTION);
 			}
 			// Valid row
 			retRows.push(filteredRow);
@@ -133,17 +138,20 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Apply the given formatter function to each passed row
+	 * Apply the given updater function to each passed row
 	 * @param {array.<luga.data.DataSet.row>} rows
 	 * @param {function}                      formatter
 	 * @param {luga.data.DataSet}             dataset
 	 * @throws
 	 */
-	luga.data.utils.format = function(rows, formatter, dataset){
+	luga.data.utils.update = function(rows, formatter, dataset){
+		if(jQuery.isFunction(formatter) === false){
+			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_UPDATER_ACTION);
+		}
 		for(var i = 0; i < rows.length; i++){
 			var formattedRow = formatter(rows[i], i, dataset);
 			if(jQuery.isPlainObject(formattedRow) === false){
-				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FORMATTER);
+				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_UPDATER_ACTION);
 			}
 		}
 	};

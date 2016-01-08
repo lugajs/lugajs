@@ -83,6 +83,12 @@ describe("luga.data.utils", function(){
 
 		describe("Given a an array of row objects and a function", function(){
 
+			it("Throws an exception if the given filter is not a function", function(){
+				expect(function(){
+					luga.data.utils.filter(ladiesRecords, "not a function", dummyDs);
+				}).toThrow();
+			});
+
 			describe("Invoke the given function:", function(){
 
 				it("Once for each row", function(){
@@ -166,13 +172,35 @@ describe("luga.data.utils", function(){
 		});
 
 	});
-	
-	
-	describe(".format()", function(){
+
+	describe(".isValidState()", function(){
+
+		describe("Returns true if the givenstate is either", function(){
+			it("loading", function(){
+				expect(luga.data.utils.isValidState("loading")).toBeTruthy();
+			});
+			it("error", function(){
+				expect(luga.data.utils.isValidState("error")).toBeTruthy();
+			});
+			it("toggle", function(){
+				expect(luga.data.utils.isValidState("ready")).toBeTruthy();
+			});
+		});
+		describe("Otherwise", function(){
+			it("Returns false", function(){
+				expect(luga.data.utils.isValidState("whatever")).toBeFalsy();
+				expect(luga.data.utils.isValidState("test")).toBeFalsy();
+				expect(luga.data.utils.isValidState(0)).toBeFalsy();
+			});
+		});
+
+	});
+
+	describe(".update()", function(){
 
 		var ladiesRecords, dummyDs, addTestCol, longUk, mock;
 		beforeEach(function(){
-			ladiesRecords = getJSONFixture("data/ladies.json?_luga.data.utils.format");
+			ladiesRecords = getJSONFixture("data/ladies.json?_luga.data.utils.update");
 			dummyDs = new luga.data.DataSet({uuid: "testDs"});
 
 			addTestCol = function(row, rowIndex, dataSet){
@@ -203,16 +231,23 @@ describe("luga.data.utils", function(){
 
 		describe("Given a an array of row objects and a function", function(){
 
+			it("Throws an exception if the given formatter is not a function", function(){
+				expect(function(){
+					luga.data.utils.update(ladiesRecords, "not a function", dummyDs);
+				}).toThrow();
+			});
+
+
 			describe("Invoke the given function:", function(){
 
 				it("Once for each row", function(){
 					expect(mock.formatter.calls.count()).toEqual(0);
-					luga.data.utils.format(ladiesRecords, mock.formatter, dummyDs);
+					luga.data.utils.update(ladiesRecords, mock.formatter, dummyDs);
 					expect(mock.formatter.calls.count()).toEqual(7);
 				});
 
 				it("Passing: row, index, dataSet", function(){
-					luga.data.utils.format(ladiesRecords, mock.formatter, dummyDs);
+					luga.data.utils.update(ladiesRecords, mock.formatter, dummyDs);
 					expect(mock.formatter.calls.argsFor(0)).toEqual([ladiesRecords[0], 0, dummyDs]);
 					expect(mock.formatter.calls.argsFor(6)).toEqual([ladiesRecords[6], 6, dummyDs]);
 				});
@@ -222,13 +257,13 @@ describe("luga.data.utils", function(){
 			describe("The given function can manipulate each row to:", function(){
 
 				it("Add one or more column/s", function(){
-					luga.data.utils.format(ladiesRecords, addTestCol, dummyDs);
+					luga.data.utils.update(ladiesRecords, addTestCol, dummyDs);
 					expect(ladiesRecords[0].testCol).toEqual("test");
 					expect(ladiesRecords[6].testCol).toEqual("test");
 				});
 
 				it("Alter values inside an existing column/s", function(){
-					luga.data.utils.format(ladiesRecords, longUk, dummyDs);
+					luga.data.utils.update(ladiesRecords, longUk, dummyDs);
 					expect(ladiesRecords[1].country).toEqual("United Kingdom");
 					expect(ladiesRecords[6].country).toEqual("United Kingdom");
 				});
@@ -242,7 +277,7 @@ describe("luga.data.utils", function(){
 						return ["ciccio", "pasticcio"];
 					};
 					expect(function(){
-						luga.data.utils.format(ladiesRecords, evilFunc, dummyDs);
+						luga.data.utils.update(ladiesRecords, evilFunc, dummyDs);
 					}).toThrow();
 				});
 				it("a string", function(){
@@ -250,7 +285,7 @@ describe("luga.data.utils", function(){
 						return "test";
 					};
 					expect(function(){
-						luga.data.utils.format(ladiesRecords, evilFunc, dummyDs);
+						luga.data.utils.update(ladiesRecords, evilFunc, dummyDs);
 					}).toThrow();
 				});
 				it("null", function(){
@@ -258,7 +293,7 @@ describe("luga.data.utils", function(){
 						return null;
 					};
 					expect(function(){
-						luga.data.utils.format(ladiesRecords, evilFunc, dummyDs);
+						luga.data.utils.update(ladiesRecords, evilFunc, dummyDs);
 					}).toThrow();
 				});
 				it("undefined", function(){
@@ -266,7 +301,7 @@ describe("luga.data.utils", function(){
 						return undefined;
 					};
 					expect(function(){
-						luga.data.utils.format(ladiesRecords, evilFunc, dummyDs);
+						luga.data.utils.update(ladiesRecords, evilFunc, dummyDs);
 					}).toThrow();
 				});
 
@@ -275,29 +310,5 @@ describe("luga.data.utils", function(){
 		});
 
 	});
-
-	describe(".isValidState()", function(){
-
-		describe("Returns true if the passed state is either", function(){
-			it("loading", function(){
-				expect(luga.data.utils.isValidState("loading")).toBeTruthy();
-			});
-			it("error", function(){
-				expect(luga.data.utils.isValidState("error")).toBeTruthy();
-			});
-			it("toggle", function(){
-				expect(luga.data.utils.isValidState("ready")).toBeTruthy();
-			});
-		});
-		describe("Otherwise", function(){
-			it("Returns false", function(){
-				expect(luga.data.utils.isValidState("whatever")).toBeFalsy();
-				expect(luga.data.utils.isValidState("test")).toBeFalsy();
-				expect(luga.data.utils.isValidState(0)).toBeFalsy();
-			});
-		});
-
-	});
-
 
 });

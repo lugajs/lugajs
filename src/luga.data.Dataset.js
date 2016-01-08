@@ -144,7 +144,7 @@
 
 		var applyFormatter = function(){
 			if(hasFormatter() === true){
-				luga.data.utils.format(self.records, self.formatter, self);
+				luga.data.utils.update(self.records, self.formatter, self);
 			}
 		};
 
