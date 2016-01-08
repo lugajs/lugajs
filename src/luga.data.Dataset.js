@@ -544,7 +544,7 @@
 		 * Replace current filter with a new filter functions and apply the new filter
 		 * Triggers a "dataChanged" notification
 		 * @param {function} filter   A filter functions to be called once for each row in the data set. Required
-		 *                            The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
+		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @fires currentRowChanged
 		 * @fires dataChanged
 		 * @throws
@@ -675,6 +675,25 @@
 			else{
 				return luga.data.sort.ORDER.ASC;
 			}
+		};
+
+		/**
+		 * Updates rows inside the dataSet
+		 * @param {function} filter.  Filter function to be used as search criteria. Required
+		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
+		 * @param {function} updater. Updater function. Required
+		 *                            The function is going to be called with this signature: myUpdater(row, rowIndex, dataSet)
+		 * @fires stateChanged
+		 * @fires dataChanged
+		 * @throws
+		 */
+		this.update = function(filter, updater){
+			/** @type {array.<luga.data.DataSet.row>} */
+			var filteredRecords = luga.data.utils.filter(this.records, filter, this);
+			luga.data.utils.update(filteredRecords, updater, this);
+			this.resetCurrentRow();
+			this.setState(luga.data.STATE.READY);
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
 		/* Constructor */

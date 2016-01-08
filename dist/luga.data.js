@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.3.8 2016-01-08T11:07:49.196Z
+Luga Data 0.3.9 2016-01-08T16:14:45.471Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -18,7 +18,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.3.8";
+	luga.data.version = "0.3.9";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -35,8 +35,10 @@ if(typeof(luga) === "undefined"){
 		},
 		ERROR_MESSAGES: {
 			DUPLICATED_UUID: "Unable to register dataSource. The uuuid was already used: {0}",
-			INVALID_FILTER: "Invalid action from a filter function. A filter must return either a plain object or null (undefined, primitives etc are not valid return values)",
-			INVALID_FORMATTER: "Invalid action from a formatter function. A formatter must return a plain object (null, undefined, primitives etc are not valid return values)",
+			INVALID_FILTER_PARAMETER: "Invalid filter. You must use a function as filter",
+			INVALID_FILTER_ACTION: "Invalid action from a filter function. A filter must return either a plain object or null (undefined, primitives etc are not valid return values)",
+			INVALID_UPDATER_PARAMETER: "Invalid updater. You must use a function as updater",
+			INVALID_UPDATER_ACTION: "Invalid action from an updater function. An updater must return a plain object (null, undefined, primitives etc are not valid return values)",
 			INVALID_STATE: "luga.data.utils.assembleStateDescription: Unsupported state: {0}"
 		},
 		PK_KEY: "lugaRowId",
@@ -113,13 +115,16 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Apply the given filter function to each passed row
 	 * Return an array of filtered rows
-	 * @param {array.<luga.data.DataSet.row>} rows
-	 * @param {function}                      formatter
-	 * @param {luga.data.DataSet}             dataset
+	 * @param {array.<luga.data.DataSet.row>} rows. Required
+	 * @param {function}                      filter. Required
+	 * @param {luga.data.DataSet}             dataset. Required
 	 * @returns {array.<luga.data.DataSet.row>}
 	 * @throws
 	 */
 	luga.data.utils.filter = function(rows, filter, dataset){
+		if(jQuery.isFunction(filter) === false){
+			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
+		}
 		var retRows = [];
 		for(var i = 0; i < rows.length; i++){
 			var filteredRow = filter(rows[i], i, dataset);
@@ -129,7 +134,7 @@ if(typeof(luga) === "undefined"){
 			}
 			// Invalid row
 			if(jQuery.isPlainObject(filteredRow) === false){
-				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FORMATTER);
+				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FORMATTER_ACTION);
 			}
 			// Valid row
 			retRows.push(filteredRow);
@@ -138,17 +143,20 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Apply the given formatter function to each passed row
-	 * @param {array.<luga.data.DataSet.row>} rows
-	 * @param {function}                      formatter
-	 * @param {luga.data.DataSet}             dataset
+	 * Apply the given updater function to each passed row
+	 * @param {array.<luga.data.DataSet.row>} rows. Required
+	 * @param {function}                      updater. Required
+	 * @param {luga.data.DataSet}             dataset. Required
 	 * @throws
 	 */
-	luga.data.utils.format = function(rows, formatter, dataset){
+	luga.data.utils.update = function(rows, formatter, dataset){
+		if(jQuery.isFunction(formatter) === false){
+			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_UPDATER_ACTION);
+		}
 		for(var i = 0; i < rows.length; i++){
 			var formattedRow = formatter(rows[i], i, dataset);
 			if(jQuery.isPlainObject(formattedRow) === false){
-				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FORMATTER);
+				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_UPDATER_ACTION);
 			}
 		}
 	};
@@ -314,7 +322,7 @@ if(typeof(luga) === "undefined"){
 
 		var applyFormatter = function(){
 			if(hasFormatter() === true){
-				luga.data.utils.format(self.records, self.formatter, self);
+				luga.data.utils.update(self.records, self.formatter, self);
 			}
 		};
 
@@ -714,7 +722,7 @@ if(typeof(luga) === "undefined"){
 		 * Replace current filter with a new filter functions and apply the new filter
 		 * Triggers a "dataChanged" notification
 		 * @param {function} filter   A filter functions to be called once for each row in the data set. Required
-		 *                            The function is going to be called with this signature: myFilter(dataSet, row, rowIndex)
+		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @fires currentRowChanged
 		 * @fires dataChanged
 		 * @throws
@@ -845,6 +853,25 @@ if(typeof(luga) === "undefined"){
 			else{
 				return luga.data.sort.ORDER.ASC;
 			}
+		};
+
+		/**
+		 * Updates rows inside the dataSet
+		 * @param {function} filter.  Filter function to be used as search criteria. Required
+		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
+		 * @param {function} updater. Updater function. Required
+		 *                            The function is going to be called with this signature: myUpdater(row, rowIndex, dataSet)
+		 * @fires stateChanged
+		 * @fires dataChanged
+		 * @throws
+		 */
+		this.update = function(filter, updater){
+			/** @type {array.<luga.data.DataSet.row>} */
+			var filteredRecords = luga.data.utils.filter(this.records, filter, this);
+			luga.data.utils.update(filteredRecords, updater, this);
+			this.resetCurrentRow();
+			this.setState(luga.data.STATE.READY);
+			this.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
 		/* Constructor */

@@ -98,7 +98,7 @@ describe("luga.data.Dataset", function(){
 				expect(filteredDs.getRecordsCount()).toEqual(6);
 			});
 
-			it("Throws an exception if the passed filter is not a function", function(){
+			it("Throws an exception if the given filter is not a function", function(){
 				expect(function(){
 					new luga.data.DataSet({uuid: "uniqueDs", filter: "test"});
 				}).toThrow();
@@ -117,7 +117,7 @@ describe("luga.data.Dataset", function(){
 				expect(formattedDs.getCurrentRow().testCol).toEqual("test");
 			});
 
-			it("Throws an exception if the passed formatter is not a function", function(){
+			it("Throws an exception if the given formatter is not a function", function(){
 				expect(function(){
 					new luga.data.DataSet({uuid: "uniqueDs", formatter: "test"});
 				}).toThrow();
@@ -150,7 +150,7 @@ describe("luga.data.Dataset", function(){
 			});
 
 			describe("Throws an exception if:", function(){
-				it("The passed array contains one primitive value", function(){
+				it("The given array contains one primitive value", function(){
 					var arrayRecords = [];
 					arrayRecords.push({name: "Nicole"});
 					// Simple value!
@@ -159,7 +159,7 @@ describe("luga.data.Dataset", function(){
 						new luga.data.DataSet({uuid: "uniqueDs", records: arrayRecords});
 					}).toThrow();
 				});
-				it("The passed single object is a primitive value", function(){
+				it("The given single object is a primitive value", function(){
 					expect(function(){
 						new luga.data.DataSet({uuid: "uniqueDs", records: "test"});
 					}).toThrow();
@@ -222,7 +222,7 @@ describe("luga.data.Dataset", function(){
 				ds.delete(removeUk);
 				expect(ds.getRecordsCount()).toEqual(5);
 			});
-			it("Throws an exception if the passed filter is not a function", function(){
+			it("Throws an exception if the given filter is not a function", function(){
 				expect(function(){
 					baseDs.delete("test");
 				}).toThrow();
@@ -624,7 +624,7 @@ describe("luga.data.Dataset", function(){
 		});
 
 		describe("Throws an exception if:", function(){
-			it("The passed array contains one primitive value", function(){
+			it("The given array contains one primitive value", function(){
 				var arrayRecords = [];
 				arrayRecords.push({name: "Nicole"});
 				// Simple value!
@@ -633,7 +633,7 @@ describe("luga.data.Dataset", function(){
 					baseDs.insert(arrayRecords);
 				}).toThrow();
 			});
-			it("The passed single object is a primitive value", function(){
+			it("The given single object is a primitive value", function(){
 				expect(function(){
 					baseDs.insert(new Date());
 				}).toThrow();
@@ -732,7 +732,7 @@ describe("luga.data.Dataset", function(){
 				var ds = new luga.data.DataSet({uuid: "uniqueDs", records: testRecords});
 				expect(ds.select(removeUk).length).toEqual(5);
 			});
-			it("Throws an exception if the passed filter is not a function", function(){
+			it("Throws an exception if the given filter is not a function", function(){
 				expect(function(){
 					baseDs.select("test");
 				}).toThrow();
@@ -1133,6 +1133,90 @@ describe("luga.data.Dataset", function(){
 					baseDs.sort();
 				}).toThrow();
 			});
+		});
+
+	});
+
+	describe(".update()", function(){
+
+		var longUk, onlyUk, mock;
+		beforeEach(function(){
+
+			longUk = function(row, rowIndex, dataSet){
+				if(row.country === "UK"){
+					row.country = "United Kingdom";
+				}
+				return row;
+			};
+
+			onlyUk = function(row, rowIndex, dataSet){
+				if(row.country === "UK"){
+					return row;
+				}
+				return null;
+			};
+
+			addTestCol = function(row, rowIndex, dataSet){
+				row.testCol = "test";
+				return row;
+			};
+
+			mock = {
+				filter: onlyUk,
+				updater: addTestCol
+			};
+			spyOn(mock, "filter").and.callThrough();
+			spyOn(mock, "updater").and.callThrough();
+		});
+
+		describe("Given a filter function and an updater function", function(){
+
+			describe("First", function(){
+
+				it("Invoke the updater on each filtered record", function(){
+					loadedDs.update(mock.filter, mock.updater);
+					expect(mock.updater.calls.count()).toEqual(2);
+				});
+
+				it("Passing: row, index, dataSet", function(){
+					loadedDs.update(mock.filter, mock.updater);
+					expect(mock.updater.calls.argsFor(0)).toEqual([testRecords[1], 0, loadedDs]);
+					expect(mock.updater.calls.argsFor(1)).toEqual([testRecords[6], 1, loadedDs]);
+				});
+
+			});
+
+			describe("Then:", function(){
+				it("Calls .resetCurrentRow()", function(){
+					spyOn(loadedDs, "resetCurrentRow");
+					loadedDs.update(mock.filter, mock.updater);
+					expect(loadedDs.resetCurrentRow).toHaveBeenCalled();
+				});
+			});
+
+			describe("Then:", function(){
+				it("Calls .setState('ready')", function(){
+					spyOn(loadedDs, "setState");
+					loadedDs.update(mock.filter, mock.updater);
+					expect(loadedDs.setState).toHaveBeenCalledWith(luga.data.STATE.READY);
+				});
+			});
+
+			describe("Finally::", function(){
+				it("Fires a 'dataChanged' notification. Sending the whole dataSet along the way", function(){
+					var mockObserver = {
+						onDataChangedHandler: function(){
+						}
+					};
+					spyOn(mockObserver, "onDataChangedHandler");
+					loadedDs.addObserver(mockObserver);
+
+					loadedDs.update(mock.filter, mock.updater);
+					expect(mockObserver.onDataChangedHandler).toHaveBeenCalled();
+					expect(mockObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource: loadedDs});
+				});
+			});
+
 		});
 
 	});

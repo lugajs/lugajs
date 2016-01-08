@@ -13,7 +13,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.3.8";
+	luga.data.version = "0.3.9";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -110,9 +110,9 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Apply the given filter function to each passed row
 	 * Return an array of filtered rows
-	 * @param {array.<luga.data.DataSet.row>} rows
-	 * @param {function}                      formatter
-	 * @param {luga.data.DataSet}             dataset
+	 * @param {array.<luga.data.DataSet.row>} rows. Required
+	 * @param {function}                      filter. Required
+	 * @param {luga.data.DataSet}             dataset. Required
 	 * @returns {array.<luga.data.DataSet.row>}
 	 * @throws
 	 */
@@ -139,9 +139,9 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Apply the given updater function to each passed row
-	 * @param {array.<luga.data.DataSet.row>} rows
-	 * @param {function}                      formatter
-	 * @param {luga.data.DataSet}             dataset
+	 * @param {array.<luga.data.DataSet.row>} rows. Required
+	 * @param {function}                      updater. Required
+	 * @param {luga.data.DataSet}             dataset. Required
 	 * @throws
 	 */
 	luga.data.utils.update = function(rows, formatter, dataset){

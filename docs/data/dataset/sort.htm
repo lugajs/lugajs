@@ -47,7 +47,7 @@
 				path: "jazzPlayers"
 			});
 
-			var dateFilter = function(row, rowIndex, dataSet){
+			var dateFormatter = function(row, rowIndex, dataSet){
 				var dateObj = new Date(row.birthDate);
 				// Turn date into a reasonable string rapresentation
 				// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toUTCString
@@ -60,7 +60,7 @@
 			var ladies = new luga.data.JsonDataSet({
 				uuid: "ladiesDate",
 				url: "../../../test/fixtures/data/ladies.json",
-				filter: dateFilter
+				formatter: dateFormatter
 			});
 
 			jQuery(document).ready(function(){

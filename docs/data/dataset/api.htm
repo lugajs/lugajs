@@ -591,6 +591,55 @@ testDs.sort("firstName", "descending");</code></pre>
 
 		</div>
 
+		<div id="update" class="panel panel-default">
+			<div class="panel-heading luga-docs-api-heading">.update(filter, updater)</div>
+			<div class="panel-body">
+				Updates rows inside the dataSet.
+			</div>
+			<table class="table table-bordered luga-docs-api">
+				<th colspan="3">Arguments</th>
+				<tr>
+					<td>filter</td>
+					<td class="luga-docs-type">
+						{function}
+					</td>
+					<td>
+						Filter function to be used as search criteria. Required.
+						The function is going to be called with this signature: myFilter(row, rowIndex, dataSet).
+					</td>
+				</tr>
+				<tr>
+					<td>updater</td>
+					<td class="luga-docs-type">
+						{function}
+					</td>
+					<td>
+						Updater function. Required.
+						The function is going to be called with this signature: myFilter(row, rowIndex, dataSet).
+					</td>
+				</tr>
+			</table>
+			<table class="table table-bordered luga-docs-api">
+				<th>Examples</th>
+			</table>
+
+<pre><code class="language-javascript">// Only ladies from UK
+var onlyUk = function(row, rowIndex, dataSet){
+	if(row.country === "UK"){
+		return row;
+	}
+	return null;
+};
+// Use long country name
+var longUk = function(row, rowIndex, dataSet){
+	row.country = "United Kingdom";
+	return row;
+};
+
+myDataset.update(onlyUk, longUk);</code></pre>
+
+		</div>
+
 	</div>
 
 	<div data-lugacsi="../nav-local.inc"></div>

@@ -46,7 +46,7 @@ describe("luga.data.sort", function(){
 
 	describe(".isValidSortOrder()", function(){
 
-		describe("Returns true if the passed sortOrder is either", function(){
+		describe("Returns true if the given sortOrder is either", function(){
 			it("ascending", function(){
 				expect(luga.data.sort.isValidSortOrder("ascending")).toBeTruthy();
 			});
