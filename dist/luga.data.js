@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.3.9 2016-01-08T16:14:45.471Z
+Luga Data 0.3.10 2016-01-10T17:59:05.912Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -18,7 +18,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.3.9";
+	luga.data.version = "0.3.10";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -1255,6 +1255,72 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.setPath = function(path){
 			this.path = path;
+		};
+
+	};
+
+}());
+(function(){
+	"use strict";
+
+	/**
+	 * @typedef {object} luga.data.RemoteJsonDataSet.options
+	 *
+	 * @extends luga.data.JsonDataSet.options
+	 * @property {luga.data.JsonDataSet}   dataSet
+	 * @property {string}                  urlPattern
+	 *
+	 */
+
+	/**
+	 * Binded JSON dataSet class
+	 * @param {luga.data.RemoteJsonDataSet.options} options
+	 * @constructor
+	 * @extends luga.data.JsonDataSet
+	 */
+	luga.data.RemoteJsonDataSet = function(options){
+
+		var CONST = {
+			ERROR_MESSAGES: {
+				MISSING_MASTER_DS: "luga.data.RemoteJsonDataSet: dataSet parameter is required",
+				MISSING_URL_PATTERN: "luga.data.RemoteJsonDataSet: urlPattern parameter is required"
+			}
+		};
+
+		if(options.dataSet === undefined){
+			throw(CONST.ERROR_MESSAGES.MISSING_MASTER_DS);
+		}
+
+		if(options.urlPattern === undefined){
+			throw(CONST.ERROR_MESSAGES.MISSING_URL_PATTERN);
+		}
+
+		luga.extend(luga.data.JsonDataSet, this, [options]);
+
+		/** @type {luga.data.RemoteJsonDataSet} */
+		var self = this;
+
+		/** @type {luga.data.JsonDataSet} */
+		this.dataSet = options.dataSet;
+		this.dataSet.addObserver(this);
+		this.urlPattern = options.urlPattern;
+
+		/**
+		 * @param {luga.data.DataSet.row} row
+		 */
+		this.fetchData = function(row){
+			var bindUrl = luga.string.replaceProperty(self.urlPattern, row);
+			self.setUrl(bindUrl);
+			self.loadData();
+		};
+
+		/* Events Handlers */
+
+		/**
+		 * @param {luga.data.DataSet.currentRowChanged} data
+		 */
+		this.onCurrentRowChangedHandler = function(data){
+			self.fetchData(data.currentRow);
 		};
 
 	};
