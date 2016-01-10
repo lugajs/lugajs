@@ -34,7 +34,7 @@ data.Dataset:
 - Allow custom sorter for complex objects
 - Local storage persistence? Would it be better to persist only data?
 
-- Solution for master-details with two REST endpoints. luga.data.bindedJsonDataset?
+- Solution for master-details with two REST endpoints. luga.data.remoteJsonDataset?
 
 - luga.data.pagination.JsonDataset:
 
