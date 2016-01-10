@@ -51,7 +51,7 @@
 
 	<script id="masterTemplate" type="text/x-handlebars-template">
 		{{#if isStateLoading}}
-			Loading...
+			Loading master data...
 		{{/if}}
 		<ul class="luga-docs-list">
 			{{#each entities}}
@@ -63,7 +63,7 @@
 	</script>
 	<script id="detailsTemplate" type="text/x-handlebars-template">
 		{{#if isStateLoading}}
-			Loading...
+			Loading details data...
 		{{/if}}
 		{{#if isStateReady}}
 			{{#each entities}}
@@ -97,27 +97,21 @@
 		</div>
 
 		<div class="panel panel-default">
-			<div id="master" class="panel-heading">Master</div>
+			<div id="master" class="panel-heading">Master-details</div>
 			<div class="panel-body">
 
-				<div data-lugaregion="true"
+				<div class="col-xs-6 col-sm-6" data-lugaregion="true"
 					 data-lugaregion-datasource-uuid="masterDs"
 					 data-lugaregion-template-id="masterTemplate"></div>
-			</div>
 
-		</div>
-
-		<div class="panel panel-default">
-			<div class="panel-heading">Details</div>
-			<div class="panel-body">
-
-				<div data-lugaregion="true"
-				data-lugaregion-datasource-uuid="detailDs"
-				data-lugaregion-template-id="detailsTemplate"></div>
+				<div class="col-xs-6 col-sm-6" data-lugaregion="true"
+					 data-lugaregion-datasource-uuid="detailDs"
+					 data-lugaregion-template-id="detailsTemplate"></div>
 
 			</div>
 
 		</div>
+
 
 	</div>
 
