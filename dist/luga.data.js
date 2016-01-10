@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.3.10 2016-01-10T17:59:05.912Z
+Luga Data 0.3.10 2016-01-10T18:13:33.947Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -1320,7 +1320,13 @@ if(typeof(luga) === "undefined"){
 		 * @param {luga.data.DataSet.currentRowChanged} data
 		 */
 		this.onCurrentRowChangedHandler = function(data){
-			self.fetchData(data.currentRow);
+			if(data.currentRow !== null){
+				self.fetchData(data.currentRow);
+			}
+			else{
+				self.delete();
+			}
+
 		};
 
 	};

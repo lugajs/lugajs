@@ -102,10 +102,27 @@ describe("luga.data.RemoteJsonDataSet", function(){
 			jsonDs.setCurrentRowIndex(2);
 			expect(remoteDs.onCurrentRowChangedHandler).toHaveBeenCalled();
 		});
-		it("Invokes .fetchData(). Passing the the masterDataSet's currentRow", function(){
-			spyOn(remoteDs, "fetchData");
-			jsonDs.setCurrentRowIndex(2);
-			expect(remoteDs.fetchData).toHaveBeenCalledWith(stateRecords[2]);
+
+		describe("If the the masterDataSet's currentRow is not null:", function(){
+
+			it("Invokes .fetchData(). Passing the masterDataSet's currentRow", function(){
+				spyOn(remoteDs, "fetchData");
+				jsonDs.setCurrentRowIndex(2);
+				expect(remoteDs.fetchData).toHaveBeenCalledWith(stateRecords[2]);
+			});
+
+		});
+
+		describe("Else:", function(){
+
+			it("Invokes .delete()", function(){
+				spyOn(remoteDs, "fetchData");
+				spyOn(remoteDs, "delete");
+				jsonDs.setCurrentRowId(null);
+				expect(remoteDs.fetchData).not.toHaveBeenCalled();
+				expect(remoteDs.delete).toHaveBeenCalled();
+			});
+
 		});
 
 	});

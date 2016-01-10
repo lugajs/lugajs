@@ -37,7 +37,6 @@ data.Dataset:
 
 luga.data.RemoteJsonDataSet
 - Handle errors inside url templating
-- Handle errors in case master row is null
 
 - luga.data.pagination.JsonDataset:
 

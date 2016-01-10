@@ -58,7 +58,13 @@
 		 * @param {luga.data.DataSet.currentRowChanged} data
 		 */
 		this.onCurrentRowChangedHandler = function(data){
-			self.fetchData(data.currentRow);
+			if(data.currentRow !== null){
+				self.fetchData(data.currentRow);
+			}
+			else{
+				self.delete();
+			}
+
 		};
 
 	};
