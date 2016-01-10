@@ -1,6 +1,6 @@
 /*! 
-Luga JS  2015-12-29T22:18:24.101Z
-Copyright 2013-2015 Massimo Foti (massimo@massimocorner.com)
+Luga JS  2016-01-10T12:14:20.668Z
+Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
 if(typeof(jQuery) === "undefined"){
@@ -13,7 +13,7 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.version = "0.4.5";
+	luga.version = "0.4.6";
 
 	luga.CONST = {
 		ERROR_MESSAGES: {
@@ -66,7 +66,7 @@ if(typeof(luga) === "undefined"){
 		if(!path){
 			return undefined;
 		}
-		var reference = luga.lookupProperty(window, path)
+		var reference = luga.lookupProperty(window, path);
 		if(jQuery.isFunction(reference) === true){
 			return reference;
 		}
@@ -475,6 +475,42 @@ if(typeof(luga) === "undefined"){
 			for(var x in args){
 				pattern = new RegExp("\\{" + x + "\\}", "g");
 				str = str.replace(pattern, args[x]);
+			}
+		}
+		return str;
+	};
+
+	var propertyPattern = new RegExp("\\{([^}]*)}", "g");
+
+	/**
+	 * Given a string containing placeholders in {key} format, it assembles a new string
+	 * replacing the placeholders with the strings contained inside the second argument keys
+	 * Unlike luga.string.format, placeholders can match nested properties too. But it's slower
+	 *
+	 * Example:
+	 * luga.string.format("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"});
+	 * => "My name is Ciccio Pasticcio"
+	 *
+	 * Example with nested properties:
+	 * var nestedObj = { type: "people", person: { firstName: "Ciccio", lastName: "Pasticcio" } };
+	 * luga.string.replaceProperty("My name is {person.firstName} {person.lastName}", nestedObj)
+	 * => "My name is Ciccio Pasticcio"
+	 *
+	 * @param   {string} str   String containing placeholders
+	 * @param   {object} obj   An objects containing name/value pairs in string format
+	 * @returns {string} The newly assembled string
+	 */
+	luga.string.replaceProperty = function(str, obj){
+		if($.isPlainObject(obj) === true){
+			var results;
+			while((results = propertyPattern.exec(str)) !== null){
+				var property = luga.lookupProperty(obj, results[1]);
+				if(property !== undefined){
+					var pattern = new RegExp(results[0], "g");
+					str = str.replace(pattern, property);
+					// Keep searching
+					propertyPattern.test(str);
+				}
 			}
 		}
 		return str;

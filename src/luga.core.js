@@ -8,7 +8,7 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.version = "0.4.5";
+	luga.version = "0.4.6";
 
 	luga.CONST = {
 		ERROR_MESSAGES: {
@@ -470,6 +470,42 @@ if(typeof(luga) === "undefined"){
 			for(var x in args){
 				pattern = new RegExp("\\{" + x + "\\}", "g");
 				str = str.replace(pattern, args[x]);
+			}
+		}
+		return str;
+	};
+
+	var propertyPattern = new RegExp("\\{([^}]*)}", "g");
+
+	/**
+	 * Given a string containing placeholders in {key} format, it assembles a new string
+	 * replacing the placeholders with the strings contained inside the second argument keys
+	 * Unlike luga.string.format, placeholders can match nested properties too. But it's slower
+	 *
+	 * Example:
+	 * luga.string.format("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"});
+	 * => "My name is Ciccio Pasticcio"
+	 *
+	 * Example with nested properties:
+	 * var nestedObj = { type: "people", person: { firstName: "Ciccio", lastName: "Pasticcio" } };
+	 * luga.string.replaceProperty("My name is {person.firstName} {person.lastName}", nestedObj)
+	 * => "My name is Ciccio Pasticcio"
+	 *
+	 * @param   {string} str   String containing placeholders
+	 * @param   {object} obj   An objects containing name/value pairs in string format
+	 * @returns {string} The newly assembled string
+	 */
+	luga.string.replaceProperty = function(str, obj){
+		if($.isPlainObject(obj) === true){
+			var results;
+			while((results = propertyPattern.exec(str)) !== null){
+				var property = luga.lookupProperty(obj, results[1]);
+				if(property !== undefined){
+					var pattern = new RegExp(results[0], "g");
+					str = str.replace(pattern, property);
+					// Keep searching
+					propertyPattern.test(str);
+				}
 			}
 		}
 		return str;
