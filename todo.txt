@@ -6,7 +6,8 @@
 DOCS:
 
 - Data: FAQ?
-- Data: Explain states
+- Data: Page on states
+- Pages on luga.data.RemoteJsonDataSet
 
 -------------
 
@@ -34,7 +35,9 @@ data.Dataset:
 - Allow custom sorter for complex objects
 - Local storage persistence? Would it be better to persist only data?
 
-- Solution for master-details with two REST endpoints. luga.data.remoteJsonDataset?
+luga.data.RemoteJsonDataSet
+- Handle errors inside url templating
+- Handle errors in case master row is null
 
 - luga.data.pagination.JsonDataset:
 
