@@ -41,11 +41,16 @@
 			nodes.removeClass(cssClass);
 			// Default to zero
 			var index = 0;
-			if(options.dataSource.getCurrentRowIndex() !== -1){
-				index = options.dataSource.getCurrentRowIndex();
+
+			if(options.dataSource.getCurrentRowIndex() === -1){
+				 // Remove class from everyone
+				nodes.removeClass(cssClass);
 			}
-			// Apply CSS
-			jQuery(nodes.get(index)).addClass(cssClass);
+			else {
+				index = options.dataSource.getCurrentRowIndex();
+				// Apply CSS
+				jQuery(nodes.get(index)).addClass(cssClass);
+			}
 
 			// Attach click event
 			nodes.each(function(index, item){

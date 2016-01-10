@@ -28,7 +28,7 @@ describe("luga.data.region.traits", function(){
 
 		describe("Handles the data-lugaregion-select custom attribute", function(){
 
-			it("Attach the specified CSS class to the first row inside the region", function(){
+			it("Attach the specified CSS class to the current row inside the region", function(){
 				var testDiv = jQuery("#select");
 				luga.data.region.traits.select({
 					node: testDiv,
@@ -36,6 +36,16 @@ describe("luga.data.region.traits", function(){
 				});
 				var firstItem = jQuery(testDiv.find(CONST.LINK_LI_SELECTOR)[0]);
 				expect(firstItem).toHaveClass("selectedRow");
+			});
+
+			it("Remove the specified CSS class if the current row is null", function(){
+				ladiesDs.setCurrentRowId(null);
+				var testDiv = jQuery("#select");
+				luga.data.region.traits.select({
+					node: testDiv,
+					dataSource: ladiesDs
+				});
+				expect(testDiv.find(CONST.LINK_LI_SELECTOR)).not.toHaveClass("selectedRow");
 			});
 
 			it("Attach an onclick event to each HTML tag containing it. Once clicked, the element will be the only one using the CSS class", function(){

@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.3.10 2016-01-10T18:13:33.947Z
+Luga Data 0.3.10 2016-01-10T18:24:33.975Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -1698,11 +1698,16 @@ if(typeof(luga) === "undefined"){
 			nodes.removeClass(cssClass);
 			// Default to zero
 			var index = 0;
-			if(options.dataSource.getCurrentRowIndex() !== -1){
-				index = options.dataSource.getCurrentRowIndex();
+
+			if(options.dataSource.getCurrentRowIndex() === -1){
+				 // Remove class from everyone
+				nodes.removeClass(cssClass);
 			}
-			// Apply CSS
-			jQuery(nodes.get(index)).addClass(cssClass);
+			else {
+				index = options.dataSource.getCurrentRowIndex();
+				// Apply CSS
+				jQuery(nodes.get(index)).addClass(cssClass);
+			}
 
 			// Attach click event
 			nodes.each(function(index, item){
