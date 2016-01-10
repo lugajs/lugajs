@@ -16,7 +16,7 @@ describe("luga.string", function(){
 			it("The string can contains multiple instances of the same placeholder", function(){
 				expect(luga.string.format("This {0} is just a {0}", ["test"])).toEqual("This test is just a test");
 			});
-			it("If no matching placeholder is find, the original string will be returned", function(){
+			it("If no matching placeholder is find, return the original string", function(){
 				expect(luga.string.format("This {str}", {another: "test"})).toEqual("This {str}");
 			});
 
@@ -26,7 +26,7 @@ describe("luga.string", function(){
 
 			describe("An array:", function(){
 
-				it("In which case placeholders need to be numbers", function(){
+				it("In which case placeholders need to be in {index} format", function(){
 					expect(luga.string.format("My name is {0} {1}", ["Ciccio", "Pasticcio"])).toEqual("My name is Ciccio Pasticcio");
 					expect(luga.string.format("This {0} is just a {0}", ["test"])).toEqual("This test is just a test");
 				});
@@ -35,12 +35,55 @@ describe("luga.string", function(){
 
 			describe("An object containing name/value pairs:", function(){
 
-				it("In which case placeholders need to be keys", function(){
+				it("In which case placeholders need to be in {key} format", function(){
 					expect(luga.string.format("My name is {firstName} {lastName}", {
 						firstName: "Ciccio",
 						lastName: "Pasticcio"
 					})).toEqual("My name is Ciccio Pasticcio");
 					expect(luga.string.format("This {str} is just a {str}", {str: "test"})).toEqual("This test is just a test");
+				});
+
+			});
+
+		});
+	});
+
+	describe(".replaceProperty()", function(){
+
+		describe("Given a string containing placeholders in {placeholder} format", function(){
+
+			it("It assembles a new string replacing the placeholders with the strings contained inside the second argument", function(){
+				expect(luga.string.replaceProperty("My name is {name}", {name: "Ciccio"})).toEqual("My name is Ciccio");
+			});
+			it("The string can contains multiple instances of the same placeholder", function(){
+				expect(luga.string.replaceProperty("This {key} is just a {key}", {key: "test"})).toEqual("This test is just a test");
+			});
+			it("If no matching placeholder is find, return the original string", function(){
+				expect(luga.string.replaceProperty("This {missing}", {another: "test"})).toEqual("This {missing}");
+			});
+
+		});
+
+		describe("The second argument is:", function(){
+
+			describe("An object containing keys:", function(){
+
+				it("Placeholders must match a key", function(){
+					expect(luga.string.replaceProperty("My name is {firstName} {lastName}", {
+						firstName: "Ciccio",
+						lastName: "Pasticcio"
+					})).toEqual("My name is Ciccio Pasticcio");
+				});
+
+				it("Placeholders can match nested properties too", function(){
+					var nestedObj = {
+						type: "people",
+						person: {
+							firstName: "Ciccio",
+							lastName: "Pasticcio"
+						}
+					};
+					expect(luga.string.replaceProperty("My name is {person.firstName} {person.lastName}", nestedObj)).toEqual("My name is Ciccio Pasticcio");
 				});
 
 			});
