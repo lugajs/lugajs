@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<link rel="shortcut icon" type="image/png" href="../../luga-favicon.png"/>
+	<title>Luga Data :: RemoteJsonDataSet :: Master-details</title>
+
+	<!-- Libs -->
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../lib/handlebars.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/bootstrap/css/bootstrap.min.css"/>
+	<script src="../../../lib/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/prism/prism.css"/>
+	<script src="../../../lib/prism/prism.js"></script>
+
+	<!-- Luga JS -->
+	<link rel="stylesheet" href="../../../src/luga.css"/>
+	<script src="../../../dist/luga.min.js"></script>
+	<script src="../../../dist/luga.data.min.js"></script>
+
+
+	<script src="../../../src/luga.data.RemoteJsonDataSet.js"></script>
+
+	<!-- Docs -->
+	<link rel="stylesheet" href="../../luga.docs.css"/>
+	<script src="../../luga-docs.js"></script>
+
+	<script>
+		(function(){
+			"use strict";
+
+			var BASE_URL = "https://gxabmxeqzc.execute-api.us-east-1.amazonaws.com/stage/showreel";
+			var master = new luga.data.JsonDataSet({
+				uuid: "masterDs",
+				url: BASE_URL + "/characters"
+			});
+			var details = new luga.data.RemoteJsonDataSet({
+				uuid: "detailDs",
+				dataSet: master,
+				urlPattern: BASE_URL + "/characters/{uuid}"
+			});
+
+			jQuery(document).ready(function(){
+				master.loadData();
+			});
+
+		}());
+	</script>
+
+	<script id="masterTemplate" type="text/x-handlebars-template">
+		{{#if isStateLoading}}
+			Loading...
+		{{/if}}
+		<ul class="luga-docs-list">
+			{{#each entities}}
+				<li>
+					<a href="#" data-lugaregion-setrowid="{{lugaRowId}}" data-lugaregion-select="luga-docs-selected">{{name}}</a>
+				</li>
+			{{/each}}
+		</ul>
+	</script>
+	<script id="detailsTemplate" type="text/x-handlebars-template">
+		{{#if isStateLoading}}
+			Loading...
+		{{/if}}
+		{{#if isStateReady}}
+			{{#each entities}}
+				<ul class="luga-docs-list">
+					<li>Name: {{name}}</li>
+					<li>Real name: {{realName}}</li>
+					<li>Gender: {{gender}}</li>
+					<li>Publisher: {{publisher}}</li>
+				</ul>
+				<p>
+					{{description}}
+				</p>
+			{{/each}}
+		{{/if}}
+	</script>
+
+</head>
+
+<body class="luga-docs">
+
+<div data-lugacsi="../../luga-docs-nav-main.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
+
+<div class="container-fluid">
+	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Master-details</div>
+			<div class="panel-body">
+
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div id="master" class="panel-heading">Master</div>
+			<div class="panel-body">
+
+				<div data-lugaregion="true"
+					 data-lugaregion-datasource-uuid="masterDs"
+					 data-lugaregion-template-id="masterTemplate"></div>
+			</div>
+
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Details</div>
+			<div class="panel-body">
+
+				<div data-lugaregion="true"
+				data-lugaregion-datasource-uuid="detailDs"
+				data-lugaregion-template-id="detailsTemplate"></div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<div data-lugacsi="../nav-local.inc"></div>
+
+	<div data-lugacsi="../../luga-docs-footer.inc"></div>
+
+</div>
+
+</body>
+</html>
