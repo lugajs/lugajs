@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.3.10 2016-01-10T18:24:33.975Z
+Luga Data 0.3.10 2016-01-11T18:12:11.371Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -1283,7 +1283,8 @@ if(typeof(luga) === "undefined"){
 		var CONST = {
 			ERROR_MESSAGES: {
 				MISSING_MASTER_DS: "luga.data.RemoteJsonDataSet: dataSet parameter is required",
-				MISSING_URL_PATTERN: "luga.data.RemoteJsonDataSet: urlPattern parameter is required"
+				MISSING_URL_PATTERN: "luga.data.RemoteJsonDataSet: urlPattern parameter is required",
+				FAILED_URL_BINDING: "luga.data.RemoteJsonDataSet: unable to generate valid URL: {0}"
 			}
 		};
 
@@ -1310,6 +1311,9 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.fetchData = function(row){
 			var bindUrl = luga.string.replaceProperty(self.urlPattern, row);
+			if(bindUrl === self.urlPattern){
+				throw(luga.string.format(CONST.ERROR_MESSAGES.FAILED_URL_BINDING, [bindUrl]));
+			}
 			self.setUrl(bindUrl);
 			self.loadData();
 		};

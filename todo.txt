@@ -6,7 +6,8 @@
 DOCS:
 
 - Data: FAQ?
-- Data: Page on states
+- Page on states:
+  https://gxabmxeqzc.execute-api.us-east-1.amazonaws.com/stage/showreel/characters?delayedResponse=6000
 - Pages on luga.data.RemoteJsonDataSet
 
 -------------
@@ -34,9 +35,6 @@ DATA:
 data.Dataset:
 - Allow custom sorter for complex objects
 - Local storage persistence? Would it be better to persist only data?
-
-luga.data.RemoteJsonDataSet
-- Handle errors inside url templating
 
 - luga.data.pagination.JsonDataset:
 

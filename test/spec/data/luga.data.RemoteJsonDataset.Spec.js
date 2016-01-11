@@ -73,12 +73,18 @@ describe("luga.data.RemoteJsonDataSet", function(){
 
 		describe("First:", function(){
 
-			it("Use luga.string.replaceProperty", function(){
+			it("Use luga.string.replaceProperty to resolve the binding inside options.urlPattern", function(){
 				spyOn(luga.string, "replaceProperty");
 				remoteDs.fetchData(stateRecords[2]);
 				expect(luga.string.replaceProperty).toHaveBeenCalledWith(remoteDs.urlPattern, stateRecords[2]);
 			});
-			it("To updates its .url property", function(){
+			it("Throws an exception if binding fails", function(){
+				expect(function(){
+					remoteDs.urlPattern = "fixtures/data/usa-states-{invalid.property}.json";
+					remoteDs.fetchData(stateRecords[2]);
+				}).toThrow();
+			});
+			it("Update its .url property", function(){
 				remoteDs.fetchData(stateRecords[2]);
 				expect(remoteDs.url).toEqual("fixtures/data/usa-states-AS.json");
 			});

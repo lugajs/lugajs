@@ -21,7 +21,8 @@
 		var CONST = {
 			ERROR_MESSAGES: {
 				MISSING_MASTER_DS: "luga.data.RemoteJsonDataSet: dataSet parameter is required",
-				MISSING_URL_PATTERN: "luga.data.RemoteJsonDataSet: urlPattern parameter is required"
+				MISSING_URL_PATTERN: "luga.data.RemoteJsonDataSet: urlPattern parameter is required",
+				FAILED_URL_BINDING: "luga.data.RemoteJsonDataSet: unable to generate valid URL: {0}"
 			}
 		};
 
@@ -48,6 +49,9 @@
 		 */
 		this.fetchData = function(row){
 			var bindUrl = luga.string.replaceProperty(self.urlPattern, row);
+			if(bindUrl === self.urlPattern){
+				throw(luga.string.format(CONST.ERROR_MESSAGES.FAILED_URL_BINDING, [bindUrl]));
+			}
 			self.setUrl(bindUrl);
 			self.loadData();
 		};
