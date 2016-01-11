@@ -1,6 +1,6 @@
-workspace.xml
-Massimo.xml
 node_modules/
-/.htaccess
-.idea/dictionaries/foti.xml
 test/coverage
+.idea/workspace.xml
+.idea/Massimo.xml
+.idea/dictionaries/foti.xml
+.idea/vcs.xml
