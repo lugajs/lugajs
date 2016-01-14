@@ -36,7 +36,11 @@ data.Dataset:
 - Allow custom sorter for complex objects
 - Local storage persistence? Would it be better to persist only data?
 
-- luga.data.pagination.JsonDataset:
+RemoteJsonDataSet
+- Rename to ChildJsonDataSet?
+- option.urlPattern -> option.url
+
+- luga.data.pagination.JsonDataSet:
 
 - luga.data.Autosuggest
 
