@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.3.10 2016-01-15T12:37:33.292Z
+Luga Data 0.3.11 2016-01-15T13:15:30.961Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -18,7 +18,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.3.10";
+	luga.data.version = "0.3.11";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
