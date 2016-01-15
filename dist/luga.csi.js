@@ -1,5 +1,5 @@
 /*! 
-Luga CSI 1.1.1 2016-01-15T09:42:49.406Z
+Luga CSI 1.1.2 2016-01-15T09:46:58.152Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -12,13 +12,12 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.csi");
 
-	luga.csi.version = "1.1.1";
+	luga.csi.version = "1.1.2";
 
 	luga.csi.CONST = {
 		NODE_SELECTOR: "div[data-lugacsi]",
 		URL_ATTRIBUTE: "data-lugacsi",
 		AFTER_ATTRIBUTE: "data-lugacsi-after",
-		USER_AGENT: "luga.csi",
 		MESSAGES: {
 			FILE_NOT_FOUND: "luga.csi failed to retrieve text from: {0}"
 		}
@@ -71,9 +70,6 @@ if(typeof(luga) === "undefined"){
 			jQuery.ajax({
 				url: config.url,
 				timeout: config.XHR_TIMEOUT,
-				headers: {
-					"X-Requested-With": luga.csi.CONST.USER_AGENT
-				},
 				success: function(response, textStatus, jqXHR){
 					config.success.apply(null, [response, textStatus, jqXHR]);
 					var afterHandler = luga.lookupFunction(config.after);

@@ -7,13 +7,12 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.csi");
 
-	luga.csi.version = "1.1.1";
+	luga.csi.version = "1.1.2";
 
 	luga.csi.CONST = {
 		NODE_SELECTOR: "div[data-lugacsi]",
 		URL_ATTRIBUTE: "data-lugacsi",
 		AFTER_ATTRIBUTE: "data-lugacsi-after",
-		USER_AGENT: "luga.csi",
 		MESSAGES: {
 			FILE_NOT_FOUND: "luga.csi failed to retrieve text from: {0}"
 		}
@@ -66,9 +65,6 @@ if(typeof(luga) === "undefined"){
 			jQuery.ajax({
 				url: config.url,
 				timeout: config.XHR_TIMEOUT,
-				headers: {
-					"X-Requested-With": luga.csi.CONST.USER_AGENT
-				},
 				success: function(response, textStatus, jqXHR){
 					config.success.apply(null, [response, textStatus, jqXHR]);
 					var afterHandler = luga.lookupFunction(config.after);
