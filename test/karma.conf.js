@@ -26,6 +26,9 @@ module.exports = function(config) {
 			"src/luga.core.js",
 			"src/luga.data.core.js",
 			"src/luga.data.region.js",
+			"src/luga.data.DataSet.js",
+			"src/luga.data.HttpDataSet.js",
+			"src/luga.data.JsonDataSet.js",
 			"src/**/*.js",
 
 			// Test specs

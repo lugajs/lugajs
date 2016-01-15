@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<link rel="shortcut icon" type="image/png" href="../../luga-favicon.png"/>
-	<title>Luga Data :: RemoteJsonDataSet :: Master-details</title>
+	<title>Luga Data :: ChildJsonDataSet and Master-details</title>
 
 	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
@@ -33,10 +33,10 @@
 				uuid: "masterDs",
 				url: BASE_URL + "/characters"
 			});
-			var details = new luga.data.RemoteJsonDataSet({
+			var details = new luga.data.ChildJsonDataSet({
 				uuid: "detailDs",
-				dataSet: master,
-				urlPattern: BASE_URL + "/characters/{uuid}"
+				parentDataSet: master,
+				url: BASE_URL + "/characters/{uuid}"
 			});
 
 			jQuery(document).ready(function(){
@@ -95,7 +95,7 @@
 		</div>
 
 		<div class="panel panel-default">
-			<div id="master" class="panel-heading">Master-details</div>
+			<div id="master" class="panel-heading">Master-details in action</div>
 			<div class="panel-body">
 
 				<div class="col-xs-6 col-sm-6" data-lugaregion="true"

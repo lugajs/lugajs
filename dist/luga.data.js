@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.3.10 2016-01-11T18:12:11.371Z
+Luga Data 0.3.10 2016-01-15T12:37:33.292Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -1264,47 +1264,49 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	/**
-	 * @typedef {object} luga.data.RemoteJsonDataSet.options
+	 * @typedef {object} luga.data.ChildJsonDataSet.options
 	 *
 	 * @extends luga.data.JsonDataSet.options
-	 * @property {luga.data.JsonDataSet}   dataSet
-	 * @property {string}                  urlPattern
+	 * @property {luga.data.DataSet}  parentDataSet   Parent dataSet to be used in a master-detail scenario
+	 * @property {string}             url             Unlike JsonDataSet the url here is required and is expected to be a string template like:
+	 *                                                http://www.ciccio.com/api/products/{uuid}
 	 *
 	 */
 
 	/**
 	 * Binded JSON dataSet class
-	 * @param {luga.data.RemoteJsonDataSet.options} options
+	 * @param {luga.data.ChildJsonDataSet.options} options
 	 * @constructor
 	 * @extends luga.data.JsonDataSet
 	 */
-	luga.data.RemoteJsonDataSet = function(options){
+	luga.data.ChildJsonDataSet = function(options){
 
 		var CONST = {
 			ERROR_MESSAGES: {
-				MISSING_MASTER_DS: "luga.data.RemoteJsonDataSet: dataSet parameter is required",
-				MISSING_URL_PATTERN: "luga.data.RemoteJsonDataSet: urlPattern parameter is required",
-				FAILED_URL_BINDING: "luga.data.RemoteJsonDataSet: unable to generate valid URL: {0}"
+				MISSING_PARENT_DS: "luga.data.ChildJsonDataSet: parentDataSet parameter is required",
+				MISSING_URL: "luga.data.ChildJsonDataSet: url parameter is required",
+				FAILED_URL_BINDING: "luga.data.ChildJsonDataSet: unable to generate valid URL: {0}"
 			}
 		};
 
-		if(options.dataSet === undefined){
-			throw(CONST.ERROR_MESSAGES.MISSING_MASTER_DS);
+		if(options.parentDataSet === undefined){
+			throw(CONST.ERROR_MESSAGES.MISSING_PARENT_DS);
 		}
 
-		if(options.urlPattern === undefined){
-			throw(CONST.ERROR_MESSAGES.MISSING_URL_PATTERN);
+		if(options.url === undefined){
+			throw(CONST.ERROR_MESSAGES.MISSING_URL);
 		}
 
 		luga.extend(luga.data.JsonDataSet, this, [options]);
 
-		/** @type {luga.data.RemoteJsonDataSet} */
+		/** @type {luga.data.ChildJsonDataSet} */
 		var self = this;
 
 		/** @type {luga.data.JsonDataSet} */
-		this.dataSet = options.dataSet;
-		this.dataSet.addObserver(this);
-		this.urlPattern = options.urlPattern;
+		this.parentDataSet = options.parentDataSet;
+		this.parentDataSet.addObserver(this);
+		this.url = null;
+		this.urlPattern = options.url;
 
 		/**
 		 * @param {luga.data.DataSet.row} row
