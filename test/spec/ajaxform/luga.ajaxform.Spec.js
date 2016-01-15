@@ -114,14 +114,6 @@ describe("luga.ajaxform", function(){
 
 		});
 
-		describe(".USER_AGENT", function(){
-
-			it("Default to: " + luga.ajaxform.CONST.USER_AGENT, function(){
-				expect(luga.ajaxform.CONST.USER_AGENT).toEqual("luga.ajaxform");
-			});
-
-		});
-
 		describe(".HANDLERS", function(){
 
 			describe(".ERROR", function(){

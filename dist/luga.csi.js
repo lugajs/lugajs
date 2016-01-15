@@ -1,6 +1,6 @@
 /*! 
-Luga CSI 1.1.1 2015-12-29T22:18:24.636Z
-Copyright 2013-2015 Massimo Foti (massimo@massimocorner.com)
+Luga CSI 1.1.1 2016-01-15T09:42:49.406Z
+Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
 if(typeof(luga) === "undefined"){

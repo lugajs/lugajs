@@ -1,6 +1,6 @@
 /*! 
-Luga Ajaxform 0.7.3 2015-12-29T22:18:24.632Z
-Copyright 2013-2015 Massimo Foti (massimo@massimocorner.com)
+Luga Ajaxform 0.7.4 2016-01-15T09:42:49.402Z
+Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
 /* globals alert */
@@ -13,7 +13,7 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.ajaxform");
-	luga.ajaxform.version = "0.7.3";
+	luga.ajaxform.version = "0.7.4";
 
 	/* Success and error handlers */
 	luga.namespace("luga.ajaxform.handlers");
@@ -75,7 +75,6 @@ if(typeof(luga) === "undefined"){
 
 	luga.ajaxform.CONST = {
 		FORM_SELECTOR: "form[data-lugajax-form='true']",
-		USER_AGENT: "luga.ajaxform",
 		DEFAULT_METHOD: "GET",
 		DEFAULT_TIME_OUT: 30000, // ms
 		CUSTOM_ATTRIBUTES: {
@@ -215,9 +214,6 @@ if(typeof(luga) === "undefined"){
 
 			jQuery.ajax({
 				data: formData,
-				headers: {
-					"X-Requested-With": luga.ajaxform.CONST.USER_AGENT
-				},
 				error: function(jqXHR, textStatus, errorThrown){
 					handleError(textStatus, jqXHR, errorThrown);
 				},
@@ -249,9 +245,6 @@ if(typeof(luga) === "undefined"){
 			jQuery.ajax({
 				contentType: "application/json",
 				data: JSON.stringify(formData),
-				headers: {
-					"X-Requested-With": luga.ajaxform.CONST.USER_AGENT
-				},
 				error: function(jqXHR, textStatus, errorThrown){
 					handleError(textStatus, jqXHR, errorThrown);
 				},
