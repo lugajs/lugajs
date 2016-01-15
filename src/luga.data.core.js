@@ -13,7 +13,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.3.11";
+	luga.data.version = "0.3.12";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -38,7 +38,6 @@ if(typeof(luga) === "undefined"){
 		},
 		PK_KEY: "lugaRowId",
 		PK_KEY_PREFIX: "lugaPk_",
-		USER_AGENT: "luga.data",
 		XHR_TIMEOUT: 10000 // Keep this accessible to everybody
 	};
 

@@ -36,7 +36,7 @@ data.Dataset:
 - Allow custom sorter for complex objects
 - Local storage persistence? Would it be better to persist only data?
 
-- luga.data.pagination.JsonDataSet:
+- luga.data.pagination.PagedData
 
 - luga.data.Autosuggest
 
@@ -49,10 +49,10 @@ PAGINATION WIDGETS:
 - Request: offsetStart, offsetEnd
 - Response: recordCount, pageSize, currentPage
 
-- luga.data.pagination.ShowMore widget (needs PagedDataset)
+- luga.data.pagination.ShowMore widget (needs PagedData)
   Once done change button's label
 
-- luga.data.pagination.Navbar widget (needs PagedDataset)
+- luga.data.pagination.Navbar widget (needs PagedData)
   Different GUI styles: Bootstrap, PageList, LinkList
 
 -------------

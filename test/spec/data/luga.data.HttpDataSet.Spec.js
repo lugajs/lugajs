@@ -30,18 +30,23 @@ describe("luga.data.HttpDataSet", function(){
 			expect(ds.url).toEqual("test.json");
 		});
 
-		it("options.timeout (timeout for XHR requests))", function(){
-			var ds = new luga.data.JsonDataSet({uuid: "myDs"});
-			expect(ds.timeout).toEqual(luga.data.CONST.XHR_TIMEOUT);
-			var fastDs = new luga.data.JsonDataSet({uuid: "fastDs", timeout: 200});
-			expect(fastDs.timeout).toEqual(200);
-		});
-
 		it("options.cache (a flag to turn on XHR caching)", function(){
 			var ds = new luga.data.JsonDataSet({uuid: "myDs"});
 			expect(ds.cache).toBe(true);
 			var fastDs = new luga.data.JsonDataSet({uuid: "fastDs", cache: false});
 			expect(fastDs.cache).toBe(false);
+		});
+
+		it("options.headers (name/value pairs to be used as custom HTTP headers)", function(){
+			var ds = new luga.data.JsonDataSet({uuid: "myDs", headers: {"X-Requested-With": "ciccio"}});
+			expect(ds.headers).toEqual({"X-Requested-With": "ciccio"});
+		});
+
+		it("options.timeout (timeout for XHR requests))", function(){
+			var ds = new luga.data.JsonDataSet({uuid: "myDs"});
+			expect(ds.timeout).toEqual(luga.data.CONST.XHR_TIMEOUT);
+			var fastDs = new luga.data.JsonDataSet({uuid: "fastDs", timeout: 200});
+			expect(fastDs.timeout).toEqual(200);
 		});
 
 	});

@@ -22,6 +22,7 @@
 	 * @extends luga.data.DataSet.options
 	 * @property {string}    url       URL to be fetched. Default to null
 	 * @property {number}    timeout   Timeout (in milliseconds) for the HTTP request. Default to 10 seconds
+	 * @property {object}    headers   A set of name/value pairs to be used as custom HTTP headers
 	 * @property {boolean}   cache     If set to false, it will force requested pages not to be cached by the browser.
 	 *                                 It works by appending "_={timestamp}" to the querystring. Default to true
 	 */
@@ -67,6 +68,12 @@
 		if(options.cache !== undefined){
 			this.cache = options.cache;
 		}
+
+		this.headers = {};
+		if(options.headers !== undefined){
+			this.headers = options.headers;
+		}
+
 		// Concrete implementations can override this
 		this.dataType = null;
 		this.xhrRequest = null;
@@ -82,9 +89,7 @@
 				},
 				timeout: self.timeout,
 				cache: self.cache,
-				headers: {
-					"X-Requested-With": luga.data.CONST.USER_AGENT
-				},
+				headers: self.headers,
 				error: self.xhrError
 			};
 			if(self.dataType !== null){

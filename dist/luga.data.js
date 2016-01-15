@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.3.11 2016-01-15T13:15:30.961Z
+Luga Data 0.3.12 2016-01-15T15:00:15.281Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -18,7 +18,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.3.11";
+	luga.data.version = "0.3.12";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -43,7 +43,6 @@ if(typeof(luga) === "undefined"){
 		},
 		PK_KEY: "lugaRowId",
 		PK_KEY_PREFIX: "lugaPk_",
-		USER_AGENT: "luga.data",
 		XHR_TIMEOUT: 10000 // Keep this accessible to everybody
 	};
 
@@ -416,7 +415,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns the current row object
 		 * By default, the current row is the first row of the dataSet, but this can be changed by calling setCurrentRow() or setCurrentRowIndex().
-		 * @returns {luga.data.DataSet.row}
+		 * @returns {luga.data.DataSet.row|null}
 		 */
 		this.getCurrentRow = function(){
 			return this.getRowById(this.getCurrentRowId());
@@ -439,9 +438,7 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.getCurrentRowIndex = function(){
 			var row = this.getCurrentRow();
-			if(row !== undefined){
-				return this.getRowIndex(row);
-			}
+			return this.getRowIndex(row);
 		};
 
 		/**
@@ -601,7 +598,7 @@ if(typeof(luga) === "undefined"){
 					this.setCurrentRowId(null);
 					return;
 				}
-				if(this.filteredRecords.length > 0){
+				else {
 					// First among the filtered records
 					this.setCurrentRowId(this.filteredRecords[0][luga.data.CONST.PK_KEY]);
 					return;
@@ -1022,6 +1019,7 @@ if(typeof(luga) === "undefined"){
 	 * @extends luga.data.DataSet.options
 	 * @property {string}    url       URL to be fetched. Default to null
 	 * @property {number}    timeout   Timeout (in milliseconds) for the HTTP request. Default to 10 seconds
+	 * @property {object}    headers   A set of name/value pairs to be used as custom HTTP headers
 	 * @property {boolean}   cache     If set to false, it will force requested pages not to be cached by the browser.
 	 *                                 It works by appending "_={timestamp}" to the querystring. Default to true
 	 */
@@ -1067,6 +1065,12 @@ if(typeof(luga) === "undefined"){
 		if(options.cache !== undefined){
 			this.cache = options.cache;
 		}
+
+		this.headers = {};
+		if(options.headers !== undefined){
+			this.headers = options.headers;
+		}
+
 		// Concrete implementations can override this
 		this.dataType = null;
 		this.xhrRequest = null;
@@ -1082,9 +1086,7 @@ if(typeof(luga) === "undefined"){
 				},
 				timeout: self.timeout,
 				cache: self.cache,
-				headers: {
-					"X-Requested-With": luga.data.CONST.USER_AGENT
-				},
+				headers: self.headers,
 				error: self.xhrError
 			};
 			if(self.dataType !== null){
@@ -1114,7 +1116,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * Fires off XHR request to fetch and load the data, notify observers ("dataLoading" first, "dataChanged" after records are loaded).
+		 * Fires an XHR request to fetch and load the data, notify observers ("dataLoading" first, "dataChanged" after records are loaded).
 		 * Throws an exception if URL is not set
 		 * @fires dataLoading
 		 * @throws
@@ -1619,9 +1621,6 @@ if(typeof(luga) === "undefined"){
 					var xhrOptions = {
 						url: templateSrc,
 						dataType: "text",
-						headers: {
-							"X-Requested-With": luga.data.CONST.USER_AGENT
-						},
 						success: function(response, textStatus, jqXHR){
 							self.template = Handlebars.compile(response);
 							self.render();
