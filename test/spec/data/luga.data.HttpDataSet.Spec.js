@@ -129,7 +129,7 @@ describe("luga.data.HttpDataSet", function(){
 		});
 
 		describe("Finally:", function(){
-			it("Fires off XHR request to fetch and load the data", function(done){
+			it("Fires an XHR request to fetch and load the data", function(done){
 				testDs.loadData();
 				setTimeout(function(){
 					expect(testDs.getRecordsCount()).toEqual(7);

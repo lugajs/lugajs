@@ -238,7 +238,7 @@
 		/**
 		 * Returns the current row object
 		 * By default, the current row is the first row of the dataSet, but this can be changed by calling setCurrentRow() or setCurrentRowIndex().
-		 * @returns {luga.data.DataSet.row}
+		 * @returns {luga.data.DataSet.row|null}
 		 */
 		this.getCurrentRow = function(){
 			return this.getRowById(this.getCurrentRowId());
@@ -261,9 +261,7 @@
 		 */
 		this.getCurrentRowIndex = function(){
 			var row = this.getCurrentRow();
-			if(row !== undefined){
-				return this.getRowIndex(row);
-			}
+			return this.getRowIndex(row);
 		};
 
 		/**
@@ -423,7 +421,7 @@
 					this.setCurrentRowId(null);
 					return;
 				}
-				if(this.filteredRecords.length > 0){
+				else {
 					// First among the filtered records
 					this.setCurrentRowId(this.filteredRecords[0][luga.data.CONST.PK_KEY]);
 					return;
