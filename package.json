@@ -27,7 +27,7 @@
 		}
 	},
 	"standalone": {
-		"data.Rss2Dataset": {
+		"data.Rss2DataSet": {
 			"name": "Luga Data - RSS 2.0 DataSet"
 		}
 	},

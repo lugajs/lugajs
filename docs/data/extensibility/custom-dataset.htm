@@ -88,11 +88,11 @@
 				</p>
 				<ul class="luga-docs-list">
 					<li>
-						<a href="../../../src/luga.data.Dataset.js">luga.data.DataSet</a>
+						<a href="../../../src/luga.data.DataSet.js">luga.data.DataSet</a>
 						is the base dataSet class, it implements all the common API, but has no XHR support.
 					</li>
 					<li>
-						<a href="../../../src/luga.data.HttpDataset.js">luga.data.HttpDataSet</a>
+						<a href="../../../src/luga.data.HttpDataSet.js">luga.data.HttpDataSet</a>
 						is an abstract class, you can't instantiate it directly. It adds XHR features on top of luga.data.DataSet.
 						Use this as base class if your custom dataSet have to fetch data from an URL that is not in JSON format.
 					</li>
@@ -110,13 +110,13 @@
 			<div class="panel-body">
 				<p>
 					For this example we are going to write a custom dataSet to consume <a href="https://validator.w3.org/feed/docs/rss2.html">RSS 2.0</a> feeds.
-					Since we have to fetch XML using XHR,we will use <a href="../../../src/luga.data.HttpDataset.js">luga.data.HttpDataSet</a> as base class.
+					Since we have to fetch XML using XHR,we will use <a href="../../../src/luga.data.HttpDataSet.js">luga.data.HttpDataSet</a> as base class.
 				</p>
 				<div class="alert alert-info" role="alert">
 					<strong>Heads up!</strong><br>
 					luga.data.Rss2Dataset is not contained inside luga.data.min.js.
 					If you would like to use it,
-					it's available separately as <a href="../../../dist/luga.data.Rss2Dataset.min.js">luga.data.Rss2Dataset.min.js</a> (1.8 kb).
+					it's available separately as <a href="../../../dist/luga.data.Rss2DataSet.min.js">luga.data.Rss2Dataset.min.js</a> (1.8 kb).
 				</div>
 			</div>
 		</div>
@@ -126,7 +126,7 @@
 			<div class="panel-body">
 				<p>
 					Let's take a look at the code, one bit at time.
-					First, we ensure our dataSet inherit from <a href="../../../src/luga.data.HttpDataset.js">luga.data.HttpDataSet</a>.
+					First, we ensure our dataSet inherit from <a href="../../../src/luga.data.HttpDataSet.js">luga.data.HttpDataSet</a>.
 					We also override the dataType property. This is going to be used by <a href="api.jquery.com/jquery.ajax/">jQuery.ajax()</a>.
 					In our case we don't want the XML's DOM, we want a plain string since we are going to use <a href="https://api.jquery.com/jQuery.parseXML/">jQuery.parseXML</a> to parse it.
 					That's why we use "text":
@@ -176,7 +176,7 @@ this.loadRecords = function(xmlStr, textStatus, jqXHR){
 				<p>
 					Since we want to have a custom <a href="../region/context.htm">context</a>, we need to override getContext() too.
 					Usually this is not required.
-					The code here is very similar to what's used inside <a href="../../../src/luga.data.Dataset.js">luga.data.DataSet</a>.
+					The code here is very similar to what's used inside <a href="../../../src/luga.data.DataSet.js">luga.data.DataSet</a>.
 					We are just using <strong>items</strong> instead of <strong>entities</strong> to expose our records.
 					On top of that we add all the &lt;channel&gt; metadata to the context:
 				</p>
@@ -199,7 +199,7 @@ this.getContext = function(){
 
 				<p>
 					There are also some utilities, private methods, that are specific to RSS 2.0.
-					We recommend you to take a look at the source code inside <a href="../../../src/luga.data.Rss2Dataset.js">luga.data.Rss2Dataset</a>
+					We recommend you to take a look at the source code inside <a href="../../../src/luga.data.Rss2DataSet.js">luga.data.Rss2Dataset</a>
 				</p>
 
 			</div>

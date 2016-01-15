@@ -1,5 +1,5 @@
 /*! 
-Luga Data - RSS 2.0 DataSet 0.6.0 2016-01-01T09:48:22.398Z
+Luga Data - RSS 2.0 DataSet 0.6.0 2016-01-15T10:03:56.481Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
