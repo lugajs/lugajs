@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.3.12 2016-01-15T15:00:15.281Z
+Luga Data 0.3.12 2016-01-16T13:09:38.963Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -1081,6 +1081,7 @@ if(typeof(luga) === "undefined"){
 			var xhrOptions = {
 				url: self.url,
 				success: function(response, textStatus, jqXHR){
+					updateHeaders(jqXHR.getAllResponseHeaders());
 					self.delete();
 					self.loadRecords(response, textStatus, jqXHR);
 				},
@@ -1094,6 +1095,17 @@ if(typeof(luga) === "undefined"){
 			}
 			self.xhrRequest = jQuery.ajax(xhrOptions);
 		};
+
+		var updateHeaders = function(headersStr){
+			self.headers = {};
+			var tokens = headersStr.split("\r\n");
+			for(var i = 0; i < tokens.length; i++){
+				var parts = tokens[i].split(": ");
+				if((parts[0] !== undefined) && (parts[1] !== undefined)){
+					self.headers[parts[0]] = parts[1];
+				}
+			}
+		}
 
 		/* Public methods */
 
