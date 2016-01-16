@@ -42,6 +42,11 @@ describe("luga.data.HttpDataSet", function(){
 			expect(ds.headers).toEqual({"X-Requested-With": "ciccio"});
 		});
 
+		it("options.incrementalLoad ", function(){
+			var ds = new luga.data.JsonDataSet({uuid: "myDs", incrementalLoad: true});
+			expect(ds.incrementalLoad).toEqual(true);
+		});
+
 		it("options.timeout (timeout for XHR requests))", function(){
 			var ds = new luga.data.JsonDataSet({uuid: "myDs"});
 			expect(ds.timeout).toEqual(luga.data.CONST.XHR_TIMEOUT);
@@ -146,12 +151,22 @@ describe("luga.data.HttpDataSet", function(){
 		});
 
 		describe("Then:", function(){
-			it("Call .delete() to empty the dataSet", function(done){
+			it("If options.incrementalLoad is false. Call .delete() to empty the dataSet", function(done){
 				spyOn(testDs, "delete").and.callFake(function(){
 				});
 				testDs.loadData();
 				setTimeout(function(){
 					expect(testDs.delete).toHaveBeenCalled();
+					done();
+				}, DEFAULT_TIMEOUT);
+			});
+			it("Else doesn't call .delete()", function(done){
+				testDs.incrementalLoad = true;
+				spyOn(testDs, "delete").and.callFake(function(){
+				});
+				testDs.loadData();
+				setTimeout(function(){
+					expect(testDs.delete).not.toHaveBeenCalled();
 					done();
 				}, DEFAULT_TIMEOUT);
 			});

@@ -20,11 +20,13 @@
 	 * @typedef {object} luga.data.HttpDataSet.options
 	 *
 	 * @extends luga.data.DataSet.options
-	 * @property {string}    url       URL to be fetched. Default to null
-	 * @property {number}    timeout   Timeout (in milliseconds) for the HTTP request. Default to 10 seconds
-	 * @property {object}    headers   A set of name/value pairs to be used as custom HTTP headers
-	 * @property {boolean}   cache     If set to false, it will force requested pages not to be cached by the browser.
-	 *                                 It works by appending "_={timestamp}" to the querystring. Default to true
+	 * @property {string}    url              URL to be fetched. Default to null
+	 * @property {number}    timeout          Timeout (in milliseconds) for the HTTP request. Default to 10 seconds
+	 * @property {object}    headers          A set of name/value pairs to be used as custom HTTP headers
+	 * @property {boolean}   incrementalLoad  By default calling once .loadData() is called the dataSet discard all the previous records.
+	 *                                        Set this to true to keep the old records. Default to false
+	 * @property {boolean}   cache            If set to false, it will force requested pages not to be cached by the browser.
+	 *                                        It works by appending "_={timestamp}" to the querystring. Default to true
 	 */
 
 	/**
@@ -74,6 +76,11 @@
 			this.headers = options.headers;
 		}
 
+		this.incrementalLoad = false;
+		if(options.incrementalLoad !== undefined){
+			this.incrementalLoad = options.incrementalLoad;
+		}
+
 		// Concrete implementations can override this
 		this.dataType = null;
 		this.xhrRequest = null;
@@ -85,7 +92,9 @@
 				url: self.url,
 				success: function(response, textStatus, jqXHR){
 					updateHeaders(jqXHR.getAllResponseHeaders());
-					self.delete();
+					if(self.incrementalLoad === false){
+						self.delete();
+					}
 					self.loadRecords(response, textStatus, jqXHR);
 				},
 				timeout: self.timeout,
@@ -108,7 +117,7 @@
 					self.headers[parts[0]] = parts[1];
 				}
 			}
-		}
+		};
 
 		/* Public methods */
 
