@@ -32,27 +32,30 @@ VALIDATOR:
 
 DATA:
 
+luga.data.JsonDataSet:
+- Keep track of HTTP Response headers
+- Enable incremental loading (options.incrementalLoad?)
+
 data.Dataset:
 - Allow custom sorter for complex objects
 - Local storage persistence? Would it be better to persist only data?
 
-- luga.data.pagination.PagedData
+- luga.data.widgets.ShowMore widget
+  Once done disable/change button's label
 
-- luga.data.Autosuggest
+- luga.data.widgets.Autosuggest
 
 -------------
 
-PAGINATION WIDGETS:
+PAGINATION:
 
+luga.data.PagedData
 - Use string templating to customize url/endpoint
 - Mixed client/server (set a threshold)
 - Request: offsetStart, offsetEnd
 - Response: recordCount, pageSize, currentPage
 
-- luga.data.pagination.ShowMore widget (needs PagedData)
-  Once done change button's label
-
-- luga.data.pagination.Navbar widget (needs PagedData)
-  Different GUI styles: Bootstrap, PageList, LinkList
+luga.data.pagination.Navbar widget (needs PagedData)
+- Different GUI styles: Bootstrap, PageList, LinkList
 
 -------------
