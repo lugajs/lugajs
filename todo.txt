@@ -6,8 +6,6 @@
 DOCS:
 
 - Data: FAQ?
-- Page on states:
-  https://gxabmxeqzc.execute-api.us-east-1.amazonaws.com/stage/showreel/characters?delayedResponse=6000
 - Pages on luga.data.ChildJsonDataSet
 
 -------------
