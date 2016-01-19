@@ -42,6 +42,11 @@ describe("luga.data.HttpDataSet", function(){
 			expect(ds.headers).toEqual({"X-Requested-With": "ciccio"});
 		});
 
+		it("options.incrementalLoad ", function(){
+			var ds = new luga.data.JsonDataSet({uuid: "myDs", incrementalLoad: true});
+			expect(ds.incrementalLoad).toEqual(true);
+		});
+
 		it("options.timeout (timeout for XHR requests))", function(){
 			var ds = new luga.data.JsonDataSet({uuid: "myDs"});
 			expect(ds.timeout).toEqual(luga.data.CONST.XHR_TIMEOUT);
@@ -125,19 +130,55 @@ describe("luga.data.HttpDataSet", function(){
 		});
 
 		describe("Then:", function(){
-			it("Call .delete() empty the dataSet", function(){
-				spyOn(testDs, "delete").and.callFake(function(){
-				});
-				testDs.delete();
-				expect(testDs.delete).toHaveBeenCalled();
-			});
-		});
-
-		describe("Finally:", function(){
 			it("Fires an XHR request to fetch and load the data", function(done){
 				testDs.loadData();
 				setTimeout(function(){
 					expect(testDs.getRecordsCount()).toEqual(7);
+					done();
+				}, DEFAULT_TIMEOUT);
+			});
+		});
+
+		describe("Then:", function(){
+			it("Update its .headers properties", function(done){
+				var oldHeaders = testDs.headers;
+				testDs.loadData();
+				setTimeout(function(){
+					expect(oldHeaders).not.toEqual(testDs.headers);
+					done();
+				}, DEFAULT_TIMEOUT);
+			});
+		});
+
+		describe("Then:", function(){
+			it("If options.incrementalLoad is false. Call .delete() to empty the dataSet", function(done){
+				spyOn(testDs, "delete").and.callFake(function(){
+				});
+				testDs.loadData();
+				setTimeout(function(){
+					expect(testDs.delete).toHaveBeenCalled();
+					done();
+				}, DEFAULT_TIMEOUT);
+			});
+			it("Else doesn't call .delete()", function(done){
+				testDs.incrementalLoad = true;
+				spyOn(testDs, "delete").and.callFake(function(){
+				});
+				testDs.loadData();
+				setTimeout(function(){
+					expect(testDs.delete).not.toHaveBeenCalled();
+					done();
+				}, DEFAULT_TIMEOUT);
+			});
+		});
+
+		describe("Finally:", function(){
+			it("Call .loadRecords()", function(done){
+				spyOn(testDs, "loadRecords").and.callFake(function(){
+				});
+				testDs.loadData();
+				setTimeout(function(){
+					expect(testDs.loadRecords).toHaveBeenCalled();
 					done();
 				}, DEFAULT_TIMEOUT);
 			});

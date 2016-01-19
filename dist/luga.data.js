@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.3.12 2016-01-15T15:00:15.281Z
+Luga Data 0.3.13 2016-01-16T13:33:39.671Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -18,7 +18,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.3.12";
+	luga.data.version = "0.3.13";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -1017,11 +1017,13 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {object} luga.data.HttpDataSet.options
 	 *
 	 * @extends luga.data.DataSet.options
-	 * @property {string}    url       URL to be fetched. Default to null
-	 * @property {number}    timeout   Timeout (in milliseconds) for the HTTP request. Default to 10 seconds
-	 * @property {object}    headers   A set of name/value pairs to be used as custom HTTP headers
-	 * @property {boolean}   cache     If set to false, it will force requested pages not to be cached by the browser.
-	 *                                 It works by appending "_={timestamp}" to the querystring. Default to true
+	 * @property {string}    url              URL to be fetched. Default to null
+	 * @property {number}    timeout          Timeout (in milliseconds) for the HTTP request. Default to 10 seconds
+	 * @property {object}    headers          A set of name/value pairs to be used as custom HTTP headers
+	 * @property {boolean}   incrementalLoad  By default calling once .loadData() is called the dataSet discard all the previous records.
+	 *                                        Set this to true to keep the old records. Default to false
+	 * @property {boolean}   cache            If set to false, it will force requested pages not to be cached by the browser.
+	 *                                        It works by appending "_={timestamp}" to the querystring. Default to true
 	 */
 
 	/**
@@ -1071,6 +1073,11 @@ if(typeof(luga) === "undefined"){
 			this.headers = options.headers;
 		}
 
+		this.incrementalLoad = false;
+		if(options.incrementalLoad !== undefined){
+			this.incrementalLoad = options.incrementalLoad;
+		}
+
 		// Concrete implementations can override this
 		this.dataType = null;
 		this.xhrRequest = null;
@@ -1081,7 +1088,10 @@ if(typeof(luga) === "undefined"){
 			var xhrOptions = {
 				url: self.url,
 				success: function(response, textStatus, jqXHR){
-					self.delete();
+					updateHeaders(jqXHR.getAllResponseHeaders());
+					if(self.incrementalLoad === false){
+						self.delete();
+					}
 					self.loadRecords(response, textStatus, jqXHR);
 				},
 				timeout: self.timeout,
@@ -1093,6 +1103,17 @@ if(typeof(luga) === "undefined"){
 				xhrOptions.dataType = self.dataType;
 			}
 			self.xhrRequest = jQuery.ajax(xhrOptions);
+		};
+
+		var updateHeaders = function(headersStr){
+			self.headers = {};
+			var tokens = headersStr.split("\r\n");
+			for(var i = 0; i < tokens.length; i++){
+				var parts = tokens[i].split(": ");
+				if((parts[0] !== undefined) && (parts[1] !== undefined)){
+					self.headers[parts[0]] = parts[1];
+				}
+			}
 		};
 
 		/* Public methods */
