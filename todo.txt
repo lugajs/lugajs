@@ -47,10 +47,10 @@ PAGINATION WIDGETS:
 - Request: offsetStart, offsetEnd
 - Response: recordCount, pageSize, currentPage
 
-- luga.data.pagination.ShowMore widget (needs PagedData)
-  Once done change button's label
+- luga.data.widgets.ShowMore
+  Enable/disable button
 
-- luga.data.pagination.Navbar widget (needs PagedData)
-  Different GUI styles: Bootstrap, PageList, LinkList
+luga.data.widgets.Navbar (needs PagedData)
+- Different GUI styles: Bootstrap, PageList, LinkList
 
 -------------
