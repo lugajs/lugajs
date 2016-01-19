@@ -23,6 +23,7 @@
   "ignore": [
     "**/.*",
     "gulpfile.js",
+    "index.htm",
     "Root.iml",
     "todo.txt",
     "sitemap.xml",
