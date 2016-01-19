@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<link rel="shortcut icon" type="image/png" href="../../luga-favicon.png"/>
+	<title>Luga Data :: Widgets :: ShowMore</title>
+
+	<!-- Libs -->
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../lib/handlebars.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/bootstrap/css/bootstrap.min.css"/>
+	<script src="../../../lib/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/prism/prism.css"/>
+	<script src="../../../lib/prism/prism.js"></script>
+
+	<!-- Luga JS -->
+	<link rel="stylesheet" href="../../../src/luga.css"/>
+	<script src="../../../dist/luga.min.js"></script>
+	<script src="../../../dist/luga.data.min.js"></script>
+
+	<!-- Docs -->
+	<link rel="stylesheet" href="../../luga.docs.css"/>
+	<script src="../../luga-docs.js"></script>
+
+	<script>
+		(function(){
+			"use strict";
+
+			var BASE_URL = "https://gxabmxeqzc.execute-api.us-east-1.amazonaws.com/stage/showreel";
+
+			var master = new luga.data.JsonDataSet({
+				uuid: "masterDs",
+				url: BASE_URL + "/characters?offset=5&startKey=0403",
+				path: "result",
+				incrementalLoad: true
+			});
+
+			var ShowMoreWidget = function(options){
+				this.dataSet = options.dataSet;
+				this.offSet = options.offSet;
+				this.url = options.url;
+
+				this.fetch = function(){
+
+					console.debug(this.getLastKey());
+					var urlData = {
+						startKey: this.getLastKey(),
+						offset: this.offSet
+					};
+
+					var newUrl = luga.string.format(this.url, urlData);
+					this.dataSet.setUrl(newUrl);
+					this.dataSet.loadData();
+				};
+
+				this.getLastKey = function(){
+					var lastRecord = this.dataSet.getRowByIndex(this.dataSet.getRecordsCount() -1);
+					return lastRecord["uuid"];
+				};
+			};
+
+			var showMore = new ShowMoreWidget({
+				dataSet: master,
+				offSet: 5,
+				url: BASE_URL + "/characters?offset={offset}&startKey={startKey}"
+			});
+
+			jQuery(document).ready(function(){
+				master.loadData();
+
+				jQuery("#moreButton").on("click", function(event){
+					event.preventDefault();
+					showMore.fetch();
+				});
+
+			});
+
+		}());
+	</script>
+
+	<script id="masterTemplate" type="text/x-handlebars-template">
+		{{#if isStateLoading}}
+			Loading master data...
+		{{/if}}
+		{{#if isStateReady}}
+			Record count: <span class="badge">{{recordCount}}</span>
+			<ul class="luga-docs-list">
+				{{#each entities}}
+					<li>
+						{{name}}
+					</li>
+				{{/each}}
+			</ul>
+		{{/if}}
+	</script>
+
+
+</head>
+
+<body class="luga-docs">
+
+<div data-lugacsi="../../luga-docs-nav-main.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
+
+<div class="container-fluid">
+	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+
+		<div class="panel panel-default">
+			<div id="master" class="panel-heading">Showmore</div>
+			<div class="panel-body">
+
+				<div class="col-xs-6 col-sm-6" data-lugaregion="true"
+					 data-lugaregion-datasource-uuid="masterDs"
+					 data-lugaregion-template-id="masterTemplate"></div>
+
+				<button id="moreButton" type="button" class="btn btn-primary">Show More</button>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<div data-lugacsi="../nav-local.inc"></div>
+
+	<div data-lugacsi="../../luga-docs-footer.inc"></div>
+
+</div>
+
+</body>
+</html>
