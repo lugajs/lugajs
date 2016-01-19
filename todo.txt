@@ -1,4 +1,3 @@
-- Consider creating a Bower package, maybe an NPM one too
 - Spin-off for jasmine-ducktype?
 
 -------------
