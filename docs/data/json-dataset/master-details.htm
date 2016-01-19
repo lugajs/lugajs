@@ -31,7 +31,7 @@
 			var BASE_URL = "https://gxabmxeqzc.execute-api.us-east-1.amazonaws.com/stage/showreel";
 			var master = new luga.data.JsonDataSet({
 				uuid: "masterDs",
-				url: BASE_URL + "/characters"
+				url: BASE_URL + "/characters?offset=10"
 			});
 			var details = new luga.data.ChildJsonDataSet({
 				uuid: "detailDs",
@@ -109,7 +109,6 @@
 			</div>
 
 		</div>
-
 
 	</div>
 
