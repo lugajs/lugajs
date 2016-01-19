@@ -4,8 +4,7 @@
 
 DOCS:
 
-- Data: FAQ?
-- Pages on luga.data.ChildJsonDataSet
+- Data: FAQ? CORS?
 
 -------------
 

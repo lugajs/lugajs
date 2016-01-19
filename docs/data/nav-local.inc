@@ -40,12 +40,15 @@
 			<a href="../json-dataset/path.htm">Data path</a>
 		</li>
 		<li class="list-group-item">
+        	<a href="../json-dataset/master-details.htm">Master-details</a>
+        </li>
+		<li class="list-group-item">
 			<a href="../json-dataset/api.htm">API Syntax reference</a>
 		</li>
 
 		<li class="luga-docs-list-heading list-group-item">DetailSet</li>
 		<li class="list-group-item">
-			<a href="../detailset/master-details.htm">Master-details</a>
+			<a href="../detailset/master-details.htm">Simple master-details</a>
 		</li>
 		<li class="list-group-item">
 			<a href="../detailset/api.htm">API Syntax reference</a>
