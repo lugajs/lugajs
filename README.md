@@ -17,3 +17,5 @@ Right now the following production ready libraries are available:
 		<a href="http://lugajs.org/docs/validator/docs/index.htm" title="Client-side form validation">Validator</a>: a library for client-side form validation
 	</li>
 </ul>
+
+You can install using bower by running: bower install lugajs
