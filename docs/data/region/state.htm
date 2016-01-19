@@ -24,6 +24,57 @@
 	<link rel="stylesheet" href="../../luga.docs.css"/>
 	<script src="../../luga-docs.js"></script>
 
+	<script>
+		(function(){
+			"use strict";
+
+			var BASE_URL = "https://gxabmxeqzc.execute-api.us-east-1.amazonaws.com/stage/showreel";
+
+			var slowCharacters = new luga.data.JsonDataSet({
+				uuid: "slowCharacters",
+				url: BASE_URL + "/characters?offset=5&delayedResponse=60000",
+				timeout: 80000
+			});
+
+			var missingDs = new luga.data.JsonDataSet({
+				uuid: "missingDs",
+				url: "missing.json"
+			});
+
+			jQuery(document).ready(function(){
+				slowCharacters.loadData();
+				missingDs.loadData();
+			});
+
+		}());
+	</script>
+
+	<script id="stateTemplate" type="text/x-handlebars-template">
+		{{#if isStateLoading}}
+			<span class="label label-info">Loading...</span>
+		{{/if}}
+		{{#if isStateReady}}
+			<span class="label label-success">Ready</span>
+			<span class="badge">{{recordCount}} records</span>
+		{{/if}}
+		<ul class="luga-docs-list">
+			{{#each entities}}
+			<li>
+				{{name}}
+			</li>
+			{{/each}}
+		</ul>
+	</script>
+
+	<script id="errorTemplate" type="text/x-handlebars-template">
+		{{#if isStateLoading}}
+			<span class="label label-info">Loading...</span>
+		{{/if}}
+		{{#if isStateError}}
+			<span class="label label-danger">Failed to load data</span>
+		{{/if}}
+	</script>
+
 </head>
 
 <body class="luga-docs">
@@ -34,11 +85,69 @@
 	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
 		<div class="panel panel-default">
-			<div class="panel-heading">Title</div>
+			<div class="panel-heading">Use state to convey feedback</div>
 			<div class="panel-body">
 				<p>
-					TODO (need service with slow loading)
+					The <a href="context.htm">context object</a> contains metadata about the state of our dataSet.
+					These metadata can be used to display different content depending on the current state.
+					As soon as the state changes, the region will be automatically updated.
 				</p>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Loading/ready</div>
+			<div class="panel-body">
+
+				<p>
+					Here we use loading and ready state to convey information to the visitor.
+					The template code looks like:
+				</p>
+				
+<pre><code class="line-numbers language-markup">{{#if isStateLoading}}
+	&lt;span class="label label-info"&gt;Loading...&lt;/span&gt;
+{{/if}}
+{{#if isStateReady}}
+	&lt;span class="label label-success"&gt;Ready&lt;/span&gt;
+	&lt;span class="badge"&gt;{{recordCount}} records&lt;/span&gt;
+{{/if}}
+&lt;ul class="luga-docs-list"&gt;
+	{{#each entities}}
+	&lt;li&gt;
+		{{name}}
+	&lt;/li&gt;
+	{{/each}}
+&lt;/ul&gt;
+</code></pre>				
+
+				<div data-lugaregion="true"
+					 data-lugaregion-datasource-uuid="slowCharacters"
+					 data-lugaregion-template-id="stateTemplate"></div>
+
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Error message in case of failed XHR call</div>
+			<div class="panel-body">
+
+				<p>
+					The dataSet used here is intentionally pointing to a non existing URL, so it's doomed to failure.
+					Take a look at the region's code:
+				</p>
+
+<pre><code class="line-numbers language-markup">{{#if isStateLoading}}
+	&lt;span class="label label-info"&gt;Loading...&lt;/span&gt;
+{{/if}}
+{{#if isStateError}}
+	&lt;span class="label label-danger"&gt;Failed to load data&lt;/span&gt;
+{{/if}}
+</code></pre>				
+				
+				<div data-lugaregion="true"
+					 data-lugaregion-datasource-uuid="missingDs"
+					 data-lugaregion-template-id="errorTemplate"></div>
+
 			</div>
 		</div>
 
