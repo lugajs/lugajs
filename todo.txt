@@ -49,7 +49,7 @@ luga.data.PagedData
 - Request: offsetStart, offsetEnd
 - Response: recordCount, pageSize, currentPage
 
-luga.data.pagination.Navbar widget (needs PagedData)
+luga.data.widgets.Navbar (needs PagedData)
 - Different GUI styles: Bootstrap, PageList, LinkList
 
 -------------
