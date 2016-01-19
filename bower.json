@@ -1,0 +1,37 @@
+{
+  "name": "lugajs",
+  "description": "A set of data-centric JavaScript libraries",
+  "license": "Apache-2.0",
+  "homepage": "http://lugajs.org",
+  "authors": [
+    "Massimo Foti <massimo@massimocorner.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lugajs/lugajs"
+  },
+  "main": [
+    "dist/luga.min.js",
+    "dist/luga.data.min.js"
+  ],
+  "dependencies": {
+    "jquery": ">=2"
+  },
+  "keywords": [
+    "lugajs"
+  ],
+  "ignore": [
+    "**/.*",
+    "gulpfile.js",
+    "Root.iml",
+    "todo.txt",
+    "sitemap.xml",
+    ".idea",
+    "archive",
+    "docs",
+    "lib",
+    "node_modules",
+    "src",
+    "test"
+  ]
+}
