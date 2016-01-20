@@ -8,7 +8,7 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.version = "0.4.6";
+	luga.version = "0.4.7";
 
 	luga.CONST = {
 		ERROR_MESSAGES: {
@@ -503,16 +503,39 @@ if(typeof(luga) === "undefined"){
 		return str;
 	};
 
+	/**
+	 * Given a string in querystring format, return a JavaScript object containing name/value pairs
+	 * @param {string} str  The querystring
+	 * @returns {object}
+	 */
 	luga.string.queryToHash = function(str){
-		var hash = {};
+		var map = {};
 		if(str.charAt(0) === "?"){
 			str = str.substring(1);
 		}
-		var tokens = str.split("&");
+		if(str.length === 0){
+			return map;
+		}
+		var parts = str.split("&");
 
-
-
-		return hash;
+		for(var i = 0; i < parts.length; i++){
+			var tokens = parts[i].split("=");
+			var fieldName = decodeURIComponent(tokens[0]);
+			var fieldValue = "";
+			if(tokens.length === 2){
+				fieldValue = decodeURIComponent(tokens[1]);
+			}
+			if(map[fieldName] === undefined){
+				map[fieldName] = fieldValue;
+			}
+			else if(jQuery.isArray(map[fieldName]) === true){
+				map[fieldName].push(fieldValue);
+			}
+			else{
+				map[fieldName] = [map[fieldName], fieldValue];
+			}
+		}
+		return map;
 	};
 
 	var propertyPattern = new RegExp("\\{([^}]*)}", "g");

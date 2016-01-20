@@ -17,11 +17,7 @@ AJAXFORM:
 -------------
 CSI:
 -------------
-
 CORE:
-
-- Implement luga.string.queryToHash()
-
 -------------
 VALIDATOR:
 -------------

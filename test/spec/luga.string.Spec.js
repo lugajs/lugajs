@@ -6,6 +6,26 @@ describe("luga.string", function(){
 		expect(luga.string).toBeDefined();
 	});
 
+	describe(".demoronize()", function(){
+
+		describe("Given a string", function(){
+
+			it("Replace MS Word's non-ISO characters with plausible substitutes", function(){
+				var crappyStr = String.fromCharCode(710);
+				crappyStr += String.fromCharCode(732);
+				crappyStr += String.fromCharCode(8216);
+				crappyStr += String.fromCharCode(8217);
+				crappyStr += String.fromCharCode(8220);
+				crappyStr += String.fromCharCode(8221);
+				crappyStr += String.fromCharCode(8211);
+				crappyStr += String.fromCharCode(8230);
+				var cleanStr = "^~''\"\"-...";
+				expect(luga.string.demoronize(crappyStr)).toBe(cleanStr);
+			});
+		});
+
+	});
+
 	describe(".format()", function(){
 
 		describe("Given a string containing placeholders", function(){
@@ -46,6 +66,36 @@ describe("luga.string", function(){
 			});
 
 		});
+	});
+
+	describe(".queryToHash()", function(){
+
+		describe("Given a string in querystring format, return an object containing name/value pairs", function(){
+
+			it("A '?' at the beginning of the string is ignored", function(){
+				expect(luga.string.queryToHash("?name=Ciccio&lastname=Pasticcio")).toEqual({name: "Ciccio", lastname: "Pasticcio"});
+				expect(luga.string.queryToHash("name=Ciccio&lastname=Pasticcio")).toEqual({name: "Ciccio", lastname: "Pasticcio"});
+			});
+			it("If a name has no associated value, the hash contains an entry with an empty string value", function(){
+				expect(luga.string.queryToHash("?name=Ciccio&lastname=")).toEqual({name: "Ciccio", lastname: ""});
+				expect(luga.string.queryToHash("?name=Ciccio&lastname")).toEqual({name: "Ciccio", lastname: ""});
+			});
+			it("Names and values are URI decoded", function(){
+				expect(luga.string.queryToHash("name=Ciccio&slash=%2F&ampersand=%26")).toEqual({name: "Ciccio", slash: "/", ampersand: "&"});
+			});
+			it("If the same name is contained multiple times inside the queryString, the matching entry inside the hash is an array", function(){
+				expect(luga.string.queryToHash("name=Ciccio&box=first&box=second&box=third")).toEqual({name: "Ciccio", box: ["first", "second", "third"]});
+				expect(luga.string.queryToHash("name=Ciccio&box=first&box=&box=third")).toEqual({name: "Ciccio", box: ["first", "", "third"]});
+			});
+			it("If the given string is empty, an empty hash is returned", function(){
+				expect(luga.string.queryToHash("")).toEqual({});
+			});
+			it("If the given string is '?', an empty hash is returned", function(){
+				expect(luga.string.queryToHash("?")).toEqual({});
+			});
+
+		});
+
 	});
 
 	describe(".replaceProperty()", function(){
@@ -91,24 +141,6 @@ describe("luga.string", function(){
 		});
 	});
 
-	describe(".demoronize()", function(){
 
-		describe("Given a string", function(){
-
-			it("Replace MS Word's non-ISO characters with plausible substitutes", function(){
-				var crappyStr = String.fromCharCode(710);
-				crappyStr += String.fromCharCode(732);
-				crappyStr += String.fromCharCode(8216);
-				crappyStr += String.fromCharCode(8217);
-				crappyStr += String.fromCharCode(8220);
-				crappyStr += String.fromCharCode(8221);
-				crappyStr += String.fromCharCode(8211);
-				crappyStr += String.fromCharCode(8230);
-				var cleanStr = "^~''\"\"-...";
-				expect(luga.string.demoronize(crappyStr)).toBe(cleanStr);
-			});
-		});
-
-	});
 
 });

@@ -32,7 +32,7 @@ describe("luga.form", function(){
 		});
 
 		it("Values of multiple checked checkboxes are included as multiple value/pairs", function(){
-			expect(luga.form.toQueryString(jQuery("#multiBox"))).toEqual("firstname=ciccio&box=first&box=second");
+			expect(luga.form.toQueryString(jQuery("#multiBox"))).toEqual("firstname=ciccio&box=first&box=second&box=fourth");
 		});
 
 		it("Values of multiple select are included as multiple value/pairs", function(){
