@@ -39,7 +39,7 @@ luga.data.PagedData
 WIDGETS:
 
 luga.data.widgets.ShowMore
-- Enable/disable button
+- Write Jasmine tests
 
 luga.data.widgets.Navbar (needs PagedData)
 - Different GUI styles: Bootstrap, PageList, LinkList

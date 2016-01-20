@@ -24,6 +24,8 @@
 	<link rel="stylesheet" href="../../luga.docs.css"/>
 	<script src="../../luga-docs.js"></script>
 
+
+	<script src="../../../src/luga.data.widgets.ShowMore.js"></script>
 	<script>
 		(function(){
 			"use strict";
@@ -32,48 +34,22 @@
 
 			var master = new luga.data.JsonDataSet({
 				uuid: "masterDs",
-				url: BASE_URL + "/characters?offset=5&startKey=0403",
+				url: BASE_URL + "/characters?offset=2000",
 				path: "result",
+				timeout: 20000,
 				incrementalLoad: true
 			});
 
-			var ShowMoreWidget = function(options){
-				this.dataSet = options.dataSet;
-				this.offSet = options.offSet;
-				this.url = options.url;
-
-				this.fetch = function(){
-
-					console.debug(this.getLastKey());
-					var urlData = {
-						startKey: this.getLastKey(),
-						offset: this.offSet
-					};
-
-					var newUrl = luga.string.format(this.url, urlData);
-					this.dataSet.setUrl(newUrl);
-					this.dataSet.loadData();
-				};
-
-				this.getLastKey = function(){
-					var lastRecord = this.dataSet.getRowByIndex(this.dataSet.getRecordsCount() -1);
-					return lastRecord["uuid"];
-				};
-			};
-
-			var showMore = new ShowMoreWidget({
-				dataSet: master,
-				offSet: 5,
-				url: BASE_URL + "/characters?offset={offset}&startKey={startKey}"
-			});
-
 			jQuery(document).ready(function(){
-				master.loadData();
 
-				jQuery("#moreButton").on("click", function(event){
-					event.preventDefault();
-					showMore.fetch();
+				new luga.data.widgets.ShowMore({
+					button: jQuery("#moreButton"),
+					dataSet: master,
+					jsonPath: "lastKey",
+					url: BASE_URL + "/characters?offset=2000&startKey={jsonPath}"
 				});
+
+				master.loadData();
 
 			});
 
@@ -81,19 +57,17 @@
 	</script>
 
 	<script id="masterTemplate" type="text/x-handlebars-template">
+		Record count: <span class="badge">{{recordCount}}</span>
 		{{#if isStateLoading}}
-			Loading master data...
+			<span class="alert-info">Loading more...</span>
 		{{/if}}
-		{{#if isStateReady}}
-			Record count: <span class="badge">{{recordCount}}</span>
-			<ul class="luga-docs-list">
-				{{#each entities}}
-					<li>
-						{{name}}
-					</li>
-				{{/each}}
-			</ul>
-		{{/if}}
+		<ul class="luga-docs-list">
+			{{#each entities}}
+				<li>
+					{{name}}
+				</li>
+			{{/each}}
+		</ul>
 	</script>
 
 
@@ -114,7 +88,7 @@
 					 data-lugaregion-datasource-uuid="masterDs"
 					 data-lugaregion-template-id="masterTemplate"></div>
 
-				<button id="moreButton" type="button" class="btn btn-primary">Show More</button>
+				<button id="moreButton" type="button" class="btn btn-primary disabled">Show 2000 more</button>
 
 			</div>
 
