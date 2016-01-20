@@ -320,6 +320,8 @@ describe("luga", function(){
 			it("Removes the given observer object", function(){
 				notifierObj.addObserver(observerObj);
 				expect(notifierObj.observers.length).toEqual(1);
+				notifierObj.removeObserver({});
+				expect(notifierObj.observers.length).toEqual(1);
 				notifierObj.removeObserver(observerObj);
 				expect(notifierObj.observers.length).toEqual(0);
 			});
