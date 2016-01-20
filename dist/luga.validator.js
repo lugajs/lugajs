@@ -1,10 +1,11 @@
 /*! 
-Luga Validator 0.9.12 2015-12-29T22:18:24.639Z
-Copyright 2013-2015 Massimo Foti (massimo@massimocorner.com)
+Luga Validator 0.9.12 2016-01-20T12:55:38.238Z
+Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
 /* globals alert */
 
+/* istanbul ignore if */
 if(typeof(luga) === "undefined"){
 	throw("Unable to find Luga JS Core");
 }

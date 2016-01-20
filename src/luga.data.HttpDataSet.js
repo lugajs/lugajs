@@ -162,6 +162,7 @@
 		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
 		 * @abstract
 		 */
+		/* istanbul ignore next */
 		this.loadRecords = function(response, textStatus, jqXHR){
 		};
 

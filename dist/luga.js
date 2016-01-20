@@ -1,11 +1,13 @@
 /*! 
-Luga JS  2016-01-20T12:27:41.343Z
+Luga JS  2016-01-20T12:55:38.244Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
+/* istanbul ignore if */
 if(typeof(jQuery) === "undefined"){
 	throw("Unable to find jQuery");
 }
+/* istanbul ignore else */
 if(typeof(luga) === "undefined"){
 	var luga = {};
 }
@@ -665,6 +667,7 @@ if(typeof(luga) === "undefined"){
 }());
 /* globals alert */
 
+/* istanbul ignore if */
 if(typeof(luga) === "undefined"){
 	throw("Unable to find Luga JS Core");
 }
@@ -946,6 +949,7 @@ if(typeof(luga) === "undefined"){
 	});
 
 }());
+/* istanbul ignore if */
 if(typeof(luga) === "undefined"){
 	throw("Unable to find Luga JS Core");
 }
@@ -1045,6 +1049,7 @@ if(typeof(luga) === "undefined"){
 }());
 /* globals alert */
 
+/* istanbul ignore if */
 if(typeof(luga) === "undefined"){
 	throw("Unable to find Luga JS Core");
 }

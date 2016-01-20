@@ -1,11 +1,13 @@
 /*! 
-Luga Core 0.4.7 2016-01-20T12:27:41.323Z
+Luga Core 0.4.7 2016-01-20T12:55:38.218Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
+/* istanbul ignore if */
 if(typeof(jQuery) === "undefined"){
 	throw("Unable to find jQuery");
 }
+/* istanbul ignore else */
 if(typeof(luga) === "undefined"){
 	var luga = {};
 }

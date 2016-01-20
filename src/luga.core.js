@@ -1,6 +1,8 @@
+/* istanbul ignore if */
 if(typeof(jQuery) === "undefined"){
 	throw("Unable to find jQuery");
 }
+/* istanbul ignore else */
 if(typeof(luga) === "undefined"){
 	var luga = {};
 }

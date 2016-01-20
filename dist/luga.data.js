@@ -1,8 +1,9 @@
 /*! 
-Luga Data 0.3.13 2016-01-16T13:33:39.671Z
+Luga Data 0.3.13 2016-01-20T12:55:38.253Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
+/* istanbul ignore if */
 if(typeof(luga) === "undefined"){
 	throw("Unable to find Luga JS Core");
 }
@@ -1159,6 +1160,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
 		 * @abstract
 		 */
+		/* istanbul ignore next */
 		this.loadRecords = function(response, textStatus, jqXHR){
 		};
 

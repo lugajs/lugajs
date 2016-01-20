@@ -1,3 +1,4 @@
+/* istanbul ignore if */
 if(typeof(luga.data) === "undefined"){
 	throw("Unable to find Luga Data");
 }

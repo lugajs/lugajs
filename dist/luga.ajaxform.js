@@ -1,10 +1,11 @@
 /*! 
-Luga Ajaxform 0.7.4 2016-01-15T09:42:49.402Z
+Luga Ajaxform 0.7.4 2016-01-20T12:55:38.228Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
 /* globals alert */
 
+/* istanbul ignore if */
 if(typeof(luga) === "undefined"){
 	throw("Unable to find Luga JS Core");
 }
