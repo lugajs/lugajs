@@ -53,7 +53,7 @@ describe("luga.form", function(){
 			loadFixtures("form/common.htm");
 		});
 
-		it("Returns a JavaScript object containing name/value pairs from fields contained inside a given node", function(){
+		it("Return a JavaScript object containing name/value pairs from fields contained inside a given node", function(){
 			expect(luga.form.toHash(jQuery("#basicValue"))).toEqual({firstname: "ciccio", lastname: "pasticcio", radio: "yes"});
 			expect(luga.form.toHash(jQuery("#basicNoValue"))).toEqual({firstname: "", lastname: ""});
 		});
@@ -69,7 +69,7 @@ describe("luga.form", function(){
 		});
 
 		it("Values of multiple checked checkboxes are included as a single entry, with array value", function(){
-			expect(luga.form.toHash(jQuery("#multiBox"))).toEqual({firstname: "ciccio", box: ["first", "second"]});
+			expect(luga.form.toHash(jQuery("#multiBox"))).toEqual({firstname: "ciccio", box: ["first", "second", "fourth"]});
 		});
 
 		it("Values of multiple select are included as a single entry, with comma-delimited value", function(){

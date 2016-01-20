@@ -280,6 +280,9 @@ if(typeof(luga) === "undefined"){
 					if(map[fieldName] === undefined){
 						map[fieldName] = fieldValue;
 					}
+					else if(jQuery.isArray(map[fieldName]) === true){
+						map[fieldName].push(fieldValue);
+					}
 					else{
 						map[fieldName] = [map[fieldName], fieldValue];
 					}
@@ -441,6 +444,31 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.string");
 
+
+	/**
+	 * Replace MS Word's non-ISO characters with plausible substitutes
+	 *
+	 * @param {string} str   String containing MS Word's garbage
+	 * @returns {string}      The de-moronized string
+	 */
+	luga.string.demoronize = function(str){
+		str = str.replace(new RegExp(String.fromCharCode(710), "g"), "^");
+		str = str.replace(new RegExp(String.fromCharCode(732), "g"), "~");
+		// Evil "smarty" quotes
+		str = str.replace(new RegExp(String.fromCharCode(8216), "g"), "'");
+		str = str.replace(new RegExp(String.fromCharCode(8217), "g"), "'");
+		str = str.replace(new RegExp(String.fromCharCode(8220), "g"), "\"");
+		str = str.replace(new RegExp(String.fromCharCode(8221), "g"), "\"");
+		// More garbage
+		str = str.replace(new RegExp(String.fromCharCode(8211), "g"), "-");
+		str = str.replace(new RegExp(String.fromCharCode(8212), "g"), "--");
+		str = str.replace(new RegExp(String.fromCharCode(8218), "g"), ",");
+		str = str.replace(new RegExp(String.fromCharCode(8222), "g"), ",,");
+		str = str.replace(new RegExp(String.fromCharCode(8226), "g"), "*");
+		str = str.replace(new RegExp(String.fromCharCode(8230), "g"), "...");
+		return str;
+	};
+
 	/**
 	 * Given a string containing placeholders, it assembles a new string
 	 * replacing the placeholders with the strings contained inside the second argument (either an object or an array)
@@ -473,6 +501,18 @@ if(typeof(luga) === "undefined"){
 			}
 		}
 		return str;
+	};
+
+	luga.string.queryToHash = function(str){
+		var hash = {};
+		if(str.charAt(0) === "?"){
+			str = str.substring(1);
+		}
+		var tokens = str.split("&");
+
+
+
+		return hash;
 	};
 
 	var propertyPattern = new RegExp("\\{([^}]*)}", "g");
@@ -508,30 +548,6 @@ if(typeof(luga) === "undefined"){
 				}
 			}
 		}
-		return str;
-	};
-
-	/**
-	 * Replace MS Word's non-ISO characters with plausible substitutes
-	 *
-	 * @param {string} str   String containing MS Word's garbage
-	 * @returns {string}      The de-moronized string
-	 */
-	luga.string.demoronize = function(str){
-		str = str.replace(new RegExp(String.fromCharCode(710), "g"), "^");
-		str = str.replace(new RegExp(String.fromCharCode(732), "g"), "~");
-		// Evil "smarty" quotes
-		str = str.replace(new RegExp(String.fromCharCode(8216), "g"), "'");
-		str = str.replace(new RegExp(String.fromCharCode(8217), "g"), "'");
-		str = str.replace(new RegExp(String.fromCharCode(8220), "g"), "\"");
-		str = str.replace(new RegExp(String.fromCharCode(8221), "g"), "\"");
-		// More garbage
-		str = str.replace(new RegExp(String.fromCharCode(8211), "g"), "-");
-		str = str.replace(new RegExp(String.fromCharCode(8212), "g"), "--");
-		str = str.replace(new RegExp(String.fromCharCode(8218), "g"), ",");
-		str = str.replace(new RegExp(String.fromCharCode(8222), "g"), ",,");
-		str = str.replace(new RegExp(String.fromCharCode(8226), "g"), "*");
-		str = str.replace(new RegExp(String.fromCharCode(8230), "g"), "...");
 		return str;
 	};
 
