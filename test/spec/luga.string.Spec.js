@@ -111,6 +111,9 @@ describe("luga.string", function(){
 			it("If no matching placeholder is find, return the original string", function(){
 				expect(luga.string.replaceProperty("This {missing}", {another: "test"})).toEqual("This {missing}");
 			});
+			it("If the second argument is not an object, return the original string", function(){
+				expect(luga.string.replaceProperty("This {missing}", "ciao mamma")).toEqual("This {missing}");
+			});
 
 		});
 
