@@ -39,6 +39,8 @@ luga.data.PagedData
 WIDGETS:
 
 luga.data.widgets.ShowMore
+- Move core logic inside separated class
+- Implement two widgets: button and infinite scrolling
 - Write Jasmine tests
 
 luga.data.widgets.Navbar (needs PagedData)
