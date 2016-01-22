@@ -15,7 +15,8 @@
     "dist/luga.data.min.js"
   ],
   "dependencies": {
-    "jquery": ">=2"
+    "jquery": ">=2",
+    "handlebars": ">=4"
   },
   "keywords": [
     "lugajs"
