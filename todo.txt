@@ -5,6 +5,7 @@
 DOCS:
 
 - Data: FAQ? CORS?
+- luga.data.widgets.ShowMore
 
 -------------
 
@@ -37,9 +38,6 @@ luga.data.PagedData
 -------------
 
 WIDGETS:
-
-luga.data.widgets.ShowMore
-- Enable/disable button
 
 luga.data.widgets.Navbar (needs PagedData)
 - Different GUI styles: Bootstrap, PageList, LinkList

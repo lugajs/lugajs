@@ -102,6 +102,7 @@
 				headers: self.headers,
 				error: self.xhrError
 			};
+			/* istanbul ignore else */
 			if(self.dataType !== null){
 				xhrOptions.dataType = self.dataType;
 			}
