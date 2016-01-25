@@ -7,7 +7,7 @@
 	 * @typedef {object} luga.data.widgets.ShowMore.options
 	 *
 	 * @property {luga.data.DataSet} dataSet   DataSet. Required
-	 * @property {string} paramPath            Path to retrieve urul template params from the JSON. Optional. If not specified the whole returned JSON will be used
+	 * @property {string} paramPath            Path to retrieve url template params from the JSON. Optional. If not specified the whole returned JSON will be used
 	 * @property {string} url                  Url to be used by the dataSet to fetch more data. It can contain template placeholders. Required
 	 */
 
@@ -22,6 +22,13 @@
 	 */
 	luga.data.widgets.ShowMore = function(options){
 
+		this.CONST = {
+			ERROR_MESSAGES: {
+				INVALID_DATASET_PARAMETER: "luga.data.widgets.ShowMore: dataSet parameter is required",
+				INVALID_URL_PARAMETER: "luga.data.widgets.ShowMore: url parameter is required"
+			}
+		};
+
 		this.config = {
 			/** @type {luga.data.dataSet} */
 			dataSet: undefined,
@@ -33,8 +40,51 @@
 		/** @type {luga.data.widgets.ShowMore} */
 		var self = this;
 
+		if(this.config.dataSet === undefined){
+			throw(this.CONST.ERROR_MESSAGES.INVALID_DATASET_PARAMETER);
+		}
+		if(this.config.url === undefined){
+			throw(this.CONST.ERROR_MESSAGES.INVALID_URL_PARAMETER);
+		}
+
 		var isEnabled = false;
 		this.config.dataSet.addObserver(this);
+
+		this.assembleUrl = function(){
+			var bindingObj = this.config.dataSet.getRawJson();
+			/* istanbul ignore else */
+			if(this.config.paramPath !== ""){
+				bindingObj = luga.lookupProperty(bindingObj, this.config.paramPath);
+			}
+			return luga.string.replaceProperty(this.config.url, bindingObj);
+		};
+
+		/**
+		 * @abstract
+		 */
+		this.disable = function(){
+		};
+
+		/**
+		 * @abstract
+		 */
+		this.enable = function(){
+		};
+
+		this.fetch = function(){
+			var newUrl = this.assembleUrl();
+			if(newUrl !== this.config.url){
+				this.config.dataSet.setUrl(newUrl);
+				this.config.dataSet.loadData();
+			}
+			else{
+				this.disable();
+			}
+		};
+
+		this.isEnabled = function(){
+			return isEnabled;
+		};
 
 		this.updateState = function(){
 			if(this.config.dataSet.getState() === luga.data.STATE.READY){
@@ -45,37 +95,6 @@
 				isEnabled = false;
 				this.disable();
 			}
-		};
-
-		this.isEnabled = function(){
-			return isEnabled;
-		};
-
-		this.enable = function(){
-		};
-
-		this.disable = function(){
-		};
-
-		this.fetch = function(){
-			//var nextKey = this.getNextKey();
-			var newUrl = this.assembleUrl();
-
-			if(newUrl !== this.config.url){
-				this.config.dataSet.setUrl(newUrl);
-				this.config.dataSet.loadData();
-			}
-			else{
-				this.disable();
-			}
-		};
-
-		this.assembleUrl = function(){
-			var bindingObj = this.config.dataSet.getRawJson();
-			if(this.config.paramPath !== ""){
-				bindingObj = luga.lookupProperty(bindingObj, this.config.paramPath);
-			}
-			return luga.string.replaceProperty(this.config.url, bindingObj);
 		};
 
 		/**
@@ -107,7 +126,6 @@
 	 * @throws
 	 */
 	luga.data.widgets.ShowMoreButton = function(options){
-
 		this.config = {
 			/** @type {luga.data.dataSet} */
 			dataSet: undefined,
@@ -123,6 +141,17 @@
 		/** @type {luga.data.widgets.ShowMoreButton} */
 		var self = this;
 
+		// The messages below are specific to this implementation
+		self.CONST.BUTTON_ERROR_MESSAGES = {
+			MISSING_BUTTON: "luga.data.widgets.ShowMoreButton was unable find the button node"
+		};
+
+		// Ensure it's a jQuery object
+		this.config.button = jQuery(this.config.button);
+		if(this.config.button.length === 0){
+			throw(this.CONST.BUTTON_ERROR_MESSAGES.MISSING_BUTTON);
+		}
+
 		this.attachEvents = function(){
 			jQuery(self.config.button).on("click", function(event){
 				event.preventDefault();
@@ -132,12 +161,12 @@
 			});
 		};
 
-		this.enable = function(){
-			this.config.button.removeClass(this.config.disabledClass);
-		};
-
 		this.disable = function(){
 			this.config.button.addClass(this.config.disabledClass);
+		};
+
+		this.enable = function(){
+			this.config.button.removeClass(this.config.disabledClass);
 		};
 
 		/* Constructor */
@@ -149,7 +178,7 @@
 	 * @typedef {object} luga.data.ShowMoreScrolling.options
 	 *
 	 * @extends luga.data.widgets.ShowMore.options
-	 * @property {jQuery}  node  HTML element containing the records. It must have a scrollbar. Optional. If not specified, the whole document is assumed.
+	 * @property {jQuery}  node  A jQuery object wrapping the node containing the records. It must have a scrollbar. Optional. If not specified, the whole document is assumed.
 	 */
 
 	/**
@@ -187,11 +216,13 @@
 			jQuery(targetNode).scroll(function(){
 				var scrolledToBottom = false;
 				if(scrollBody === true){
+					/* istanbul ignore else */
 					if(jQuery(targetNode).scrollTop() === (jQuery(targetNode).height() - jQuery(window).height())){
 						scrolledToBottom = true;
 					}
 				}
 				else{
+					/* istanbul ignore else */
 					if(jQuery(targetNode).scrollTop() >= (targetNode[0].scrollHeight - targetNode.height())){
 						scrolledToBottom = true;
 					}
