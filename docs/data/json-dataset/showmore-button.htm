@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<link rel="shortcut icon" type="image/png" href="../../luga-favicon.png"/>
-	<title>Luga Data :: Widgets :: ShowMoreScrolling :: Node</title>
+	<title>Luga Data :: ShowMore button</title>
 
 	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
@@ -33,17 +33,17 @@
 			var BASE_URL = "https://gxabmxeqzc.execute-api.us-east-1.amazonaws.com/stage/showreel";
 			var master = new luga.data.JsonDataSet({
 				uuid: "masterDs",
-				url: BASE_URL + "/characters?offset=200",
+				url: BASE_URL + "/characters?offset=2000",
 				path: "result",
 				timeout: 20000,
 				incrementalLoad: true
 			});
 
 			jQuery(document).ready(function(){
-				new luga.data.widgets.ShowMoreScrolling({
-					node: jQuery("#characters"),
+				new luga.data.widgets.ShowMoreButton({
+					button: jQuery("#moreButton"),
 					dataSet: master,
-					url: BASE_URL + "/characters?offset=200&startKey={lastKey}"
+					url: BASE_URL + "/characters?offset=2000&startKey={lastKey}"
 				});
 				master.loadData();
 			});
@@ -53,6 +53,9 @@
 
 	<script id="masterTemplate" type="text/x-handlebars-template">
 		Record count: <span class="badge">{{recordCount}}</span>
+		{{#if isStateLoading}}
+			<span class="alert-info">Loading more...</span>
+		{{/if}}
 		<ul class="luga-docs-list">
 			{{#each entities}}
 				<li>
@@ -60,10 +63,8 @@
 				</li>
 			{{/each}}
 		</ul>
-		{{#if isStateLoading}}
-			<span class="alert-info">Loading more...</span>
-		{{/if}}
 	</script>
+
 
 </head>
 
@@ -78,9 +79,11 @@
 			<div id="master" class="panel-heading">Showmore</div>
 			<div class="panel-body">
 
-				<div style="overflow-y: auto; height: 300px" id="characters" class="col-xs-6 col-sm-6" data-lugaregion="true"
+				<div class="col-xs-6 col-sm-6" data-lugaregion="true"
 					 data-lugaregion-datasource-uuid="masterDs"
 					 data-lugaregion-template-id="masterTemplate"></div>
+
+				<button id="moreButton" type="button" class="btn btn-primary disabled">Show 2000 more</button>
 
 			</div>
 
