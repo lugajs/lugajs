@@ -43,7 +43,7 @@
         	<a href="../json-dataset/master-details.htm">Master-details</a>
         </li>
         <li class="list-group-item">
-            <a href="../json-dataset/showmore-scrolling-body.htm">Infinite scrolling (whole page)</a>
+            <a href="../json-dataset/showmore-scrolling-body.htm">Infinite scrolling (page)</a>
         </li>
        	<li class="list-group-item">
              <a href="../json-dataset/showmore-scrolling.htm">Infinite scrolling (&lt;div&gt;)</a>
