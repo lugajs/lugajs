@@ -5,7 +5,6 @@
 DOCS:
 
 - Data: FAQ? CORS?
-- luga.data.widgets.ShowMore
 
 -------------
 
