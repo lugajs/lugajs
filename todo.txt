@@ -1,5 +1,4 @@
 - Spin-off for jasmine-ducktype?
-- Region render with nunjucks?
 
 -------------
 
@@ -25,7 +24,7 @@ VALIDATOR:
 
 DATA:
 
-luga.data.Dataset:
+luga.data.DataSet:
 - Allow custom sorter for complex objects
 - Local storage persistence? Would it be better to persist only data?
 
