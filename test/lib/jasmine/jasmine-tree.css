@@ -1,6 +1,6 @@
 /*! 
-jasmine-tree 0.1.2 2015-12-15T11:45:51.985Z
-Copyright 2015 Massimo Foti (massimo@massimocorner.com) and Emily Meroni (emily.meroni@gmail.com)
+jasmine-tree 0.1.3 2016-02-09T10:24:53.385Z
+Copyright 2016 Massimo Foti (massimo@massimocorner.com) and Emily Meroni (emily.meroni@gmail.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
 /* Overwrite existing Jasmine rules */
@@ -107,3 +107,5 @@ ul.suite:last-child::after,
 ul.jasmine-suite.jasmine-tree-opennode:last-child,
 ul.jasmine-suite:last-child::after {
   border: 0 none; }
+
+/*# sourceMappingURL=jasmine-tree.css.map */
