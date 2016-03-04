@@ -24,6 +24,9 @@ VALIDATOR:
 
 DATA:
 
+- Allow storing Handlebars code inside <template>
+https://developer.mozilla.org/en/docs/Web/HTML/Element/template
+
 luga.data.DataSet:
 - Allow custom sorter for complex objects
 - Local storage persistence? Would it be better to persist only data?
