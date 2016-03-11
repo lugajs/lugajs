@@ -242,7 +242,7 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param {jquery}   rootNode     jQuery object wrapping the root node
 	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
-	 * @returns {object}               A JavaScript object containing name/value pairs
+	 * @returns {object}              A JavaScript object containing name/value pairs
 	 * @throws
 	 */
 	luga.form.toHash = function(rootNode, demoronize){
