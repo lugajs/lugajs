@@ -4,6 +4,7 @@
 
 DOCS:
 
+- Document .setUrl() for HTTP based dataSets
 - Data: FAQ? CORS?
 
 -------------
