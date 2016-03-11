@@ -94,14 +94,14 @@ describe("luga.form", function(){
 			expect(luga.form.toJson(jQuery("#basicValue"))).toEqual({
 				person: {
 					firstname: "ciccio",
-					lastname: "pasticcio",
+					lastname: "pasticcio"
 				},
 				radio: "yes"
 			});
 			expect(luga.form.toJson(jQuery("#basicNoValue"))).toEqual({
 				person: {
 					firstname: "",
-					lastname: "",
+					lastname: ""
 				}
 			});
 		});
