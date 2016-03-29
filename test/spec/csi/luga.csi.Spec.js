@@ -1,15 +1,24 @@
-/* global LUGA_TEST_XHR_BASE, csiHandlers */
+/* global csiHandlers */
 
 describe("luga.csi", function(){
 
 	"use strict";
 
-	var plainDiv, DEFAULT_TIMEOUT;
+	var plainDiv;
 	window.csiHandlers = {};
 
 	beforeEach(function(){
 		plainDiv = jQuery("<div></div>");
-		DEFAULT_TIMEOUT = 2000;
+
+		jasmine.Ajax.install();
+		jasmine.Ajax.stubRequest("mock/missing.htm").andReturn({
+			status: 404
+		});
+		jasmine.Ajax.stubRequest("mock/include1.htm").andReturn({
+			contentType: "text/html",
+			responseText: "Test luga.csi",
+			status: 200
+		});
 
 		csiHandlers.customError = function(){
 		};
@@ -19,6 +28,10 @@ describe("luga.csi", function(){
 		});
 		spyOn(csiHandlers, "customAfter").and.callFake(function(){
 		});
+	});
+
+	afterEach(function() {
+		jasmine.Ajax.uninstall();
 	});
 
 	it("Lives inside its own namespace", function(){
@@ -47,52 +60,42 @@ describe("luga.csi", function(){
 				expect(jQuery.ajax).toHaveBeenCalled();
 			});
 
-			it("Calls its error handler if the file to include does not exists", function(done){
+			it("Calls its error handler if the file to include does not exists", function(){
 
 				var includeObj = new luga.csi.Include({
 					rootNode: plainDiv,
-					url: "missing.htm",
+					url: "mock/missing.htm",
 					error: csiHandlers.customError
 				});
 				includeObj.load();
-
-				setTimeout(function(){
-					expect(csiHandlers.customError).toHaveBeenCalled();
-					done();
-				}, DEFAULT_TIMEOUT);
+				expect(csiHandlers.customError).toHaveBeenCalled();
 
 			});
 
 			describe("First:", function(){
 
-				it("Include the content of the given url inside the given node", function(done){
+				it("Include the content of the given url inside the given node", function(){
 					var includeObj = new luga.csi.Include({
 						rootNode: plainDiv,
-						url: LUGA_TEST_XHR_BASE + "fixtures/csi/include1.htm"
+						url: "mock/include1.htm"
 					});
 					expect(plainDiv).toBeEmpty();
 					includeObj.load();
-					setTimeout(function(){
-						expect(plainDiv).toContainText("Test luga.csi");
-						done();
-					}, DEFAULT_TIMEOUT);
+					expect(plainDiv).toContainText("Test luga.csi");
 				});
 
 			});
 
 			describe("Then:", function(){
 
-				it("Calls its after function", function(done){
+				it("Calls its after function", function(){
 					var includeObj = new luga.csi.Include({
 						rootNode: plainDiv,
-						url: LUGA_TEST_XHR_BASE + "fixtures/csi/include1.htm",
+						url: "mock/include1.htm",
 						after: "csiHandlers.customError"
 					});
 					includeObj.load();
-					setTimeout(function(){
-						expect(csiHandlers.customError).toHaveBeenCalled();
-						done();
-					}, DEFAULT_TIMEOUT);
+					expect(csiHandlers.customError).toHaveBeenCalled();
 				});
 
 			});

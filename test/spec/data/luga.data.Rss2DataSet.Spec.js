@@ -4,7 +4,7 @@ describe("luga.data.Rss2Dataset", function(){
 
 	"use strict";
 
-	var xmlStr, noUrlDs,DEFAULT_TIMEOUT;
+	var xmlStr, noUrlDs;
 	beforeEach(function(){
 
 		var response = jQuery.ajax({
@@ -14,13 +14,20 @@ describe("luga.data.Rss2Dataset", function(){
 		});
 		xmlStr = response.responseText;
 
+		jasmine.Ajax.install();
+		jasmine.Ajax.stubRequest("mock/rss2.xml").andReturn({
+			contentType: "application/xml",
+			responseText: xmlStr,
+			status: 200
+		});
+
 		noUrlDs = new luga.data.Rss2Dataset({uuid: "noUrlDs"});
 
-		DEFAULT_TIMEOUT = 2000;
 	});
 
 	afterEach(function() {
 		luga.data.dataSourceRegistry = {};
+		jasmine.Ajax.uninstall();
 	});
 
 	it("Is the RSS2 dataset class", function(){
@@ -34,15 +41,12 @@ describe("luga.data.Rss2Dataset", function(){
 		expect(noUrlDs).toMatchDuckType(new MockDs({uuid: "duck"}, false));
 	});
 
-	it("Can retrieve XML using XHR or consume XML as string", function(done){
+	it("Can retrieve XML using XHR or consume XML as string", function(){
 		noUrlDs.loadRecords(xmlStr);
-		var testDs = new luga.data.Rss2Dataset({uuid: "rssDs", url: "fixtures/data/rss2.xml"});
+		var testDs = new luga.data.Rss2Dataset({uuid: "rssDs", url: "mock/rss2.xml"});
 		testDs.loadData();
-		setTimeout(function(){
-			expect(testDs.getRecordsCount()).toEqual(testDs.getRecordsCount());
-			expect(testDs.getContext()).toEqual(testDs.getContext());
-			done();
-		}, DEFAULT_TIMEOUT);
+		expect(testDs.getRecordsCount()).toEqual(testDs.getRecordsCount());
+		expect(testDs.getContext()).toEqual(testDs.getContext());
 	});
 
 	describe(".version", function(){

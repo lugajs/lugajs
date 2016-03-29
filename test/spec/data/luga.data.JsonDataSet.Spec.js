@@ -1,15 +1,12 @@
-/* global LUGA_TEST_XHR_BASE */
-
 describe("luga.data.JsonDataset", function(){
 
 	"use strict";
 
-	var testRecords, noUrlDs, testDs, DEFAULT_TIMEOUT;
+	var testRecords, noUrlDs, testDs;
 	beforeEach(function(){
 		testRecords = getJSONFixture("data/ladies.json");
 		noUrlDs = new luga.data.JsonDataSet({uuid: "noUrlDs"});
 		testDs = new luga.data.JsonDataSet({uuid: "jsonDs", url: "fixtures/data/ladies.json"});
-		DEFAULT_TIMEOUT = 2000;
 	});
 
 	afterEach(function() {
@@ -56,11 +53,24 @@ describe("luga.data.JsonDataset", function(){
 
 	describe(".loadData()", function(){
 
-		var peopleDs, peopleObserver;
+		var mockJson, peopleDs, peopleObserver;
 		beforeEach(function(){
 
-			peopleDs = new luga.data.JsonDataSet({uuid: "loadDataUniqueDs", url: LUGA_TEST_XHR_BASE + "fixtures/data/people.json", path: "ladies"});
-			DEFAULT_TIMEOUT = 2000;
+			mockJson = getJSONFixture("data/people.json");
+
+			jasmine.Ajax.install();
+			jasmine.Ajax.stubRequest("mock/people.json").andReturn({
+				contentType: "application/json",
+				responseText: JSON.stringify(mockJson),
+				status: 200
+			});
+			jasmine.Ajax.stubRequest("mock/people.txt").andReturn({
+				contentType: "text/plain",
+				responseText: JSON.stringify(mockJson),
+				status: 200
+			});
+
+			peopleDs = new luga.data.JsonDataSet({uuid: "loadDataUniqueDs", url: "mock/people.json", path: "ladies"});
 
 			var ObserverClass = function(){
 				this.onDataChangedHandler = function(data){
@@ -71,58 +81,44 @@ describe("luga.data.JsonDataset", function(){
 			spyOn(peopleObserver, "onDataChangedHandler");
 		});
 
+		afterEach(function() {
+			jasmine.Ajax.uninstall();
+		});
+
 		describe("First:", function(){
-			it("Extract records out of the fetched JSON data based on the current path", function(done){
+			it("Extract records out of the fetched JSON data based on the current path", function(){
 				peopleDs.loadData();
-				setTimeout(function(){
-					expect(peopleDs.getRecordsCount()).toEqual(7);
-					done();
-				}, DEFAULT_TIMEOUT);
+				expect(peopleDs.getRecordsCount()).toEqual(7);
 			});
-			it("Records are extracted even if the HTTP's Content-Type is not application/json (as long as it contains JSON data)", function(done){
-				var txtDs = new luga.data.JsonDataSet({uuid: "uniqueDs", url: LUGA_TEST_XHR_BASE + "fixtures/data/people.txt", path: "ladies"});
+			it("Records are extracted even if the HTTP's Content-Type is not application/json (as long as it contains JSON data)", function(){
+				var txtDs = new luga.data.JsonDataSet({uuid: "uniqueDs", url: "mock/people.txt", path: "ladies"});
 				txtDs.loadData();
-				setTimeout(function(){
-					expect(txtDs.getRecordsCount()).toEqual(7);
-					done();
-				}, DEFAULT_TIMEOUT);
+				expect(txtDs.getRecordsCount()).toEqual(7);
 			});
-			it("The nature and amount of records may vary depending on the path", function(done){
+			it("The nature and amount of records may vary depending on the path", function(){
 				peopleDs.setPath("others.jazzPlayers");
 				peopleDs.loadData();
-				setTimeout(function(){
-					expect(peopleDs.getRecordsCount()).toEqual(4);
-					done();
-				}, DEFAULT_TIMEOUT);
+				expect(peopleDs.getRecordsCount()).toEqual(4);
 			});
 		});
 
 		describe("Then:", function(){
-			it("Triggers a 'dataChange' notification", function(done){
+			it("Triggers a 'dataChange' notification", function(){
 				peopleDs.loadData();
-				setTimeout(function(){
-					expect(peopleObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource: peopleDs});
-					done();
-				}, DEFAULT_TIMEOUT);
+				expect(peopleObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource: peopleDs});
 			});
 		});
 
 		describe("If the path has no matches inside the JSON data:", function(){
-			it("No record will be added to the dataSet", function(done){
+			it("No record will be added to the dataSet", function(){
 				peopleDs.setPath("invalid");
 				peopleDs.loadData();
-				setTimeout(function(){
-					expect(peopleDs.getRecordsCount()).toEqual(0);
-					done();
-				}, DEFAULT_TIMEOUT);
+				expect(peopleDs.getRecordsCount()).toEqual(0);
 			});
-			it("The 'dataChanged' event will not be triggered", function(done){
+			it("The 'dataChanged' event will not be triggered", function(){
 				peopleDs.setPath("invalid");
 				peopleDs.loadData();
-				setTimeout(function(){
-					expect(peopleObserver.onDataChangedHandler).not.toHaveBeenCalledWith(peopleDs);
-					done();
-				}, DEFAULT_TIMEOUT);
+				expect(peopleObserver.onDataChangedHandler).not.toHaveBeenCalledWith(peopleDs);
 			});
 		});
 

@@ -12,6 +12,7 @@ DOCS:
 
 AJAXFORM:
 
+- Use jasmine-ajax for tests
 - Parse and handle error messages from server
 - Use live service for samples and docs
 - Standardize JSON schema for error messages
