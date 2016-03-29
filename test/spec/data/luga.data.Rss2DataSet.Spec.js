@@ -24,7 +24,7 @@ describe("luga.data.Rss2Dataset", function(){
 	});
 
 	it("Is the RSS2 dataset class", function(){
-		expect(jQuery.isFunction(luga.data.Rss2Dataset)).toBeTruthy();
+		expect(jQuery.isFunction(luga.data.Rss2Dataset)).toEqual(true);
 	});
 
 	it("Implements the luga.data.HttpDataSet abstract class", function(){

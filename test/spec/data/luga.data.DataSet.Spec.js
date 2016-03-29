@@ -61,7 +61,7 @@ describe("luga.data.Dataset", function(){
 	});
 
 	it("Is the base dataSet class", function(){
-		expect(jQuery.isFunction(luga.data.DataSet)).toBeTruthy();
+		expect(jQuery.isFunction(luga.data.DataSet)).toEqual(true);
 	});
 
 	it("Implements the luga.Notifier interface", function(){

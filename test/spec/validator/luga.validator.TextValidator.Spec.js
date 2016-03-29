@@ -207,7 +207,7 @@ describe("luga.validator.TextValidator", function(){
 			var textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isRequired()).toBeTruthy();
+			expect(textValidator.isRequired()).toEqual(true);
 		});
 
 		it("If set to false. Does not requires the field to contain anything", function(){
@@ -215,7 +215,7 @@ describe("luga.validator.TextValidator", function(){
 			var textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isRequired()).toBeFalsy();
+			expect(textValidator.isRequired()).toEqual(false);
 		});
 
 		it("Detects if field is required on conditional validation. Executing the function whose name is specified inside the data-lugavalidator-required custom attribute", function(){
@@ -231,13 +231,13 @@ describe("luga.validator.TextValidator", function(){
 			var textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isRequired()).toBeTruthy();
+			expect(textValidator.isRequired()).toEqual(true);
 
 			textNode = jQuery('<input type="text" data-lugavalidator-required="textValidatorHandlers.returnFalse">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isRequired()).toBeFalsy();
+			expect(textValidator.isRequired()).toEqual(false);
 
 		});
 
@@ -251,37 +251,37 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="name" data-lugavalidator-required="true" data-lugavalidator-email="true">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="name@" data-lugavalidator-required="true" data-lugavalidator-email="true">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="name." data-lugavalidator-required="true" data-lugavalidator-email="true">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="name@ciccio.pasticcio" data-lugavalidator-required="true" data-lugavalidator-email="true">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="ciccio@pasticcio.com" data-lugavalidator-required="true" data-lugavalidator-email="true">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 		});
 
 		it("Please keep in mind this simplistic approach is not fool-proof", function(){
@@ -289,7 +289,7 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 		});
 
 	});
@@ -313,7 +313,7 @@ describe("luga.validator.TextValidator", function(){
 				fieldNode: jQuery("#password3")
 			});
 			textValidator.validate();
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 			expect(jQuery("#password3")).not.toHaveClass("invalid");
 		});
 
@@ -323,7 +323,7 @@ describe("luga.validator.TextValidator", function(){
 				fieldNode: jQuery("#password1")
 			});
 			textValidator.validate();
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 			expect(jQuery("#password1")).toHaveClass("invalid");
 		});
 
@@ -333,11 +333,11 @@ describe("luga.validator.TextValidator", function(){
 				formNode: jQuery("#equal")
 			});
 			expect(formValidator.validate().length).toEqual(0);
-			expect(formValidator.isValid()).toBeTruthy();
+			expect(formValidator.isValid()).toEqual(true);
 			expect(jQuery("#password3")).not.toHaveClass("invalid");
 			jQuery("#password4").val("Kate");
 			expect(formValidator.validate().length).toEqual(1);
-			expect(formValidator.isValid()).toBeFalsy();
+			expect(formValidator.isValid()).toEqual(false);
 			expect(jQuery("#password3")).toHaveClass("invalid");
 
 		});
@@ -352,12 +352,12 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 			textNode = jQuery('<input type="text" value="test123" data-lugavalidator-required="true" data-lugavalidator-pattern="lettersonly">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 		});
 
 		it("alphanumeric", function(){
@@ -365,17 +365,17 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 			textNode = jQuery('<input type="text" value="test123" data-lugavalidator-required="true" data-lugavalidator-pattern="alphanumeric">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 			textNode = jQuery('<input type="text" value="test-123" data-lugavalidator-required="true" data-lugavalidator-pattern="alphanumeric">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 		});
 
 		it("integer", function(){
@@ -383,32 +383,32 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 			textNode = jQuery('<input type="text" value="10" data-lugavalidator-required="true" data-lugavalidator-pattern="integer">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 			textNode = jQuery('<input type="text" value="-1" data-lugavalidator-required="true" data-lugavalidator-pattern="integer">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 			textNode = jQuery('<input type="text" value="0" data-lugavalidator-required="true" data-lugavalidator-pattern="integer">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 			textNode = jQuery('<input type="text" value="test123" data-lugavalidator-required="true" data-lugavalidator-pattern="integer">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 			textNode = jQuery('<input type="text" value="1.5" data-lugavalidator-required="true" data-lugavalidator-pattern="integer">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 		});
 
 		it("positiveinteger", function(){
@@ -416,22 +416,22 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 			textNode = jQuery('<input type="text" value="-1" data-lugavalidator-required="true" data-lugavalidator-pattern="positiveinteger">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 			textNode = jQuery('<input type="text" value="test123" data-lugavalidator-required="true" data-lugavalidator-pattern="positiveinteger">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 			textNode = jQuery('<input type="text" value="1.5" data-lugavalidator-required="true" data-lugavalidator-pattern="positiveinteger">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 		});
 
 		it("number", function(){
@@ -439,22 +439,22 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 			textNode = jQuery('<input type="text" value="-1" data-lugavalidator-required="true" data-lugavalidator-pattern="number">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 			textNode = jQuery('<input type="text" value="test123" data-lugavalidator-required="true" data-lugavalidator-pattern="number">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 			textNode = jQuery('<input type="text" value="1.5" data-lugavalidator-required="true" data-lugavalidator-pattern="number">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 		});
 
 		it("filepath_pdf", function(){
@@ -462,22 +462,22 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 			textNode = jQuery('<input type="text" value="/file.jpg" data-lugavalidator-required="true" data-lugavalidator-pattern="filepath_pdf">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 			textNode = jQuery('<input type="text" value="/file.zip" data-lugavalidator-required="true" data-lugavalidator-pattern="filepath_pdf">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 			textNode = jQuery('<input type="text" value="/file.doc" data-lugavalidator-required="true" data-lugavalidator-pattern="filepath_pdf">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 		});
 
 		it("filepath_jpg", function(){
@@ -485,22 +485,22 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 			textNode = jQuery('<input type="text" value="/file.jpg" data-lugavalidator-required="true" data-lugavalidator-pattern="filepath_jpg">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 			textNode = jQuery('<input type="text" value="/file.zip" data-lugavalidator-required="true" data-lugavalidator-pattern="filepath_jpg">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 			textNode = jQuery('<input type="text" value="/file.doc" data-lugavalidator-required="true" data-lugavalidator-pattern="filepath_jpg">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 		});
 
 		it("filepath_zip", function(){
@@ -508,22 +508,22 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 			textNode = jQuery('<input type="text" value="/file.jpg" data-lugavalidator-required="true" data-lugavalidator-pattern="filepath_zip">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 			textNode = jQuery('<input type="text" value="/file.zip" data-lugavalidator-required="true" data-lugavalidator-pattern="filepath_zip">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 			textNode = jQuery('<input type="text" value="/file.doc" data-lugavalidator-required="true" data-lugavalidator-pattern="filepath_zip">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 		});
 
 		it("filepath", function(){
@@ -531,27 +531,27 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 			textNode = jQuery('<input type="text" value="/file.jpg" data-lugavalidator-required="true" data-lugavalidator-pattern="filepath">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 			textNode = jQuery('<input type="text" value="/file.zip" data-lugavalidator-required="true" data-lugavalidator-pattern="filepath">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 			textNode = jQuery('<input type="text" value="/file.doc" data-lugavalidator-required="true" data-lugavalidator-pattern="filepath">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 			textNode = jQuery('<input type="text" value="test" data-lugavalidator-required="true" data-lugavalidator-pattern="filepath">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 		});
 
 		it("time", function(){
@@ -559,37 +559,37 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 			textNode = jQuery('<input type="text" value="22:45" data-lugavalidator-required="true" data-lugavalidator-pattern="time">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 			textNode = jQuery('<input type="text" value="00:00" data-lugavalidator-required="true" data-lugavalidator-pattern="time">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 			textNode = jQuery('<input type="text" value="9:09" data-lugavalidator-required="true" data-lugavalidator-pattern="time">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 			textNode = jQuery('<input type="text" value="24:10" data-lugavalidator-required="true" data-lugavalidator-pattern="time">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 			textNode = jQuery('<input type="text" value="25:10" data-lugavalidator-required="true" data-lugavalidator-pattern="time">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 			textNode = jQuery('<input type="text" value="22:61" data-lugavalidator-required="true" data-lugavalidator-pattern="time">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 		});
 
 	});
@@ -602,9 +602,9 @@ describe("luga.validator.TextValidator", function(){
 			var textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 			textNode.val("http://www.massimocorner.com");
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 		});
 	});
 
@@ -616,25 +616,25 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="5" data-lugavalidator-required="true" data-lugavalidator-minnumber="18">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="20" data-lugavalidator-required="true" data-lugavalidator-minnumber="18">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="-25" data-lugavalidator-required="true" data-lugavalidator-minnumber="18">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 		});
 
 	});
@@ -647,25 +647,25 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="5" data-lugavalidator-required="true" data-lugavalidator-maxnumber="18">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="20" data-lugavalidator-required="true" data-lugavalidator-maxnumber="18">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="-25" data-lugavalidator-required="true" data-lugavalidator-maxnumber="18">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 		});
 
 	});
@@ -678,25 +678,25 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="long string" data-lugavalidator-required="true" data-lugavalidator-minlength="3">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="st" data-lugavalidator-required="true" data-lugavalidator-minlength="3">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="str" data-lugavalidator-required="true" data-lugavalidator-minlength="3">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 		});
 
 	});
@@ -709,25 +709,25 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="long string" data-lugavalidator-required="true" data-lugavalidator-maxlength="3">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="st" data-lugavalidator-required="true" data-lugavalidator-maxlength="3">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="str" data-lugavalidator-required="true" data-lugavalidator-maxlength="3">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 		});
 
 	});
@@ -741,32 +741,32 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// Matches pattern, but it's not a date
 			textNode = jQuery('<input type="text" value="2005-02-31" data-lugavalidator-required="true" data-lugavalidator-datepattern="YYYY-MM-DD">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="2005-12-31" data-lugavalidator-required="true" data-lugavalidator-datepattern="YYYY-MM-DD">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="2005-05-09" data-lugavalidator-required="true" data-lugavalidator-datepattern="YYYY-MM-DD">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="2005-5-9" data-lugavalidator-required="true" data-lugavalidator-datepattern="YYYY-MM-DD">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 		});
 
 		it("YYYY-M-D", function(){
@@ -775,32 +775,32 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// Matches pattern, but it's not a date
 			textNode = jQuery('<input type="text" value="2005-02-31" data-lugavalidator-required="true" data-lugavalidator-datepattern="YYYY-M-D">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="2005-12-31" data-lugavalidator-required="true" data-lugavalidator-datepattern="YYYY-M-D">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="2005-05-09" data-lugavalidator-required="true" data-lugavalidator-datepattern="YYYY-M-D">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="2005-5-9" data-lugavalidator-required="true" data-lugavalidator-datepattern="YYYY-M-D">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 		});
 
 		it("MM/DD/YYYY", function(){
@@ -809,32 +809,32 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// Matches pattern, but it's not a date
 			textNode = jQuery('<input type="text" value="02/31/2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="MM/DD/YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="12/31/2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="MM/DD/YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="09/05/2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="MM/DD/YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="9/5/2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="MM/DD/YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 		});
 
 		it("M/D/YYYY", function(){
@@ -843,32 +843,32 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// Matches pattern, but it's not a date
 			textNode = jQuery('<input type="text" value="02/31/2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="M/D/YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="12/31/2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="M/D/YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="09/05/2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="M/D/YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="9/5/2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="M/D/YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 		});
 
 		it("MM.DD.YYYY", function(){
@@ -877,32 +877,32 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// Matches pattern, but it's not a date
 			textNode = jQuery('<input type="text" value="02.31.2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="MM.DD.YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="12.31.2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="MM.DD.YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="09.05.2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="MM.DD.YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="9.5.2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="MM.DD.YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 		});
 
 		it("M.D.YYYY", function(){
@@ -911,32 +911,32 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// Matches pattern, but it's not a date
 			textNode = jQuery('<input type="text" value="02.31.2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="M.D.YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="12.31.2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="M.D.YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="09.05.2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="M.D.YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="9.5.2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="M.D.YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 		});
 
 		it("MM-DD-YYYY", function(){
@@ -945,32 +945,32 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// Matches pattern, but it's not a date
 			textNode = jQuery('<input type="text" value="02-31-2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="MM-DD-YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="12-31-2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="MM-DD-YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="09-05-2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="MM-DD-YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="9-5-2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="MM-DD-YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 		});
 
 		it("M-D-YYYY", function(){
@@ -979,32 +979,32 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// Matches pattern, but it's not a date
 			textNode = jQuery('<input type="text" value="02-31-2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="M-D-YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="12-31-2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="M-D-YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="09-05-2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="M-D-YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="9-5-2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="M-D-YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 		});
 
 		it("DD.MM.YYYY", function(){
@@ -1013,32 +1013,32 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// Matches pattern, but it's not a date
 			textNode = jQuery('<input type="text" value="31.02.2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="DD.MM.YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="31.12.2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="DD.MM.YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="05.09.2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="DD.MM.YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="5.9.2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="DD.MM.YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 		});
 
 		it("D.M.YYYY", function(){
@@ -1047,32 +1047,32 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// Matches pattern, but it's not a date
 			textNode = jQuery('<input type="text" value="31.02.2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="D.M.YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="31.12.2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="D.M.YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="05.09.2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="D.M.YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="5.9.2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="D.M.YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 		});
 
 		it("DD/MM/YYYY", function(){
@@ -1081,32 +1081,32 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// Matches pattern, but it's not a date
 			textNode = jQuery('<input type="text" value="31/02/2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="DD/MM/YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="31/12/2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="DD/MM/YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="05/09/2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="DD/MM/YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="5/9/2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="DD/MM/YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 		});
 
 		it("D/M/YYYY", function(){
@@ -1115,32 +1115,32 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// Matches pattern, but it's not a date
 			textNode = jQuery('<input type="text" value="31/02/2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="D/M/YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="31/12/2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="D/M/YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="05/09/2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="D/M/YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="5/9/2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="D/M/YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 		});
 
 		it("DD-MM-YYYY", function(){
@@ -1149,32 +1149,32 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// Matches pattern, but it's not a date
 			textNode = jQuery('<input type="text" value="31-02-2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="DD-MM-YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="31-12-2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="DD-MM-YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="05-09-2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="DD-MM-YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="5-9-2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="DD-MM-YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 		});
 
 		it("D-M-YYYY", function(){
@@ -1183,32 +1183,32 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// Matches pattern, but it's not a date
 			textNode = jQuery('<input type="text" value="31-02-2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="D-M-YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="31-12-2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="D-M-YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="05-09-2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="D-M-YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="5-9-2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="D-M-YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 		});
 
 	});
@@ -1222,33 +1222,33 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// Matches pattern, but it's not a date
 			textNode = jQuery('<input type="text" value="2011-02-31" data-lugavalidator-required="true" data-lugavalidator-mindate="2010-01-01">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="2010-01-02" data-lugavalidator-required="true" data-lugavalidator-mindate="2010-01-01">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			// valid, but date pattern doesn't match
 			textNode = jQuery('<input type="text" value="2011-1-1" data-lugavalidator-required="true" data-lugavalidator-mindate="2010-01-01">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="2005-01-01" data-lugavalidator-required="true" data-lugavalidator-mindate="2010-01-01">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 		});
 
 		it("Using data-lugavalidator-datepattern override default", function(){
@@ -1257,33 +1257,33 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// Matches pattern, but it's not a date
 			textNode = jQuery('<input type="text" value="31/02/2011" data-lugavalidator-required="true" data-lugavalidator-datepattern="DD/MM/YYYY" data-lugavalidator-mindate="01/01/2010">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="02/02/2010" data-lugavalidator-required="true" data-lugavalidator-datepattern="DD/MM/YYYY" data-lugavalidator-mindate="01/01/2010">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			// valid, but date pattern doesn't match
 			textNode = jQuery('<input type="text" value="2011-01-01" data-lugavalidator-required="true" data-lugavalidator-datepattern="DD/MM/YYYY" data-lugavalidator-mindate="01/01/2010">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="02/02/2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="DD/MM/YYYY" data-lugavalidator-mindate="01/01/2010">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 		});
 
 	});
@@ -1297,33 +1297,33 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// Matches pattern, but it's not a date
 			textNode = jQuery('<input type="text" value="2011-02-31" data-lugavalidator-required="true" data-lugavalidator-maxdate="2010-01-01">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="2010-01-02" data-lugavalidator-required="true" data-lugavalidator-maxdate="2010-01-01">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// valid, but date pattern doesn't match
 			textNode = jQuery('<input type="text" value="2011-1-1" data-lugavalidator-required="true" data-lugavalidator-maxdate="2010-01-01">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="2005-01-01" data-lugavalidator-required="true" data-lugavalidator-maxdate="2010-01-01">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 		});
 
 		it("Using data-lugavalidator-datepattern override default", function(){
@@ -1332,33 +1332,33 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// Matches pattern, but it's not a date
 			textNode = jQuery('<input type="text" value="31/02/2011" data-lugavalidator-required="true" data-lugavalidator-datepattern="DD/MM/YYYY" data-lugavalidator-maxdate="01/01/2010">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="02/02/2010" data-lugavalidator-required="true" data-lugavalidator-datepattern="DD/MM/YYYY" data-lugavalidator-maxdate="01/01/2010">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// valid, but date pattern doesn't match
 			textNode = jQuery('<input type="text" value="2011-01-01" data-lugavalidator-required="true" data-lugavalidator-datepattern="DD/MM/YYYY" data-lugavalidator-maxdate="01/01/2010">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="02/02/2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="DD/MM/YYYY" data-lugavalidator-maxdate="01/01/2010">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 		});
 
 	});
@@ -1374,33 +1374,33 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// Matches pattern, but it's not a date
 			textNode = jQuery('<input type="text" value="31/02/2011" data-lugavalidator-required="true" data-lugavalidator-maxdate="01/01/2010">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="02/02/2010" data-lugavalidator-required="true" data-lugavalidator-maxdate="01/01/2010">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// valid, but date pattern doesn't match
 			textNode = jQuery('<input type="text" value="2011-01-01" data-lugavalidator-required="true" data-lugavalidator-maxdate="01/01/2010">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="02/02/2005" data-lugavalidator-required="true" data-lugavalidator-maxdate="01/01/2010">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 			luga.validator.CONST.DEFAULT_DATE_PATTERN = "YYYY-MM-DD";
 		});
 	});
@@ -1415,22 +1415,22 @@ describe("luga.validator.TextValidator", function(){
 			});
 
 			textValidator.validate();
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 			expect(jQuery("#comments")).toHaveClass("invalid");
 
 			jQuery("#comments").val("x");
 			textValidator.validate();
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 			expect(jQuery("#comments")).toHaveClass("invalid");
 
 			jQuery("#comments").val("Very long piece of text");
 			textValidator.validate();
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 			expect(jQuery("#comments")).toHaveClass("invalid");
 
 			jQuery("#comments").val("five");
 			textValidator.validate();
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 			expect(jQuery("#comments")).not.toHaveClass("invalid");
 
 		});
@@ -1451,7 +1451,7 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="Mixed Case" data-lugavalidator-required="true" data-lugavalidator-lowercase="true">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
@@ -1473,7 +1473,7 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="www.lugajs.org" data-lugavalidator-required="true" data-lugavalidator-pattern="httpstart">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
@@ -1496,32 +1496,32 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			// Matches pattern, but it's not a date
 			textNode = jQuery('<input type="text" value="31 2 2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="D M YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeFalsy();
+			expect(textValidator.isValid()).toEqual(false);
 
 			textNode = jQuery('<input type="text" value="31 12 2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="D M YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="5 9 2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="D M YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 			textNode = jQuery('<input type="text" value="05 09 2005" data-lugavalidator-required="true" data-lugavalidator-datepattern="D M YYYY">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
-			expect(textValidator.isValid()).toBeTruthy();
+			expect(textValidator.isValid()).toEqual(true);
 
 		});
 

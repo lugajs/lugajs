@@ -187,23 +187,23 @@ describe("luga.form", function(){
 		describe(".isInputField()", function(){
 
 			it("Returns true if the passed node is a form field that we care about", function(){
-				expect(luga.form.utils.isInputField(jQuery("<textarea>"))).toBeTruthy();
-				expect(luga.form.utils.isInputField(jQuery("<input type='text'>"))).toBeTruthy();
-				expect(luga.form.utils.isInputField(jQuery("<input type='radio'>"))).toBeTruthy();
-				expect(luga.form.utils.isInputField(jQuery("<input type='checkbox'>"))).toBeTruthy();
-				expect(luga.form.utils.isInputField(jQuery("<input type='email'>"))).toBeTruthy();
-				expect(luga.form.utils.isInputField(jQuery("<input type='date'>"))).toBeTruthy();
-				expect(luga.form.utils.isInputField(jQuery("<input type='submit'>"))).toBeTruthy();
-				expect(luga.form.utils.isInputField(jQuery("<input type='button'>"))).toBeTruthy();
-				expect(luga.form.utils.isInputField(jQuery("<button>"))).toBeTruthy();
-				expect(luga.form.utils.isInputField(jQuery("<select>"))).toBeTruthy();
+				expect(luga.form.utils.isInputField(jQuery("<textarea>"))).toEqual(true);
+				expect(luga.form.utils.isInputField(jQuery("<input type='text'>"))).toEqual(true);
+				expect(luga.form.utils.isInputField(jQuery("<input type='radio'>"))).toEqual(true);
+				expect(luga.form.utils.isInputField(jQuery("<input type='checkbox'>"))).toEqual(true);
+				expect(luga.form.utils.isInputField(jQuery("<input type='email'>"))).toEqual(true);
+				expect(luga.form.utils.isInputField(jQuery("<input type='date'>"))).toEqual(true);
+				expect(luga.form.utils.isInputField(jQuery("<input type='submit'>"))).toEqual(true);
+				expect(luga.form.utils.isInputField(jQuery("<input type='button'>"))).toEqual(true);
+				expect(luga.form.utils.isInputField(jQuery("<button>"))).toEqual(true);
+				expect(luga.form.utils.isInputField(jQuery("<select>"))).toEqual(true);
 			});
 
 			it("False otherwise", function(){
-				expect(luga.form.utils.isInputField(jQuery("<div>"))).toBeFalsy();
-				expect(luga.form.utils.isInputField(jQuery("<form>"))).toBeFalsy();
-				expect(luga.form.utils.isInputField(jQuery("<input type='reset'>"))).toBeFalsy();
-				expect(luga.form.utils.isInputField(jQuery("<fieldset>"))).toBeFalsy();
+				expect(luga.form.utils.isInputField(jQuery("<div>"))).toEqual(false);
+				expect(luga.form.utils.isInputField(jQuery("<form>"))).toEqual(false);
+				expect(luga.form.utils.isInputField(jQuery("<input type='reset'>"))).toEqual(false);
+				expect(luga.form.utils.isInputField(jQuery("<fieldset>"))).toEqual(false);
 			});
 
 		});
@@ -211,33 +211,33 @@ describe("luga.form", function(){
 		describe(".isSuccessfulField()", function(){
 
 			it("Returns false if the field is disabled", function(){
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='b' disabled='disabled' type='text' />"))).toBeFalsy();
+				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='b' disabled='disabled' type='text' />"))).toEqual(false);
 			});
 
 			it("Returns true if the given field is successful", function(){
-				expect(luga.form.utils.isSuccessfulField(jQuery("<textarea name='a'>"))).toBeTruthy();
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='b' type='text'>"))).toBeTruthy();
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='c' type='radio'>"))).toBeTruthy();
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='d' type='checkbox'>"))).toBeTruthy();
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='e' type='email'>"))).toBeTruthy();
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='f' type='date'>"))).toBeTruthy();
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='g' type='submit'>"))).toBeTruthy();
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='h' type='button'>"))).toBeTruthy();
-				expect(luga.form.utils.isSuccessfulField(jQuery("<button name='i'>"))).toBeTruthy();
-				expect(luga.form.utils.isSuccessfulField(jQuery("<select name='l'>"))).toBeTruthy();
+				expect(luga.form.utils.isSuccessfulField(jQuery("<textarea name='a'>"))).toEqual(true);
+				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='b' type='text'>"))).toEqual(true);
+				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='c' type='radio'>"))).toEqual(true);
+				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='d' type='checkbox'>"))).toEqual(true);
+				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='e' type='email'>"))).toEqual(true);
+				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='f' type='date'>"))).toEqual(true);
+				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='g' type='submit'>"))).toEqual(true);
+				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='h' type='button'>"))).toEqual(true);
+				expect(luga.form.utils.isSuccessfulField(jQuery("<button name='i'>"))).toEqual(true);
+				expect(luga.form.utils.isSuccessfulField(jQuery("<select name='l'>"))).toEqual(true);
 			});
 
 			it("False otherwise", function(){
-				expect(luga.form.utils.isSuccessfulField(jQuery("<div>"))).toBeFalsy();
-				expect(luga.form.utils.isSuccessfulField(jQuery("<form>"))).toBeFalsy();
-				expect(luga.form.utils.isSuccessfulField(jQuery("<button>"))).toBeFalsy();
-				expect(luga.form.utils.isSuccessfulField(jQuery("<select>"))).toBeFalsy();
-				expect(luga.form.utils.isSuccessfulField(jQuery("<textarea>"))).toBeFalsy();
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input type='submit'>"))).toBeFalsy();
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input type='text'>"))).toBeFalsy();
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input type='reset'>"))).toBeFalsy();
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='test' type='reset'>"))).toBeFalsy();
-				expect(luga.form.utils.isSuccessfulField(jQuery("<fieldset>"))).toBeFalsy();
+				expect(luga.form.utils.isSuccessfulField(jQuery("<div>"))).toEqual(false);
+				expect(luga.form.utils.isSuccessfulField(jQuery("<form>"))).toEqual(false);
+				expect(luga.form.utils.isSuccessfulField(jQuery("<button>"))).toEqual(false);
+				expect(luga.form.utils.isSuccessfulField(jQuery("<select>"))).toEqual(false);
+				expect(luga.form.utils.isSuccessfulField(jQuery("<textarea>"))).toEqual(false);
+				expect(luga.form.utils.isSuccessfulField(jQuery("<input type='submit'>"))).toEqual(false);
+				expect(luga.form.utils.isSuccessfulField(jQuery("<input type='text'>"))).toEqual(false);
+				expect(luga.form.utils.isSuccessfulField(jQuery("<input type='reset'>"))).toEqual(false);
+				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='test' type='reset'>"))).toEqual(false);
+				expect(luga.form.utils.isSuccessfulField(jQuery("<fieldset>"))).toEqual(false);
 			});
 
 		});

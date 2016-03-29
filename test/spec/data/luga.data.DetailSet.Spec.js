@@ -26,13 +26,13 @@ describe("luga.data.DetailSet", function(){
 	});
 
 	it("Is the detailSet class", function(){
-		expect(jQuery.isFunction(luga.data.DetailSet)).toBeTruthy();
+		expect(jQuery.isFunction(luga.data.DetailSet)).toEqual(true);
 	});
 
 	it("Implements the Notifier interface", function(){
-		expect(jQuery.isFunction(detailSet.addObserver)).toBeTruthy();
-		expect(jQuery.isFunction(detailSet.notifyObservers)).toBeTruthy();
-		expect(jQuery.isArray(detailSet.observers)).toBeTruthy();
+		expect(jQuery.isFunction(detailSet.addObserver)).toEqual(true);
+		expect(jQuery.isFunction(detailSet.notifyObservers)).toEqual(true);
+		expect(jQuery.isArray(detailSet.observers)).toEqual(true);
 	});
 
 	describe("Accepts an Options object as single argument", function(){
