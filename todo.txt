@@ -1,7 +1,3 @@
-- Spin-off for jasmine-ducktype?
-
--------------
-
 DOCS:
 
 - Document .setUrl() for HTTP based dataSets
@@ -12,7 +8,6 @@ DOCS:
 
 AJAXFORM:
 
-- Use jasmine-ajax for tests
 - Parse and handle error messages from server
 - Use live service for samples and docs
 - Standardize JSON schema for error messages
