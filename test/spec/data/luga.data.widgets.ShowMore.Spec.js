@@ -56,7 +56,7 @@ describe("luga.data.widgets", function(){
 
 		it("Is an abstract widget", function(){
 			expect(luga.data.widgets.ShowMore).toBeDefined();
-			expect(jQuery.isFunction(luga.data.widgets.ShowMore)).toBeTruthy();
+			expect(jQuery.isFunction(luga.data.widgets.ShowMore)).toEqual(true);
 		});
 
 		it("Register itself as observer of the associated dataSource", function(){
@@ -138,13 +138,13 @@ describe("luga.data.widgets", function(){
 
 		describe(".disable()", function(){
 			it("Is an abstract method", function(){
-				expect(jQuery.isFunction(showMoreBase.disable)).toBeTruthy();
+				expect(jQuery.isFunction(showMoreBase.disable)).toEqual(true);
 			});
 		});
 
 		describe(".enable()", function(){
 			it("Is an abstract method", function(){
-				expect(jQuery.isFunction(showMoreBase.disable)).toBeTruthy();
+				expect(jQuery.isFunction(showMoreBase.disable)).toEqual(true);
 			});
 		});
 
@@ -192,11 +192,11 @@ describe("luga.data.widgets", function(){
 
 		describe(".isEnabled()", function(){
 			it("Return false by default", function(){
-				expect(showMoreBase.isEnabled()).toBeFalsy();
+				expect(showMoreBase.isEnabled()).toEqual(false);
 			});
 			it("Return true if the dataSet is ready", function(){
 				mockDs.setState(luga.data.STATE.READY);
-				expect(showMoreBase.isEnabled()).toBeTruthy();
+				expect(showMoreBase.isEnabled()).toEqual(true);
 			});
 		});
 

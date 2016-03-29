@@ -177,20 +177,20 @@ describe("luga.data.utils", function(){
 
 		describe("Returns true if the givenstate is either", function(){
 			it("loading", function(){
-				expect(luga.data.utils.isValidState("loading")).toBeTruthy();
+				expect(luga.data.utils.isValidState("loading")).toEqual(true);
 			});
 			it("error", function(){
-				expect(luga.data.utils.isValidState("error")).toBeTruthy();
+				expect(luga.data.utils.isValidState("error")).toEqual(true);
 			});
 			it("toggle", function(){
-				expect(luga.data.utils.isValidState("ready")).toBeTruthy();
+				expect(luga.data.utils.isValidState("ready")).toEqual(true);
 			});
 		});
 		describe("Otherwise", function(){
 			it("Returns false", function(){
-				expect(luga.data.utils.isValidState("whatever")).toBeFalsy();
-				expect(luga.data.utils.isValidState("test")).toBeFalsy();
-				expect(luga.data.utils.isValidState(0)).toBeFalsy();
+				expect(luga.data.utils.isValidState("whatever")).toEqual(false);
+				expect(luga.data.utils.isValidState("test")).toEqual(false);
+				expect(luga.data.utils.isValidState(0)).toEqual(false);
 			});
 		});
 

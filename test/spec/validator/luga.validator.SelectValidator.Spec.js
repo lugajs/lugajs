@@ -111,12 +111,12 @@ describe("luga.validator.SelectValidator", function(){
 			selectValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: jQuery("#notSelected")
 			});
-			expect(selectValidator.isValid()).toBeFalsy();
+			expect(selectValidator.isValid()).toEqual(false);
 
 			selectValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: jQuery("#kateSelected")
 			});
-			expect(selectValidator.isValid()).toBeTruthy();
+			expect(selectValidator.isValid()).toEqual(true);
 		});
 
 		it("Works around a weird brower bug when the size attribute is specified", function(){
@@ -126,7 +126,7 @@ describe("luga.validator.SelectValidator", function(){
 			selectValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: jQuery("#selectWithSize")
 			});
-			expect(selectValidator.isValid()).toBeFalsy();
+			expect(selectValidator.isValid()).toEqual(false);
 
 		});
 
@@ -141,12 +141,12 @@ describe("luga.validator.SelectValidator", function(){
 			selectValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: jQuery("#pizza")
 			});
-			expect(selectValidator.isValid()).toBeFalsy();
+			expect(selectValidator.isValid()).toEqual(false);
 
 			selectValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: jQuery("#spaghetti")
 			});
-			expect(selectValidator.isValid()).toBeTruthy();
+			expect(selectValidator.isValid()).toEqual(true);
 		});
 
 	});

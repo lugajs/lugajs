@@ -4,12 +4,15 @@
 
 DOCS:
 
+- Document .setUrl() for HTTP based dataSets
+- showmore-button.htm document HTML/Region
 - Data: FAQ? CORS?
 
 -------------
 
 AJAXFORM:
 
+- Use jasmine-ajax for tests
 - Parse and handle error messages from server
 - Use live service for samples and docs
 - Standardize JSON schema for error messages
@@ -23,6 +26,9 @@ VALIDATOR:
 -------------
 
 DATA:
+
+- Allow storing Handlebars code inside <template>
+https://developer.mozilla.org/en/docs/Web/HTML/Element/template
 
 luga.data.DataSet:
 - Allow custom sorter for complex objects

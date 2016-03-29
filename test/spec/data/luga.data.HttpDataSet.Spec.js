@@ -1,5 +1,3 @@
-/* global LUGA_TEST_XHR_BASE */
-
 describe("luga.data.HttpDataSet", function(){
 
 	"use strict";
@@ -79,11 +77,22 @@ describe("luga.data.HttpDataSet", function(){
 
 	describe(".loadData()", function(){
 
-		var testDs, DEFAULT_TIMEOUT, testObserver;
+		var mockJson, testDs, testObserver;
 		beforeEach(function(){
 
-			testDs = new luga.data.JsonDataSet({uuid: "uniqueDs", url: LUGA_TEST_XHR_BASE + "fixtures/data/ladies.json"});
-			DEFAULT_TIMEOUT = 2000;
+			mockJson = getJSONFixture("data/ladies.json");
+
+			jasmine.Ajax.install();
+			jasmine.Ajax.stubRequest("mock/missing.json").andReturn({
+				status: 404
+			});
+			jasmine.Ajax.stubRequest("mock/ladies.json").andReturn({
+				contentType: "application/json",
+				responseText: JSON.stringify(mockJson),
+				status: 200
+			});
+
+			testDs = new luga.data.JsonDataSet({uuid: "uniqueDs", url: "mock/ladies.json"});
 			testObserver = {
 				onDataChangedHandler: function(){
 				},
@@ -96,6 +105,10 @@ describe("luga.data.HttpDataSet", function(){
 			spyOn(testObserver, "onDataChangedHandler");
 			spyOn(testObserver, "onDataLoadingHandler");
 			spyOn(testObserver, "onXhrErrorHandler");
+		});
+
+		afterEach(function() {
+			jasmine.Ajax.uninstall();
 		});
 
 		it("Throws an exception if the dataSet's URL is null", function(){
@@ -130,81 +143,60 @@ describe("luga.data.HttpDataSet", function(){
 		});
 
 		describe("Then:", function(){
-			it("Fires an XHR request to fetch and load the data", function(done){
+			it("Fires an XHR request to fetch and load the data", function(){
 				testDs.loadData();
-				setTimeout(function(){
-					expect(testDs.getRecordsCount()).toEqual(7);
-					done();
-				}, DEFAULT_TIMEOUT);
+				expect(testDs.getRecordsCount()).toEqual(7);
 			});
 		});
 
 		describe("Then:", function(){
-			it("Update its .headers properties", function(done){
+			it("Update its .headers properties", function(){
 				var oldHeaders = testDs.headers;
 				testDs.loadData();
-				setTimeout(function(){
-					expect(oldHeaders).not.toEqual(testDs.headers);
-					done();
-				}, DEFAULT_TIMEOUT);
+				expect(oldHeaders).not.toEqual(testDs.headers);
 			});
 		});
 
 		describe("Then:", function(){
-			it("If options.incrementalLoad is false. Call .delete() to empty the dataSet", function(done){
+			it("If options.incrementalLoad is false. Call .delete() to empty the dataSet", function(){
 				spyOn(testDs, "delete").and.callFake(function(){
 				});
 				testDs.loadData();
-				setTimeout(function(){
-					expect(testDs.delete).toHaveBeenCalled();
-					done();
-				}, DEFAULT_TIMEOUT);
+				expect(testDs.delete).toHaveBeenCalled();
 			});
-			it("Else doesn't call .delete()", function(done){
+			it("Else doesn't call .delete()", function(){
 				testDs.incrementalLoad = true;
 				spyOn(testDs, "delete").and.callFake(function(){
 				});
 				testDs.loadData();
-				setTimeout(function(){
-					expect(testDs.delete).not.toHaveBeenCalled();
-					done();
-				}, DEFAULT_TIMEOUT);
+				expect(testDs.delete).not.toHaveBeenCalled();
 			});
 		});
 
 		describe("Finally:", function(){
-			it("Call .loadRecords()", function(done){
+			it("Call .loadRecords()", function(){
 				spyOn(testDs, "loadRecords").and.callFake(function(){
 				});
 				testDs.loadData();
-				setTimeout(function(){
-					expect(testDs.loadRecords).toHaveBeenCalled();
-					done();
-				}, DEFAULT_TIMEOUT);
+				expect(testDs.loadRecords).toHaveBeenCalled();
 			});
 		});
 
 		describe("In case of an HTTP error", function(){
 
 			describe("First:", function(){
-				it("Invokes .xhrError()", function(done){
+				it("Invokes .xhrError()", function(){
 					spyOn(testDs, "xhrError");
-					testDs.setUrl("missing.json");
+					testDs.setUrl("mock/missing.json");
 					testDs.loadData();
-					setTimeout(function(){
-						expect(testDs.xhrError).toHaveBeenCalled();
-						done();
-					}, DEFAULT_TIMEOUT);
+					expect(testDs.xhrError).toHaveBeenCalled();
 				});
 			});
 			describe("Then:", function(){
-				it("Triggers an 'xhrError' notification in case of an HTTP error", function(done){
-					testDs.setUrl("missing.json");
+				it("Triggers an 'xhrError' notification in case of an HTTP error", function(){
+					testDs.setUrl("mock/missing.json");
 					testDs.loadData();
-					setTimeout(function(){
-						expect(testObserver.onXhrErrorHandler).toHaveBeenCalled();
-						done();
-					}, DEFAULT_TIMEOUT);
+					expect(testObserver.onXhrErrorHandler).toHaveBeenCalled();
 				});
 			});
 
@@ -214,7 +206,7 @@ describe("luga.data.HttpDataSet", function(){
 
 	describe(".loadRecords()", function(){
 		it("Is an abstract method, child classes must implement it to extract records from XHR response", function(){
-			expect(jQuery.isFunction(testDs.loadRecords)).toBeTruthy();
+			expect(jQuery.isFunction(testDs.loadRecords)).toEqual(true);
 		});
 	});
 

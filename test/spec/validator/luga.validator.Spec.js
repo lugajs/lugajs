@@ -79,7 +79,7 @@ describe("luga.validator.handlers", function(){
 	describe("luga.validator.handlers.errorBox", function(){
 		it("Display errors inside a box above the form", function(){
 			expect(luga.validator.handlers.errorBox).toBeDefined();
-			expect(jQuery.isFunction(luga.validator.handlers.errorBox)).toBeTruthy();
+			expect(jQuery.isFunction(luga.validator.handlers.errorBox)).toEqual(true);
 		});
 	});
 
@@ -154,12 +154,12 @@ describe("luga.validator.BaseFieldValidator is an abstract class", function(){
 		var fieldValidator = luga.validator.fieldValidatorFactory.getInstance({
 			fieldNode: fieldNode
 		});
-		expect(fieldNode.hasClass("invalid")).toBeFalsy();
+		expect(fieldNode.hasClass("invalid")).toEqual(false);
 		fieldValidator.flagInvalid();
-		expect(fieldNode.hasClass("invalid")).toBeTruthy();
+		expect(fieldNode.hasClass("invalid")).toEqual(true);
 		expect(fieldNode.attr("title")).toEqual("Invalid field!");
 		fieldValidator.flagValid();
-		expect(fieldNode.hasClass("invalid")).toBeFalsy();
+		expect(fieldNode.hasClass("invalid")).toEqual(false);
 		expect(fieldNode.attr("title")).toBeUndefined();
 	});
 
@@ -168,8 +168,8 @@ describe("luga.validator.BaseFieldValidator is an abstract class", function(){
 		var fieldValidator = luga.validator.fieldValidatorFactory.getInstance({
 			fieldNode: fieldNode
 		});
-		expect(fieldValidator.validate()).toBeFalsy();
-		expect(fieldNode.hasClass("invalid")).toBeFalsy();
+		expect(fieldValidator.validate()).toEqual(false);
+		expect(fieldNode.hasClass("invalid")).toEqual(false);
 	});
 
 	describe(".name", function(){

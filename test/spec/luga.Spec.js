@@ -83,7 +83,7 @@ describe("luga", function(){
 				};
 				var result = luga.lookupFunction("MyLookup");
 				expect(result).not.toBeUndefined();
-				expect(jQuery.isFunction(result)).toBeTruthy();
+				expect(jQuery.isFunction(result)).toEqual(true);
 			});
 
 			it("Or any given namespace (if the fully qualified name is passed)", function(){
@@ -92,7 +92,7 @@ describe("luga", function(){
 				};
 				var result = luga.lookupFunction("myLookUpSpace.myFunction");
 				expect(result).not.toBeUndefined();
-				expect(jQuery.isFunction(result)).toBeTruthy();
+				expect(jQuery.isFunction(result)).toEqual(true);
 			});
 
 			describe("Returns undefined if:", function(){
@@ -231,7 +231,7 @@ describe("luga", function(){
 		});
 
 		it("Is an interface class, it can only be used as a base class", function(){
-			expect(jQuery.isFunction(luga.Notifier)).toBeTruthy();
+			expect(jQuery.isFunction(luga.Notifier)).toEqual(true);
 		});
 
 		it("Throws an exception if instantiated directly", function(){
@@ -243,7 +243,7 @@ describe("luga", function(){
 		describe(".observers", function(){
 
 			it("Is an array", function(){
-				expect(jQuery.isArray(notifierObj.observers)).toBeTruthy();
+				expect(jQuery.isArray(notifierObj.observers)).toEqual(true);
 				expect(notifierObj.observers.length).toEqual(0);
 			});
 

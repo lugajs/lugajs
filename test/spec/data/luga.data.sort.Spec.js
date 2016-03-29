@@ -48,20 +48,20 @@ describe("luga.data.sort", function(){
 
 		describe("Returns true if the given sortOrder is either", function(){
 			it("ascending", function(){
-				expect(luga.data.sort.isValidSortOrder("ascending")).toBeTruthy();
+				expect(luga.data.sort.isValidSortOrder("ascending")).toEqual(true);
 			});
 			it("descending", function(){
-				expect(luga.data.sort.isValidSortOrder("descending")).toBeTruthy();
+				expect(luga.data.sort.isValidSortOrder("descending")).toEqual(true);
 			});
 			it("toggle", function(){
-				expect(luga.data.sort.isValidSortOrder("toggle")).toBeTruthy();
+				expect(luga.data.sort.isValidSortOrder("toggle")).toEqual(true);
 			});
 		});
 		describe("Otherwise", function(){
 			it("Returns false", function(){
-				expect(luga.data.sort.isValidSortOrder("asc")).toBeFalsy();
-				expect(luga.data.sort.isValidSortOrder("test")).toBeFalsy();
-				expect(luga.data.sort.isValidSortOrder(0)).toBeFalsy();
+				expect(luga.data.sort.isValidSortOrder("asc")).toEqual(false);
+				expect(luga.data.sort.isValidSortOrder("test")).toEqual(false);
+				expect(luga.data.sort.isValidSortOrder(0)).toEqual(false);
 			});
 		});
 

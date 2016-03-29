@@ -17,7 +17,7 @@ describe("luga.data", function(){
 
 	it("Stores a registry of dataSources available on the current page", function(){
 		expect(luga.data.dataSourceRegistry).toBeDefined();
-		expect(jQuery.isPlainObject(luga.data.dataSourceRegistry)).toBeTruthy();
+		expect(jQuery.isPlainObject(luga.data.dataSourceRegistry)).toEqual(true);
 	});
 
 	describe("A reference is stored inside the registry for each:", function(){

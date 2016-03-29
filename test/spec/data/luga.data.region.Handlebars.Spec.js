@@ -35,7 +35,7 @@ describe("luga.data.region.Handlebars", function(){
 
 	it("Is the default region type", function(){
 		expect(luga.data.region.Handlebars).toBeDefined();
-		expect(jQuery.isFunction(luga.data.region.Handlebars)).toBeTruthy();
+		expect(jQuery.isFunction(luga.data.region.Handlebars)).toEqual(true);
 	});
 
 	it("Implements the luga.data.region.Base abstract class", function(){

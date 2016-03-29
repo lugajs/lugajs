@@ -24,13 +24,13 @@ describe("luga.validator.CheckboxValidator", function(){
 
 		expect(formValidator.validate().length).toEqual(1);
 		expect(formValidator.validate()[0].message).toEqual("Select a Lady");
-		expect(formValidator.isValid()).toBeFalsy();
+		expect(formValidator.isValid()).toEqual(false);
 		expect(jQuery("#Nicole")).toHaveClass("invalid");
 
 		// Check one box
 		jQuery("#Nicole").prop("checked", true);
 		expect(formValidator.validate().length).toEqual(0);
-		expect(formValidator.isValid()).toBeTruthy();
+		expect(formValidator.isValid()).toEqual(true);
 		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
 	});
 
@@ -42,10 +42,10 @@ describe("luga.validator.CheckboxValidator", function(){
 		});
 
 		expect(formValidator.validate().length).toEqual(0);
-		expect(formValidator.isValid()).toBeTruthy();
+		expect(formValidator.isValid()).toEqual(true);
 		jQuery("#Nicole").prop("checked", true);
 		expect(formValidator.validate().length).toEqual(0);
-		expect(formValidator.isValid()).toBeTruthy();
+		expect(formValidator.isValid()).toEqual(true);
 	});
 
 	it("Skips disabled fields", function(){
@@ -56,12 +56,12 @@ describe("luga.validator.CheckboxValidator", function(){
 		});
 
 		expect(formValidator.validate().length).toEqual(0);
-		expect(formValidator.isValid()).toBeTruthy();
+		expect(formValidator.isValid()).toEqual(true);
 		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
 
 		jQuery("#Nicole").prop("checked", true);
 		expect(formValidator.validate().length).toEqual(0);
-		expect(formValidator.isValid()).toBeTruthy();
+		expect(formValidator.isValid()).toEqual(true);
 		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
 	});
 
@@ -73,12 +73,12 @@ describe("luga.validator.CheckboxValidator", function(){
 		});
 
 		expect(formValidator.validate().length).toEqual(0);
-		expect(formValidator.isValid()).toBeTruthy();
+		expect(formValidator.isValid()).toEqual(true);
 		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
 
 		jQuery("#Nicole").prop("checked", true);
 		expect(formValidator.validate().length).toEqual(0);
-		expect(formValidator.isValid()).toBeTruthy();
+		expect(formValidator.isValid()).toEqual(true);
 		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
 	});
 
@@ -91,13 +91,13 @@ describe("luga.validator.CheckboxValidator", function(){
 
 		expect(formValidator.validate().length).toEqual(1);
 		expect(formValidator.validate()[0].message).toEqual("Select a Lady");
-		expect(formValidator.isValid()).toBeFalsy();
+		expect(formValidator.isValid()).toEqual(false);
 		expect(jQuery("#maxNicole")).toHaveClass("invalid");
 
 		// Check one box
 		jQuery("#maxNicole").prop("checked", true);
 		expect(formValidator.validate().length).toEqual(0);
-		expect(formValidator.isValid()).toBeTruthy();
+		expect(formValidator.isValid()).toEqual(true);
 		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
 
 		// Check three boxes
@@ -106,7 +106,7 @@ describe("luga.validator.CheckboxValidator", function(){
 		jQuery("#maxJennifer").prop("checked", true);
 		expect(formValidator.validate().length).toEqual(1);
 		expect(formValidator.validate()[0].message).toEqual("Select a Lady");
-		expect(formValidator.isValid()).toBeFalsy();
+		expect(formValidator.isValid()).toEqual(false);
 		expect(jQuery("#maxNicole")).toHaveClass("invalid");
 	});
 
@@ -118,7 +118,7 @@ describe("luga.validator.CheckboxValidator", function(){
 		});
 
 		expect(formValidator.validate().length).toEqual(0);
-		expect(formValidator.isValid()).toBeTruthy();
+		expect(formValidator.isValid()).toEqual(true);
 		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
 
 	});
