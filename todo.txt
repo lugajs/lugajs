@@ -1,7 +1,3 @@
-- Spin-off for jasmine-ducktype?
-
--------------
-
 DOCS:
 
 - Document .setUrl() for HTTP based dataSets
