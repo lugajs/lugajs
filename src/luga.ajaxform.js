@@ -72,11 +72,13 @@ if(typeof(luga) === "undefined"){
 	luga.ajaxform.CONST = {
 		FORM_SELECTOR: "form[data-lugajax-form='true']",
 		DEFAULT_METHOD: "GET",
+		DEFAULT_HEADERS: {},
 		DEFAULT_TIME_OUT: 30000, // ms
 		CUSTOM_ATTRIBUTES: {
 			AJAX: "data-lugajax-form",
 			ACTION: "data-lugajax-action",
 			METHOD: "data-lugajax-method",
+			HEADERS: "data-lugajax-headers",
 			TIME_OUT: "data-lugajax-timeout",
 			SUCCESS: "data-lugajax-success",
 			SUCCESS_MSG: "data-lugajax-successmsg",
@@ -103,6 +105,7 @@ if(typeof(luga) === "undefined"){
 	 * @property {jquery} formNode     Either a jQuery object wrapping the form or the naked DOM object. Required
 	 * @property {string} action       URL to where the form will be send. Default to the current URL
 	 * @property {string} method       HTTP method to be used. Default to GET
+	 * @property {object} headers      HTTP headers to be added to request.
 	 * @property {number} timeout      Timeout to be used during the HTTP call (milliseconds). Default to 30000
 	 * @property {string} success      Name of the function to be invoked if the form is successfully submitted. Default to luga.ajaxform.handlers.replaceForm
 	 * @property {string} error        Name of the function to be invoked if the HTTP call failed. Default to luga.ajaxform.handlers.errorAlert
@@ -127,6 +130,8 @@ if(typeof(luga) === "undefined"){
 			action: options.formNode.attr("action") || options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.ACTION) || document.location.href,
 			// Either: form attribute, custom attribute, incoming option or default
 			method: options.formNode.attr("method") || options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.METHOD) || luga.ajaxform.CONST.DEFAULT_METHOD,
+
+			headers: options.formNode.attr("headers") || options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.HEADERS) || luga.ajaxform.CONST.DEFAULT_HEADERS,
 			// Either: custom attribute, incoming option or default
 			timeout: options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.TIME_OUT) || luga.ajaxform.CONST.DEFAULT_TIME_OUT,
 			success: options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.SUCCESS) || luga.ajaxform.CONST.HANDLERS.SUCCESS,
@@ -213,6 +218,7 @@ if(typeof(luga) === "undefined"){
 				error: function(jqXHR, textStatus, errorThrown){
 					handleError(textStatus, jqXHR, errorThrown);
 				},
+				headers:self.config.headers,
 				method: self.config.method,
 				success: function(response, textStatus, jqXHR){
 					handleSuccess(textStatus, jqXHR);
@@ -241,6 +247,7 @@ if(typeof(luga) === "undefined"){
 			jQuery.ajax({
 				contentType: "application/json",
 				data: JSON.stringify(formData),
+				headers:self.config.headers,
 				error: function(jqXHR, textStatus, errorThrown){
 					handleError(textStatus, jqXHR, errorThrown);
 				},
