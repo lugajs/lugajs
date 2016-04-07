@@ -52,6 +52,13 @@ describe("luga.ajaxform", function(){
 			after: "ajaxFormHandlers.customAfter"
 		});
 
+		configSender = new luga.ajaxform.Sender({
+			formNode: jQuery("#basic"),
+			headers: {
+				"Authorization":"CustomAuthorizationHeader"
+			}
+});
+
 		ajaxFormHandlers.customSuccessHandler = function(){
 		};
 		ajaxFormHandlers.customErrorHandler = function(){
