@@ -13,7 +13,7 @@ describe("luga.data.HttpDataSet", function(){
 		}).toThrow();
 	});
 
-	afterEach(function() {
+	afterEach(function(){
 		luga.data.dataSourceRegistry = {};
 	});
 
@@ -107,7 +107,7 @@ describe("luga.data.HttpDataSet", function(){
 			spyOn(testObserver, "onXhrErrorHandler");
 		});
 
-		afterEach(function() {
+		afterEach(function(){
 			jasmine.Ajax.uninstall();
 		});
 
@@ -150,14 +150,6 @@ describe("luga.data.HttpDataSet", function(){
 		});
 
 		describe("Then:", function(){
-			it("Update its .headers properties", function(){
-				var oldHeaders = testDs.headers;
-				testDs.loadData();
-				expect(oldHeaders).not.toEqual(testDs.headers);
-			});
-		});
-
-		describe("Then:", function(){
 			it("If options.incrementalLoad is false. Call .delete() to empty the dataSet", function(){
 				spyOn(testDs, "delete").and.callFake(function(){
 				});
@@ -174,11 +166,19 @@ describe("luga.data.HttpDataSet", function(){
 		});
 
 		describe("Finally:", function(){
+
 			it("Call .loadRecords()", function(){
 				spyOn(testDs, "loadRecords").and.callFake(function(){
 				});
 				testDs.loadData();
 				expect(testDs.loadRecords).toHaveBeenCalled();
+			});
+
+			it("Headers are preserved across multiple calls", function(){
+				var oldHeaders = testDs.headers;
+				testDs.loadData();
+				testDs.loadData();
+				expect(oldHeaders).toEqual(testDs.headers);
 			});
 		});
 

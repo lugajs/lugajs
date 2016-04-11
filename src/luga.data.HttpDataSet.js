@@ -91,7 +91,6 @@
 			var xhrOptions = {
 				url: self.url,
 				success: function(response, textStatus, jqXHR){
-					updateHeaders(jqXHR.getAllResponseHeaders());
 					if(self.incrementalLoad === false){
 						self.delete();
 					}
@@ -107,17 +106,6 @@
 				xhrOptions.dataType = self.dataType;
 			}
 			self.xhrRequest = jQuery.ajax(xhrOptions);
-		};
-
-		var updateHeaders = function(headersStr){
-			self.headers = {};
-			var tokens = headersStr.split("\r\n");
-			for(var i = 0; i < tokens.length; i++){
-				var parts = tokens[i].split(": ");
-				if((parts[0] !== undefined) && (parts[1] !== undefined)){
-					self.headers[parts[0]] = parts[1];
-				}
-			}
 		};
 
 		/* Public methods */

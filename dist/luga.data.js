@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.3.14 2016-03-29T20:12:27.286Z
+Luga Data 0.3.14 2016-04-11T16:32:36.267Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -19,7 +19,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.3.14";
+	luga.data.version = "0.3.15";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -1089,7 +1089,6 @@ if(typeof(luga) === "undefined"){
 			var xhrOptions = {
 				url: self.url,
 				success: function(response, textStatus, jqXHR){
-					updateHeaders(jqXHR.getAllResponseHeaders());
 					if(self.incrementalLoad === false){
 						self.delete();
 					}
@@ -1105,17 +1104,6 @@ if(typeof(luga) === "undefined"){
 				xhrOptions.dataType = self.dataType;
 			}
 			self.xhrRequest = jQuery.ajax(xhrOptions);
-		};
-
-		var updateHeaders = function(headersStr){
-			self.headers = {};
-			var tokens = headersStr.split("\r\n");
-			for(var i = 0; i < tokens.length; i++){
-				var parts = tokens[i].split(": ");
-				if((parts[0] !== undefined) && (parts[1] !== undefined)){
-					self.headers[parts[0]] = parts[1];
-				}
-			}
 		};
 
 		/* Public methods */
