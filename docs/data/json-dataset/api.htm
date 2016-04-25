@@ -291,6 +291,39 @@ testDs.loadData();
 
 		</div>
 
+		<div id="setUrl" class="panel panel-default">
+			<div class="panel-heading luga-docs-api-heading">.setUrl(url)</div>
+			<div class="panel-body">
+				Set the URL that will be used to fetch the data.
+				This method does not load the data into the data set, it merely sets the internal URL.
+				The developer must call loadData() to actually trigger the data loading
+			</div>
+			<table class="table table-bordered luga-docs-api">
+				<th colspan="3">Arguments</th>
+				<tr>
+					<td>url</td>
+					<td class="luga-docs-type">
+						{string}
+					</td>
+					<td>
+						New URL. Required.
+					</td>
+				</tr>
+			</table>
+			<table class="table table-bordered luga-docs-api">
+				<th>Examples</th>
+			</table>
+
+<pre><code class="line-numbers language-javascript">var testDs = new luga.data.JsonDataSet({
+	uuid: "peopleDs",
+	url: "people.json"
+	});
+	testDs.setUrl("ladies.json");
+	testDs.loadData();
+</code></pre>
+
+		</div>
+
 	</div>
 
 	<div data-lugacsi="../nav-local.inc"></div>
