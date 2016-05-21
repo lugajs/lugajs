@@ -5,10 +5,13 @@ DOCS:
 - Luga.data FAQ: Why no active records
 - Luga.data: example with event delegation: https://learn.jquery.com/events/event-delegation/
 
+- Add marker to navbar
+
 -------------
 
 AJAXFORM:
 
+- Add support for custom headers
 - Parse and handle error messages from server
 - Use live service for samples and docs
 - Standardize JSON schema for error messages
@@ -23,11 +26,11 @@ VALIDATOR:
 
 DATA:
 
-- Try and minimize re-redering of region:
+- Try and minimize re-rendering of region:
   Add option to prevent notification on setState()?
 
 - Allow storing Handlebars code inside <template>
-https://developer.mozilla.org/en/docs/Web/HTML/Element/template
+  https://developer.mozilla.org/en/docs/Web/HTML/Element/template
 
 luga.data.DataSet:
 - Allow custom sorter for complex objects
