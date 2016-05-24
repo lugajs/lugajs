@@ -40,7 +40,7 @@ luga.data.PagedData
 
 WIDGETS:
 
-luga.data.widgets.Navbar (needs PagedData)
+luga.data.widgets.PagingBar (needs PagedData)
 - Different GUI styles: Bootstrap, PageList, LinkList
 
 luga.data.widgets.Autosuggest
