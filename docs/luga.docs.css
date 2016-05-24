@@ -54,7 +54,7 @@ dl, dt, dd, ol, ul, li {
 	text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.1);
 }
 
-.luga-docs .dropdown-menu > .active > a {
+.luga-docs .dropdown-menu > .current > a {
 	color: #FFFFFF !important;
 }
 
@@ -89,6 +89,11 @@ dl, dt, dd, ol, ul, li {
 	background-color: #FFFFFF;
 	display: block;
 	text-decoration: none;
+}
+
+.luga-docs .luga-nav-local .current {
+	font-style: italic;
+	font-weight: bold;
 }
 
 .luga-docs .luga-nav-local .list-group li.luga-docs-list-heading,

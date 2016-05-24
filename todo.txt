@@ -5,8 +5,6 @@ DOCS:
 - Luga.data FAQ: Why no active records
 - Luga.data: example with event delegation: https://learn.jquery.com/events/event-delegation/
 
-- Add marker to navbar
-
 -------------
 
 AJAXFORM:
