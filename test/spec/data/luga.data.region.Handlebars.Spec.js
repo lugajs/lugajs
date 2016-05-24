@@ -104,13 +104,43 @@ describe("luga.data.region.Handlebars", function(){
 			describe("Else:", function(){
 
 				it("Use jQuery.ajax() to fetch the external template", function(){
-					spyOn(jQuery, "ajax");
+
+					spyOn(Handlebars, "compile");
+					jasmine.Ajax.install();
+					jasmine.Ajax.stubRequest("mock.htm").andReturn({
+						contentType: "text/html",
+						status: 200,
+						responseText: "stub Handlebars"
+					});
+
+					new luga.data.region.Handlebars({
+						node: testDiv,
+						dsUuid: "testDs",
+						templateId: "mockTemplate"
+					});
+
+					expect(Handlebars.compile).toHaveBeenCalledWith("stub Handlebars");
+				});
+
+				it("Does not compile/render if the external template is missing", function(){
+
+					spyOn(Handlebars, "compile");
+					jasmine.Ajax.install();
+					jasmine.Ajax.stubRequest("missing.htm").andReturn({
+						status: 404
+					});
+
 					new luga.data.region.Handlebars({
 						node: testDiv,
 						dsUuid: "testDs",
 						templateId: "missingTemplate"
 					});
-					expect(jQuery.ajax).toHaveBeenCalled();
+
+					expect(Handlebars.compile).not.toHaveBeenCalled();
+				});
+
+				afterEach(function(){
+					jasmine.Ajax.uninstall();
 				});
 
 			});

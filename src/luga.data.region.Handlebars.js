@@ -72,6 +72,7 @@
 		 @fires regionRendered
 		 */
 		this.render = function(){
+			/* istanbul ignore else */
 			if(this.template !== ""){
 				this.config.node.html(this.generateHtml());
 				this.applyTraits();
