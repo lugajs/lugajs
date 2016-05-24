@@ -2,8 +2,10 @@ DOCS:
 
 - Luga.data CORS?
 - Luga.data Search sample (need REST endpoint)
-- Luga.data FAQ: Why no active records
 - Luga.data: example with event delegation: https://learn.jquery.com/events/event-delegation/
+- Luga.data FAQ:
+  Why no active records
+  Why multiple rendering
 
 -------------
 
@@ -23,9 +25,6 @@ VALIDATOR:
 -------------
 
 DATA:
-
-- Try and minimize re-rendering of region:
-  Add option to prevent notification on setState()?
 
 - Allow storing Handlebars code inside <template>
   https://developer.mozilla.org/en/docs/Web/HTML/Element/template
