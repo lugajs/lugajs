@@ -45,11 +45,20 @@
 			{{/each}}
 		</ul>
 	</script>
+
 	<script id="ladiesTable" type="text/x-handlebars-template" src="../templates/people-table.hbs"></script>
 
 </head>
 
 <body class="luga-docs">
+
+<template id="myTemplateTag">
+	<ul class="luga-docs-list">
+		{{#each entities}}
+		<li>{{firstName}} {{lastName}}</li>
+		{{/each}}
+	</ul>
+</template>
 
 <div data-lugacsi="../../luga-docs-nav-main.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
 
@@ -106,16 +115,16 @@
 		<div class="panel panel-default">
 			<div id="embedTemplate" class="panel-heading">Embed template</div>
 			<div class="panel-body">
-				
+
 				<p>
 					An embed template store Handlebar's code in a &lt;script&gt; tag inside the current page.
-					This way it will not be visible  and parsed by the browser before the JavaScript code gets executed, it will not be indexed by search engines either.
+					This way it will not be visible and parsed by the browser before the JavaScript code gets executed, it will not be indexed by search engines either.
 				</p>
 				<div class="alert alert-warning" role="alert">
 					<strong>Warning!</strong><br>
 					It's critical to add the appropriated type attribute to the &lt;script&gt; tag, this way the browser will not execute it as JavaScript code.
 				</div>
-				
+
 <pre><code class="line-numbers language-markup">&lt;script id="ladiesTemplate" type="text/x-handlebars-template"&gt;
 	&lt;ul class="luga-docs-list"&gt;
 		{{#each entities}}
@@ -135,6 +144,36 @@
 </code></pre>
 
 				<div data-lugaregion="true" data-lugaregion-datasource-uuid="ladiesDs" data-lugaregion-template-id="ladiesTemplate"></div>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div id="templateTag" class="panel-heading">The &lt;template&gt; tag</div>
+			<div class="panel-body">
+
+				<p>
+					As an alternative you can store Handlebar's code inside a <a href="https://developer.mozilla.org/en/docs/Web/HTML/Element/template">&lt;template&gt;</a>
+				</p>
+
+<pre><code class="line-numbers language-markup">&lt;template id="myTemplateTag"&gt;
+	&lt;ul class="luga-docs-list"&gt;
+	{{#each entities}}
+	&lt;li&gt;{{firstName}} {{lastName}}&lt;/li&gt;
+	{{/each}}
+	&lt;/ul&gt;
+	&lt;/script&gt;
+</code></pre>
+
+				<p>
+					Then you use the data-lugaregion-template-id custom attribute inside the region:
+				</p>
+
+<pre><code class="language-markup">&lt;div data-lugaregion="true"
+	data-lugaregion-datasource-uuid="ladiesDs"
+	data-lugaregion-template-id="myTemplateTag"&gt;&lt;/div&gt;
+</code></pre>
+
+				<div data-lugaregion="true" data-lugaregion-datasource-uuid="ladiesDs" data-lugaregion-template-id="myTemplateTag"></div>
 			</div>
 		</div>
 
