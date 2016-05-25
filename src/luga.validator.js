@@ -29,11 +29,13 @@ if(typeof(luga) === "undefined"){
 			// Append to the error string
 			errorMsg += validators[i].message + "\n";
 			// Give focus to the first invalid text field
+			/* istanbul ignore else */
 			if((focusGiven === false) && (validators[i].getFocus)){
 				validators[i].getFocus();
 				focusGiven = true;
 			}
 		}
+		/* istanbul ignore else */
 		if(errorMsg !== ""){
 			alert(errorMsg);
 		}
@@ -93,6 +95,7 @@ if(typeof(luga) === "undefined"){
 			// Display alert message
 			fieldNode.before(jQuery(luga.string.format(FAILED_UPDATE, [validators[i].message])));
 			// Give focus to the first invalid text field
+			/* istanbul ignore else */
 			if((focusGiven === false) && (validators[i].getFocus)){
 				validators[i].getFocus();
 				focusGiven = true;
@@ -196,6 +199,7 @@ if(typeof(luga) === "undefined"){
 			self.dirtyValidators = [];
 			var formDom = self.config.formNode[0];
 			for(var i = 0; i < formDom.elements.length; i++){
+				/* istanbul ignore else */
 				if(luga.form.utils.isInputField(formDom.elements[i]) === true){
 					self.validators.push(luga.validator.fieldValidatorFactory.getInstance({
 						fieldNode: formDom.elements[i],
@@ -532,21 +536,19 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.isRequired = function(){
 			var requiredAtt = this.config.required;
-			if(requiredAtt){
-				if(requiredAtt === true){
-					return true;
-				}
-				if(requiredAtt === false){
-					return false;
-				}
-				// It's a conditional validation. Invoke the relevant function if available
-				var functionReference = luga.lookupFunction(requiredAtt);
-				if(functionReference !== undefined){
-					return functionReference.apply(null, [self.node]);
-				}
-				else{
-					alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [requiredAtt]));
-				}
+			if(requiredAtt === true){
+				return true;
+			}
+			if(requiredAtt === false){
+				return false;
+			}
+			// It's a conditional validation. Invoke the relevant function if available
+			var functionReference = luga.lookupFunction(requiredAtt);
+			if(functionReference !== undefined){
+				return functionReference.apply(null, [self.node]);
+			}
+			else{
+				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [requiredAtt]));
 			}
 			return false;
 		};
@@ -714,6 +716,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		this.flagInvalid = function(){
+			/* istanbul ignore else */
 			if(this.errorclass !== ""){
 				for(var i = 0; i < this.inputGroup.length; i++){
 					var field = jQuery(this.inputGroup[i]);
@@ -1100,6 +1103,7 @@ if(typeof(luga) === "undefined"){
 	 * @returns {boolean}
 	 */
 	luga.validator.api.validateForm = function(options){
+		/* istanbul ignore else */
 		if(options.error === undefined){
 			options.error = luga.validator.CONST.HANDLERS.FORM_ERROR;
 		}
@@ -1135,6 +1139,7 @@ if(typeof(luga) === "undefined"){
 		if(luga.form.utils.isInputField(options.fieldNode) === false){
 			throw(luga.validator.CONST.MESSAGES.FIELD_CANT_BE_VALIDATED);
 		}
+		/* istanbul ignore else */
 		if(options.error === undefined){
 			options.error = luga.validator.CONST.HANDLERS.FORM_ERROR;
 		}
@@ -1168,6 +1173,7 @@ if(typeof(luga) === "undefined"){
 	 * @returns {boolean}
 	 */
 	luga.validator.api.validateFields = function(options){
+		/* istanbul ignore else */
 		if(!options.error){
 			options.error = luga.validator.CONST.HANDLERS.FORM_ERROR;
 		}
@@ -1176,6 +1182,7 @@ if(typeof(luga) === "undefined"){
 		var dirtyValidators = [];
 
 		for(var i = 0; i < options.fields.length; i++){
+			/* istanbul ignore else */
 			if(luga.form.utils.isInputField(options.fields[i]) === true){
 				validators.push(luga.validator.fieldValidatorFactory.getInstance({
 					fieldNode: options.fields[i]
@@ -1183,6 +1190,7 @@ if(typeof(luga) === "undefined"){
 			}
 		}
 		for(var j = 0; j < validators.length; j++){
+			/* istanbul ignore else */
 			if(validators[j] && validators[j].validate){
 				if(executedValidators[validators[j].name] !== undefined){
 					// Already validated checkbox or radio, skip it
