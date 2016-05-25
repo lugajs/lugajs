@@ -10,6 +10,7 @@ describe("luga.csi", function(){
 	beforeEach(function(){
 		plainDiv = jQuery("<div></div>");
 
+		loadFixtures("csi/basic.htm");
 		jasmine.Ajax.install();
 		jasmine.Ajax.stubRequest("mock/missing.htm").andReturn({
 			status: 404
@@ -38,6 +39,11 @@ describe("luga.csi", function(){
 		expect(luga.csi).toBeDefined();
 	});
 
+	it("Allows client-side includes using a declarative syntax", function(){
+		luga.csi.loadIncludes();
+		expect(jQuery("#mockCsi").text()).toEqual(jQuery("#mockCsi").text());
+	});
+
 	describe(".version", function(){
 		it("Reports the current version number", function(){
 			expect(luga.csi.version).toBeDefined();
@@ -58,18 +64,6 @@ describe("luga.csi", function(){
 				includeObj.load();
 
 				expect(jQuery.ajax).toHaveBeenCalled();
-			});
-
-			it("Calls its error handler if the file to include does not exists", function(){
-
-				var includeObj = new luga.csi.Include({
-					rootNode: plainDiv,
-					url: "mock/missing.htm",
-					error: csiHandlers.customError
-				});
-				includeObj.load();
-				expect(csiHandlers.customError).toHaveBeenCalled();
-
 			});
 
 			describe("First:", function(){
@@ -96,6 +90,36 @@ describe("luga.csi", function(){
 					});
 					includeObj.load();
 					expect(csiHandlers.customError).toHaveBeenCalled();
+				});
+
+			});
+
+			describe("In case the file to include does not exists. Either:", function(){
+
+				it("Throws an error", function(){
+					// Can't figure out why Jasmine doesn't trap the exception here
+					// Use a very stupid strategy to check if the default error function has been invoked
+
+					spyOn(luga.string, "format");
+					var includeObj = new luga.csi.Include({
+						rootNode: plainDiv,
+						url: "mock/missing.htm"
+					});
+					includeObj.load();
+					expect(luga.string.format).toHaveBeenCalledWith(luga.csi.CONST.MESSAGES.FILE_NOT_FOUND, ["mock/missing.htm"]);
+
+				});
+
+				it("Calls its custom error handler (if defined)", function(){
+
+					var includeObj = new luga.csi.Include({
+						rootNode: plainDiv,
+						url: "mock/missing.htm",
+						error: csiHandlers.customError
+					});
+					includeObj.load();
+					expect(csiHandlers.customError).toHaveBeenCalled();
+
 				});
 
 			});
