@@ -89,6 +89,7 @@
 	};
 
 	jQuery(document).ready(function(){
+		/* istanbul ignore next */
 		jQuery(luga.data.region.CONST.SELECTORS.REGION).each(function(index, item){
 			luga.data.region.init(jQuery(item));
 		});
