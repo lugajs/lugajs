@@ -149,6 +149,7 @@ if(typeof(luga) === "undefined"){
 		 * @throws
 		 */
 		var handleAfter = function(){
+			/* istanbul ignore else */
 			if(self.config.after !== null){
 				var callBack = luga.lookupFunction(self.config.after);
 				if(callBack === undefined){
@@ -162,6 +163,7 @@ if(typeof(luga) === "undefined"){
 		 * @throws
 		 */
 		var handleBefore = function(){
+			/* istanbul ignore else */
 			if(self.config.before !== null){
 				var callBack = luga.lookupFunction(self.config.before);
 				if(callBack === undefined){
