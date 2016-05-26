@@ -1,6 +1,5 @@
 DOCS:
 
-- Luga.data CORS?
 - Luga.data Search sample (need REST endpoint)
 - Luga.data: example with event delegation: https://learn.jquery.com/events/event-delegation/
 - Luga.data FAQ:
