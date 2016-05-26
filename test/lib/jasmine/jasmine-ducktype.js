@@ -15,6 +15,11 @@ if(typeof(jQuery) === "undefined"){
 						result.message = "Please specify an instance of a duckType";
 						return result;
 					}
+					if(jQuery.type(actual) !== jQuery.type(duckType)){
+						result.message = "Type mismatch: " + jQuery.type(actual) + " vs " + jQuery.type(duckType);
+						return result;
+					}
+
 					if(duckType === undefined){
 						// By default we check for type
 						matchType = true;
