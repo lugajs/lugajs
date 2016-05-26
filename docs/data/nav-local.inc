@@ -99,6 +99,9 @@
 
 		<li class="luga-docs-list-heading list-group-item">Troubleshooting</li>
 		<li class="list-group-item">
+			<a href="../docs/faq.htm">FAQ</a>
+		</li>
+		<li class="list-group-item">
 			<a href="../docs/debugging.htm">Debugging tips</a>
 		</li>
 

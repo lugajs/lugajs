@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<link rel="shortcut icon" type="image/png" href="../../luga-favicon.png"/>
+	<title>Luga Data :: FAQ</title>
+
+	<!-- Libs -->
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../lib/handlebars.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/bootstrap/css/bootstrap.min.css"/>
+	<script src="../../../lib/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../../../lib/prism/prism.css"/>
+	<script src="../../../lib/prism/prism.js"></script>
+
+	<!-- Luga JS -->
+	<link rel="stylesheet" href="../../../src/luga.css"/>
+	<script src="../../../dist/luga.min.js"></script>
+	<script src="../../../dist/luga.data.min.js"></script>
+
+	<!-- Docs -->
+	<link rel="stylesheet" href="../../luga.docs.css"/>
+	<script src="../../luga-docs.js"></script>
+
+</head>
+
+<body class="luga-docs">
+
+<div data-lugacsi="../../luga-docs-nav-main.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
+
+<div class="container-fluid">
+	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+
+		<div class="panel panel-default">
+			<div id="loadData" class="panel-heading">Why regions are rendered so often?</div>
+			<div class="panel-body">
+
+				<p>
+					Region associated with a DataSet may indeed be rendered more often than you would have expected.
+					This happens because certain events may change both the data contained inside the DataSet and its state.
+					Sometimes instead only the data is changed, like after filtering or sorting, without affecting the state at all.
+				</p>
+				<p>
+					Since regions are designed to reflect both the data and the DataSet's state, they may react to changes that happens in quick succession.
+				</p>
+				<p>
+					There is no need to worry about this, even on very large amount of data the user experience is not affected.
+				</p>
+
+			</div>
+		</div>
+
+	</div>
+
+	<div data-lugacsi="../nav-local.inc" data-lugacsi-after="luga.docs.initLocalNav"></div>
+
+	<div data-lugacsi="../../luga-docs-footer.inc"></div>
+
+</div>
+
+</body>
+</html>

@@ -5,7 +5,6 @@ DOCS:
 - Luga.data: example with event delegation: https://learn.jquery.com/events/event-delegation/
 - Luga.data FAQ:
   Why no active records
-  Why multiple rendering
 
 -------------
 
