@@ -596,6 +596,22 @@ describe("luga.ajaxform", function(){
 
 			});
 
+			describe("Then either:", function(){
+
+				it("Invokes its success handler", function(){
+					configSender.sendJson();
+					expect(ajaxFormHandlers.customSuccessHandler).toHaveBeenCalled();
+
+				});
+
+				it("Invokes its error handler", function(){
+					configSender.config.action = "mock/missing.json";
+					configSender.sendJson();
+					expect(ajaxFormHandlers.customErrorHandler).toHaveBeenCalled();
+				});
+
+			});
+
 			describe("Finally: if options.after is defined:", function(){
 
 				it("Calls it", function(){
