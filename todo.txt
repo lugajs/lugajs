@@ -7,7 +7,6 @@ DOCS:
 
 AJAXFORM:
 
-- Add support for custom headers
 - Parse and handle error messages from server
 - Use live service for samples and docs
 - Standardize JSON schema for error messages

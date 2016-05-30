@@ -143,6 +143,15 @@
 						Name of the function to be invoked after the form is send. Default to null
 					</td>
 				</tr>
+				<tr>
+					<td>options.headers</td>
+					<td>
+						{object}
+					</td>
+					<td>
+						A set of name/value pairs to be used as custom HTTP headers. Available only with JavaScript API. Default to null
+					</td>
+				</tr>
 
 			</table>
 			<table class="table table-bordered luga-docs-api">
@@ -165,7 +174,8 @@ var fullOptionSender = new luga.ajaxform.Sender({
 	error: "customErrorHandler",
 	errormsg: "Error",
 	before: "customBefore",
-	after: "customAfter"
+	after: "customAfter",
+	headers: {"x-msg": "Ciao Mamma"}
 })</code></pre>
 
 		</div>

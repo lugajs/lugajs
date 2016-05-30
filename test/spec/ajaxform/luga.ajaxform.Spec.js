@@ -49,7 +49,8 @@ describe("luga.ajaxform", function(){
 			error: "ajaxFormHandlers.customErrorHandler",
 			errormsg: "Error",
 			before: "ajaxFormHandlers.customBefore",
-			after: "ajaxFormHandlers.customAfter"
+			after: "ajaxFormHandlers.customAfter",
+			headers: {"x-msg": "Ciao Mamma"}
 		});
 
 		ajaxFormHandlers.customSuccessHandler = function(){
@@ -452,6 +453,17 @@ describe("luga.ajaxform", function(){
 
 			});
 
+			describe("options.headers:", function(){
+
+				it("Default to: null", function(){
+					expect(basicSender.config.headers).toBeNull();
+				});
+				it("Uses the value specified inside the option argument", function(){
+					expect(configSender.config.headers).toEqual({"x-msg": "Ciao Mamma"});
+				});
+
+			});
+
 		});
 
 		describe(".send()", function(){
@@ -488,6 +500,15 @@ describe("luga.ajaxform", function(){
 				it("Send the serialize form's data using jQuery.ajax()", function(){
 					configSender.send();
 					expect(jQuery.ajax).toHaveBeenCalled();
+				});
+				it("Uses custom headers if specified", function(){
+					configSender.send();
+					var request = jasmine.Ajax.requests.mostRecent();
+					expect(request.requestHeaders["x-msg"]).toEqual("Ciao Mamma");
+
+					basicSender.send();
+					var plainRequest = jasmine.Ajax.requests.mostRecent();
+					expect(plainRequest.requestHeaders["x-msg"]).toBeUndefined();
 				});
 
 			});
@@ -562,6 +583,15 @@ describe("luga.ajaxform", function(){
 				it("Send the serialize form's data using jQuery.ajax()", function(){
 					configSender.sendJson();
 					expect(jQuery.ajax).toHaveBeenCalled();
+				});
+				it("Uses custom headers if specified", function(){
+					configSender.sendJson();
+					var request = jasmine.Ajax.requests.mostRecent();
+					expect(request.requestHeaders["x-msg"]).toEqual("Ciao Mamma");
+
+					basicSender.sendJson();
+					var plainRequest = jasmine.Ajax.requests.mostRecent();
+					expect(plainRequest.requestHeaders["x-msg"]).toBeUndefined();
 				});
 
 			});

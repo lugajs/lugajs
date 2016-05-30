@@ -174,6 +174,13 @@ describe("luga.data.HttpDataSet", function(){
 				expect(testDs.loadRecords).toHaveBeenCalled();
 			});
 
+			it("Uses custom headers if specified", function(){
+				testDs.headers = {"x-msg": "Ciao Mamma"};
+				testDs.loadData();
+				var request = jasmine.Ajax.requests.mostRecent();
+				expect(request.requestHeaders["x-msg"]).toEqual("Ciao Mamma");
+			});
+
 			it("Headers are preserved across multiple calls", function(){
 				var oldHeaders = testDs.headers;
 				testDs.loadData();

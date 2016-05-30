@@ -1,5 +1,5 @@
 /*! 
-Luga Ajaxform 0.7.4 2016-03-29T20:12:27.260Z
+Luga Ajaxform 0.7.5 2016-05-30T16:34:11.699Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -14,7 +14,7 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.ajaxform");
-	luga.ajaxform.version = "0.7.4";
+	luga.ajaxform.version = "0.7.5";
 
 	/* Success and error handlers */
 	luga.namespace("luga.ajaxform.handlers");
@@ -88,7 +88,8 @@ if(typeof(luga) === "undefined"){
 			ERROR: "data-lugajax-error",
 			ERROR_MSG: "data-lugajax-errormsg",
 			BEFORE: "data-lugajax-before",
-			AFTER: "data-lugajax-after"
+			AFTER: "data-lugajax-after",
+			HEADERS: "data-lugajax-headers"
 		},
 		MESSAGES: {
 			SUCCESS: "Thanks for submitting the form",
@@ -115,6 +116,7 @@ if(typeof(luga) === "undefined"){
 	 * @property {string} errormsg     Message that will be displayed to the user if the HTTP call failed. Default to "Failed to submit the form"
 	 * @property {string} before       Name of the function to be invoked before the form is send. Default to null
 	 * @property {string} after        Name of the function to be invoked after the form is send. Default to null
+	 * @property {object} headers      A set of name/value pairs to be used as custom HTTP headers. Available only with JavaScript API
 	 */
 
 	/**
@@ -140,7 +142,8 @@ if(typeof(luga) === "undefined"){
 			errormsg: options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.ERROR_MSG) || luga.ajaxform.CONST.MESSAGES.ERROR,
 			// Either: custom attribute, incoming option or null
 			before: options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.BEFORE) || null,
-			after: options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.AFTER) || null
+			after: options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.AFTER) || null,
+			headers: null
 		};
 		luga.merge(this.config, options);
 		this.config.timeout = parseInt(this.config.timeout, 10);
@@ -154,6 +157,7 @@ if(typeof(luga) === "undefined"){
 		 * @throws
 		 */
 		var handleAfter = function(){
+			/* istanbul ignore else */
 			if(self.config.after !== null){
 				var callBack = luga.lookupFunction(self.config.after);
 				if(callBack === undefined){
@@ -167,6 +171,7 @@ if(typeof(luga) === "undefined"){
 		 * @throws
 		 */
 		var handleBefore = function(){
+			/* istanbul ignore else */
 			if(self.config.before !== null){
 				var callBack = luga.lookupFunction(self.config.before);
 				if(callBack === undefined){
@@ -219,6 +224,7 @@ if(typeof(luga) === "undefined"){
 					handleError(textStatus, jqXHR, errorThrown);
 				},
 				method: self.config.method,
+				headers: self.config.headers,
 				success: function(response, textStatus, jqXHR){
 					handleSuccess(textStatus, jqXHR);
 				},
@@ -250,6 +256,7 @@ if(typeof(luga) === "undefined"){
 					handleError(textStatus, jqXHR, errorThrown);
 				},
 				method: self.config.method,
+				headers: self.config.headers,
 				success: function(response, textStatus, jqXHR){
 					handleSuccess(textStatus, jqXHR);
 				},
