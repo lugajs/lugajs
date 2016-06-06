@@ -241,6 +241,21 @@ describe("luga.ajaxform", function(){
 				expect(luga.ajaxform.handlers.afterValidation).toBeDefined();
 			});
 
+			it("Turn the given form into an Ajaxforms", function(){
+
+				var mockSender = {
+					send: function(){}
+				};
+				var mockEvent = {
+					preventDefault: function(){}
+				};
+				spyOn(luga.ajaxform, "Sender").and.returnValues(mockSender);
+
+				luga.ajaxform.handlers.afterValidation(jQuery("#basic"), mockEvent);
+
+				expect(luga.ajaxform.Sender).toHaveBeenCalled();
+			});
+
 		});
 
 		describe(".errorAlert()", function(){
@@ -532,13 +547,40 @@ describe("luga.ajaxform", function(){
 				it("Invokes its success handler", function(){
 					configSender.send();
 					expect(ajaxFormHandlers.customSuccessHandler).toHaveBeenCalled();
+				});
+
+
+				it("Display an error if its success handler is missing", function(){
+
+					spyOn(luga.string, "format");
+
+					var nakedSender = new luga.ajaxform.Sender({
+						formNode: jQuery("<form action='mock/basic.json'>")
+					});
+					nakedSender.config.success = "missingFunction";
+					nakedSender.send();
+					expect(luga.string.format).toHaveBeenCalledWith(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, ["missingFunction"]);
 
 				});
+
 
 				it("Invokes its error handler", function(){
 					configSender.config.action = "mock/missing.json";
 					configSender.send();
 					expect(ajaxFormHandlers.customErrorHandler).toHaveBeenCalled();
+				});
+
+				it("Display an error if its error handler is missing", function(){
+
+					spyOn(luga.string, "format");
+
+					var nakedSender = new luga.ajaxform.Sender({
+						formNode: jQuery("<form action='mock/missing.json'>")
+					});
+					nakedSender.config.error = "missingFunction";
+					nakedSender.send();
+					expect(luga.string.format).toHaveBeenCalledWith(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, ["missingFunction"]);
+
 				});
 
 			});
