@@ -1090,22 +1090,9 @@ describe("luga.data.Dataset", function(){
 
 		});
 
-		describe("If required", function(){
+		describe("Compare:", function(){
 
-			it("Compare one character at time:", function(){
-				var records = [
-					{name: "ciccio"},
-					{name: "ciccione"}
-				]
-				baseDs.insert(records);
-				baseDs.sort("name", "ascending");
-
-				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_0");
-				baseDs.sort("name", "descending");
-				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_1");
-			});
-
-			it("Handle upper/lower case:", function(){
+			it("Upper/lower case", function(){
 				var records = [
 					{name: "Ciccio"},
 					{name: "ciccio"},
@@ -1118,6 +1105,124 @@ describe("luga.data.Dataset", function(){
 				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_0");
 				baseDs.sort("name", "descending");
 				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_3");
+			});
+
+			it("Strings that start the same. Ascending", function(){
+				var records = [
+					{name: "ciccio"},
+					{name: "ciccione"}
+				]
+				baseDs.insert(records);
+				baseDs.sort("name", "ascending");
+
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_0");
+				baseDs.sort("name", "descending");
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_1");
+			});
+
+			it("Strings that start the same. Descending", function(){
+				var records = [
+					{name: "ciccione"},
+					{name: "ciccio"}
+				]
+				baseDs.insert(records);
+				baseDs.sort("name", "descending");
+
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_0");
+				baseDs.sort("name", "ascending");
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_1");
+			});
+
+			it("Strings that are the same", function(){
+				var records = [
+					{name: "ciccio"},
+					{name: "ciccio"}
+				]
+				baseDs.insert(records);
+				baseDs.sort("name", "ascending");
+
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_0");
+				baseDs.sort("name", "descending");
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_0");
+			});
+
+			it("One character at time. Ascending", function(){
+				var records = [
+					{name: "ciccio"},
+					{name: "cicCio"}
+				]
+				baseDs.insert(records);
+				baseDs.sort("name", "ascending");
+
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_1");
+			});
+
+			it("One character at time. Descending", function(){
+				var records = [
+					{name: "ciccio"},
+					{name: "cicCio"}
+				]
+				baseDs.insert(records);
+				baseDs.sort("name", "descending");
+
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_0");
+			});
+
+			it("Strings to undefined values. Ascending", function(){
+				var records = [
+					{},
+					{name: "test"},
+					{}
+				]
+				baseDs.insert(records);
+				baseDs.sort("name", "ascending");
+
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_0");
+				baseDs.sort("name", "ascending");
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_0");
+			});
+
+			it("Strings to undefined values. Descending", function(){
+				var records = [
+					{},
+					{name: "test"},
+					{}
+				]
+				baseDs.insert(records);
+				baseDs.sort("name", "descending");
+
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_1");
+				baseDs.sort("name", "descending");
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_1");
+			});
+
+			it("Numbers to undefined values. Ascending", function(){
+				var records = [
+					{},
+					{num: 1},
+					{}
+				]
+				baseDs.insert(records);
+				baseDs.setColumnType("num", "number");
+				baseDs.sort("num", "ascending");
+
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_0");
+				baseDs.sort("num", "descending");
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_1");
+			});
+
+			it("Numbers to undefined values. Descending", function(){
+				var records = [
+					{num: 1},
+					{}
+				]
+				baseDs.insert(records);
+				baseDs.setColumnType("num", "number");
+				baseDs.sort("num", "descending");
+
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_0");
+				baseDs.sort("num", "ascending");
+				expect(baseDs.getCurrentRowId()).toEqual("lugaPk_1");
 			});
 
 		});
