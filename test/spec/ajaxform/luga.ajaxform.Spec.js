@@ -17,15 +17,31 @@ describe("luga.ajaxform", function(){
 		jasmine.Ajax.stubRequest("mock/missing.json").andReturn({
 			status: 404
 		});
+		jasmine.Ajax.stubRequest("mock/basic.json").andReturn({
+			contentType: "application/json",
+			responseText:  JSON.stringify(mockJson),
+			status: 200
+		});
+		jasmine.Ajax.stubRequest("mock/basic.json?name=test").andReturn({
+			contentType: "application/json",
+			responseText:  JSON.stringify(mockJson),
+			status: 200
+		});
+		jasmine.Ajax.stubRequest('mock/basic.json?{"name":"test"}').andReturn({
+			contentType: "application/json",
+			responseText:  JSON.stringify(mockJson),
+			status: 200
+		});
 		jasmine.Ajax.stubRequest("mock/action.json").andReturn({
 			contentType: "application/json",
 			responseText:  JSON.stringify(mockJson),
 			status: 200
 		});
-
-		luga.ajaxform.handlers.errorAlert = function(msg, formNode, textStatus, errorThrown, jqXHR){
-			 // Override default handler
-		};
+		jasmine.Ajax.stubRequest("mock/action.json?myName=").andReturn({
+			contentType: "application/json",
+			responseText:  JSON.stringify(mockJson),
+			status: 200
+		});
 
 		basicSender = new luga.ajaxform.Sender({
 			formNode: jQuery("#basic")
@@ -224,16 +240,6 @@ describe("luga.ajaxform", function(){
 			it("Should be used as after handler by Luga Validator", function(){
 				expect(luga.ajaxform.handlers.afterValidation).toBeDefined();
 			});
-			it("Block the passed submite event", function(){
-				var mockForm = jQuery("<form>");
-				var mockEvent = {
-					preventDefault: function(){}
-				};
-				spyOn(mockEvent, "preventDefault");
-
-				luga.ajaxform.handlers.afterValidation(mockForm,mockEvent);
-				expect(mockEvent.preventDefault).toHaveBeenCalled();
-			});
 
 		});
 
@@ -242,6 +248,11 @@ describe("luga.ajaxform", function(){
 			it("Is the default error handler", function(){
 				expect(luga.ajaxform.handlers.errorAlert).toBeDefined();
 				expect(basicSender.config.error).toEqual("luga.ajaxform.handlers.errorAlert");
+			});
+			it("Display a native alert box", function(){
+				spyOn(window, "alert");
+				luga.ajaxform.handlers.errorAlert("test");
+				expect(window.alert).toHaveBeenCalledWith("test");
 			});
 
 		});
@@ -305,10 +316,13 @@ describe("luga.ajaxform", function(){
 			describe("options.action either:", function(){
 
 				it("Default to the current URL", function(){
-					expect(basicSender.config.action).toEqual(document.location.href);
+					var nakedSender = new luga.ajaxform.Sender({
+						formNode: jQuery("<form>")
+					});
+					expect(nakedSender.config.action).toEqual(document.location.href);
 				});
 				it("Retrieves the value from the form's action attribute", function(){
-					expect(attributesSender.config.action).toEqual("attributeAction");
+					expect(attributesSender.config.action).toEqual("mock/action.json");
 				});
 				it("Retrieves the value from the form's data-lugajax-action custom attribute", function(){
 					expect(customSender.config.action).toEqual("customAction");
@@ -472,7 +486,7 @@ describe("luga.ajaxform", function(){
 
 				it("Serializes the form using luga.form.toQueryString()", function(){
 					basicSender.send();
-					expect(luga.form.toQueryString).toHaveBeenCalled();
+					expect(luga.form.toQueryString).toHaveBeenCalledWith(basicSender.config.formNode, true);
 				});
 
 			});
@@ -628,6 +642,28 @@ describe("luga.ajaxform", function(){
 					expect(ajaxFormHandlers.customAfter).toHaveBeenCalledWith(jQuery("#basic")[0]);
 				});
 
+			});
+
+		});
+
+	});
+
+	describe(".initForms()", function(){
+
+		describe("Is a static utility", function(){
+
+			it("Turn HTML forms into Ajaxforms", function(){
+
+				var mockSender = {
+					send: function(){}
+				};
+				spyOn(luga.ajaxform, "Sender").and.returnValues(mockSender, mockSender, mockSender);
+
+				luga.ajaxform.initForms();
+				// Simulate click/submit
+				jQuery("*[type=submit]")[0].click();
+
+				expect(luga.ajaxform.Sender).toHaveBeenCalled();
 			});
 
 		});
