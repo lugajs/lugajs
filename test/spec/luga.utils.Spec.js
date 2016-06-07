@@ -53,7 +53,7 @@ describe("luga.utils", function(){
 
 	describe(".removeDisplayBox()", function(){
 
-		it("Remove a message box (if any) associated with a given nod", function(){
+		it("Remove a message box (if any) associated with a given node", function(){
 			loadFixtures("validator/FormValidator/basic.htm");
 			var formNode = jQuery("#basic");
 			expect(boxNode).not.toExist();
