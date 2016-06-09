@@ -107,6 +107,7 @@ describe("luga.validator.api", function(){
 
 			jQuery("#age").val("33");
 			jQuery("#name").val("filled");
+			jQuery("#topNicole").prop("checked", true);
 			expect(luga.validator.api.validateChildFields({rootNode: fieldset})).toBe(true);
 			expect(jQuery("#name")).not.toHaveClass("invalid");
 

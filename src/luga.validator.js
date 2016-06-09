@@ -648,16 +648,7 @@ if(typeof(luga) === "undefined"){
 			if(self.node.val() === self.config.invalidvalue){
 				return false;
 			}
-			// Loop over all the available rules
-			for(var rule in luga.validator.rules){
-				// Check if the current rule is required for the field
-				if(self.node.attr(luga.validator.CONST.RULE_PREFIX + rule) !== undefined){
-					// Invoke the rule
-					if(luga.validator.rules[rule].apply(null, [self.node, self]) === false){
-						return false;
-					}
-				}
-			}
+			// No need to care about other rules
 			return true;
 		};
 
@@ -1160,7 +1151,7 @@ if(typeof(luga) === "undefined"){
 			options.error = luga.validator.CONST.HANDLERS.FORM_ERROR;
 		}
 		var validators = [];
-		var executedValidators = [];
+		var executedValidators = {};
 		var dirtyValidators = [];
 
 		for(var i = 0; i < options.fields.length; i++){
