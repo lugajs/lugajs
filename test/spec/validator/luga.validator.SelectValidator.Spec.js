@@ -12,6 +12,16 @@ describe("luga.validator.SelectValidator", function(){
 		expect(validator).toMatchDuckType(new MockValidator({fieldNode: jQuery("<input type='text'>")}));
 	});
 
+	it("Handle select-multiple", function(){
+		var validator = luga.validator.fieldValidatorFactory.getInstance({
+			fieldNode: jQuery("<select multiple></select>")
+		});
+		var MockValidator = function(options){
+			luga.extend(luga.validator.BaseFieldValidator, this, [options]);
+		};
+		expect(validator).toMatchDuckType(new MockValidator({fieldNode: jQuery("<input type='text'>")}));
+	});
+
 	it("Throws an exception if the associated field node does not exists", function(){
 		expect(function(){
 			new luga.validator.SelectValidator({

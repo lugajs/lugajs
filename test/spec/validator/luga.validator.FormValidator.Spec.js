@@ -192,7 +192,7 @@ describe("luga.validator.FormValidator", function(){
 
 		describe("options.blocksubmit either:", function(){
 
-			it("Default to true'", function(){
+			it("Default to true", function(){
 				expect(basicFormValidator.config.blocksubmit).toEqual(true);
 			});
 			it("Retrieves the value from the form's data-lugavalidator-blocksubmit custom attribute", function(){
@@ -279,10 +279,18 @@ describe("luga.validator.FormValidator", function(){
 				expect(formValidator.isValid()).toEqual(false);
 				expect(formValidatorHandlers.before).toHaveBeenCalled();
 			});
+
 			it("Passing the form's DOM node as first argument, the submit event as second", function(){
 				var formEvent = new jQuery.Event();
 				formValidator.validate(formEvent);
 				expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm[0], formEvent);
+			});
+
+			it("An error is throw if the error handler points to a non existing function", function(){
+				formValidator.config.error = "missingFunction";
+				expect(function(){
+					formValidator.validate();
+				}).toThrow();
 			});
 
 			it("Then: error handler is called", function(){
@@ -301,6 +309,14 @@ describe("luga.validator.FormValidator", function(){
 
 		describe("In case the form is valid", function(){
 
+			it("An error is throw if the before handler points to a non existing function", function(){
+				jQuery("#myName").val("filled");
+				formValidator.config.before = "missingFunction";
+				expect(function(){
+					formValidator.validate();
+				}).toThrow();
+			});
+
 			it("First: before handler is called (if any)", function(){
 				jQuery("#myName").val("filled");
 				formValidator.validate();
@@ -318,6 +334,33 @@ describe("luga.validator.FormValidator", function(){
 				formValidator.validate();
 				expect(formValidator.isValid()).toEqual(true);
 				expect(formValidatorHandlers.error).not.toHaveBeenCalled();
+			});
+
+			it("If blocksubmit equal true, form submission is disabled", function(){
+				jQuery("#myName").val("filled");
+				spyOn(formValidator, "disableSubmit");
+
+				// blocksubmit is on by default
+				formValidator.validate();
+				expect(formValidator.disableSubmit).toHaveBeenCalled();
+			});
+
+			it("If blocksubmit equal false, form submission stay enabled", function(){
+				jQuery("#myName").val("filled");
+				spyOn(formValidator, "disableSubmit");
+
+				// Switch blocksubmit off
+				formValidator.config.blocksubmit = false;
+				formValidator.validate();
+				expect(formValidator.disableSubmit).not.toHaveBeenCalled();
+			});
+
+			it("An error is throw if the after handler points to a non existing function", function(){
+				jQuery("#myName").val("filled");
+				formValidator.config.after = "missingFunction";
+				expect(function(){
+					formValidator.validate();
+				}).toThrow();
 			});
 
 			it("Finally: after handler is called (if any)", function(){

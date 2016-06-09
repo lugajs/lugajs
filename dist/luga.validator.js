@@ -1,5 +1,5 @@
 /*! 
-Luga Validator 0.9.12 2016-05-30T16:34:11.703Z
+Luga Validator 0.9.2 2016-06-09T04:37:54.245Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -15,7 +15,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.validator");
 
-	luga.validator.version = "0.9.12";
+	luga.validator.version = "0.9.2";
 
 	/* Validation handlers */
 
@@ -279,7 +279,7 @@ if(typeof(luga) === "undefined"){
 					callBack.apply(null, [self.config.formNode, event]);
 				}
 				else{
-					alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.before]));
+					throw(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.before]));
 				}
 			}
 		};
@@ -290,7 +290,7 @@ if(typeof(luga) === "undefined"){
 				callBack.apply(null, [self.config.formNode, self.dirtyValidators]);
 			}
 			else{
-				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.error]));
+				throw(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.error]));
 			}
 		};
 
@@ -301,7 +301,7 @@ if(typeof(luga) === "undefined"){
 					callBack.apply(null, [self.config.formNode, event]);
 				}
 				else{
-					alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.after]));
+					throw(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [self.config.after]));
 				}
 			}
 		};
@@ -553,9 +553,8 @@ if(typeof(luga) === "undefined"){
 				return functionReference.apply(null, [self.node]);
 			}
 			else{
-				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [requiredAtt]));
+				throw(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [requiredAtt]));
 			}
-			return false;
 		};
 
 		/**
@@ -690,7 +689,7 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.validator.BaseGroupValidator = function(options){
 
-		if(this.constructor === luga.validator.BaseFieldValidator){
+		if(this.constructor === luga.validator.BaseGroupValidator){
 			throw(luga.validator.CONST.MESSAGES.GROUP_VALIDATOR_ABSTRACT);
 		}
 		/** @type {luga.validator.BaseFieldValidator.options} */
@@ -1108,21 +1107,8 @@ if(typeof(luga) === "undefined"){
 	 * @returns {boolean}
 	 */
 	luga.validator.api.validateForm = function(options){
-		/* istanbul ignore else */
-		if(options.error === undefined){
-			options.error = luga.validator.CONST.HANDLERS.FORM_ERROR;
-		}
 		var formValidator = new luga.validator.FormValidator(options);
-		var dirtyValidators = formValidator.validate();
-		if(dirtyValidators.length > 0){
-			var callBack = luga.lookupFunction(options.error);
-			if(callBack === undefined){
-				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [options.error]));
-			}
-			else{
-				callBack.apply(null, [options.formNode, dirtyValidators]);
-			}
-		}
+		formValidator.validate();
 		return formValidator.isValid();
 	};
 
@@ -1153,13 +1139,8 @@ if(typeof(luga) === "undefined"){
 		fieldValidator.validate(null);
 		if(fieldValidator.isValid() === true){
 			var callBack = luga.lookupFunction(options.error);
-			if(callBack === undefined){
-				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [options.error]));
-			}
-			else{
-				dirtyValidators.push(fieldValidator);
-				callBack(null, []);
-			}
+			dirtyValidators.push(fieldValidator);
+			callBack(null, []);
 		}
 		return fieldValidator.isValid();
 	};
@@ -1209,12 +1190,7 @@ if(typeof(luga) === "undefined"){
 		}
 		if(dirtyValidators.length > 0){
 			var callBack = luga.lookupFunction(options.error);
-			if(callBack === undefined){
-				alert(luga.string.format(luga.validator.CONST.MESSAGES.MISSING_FUNCTION, [options.error]));
-			}
-			else{
-				callBack.apply(null, [options.formNode, dirtyValidators]);
-			}
+			callBack.apply(null, [options.formNode, dirtyValidators]);
 		}
 		return dirtyValidators.length === 0;
 	};

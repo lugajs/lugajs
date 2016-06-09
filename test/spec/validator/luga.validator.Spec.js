@@ -140,7 +140,7 @@ describe("luga.validator.BaseFieldValidator is an abstract class", function(){
 
 	"use strict";
 
-	it("That can't be invoked directly", function(){
+	it("Throws an exception if instantiated directly", function(){
 		var textNode = jQuery('<input type="text" data-lugavalidator-required="true" disabled="disabled" data-lugavalidator-errorclass="invalid">');
 		expect(function(){
 			new luga.validator.BaseFieldValidator({
@@ -205,7 +205,7 @@ describe("luga.validator.BaseGroupValidator is an abstract class", function(){
 
 	"use strict";
 
-	it("That can't be invoked directly", function(){
+	it("Throw an exception if instantiated directly", function(){
 		var boxNode = jQuery("<input type='checkbox'>");
 		expect(function(){
 			new luga.validator.BaseGroupValidator({

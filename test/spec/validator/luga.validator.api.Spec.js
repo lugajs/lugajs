@@ -22,10 +22,8 @@ describe("luga.validator.api", function(){
 		});
 
 		it("And returns a boolean", function(){
-
 			loadFixtures("validator/FormValidator/basic.htm");
 			expect(luga.validator.api.validateForm({formNode: jQuery("#basic")})).toEqual(false);
-
 		});
 
 	});

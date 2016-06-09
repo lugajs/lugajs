@@ -216,9 +216,10 @@ describe("luga.validator.TextValidator", function(){
 				fieldNode: textNode
 			});
 			expect(textValidator.isRequired()).toEqual(false);
+			expect(textValidator.isValid()).toEqual(true);
 		});
 
-		it("Detects if field is required on conditional validation. Executing the function whose name is specified inside the data-lugavalidator-required custom attribute", function(){
+		it("Detect if field is required on conditional validation. Executing the function whose name is specified inside the data-lugavalidator-required custom attribute", function(){
 
 			window.textValidatorHandlers.returnTrue = function(){
 				return true;
@@ -238,6 +239,19 @@ describe("luga.validator.TextValidator", function(){
 				fieldNode: textNode
 			});
 			expect(textValidator.isRequired()).toEqual(false);
+
+		});
+
+		it("Throw an exception if data-lugavalidator-required point to a non existing funtion", function(){
+
+			var textNode = jQuery('<input type="text" data-lugavalidator-required="missingFunction">');
+			var textValidator = luga.validator.fieldValidatorFactory.getInstance({
+				fieldNode: textNode
+			});
+
+			expect(function(){
+				textValidator.isRequired();
+			}).toThrow();
 
 		});
 
@@ -346,6 +360,16 @@ describe("luga.validator.TextValidator", function(){
 
 	describe("data-lugavalidator-pattern enforces input matches the following patterns:", function(){
 		var textNode, textValidator;
+
+		it("Throws an exception if the corresponding pattern does not exist", function(){
+			textNode = jQuery('<input type="text" value="test" data-lugavalidator-required="true" data-lugavalidator-pattern="missing">');
+			textValidator = luga.validator.fieldValidatorFactory.getInstance({
+				fieldNode: textNode
+			});
+			expect(function(){
+				textValidator.isValid();
+			}).toThrow();
+		});
 
 		it("lettersonly", function(){
 			textNode = jQuery('<input type="text" value="test" data-lugavalidator-required="true" data-lugavalidator-pattern="lettersonly">');
