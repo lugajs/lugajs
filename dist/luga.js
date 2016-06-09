@@ -1,5 +1,5 @@
 /*! 
-Luga JS  2016-06-09T04:37:54.252Z
+Luga JS  2016-06-09T08:08:42.549Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -1704,16 +1704,7 @@ if(typeof(luga) === "undefined"){
 			if(self.node.val() === self.config.invalidvalue){
 				return false;
 			}
-			// Loop over all the available rules
-			for(var rule in luga.validator.rules){
-				// Check if the current rule is required for the field
-				if(self.node.attr(luga.validator.CONST.RULE_PREFIX + rule) !== undefined){
-					// Invoke the rule
-					if(luga.validator.rules[rule].apply(null, [self.node, self]) === false){
-						return false;
-					}
-				}
-			}
+			// No need to care about other rules
 			return true;
 		};
 
@@ -2129,6 +2120,7 @@ if(typeof(luga) === "undefined"){
 	luga.validator.initForms = function(){
 		jQuery(luga.validator.CONST.FORM_SELECTOR).each(function(index, item){
 			var formNode = jQuery(item);
+			/* istanbul ignore else */
 			if(formNode.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.VALIDATE) === "true"){
 				formNode.submit(function(event){
 					var formValidator = new luga.validator.FormValidator({
@@ -2215,7 +2207,7 @@ if(typeof(luga) === "undefined"){
 			options.error = luga.validator.CONST.HANDLERS.FORM_ERROR;
 		}
 		var validators = [];
-		var executedValidators = [];
+		var executedValidators = {};
 		var dirtyValidators = [];
 
 		for(var i = 0; i < options.fields.length; i++){
