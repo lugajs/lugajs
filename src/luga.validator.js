@@ -1073,6 +1073,7 @@ if(typeof(luga) === "undefined"){
 	luga.validator.initForms = function(){
 		jQuery(luga.validator.CONST.FORM_SELECTOR).each(function(index, item){
 			var formNode = jQuery(item);
+			/* istanbul ignore else */
 			if(formNode.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.VALIDATE) === "true"){
 				formNode.submit(function(event){
 					var formValidator = new luga.validator.FormValidator({

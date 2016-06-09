@@ -52,6 +52,32 @@ describe("luga.validator", function(){
 	});
 });
 
+
+describe("luga.validator.initForms()", function(){
+
+	describe("Is a static utility", function(){
+
+		it("Create Validator objects for forms available inside the document as soon as they are submitted", function(){
+
+			loadFixtures("validator/FormValidator/basic.htm");
+			var mockValidator = {
+				validate: function(event){
+					event.preventDefault();
+				}
+			};
+			spyOn(luga.validator, "FormValidator").and.returnValues(mockValidator);
+
+			luga.validator.initForms();
+			// Simulate click/submit
+			jQuery("*[type=submit]")[0].click();
+
+			expect(luga.validator.FormValidator).toHaveBeenCalled();
+		});
+
+	});
+
+});
+
 describe("luga.validator.handlers", function(){
 
 	"use strict";
