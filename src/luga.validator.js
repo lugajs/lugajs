@@ -411,6 +411,7 @@ if(typeof(luga) === "undefined"){
 		 * @abstract
 		 * @returns {boolean}
 		 */
+		/* istanbul ignore next */
 		this.isValid = function(){
 		};
 
@@ -702,6 +703,7 @@ if(typeof(luga) === "undefined"){
 		 * @abstract
 		 * @returns {boolean}
 		 */
+		/* istanbul ignore next */
 		this.isValid = function(){
 		};
 

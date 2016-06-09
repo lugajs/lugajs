@@ -1,5 +1,5 @@
 /*! 
-Luga Validator 0.9.2 2016-06-09T08:08:42.540Z
+Luga Validator 0.9.2 2016-06-09T08:14:32.673Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -416,6 +416,7 @@ if(typeof(luga) === "undefined"){
 		 * @abstract
 		 * @returns {boolean}
 		 */
+		/* istanbul ignore next */
 		this.isValid = function(){
 		};
 
@@ -707,6 +708,7 @@ if(typeof(luga) === "undefined"){
 		 * @abstract
 		 * @returns {boolean}
 		 */
+		/* istanbul ignore next */
 		this.isValid = function(){
 		};
 
