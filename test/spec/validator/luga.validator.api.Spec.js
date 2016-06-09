@@ -92,7 +92,7 @@ describe("luga.validator.api", function(){
 
 		it("Allows to programmatically validate all fields contained inside a given node", function(){
 
-			loadFixtures("validator/FormValidator/generic.htm");
+			loadFixtures("validator/FormValidator/children.htm");
 			var fieldset = jQuery("#fieldGroup");
 
 			expect(luga.validator.api.validateChildFields({rootNode: fieldset})).toBe(false);
@@ -107,7 +107,7 @@ describe("luga.validator.api", function(){
 
 			jQuery("#age").val("33");
 			jQuery("#name").val("filled");
-			jQuery("#topNicole").prop("checked", true);
+			jQuery("#boxLady").prop("checked", false);
 			expect(luga.validator.api.validateChildFields({rootNode: fieldset})).toBe(true);
 			expect(jQuery("#name")).not.toHaveClass("invalid");
 
