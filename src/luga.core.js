@@ -219,6 +219,43 @@ if(typeof(luga) === "undefined"){
 
 	};
 
+	/* DOM */
+
+	luga.namespace("luga.dom.treeWalker");
+
+	/**
+	 * Static factory to create a cross-browser DOM TreeWalker
+	 * https://developer.mozilla.org/en/docs/Web/API/TreeWalker
+	 *
+	 * @param {jQuery}       rootNode    jQuery wrapper object to be used as start node. If not provided default to $('body')
+	 * @param {function}     filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 *                                   The function will be invoked with this signature: filterFunc($(node)). Must return true|false
+	 * @returns {TreeWalker}
+	 */
+	luga.dom.treeWalker.getInstance = function(rootNode, filterFunc){
+		if(rootNode === undefined){
+			rootNode = $("body");
+		}
+
+		var filter = {
+			acceptNode: function(node){
+				/* istanbul ignore else */
+				if(filterFunc !== undefined){
+					if(filterFunc($(node)) === false){
+						return NodeFilter.FILTER_SKIP;
+					}
+				}
+				return NodeFilter.FILTER_ACCEPT;
+			}
+		};
+
+		// http://stackoverflow.com/questions/5982648/recommendations-for-working-around-ie9-treewalker-filter-bug
+		// A true W3C-compliant nodeFilter object isn't passed, and instead a "safe" one _based_ off of the real one.
+		var safeFilter = filter.acceptNode;
+		safeFilter.acceptNode = filter.acceptNode;
+		return document.createTreeWalker(rootNode[0], NodeFilter.SHOW_ELEMENT, safeFilter, false);
+	};
+
 	/* Form */
 
 	luga.namespace("luga.form");
