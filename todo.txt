@@ -15,6 +15,10 @@ AJAXFORM:
 CSI:
 -------------
 CORE:
+
+- TreeWalker factory
+- XML Node to JSON converter
+
 -------------
 VALIDATOR:
 -------------
@@ -25,7 +29,9 @@ luga.data.DataSet:
 - Allow custom sorter for complex objects
 - Local storage persistence
 
-luga.data.PagedData
+luga.data.XmlDataSet
+
+luga.data.PagedData:
 - Mixed client/server (options.threshold)
 - Use string templating to customize url/endpoint
 - Request: offsetStart, offsetEnd
