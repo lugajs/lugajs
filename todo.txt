@@ -18,7 +18,6 @@ CSI:
 -------------
 CORE:
 
-- TreeWalker factory
 - XML Node to JSON converter
 
 -------------
