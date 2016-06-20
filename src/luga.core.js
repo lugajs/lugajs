@@ -227,21 +227,18 @@ if(typeof(luga) === "undefined"){
 	 * Static factory to create a cross-browser DOM TreeWalker
 	 * https://developer.mozilla.org/en/docs/Web/API/TreeWalker
 	 *
-	 * @param {jQuery}       rootNode    jQuery wrapper object to be used as start node. If not provided default to $('body')
+	 * @param {Node}         rootNode    Start node. Required
 	 * @param {function}     filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
-	 *                                   The function will be invoked with this signature: filterFunc($(node)). Must return true|false
+	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
 	 * @returns {TreeWalker}
 	 */
 	luga.dom.treeWalker.getInstance = function(rootNode, filterFunc){
-		if(rootNode === undefined){
-			rootNode = $("body");
-		}
 
 		var filter = {
 			acceptNode: function(node){
 				/* istanbul ignore else */
 				if(filterFunc !== undefined){
-					if(filterFunc($(node)) === false){
+					if(filterFunc(node) === false){
 						return NodeFilter.FILTER_SKIP;
 					}
 				}
@@ -253,7 +250,7 @@ if(typeof(luga) === "undefined"){
 		// A true W3C-compliant nodeFilter object isn't passed, and instead a "safe" one _based_ off of the real one.
 		var safeFilter = filter.acceptNode;
 		safeFilter.acceptNode = filter.acceptNode;
-		return document.createTreeWalker(rootNode[0], NodeFilter.SHOW_ELEMENT, safeFilter, false);
+		return document.createTreeWalker(rootNode, NodeFilter.SHOW_ELEMENT, safeFilter, false);
 	};
 
 	/* Form */

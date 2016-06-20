@@ -2,13 +2,23 @@ describe("luga.dom", function(){
 
 	"use strict";
 
-	var plainDiv, basicTree, filterDivOnly;
+	var divNode, filterDivOnly, basicTree, spanChild, divChild;
 	beforeEach(function(){
-		plainDiv = jQuery("<div>");
-		basicTree = jQuery("<div id='root'><span id='spanChild'></span><div id='divChild'></div></div>>");
+		divNode = document.createElement("div");
+
 		filterDivOnly = function(node){
-			return node.prop("tagName") === "DIV";
+			return node.tagName === "DIV";
 		};
+
+		basicTree = document.createElement("div");
+		basicTree.setAttribute("id", "root");
+		spanChild = document.createElement("span");
+		spanChild.setAttribute("id", "spanChild");
+		basicTree.appendChild(spanChild);
+		divChild = document.createElement("div");
+		divChild.setAttribute("id", "divChild");
+		basicTree.appendChild(divChild);
+
 	});
 
 	it("Contains DOM-related API", function(){
@@ -20,7 +30,7 @@ describe("luga.dom", function(){
 		describe("Is a static, factory method", function(){
 
 			it("Return a TreeWalker object", function(){
-				var awWalker = luga.dom.treeWalker.getInstance(plainDiv);
+				var awWalker = luga.dom.treeWalker.getInstance(divNode);
 				var filter = {
 					acceptNode: function(){
 						return NodeFilter.FILTER_ACCEPT;
@@ -30,26 +40,20 @@ describe("luga.dom", function(){
 				expect(awWalker.constructor).toEqual(plainWalker.constructor);
 			});
 
-			describe("Accept a jQuery object as first argument", function(){
+			describe("Accept a mandatory DOM Node as first argument", function(){
 
 				it("Used as root by the TreeWalker", function(){
-					var divNode = document.createElement("div");
-					var walker = luga.dom.treeWalker.getInstance(jQuery(divNode));
+					var walker = luga.dom.treeWalker.getInstance(divNode);
 					expect(walker.root).toEqual(divNode);
-				});
-
-				it("If not provided, default to jQuery('body')", function(){
-					var walker = luga.dom.treeWalker.getInstance();
-					expect(walker.root).toEqual(document.body);
 				});
 
 			});
 
-			describe("Accept a filter function as second argument", function(){
+			describe("Accept an optional filter function as second argument", function(){
 
 				it("Only nodes matching the filter will be accepted", function(){
 					var walker = luga.dom.treeWalker.getInstance(basicTree, filterDivOnly);
-					expect(jQuery(walker.nextNode())).toEqual(basicTree.find("#divChild"));
+					expect(walker.nextNode()).toEqual(divChild);
 				});
 
 			});
