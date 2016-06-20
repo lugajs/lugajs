@@ -18,16 +18,4 @@
 		<phone>(415) 333-4573 </phone>
 		<username>swilliams</username>
 	</employee>
-	<employee id="120585">
-		<lastname>Jones</lastname>
-		<firstname>John</firstname>
-		<phone>(415) 333-9345 </phone>
-		<username>jjones</username>
-	</employee>
-	<employee id="127493">
-		<lastname>Brown</lastname>
-		<firstname>Joe</firstname>
-		<phone>(415) 333-5938 </phone>
-		<username>jbrown</username>
-	</employee>
 </employees>

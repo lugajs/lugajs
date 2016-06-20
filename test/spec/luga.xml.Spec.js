@@ -14,9 +14,9 @@ describe("luga.xml", function(){
 	describe(".parseFromString()", function(){
 
 		it("Create a DOM Document out of a string", function(){
-			var employeesDom = luga.xml.parseFromString(employeesStr);
-			expect(employeesDom.firstChild.tagName).toEqual("employees");
-			expect(employeesDom.getElementsByTagName("employee").length).toEqual(5);
+			var doc = luga.xml.parseFromString(employeesStr);
+			expect(doc.firstChild.tagName).toEqual("employees");
+			expect(doc.getElementsByTagName("employee").length).toEqual(3);
 		});
 
 	});
