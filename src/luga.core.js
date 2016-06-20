@@ -700,8 +700,99 @@ if(typeof(luga) === "undefined"){
 	luga.xml.MIME_TYPE = "application/xml";
 
 	/**
+	 * Convert an XML node into a JavaScript object
+	 * @param {Node} node
+	 * @returns {object}
+	 */
+	luga.xml.nodeToObject = function(node){
+		var obj = {};
+		attributesToProperties(node, obj);
+		childrenToProperties(node, obj);
+		return obj;
+	};
+
+	/**
+	 * Map attributes to properties
+	 * @param {Node}   node
+	 * @param {object} obj
+	 */
+	function attributesToProperties(node, obj){
+		for(var i = 0; i < node.attributes.length; i++){
+			var attr = node.attributes[i];
+			obj[attr.name] = attr.value;
+		}
+	}
+
+	/**
+	 * Map child nodes to properties
+	 * @param {Node}   node
+	 * @param {object} obj
+	 */
+	function childrenToProperties(node, obj){
+		var child = node.firstChild;
+		while(child !== null){
+			if(child.nodeType === 1 /* Node.ELEMENT_NODE */){
+				var isArray = false;
+				var tagName = child.nodeName;
+
+				if(obj[tagName]){
+					// If the property exists already, turn it into an array
+					if(obj[tagName].constructor !== Array){
+						var curValue = obj[tagName];
+						obj[tagName] = [];
+						obj[tagName].push(curValue);
+					}
+					isArray = true;
+				}
+
+				if(nodeHasText(child) === true){
+					// This may potentially override an existing property
+					obj[child.nodeName] = getTextValue(child);
+				}
+				else{
+					var childObj = luga.xml.nodeToObject(child);
+					if(isArray === true){
+						obj[tagName].push(childObj);
+					}
+					else{
+						obj[tagName] = childObj;
+					}
+				}
+			}
+			child = child.nextSibling;
+		}
+	}
+
+
+	/**
+	 * Extract text out of a TEXT or CDATA node
+	 * @param {Node} node
+	 * @returns {string}
+	 */
+	function getTextValue(node){
+		var child = node.firstChild;
+		/* istanbul ignore else */
+		if((child.nodeType === 3) /* TEXT_NODE */ || (child.nodeType === 4) /* CDATA_SECTION_NODE */){
+			return child.textContent;
+		}
+	}
+
+	/**
+	 * Return true if a node contains value, false otherwise
+	 * @param {Node}   node
+	 * @returns {boolean}
+	 */
+	function nodeHasText(node){
+		var child = node.firstChild;
+		if((child !== null) && (child.nextSibling === null) && (child.nodeType === 3 /* Node.TEXT_NODE */ || child.nodeType === 4 /* CDATA_SECTION_NODE */)){
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Create a DOM Document out of a string
-	 * @param xmlStr
+	 * @param {string} xmlStr
 	 * @returns {Document}
 	 */
 	luga.xml.parseFromString = function(xmlStr){
