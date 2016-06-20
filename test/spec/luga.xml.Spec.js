@@ -16,15 +16,6 @@ describe("luga.xml", function(){
 
 		describe("Convert an XML node into a JavaScript object", function(){
 
-			it("Turn attributes into properties", function(){
-				var node = document.createElement("test");
-				node.setAttribute("name", "Ciccio");
-				node.setAttribute("lastname", "Pasticcio");
-				var obj = luga.xml.nodeToObject(node);
-				expect(obj.name).toEqual("Ciccio");
-				expect(obj.lastname).toEqual("Pasticcio");
-			});
-
 			it("Handling all values as strings", function(){
 				var node = document.createElement("test");
 				node.setAttribute("id", 1);
@@ -32,13 +23,26 @@ describe("luga.xml", function(){
 				expect(obj.id).toEqual("1");
 			});
 
-			it("Child nodes into properties", function(){
-				var obj = luga.xml.nodeToObject(employeesDoc.firstChild);
-				expect(obj["employee"].length).toEqual(3);
-				expect(obj["employee"][0].firstname).toEqual("Edward");
-				expect(obj["employee"][0].lastname).toEqual("Smith");
-				expect(obj["employee"][0].phone).toEqual("(415) 333-0235");
-				expect(obj["employee"][0].username).toEqual("esmith");
+			describe("Mapping:", function(){
+
+				it("Attributes to properties", function(){
+					var node = document.createElement("test");
+					node.setAttribute("name", "Ciccio");
+					node.setAttribute("lastname", "Pasticcio");
+					var obj = luga.xml.nodeToObject(node);
+					expect(obj.name).toEqual("Ciccio");
+					expect(obj.lastname).toEqual("Pasticcio");
+				});
+
+				it("Child nodes to properties", function(){
+					var obj = luga.xml.nodeToObject(employeesDoc.firstChild);
+					expect(obj["employee"].length).toEqual(3);
+					expect(obj["employee"][0].firstname).toEqual("Edward");
+					expect(obj["employee"][0].lastname).toEqual("Smith");
+					expect(obj["employee"][0].phone).toEqual("(415) 333-0235");
+					expect(obj["employee"][0].username).toEqual("esmith");
+				});
+
 			});
 
 		});
