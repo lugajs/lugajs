@@ -693,4 +693,20 @@ if(typeof(luga) === "undefined"){
 		return box;
 	};
 
+	/* XML */
+
+	luga.namespace("luga.xml");
+
+	luga.xml.MIME_TYPE = "application/xml";
+
+	/**
+	 * Create a DOM Document out of a string
+	 * @param xmlStr
+	 * @returns {Document}
+	 */
+	luga.xml.parseFromString = function(xmlStr){
+		var xmlParser = new DOMParser();
+		return xmlParser.parseFromString(xmlStr, luga.xml.MIME_TYPE);
+	};
+
 }());
