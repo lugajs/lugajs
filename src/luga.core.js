@@ -736,7 +736,7 @@ if(typeof(luga) === "undefined"){
 				var isArray = false;
 				var tagName = child.nodeName;
 
-				if(obj[tagName]){
+				if(obj[tagName] !== undefined){
 					// If the property exists already, turn it into an array
 					if(obj[tagName].constructor !== Array){
 						var curValue = obj[tagName];
