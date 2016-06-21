@@ -16,22 +16,15 @@ describe("luga.xml", function(){
 
 		describe("Convert an XML node into a JavaScript object", function(){
 
-			it("Handling all values as strings", function(){
-				var node = document.createElement("test");
-				node.setAttribute("id", 1);
-				var obj = luga.xml.nodeToObject(node);
-				expect(obj.id).toEqual("1");
-			});
-
 			describe("Mapping:", function(){
 
-				it("Attributes to properties", function(){
+				it("Attributes to properties. Prefixed by '@'", function(){
 					var node = document.createElement("test");
 					node.setAttribute("name", "Ciccio");
 					node.setAttribute("lastname", "Pasticcio");
 					var obj = luga.xml.nodeToObject(node);
-					expect(obj.name).toEqual("Ciccio");
-					expect(obj.lastname).toEqual("Pasticcio");
+					expect(obj["@name"]).toEqual("Ciccio");
+					expect(obj["@lastname"]).toEqual("Pasticcio");
 				});
 
 				it("Child nodes to properties", function(){

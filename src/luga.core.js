@@ -698,6 +698,7 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.xml");
 
 	luga.xml.MIME_TYPE = "application/xml";
+	luga.xml.ATTRIBUTE_PREFIX = "@";
 
 	/**
 	 * Convert an XML node into a JavaScript object
@@ -719,7 +720,7 @@ if(typeof(luga) === "undefined"){
 	function attributesToProperties(node, obj){
 		for(var i = 0; i < node.attributes.length; i++){
 			var attr = node.attributes[i];
-			obj[attr.name] = attr.value;
+			obj[luga.xml.ATTRIBUTE_PREFIX + attr.name] = attr.value;
 		}
 	}
 
