@@ -4,7 +4,7 @@ describe("luga.xml", function(){
 
 	var employeesStr, employeesDoc;
 	beforeEach(function(){
-		employeesStr = jasmine.getFixtures().read("data/employees.xml");
+		employeesStr = jasmine.getFixtures().read("xml/employees.xml");
 
 		employeesDoc = new DOMParser().parseFromString("<employees></employees>",  "application/xml");
 		var rootNode = employeesDoc.firstChild;
