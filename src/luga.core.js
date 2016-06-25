@@ -700,7 +700,7 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.xml");
 
 	luga.xml.MIME_TYPE = "application/xml";
-	luga.xml.ATTRIBUTE_PREFIX = "@";
+	luga.xml.ATTRIBUTE_PREFIX = "_";
 	luga.xml.DOM_ACTIVEX_NAME = "MSXML2.DOMDocument.4.0";
 
 	/**
@@ -727,7 +727,7 @@ if(typeof(luga) === "undefined"){
 			var result = evaluator.evaluate(path, node, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
 			var currentNode = result.iterateNext();
 			// Iterate and populate the array
-			while (currentNode !== null) {
+			while(currentNode !== null){
 				retArray.push(currentNode);
 				currentNode = result.iterateNext();
 			}
@@ -753,6 +753,9 @@ if(typeof(luga) === "undefined"){
 	 * @param {object} obj
 	 */
 	function attributesToProperties(node, obj){
+		if((node.attributes === null) || (node.attributes === undefined)){
+			return;
+		}
 		for(var i = 0; i < node.attributes.length; i++){
 			var attr = node.attributes[i];
 			obj[luga.xml.ATTRIBUTE_PREFIX + attr.name] = attr.value;
@@ -765,9 +768,12 @@ if(typeof(luga) === "undefined"){
 	 * @param {object} obj
 	 */
 	function childrenToProperties(node, obj){
-		var child = node.firstChild;
-		while(child !== null){
-			/* istanbul ignore else */
+		if((node.childNodes === null) || (node.childNodes === undefined)){
+			return;
+		}
+		for(var i = 0; i < node.childNodes.length; i++){
+			var child = node.childNodes[i];
+
 			if(child.nodeType === 1 /* Node.ELEMENT_NODE */){
 				var isArray = false;
 				var tagName = child.nodeName;
@@ -796,7 +802,6 @@ if(typeof(luga) === "undefined"){
 					}
 				}
 			}
-			child = child.nextSibling;
 		}
 	}
 
@@ -806,10 +811,10 @@ if(typeof(luga) === "undefined"){
 	 * @returns {string}
 	 */
 	function getTextValue(node){
-		var child = node.firstChild;
+		var child = node.childNodes[0];
 		/* istanbul ignore else */
 		if((child.nodeType === 3) /* TEXT_NODE */ || (child.nodeType === 4) /* CDATA_SECTION_NODE */){
-			return child.textContent;
+			return child.data;
 		}
 	}
 
@@ -819,7 +824,7 @@ if(typeof(luga) === "undefined"){
 	 * @returns {boolean}
 	 */
 	function nodeHasText(node){
-		var child = node.firstChild;
+		var child = node.childNodes[0];
 		if((child !== null) && (child.nextSibling === null) && (child.nodeType === 3 /* Node.TEXT_NODE */ || child.nodeType === 4 /* CDATA_SECTION_NODE */)){
 			return true;
 		}
