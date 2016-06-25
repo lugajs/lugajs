@@ -1,5 +1,7 @@
 DOCS:
 
+- luga.data.XmlDataSet
+
 - Luga.data Search sample (need REST endpoint)
 - Luga.data: example with event delegation:
   https://api.jquery.com/on/#direct-and-delegated-events
@@ -29,8 +31,6 @@ DATA:
 luga.data.DataSet:
 - Allow custom sorter for complex objects
 - Local storage persistence
-
-luga.data.XmlDataSet
 
 luga.data.PagedData:
 - Mixed client/server (options.threshold)
