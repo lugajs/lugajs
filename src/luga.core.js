@@ -1,3 +1,5 @@
+/* globals ActiveXObject */
+
 /* istanbul ignore if */
 if(typeof(jQuery) === "undefined"){
 	throw("Unable to find jQuery");
@@ -699,6 +701,39 @@ if(typeof(luga) === "undefined"){
 
 	luga.xml.MIME_TYPE = "application/xml";
 	luga.xml.ATTRIBUTE_PREFIX = "@";
+	luga.xml.DOM_ACTIVEX_NAME = "MSXML2.DOMDocument.4.0";
+
+	/**
+	 * Given a DOM node, evaluate an XPath expression against it
+	 * Results are returned as an array of nodes. An empty array is returned in case there is no match
+	 * @param {Node} node
+	 * @param {string} path
+	 * @returns {Array<Node>}
+	 */
+	luga.xml.evaluateXPath = function(node, path){
+		var retArray = [];
+		/* istanbul ignore if IE-only */
+		if(window.ActiveXObject !== undefined){
+			var selectedNodes = node.selectNodes(path);
+			// Extract the nodes out of the nodeList returned by selectNodes and put them into an array
+			// We could directly use the nodeList returned by selectNodes, but this would cause inconsistencies across browsers
+			for(var i = 0; i < selectedNodes.length; i++){
+				retArray.push(selectedNodes[i]);
+			}
+			return retArray;
+		}
+		else{
+			var evaluator = new XPathEvaluator();
+			var result = evaluator.evaluate(path, node, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
+			var currentNode = result.iterateNext();
+			// Iterate and populate the array
+			while (currentNode !== null) {
+				retArray.push(currentNode);
+				currentNode = result.iterateNext();
+			}
+			return retArray;
+		}
+	};
 
 	/**
 	 * Convert an XML node into a JavaScript object
@@ -732,6 +767,7 @@ if(typeof(luga) === "undefined"){
 	function childrenToProperties(node, obj){
 		var child = node.firstChild;
 		while(child !== null){
+			/* istanbul ignore else */
 			if(child.nodeType === 1 /* Node.ELEMENT_NODE */){
 				var isArray = false;
 				var tagName = child.nodeName;
@@ -763,7 +799,6 @@ if(typeof(luga) === "undefined"){
 			child = child.nextSibling;
 		}
 	}
-
 
 	/**
 	 * Extract text out of a TEXT or CDATA node
@@ -797,8 +832,20 @@ if(typeof(luga) === "undefined"){
 	 * @returns {Document}
 	 */
 	luga.xml.parseFromString = function(xmlStr){
-		var xmlParser = new DOMParser();
-		return xmlParser.parseFromString(xmlStr, luga.xml.MIME_TYPE);
+		var xmlParser;
+		/* istanbul ignore if IE-only */
+		if(window.ActiveXObject !== undefined){
+			var xmlDOMObj = new ActiveXObject(luga.xml.DOM_ACTIVEX_NAME);
+			xmlDOMObj.async = false;
+			xmlDOMObj.loadXML(xmlStr);
+			return xmlDOMObj;
+		}
+		else{
+			xmlParser = new DOMParser();
+			var domDoc = xmlParser.parseFromString(xmlStr, luga.xml.MIME_TYPE);
+			return domDoc;
+		}
 	};
+
 
 }());
