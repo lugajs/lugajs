@@ -59,6 +59,16 @@ describe("luga.xml", function(){
 
 			});
 
+			describe("Return an empty object if:", function(){
+
+				it("The given node has no attributes and no children", function(){
+					var node = document.createElement("test");
+					var obj = luga.xml.nodeToObject(node);
+					expect(obj).toEqual({});
+				});
+
+			});
+
 		});
 
 	});

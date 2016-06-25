@@ -768,9 +768,6 @@ if(typeof(luga) === "undefined"){
 	 * @param {object} obj
 	 */
 	function childrenToProperties(node, obj){
-		if((node.childNodes === null) || (node.childNodes === undefined)){
-			return;
-		}
 		for(var i = 0; i < node.childNodes.length; i++){
 			var child = node.childNodes[i];
 
