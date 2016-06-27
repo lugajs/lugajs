@@ -64,11 +64,6 @@
 		 * @override
 		 */
 		this.loadRecords = function(xmlDoc, textStatus, jqXHR){
-			/* istanbul ignore if IE-only hack */
-			if((jqXHR !== undefined) && (window.ActiveXObject !== undefined)){
-				xmlDoc = luga.xml.parseFromString(jqXHR.responseText);
-			}
-
 			self.rawXml = xmlDoc;
 			var nodes = luga.xml.evaluateXPath(xmlDoc, self.path);
 			var records = [];
