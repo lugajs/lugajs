@@ -1,3 +1,5 @@
+/* globals ActiveXObject */
+
 /* istanbul ignore if */
 if(typeof(jQuery) === "undefined"){
 	throw("Unable to find jQuery");
@@ -217,6 +219,40 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
+	};
+
+	/* DOM */
+
+	luga.namespace("luga.dom.treeWalker");
+
+	/**
+	 * Static factory to create a cross-browser DOM TreeWalker
+	 * https://developer.mozilla.org/en/docs/Web/API/TreeWalker
+	 *
+	 * @param {Node}         rootNode    Start node. Required
+	 * @param {function}     filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
+	 * @returns {TreeWalker}
+	 */
+	luga.dom.treeWalker.getInstance = function(rootNode, filterFunc){
+
+		var filter = {
+			acceptNode: function(node){
+				/* istanbul ignore else */
+				if(filterFunc !== undefined){
+					if(filterFunc(node) === false){
+						return NodeFilter.FILTER_SKIP;
+					}
+				}
+				return NodeFilter.FILTER_ACCEPT;
+			}
+		};
+
+		// http://stackoverflow.com/questions/5982648/recommendations-for-working-around-ie9-treewalker-filter-bug
+		// A true W3C-compliant nodeFilter object isn't passed, and instead a "safe" one _based_ off of the real one.
+		var safeFilter = filter.acceptNode;
+		safeFilter.acceptNode = filter.acceptNode;
+		return document.createTreeWalker(rootNode, NodeFilter.SHOW_ELEMENT, safeFilter, false);
 	};
 
 	/* Form */
@@ -658,5 +694,160 @@ if(typeof(luga) === "undefined"){
 		}
 		return box;
 	};
+
+	/* XML */
+
+	luga.namespace("luga.xml");
+
+	luga.xml.MIME_TYPE = "application/xml";
+	luga.xml.ATTRIBUTE_PREFIX = "_";
+	luga.xml.DOM_ACTIVEX_NAME = "MSXML2.DOMDocument.4.0";
+
+	/**
+	 * Given a DOM node, evaluate an XPath expression against it
+	 * Results are returned as an array of nodes. An empty array is returned in case there is no match
+	 * @param {Node} node
+	 * @param {string} path
+	 * @returns {Array<Node>}
+	 */
+	luga.xml.evaluateXPath = function(node, path){
+		var retArray = [];
+		/* istanbul ignore if IE-only */
+		if(window.ActiveXObject !== undefined){
+			var selectedNodes = node.selectNodes(path);
+			// Extract the nodes out of the nodeList returned by selectNodes and put them into an array
+			// We could directly use the nodeList returned by selectNodes, but this would cause inconsistencies across browsers
+			for(var i = 0; i < selectedNodes.length; i++){
+				retArray.push(selectedNodes[i]);
+			}
+			return retArray;
+		}
+		else{
+			var evaluator = new XPathEvaluator();
+			var result = evaluator.evaluate(path, node, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
+			var currentNode = result.iterateNext();
+			// Iterate and populate the array
+			while(currentNode !== null){
+				retArray.push(currentNode);
+				currentNode = result.iterateNext();
+			}
+			return retArray;
+		}
+	};
+
+	/**
+	 * Convert an XML node into a JavaScript object
+	 * @param {Node} node
+	 * @returns {object}
+	 */
+	luga.xml.nodeToObject = function(node){
+		var obj = {};
+		attributesToProperties(node, obj);
+		childrenToProperties(node, obj);
+		return obj;
+	};
+
+	/**
+	 * Map attributes to properties
+	 * @param {Node}   node
+	 * @param {object} obj
+	 */
+	function attributesToProperties(node, obj){
+		if((node.attributes === null) || (node.attributes === undefined)){
+			return;
+		}
+		for(var i = 0; i < node.attributes.length; i++){
+			var attr = node.attributes[i];
+			obj[luga.xml.ATTRIBUTE_PREFIX + attr.name] = attr.value;
+		}
+	}
+
+	/**
+	 * Map child nodes to properties
+	 * @param {Node}   node
+	 * @param {object} obj
+	 */
+	function childrenToProperties(node, obj){
+		for(var i = 0; i < node.childNodes.length; i++){
+			var child = node.childNodes[i];
+
+			if(child.nodeType === 1 /* Node.ELEMENT_NODE */){
+				var isArray = false;
+				var tagName = child.nodeName;
+
+				if(obj[tagName] !== undefined){
+					// If the property exists already, turn it into an array
+					if(obj[tagName].constructor !== Array){
+						var curValue = obj[tagName];
+						obj[tagName] = [];
+						obj[tagName].push(curValue);
+					}
+					isArray = true;
+				}
+
+				if(nodeHasText(child) === true){
+					// This may potentially override an existing property
+					obj[child.nodeName] = getTextValue(child);
+				}
+				else{
+					var childObj = luga.xml.nodeToObject(child);
+					if(isArray === true){
+						obj[tagName].push(childObj);
+					}
+					else{
+						obj[tagName] = childObj;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Extract text out of a TEXT or CDATA node
+	 * @param {Node} node
+	 * @returns {string}
+	 */
+	function getTextValue(node){
+		var child = node.childNodes[0];
+		/* istanbul ignore else */
+		if((child.nodeType === 3) /* TEXT_NODE */ || (child.nodeType === 4) /* CDATA_SECTION_NODE */){
+			return child.data;
+		}
+	}
+
+	/**
+	 * Return true if a node contains value, false otherwise
+	 * @param {Node}   node
+	 * @returns {boolean}
+	 */
+	function nodeHasText(node){
+		var child = node.childNodes[0];
+		if((child !== null) && (child.nextSibling === null) && (child.nodeType === 3 /* Node.TEXT_NODE */ || child.nodeType === 4 /* CDATA_SECTION_NODE */)){
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Create a DOM Document out of a string
+	 * @param {string} xmlStr
+	 * @returns {Document}
+	 */
+	luga.xml.parseFromString = function(xmlStr){
+		var xmlParser;
+		/* istanbul ignore if IE-only */
+		if(window.ActiveXObject !== undefined){
+			var xmlDOMObj = new ActiveXObject(luga.xml.DOM_ACTIVEX_NAME);
+			xmlDOMObj.async = false;
+			xmlDOMObj.loadXML(xmlStr);
+			return xmlDOMObj;
+		}
+		else{
+			xmlParser = new DOMParser();
+			var domDoc = xmlParser.parseFromString(xmlStr, luga.xml.MIME_TYPE);
+			return domDoc;
+		}
+	};
+
 
 }());

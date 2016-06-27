@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<link rel="shortcut icon" type="image/png" href="../../luga-favicon.png"/>
-	<title>Luga Data :: JSON DataSet :: API Syntax reference</title>
+	<title>Luga Data :: XML DataSet :: API Syntax reference</title>
 
 	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
@@ -34,17 +34,17 @@
 	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
 
 		<div class="panel panel-default">
-			<div class="panel-heading">JsonDataSet</div>
+			<div class="panel-heading">XmlDataSet</div>
 			<div class="panel-body">
 				<p>
-					luga.data.JsonDataSet inherits all <a href="../dataset/api.htm">luga.data.DataSet's API</a>.
+					luga.data.XmlDataSet inherits all <a href="../dataset/api.htm">luga.data.DataSet's API</a>.
 					On top of that it adds some additional methods and constructor options.
 				</p>
 			</div>
 		</div>
 
 		<div class="panel panel-default">
-			<div id="constructor" class="panel-heading luga-docs-api-heading">luga.data.JsonDataSet(options)</div>
+			<div id="constructor" class="panel-heading luga-docs-api-heading">luga.data.XmlDataSet(options)</div>
 			<div class="panel-body">
 				<p>
 					DataSet's constructor. This class triggers the following notifications:
@@ -77,7 +77,7 @@
 						{string}
 					</td>
 					<td>
-						Url to be fetched to extract JSON data. Default to null.
+						Url to be fetched to extract XML data. Default to null.
 					</td>
 				</tr>
 				<tr>
@@ -151,9 +151,7 @@
 						{string}
 					</td>
 					<td>
-						Specifies the path to the data within the JSON structure.
-						The path is expressed as a set of property names on the objects, separated by dots.
-						Default to null.
+						Specifies the XPath expression to be used to extract nodes from the XML document. Default to: "/"
 					</td>
 				</tr>
 			</table>
@@ -161,31 +159,31 @@
 				<th>Examples</th>
 			</table>
 
-<pre><code class="language-javascript">var ladiesDs = new luga.data.JsonDataSet({
+<pre><code class="language-javascript">var ladiesDs = new luga.data.XmlDataSet({
 	uuid: "ladiesDs",
-	url: "../../../test/fixtures/data/ladies.json"
+	url: "../../../test/fixtures/data/people.xml"
 });
 
 // Using custom HTTP headers
-var testDs = new luga.data.JsonDataSet({
+var testDs = new luga.data.XmlDataSet({
 	uuid: "testDs",
 	headers: {"X-Requested-With": "ciccio"},
-	url: "whatever.json"
+	url: "whatever.xml"
 });
 </code></pre>
 
 		</div>
 
-		<div id="getRawJson" class="panel panel-default">
-			<div class="panel-heading luga-docs-api-heading">.getRawJson()</div>
+		<div id="getRawXml" class="panel panel-default">
+			<div class="panel-heading luga-docs-api-heading">.getRawXml()</div>
 			<div class="panel-body">
-				Returns the raw JSON data structure, if any.
+				Returns the raw XML data structure, if any.
 			</div>
 
 			<table class="table table-bordered luga-docs-api">
 				<th>Return type</th>
 				<tr>
-					<td>{null|json}</td>
+					<td>{null|Node}</td>
 				</tr>
 			</table>
 
@@ -194,13 +192,13 @@ var testDs = new luga.data.JsonDataSet({
 		<div id="getPath" class="panel panel-default">
 			<div class="panel-heading luga-docs-api-heading">.getPath()</div>
 			<div class="panel-body">
-				Returns the path to be used to extract data out of the JSON data structure, if any.
+				Returns the XPath expression to be used to extract nodes from the XML document.
 			</div>
 
 			<table class="table table-bordered luga-docs-api">
 				<th>Return type</th>
 				<tr>
-					<td>{null|string}</td>
+					<td>{string}</td>
 				</tr>
 			</table>
 
@@ -220,9 +218,9 @@ var testDs = new luga.data.JsonDataSet({
 
 <pre><code class="line-numbers language-javascript">(function(){
 	"use strict";
-	var ladiesDs = new luga.data.JsonDataSet({
+	var ladiesDs = new luga.data.XmlDataSet({
 		uuid: "ladiesDs",
-		url: "../../../test/fixtures/data/ladies.json"
+		url: "../../../test/fixtures/data/people.xml"
 	});
 	// Fetch data only once the DOM is ready
 	jQuery(document).ready(function(){
@@ -232,22 +230,22 @@ var testDs = new luga.data.JsonDataSet({
 
 		</div>
 
-		<div id="loadRawJson" class="panel panel-default">
-			<div class="panel-heading luga-docs-api-heading">.loadRawJson(json)</div>
+		<div id="loadRawXml" class="panel panel-default">
+			<div class="panel-heading luga-docs-api-heading">.loadRawXml(node)</div>
 			<div class="panel-body">
 				<p>
-					First delete any existing records, then load data from the given JSON, without XHR calls.
+					First delete any existing records, then load data from the given XML, without XHR calls.
 				</p>
 			</div>
 			<table class="table table-bordered luga-docs-api">
 				<th colspan="3">Arguments</th>
 				<tr>
-					<td>json</td>
+					<td>node</td>
 					<td class="luga-docs-type">
-						{json}
+						{node}
 					</td>
 					<td>
-						JSON data. Required.
+						XML node. Required.
 					</td>
 				</tr>
 			</table>
@@ -260,7 +258,7 @@ var testDs = new luga.data.JsonDataSet({
 		<div id="setPath" class="panel panel-default">
 			<div class="panel-heading luga-docs-api-heading">.setPath(path)</div>
 			<div class="panel-body">
-				Set the path to be used to extract data out of the JSON data structure
+				Set XPath expression to be used to extract nodes from the XML document.
 			</div>
 			<table class="table table-bordered luga-docs-api">
 				<th colspan="3">Arguments</th>
@@ -270,7 +268,7 @@ var testDs = new luga.data.JsonDataSet({
 						{string}
 					</td>
 					<td>
-						Data path, expressed as a set of property names on the objects, separated by dots. Required.
+						XPath expression. Required.
 					</td>
 				</tr>
 			</table>
@@ -278,12 +276,12 @@ var testDs = new luga.data.JsonDataSet({
 				<th>Examples</th>
 			</table>
 
-<pre><code class="line-numbers language-javascript">var testDs = new luga.data.JsonDataSet({
+<pre><code class="line-numbers language-javascript">var testDs = new luga.data.XmlDataSet({
 	uuid: "peopleDs",
-	url: "../../../test/fixtures/data/people.json",
-	path: "ladies"
+	url: "../../../test/fixtures/data/people.xml",
+	path: "//ladies/person"
 });
-testDs.setPath("others.jazzPlayers");
+testDs.setPath("//jazzPlayers/person");
 testDs.loadData();
 </code></pre>
 
@@ -312,11 +310,11 @@ testDs.loadData();
 				<th>Examples</th>
 			</table>
 
-<pre><code class="line-numbers language-javascript">var testDs = new luga.data.JsonDataSet({
+<pre><code class="line-numbers language-javascript">var testDs = new luga.data.XmlDataSet({
 	uuid: "peopleDs",
-	url: "people.json"
+	url: "people.xml"
 });
-testDs.setUrl("ladies.json");
+testDs.setUrl("ladies.xml");
 testDs.loadData();
 </code></pre>
 

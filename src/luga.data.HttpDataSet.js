@@ -99,7 +99,14 @@
 				timeout: self.timeout,
 				cache: self.cache,
 				headers: self.headers,
-				error: self.xhrError
+				error: self.xhrError,
+				// Need to override jQuery's XML converter
+				converters: {
+					"* text": window.String,
+					"text html": true,
+					"text json": jQuery.parseJSON,
+					"text xml": luga.xml.parseFromString
+				}
 			};
 			/* istanbul ignore else */
 			if(self.dataType !== null){
