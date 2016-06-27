@@ -12,7 +12,7 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.version = "0.4.7";
+	luga.version = "0.5.0";
 
 	luga.CONST = {
 		ERROR_MESSAGES: {
