@@ -49,10 +49,14 @@
 			<th>
 				Last Name
 			</th>
+			<th>
+				Country
+			</th>
 			{{#each entities}}
 			<tr>
 				<td>{{firstName}}</td>
 				<td>{{lastName}}</td>
+				<td>{{_country}}</td>
 			</tr>
 			{{/each}}
 		</table>
@@ -112,11 +116,20 @@
 		&lt;tr&gt;
 			&lt;td&gt;{{firstName}}&lt;/td&gt;
 			&lt;td&gt;{{lastName}}&lt;/td&gt;
+			&lt;td&gt;{{_country}}&lt;/td&gt;
 		&lt;/tr&gt;
 		{{/each}}
 	&lt;/table&gt;
 &lt;/script&gt;
-</code></pre>				
+</code></pre>
+
+				<div class="alert alert-warning" role="alert">
+					<strong>Warning!</strong><br>
+					The template above uses {{_country}} instead of {{country}} because the country data is contained inside an attribute of the XML tag.
+					In order to avoid clashes between attributes and child nodes using the same name, the attribute's name is prefixed with an underscore.
+					<br>
+					Why we used "_" instead of "@"? Unfortunately "@" is not a valid <a href="http://handlebarsjs.com/expressions.html">Handlebars identifier</a> :-(
+				</div>
 
 				<p>
 					Finally, you add an HTML tag with some <a href="../region/syntax.htm">custom attributes</a>:
