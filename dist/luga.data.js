@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.4.0 2016-06-27T16:20:23.837Z
+Luga Data 0.4.0 2016-06-28T02:25:20.333Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -1100,9 +1100,6 @@ if(typeof(luga) === "undefined"){
 				error: self.xhrError,
 				// Need to override jQuery's XML converter
 				converters: {
-					"* text": window.String,
-					"text html": true,
-					"text json": jQuery.parseJSON,
 					"text xml": luga.xml.parseFromString
 				}
 			};

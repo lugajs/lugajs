@@ -102,9 +102,6 @@
 				error: self.xhrError,
 				// Need to override jQuery's XML converter
 				converters: {
-					"* text": window.String,
-					"text html": true,
-					"text json": jQuery.parseJSON,
 					"text xml": luga.xml.parseFromString
 				}
 			};
