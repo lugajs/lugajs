@@ -73,6 +73,26 @@ describe("luga.xml", function(){
 
 	});
 
+	describe(".nodeToString()", function(){
+
+		it("Serialize a DOM Node into a string", function(){
+
+			var xmlStr = "";
+			xmlStr += "<artists>";
+			xmlStr += "<player instrument=\"tenor sax\" name=\"Dexter Gordon\"/>";
+			xmlStr += "<player instrument=\"tenor sax\" name=\"Sonny Rollins\"/>";
+			xmlStr += "<player instrument=\"trumpet\" name=\"Thad Jones\"/>";
+			xmlStr += "<player instrument=\"trumpet\" name=\"Lee Morgan\"/>";
+			xmlStr += "<player instrument=\"piano\" name=\"Bill Evans\"/>";
+			xmlStr += "</artists>";
+			var xmlNode = luga.xml.parseFromString(xmlStr);
+
+			// Need to use "toMatch" instead of "toEqual" to keep IE happy
+			expect(luga.xml.nodeToString(xmlNode)).toMatch(xmlStr);
+		});
+
+	});
+
 	describe(".parseFromString()", function(){
 
 		it("Create a DOM Document out of a string", function(){

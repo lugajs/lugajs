@@ -1,5 +1,5 @@
 /*! 
-Luga JS  2016-06-27T16:20:23.825Z
+Luga JS  2016-06-28T06:22:23.685Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -831,6 +831,22 @@ if(typeof(luga) === "undefined"){
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Serialize a DOM node into a string
+	 * @param {Node}   node
+	 * @returns {string}
+	 */
+	luga.xml.nodeToString = function(node){
+		/* istanbul ignore if IE-only */
+		if(window.ActiveXObject !== undefined){
+			return node.xml;
+		}
+		else{
+			var serializer = new XMLSerializer();
+			return serializer.serializeToString(node, luga.xml.MIME_TYPE);
+		}
 	}
 
 	/**

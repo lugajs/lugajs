@@ -829,6 +829,22 @@ if(typeof(luga) === "undefined"){
 	}
 
 	/**
+	 * Serialize a DOM node into a string
+	 * @param {Node}   node
+	 * @returns {string}
+	 */
+	luga.xml.nodeToString = function(node){
+		/* istanbul ignore if IE-only */
+		if(window.ActiveXObject !== undefined){
+			return node.xml;
+		}
+		else{
+			var serializer = new XMLSerializer();
+			return serializer.serializeToString(node, luga.xml.MIME_TYPE);
+		}
+	}
+
+	/**
 	 * Create a DOM Document out of a string
 	 * @param {string} xmlStr
 	 * @returns {Document}
