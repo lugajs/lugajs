@@ -178,7 +178,7 @@
 	 * @typedef {object} luga.data.ShowMoreScrolling.options
 	 *
 	 * @extends luga.data.widgets.ShowMore.options
-	 * @property {jQuery}  node  A jQuery object wrapping the node containing the records. It must have a scrollbar. Optional. Default to current <body>
+	 * @property {jQuery}  node  A jQuery object wrapping the node containing the records. It must have a scrollbar. Optional. If not specified, the whole document is assumed.
 	 */
 
 	/**
@@ -197,7 +197,7 @@
 			paramPath: "",
 			url: undefined,
 			/** @type {jQuery} */
-			node: jQuery("body")
+			node: undefined
 		};
 		luga.merge(this.config, options);
 		luga.extend(luga.data.widgets.ShowMore, this, [this.config]);
