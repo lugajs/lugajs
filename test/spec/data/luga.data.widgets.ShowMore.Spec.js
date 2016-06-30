@@ -313,8 +313,8 @@ describe("luga.data.widgets", function(){
 				it("Is a jQuery element containing the records", function(){
 					expect(showMoreScrollDiv.config.node).toEqual(mockDiv);
 				});
-				it("Default to the current document to handle infinite scrolling for the current window", function(){
-					expect(showMoreScrollBody.config.node).toEqual(jQuery(document));
+				it("Default to the current document body", function(){
+					expect(showMoreScrollBody.config.node).toEqual(jQuery("body"));
 				});
 			});
 
@@ -324,12 +324,12 @@ describe("luga.data.widgets", function(){
 
 			describe("Attach a scroll event either:", function(){
 
-				describe("To the document:", function(){
+				describe("To the document body:", function(){
 
-					it("If the widget is enabled and the document scrolls. It call .fetch()", function(){
+					it("If the widget is enabled and the body scrolls. It call .fetch()", function(){
 						spyOn(showMoreScrollBody, "fetch");
 						mockDs.setState(luga.data.STATE.READY);
-						jQuery(document).scroll();
+						jQuery("body").scroll();
 						expect(showMoreScrollBody.fetch).toHaveBeenCalled();
 					});
 

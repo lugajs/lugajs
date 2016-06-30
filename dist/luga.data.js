@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.4.0 2016-06-28T02:25:20.333Z
+Luga Data 0.4.0 2016-06-30T05:50:11.660Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -2244,7 +2244,7 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {object} luga.data.ShowMoreScrolling.options
 	 *
 	 * @extends luga.data.widgets.ShowMore.options
-	 * @property {jQuery}  node  A jQuery object wrapping the node containing the records. It must have a scrollbar. Optional. If not specified, the whole document is assumed.
+	 * @property {jQuery}  node  A jQuery object wrapping the node containing the records. It must have a scrollbar. Optional. Default to current <body>
 	 */
 
 	/**
@@ -2263,7 +2263,7 @@ if(typeof(luga) === "undefined"){
 			paramPath: "",
 			url: undefined,
 			/** @type {jQuery} */
-			node: undefined
+			node: jQuery("body")
 		};
 		luga.merge(this.config, options);
 		luga.extend(luga.data.widgets.ShowMore, this, [this.config]);
