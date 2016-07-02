@@ -62,7 +62,7 @@
 	 * @fires currentRowChanged
 	 * @fires dataSorted
 	 * @fires preDataSorted
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.DataSet = function(options){
 
@@ -184,7 +184,7 @@
 		 * @fires currentRowChanged
 		 * @fires stateChanged
 		 * @fires dataChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.delete = function(filter){
 			if(filter === undefined){
@@ -299,7 +299,7 @@
 		 * Throws an exception if the index is out of range
 		 * @param {number} index  Required
 		 * @returns {luga.data.DataSet.row}
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.getRowByIndex = function(index){
 			var fetchedRow;
@@ -359,7 +359,7 @@
 		 * @param  {array.<object>|object} records   Records to be loaded, either one single object containing value/name pairs, or an array of objects. Required
 		 * @fires stateChanged
 		 * @fires dataChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.insert = function(records){
 			// If we only get one record, we put it inside an array anyway,
@@ -443,7 +443,7 @@
 		 * @param {function} filter   An optional filter function. If specified only records matching the filter will be returned. Optional
 		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @returns {array.<luga.data.DataSet.row>}
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.select = function(filter){
 			if(filter === undefined){
@@ -481,7 +481,7 @@
 		 * Triggers a "currentRowChanged" notification
 		 * @param {string|null} rowId  Required
 		 * @fires currentRowChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.setCurrentRowId = function(rowId){
 			// No need to do anything
@@ -517,7 +517,7 @@
 		 * Throws an exception if no available record matches the given row
 		 * @param {luga.data.DataSet.row} row
 		 * @fires currentRowChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.setCurrentRow = function(row){
 			var fetchedRowId = this.getRowIndex(row);
@@ -532,7 +532,7 @@
 		 * Throws an exception if the index is out of range
 		 * @param {number} index  New index. Required
 		 * @fires currentRowChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.setCurrentRowIndex = function(index){
 			this.setCurrentRow(this.getRowByIndex(index));
@@ -545,7 +545,7 @@
 		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @fires currentRowChanged
 		 * @fires dataChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.setFilter = function(filter){
 			if(jQuery.isFunction(filter) === false){
@@ -683,7 +683,7 @@
 		 *                            The function is going to be called with this signature: myUpdater(row, rowIndex, dataSet)
 		 * @fires stateChanged
 		 * @fires dataChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.update = function(filter, updater){
 			/** @type {array.<luga.data.DataSet.row>} */

@@ -1,5 +1,5 @@
 /*! 
-Luga JS  2016-06-28T06:22:23.685Z
+Luga JS  2016-07-02T10:32:52.720Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -152,7 +152,7 @@ if(typeof(luga) === "undefined"){
 	 * Provides the base functionality necessary to maintain a list of observers and send notifications to them.
 	 * It's forbidden to use this class directly, it can only be used as a base class.
 	 * The Notifier class does not define any notification messages, so it is up to the developer to define the notifications sent via the Notifier.
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.Notifier = function(){
 		if(this.constructor === luga.Notifier){
@@ -178,7 +178,7 @@ if(typeof(luga) === "undefined"){
 		 * The interface for this methods is as follows:
 		 * observer.onCompleteHandler = function(data){};
 		 * @param  {object} observer  Observer object
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.addObserver = function(observer){
 			if(jQuery.type(observer) !== "object"){
@@ -194,7 +194,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {string}  eventName  Name of the event
 		 * @param {object}  data       Object containing data to be passed from the point of notification to all interested observers.
 		 *                             If there is no relevant data to pass, use an empty object.
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.notifyObservers = function(eventName, data){
 			if(jQuery.type(data) !== "object"){
@@ -284,7 +284,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {jquery}   rootNode     jQuery object wrapping the root node
 	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @returns {object}              A JavaScript object containing name/value pairs
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.form.toHash = function(rootNode, demoronize){
 
@@ -361,7 +361,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {jquery}   rootNode     jQuery object wrapping the root node
 	 * @param {boolean}  demoronize   If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @returns {string}               A URI encoded string
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.form.toQueryString = function(rootNode, demoronize){
 
@@ -992,7 +992,7 @@ if(typeof(luga) === "undefined"){
 	 * Form handler. Invoke its sender() method to serialize the form and send its contents using XHR
 	 * @param options {luga.ajaxform.Sender.options}
 	 * @constructor
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.ajaxform.Sender = function(options){
 		// Ensure it's a jQuery object
@@ -1023,7 +1023,7 @@ if(typeof(luga) === "undefined"){
 		}
 
 		/**
-		 * @throws
+		 * @throws {Exception}
 		 */
 		var handleAfter = function(){
 			/* istanbul ignore else */
@@ -1037,7 +1037,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * @throws
+		 * @throws {Exception}
 		 */
 		var handleBefore = function(){
 			/* istanbul ignore else */
@@ -1051,7 +1051,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * @throws
+		 * @throws {Exception}
 		 */
 		var handleError = function(textStatus, jqXHR, errorThrown){
 			var callBack = luga.lookupFunction(self.config.error);
@@ -1062,7 +1062,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * @throws
+		 * @throws {Exception}
 		 */
 		var handleSuccess = function(textStatus, jqXHR){
 			var callBack = luga.lookupFunction(self.config.success);
@@ -1212,7 +1212,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
 		 * @param {string}   textStatus   HTTP status
 		 * @param {string}   errorThrown
-		 * @throws
+		 * @throws {Exception}
 		 */
 		var onError = function(qXHR, textStatus, errorThrown){
 			throw(luga.string.format(luga.csi.CONST.MESSAGES.FILE_NOT_FOUND, [config.url]));
@@ -1426,9 +1426,9 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Form validator class
 	 *
-	 * @constructs
+	 * @constructor
 	 * @param {luga.validator.FormValidator.options} options
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.validator.FormValidator = function(options){
 		/** @type {luga.validator.FormValidator.options} */
@@ -1640,10 +1640,10 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Abstract field validator class. To be extended for different kind of fields
 	 *
-	 * @constructs
+	 * @constructor
 	 * @abstract
 	 * @param {luga.validator.BaseFieldValidator.options} options
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.validator.BaseFieldValidator = function(options){
 
@@ -1734,10 +1734,10 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Text field validator class
 	 *
-	 * @constructs
+	 * @constructor
 	 * @extends luga.validator.BaseFieldValidator
 	 * @param {luga.validator.TextValidator.options} options
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.validator.TextValidator = function(options){
 
@@ -1860,10 +1860,10 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Select field validator class
 	 *
-	 * @constructs
+	 * @constructor
 	 * @extends luga.validator.BaseFieldValidator
 	 * @param {luga.validator.SelectValidator.options} options
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.validator.SelectValidator = function(options){
 
@@ -1932,10 +1932,10 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Abstract validator class for grouped fields (checkboxes, radio buttons). To be extended for different kind of fields
 	 *
-	 * @constructs
+	 * @constructor
 	 * @abstract
 	 * @param {luga.validator.BaseFieldValidator.options} options
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.validator.BaseGroupValidator = function(options){
 
@@ -2019,7 +2019,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Radio button group validator class
 	 *
-	 * @constructs
+	 * @constructor
 	 * @extends luga.validator.BaseGroupValidator
 	 * @param {luga.validator.RadioValidator.options} options
 	 *
@@ -2085,7 +2085,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Checkboxes group validator class
 	 *
-	 * @constructs
+	 * @constructor
 	 * @extends luga.validator.BaseGroupValidator
 	 * @param {luga.validator.CheckboxValidator.options} options
 	 *
@@ -2149,7 +2149,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.validator.rules.equalto = function(fieldNode, validator){
 		var secondFieldNode = jQuery("#" + validator.config.equalto);
@@ -2222,7 +2222,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.validator.rules.pattern = function(fieldNode, validator){
 		var regExpObj = luga.validator.patterns[validator.config.pattern];
@@ -2376,7 +2376,7 @@ if(typeof(luga) === "undefined"){
 	 * Programmatically validate a field
 	 * @param {luga.validator.api.validateField.options}
 	 * @returns {boolean}
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.validator.api.validateField = function(options){
 		if(luga.form.utils.isInputField(options.fieldNode) === false){

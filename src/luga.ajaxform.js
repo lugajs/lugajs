@@ -118,7 +118,7 @@ if(typeof(luga) === "undefined"){
 	 * Form handler. Invoke its sender() method to serialize the form and send its contents using XHR
 	 * @param options {luga.ajaxform.Sender.options}
 	 * @constructor
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.ajaxform.Sender = function(options){
 		// Ensure it's a jQuery object
@@ -149,7 +149,7 @@ if(typeof(luga) === "undefined"){
 		}
 
 		/**
-		 * @throws
+		 * @throws {Exception}
 		 */
 		var handleAfter = function(){
 			/* istanbul ignore else */
@@ -163,7 +163,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * @throws
+		 * @throws {Exception}
 		 */
 		var handleBefore = function(){
 			/* istanbul ignore else */
@@ -177,7 +177,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * @throws
+		 * @throws {Exception}
 		 */
 		var handleError = function(textStatus, jqXHR, errorThrown){
 			var callBack = luga.lookupFunction(self.config.error);
@@ -188,7 +188,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * @throws
+		 * @throws {Exception}
 		 */
 		var handleSuccess = function(textStatus, jqXHR){
 			var callBack = luga.lookupFunction(self.config.success);

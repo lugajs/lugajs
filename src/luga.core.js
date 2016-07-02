@@ -147,7 +147,7 @@ if(typeof(luga) === "undefined"){
 	 * Provides the base functionality necessary to maintain a list of observers and send notifications to them.
 	 * It's forbidden to use this class directly, it can only be used as a base class.
 	 * The Notifier class does not define any notification messages, so it is up to the developer to define the notifications sent via the Notifier.
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.Notifier = function(){
 		if(this.constructor === luga.Notifier){
@@ -173,7 +173,7 @@ if(typeof(luga) === "undefined"){
 		 * The interface for this methods is as follows:
 		 * observer.onCompleteHandler = function(data){};
 		 * @param  {object} observer  Observer object
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.addObserver = function(observer){
 			if(jQuery.type(observer) !== "object"){
@@ -189,7 +189,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {string}  eventName  Name of the event
 		 * @param {object}  data       Object containing data to be passed from the point of notification to all interested observers.
 		 *                             If there is no relevant data to pass, use an empty object.
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.notifyObservers = function(eventName, data){
 			if(jQuery.type(data) !== "object"){
@@ -279,7 +279,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {jquery}   rootNode     jQuery object wrapping the root node
 	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @returns {object}              A JavaScript object containing name/value pairs
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.form.toHash = function(rootNode, demoronize){
 
@@ -356,7 +356,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {jquery}   rootNode     jQuery object wrapping the root node
 	 * @param {boolean}  demoronize   If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @returns {string}               A URI encoded string
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.form.toQueryString = function(rootNode, demoronize){
 

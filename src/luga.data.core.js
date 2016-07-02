@@ -59,7 +59,7 @@ if(typeof(luga) === "undefined"){
 	 * Adds a dataSource inside the registry
 	 * @param {string}                                uuid
 	 * @param {luga.data.DataSet|luga.data.DetailSet} dataSource
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.setDataSource = function(uuid, dataSource){
 		if(luga.data.getDataSource(uuid) !== null){
@@ -92,7 +92,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Given a state string, returns an object containing a boolean field for each possible state
 	 * @param {null|luga.data.STATE} state
-	 * @throws
+	 * @throws {Exception}
 	 * @returns {luga.data.stateDescription}
 	 */
 	luga.data.utils.assembleStateDescription = function(state){
@@ -114,7 +114,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {function}                      filter. Required
 	 * @param {luga.data.DataSet}             dataset. Required
 	 * @returns {array.<luga.data.DataSet.row>}
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.utils.filter = function(rows, filter, dataset){
 		if(jQuery.isFunction(filter) === false){
@@ -142,7 +142,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {array.<luga.data.DataSet.row>} rows. Required
 	 * @param {function}                      updater. Required
 	 * @param {luga.data.DataSet}             dataset. Required
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.utils.update = function(rows, formatter, dataset){
 		if(jQuery.isFunction(formatter) === false){

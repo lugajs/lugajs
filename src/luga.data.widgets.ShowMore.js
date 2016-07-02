@@ -18,7 +18,7 @@
 	 * @constructor
 	 * @abstract
 	 * @listens stateChanged
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.widgets.ShowMore = function(options){
 
@@ -123,7 +123,7 @@
 	 * @constructor
 	 * @extends luga.data.widgets.ShowMore
 	 * @listens stateChanged
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.widgets.ShowMoreButton = function(options){
 		this.config = {
@@ -187,7 +187,7 @@
 	 * @constructor
 	 * @extends luga.data.widgets.ShowMore
 	 * @listens stateChanged
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.widgets.ShowMoreScrolling = function(options){
 

@@ -1,5 +1,5 @@
 /*! 
-Luga Validator 0.9.2 2016-06-09T08:14:32.673Z
+Luga Validator 0.9.2 2016-07-02T10:32:52.712Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -168,9 +168,9 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Form validator class
 	 *
-	 * @constructs
+	 * @constructor
 	 * @param {luga.validator.FormValidator.options} options
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.validator.FormValidator = function(options){
 		/** @type {luga.validator.FormValidator.options} */
@@ -382,10 +382,10 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Abstract field validator class. To be extended for different kind of fields
 	 *
-	 * @constructs
+	 * @constructor
 	 * @abstract
 	 * @param {luga.validator.BaseFieldValidator.options} options
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.validator.BaseFieldValidator = function(options){
 
@@ -476,10 +476,10 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Text field validator class
 	 *
-	 * @constructs
+	 * @constructor
 	 * @extends luga.validator.BaseFieldValidator
 	 * @param {luga.validator.TextValidator.options} options
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.validator.TextValidator = function(options){
 
@@ -602,10 +602,10 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Select field validator class
 	 *
-	 * @constructs
+	 * @constructor
 	 * @extends luga.validator.BaseFieldValidator
 	 * @param {luga.validator.SelectValidator.options} options
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.validator.SelectValidator = function(options){
 
@@ -674,10 +674,10 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Abstract validator class for grouped fields (checkboxes, radio buttons). To be extended for different kind of fields
 	 *
-	 * @constructs
+	 * @constructor
 	 * @abstract
 	 * @param {luga.validator.BaseFieldValidator.options} options
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.validator.BaseGroupValidator = function(options){
 
@@ -761,7 +761,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Radio button group validator class
 	 *
-	 * @constructs
+	 * @constructor
 	 * @extends luga.validator.BaseGroupValidator
 	 * @param {luga.validator.RadioValidator.options} options
 	 *
@@ -827,7 +827,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Checkboxes group validator class
 	 *
-	 * @constructs
+	 * @constructor
 	 * @extends luga.validator.BaseGroupValidator
 	 * @param {luga.validator.CheckboxValidator.options} options
 	 *
@@ -891,7 +891,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.validator.rules.equalto = function(fieldNode, validator){
 		var secondFieldNode = jQuery("#" + validator.config.equalto);
@@ -964,7 +964,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.validator.rules.pattern = function(fieldNode, validator){
 		var regExpObj = luga.validator.patterns[validator.config.pattern];
@@ -1118,7 +1118,7 @@ if(typeof(luga) === "undefined"){
 	 * Programmatically validate a field
 	 * @param {luga.validator.api.validateField.options}
 	 * @returns {boolean}
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.validator.api.validateField = function(options){
 		if(luga.form.utils.isInputField(options.fieldNode) === false){
