@@ -1,3 +1,6 @@
+- Decouple API that don't depend on browser
+
+
 DOCS:
 
 - Luga.data Search sample (need REST endpoint)
