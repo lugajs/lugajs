@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.4.0 2016-06-28T02:25:20.333Z
+Luga Data 0.4.0 2016-07-02T10:32:52.733Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -64,7 +64,7 @@ if(typeof(luga) === "undefined"){
 	 * Adds a dataSource inside the registry
 	 * @param {string}                                uuid
 	 * @param {luga.data.DataSet|luga.data.DetailSet} dataSource
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.setDataSource = function(uuid, dataSource){
 		if(luga.data.getDataSource(uuid) !== null){
@@ -97,7 +97,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Given a state string, returns an object containing a boolean field for each possible state
 	 * @param {null|luga.data.STATE} state
-	 * @throws
+	 * @throws {Exception}
 	 * @returns {luga.data.stateDescription}
 	 */
 	luga.data.utils.assembleStateDescription = function(state){
@@ -119,7 +119,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {function}                      filter. Required
 	 * @param {luga.data.DataSet}             dataset. Required
 	 * @returns {array.<luga.data.DataSet.row>}
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.utils.filter = function(rows, filter, dataset){
 		if(jQuery.isFunction(filter) === false){
@@ -147,7 +147,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {array.<luga.data.DataSet.row>} rows. Required
 	 * @param {function}                      updater. Required
 	 * @param {luga.data.DataSet}             dataset. Required
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.utils.update = function(rows, formatter, dataset){
 		if(jQuery.isFunction(formatter) === false){
@@ -240,7 +240,7 @@ if(typeof(luga) === "undefined"){
 	 * @fires currentRowChanged
 	 * @fires dataSorted
 	 * @fires preDataSorted
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.DataSet = function(options){
 
@@ -362,7 +362,7 @@ if(typeof(luga) === "undefined"){
 		 * @fires currentRowChanged
 		 * @fires stateChanged
 		 * @fires dataChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.delete = function(filter){
 			if(filter === undefined){
@@ -477,7 +477,7 @@ if(typeof(luga) === "undefined"){
 		 * Throws an exception if the index is out of range
 		 * @param {number} index  Required
 		 * @returns {luga.data.DataSet.row}
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.getRowByIndex = function(index){
 			var fetchedRow;
@@ -537,7 +537,7 @@ if(typeof(luga) === "undefined"){
 		 * @param  {array.<object>|object} records   Records to be loaded, either one single object containing value/name pairs, or an array of objects. Required
 		 * @fires stateChanged
 		 * @fires dataChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.insert = function(records){
 			// If we only get one record, we put it inside an array anyway,
@@ -621,7 +621,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {function} filter   An optional filter function. If specified only records matching the filter will be returned. Optional
 		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @returns {array.<luga.data.DataSet.row>}
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.select = function(filter){
 			if(filter === undefined){
@@ -659,7 +659,7 @@ if(typeof(luga) === "undefined"){
 		 * Triggers a "currentRowChanged" notification
 		 * @param {string|null} rowId  Required
 		 * @fires currentRowChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.setCurrentRowId = function(rowId){
 			// No need to do anything
@@ -695,7 +695,7 @@ if(typeof(luga) === "undefined"){
 		 * Throws an exception if no available record matches the given row
 		 * @param {luga.data.DataSet.row} row
 		 * @fires currentRowChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.setCurrentRow = function(row){
 			var fetchedRowId = this.getRowIndex(row);
@@ -710,7 +710,7 @@ if(typeof(luga) === "undefined"){
 		 * Throws an exception if the index is out of range
 		 * @param {number} index  New index. Required
 		 * @fires currentRowChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.setCurrentRowIndex = function(index){
 			this.setCurrentRow(this.getRowByIndex(index));
@@ -723,7 +723,7 @@ if(typeof(luga) === "undefined"){
 		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @fires currentRowChanged
 		 * @fires dataChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.setFilter = function(filter){
 			if(jQuery.isFunction(filter) === false){
@@ -861,7 +861,7 @@ if(typeof(luga) === "undefined"){
 		 *                            The function is going to be called with this signature: myUpdater(row, rowIndex, dataSet)
 		 * @fires stateChanged
 		 * @fires dataChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.update = function(filter, updater){
 			/** @type {array.<luga.data.DataSet.row>} */
@@ -1035,7 +1035,7 @@ if(typeof(luga) === "undefined"){
 	 * @abstract
 	 * @fires dataLoading
 	 * @fires xhrError
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.HttpDataSet = function(options){
 		luga.extend(luga.data.DataSet, this, [options]);
@@ -1134,7 +1134,7 @@ if(typeof(luga) === "undefined"){
 		 * Fires an XHR request to fetch and load the data, notify observers ("dataLoading" first, "dataChanged" after records are loaded).
 		 * Throws an exception if URL is not set
 		 * @fires dataLoading
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.loadData = function(){
 			if(this.url === null){
@@ -1490,7 +1490,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Given a jQuery object wrapping an HTML node, initialize the relevant Region handler
 	 * @param {jquery} node
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.region.init = function(node){
 		var dataSourceId = node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID);
@@ -1564,7 +1564,7 @@ if(typeof(luga) === "undefined"){
 	 * @fires regionRendered
 	 * @listens dataChanged
 	 * @listens stateChanged
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.region.Base = function(options){
 
@@ -1685,7 +1685,7 @@ if(typeof(luga) === "undefined"){
 	 * @constructor
 	 * @extends luga.data.region.Base
 	 * @fires regionRendered
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.region.Handlebars = function(options){
 
@@ -2084,7 +2084,7 @@ if(typeof(luga) === "undefined"){
 	 * @constructor
 	 * @abstract
 	 * @listens stateChanged
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.widgets.ShowMore = function(options){
 
@@ -2189,7 +2189,7 @@ if(typeof(luga) === "undefined"){
 	 * @constructor
 	 * @extends luga.data.widgets.ShowMore
 	 * @listens stateChanged
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.widgets.ShowMoreButton = function(options){
 		this.config = {
@@ -2253,7 +2253,7 @@ if(typeof(luga) === "undefined"){
 	 * @constructor
 	 * @extends luga.data.widgets.ShowMore
 	 * @listens stateChanged
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.widgets.ShowMoreScrolling = function(options){
 

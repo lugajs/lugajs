@@ -21,7 +21,7 @@
 	 * @fires regionRendered
 	 * @listens dataChanged
 	 * @listens stateChanged
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.region.Base = function(options){
 

@@ -3,8 +3,8 @@
 
 DOCS:
 
-- Luga.data Search sample (need REST endpoint)
-- Luga.data: example with event delegation:
+- Luga.data: search sample (need REST endpoint)
+- Luga.data: examples with event delegation:
   https://api.jquery.com/on/#direct-and-delegated-events
   https://learn.jquery.com/events/event-delegation/
 

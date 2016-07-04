@@ -7,7 +7,7 @@
 	 * @constructor
 	 * @extends luga.data.region.Base
 	 * @fires regionRendered
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.region.Handlebars = function(options){
 
