@@ -1,5 +1,5 @@
 /*! 
-Luga Core 0.5.0 2016-07-02T10:32:52.696Z
+Luga Core 0.5.0 2016-07-05T09:11:55.694Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -224,6 +224,30 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
+	};
+
+	var class2type = {};
+	["Array", "Boolean", "Date", "Error", "Function", "Number", "Object", "RegExp", "String", "Symbol"].forEach(function(element, i, collection){
+		class2type["[object " + element + "]"] = element.toLowerCase();
+	});
+
+	/**
+	 * Mimic jQuery.type()
+	 * https://api.jquery.com/jQuery.type/
+	 * @param {*} obj
+	 * @returns {string}
+	 */
+	luga.type = function(obj){
+		if(obj === null){
+			return "null";
+		}
+		var rawType = typeof obj;
+		if((rawType === "object") || (rawType === "function")){
+			/* http://perfectionkills.com/instanceof-considered-harmful-or-how-to-write-a-robust-isarray/ */
+			var stringType = Object.prototype.toString.call(obj);
+			return class2type[stringType];
+		}
+		return rawType;
 	};
 
 	/* DOM */

@@ -209,6 +209,86 @@ describe("luga", function(){
 
 	});
 
+	describe(".type()", function(){
+
+		describe("Mimic jQuery.type() delivering the following results", function(){
+
+			it("luga.type(null) === 'null'", function(){
+				expect(luga.type(null)).toEqual("null");
+			});
+
+			it("luga.type(undefined) === 'undefined'", function(){
+				expect(luga.type(undefined)).toEqual("undefined");
+			});
+
+			it("luga.type() === 'undefined'", function(){
+				expect(luga.type()).toEqual("undefined");
+			});
+
+			it("luga.type(obj.notDefined) === 'undefined'", function(){
+				var test = {}
+				expect(luga.type(test.notDefined)).toEqual("undefined");
+			});
+
+			it("luga.type(true) === 'boolean'", function(){
+				expect(luga.type(true)).toEqual("boolean");
+				expect(luga.type(false)).toEqual("boolean");
+			});
+
+			it("luga.type(new Boolean()) === 'boolean'", function(){
+				expect(luga.type(new Boolean())).toEqual("boolean");
+			});
+
+			it("luga.type(3) === 'number'", function(){
+				expect(luga.type(3)).toEqual("number");
+				expect(luga.type(-3)).toEqual("number");
+				expect(luga.type(0)).toEqual("number");
+			});
+
+			it("luga.type(new Number(3)) === 'number'", function(){
+				expect(luga.type(new Number(3))).toEqual("number");
+			});
+
+			it("luga.type('test') === 'string'", function(){
+				expect(luga.type("test")).toEqual("string");
+				expect(luga.type("")).toEqual("string");
+			});
+
+			it("luga.type(new String('text')) === 'string'", function(){
+				expect(luga.type(new String("test"))).toEqual("string");
+				expect(luga.type(new String(""))).toEqual("string");
+			});
+
+			it("luga.type(function(){}) === 'function'", function(){
+				expect(luga.type(function(){
+				})).toEqual("function");
+			});
+
+			it("luga.type([]) === 'array'", function(){
+				expect(luga.type([])).toEqual("array");
+			});
+
+			it("luga.type(new Array()) === 'array'", function(){
+				expect(luga.type(new Array())).toEqual("array");
+			});
+
+			it("luga.type(new Date()) === 'date'", function(){
+				expect(luga.type(new Date())).toEqual("date");
+			});
+
+			it("luga.type(new Error()) === 'error'", function(){
+				expect(luga.type(new Error())).toEqual("error");
+			});
+
+			it("luga.type(/test/) === 'regexp'", function(){
+				expect(luga.type(/test/)).toEqual("regexp");
+			});
+
+		});
+
+	});
+
+
 	describe(".Notifier", function(){
 		var notifierObj, observerObj, uselessObj;
 
