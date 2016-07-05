@@ -20,7 +20,11 @@ AJAXFORM:
 -------------
 CSI:
 -------------
+
 CORE:
+
+- luga.string.hashToQuery
+
 -------------
 VALIDATOR:
 -------------
