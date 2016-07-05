@@ -50,7 +50,7 @@
 		 * @param {luga.data.DataSet.row} row
 		 */
 		this.fetchData = function(row){
-			var bindUrl = luga.string.replaceProperty(self.urlPattern, row);
+			var bindUrl = luga.string.populate(self.urlPattern, row);
 			if(bindUrl === self.urlPattern){
 				throw(luga.string.format(CONST.ERROR_MESSAGES.FAILED_URL_BINDING, [bindUrl]));
 			}

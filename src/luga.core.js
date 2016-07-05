@@ -648,7 +648,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Given a string containing placeholders in {key} format, it assembles a new string
-	 * replacing the placeholders with the strings contained inside the second argument keys
+	 * populating the placeholders with the strings contained inside the second argument keys
 	 * Unlike luga.string.format, placeholders can match nested properties too. But it's slower
 	 *
 	 * Example:
@@ -657,14 +657,14 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * Example with nested properties:
 	 * var nestedObj = { type: "people", person: { firstName: "Ciccio", lastName: "Pasticcio" } };
-	 * luga.string.replaceProperty("My name is {person.firstName} {person.lastName}", nestedObj)
+	 * luga.string.populate("My name is {person.firstName} {person.lastName}", nestedObj)
 	 * => "My name is Ciccio Pasticcio"
 	 *
 	 * @param   {string} str   String containing placeholders
 	 * @param   {object} obj   An objects containing name/value pairs in string format
 	 * @returns {string} The newly assembled string
 	 */
-	luga.string.replaceProperty = function(str, obj){
+	luga.string.populate = function(str, obj){
 		if(luga.isPlainObject(obj) === true){
 			var results;
 			while((results = propertyPattern.exec(str)) !== null){

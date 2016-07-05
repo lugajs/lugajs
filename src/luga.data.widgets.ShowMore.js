@@ -56,7 +56,7 @@
 			if(this.config.paramPath !== ""){
 				bindingObj = luga.lookupProperty(bindingObj, this.config.paramPath);
 			}
-			return luga.string.replaceProperty(this.config.url, bindingObj);
+			return luga.string.populate(this.config.url, bindingObj);
 		};
 
 		/**
