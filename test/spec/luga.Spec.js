@@ -74,6 +74,23 @@ describe("luga", function(){
 
 	});
 
+	describe(".isPlainObject()", function(){
+
+		it("Return true if an object is a plain object (created using '{}' or 'new Object')", function(){
+			expect(luga.isPlainObject({})).toEqual(true);
+			expect(luga.isPlainObject(new Object())).toEqual(true);
+			expect(luga.isPlainObject(Object.create(null))).toEqual(true);
+		});
+
+		it("Return false otherwise", function(){
+			expect(luga.isPlainObject()).toEqual(false);
+			expect(luga.isPlainObject("test")).toEqual(false);
+			expect(luga.isPlainObject(3)).toEqual(false);
+			expect(luga.isPlainObject(document)).toEqual(false);
+		});
+
+	});
+
 	describe(".lookupFunction()", function(){
 
 		describe("Given the name of a function as a string", function(){

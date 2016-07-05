@@ -54,6 +54,25 @@ if(typeof(luga) === "undefined"){
 		baseFunc.apply(func, args);
 	};
 
+	luga.isPlainObject = function(obj){
+		// Detect obvious negatives
+		// Use Object.prototype.toString to catch host objects
+		if(!obj || Object.prototype.toString.call(obj) !== "[object Object]"){
+			return false;
+		}
+
+		var proto = Object.getPrototypeOf(obj);
+
+		// Objects with no prototype (e.g., Object.create(null)) are plain
+		if(proto === null){
+			return true;
+		}
+
+		// Objects with prototype are plain if they were constructed by a global Object function
+		var constructor = Object.prototype.hasOwnProperty.call(proto, "constructor") && proto.constructor;
+		return typeof (constructor === "function") && (Function.toString.call(constructor) === Function.toString.call(Object));
+	};
+
 	/**
 	 * Given the name of a function as a string, return the relevant function, if any
 	 * Returns undefined, if the reference has not been found
