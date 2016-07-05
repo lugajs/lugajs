@@ -62,9 +62,19 @@ if(typeof(luga) === "undefined"){
 	luga.isArray = function(obj){
 		return Array.isArray(obj);
 	};
-	
+
+	/**
+	 * Return true if an object is a function. False otherwise
+	 * @param {*} obj
+	 * @returns {boolean}
+	 */
+	luga.isFunction = function(obj){
+		return luga.type(obj) === "function";
+	};
+
 	/**
 	 * Return true if an object is a plain object (created using "{}" or "new Object"). False otherwise
+	 * Based on jQuery.isPlainObject()
 	 * @param {*} obj
 	 * @returns {boolean}
 	 */
@@ -141,13 +151,14 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Shallow-merge the contents of two objects together into the first object
-	 * It wraps jQuery's extend to make names less ambiguous
 	 *
 	 * @param {object} target  An object that will receive the new properties
 	 * @param {object} obj     An object containing additional properties to merge in
 	 */
 	luga.merge = function(target, obj){
-		jQuery.extend(target, obj);
+		for(var x in obj){
+			target[x] = obj[x];
+		}
 	};
 
 	/**
@@ -260,8 +271,8 @@ if(typeof(luga) === "undefined"){
 	});
 
 	/**
-	 * Mimic jQuery.type()
-	 * https://api.jquery.com/jQuery.type/
+	 * Determine the internal JavaScript [[Class]] of an object
+	 * Based on jQuery.type()
 	 * @param {*} obj
 	 * @returns {string}
 	 */

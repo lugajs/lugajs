@@ -74,7 +74,7 @@ describe("luga", function(){
 
 	});
 
-	describe(".isArray", function(){
+	describe(".isArray()", function(){
 
 		it("Return true if an object is an array", function(){
 			expect(luga.isArray([])).toEqual(true);
@@ -86,6 +86,24 @@ describe("luga", function(){
 			expect(luga.isArray("test")).toEqual(false);
 			expect(luga.isArray(3)).toEqual(false);
 			expect(luga.isArray({})).toEqual(false);
+		});
+
+	});
+
+	describe(".isFunction()", function(){
+
+		it("Return true if an object is a function", function(){
+			//expect(luga.isFunction([])).toEqual(true);
+			expect(luga.isFunction(function(){
+			})).toEqual(true);
+		});
+
+		it("Return false otherwise", function(){
+			expect(luga.isFunction()).toEqual(false);
+			expect(luga.isFunction("test")).toEqual(false);
+			expect(luga.isFunction(3)).toEqual(false);
+			expect(luga.isFunction({})).toEqual(false);
+			expect(luga.isFunction([])).toEqual(false);
 		});
 
 	});
@@ -203,6 +221,30 @@ describe("luga", function(){
 			expect(config).toEqual({letter: "a", number: 2, symbol: "@"});
 		});
 
+		describe("Works if the target object is", function(){
+
+			it("A complex object", function(){
+				var target = {name: "Ciccio", friends: [{name: "Franco"}, {name: "Federico"}]};
+				var params = {number: 2, symbol: "@"};
+				luga.merge(target, params);
+				expect(target).toEqual({
+					name: "Ciccio",
+					number: 2,
+					symbol: "@",
+					friends: [{name: "Franco"}, {name: "Federico"}]
+				});
+			});
+
+			it("An Array", function(){
+				var target = [];
+				var params = {number: 2, symbol: "@"};
+				luga.merge(target, params);
+				expect(target.number).toEqual(2);
+				expect(target.symbol).toEqual("@");
+			});
+
+		});
+
 	});
 
 	describe(".setProperty()", function(){
@@ -244,7 +286,7 @@ describe("luga", function(){
 
 	describe(".type()", function(){
 
-		describe("Mimic jQuery.type() delivering the following results", function(){
+		describe("Determine the internal JavaScript [[Class]] of an object. Delivering the following results", function(){
 
 			it("luga.type(null) === 'null'", function(){
 				expect(luga.type(null)).toEqual("null");
