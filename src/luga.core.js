@@ -54,6 +54,20 @@ if(typeof(luga) === "undefined"){
 		baseFunc.apply(func, args);
 	};
 
+	/**
+	 * Return true if an object is an array. False otherwise
+	 * @param {*} obj
+	 * @returns {boolean}
+	 */
+	luga.isArray = function(obj){
+		return Array.isArray(obj);
+	};
+	
+	/**
+	 * Return true if an object is a plain object (created using "{}" or "new Object"). False otherwise
+	 * @param {*} obj
+	 * @returns {boolean}
+	 */
 	luga.isPlainObject = function(obj){
 		// Detect obvious negatives
 		// Use Object.prototype.toString to catch host objects
