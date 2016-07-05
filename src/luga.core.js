@@ -14,14 +14,6 @@ if(typeof(luga) === "undefined"){
 
 	luga.version = "0.5.0";
 
-	luga.CONST = {
-		ERROR_MESSAGES: {
-			NOTIFIER_ABSTRACT: "It's forbidden to use luga.Notifier directly, it must be used as a base class instead",
-			INVALID_OBSERVER_PARAMETER: "addObserver(): observer parameter must be an object",
-			INVALID_DATA_PARAMETER: "notifyObserver(): data parameter is required and must be an object"
-		}
-	};
-
 	/**
 	 * Creates namespaces to be used for scoping variables and classes so that they are not global.
 	 * Specifying the last node of a namespace implicitly creates all other nodes.
@@ -81,7 +73,7 @@ if(typeof(luga) === "undefined"){
 	luga.isPlainObject = function(obj){
 		// Detect obvious negatives
 		// Use Object.prototype.toString to catch host objects
-		if(!obj || Object.prototype.toString.call(obj) !== "[object Object]"){
+		if(Object.prototype.toString.call(obj) !== "[object Object]"){
 			return false;
 		}
 
@@ -109,7 +101,7 @@ if(typeof(luga) === "undefined"){
 			return undefined;
 		}
 		var reference = luga.lookupProperty(window, path);
-		if(jQuery.isFunction(reference) === true){
+		if(luga.isFunction(reference) === true){
 			return reference;
 		}
 		return undefined;
@@ -187,6 +179,14 @@ if(typeof(luga) === "undefined"){
 		}
 	};
 
+	luga.NOTIFIER_CONST = {
+		ERROR_MESSAGES: {
+			NOTIFIER_ABSTRACT: "It's forbidden to use luga.Notifier directly, it must be used as a base class instead",
+			INVALID_OBSERVER_PARAMETER: "addObserver(): observer parameter must be an object",
+			INVALID_DATA_PARAMETER: "notifyObserver(): data parameter is required and must be an object"
+		}
+	};
+
 	/**
 	 * Provides the base functionality necessary to maintain a list of observers and send notifications to them.
 	 * It's forbidden to use this class directly, it can only be used as a base class.
@@ -195,7 +195,7 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.Notifier = function(){
 		if(this.constructor === luga.Notifier){
-			throw(luga.CONST.ERROR_MESSAGES.NOTIFIER_ABSTRACT);
+			throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.NOTIFIER_ABSTRACT);
 		}
 		this.observers = [];
 		var prefix = "on";
@@ -220,8 +220,8 @@ if(typeof(luga) === "undefined"){
 		 * @throws {Exception}
 		 */
 		this.addObserver = function(observer){
-			if(jQuery.type(observer) !== "object"){
-				throw(luga.CONST.ERROR_MESSAGES.INVALID_OBSERVER_PARAMETER);
+			if(luga.type(observer) !== "object"){
+				throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_OBSERVER_PARAMETER);
 			}
 			this.observers.push(observer);
 		};
@@ -236,13 +236,13 @@ if(typeof(luga) === "undefined"){
 		 * @throws {Exception}
 		 */
 		this.notifyObservers = function(eventName, data){
-			if(jQuery.type(data) !== "object"){
-				throw(luga.CONST.ERROR_MESSAGES.INVALID_DATA_PARAMETER);
+			if(luga.type(data) !== "object"){
+				throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_DATA_PARAMETER);
 			}
 			var method = generateMethodName(eventName);
 			for(var i = 0; i < this.observers.length; i++){
 				var observer = this.observers[i];
-				if(observer[method] && jQuery.isFunction(observer[method])){
+				if(observer[method] && luga.isFunction(observer[method])){
 					observer[method](data);
 				}
 			}
@@ -386,7 +386,7 @@ if(typeof(luga) === "undefined"){
 					if(map[fieldName] === undefined){
 						map[fieldName] = fieldValue;
 					}
-					else if(jQuery.isArray(map[fieldName]) === true){
+					else if(luga.isArray(map[fieldName]) === true){
 						map[fieldName].push(fieldValue);
 					}
 					else{
@@ -594,13 +594,13 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.string.format = function(str, args){
 		var pattern = null;
-		if($.isArray(args) === true){
+		if(luga.isArray(args) === true){
 			for(var i = 0; i < args.length; i++){
 				pattern = new RegExp("\\{" + i + "\\}", "g");
 				str = str.replace(pattern, args[i]);
 			}
 		}
-		if($.isPlainObject(args) === true){
+		if(luga.isPlainObject(args) === true){
 			for(var x in args){
 				pattern = new RegExp("\\{" + x + "\\}", "g");
 				str = str.replace(pattern, args[x]);
@@ -634,7 +634,7 @@ if(typeof(luga) === "undefined"){
 			if(map[fieldName] === undefined){
 				map[fieldName] = fieldValue;
 			}
-			else if(jQuery.isArray(map[fieldName]) === true){
+			else if(luga.isArray(map[fieldName]) === true){
 				map[fieldName].push(fieldValue);
 			}
 			else{
@@ -665,7 +665,7 @@ if(typeof(luga) === "undefined"){
 	 * @returns {string} The newly assembled string
 	 */
 	luga.string.replaceProperty = function(str, obj){
-		if($.isPlainObject(obj) === true){
+		if(luga.isPlainObject(obj) === true){
 			var results;
 			while((results = propertyPattern.exec(str)) !== null){
 				var property = luga.lookupProperty(obj, results[1]);

@@ -86,10 +86,10 @@
 		if(options.uuid === undefined){
 			throw(CONST.ERROR_MESSAGES.INVALID_UUID_PARAMETER);
 		}
-		if((options.formatter !== undefined) && (jQuery.isFunction(options.formatter) === false)){
+		if((options.formatter !== undefined) && (luga.isFunction(options.formatter) === false)){
 			throw(CONST.ERROR_MESSAGES.INVALID_FORMATTER_PARAMETER);
 		}
-		if((options.filter !== undefined) && (jQuery.isFunction(options.filter) === false)){
+		if((options.filter !== undefined) && (luga.isFunction(options.filter) === false)){
 			throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 		}
 		luga.extend(luga.Notifier, this);
@@ -191,7 +191,7 @@
 				deleteAll();
 			}
 			else{
-				if(jQuery.isFunction(filter) === false){
+				if(luga.isFunction(filter) === false){
 					throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 				}
 				var orig = this.records;
@@ -364,19 +364,19 @@
 		this.insert = function(records){
 			// If we only get one record, we put it inside an array anyway,
 			var recordsHolder = [];
-			if(jQuery.isArray(records) === true){
+			if(luga.isArray(records) === true){
 				recordsHolder = records;
 			}
 			else{
 				// Ensure we don't have primitive values
-				if(jQuery.isPlainObject(records) === false){
+				if(luga.isPlainObject(records) === false){
 					throw(CONST.ERROR_MESSAGES.INVALID_PRIMITIVE);
 				}
 				recordsHolder.push(records);
 			}
 			for(var i = 0; i < recordsHolder.length; i++){
 				// Ensure we don't have primitive values
-				if(jQuery.isPlainObject(recordsHolder[i]) === false){
+				if(luga.isPlainObject(recordsHolder[i]) === false){
 					throw(CONST.ERROR_MESSAGES.INVALID_PRIMITIVE_ARRAY);
 				}
 				// Create new PK
@@ -449,7 +449,7 @@
 			if(filter === undefined){
 				return selectAll();
 			}
-			if(jQuery.isFunction(filter) === false){
+			if(luga.isFunction(filter) === false){
 				throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			return luga.data.utils.filter(selectAll(), filter, self);
@@ -462,7 +462,7 @@
 		 * @param {string}               columnType   Either "date", "number" or "string"
 		 */
 		this.setColumnType = function(columnNames, columnType){
-			if(jQuery.isArray(columnNames) === false){
+			if(luga.isArray(columnNames) === false){
 				columnNames = [columnNames];
 			}
 			for(var i = 0; i < columnNames.length; i++){
@@ -548,7 +548,7 @@
 		 * @throws {Exception}
 		 */
 		this.setFilter = function(filter){
-			if(jQuery.isFunction(filter) === false){
+			if(luga.isFunction(filter) === false){
 				throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			this.filter = filter;
@@ -656,7 +656,7 @@
 		var assembleSortColumns = function(columnNames){
 			// If only one column name was specified for sorting
 			// Do a secondary sort on PK so we get a stable sort order
-			if(jQuery.isArray(columnNames) === false){
+			if(luga.isArray(columnNames) === false){
 				return [columnNames, luga.data.CONST.PK_KEY];
 			}
 			else if(columnNames.length < 2 && columnNames[0] !== luga.data.CONST.PK_KEY){

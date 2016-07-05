@@ -1,5 +1,5 @@
 /*! 
-Luga JS  2016-07-05T09:11:55.730Z
+Luga JS  2016-07-05T14:57:13.534Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -18,14 +18,6 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.version = "0.5.0";
-
-	luga.CONST = {
-		ERROR_MESSAGES: {
-			NOTIFIER_ABSTRACT: "It's forbidden to use luga.Notifier directly, it must be used as a base class instead",
-			INVALID_OBSERVER_PARAMETER: "addObserver(): observer parameter must be an object",
-			INVALID_DATA_PARAMETER: "notifyObserver(): data parameter is required and must be an object"
-		}
-	};
 
 	/**
 	 * Creates namespaces to be used for scoping variables and classes so that they are not global.
@@ -60,6 +52,49 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
+	 * Return true if an object is an array. False otherwise
+	 * @param {*} obj
+	 * @returns {boolean}
+	 */
+	luga.isArray = function(obj){
+		return Array.isArray(obj);
+	};
+
+	/**
+	 * Return true if an object is a function. False otherwise
+	 * @param {*} obj
+	 * @returns {boolean}
+	 */
+	luga.isFunction = function(obj){
+		return luga.type(obj) === "function";
+	};
+
+	/**
+	 * Return true if an object is a plain object (created using "{}" or "new Object"). False otherwise
+	 * Based on jQuery.isPlainObject()
+	 * @param {*} obj
+	 * @returns {boolean}
+	 */
+	luga.isPlainObject = function(obj){
+		// Detect obvious negatives
+		// Use Object.prototype.toString to catch host objects
+		if(Object.prototype.toString.call(obj) !== "[object Object]"){
+			return false;
+		}
+
+		var proto = Object.getPrototypeOf(obj);
+
+		// Objects with no prototype (e.g., Object.create(null)) are plain
+		if(proto === null){
+			return true;
+		}
+
+		// Objects with prototype are plain if they were constructed by a global Object function
+		var constructor = Object.prototype.hasOwnProperty.call(proto, "constructor") && proto.constructor;
+		return typeof (constructor === "function") && (Function.toString.call(constructor) === Function.toString.call(Object));
+	};
+
+	/**
 	 * Given the name of a function as a string, return the relevant function, if any
 	 * Returns undefined, if the reference has not been found
 	 * Supports namespaces (if the fully qualified path is passed)
@@ -71,7 +106,7 @@ if(typeof(luga) === "undefined"){
 			return undefined;
 		}
 		var reference = luga.lookupProperty(window, path);
-		if(jQuery.isFunction(reference) === true){
+		if(luga.isFunction(reference) === true){
 			return reference;
 		}
 		return undefined;
@@ -113,13 +148,14 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Shallow-merge the contents of two objects together into the first object
-	 * It wraps jQuery's extend to make names less ambiguous
 	 *
 	 * @param {object} target  An object that will receive the new properties
 	 * @param {object} obj     An object containing additional properties to merge in
 	 */
 	luga.merge = function(target, obj){
-		jQuery.extend(target, obj);
+		for(var x in obj){
+			target[x] = obj[x];
+		}
 	};
 
 	/**
@@ -148,6 +184,14 @@ if(typeof(luga) === "undefined"){
 		}
 	};
 
+	luga.NOTIFIER_CONST = {
+		ERROR_MESSAGES: {
+			NOTIFIER_ABSTRACT: "It's forbidden to use luga.Notifier directly, it must be used as a base class instead",
+			INVALID_OBSERVER_PARAMETER: "addObserver(): observer parameter must be an object",
+			INVALID_DATA_PARAMETER: "notifyObserver(): data parameter is required and must be an object"
+		}
+	};
+
 	/**
 	 * Provides the base functionality necessary to maintain a list of observers and send notifications to them.
 	 * It's forbidden to use this class directly, it can only be used as a base class.
@@ -156,7 +200,7 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.Notifier = function(){
 		if(this.constructor === luga.Notifier){
-			throw(luga.CONST.ERROR_MESSAGES.NOTIFIER_ABSTRACT);
+			throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.NOTIFIER_ABSTRACT);
 		}
 		this.observers = [];
 		var prefix = "on";
@@ -181,8 +225,8 @@ if(typeof(luga) === "undefined"){
 		 * @throws {Exception}
 		 */
 		this.addObserver = function(observer){
-			if(jQuery.type(observer) !== "object"){
-				throw(luga.CONST.ERROR_MESSAGES.INVALID_OBSERVER_PARAMETER);
+			if(luga.type(observer) !== "object"){
+				throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_OBSERVER_PARAMETER);
 			}
 			this.observers.push(observer);
 		};
@@ -197,13 +241,13 @@ if(typeof(luga) === "undefined"){
 		 * @throws {Exception}
 		 */
 		this.notifyObservers = function(eventName, data){
-			if(jQuery.type(data) !== "object"){
-				throw(luga.CONST.ERROR_MESSAGES.INVALID_DATA_PARAMETER);
+			if(luga.type(data) !== "object"){
+				throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_DATA_PARAMETER);
 			}
 			var method = generateMethodName(eventName);
 			for(var i = 0; i < this.observers.length; i++){
 				var observer = this.observers[i];
-				if(observer[method] && jQuery.isFunction(observer[method])){
+				if(observer[method] && luga.isFunction(observer[method])){
 					observer[method](data);
 				}
 			}
@@ -232,8 +276,8 @@ if(typeof(luga) === "undefined"){
 	});
 
 	/**
-	 * Mimic jQuery.type()
-	 * https://api.jquery.com/jQuery.type/
+	 * Determine the internal JavaScript [[Class]] of an object
+	 * Based on jQuery.type()
 	 * @param {*} obj
 	 * @returns {string}
 	 */
@@ -347,7 +391,7 @@ if(typeof(luga) === "undefined"){
 					if(map[fieldName] === undefined){
 						map[fieldName] = fieldValue;
 					}
-					else if(jQuery.isArray(map[fieldName]) === true){
+					else if(luga.isArray(map[fieldName]) === true){
 						map[fieldName].push(fieldValue);
 					}
 					else{
@@ -555,13 +599,13 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.string.format = function(str, args){
 		var pattern = null;
-		if($.isArray(args) === true){
+		if(luga.isArray(args) === true){
 			for(var i = 0; i < args.length; i++){
 				pattern = new RegExp("\\{" + i + "\\}", "g");
 				str = str.replace(pattern, args[i]);
 			}
 		}
-		if($.isPlainObject(args) === true){
+		if(luga.isPlainObject(args) === true){
 			for(var x in args){
 				pattern = new RegExp("\\{" + x + "\\}", "g");
 				str = str.replace(pattern, args[x]);
@@ -595,7 +639,7 @@ if(typeof(luga) === "undefined"){
 			if(map[fieldName] === undefined){
 				map[fieldName] = fieldValue;
 			}
-			else if(jQuery.isArray(map[fieldName]) === true){
+			else if(luga.isArray(map[fieldName]) === true){
 				map[fieldName].push(fieldValue);
 			}
 			else{
@@ -626,7 +670,7 @@ if(typeof(luga) === "undefined"){
 	 * @returns {string} The newly assembled string
 	 */
 	luga.string.replaceProperty = function(str, obj){
-		if($.isPlainObject(obj) === true){
+		if(luga.isPlainObject(obj) === true){
 			var results;
 			while((results = propertyPattern.exec(str)) !== null){
 				var property = luga.lookupProperty(obj, results[1]);
