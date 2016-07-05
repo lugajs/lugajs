@@ -1,5 +1,5 @@
-if(typeof(jQuery) === "undefined"){
-	throw("toMatchDuckType: Unable to find jQuery");
+if(typeof(luga) === "undefined"){
+	throw("toMatchDuckType: Unable to find Luga");
 }
 
 (function(){
@@ -15,8 +15,8 @@ if(typeof(jQuery) === "undefined"){
 						result.message = "Please specify an instance of a duckType";
 						return result;
 					}
-					if(jQuery.type(actual) !== jQuery.type(duckType)){
-						result.message = "Type mismatch: " + jQuery.type(actual) + " vs " + jQuery.type(duckType);
+					if(luga.type(actual) !== luga.type(duckType)){
+						result.message = "Type mismatch: " + luga.type(actual) + " vs " + luga.type(duckType);
 						return result;
 					}
 
@@ -28,8 +28,8 @@ if(typeof(jQuery) === "undefined"){
 						var duckProp = duckType[key];
 						if(actual.hasOwnProperty(key)){
 							if(matchType === false){
-								if(jQuery.type(duckProp) !== jQuery.type(actual[key])){
-									result.message = "Type of: ." + key + " does not match. Supposed to be: " + jQuery.type(duckProp);
+								if(luga.type(duckProp) !== luga.type(actual[key])){
+									result.message = "Type of: ." + key + " does not match. Supposed to be: " + luga.type(duckProp);
 									return result;
 								}
 							}
