@@ -324,6 +324,10 @@ describe("luga", function(){
 				expect(luga.type(new Number(3))).toEqual("number");
 			});
 
+			it("luga.type(NaN) === 'number'", function(){
+				expect(luga.type(NaN)).toEqual("number");
+			});
+
 			it("luga.type('test') === 'string'", function(){
 				expect(luga.type("test")).toEqual("string");
 				expect(luga.type("")).toEqual("string");
