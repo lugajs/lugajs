@@ -740,7 +740,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {Node} node
 	 * @returns {object}
 	 */
-	luga.xml.nodeToObject = function(node){
+	luga.xml.nodeToHash = function(node){
 		var obj = {};
 		attributesToProperties(node, obj);
 		childrenToProperties(node, obj);
@@ -790,7 +790,7 @@ if(typeof(luga) === "undefined"){
 					obj[child.nodeName] = getTextValue(child);
 				}
 				else{
-					var childObj = luga.xml.nodeToObject(child);
+					var childObj = luga.xml.nodeToHash(child);
 					if(isArray === true){
 						obj[tagName].push(childObj);
 					}

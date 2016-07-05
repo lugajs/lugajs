@@ -29,7 +29,7 @@ describe("luga.xml", function(){
 
 	});
 
-	describe(".nodeToObject()", function(){
+	describe(".nodeToHash()", function(){
 
 		describe("Convert an XML node into a JavaScript object", function(){
 
@@ -39,7 +39,7 @@ describe("luga.xml", function(){
 					var node = document.createElement("test");
 					node.setAttribute("name", "Ciccio");
 					node.setAttribute("lastname", "Pasticcio");
-					var obj = luga.xml.nodeToObject(node);
+					var obj = luga.xml.nodeToHash(node);
 					expect(obj["_name"]).toEqual("Ciccio");
 					expect(obj["_lastname"]).toEqual("Pasticcio");
 				});
@@ -49,7 +49,7 @@ describe("luga.xml", function(){
 					var employeesDoc = luga.xml.parseFromString(employeesStr);
 					var rootNode = luga.xml.evaluateXPath(employeesDoc, "//employees");
 
-					var obj = luga.xml.nodeToObject(rootNode[0]);
+					var obj = luga.xml.nodeToHash(rootNode[0]);
 					expect(obj["employee"].length).toEqual(3);
 					expect(obj["employee"][0].firstname).toEqual("Edward");
 					expect(obj["employee"][0].lastname).toEqual("Smith");
@@ -63,7 +63,7 @@ describe("luga.xml", function(){
 
 				it("The given node has no attributes and no children", function(){
 					var node = document.createElement("test");
-					var obj = luga.xml.nodeToObject(node);
+					var obj = luga.xml.nodeToHash(node);
 					expect(obj).toEqual({});
 				});
 

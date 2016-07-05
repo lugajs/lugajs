@@ -1348,7 +1348,7 @@ if(typeof(luga) === "undefined"){
 			var nodes = luga.xml.evaluateXPath(xmlDoc, self.path);
 			var records = [];
 			for(var i = 0; i < nodes.length; i++){
-				records.push(luga.xml.nodeToObject(nodes[i]));
+				records.push(luga.xml.nodeToHash(nodes[i]));
 			}
 			self.insert(records);
 

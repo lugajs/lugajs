@@ -182,7 +182,7 @@ describe("luga.data.XmlDataSet", function(){
 					var jazzPlayerNodes = luga.xml.evaluateXPath(testRecordsDoc, "//jazzPlayers/person");
 					var jazzPlayerRecords = [];
 					for(var i = 0; i < jazzPlayerNodes.length; i++){
-						jazzPlayerRecords.push(luga.xml.nodeToObject(jazzPlayerNodes[i]));
+						jazzPlayerRecords.push(luga.xml.nodeToHash(jazzPlayerNodes[i]));
 					}
 
 					noUrlDs.setPath("//jazzPlayers/person");
