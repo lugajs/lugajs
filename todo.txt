@@ -1,4 +1,4 @@
-- Decouple API that don't depend on browser
+- Decouple luga.core
 
 
 DOCS:
@@ -20,11 +20,6 @@ AJAXFORM:
 -------------
 CSI:
 -------------
-
-CORE:
-
-- luga.string.hashToQuery
-
 -------------
 VALIDATOR:
 -------------
