@@ -1,9 +1,8 @@
 - Decouple luga.core
+- Add luga.history
 
 
 DOCS:
-
-- API for luga.lookupProperty()
 
 - Luga.data: search sample (need REST endpoint)
 - Luga.data: examples with event delegation:
@@ -21,6 +20,9 @@ AJAXFORM:
 
 -------------
 CSI:
+-------------
+-------------
+COMMON:
 -------------
 -------------
 VALIDATOR:
