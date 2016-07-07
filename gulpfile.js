@@ -150,16 +150,6 @@ gulp.task("libs", function(){
 	concatAndMinify(getAllLibsSrc(), CONST.CONCATENATED_LUGA_FILE, pkg.displayName, "");
 });
 
-gulp.task("standalone", function(){
-	// All standalone libs
-	for(var x in pkg.standalone){
-		var src = getLibSrc(x);
-		var libName = pkg.standalone[x].name;
-		var libVersion = getVersionNumber(src);
-		distributeFile(src, libName, libVersion);
-	}
-});
-
 gulp.task("zip", function(){
 	return gulp.src(CONST.FOLDERS_TO_ARCHIVE, {base: "."})
 		.pipe(zip(CONST.ARCHIVE_FILE))
