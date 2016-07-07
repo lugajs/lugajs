@@ -20,7 +20,7 @@ var CONST = {
 	DIST_FOLDER: "dist",
 	LIB_PREFIX: "luga.",
 	DATA_PREFIX: "luga.data.",
-	DATA_CORE_KEY: "core",
+	DATA_CORE_FILE_KEY: "core",
 	JS_EXTENSION: ".js",
 	MIN_SUFFIX: ".min.js",
 	CONCATENATED_LUGA_FILE: "luga.js",
@@ -134,7 +134,7 @@ gulp.task("coverage", function (done) {
 });
 
 gulp.task("data", function(){
-	var dataVersion = getVersionNumber(getDataFragmentSrc(CONST.DATA_CORE_KEY));
+	var dataVersion = getVersionNumber(getDataFragmentSrc(CONST.DATA_CORE_FILE_KEY));
 	return concatAndMinify(getAllDataFragmentsSrc(), CONST.CONCATENATED_DATA_FILE, pkg.dataLibDisplayName, dataVersion);
 });
 

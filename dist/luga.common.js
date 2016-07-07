@@ -1,5 +1,5 @@
 /*! 
-Luga Core 0.5.0 2016-07-07T19:56:24.832Z
+Luga Common 0.5.0 2016-07-07T20:03:38.716Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */

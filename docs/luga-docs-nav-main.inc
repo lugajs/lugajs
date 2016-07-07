@@ -13,7 +13,7 @@
 		<!-- Everything may toggle -->
 		<div class="collapse navbar-collapse" id="main-navbar-collapse">
 			<ul class="nav navbar-nav">
-				<li><a href="../../core/docs/index.htm">:: Core ::</a></li>
+				<li><a href="../../common/docs/index.htm">:: Common ::</a></li>
 				<li><a href="../../ajaxform/docs/index.htm">:: Ajaxform ::</a></li>
 				<li><a href="../../data/docs/index.htm">:: Luga Data::</a></li>
 				<li><a href="../../validator/docs/index.htm">:: Validator ::</a></li>

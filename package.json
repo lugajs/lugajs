@@ -13,8 +13,8 @@
 		"url": "https://github.com/lugajs/lugajs"
 	},
 	"libs": {
-		"core": {
-			"name": "Luga Core"
+		"common": {
+			"name": "Luga Common"
 		},
 		"ajaxform": {
 			"name": "Luga Ajaxform"
