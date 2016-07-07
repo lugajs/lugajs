@@ -145,11 +145,11 @@ if(typeof(luga) === "undefined"){
 	 * Shallow-merge the contents of two objects together into the first object
 	 *
 	 * @param {object} target  An object that will receive the new properties
-	 * @param {object} obj     An object containing additional properties to merge in
+	 * @param {object} source     An object containing additional properties to merge in
 	 */
-	luga.merge = function(target, obj){
-		for(var x in obj){
-			target[x] = obj[x];
+	luga.merge = function(target, source){
+		for(var x in source){
+			target[x] = source[x];
 		}
 	};
 
