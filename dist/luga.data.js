@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.4.0 2016-07-07T19:53:13.848Z
+Luga Data 0.4.0 2016-07-07T20:15:47.385Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */

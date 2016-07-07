@@ -146,8 +146,12 @@ gulp.task("libs", function(){
 		var libVersion = getVersionNumber(src);
 		distributeFile(src, libName, libVersion);
 	}
+	var allLibs = getAllLibsSrc();
+
+	// Add luga.data
+	allLibs.push(CONST.DIST_FOLDER + "/" + CONST.CONCATENATED_DATA_FILE);
 	// Concatenated version
-	concatAndMinify(getAllLibsSrc(), CONST.CONCATENATED_LUGA_FILE, pkg.displayName, "");
+	concatAndMinify(allLibs, CONST.CONCATENATED_LUGA_FILE, pkg.displayName, "");
 });
 
 gulp.task("zip", function(){
@@ -158,8 +162,8 @@ gulp.task("zip", function(){
 
 gulp.task("default", function(callback){
 	runSequence(
-		"libs",
 		"data",
+		"libs",
 		"zip",
 		function(error){
 			if(error){
