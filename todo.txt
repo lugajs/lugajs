@@ -1,4 +1,5 @@
 - Decouple luga.core
+- Add luga.history
 
 
 DOCS:
@@ -21,6 +22,9 @@ AJAXFORM:
 
 -------------
 CSI:
+-------------
+-------------
+COMMON:
 -------------
 -------------
 VALIDATOR:
