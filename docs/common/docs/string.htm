@@ -108,7 +108,7 @@ luga.string.format("My name is {firstName} {lastName}", {firstName: "Ciccio", la
 		</div>
 
 		<div class="panel panel-default">
-			<div id="replaceProperty" class="panel-heading luga-docs-api-heading">luga.string.replaceProperty(str, obj)</div>
+			<div id="populate" class="panel-heading luga-docs-api-heading">luga.string.populate(str, obj)</div>
 			<div class="panel-body">
 				Given a string containing placeholders in {key} format, it assembles a new string
 				replacing the placeholders with the strings contained inside the second argument keys.
@@ -145,12 +145,12 @@ luga.string.format("My name is {firstName} {lastName}", {firstName: "Ciccio", la
 				<th>Examples</th>
 			</table>
 
-<pre><code class="language-javascript">luga.string.format("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"});
+<pre><code class="language-javascript">luga.string.populate("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"});
 // => "My name is Ciccio Pasticcio"
 
 // With nested properties:
 var nestedObj = { type: "people", person: { firstName: "Ciccio", lastName: "Pasticcio" } };
-luga.string.replaceProperty("My name is {person.firstName} {person.lastName}", nestedObj)
+luga.string.populate("My name is {person.firstName} {person.lastName}", nestedObj)
 // => "My name is Ciccio Pasticcio"</code></pre>
 
 	</div>
