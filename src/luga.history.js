@@ -50,6 +50,8 @@
 	 *
 	 * @property {boolean} replace  Determine if we add a new history entry or replace the current one
 	 * @property {string}  title    Title to be passed to pushState. Default to empty string. Some browser don't support this yet
+	 * @property {object}  state    A JavaScript object which is associated with the new history entry. DEfault to an empty object. See:
+	 *                              https://developer.mozilla.org/en-US/docs/Web/API/History_API#The_pushState()_method
 	 */
 
 	/**
@@ -61,7 +63,8 @@
 	luga.history.navigate = function(fragment, options){
 		var config = {
 			replace: false,
-			title: ""
+			title: "",
+			state: {}
 		};
 		luga.merge(config, options);
 
@@ -71,7 +74,7 @@
 			if(config.replace === true){
 				historyMethod = "replaceState";
 			}
-			history[historyMethod]({}, config.title, fragment);
+			history[historyMethod](config.state, config.title, fragment);
 		}
 		// location hash
 		else{

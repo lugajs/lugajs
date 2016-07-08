@@ -28,16 +28,21 @@ describe("luga.history", function(){
 
 		describe("Add an history entry", function(){
 
-			describe("Invoking history.pushState() passing:", function(){
+			describe("Invoking history.pushState() passing the given URL and a second argument containing:", function(){
 
-				it("The given URL fragment and an empty string as title", function(){
+				it("An empty string as title and an empty state object (by default)", function(){
 					luga.history.navigate("test/route");
 					expect(history.pushState).toHaveBeenCalledWith({}, "", "test/route");
 				});
 
-				it("The given URL fragment and an optional title", function(){
+				it("An optional title", function(){
 					luga.history.navigate("test/route", {title: "Test Title"});
 					expect(history.pushState).toHaveBeenCalledWith({}, "Test Title", "test/route");
+				});
+
+				it("An optional state object", function(){
+					luga.history.navigate("test/route", {title: "Test Title", state: {name: "Ciccio"}});
+					expect(history.pushState).toHaveBeenCalledWith({name: "Ciccio"}, "Test Title", "test/route");
 				});
 
 			});
