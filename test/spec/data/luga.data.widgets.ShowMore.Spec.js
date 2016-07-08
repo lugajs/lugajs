@@ -314,7 +314,7 @@ describe("luga.data.widgets", function(){
 					expect(showMoreScrollDiv.config.node).toEqual(mockDiv);
 				});
 				it("Default to the current document to handle infinite scrolling for the current window", function(){
-					expect(showMoreScrollBody.config.node).toEqual(jQuery(document));
+					expect(showMoreScrollBody.config.node.body).toEqual(jQuery(document).body);
 				});
 			});
 

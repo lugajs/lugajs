@@ -12,7 +12,7 @@ describe("luga.form", function(){
 			loadFixtures("form/common.htm");
 		});
 
-		it("Returns a string of name/value pairs from fields contained inside a given node", function(){
+		it("Return a string of name/value pairs from fields contained inside a given node", function(){
 			expect(luga.form.toQueryString(jQuery("#basicValue"))).toEqual("firstname=ciccio&lastname=pasticcio&radio=yes");
 			expect(luga.form.toQueryString(jQuery("#basicNoValue"))).toEqual("firstname=&lastname=");
 		});
@@ -172,12 +172,12 @@ describe("luga.form", function(){
 
 		describe(".getChildFields()", function(){
 
-			it("Returns an array of input fields contained inside a given root node", function(){
+			it("Return an array of input fields contained inside a given root node", function(){
 				loadFixtures("validator/FormValidator/generic.htm");
 				expect(luga.form.utils.getChildFields(jQuery("#generic")).length).toEqual(15);
 			});
 
-			it("Returns an empty array if there are no suitable input fields", function(){
+			it("Return an empty array if there are no suitable input fields", function(){
 				loadFixtures("validator/FormValidator/generic.htm");
 				expect(luga.form.utils.getChildFields(jQuery("#food")).length).toEqual(0);
 			});
@@ -186,7 +186,7 @@ describe("luga.form", function(){
 
 		describe(".isInputField()", function(){
 
-			it("Returns true if the passed node is a form field that we care about", function(){
+			it("Return true if the passed node is a form field that we care about", function(){
 				expect(luga.form.utils.isInputField(jQuery("<textarea>"))).toEqual(true);
 				expect(luga.form.utils.isInputField(jQuery("<input type='text'>"))).toEqual(true);
 				expect(luga.form.utils.isInputField(jQuery("<input type='radio'>"))).toEqual(true);
@@ -210,11 +210,11 @@ describe("luga.form", function(){
 
 		describe(".isSuccessfulField()", function(){
 
-			it("Returns false if the field is disabled", function(){
+			it("Return false if the field is disabled", function(){
 				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='b' disabled='disabled' type='text' />"))).toEqual(false);
 			});
 
-			it("Returns true if the given field is successful", function(){
+			it("Return true if the given field is successful", function(){
 				expect(luga.form.utils.isSuccessfulField(jQuery("<textarea name='a'>"))).toEqual(true);
 				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='b' type='text'>"))).toEqual(true);
 				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='c' type='radio'>"))).toEqual(true);

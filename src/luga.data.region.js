@@ -45,7 +45,7 @@
 	/**
 	 * Given a jQuery object wrapping an HTML node, initialize the relevant Region handler
 	 * @param {jquery} node
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.region.init = function(node){
 		var dataSourceId = node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID);

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<link rel="shortcut icon" type="image/png" href="../../luga-favicon.png"/>
+	<title>Luga Data :: XML DataSet :: Data path</title>
+
+	<!-- Libs -->
+	<script src="../../../lib/jquery/jquery.min.js"></script>
+	<script src="../../../lib/handlebars.min.js"></script>
+	<link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.min.css"/>
+	<script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../../lib/prism/prism.css"/>
+	<script src="../../lib/prism/prism.js"></script>
+
+	<!-- Luga JS -->
+	<link rel="stylesheet" href="../../../src/luga.css"/>
+	<script src="../../../dist/luga.min.js"></script>
+
+	<!-- Docs -->
+	<link rel="stylesheet" href="../../luga.docs.css"/>
+	<script src="../../luga-docs.js"></script>
+
+	<script>
+		(function(){
+			"use strict";
+			var testDs = new luga.data.XmlDataSet({
+				uuid: "peopleDs",
+				url: "../../../test/fixtures/data/people.xml",
+				path: "//ladies/person"
+			});
+			jQuery(document).ready(function(){
+				testDs.loadData();
+
+				jQuery("#ladiesPath").on("click", function(event){
+					event.preventDefault();
+					testDs.setPath("//ladies/person");
+					testDs.loadData();
+				});
+
+				jQuery("#jazzPlayersPath").on("click", function(event){
+					event.preventDefault();
+					testDs.setPath("//jazzPlayers/person");
+					testDs.loadData();
+				});
+
+			});
+		}());
+	</script>
+	<script id="peopleTable" type="text/x-handlebars-template">
+		<table class="table table-bordered table-striped">
+			<th>
+				First Name
+			</th>
+			<th>
+				Last Name
+			</th>
+			<th>
+				Country
+			</th>
+			{{#each entities}}
+			<tr>
+				<td>{{firstName}}</td>
+				<td>{{lastName}}</td>
+				<td>{{_country}}</td>
+			</tr>
+			{{/each}}
+		</table>
+	</script>
+
+</head>
+
+<body class="luga-docs">
+
+<div data-lugacsi="../../luga-docs-nav-main.inc" data-lugacsi-after="luga.docs.initMainNav"></div>
+
+<div class="container-fluid">
+	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+
+		<div class="panel panel-default">
+			<div class="panel-heading">Extracting data from XML</div>
+			<div class="panel-body">
+				<p>
+					luga.data.XmlDataSet was designed to let you extract data from different sources,
+					be able to deal with different XML's schemas, equalize them and consume the data using a common API.
+				</p>
+				<p>
+					Take a look at the XML below, we have some records inside the <strong>&lt;ladies&gt;</strong> tag,
+					we also have other records inside <strong>&lt;jazzPlayers&gt;</strong> too:
+				</p>
+
+<pre><code class="line-numbers language-markup">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+	&lt;people&gt;
+		&lt;ladies&gt;
+			&lt;person country="Australia"&gt;
+				&lt;firstName&gt;Nicole&lt;/firstName&gt;
+				&lt;lastName&gt;Kidman&lt;/lastName&gt;
+			&lt;/person&gt;
+			&lt;person country="UK"&gt;
+				&lt;firstName&gt;Kate&lt;/firstName&gt;
+				&lt;lastName&gt;Beckinsale&lt;/lastName&gt;
+			&lt;/person&gt;
+			&lt;person country="USA"&gt;
+				&lt;firstName&gt;Jennifer&lt;/firstName&gt;
+				&lt;lastName&gt;Connelly&lt;/lastName&gt;
+			&lt;/person&gt;
+			&lt;person country="Mexico"&gt;
+				&lt;firstName&gt;Salma&lt;/firstName&gt;
+				&lt;lastName&gt;Hayek&lt;/lastName&gt;
+			&lt;/person&gt;
+			&lt;person country="Brasil"&gt;
+				&lt;firstName&gt;Gisele&lt;/firstName&gt;
+				&lt;lastName&gt;Bundchen&lt;/lastName&gt;
+			&lt;/person&gt;
+			&lt;person country="USA"&gt;
+				&lt;firstName&gt;Elisabeth&lt;/firstName&gt;
+				&lt;lastName&gt;Banks&lt;/lastName&gt;
+			&lt;/person&gt;
+			&lt;person country="UK"&gt;
+				&lt;firstName&gt;Liz&lt;/firstName&gt;
+				&lt;lastName&gt;Hurley&lt;/lastName&gt;
+			&lt;/person&gt;
+		&lt;/ladies&gt;
+		&lt;jazzPlayers&gt;
+			&lt;person country="USA" instrument="tenor sax"&gt;
+				&lt;firstName&gt;John&lt;/firstName&gt;
+				&lt;lastName&gt;Coltrane&lt;/lastName&gt;
+			&lt;/person&gt;
+			&lt;person country="USA" instrument="tenor sax"&gt;
+				&lt;firstName&gt;Sonny&lt;/firstName&gt;
+				&lt;lastName&gt;Rollins&lt;/lastName&gt;
+			&lt;/person&gt;
+			&lt;person country="Spain" instrument="piano"&gt;
+				&lt;firstName&gt;Tete&lt;/firstName&gt;
+				&lt;lastName&gt;Montoliu&lt;/lastName&gt;
+			&lt;/person&gt;
+			&lt;person country="USA" instrument="piano"&gt;
+				&lt;firstName&gt;Dexter&lt;/firstName&gt;
+				&lt;lastName&gt;Gordon&lt;/lastName&gt;
+			&lt;/person&gt;
+		&lt;/jazzPlayers&gt;
+	&lt;/people&gt;</code></pre>
+
+				<p>
+					The key here is to pass the relevant <a href="https://en.wikipedia.org/wiki/XPath">XPath</a> expression to the constructor.
+					If we use <strong>//ladies/person</strong> we extract data from that branch of the XML:
+				</p>
+
+<pre><code class="line-numbers language-javascript">var testDs = new luga.data.XmlDataSet({
+	uuid: "peopleDs",
+	url: "../../../test/fixtures/data/people.xml",
+	path: "//ladies/person"
+});</code></pre>
+
+				<p>
+					You can even change the path at run-time, using the <a href="api.htm#setPath">.setPath()</a> method.
+					It's not something you are going to do that often, but it's worth seeing it in action to better understand how XmlDataSet works:
+				</p>
+
+				<form class="form-inline">
+					<button class="btn btn-info" id="ladiesPath">Load ladies</button>
+					<button class="btn btn-info" id="jazzPlayersPath">Load jazz players</button>
+				</form>
+
+				<div data-lugaregion="true"
+					 data-lugaregion-datasource-uuid="peopleDs"
+					 data-lugaregion-template-id="peopleTable"></div>
+
+				<div class="alert alert-warning" role="alert">
+					<strong>Warning!</strong><br>
+					XPath implementation among different browsers is different and somewhat inconsistent.
+					We do our best to try and test the most common XPath expressions,
+					yet more sophisticated XPath expressions may fail or work inconsistent across browsers.
+					Please be sure to test on your target browsers and don't hesitate to use our <a href="https://github.com/lugajs/lugajs/issues">issue tracker</a>.
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+	<div data-lugacsi="../nav-local.inc" data-lugacsi-after="luga.docs.initLocalNav"></div>
+
+	<div data-lugacsi="../../luga-docs-footer.inc"></div>
+
+</div>
+
+</body>
+</html>

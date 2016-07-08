@@ -14,7 +14,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.3.14";
+	luga.data.version = "0.4.0";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -59,7 +59,7 @@ if(typeof(luga) === "undefined"){
 	 * Adds a dataSource inside the registry
 	 * @param {string}                                uuid
 	 * @param {luga.data.DataSet|luga.data.DetailSet} dataSource
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.setDataSource = function(uuid, dataSource){
 		if(luga.data.getDataSource(uuid) !== null){
@@ -92,7 +92,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Given a state string, returns an object containing a boolean field for each possible state
 	 * @param {null|luga.data.STATE} state
-	 * @throws
+	 * @throws {Exception}
 	 * @returns {luga.data.stateDescription}
 	 */
 	luga.data.utils.assembleStateDescription = function(state){
@@ -114,10 +114,10 @@ if(typeof(luga) === "undefined"){
 	 * @param {function}                      filter. Required
 	 * @param {luga.data.DataSet}             dataset. Required
 	 * @returns {array.<luga.data.DataSet.row>}
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.utils.filter = function(rows, filter, dataset){
-		if(jQuery.isFunction(filter) === false){
+		if(luga.isFunction(filter) === false){
 			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 		}
 		var retRows = [];
@@ -128,7 +128,7 @@ if(typeof(luga) === "undefined"){
 				continue;
 			}
 			// Invalid row
-			if(jQuery.isPlainObject(filteredRow) === false){
+			if(luga.isPlainObject(filteredRow) === false){
 				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FORMATTER_ACTION);
 			}
 			// Valid row
@@ -142,15 +142,15 @@ if(typeof(luga) === "undefined"){
 	 * @param {array.<luga.data.DataSet.row>} rows. Required
 	 * @param {function}                      updater. Required
 	 * @param {luga.data.DataSet}             dataset. Required
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.utils.update = function(rows, formatter, dataset){
-		if(jQuery.isFunction(formatter) === false){
+		if(luga.isFunction(formatter) === false){
 			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_UPDATER_ACTION);
 		}
 		for(var i = 0; i < rows.length; i++){
 			var formattedRow = formatter(rows[i], i, dataset);
-			if(jQuery.isPlainObject(formattedRow) === false){
+			if(luga.isPlainObject(formattedRow) === false){
 				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_UPDATER_ACTION);
 			}
 		}

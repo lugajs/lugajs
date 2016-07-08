@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<people>
+	<ladies>
+		<person country="Australia">
+			<firstName>Nicole</firstName>
+			<lastName>Kidman</lastName>
+		</person>
+		<person country="UK">
+			<firstName>Kate</firstName>
+			<lastName>Beckinsale</lastName>
+		</person>
+		<person country="USA">
+			<firstName>Jennifer</firstName>
+			<lastName>Connelly</lastName>
+		</person>
+		<person country="Mexico">
+			<firstName>Salma</firstName>
+			<lastName>Hayek</lastName>
+		</person>
+		<person country="Brasil">
+			<firstName>Gisele</firstName>
+			<lastName>Bundchen</lastName>
+		</person>
+		<person country="USA">
+			<firstName>Elisabeth</firstName>
+			<lastName>Banks</lastName>
+		</person>
+		<person country="UK">
+			<firstName>Liz</firstName>
+			<lastName>Hurley</lastName>
+		</person>
+	</ladies>
+	<jazzPlayers>
+		<person country="USA" instrument="tenor sax">
+			<firstName>John</firstName>
+			<lastName>Coltrane</lastName>
+		</person>
+		<person country="USA" instrument="tenor sax">
+			<firstName>Sonny</firstName>
+			<lastName>Rollins</lastName>
+		</person>
+		<person country="Spain" instrument="piano">
+			<firstName>Tete</firstName>
+			<lastName>Montoliu</lastName>
+		</person>
+		<person country="USA" instrument="piano">
+			<firstName>Dexter</firstName>
+			<lastName>Gordon</lastName>
+		</person>
+	</jazzPlayers>
+</people>

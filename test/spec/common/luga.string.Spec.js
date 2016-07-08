@@ -98,21 +98,21 @@ describe("luga.string", function(){
 
 	});
 
-	describe(".replaceProperty()", function(){
+	describe(".populate()", function(){
 
 		describe("Given a string containing placeholders in {placeholder} format", function(){
 
 			it("It assembles a new string replacing the placeholders with the strings contained inside the second argument", function(){
-				expect(luga.string.replaceProperty("My name is {name}", {name: "Ciccio"})).toEqual("My name is Ciccio");
+				expect(luga.string.populate("My name is {name}", {name: "Ciccio"})).toEqual("My name is Ciccio");
 			});
 			it("The string can contains multiple instances of the same placeholder", function(){
-				expect(luga.string.replaceProperty("This {key} is just a {key}", {key: "test"})).toEqual("This test is just a test");
+				expect(luga.string.populate("This {key} is just a {key}", {key: "test"})).toEqual("This test is just a test");
 			});
 			it("If no matching placeholder is find, return the original string", function(){
-				expect(luga.string.replaceProperty("This {missing}", {another: "test"})).toEqual("This {missing}");
+				expect(luga.string.populate("This {missing}", {another: "test"})).toEqual("This {missing}");
 			});
 			it("If the second argument is not an object, return the original string", function(){
-				expect(luga.string.replaceProperty("This {missing}", "ciao mamma")).toEqual("This {missing}");
+				expect(luga.string.populate("This {missing}", "ciao mamma")).toEqual("This {missing}");
 			});
 
 		});
@@ -122,13 +122,13 @@ describe("luga.string", function(){
 			describe("An object containing keys:", function(){
 
 				it("Placeholders must match a key", function(){
-					expect(luga.string.replaceProperty("My name is {firstName} {lastName}", {
+					expect(luga.string.populate("My name is {firstName} {lastName}", {
 						firstName: "Ciccio",
 						lastName: "Pasticcio"
 					})).toEqual("My name is Ciccio Pasticcio");
 				});
 
-				it("Placeholders can match nested properties too", function(){
+				it("Placeholders can match nested properties too {placeholder.key}", function(){
 					var nestedObj = {
 						type: "people",
 						person: {
@@ -136,7 +136,7 @@ describe("luga.string", function(){
 							lastName: "Pasticcio"
 						}
 					};
-					expect(luga.string.replaceProperty("My name is {person.firstName} {person.lastName}", nestedObj)).toEqual("My name is Ciccio Pasticcio");
+					expect(luga.string.populate("My name is {person.firstName} {person.lastName}", nestedObj)).toEqual("My name is Ciccio Pasticcio");
 				});
 
 			});

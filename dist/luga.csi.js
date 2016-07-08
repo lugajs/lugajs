@@ -1,5 +1,5 @@
 /*! 
-Luga CSI 1.1.2 2016-05-30T16:34:11.702Z
+Luga CSI 1.1.2 2016-07-08T03:51:41.970Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -52,7 +52,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
 		 * @param {string}   textStatus   HTTP status
 		 * @param {string}   errorThrown
-		 * @throws
+		 * @throws {Exception}
 		 */
 		var onError = function(qXHR, textStatus, errorThrown){
 			throw(luga.string.format(luga.csi.CONST.MESSAGES.FILE_NOT_FOUND, [config.url]));

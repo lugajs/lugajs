@@ -69,10 +69,10 @@ describe("luga.data.ChildJsonDataSet", function(){
 
 		describe("First:", function(){
 
-			it("Use luga.string.replaceProperty to resolve the binding inside options.url", function(){
-				spyOn(luga.string, "replaceProperty");
+			it("Use luga.string.populate() to resolve the binding inside options.url", function(){
+				spyOn(luga.string, "populate");
 				remoteDs.fetchData(stateRecords[2]);
-				expect(luga.string.replaceProperty).toHaveBeenCalledWith(remoteDs.urlPattern, stateRecords[2]);
+				expect(luga.string.populate).toHaveBeenCalledWith(remoteDs.urlPattern, stateRecords[2]);
 			});
 			it("Throws an exception if binding fails", function(){
 				expect(function(){

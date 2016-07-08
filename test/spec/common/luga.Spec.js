@@ -10,9 +10,9 @@ describe("luga", function(){
 		expect(luga).toBeDefined();
 	});
 
-	describe(".version", function(){
+	describe(".common.version", function(){
 		it("Reports the current version number", function(){
-			expect(luga.version).toBeDefined();
+			expect(luga.common.version).toBeDefined();
 		});
 	});
 
@@ -70,6 +70,57 @@ describe("luga", function(){
 
 			expect(nicole.getGender()).toEqual("female");
 			expect(nicole.getName()).toEqual("Nicole Kidman");
+		});
+
+	});
+
+	describe(".isArray()", function(){
+
+		it("Return true if an object is an array", function(){
+			expect(luga.isArray([])).toEqual(true);
+			expect(luga.isArray(new Array())).toEqual(true);
+		});
+
+		it("Return false otherwise", function(){
+			expect(luga.isArray()).toEqual(false);
+			expect(luga.isArray("test")).toEqual(false);
+			expect(luga.isArray(3)).toEqual(false);
+			expect(luga.isArray({})).toEqual(false);
+		});
+
+	});
+
+	describe(".isFunction()", function(){
+
+		it("Return true if an object is a function", function(){
+			//expect(luga.isFunction([])).toEqual(true);
+			expect(luga.isFunction(function(){
+			})).toEqual(true);
+		});
+
+		it("Return false otherwise", function(){
+			expect(luga.isFunction()).toEqual(false);
+			expect(luga.isFunction("test")).toEqual(false);
+			expect(luga.isFunction(3)).toEqual(false);
+			expect(luga.isFunction({})).toEqual(false);
+			expect(luga.isFunction([])).toEqual(false);
+		});
+
+	});
+
+	describe(".isPlainObject()", function(){
+
+		it("Return true if an object is a plain object (created using '{}' or 'new Object')", function(){
+			expect(luga.isPlainObject({})).toEqual(true);
+			expect(luga.isPlainObject(new Object())).toEqual(true);
+			expect(luga.isPlainObject(Object.create(null))).toEqual(true);
+		});
+
+		it("Return false otherwise", function(){
+			expect(luga.isPlainObject()).toEqual(false);
+			expect(luga.isPlainObject("test")).toEqual(false);
+			expect(luga.isPlainObject(3)).toEqual(false);
+			expect(luga.isPlainObject(document)).toEqual(false);
 		});
 
 	});
@@ -170,6 +221,30 @@ describe("luga", function(){
 			expect(config).toEqual({letter: "a", number: 2, symbol: "@"});
 		});
 
+		describe("Works if the target object is", function(){
+
+			it("A complex object", function(){
+				var target = {name: "Ciccio", friends: [{name: "Franco"}, {name: "Federico"}]};
+				var params = {number: 2, symbol: "@"};
+				luga.merge(target, params);
+				expect(target).toEqual({
+					name: "Ciccio",
+					number: 2,
+					symbol: "@",
+					friends: [{name: "Franco"}, {name: "Federico"}]
+				});
+			});
+
+			it("An Array", function(){
+				var target = [];
+				var params = {number: 2, symbol: "@"};
+				luga.merge(target, params);
+				expect(target.number).toEqual(2);
+				expect(target.symbol).toEqual("@");
+			});
+
+		});
+
 	});
 
 	describe(".setProperty()", function(){
@@ -208,6 +283,90 @@ describe("luga", function(){
 		});
 
 	});
+
+	describe(".type()", function(){
+
+		describe("Determine the internal JavaScript [[Class]] of an object. Delivering the following results", function(){
+
+			it("luga.type(null) === 'null'", function(){
+				expect(luga.type(null)).toEqual("null");
+			});
+
+			it("luga.type(undefined) === 'undefined'", function(){
+				expect(luga.type(undefined)).toEqual("undefined");
+			});
+
+			it("luga.type() === 'undefined'", function(){
+				expect(luga.type()).toEqual("undefined");
+			});
+
+			it("luga.type(obj.notDefined) === 'undefined'", function(){
+				var test = {}
+				expect(luga.type(test.notDefined)).toEqual("undefined");
+			});
+
+			it("luga.type(true) === 'boolean'", function(){
+				expect(luga.type(true)).toEqual("boolean");
+				expect(luga.type(false)).toEqual("boolean");
+			});
+
+			it("luga.type(new Boolean()) === 'boolean'", function(){
+				expect(luga.type(new Boolean())).toEqual("boolean");
+			});
+
+			it("luga.type(3) === 'number'", function(){
+				expect(luga.type(3)).toEqual("number");
+				expect(luga.type(-3)).toEqual("number");
+				expect(luga.type(0)).toEqual("number");
+			});
+
+			it("luga.type(new Number(3)) === 'number'", function(){
+				expect(luga.type(new Number(3))).toEqual("number");
+			});
+
+			it("luga.type(NaN) === 'number'", function(){
+				expect(luga.type(NaN)).toEqual("number");
+			});
+
+			it("luga.type('test') === 'string'", function(){
+				expect(luga.type("test")).toEqual("string");
+				expect(luga.type("")).toEqual("string");
+			});
+
+			it("luga.type(new String('text')) === 'string'", function(){
+				expect(luga.type(new String("test"))).toEqual("string");
+				expect(luga.type(new String(""))).toEqual("string");
+			});
+
+			it("luga.type(function(){}) === 'function'", function(){
+				expect(luga.type(function(){
+				})).toEqual("function");
+			});
+
+			it("luga.type([]) === 'array'", function(){
+				expect(luga.type([])).toEqual("array");
+			});
+
+			it("luga.type(new Array()) === 'array'", function(){
+				expect(luga.type(new Array())).toEqual("array");
+			});
+
+			it("luga.type(new Date()) === 'date'", function(){
+				expect(luga.type(new Date())).toEqual("date");
+			});
+
+			it("luga.type(new Error()) === 'error'", function(){
+				expect(luga.type(new Error())).toEqual("error");
+			});
+
+			it("luga.type(/test/) === 'regexp'", function(){
+				expect(luga.type(/test/)).toEqual("regexp");
+			});
+
+		});
+
+	});
+
 
 	describe(".Notifier", function(){
 		var notifierObj, observerObj, uselessObj;

@@ -13,8 +13,8 @@
 		"url": "https://github.com/lugajs/lugajs"
 	},
 	"libs": {
-		"core": {
-			"name": "Luga Core"
+		"common": {
+			"name": "Luga Common"
 		},
 		"ajaxform": {
 			"name": "Luga Ajaxform"
@@ -26,12 +26,7 @@
 			"name": "Luga Validator"
 		}
 	},
-	"standalone": {
-		"data.Rss2DataSet": {
-			"name": "Luga Data - RSS 2.0 DataSet"
-		}
-	},
-	"dataLibFragments": ["core", "Dataset", "DetailSet", "HttpDataset", "JsonDataSet", "ChildJsonDataSet", "region", "region.Base", "region.Handlebars", "region.traits", "sort", "widgets.ShowMore"],
+	"dataLibFragments": ["core", "Dataset", "DetailSet", "HttpDataset", "JsonDataSet", "XmlDataSet", "Rss2DataSet", "ChildJsonDataSet", "region", "region.Base", "region.Handlebars", "region.traits", "sort", "widgets.ShowMore"],
 	"dataLibDisplayName": "Luga Data",
 	"devDependencies": {
 		"gulp": "~3.9.0",

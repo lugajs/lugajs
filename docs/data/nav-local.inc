@@ -40,19 +40,30 @@
 			<a href="../json-dataset/path.htm">Data path</a>
 		</li>
 		<li class="list-group-item">
-        	<a href="../json-dataset/master-details.htm">Master-details</a>
-        </li>
-        <li class="list-group-item">
-            <a href="../json-dataset/showmore-scrolling-body.htm">Infinite scrolling (page)</a>
-        </li>
-       	<li class="list-group-item">
-             <a href="../json-dataset/showmore-scrolling.htm">Infinite scrolling (&lt;div&gt;)</a>
-        </li>
+			<a href="../json-dataset/master-details.htm">Master-details</a>
+		</li>
 		<li class="list-group-item">
-			 <a href="../json-dataset/showmore-button.htm">ShowMore button</a>
+			<a href="../json-dataset/showmore-scrolling-body.htm">Infinite scrolling (page)</a>
+		</li>
+		<li class="list-group-item">
+			<a href="../json-dataset/showmore-scrolling.htm">Infinite scrolling (&lt;div&gt;)</a>
+		</li>
+		<li class="list-group-item">
+			<a href="../json-dataset/showmore-button.htm">ShowMore button</a>
 		</li>
 		<li class="list-group-item">
 			<a href="../json-dataset/api.htm">API Syntax reference</a>
+		</li>
+
+		<li class="luga-docs-list-heading list-group-item">XML DataSet</li>
+		<li class="list-group-item">
+			<a href="../xml-dataset/getting-started.htm">Getting started</a>
+		</li>
+		<li class="list-group-item">
+			<a href="../xml-dataset/path.htm">Data path</a>
+		</li>
+		<li class="list-group-item">
+			<a href="../xml-dataset/api.htm">API Syntax reference</a>
 		</li>
 
 		<li class="luga-docs-list-heading list-group-item">DetailSet</li>

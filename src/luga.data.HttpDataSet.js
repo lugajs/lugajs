@@ -37,7 +37,7 @@
 	 * @abstract
 	 * @fires dataLoading
 	 * @fires xhrError
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.HttpDataSet = function(options){
 		luga.extend(luga.data.DataSet, this, [options]);
@@ -99,7 +99,11 @@
 				timeout: self.timeout,
 				cache: self.cache,
 				headers: self.headers,
-				error: self.xhrError
+				error: self.xhrError,
+				// Need to override jQuery's XML converter
+				converters: {
+					"text xml": luga.xml.parseFromString
+				}
 			};
 			/* istanbul ignore else */
 			if(self.dataType !== null){
@@ -132,7 +136,7 @@
 		 * Fires an XHR request to fetch and load the data, notify observers ("dataLoading" first, "dataChanged" after records are loaded).
 		 * Throws an exception if URL is not set
 		 * @fires dataLoading
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.loadData = function(){
 			if(this.url === null){

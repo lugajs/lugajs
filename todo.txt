@@ -1,12 +1,17 @@
+- Decouple luga.core
+
 DOCS:
 
-- Luga.data Search sample (need REST endpoint)
-- Luga.data: example with event delegation: https://learn.jquery.com/events/event-delegation/
+- Luga.data: search sample (need REST endpoint)
+- Luga.data: examples with event delegation:
+  https://api.jquery.com/on/#direct-and-delegated-events
+  https://learn.jquery.com/events/event-delegation/
 
 -------------
 
 AJAXFORM:
 
+- Make form serializer configurable
 - Parse and handle error messages from server
 - Use live service for samples and docs
 - Standardize JSON schema for error messages
@@ -14,7 +19,15 @@ AJAXFORM:
 -------------
 CSI:
 -------------
-CORE:
+COMMON:
+-------------
+
+HISTORY:
+
+- Encode/decode fragment?
+- Document implication of pushState regarding the server:
+  https://github.com/flatiron/director#history-api
+
 -------------
 VALIDATOR:
 -------------
@@ -25,7 +38,7 @@ luga.data.DataSet:
 - Allow custom sorter for complex objects
 - Local storage persistence
 
-luga.data.PagedData
+luga.data.PagedData:
 - Mixed client/server (options.threshold)
 - Use string templating to customize url/endpoint
 - Request: offsetStart, offsetEnd

@@ -62,7 +62,7 @@
 	 * @fires currentRowChanged
 	 * @fires dataSorted
 	 * @fires preDataSorted
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.DataSet = function(options){
 
@@ -86,10 +86,10 @@
 		if(options.uuid === undefined){
 			throw(CONST.ERROR_MESSAGES.INVALID_UUID_PARAMETER);
 		}
-		if((options.formatter !== undefined) && (jQuery.isFunction(options.formatter) === false)){
+		if((options.formatter !== undefined) && (luga.isFunction(options.formatter) === false)){
 			throw(CONST.ERROR_MESSAGES.INVALID_FORMATTER_PARAMETER);
 		}
-		if((options.filter !== undefined) && (jQuery.isFunction(options.filter) === false)){
+		if((options.filter !== undefined) && (luga.isFunction(options.filter) === false)){
 			throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 		}
 		luga.extend(luga.Notifier, this);
@@ -184,14 +184,14 @@
 		 * @fires currentRowChanged
 		 * @fires stateChanged
 		 * @fires dataChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.delete = function(filter){
 			if(filter === undefined){
 				deleteAll();
 			}
 			else{
-				if(jQuery.isFunction(filter) === false){
+				if(luga.isFunction(filter) === false){
 					throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 				}
 				var orig = this.records;
@@ -299,7 +299,7 @@
 		 * Throws an exception if the index is out of range
 		 * @param {number} index  Required
 		 * @returns {luga.data.DataSet.row}
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.getRowByIndex = function(index){
 			var fetchedRow;
@@ -359,24 +359,24 @@
 		 * @param  {array.<object>|object} records   Records to be loaded, either one single object containing value/name pairs, or an array of objects. Required
 		 * @fires stateChanged
 		 * @fires dataChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.insert = function(records){
 			// If we only get one record, we put it inside an array anyway,
 			var recordsHolder = [];
-			if(jQuery.isArray(records) === true){
+			if(luga.isArray(records) === true){
 				recordsHolder = records;
 			}
 			else{
 				// Ensure we don't have primitive values
-				if(jQuery.isPlainObject(records) === false){
+				if(luga.isPlainObject(records) === false){
 					throw(CONST.ERROR_MESSAGES.INVALID_PRIMITIVE);
 				}
 				recordsHolder.push(records);
 			}
 			for(var i = 0; i < recordsHolder.length; i++){
 				// Ensure we don't have primitive values
-				if(jQuery.isPlainObject(recordsHolder[i]) === false){
+				if(luga.isPlainObject(recordsHolder[i]) === false){
 					throw(CONST.ERROR_MESSAGES.INVALID_PRIMITIVE_ARRAY);
 				}
 				// Create new PK
@@ -443,13 +443,13 @@
 		 * @param {function} filter   An optional filter function. If specified only records matching the filter will be returned. Optional
 		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @returns {array.<luga.data.DataSet.row>}
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.select = function(filter){
 			if(filter === undefined){
 				return selectAll();
 			}
-			if(jQuery.isFunction(filter) === false){
+			if(luga.isFunction(filter) === false){
 				throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			return luga.data.utils.filter(selectAll(), filter, self);
@@ -462,7 +462,7 @@
 		 * @param {string}               columnType   Either "date", "number" or "string"
 		 */
 		this.setColumnType = function(columnNames, columnType){
-			if(jQuery.isArray(columnNames) === false){
+			if(luga.isArray(columnNames) === false){
 				columnNames = [columnNames];
 			}
 			for(var i = 0; i < columnNames.length; i++){
@@ -481,7 +481,7 @@
 		 * Triggers a "currentRowChanged" notification
 		 * @param {string|null} rowId  Required
 		 * @fires currentRowChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.setCurrentRowId = function(rowId){
 			// No need to do anything
@@ -517,7 +517,7 @@
 		 * Throws an exception if no available record matches the given row
 		 * @param {luga.data.DataSet.row} row
 		 * @fires currentRowChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.setCurrentRow = function(row){
 			var fetchedRowId = this.getRowIndex(row);
@@ -532,7 +532,7 @@
 		 * Throws an exception if the index is out of range
 		 * @param {number} index  New index. Required
 		 * @fires currentRowChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.setCurrentRowIndex = function(index){
 			this.setCurrentRow(this.getRowByIndex(index));
@@ -545,10 +545,10 @@
 		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @fires currentRowChanged
 		 * @fires dataChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.setFilter = function(filter){
-			if(jQuery.isFunction(filter) === false){
+			if(luga.isFunction(filter) === false){
 				throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			this.filter = filter;
@@ -656,7 +656,7 @@
 		var assembleSortColumns = function(columnNames){
 			// If only one column name was specified for sorting
 			// Do a secondary sort on PK so we get a stable sort order
-			if(jQuery.isArray(columnNames) === false){
+			if(luga.isArray(columnNames) === false){
 				return [columnNames, luga.data.CONST.PK_KEY];
 			}
 			else if(columnNames.length < 2 && columnNames[0] !== luga.data.CONST.PK_KEY){
@@ -683,7 +683,7 @@
 		 *                            The function is going to be called with this signature: myUpdater(row, rowIndex, dataSet)
 		 * @fires stateChanged
 		 * @fires dataChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.update = function(filter, updater){
 			/** @type {array.<luga.data.DataSet.row>} */

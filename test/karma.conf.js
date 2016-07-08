@@ -1,10 +1,10 @@
 /* global module */
 
 /*
-Use Karma only for the sake of producing a code coverage report.
-No need to use multiple browsers
-*/
-module.exports = function(config) {
+ Use Karma only for the sake of producing a code coverage report.
+ No need to use multiple browsers
+ */
+module.exports = function(config){
 	"use strict";
 	config.set({
 		basePath: "../",
@@ -18,19 +18,19 @@ module.exports = function(config) {
 			// Jasmine libs and configuration
 			"test/lib/jasmine/jasmine-jquery.js",
 			"test/lib/jasmine/mock-ajax.js",
-			"test/lib/jasmine/jasmine-tree.min.js",
-			"test/lib/jasmine/jasmine-tree.css",
-			"test/lib/jasmine/jasmine-ducktype.js",
 			"test/fixtures.karma.config.js",
 
 			// Source files
-			"src/luga.core.js",
+			"src/luga.common.js",
 			"src/luga.data.core.js",
 			"src/luga.data.region.js",
 			"src/luga.data.DataSet.js",
 			"src/luga.data.HttpDataSet.js",
 			"src/luga.data.JsonDataSet.js",
 			"src/**/*.js",
+
+			// Jasmine custom matcher. Requires Luga
+			"test/lib/jasmine/jasmine-ducktype.js",
 
 			// Test specs
 			"test/spec/*.Spec.js",

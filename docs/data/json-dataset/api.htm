@@ -10,15 +10,14 @@
 	<!-- Libs -->
 	<script src="../../../lib/jquery/jquery.min.js"></script>
 	<script src="../../../lib/handlebars.min.js"></script>
-	<link rel="stylesheet" href="../../../lib/bootstrap/css/bootstrap.min.css"/>
-	<script src="../../../lib/bootstrap/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="../../../lib/prism/prism.css"/>
-	<script src="../../../lib/prism/prism.js"></script>
+	<link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.min.css"/>
+	<script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../../lib/prism/prism.css"/>
+	<script src="../../lib/prism/prism.js"></script>
 
 	<!-- Luga JS -->
 	<link rel="stylesheet" href="../../../src/luga.css"/>
 	<script src="../../../dist/luga.min.js"></script>
-	<script src="../../../dist/luga.data.min.js"></script>
 
 	<!-- Docs -->
 	<link rel="stylesheet" href="../../luga.docs.css"/>
@@ -37,8 +36,8 @@
 			<div class="panel-heading">JsonDataSet</div>
 			<div class="panel-body">
 				<p>
-					luga.data.JsonDataSetinherits all <a href="../dataset/api.htm">luga.data.DataSet's API</a>.
-					On top of that it adds some additional methods and constructo's options.
+					luga.data.JsonDataSet inherits all <a href="../dataset/api.htm">luga.data.DataSet's API</a>.
+					On top of that it adds some additional methods and constructor options.
 				</p>
 			</div>
 		</div>
@@ -145,6 +144,17 @@
 						A filter functions to be called once for each row in the dataSet (<a href="../dataset/filter.htm">read more</a>). Default to null.
 					</td>
 				</tr>
+				<tr>
+					<td>options.path</td>
+					<td>
+						{string}
+					</td>
+					<td>
+						Specifies the path to the data within the JSON structure.
+						The path is expressed as a set of property names on the objects, separated by dots.
+						Default to null.
+					</td>
+				</tr>
 			</table>
 			<table class="table table-bordered luga-docs-api">
 				<th>Examples</th>
@@ -236,26 +246,13 @@ var testDs = new luga.data.JsonDataSet({
 						{json}
 					</td>
 					<td>
-						Data path, expressed as a set of property names on the objects, separated by dots. Required.
+						JSON data. Required.
 					</td>
 				</tr>
 			</table>
 			<table class="table table-bordered luga-docs-api">
 				<th>Examples</th>
 			</table>
-
-<pre><code class="line-numbers language-javascript">var myDataSet = new luga.data.JsonDataSet({id: "tasksDataset", path: "data"});
-var options = {
-	success: function(data) {
-		myDataSet.loadRawJson(data);
-	},
-	error: function(error) {
-		console.debug(error);
-	}
-};
-
-$.ajax("http://my.restapi.com/api/list", options);
-</code></pre>
 
 		</div>
 
@@ -317,9 +314,9 @@ testDs.loadData();
 <pre><code class="line-numbers language-javascript">var testDs = new luga.data.JsonDataSet({
 	uuid: "peopleDs",
 	url: "people.json"
-	});
-	testDs.setUrl("ladies.json");
-	testDs.loadData();
+});
+testDs.setUrl("ladies.json");
+testDs.loadData();
 </code></pre>
 
 		</div>

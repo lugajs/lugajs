@@ -9,8 +9,8 @@
 
 	<!-- Libs -->
 	<script src="lib/jquery/jquery.min.js"></script>
-	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css"/>
-	<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="docs/lib/bootstrap/css/bootstrap.min.css"/>
+	<script src="docs/lib/bootstrap/js/bootstrap.min.js"></script>
 	<!-- Luga JS -->
 	<link rel="stylesheet" href="src/luga.css"/>
 	<script src="dist/luga.min.js"></script>
@@ -37,7 +37,7 @@
 		<!-- Everything may toggle -->
 		<div class="collapse navbar-collapse" id="main-navbar-collapse">
 			<ul class="nav navbar-nav">
-				<li><a href="docs/core/docs/index.htm">:: Core ::</a></li>
+				<li><a href="docs/common/docs/index.htm">:: Common ::</a></li>
 				<li><a href="docs/ajaxform/docs/index.htm">:: Ajaxform ::</a></li>
 				<li><a href="docs/data/docs/index.htm">:: Luga Data::</a></li>
 				<li><a href="docs/validator/docs/index.htm">:: Validator ::</a></li>
@@ -121,15 +121,18 @@
 		</div>
 
 		<div class="panel panel-default">
-			<div class="panel-heading">Browser Compatibility</div>
+			<div class="panel-heading">Browser and jQuery compatibility</div>
 			<div class="panel-body">
 				<p>
 					Luga JS is designed to work in IE9+ and most recent versions of Chrome and FireFox
 				</p>
 
 				<p>
-					The codebase is tested alongside <a href="https://jquery.com/browser-support/">jQuery 2.x</a> If you use
-					version 1.x instead, you might run without major issues in older browser versions,
+					The codebase is developed and tested alongside <a href="https://jquery.com/browser-support/">jQuery 2.x</a>.
+					We occasionally test it alongside version 3.x to ensure it's fully forward compatible and it should work just fine on that version too
+				</p>
+				<p>
+					If you use jQuery version 1.x instead, you might run without major issues in older browser versions,
 					but please be aware we do not actively test or support this configuration
 				</p>
 			</div>

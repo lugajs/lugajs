@@ -20,7 +20,7 @@ var CONST = {
 	DIST_FOLDER: "dist",
 	LIB_PREFIX: "luga.",
 	DATA_PREFIX: "luga.data.",
-	DATA_CORE_KEY: "core",
+	DATA_CORE_FILE_KEY: "core",
 	JS_EXTENSION: ".js",
 	MIN_SUFFIX: ".min.js",
 	CONCATENATED_LUGA_FILE: "luga.js",
@@ -134,7 +134,7 @@ gulp.task("coverage", function (done) {
 });
 
 gulp.task("data", function(){
-	var dataVersion = getVersionNumber(getDataFragmentSrc(CONST.DATA_CORE_KEY));
+	var dataVersion = getVersionNumber(getDataFragmentSrc(CONST.DATA_CORE_FILE_KEY));
 	return concatAndMinify(getAllDataFragmentsSrc(), CONST.CONCATENATED_DATA_FILE, pkg.dataLibDisplayName, dataVersion);
 });
 
@@ -146,18 +146,12 @@ gulp.task("libs", function(){
 		var libVersion = getVersionNumber(src);
 		distributeFile(src, libName, libVersion);
 	}
-	// Concatenated version
-	concatAndMinify(getAllLibsSrc(), CONST.CONCATENATED_LUGA_FILE, pkg.displayName, "");
-});
+	var allLibs = getAllLibsSrc();
 
-gulp.task("standalone", function(){
-	// All standalone libs
-	for(var x in pkg.standalone){
-		var src = getLibSrc(x);
-		var libName = pkg.standalone[x].name;
-		var libVersion = getVersionNumber(src);
-		distributeFile(src, libName, libVersion);
-	}
+	// Add luga.data
+	allLibs.push(CONST.DIST_FOLDER + "/" + CONST.CONCATENATED_DATA_FILE);
+	// Concatenated version
+	concatAndMinify(allLibs, CONST.CONCATENATED_LUGA_FILE, pkg.displayName, "");
 });
 
 gulp.task("zip", function(){
@@ -168,8 +162,8 @@ gulp.task("zip", function(){
 
 gulp.task("default", function(callback){
 	runSequence(
-		"libs",
 		"data",
+		"libs",
 		"zip",
 		function(error){
 			if(error){

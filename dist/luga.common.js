@@ -1,8 +1,10 @@
 /*! 
-Luga Core 0.4.7 2016-03-29T20:12:27.251Z
+Luga Common 0.5.0 2016-07-08T03:51:41.970Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
+/* globals ActiveXObject */
+
 /* istanbul ignore if */
 if(typeof(jQuery) === "undefined"){
 	throw("Unable to find jQuery");
@@ -14,16 +16,6 @@ if(typeof(luga) === "undefined"){
 
 (function(){
 	"use strict";
-
-	luga.version = "0.4.7";
-
-	luga.CONST = {
-		ERROR_MESSAGES: {
-			NOTIFIER_ABSTRACT: "It's forbidden to use luga.Notifier directly, it must be used as a base class instead",
-			INVALID_OBSERVER_PARAMETER: "addObserver(): observer parameter must be an object",
-			INVALID_DATA_PARAMETER: "notifyObserver(): data parameter is required and must be an object"
-		}
-	};
 
 	/**
 	 * Creates namespaces to be used for scoping variables and classes so that they are not global.
@@ -46,6 +38,9 @@ if(typeof(luga) === "undefined"){
 		return rootObject;
 	};
 
+	luga.namespace("luga.common");
+	luga.common.version = "0.5.0";
+
 	/**
 	 * Offers a simple solution for inheritance among classes
 	 *
@@ -55,6 +50,49 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.extend = function(baseFunc, func, args){
 		baseFunc.apply(func, args);
+	};
+
+	/**
+	 * Return true if an object is an array. False otherwise
+	 * @param {*} obj
+	 * @returns {boolean}
+	 */
+	luga.isArray = function(obj){
+		return Array.isArray(obj);
+	};
+
+	/**
+	 * Return true if an object is a function. False otherwise
+	 * @param {*} obj
+	 * @returns {boolean}
+	 */
+	luga.isFunction = function(obj){
+		return luga.type(obj) === "function";
+	};
+
+	/**
+	 * Return true if an object is a plain object (created using "{}" or "new Object"). False otherwise
+	 * Based on jQuery.isPlainObject()
+	 * @param {*} obj
+	 * @returns {boolean}
+	 */
+	luga.isPlainObject = function(obj){
+		// Detect obvious negatives
+		// Use Object.prototype.toString to catch host objects
+		if(Object.prototype.toString.call(obj) !== "[object Object]"){
+			return false;
+		}
+
+		var proto = Object.getPrototypeOf(obj);
+
+		// Objects with no prototype (e.g., Object.create(null)) are plain
+		if(proto === null){
+			return true;
+		}
+
+		// Objects with prototype are plain if they were constructed by a global Object function
+		var constructor = Object.prototype.hasOwnProperty.call(proto, "constructor") && proto.constructor;
+		return typeof (constructor === "function") && (Function.toString.call(constructor) === Function.toString.call(Object));
 	};
 
 	/**
@@ -69,7 +107,7 @@ if(typeof(luga) === "undefined"){
 			return undefined;
 		}
 		var reference = luga.lookupProperty(window, path);
-		if(jQuery.isFunction(reference) === true){
+		if(luga.isFunction(reference) === true){
 			return reference;
 		}
 		return undefined;
@@ -111,13 +149,14 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Shallow-merge the contents of two objects together into the first object
-	 * It wraps jQuery's extend to make names less ambiguous
 	 *
 	 * @param {object} target  An object that will receive the new properties
-	 * @param {object} obj     An object containing additional properties to merge in
+	 * @param {object} source     An object containing additional properties to merge in
 	 */
-	luga.merge = function(target, obj){
-		jQuery.extend(target, obj);
+	luga.merge = function(target, source){
+		for(var x in source){
+			target[x] = source[x];
+		}
 	};
 
 	/**
@@ -146,15 +185,23 @@ if(typeof(luga) === "undefined"){
 		}
 	};
 
+	luga.NOTIFIER_CONST = {
+		ERROR_MESSAGES: {
+			NOTIFIER_ABSTRACT: "It's forbidden to use luga.Notifier directly, it must be used as a base class instead",
+			INVALID_OBSERVER_PARAMETER: "addObserver(): observer parameter must be an object",
+			INVALID_DATA_PARAMETER: "notifyObserver(): data parameter is required and must be an object"
+		}
+	};
+
 	/**
 	 * Provides the base functionality necessary to maintain a list of observers and send notifications to them.
 	 * It's forbidden to use this class directly, it can only be used as a base class.
 	 * The Notifier class does not define any notification messages, so it is up to the developer to define the notifications sent via the Notifier.
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.Notifier = function(){
 		if(this.constructor === luga.Notifier){
-			throw(luga.CONST.ERROR_MESSAGES.NOTIFIER_ABSTRACT);
+			throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.NOTIFIER_ABSTRACT);
 		}
 		this.observers = [];
 		var prefix = "on";
@@ -176,11 +223,11 @@ if(typeof(luga) === "undefined"){
 		 * The interface for this methods is as follows:
 		 * observer.onCompleteHandler = function(data){};
 		 * @param  {object} observer  Observer object
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.addObserver = function(observer){
-			if(jQuery.type(observer) !== "object"){
-				throw(luga.CONST.ERROR_MESSAGES.INVALID_OBSERVER_PARAMETER);
+			if(luga.type(observer) !== "object"){
+				throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_OBSERVER_PARAMETER);
 			}
 			this.observers.push(observer);
 		};
@@ -192,16 +239,16 @@ if(typeof(luga) === "undefined"){
 		 * @param {string}  eventName  Name of the event
 		 * @param {object}  data       Object containing data to be passed from the point of notification to all interested observers.
 		 *                             If there is no relevant data to pass, use an empty object.
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.notifyObservers = function(eventName, data){
-			if(jQuery.type(data) !== "object"){
-				throw(luga.CONST.ERROR_MESSAGES.INVALID_DATA_PARAMETER);
+			if(luga.type(data) !== "object"){
+				throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_DATA_PARAMETER);
 			}
 			var method = generateMethodName(eventName);
 			for(var i = 0; i < this.observers.length; i++){
 				var observer = this.observers[i];
-				if(observer[method] && jQuery.isFunction(observer[method])){
+				if(observer[method] && luga.isFunction(observer[method])){
 					observer[method](data);
 				}
 			}
@@ -222,6 +269,64 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
+	};
+
+	var class2type = {};
+	["Array", "Boolean", "Date", "Error", "Function", "Number", "Object", "RegExp", "String", "Symbol"].forEach(function(element, i, collection){
+		class2type["[object " + element + "]"] = element.toLowerCase();
+	});
+
+	/**
+	 * Determine the internal JavaScript [[Class]] of an object
+	 * Based on jQuery.type()
+	 * @param {*} obj
+	 * @returns {string}
+	 */
+	luga.type = function(obj){
+		if(obj === null){
+			return "null";
+		}
+		var rawType = typeof obj;
+		if((rawType === "object") || (rawType === "function")){
+			/* http://perfectionkills.com/instanceof-considered-harmful-or-how-to-write-a-robust-isarray/ */
+			var stringType = Object.prototype.toString.call(obj);
+			return class2type[stringType];
+		}
+		return rawType;
+	};
+
+	/* DOM */
+
+	luga.namespace("luga.dom.treeWalker");
+
+	/**
+	 * Static factory to create a cross-browser DOM TreeWalker
+	 * https://developer.mozilla.org/en/docs/Web/API/TreeWalker
+	 *
+	 * @param {Node}         rootNode    Start node. Required
+	 * @param {function}     filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
+	 * @returns {TreeWalker}
+	 */
+	luga.dom.treeWalker.getInstance = function(rootNode, filterFunc){
+
+		var filter = {
+			acceptNode: function(node){
+				/* istanbul ignore else */
+				if(filterFunc !== undefined){
+					if(filterFunc(node) === false){
+						return NodeFilter.FILTER_SKIP;
+					}
+				}
+				return NodeFilter.FILTER_ACCEPT;
+			}
+		};
+
+		// http://stackoverflow.com/questions/5982648/recommendations-for-working-around-ie9-treewalker-filter-bug
+		// A true W3C-compliant nodeFilter object isn't passed, and instead a "safe" one _based_ off of the real one.
+		var safeFilter = filter.acceptNode;
+		safeFilter.acceptNode = filter.acceptNode;
+		return document.createTreeWalker(rootNode, NodeFilter.SHOW_ELEMENT, safeFilter, false);
 	};
 
 	/* Form */
@@ -248,7 +353,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {jquery}   rootNode     jQuery object wrapping the root node
 	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @returns {object}              A JavaScript object containing name/value pairs
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.form.toHash = function(rootNode, demoronize){
 
@@ -287,7 +392,7 @@ if(typeof(luga) === "undefined"){
 					if(map[fieldName] === undefined){
 						map[fieldName] = fieldValue;
 					}
-					else if(jQuery.isArray(map[fieldName]) === true){
+					else if(luga.isArray(map[fieldName]) === true){
 						map[fieldName].push(fieldValue);
 					}
 					else{
@@ -325,7 +430,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {jquery}   rootNode     jQuery object wrapping the root node
 	 * @param {boolean}  demoronize   If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @returns {string}               A URI encoded string
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.form.toQueryString = function(rootNode, demoronize){
 
@@ -495,13 +600,13 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.string.format = function(str, args){
 		var pattern = null;
-		if($.isArray(args) === true){
+		if(luga.isArray(args) === true){
 			for(var i = 0; i < args.length; i++){
 				pattern = new RegExp("\\{" + i + "\\}", "g");
 				str = str.replace(pattern, args[i]);
 			}
 		}
-		if($.isPlainObject(args) === true){
+		if(luga.isPlainObject(args) === true){
 			for(var x in args){
 				pattern = new RegExp("\\{" + x + "\\}", "g");
 				str = str.replace(pattern, args[x]);
@@ -535,7 +640,7 @@ if(typeof(luga) === "undefined"){
 			if(map[fieldName] === undefined){
 				map[fieldName] = fieldValue;
 			}
-			else if(jQuery.isArray(map[fieldName]) === true){
+			else if(luga.isArray(map[fieldName]) === true){
 				map[fieldName].push(fieldValue);
 			}
 			else{
@@ -549,7 +654,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Given a string containing placeholders in {key} format, it assembles a new string
-	 * replacing the placeholders with the strings contained inside the second argument keys
+	 * populating the placeholders with the strings contained inside the second argument keys
 	 * Unlike luga.string.format, placeholders can match nested properties too. But it's slower
 	 *
 	 * Example:
@@ -558,15 +663,15 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * Example with nested properties:
 	 * var nestedObj = { type: "people", person: { firstName: "Ciccio", lastName: "Pasticcio" } };
-	 * luga.string.replaceProperty("My name is {person.firstName} {person.lastName}", nestedObj)
+	 * luga.string.populate("My name is {person.firstName} {person.lastName}", nestedObj)
 	 * => "My name is Ciccio Pasticcio"
 	 *
 	 * @param   {string} str   String containing placeholders
 	 * @param   {object} obj   An objects containing name/value pairs in string format
 	 * @returns {string} The newly assembled string
 	 */
-	luga.string.replaceProperty = function(str, obj){
-		if($.isPlainObject(obj) === true){
+	luga.string.populate = function(str, obj){
+		if(luga.isPlainObject(obj) === true){
 			var results;
 			while((results = propertyPattern.exec(str)) !== null){
 				var property = luga.lookupProperty(obj, results[1]);
@@ -663,5 +768,176 @@ if(typeof(luga) === "undefined"){
 		}
 		return box;
 	};
+
+	/* XML */
+
+	luga.namespace("luga.xml");
+
+	luga.xml.MIME_TYPE = "application/xml";
+	luga.xml.ATTRIBUTE_PREFIX = "_";
+	luga.xml.DOM_ACTIVEX_NAME = "MSXML2.DOMDocument.4.0";
+
+	/**
+	 * Given a DOM node, evaluate an XPath expression against it
+	 * Results are returned as an array of nodes. An empty array is returned in case there is no match
+	 * @param {Node} node
+	 * @param {string} path
+	 * @returns {Array<Node>}
+	 */
+	luga.xml.evaluateXPath = function(node, path){
+		var retArray = [];
+		/* istanbul ignore if IE-only */
+		if(window.ActiveXObject !== undefined){
+			var selectedNodes = node.selectNodes(path);
+			// Extract the nodes out of the nodeList returned by selectNodes and put them into an array
+			// We could directly use the nodeList returned by selectNodes, but this would cause inconsistencies across browsers
+			for(var i = 0; i < selectedNodes.length; i++){
+				retArray.push(selectedNodes[i]);
+			}
+			return retArray;
+		}
+		else{
+			var evaluator = new XPathEvaluator();
+			var result = evaluator.evaluate(path, node, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
+			var currentNode = result.iterateNext();
+			// Iterate and populate the array
+			while(currentNode !== null){
+				retArray.push(currentNode);
+				currentNode = result.iterateNext();
+			}
+			return retArray;
+		}
+	};
+
+	/**
+	 * Convert an XML node into a JavaScript object
+	 * @param {Node} node
+	 * @returns {object}
+	 */
+	luga.xml.nodeToHash = function(node){
+		var obj = {};
+		attributesToProperties(node, obj);
+		childrenToProperties(node, obj);
+		return obj;
+	};
+
+	/**
+	 * Map attributes to properties
+	 * @param {Node}   node
+	 * @param {object} obj
+	 */
+	function attributesToProperties(node, obj){
+		if((node.attributes === null) || (node.attributes === undefined)){
+			return;
+		}
+		for(var i = 0; i < node.attributes.length; i++){
+			var attr = node.attributes[i];
+			obj[luga.xml.ATTRIBUTE_PREFIX + attr.name] = attr.value;
+		}
+	}
+
+	/**
+	 * Map child nodes to properties
+	 * @param {Node}   node
+	 * @param {object} obj
+	 */
+	function childrenToProperties(node, obj){
+		for(var i = 0; i < node.childNodes.length; i++){
+			var child = node.childNodes[i];
+
+			if(child.nodeType === 1 /* Node.ELEMENT_NODE */){
+				var isArray = false;
+				var tagName = child.nodeName;
+
+				if(obj[tagName] !== undefined){
+					// If the property exists already, turn it into an array
+					if(obj[tagName].constructor !== Array){
+						var curValue = obj[tagName];
+						obj[tagName] = [];
+						obj[tagName].push(curValue);
+					}
+					isArray = true;
+				}
+
+				if(nodeHasText(child) === true){
+					// This may potentially override an existing property
+					obj[child.nodeName] = getTextValue(child);
+				}
+				else{
+					var childObj = luga.xml.nodeToHash(child);
+					if(isArray === true){
+						obj[tagName].push(childObj);
+					}
+					else{
+						obj[tagName] = childObj;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Extract text out of a TEXT or CDATA node
+	 * @param {Node} node
+	 * @returns {string}
+	 */
+	function getTextValue(node){
+		var child = node.childNodes[0];
+		/* istanbul ignore else */
+		if((child.nodeType === 3) /* TEXT_NODE */ || (child.nodeType === 4) /* CDATA_SECTION_NODE */){
+			return child.data;
+		}
+	}
+
+	/**
+	 * Return true if a node contains value, false otherwise
+	 * @param {Node}   node
+	 * @returns {boolean}
+	 */
+	function nodeHasText(node){
+		var child = node.childNodes[0];
+		if((child !== null) && (child.nextSibling === null) && (child.nodeType === 3 /* Node.TEXT_NODE */ || child.nodeType === 4 /* CDATA_SECTION_NODE */)){
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Serialize a DOM node into a string
+	 * @param {Node}   node
+	 * @returns {string}
+	 */
+	luga.xml.nodeToString = function(node){
+		/* istanbul ignore if IE-only */
+		if(window.ActiveXObject !== undefined){
+			return node.xml;
+		}
+		else{
+			var serializer = new XMLSerializer();
+			return serializer.serializeToString(node, luga.xml.MIME_TYPE);
+		}
+	}
+
+	/**
+	 * Create a DOM Document out of a string
+	 * @param {string} xmlStr
+	 * @returns {Document}
+	 */
+	luga.xml.parseFromString = function(xmlStr){
+		var xmlParser;
+		/* istanbul ignore if IE-only */
+		if(window.ActiveXObject !== undefined){
+			var xmlDOMObj = new ActiveXObject(luga.xml.DOM_ACTIVEX_NAME);
+			xmlDOMObj.async = false;
+			xmlDOMObj.loadXML(xmlStr);
+			return xmlDOMObj;
+		}
+		else{
+			xmlParser = new DOMParser();
+			var domDoc = xmlParser.parseFromString(xmlStr, luga.xml.MIME_TYPE);
+			return domDoc;
+		}
+	};
+
 
 }());

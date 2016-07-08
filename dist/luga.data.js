@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.3.14 2016-05-30T16:34:11.720Z
+Luga Data 0.4.0 2016-07-08T03:51:41.180Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -19,7 +19,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.3.14";
+	luga.data.version = "0.4.0";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -64,7 +64,7 @@ if(typeof(luga) === "undefined"){
 	 * Adds a dataSource inside the registry
 	 * @param {string}                                uuid
 	 * @param {luga.data.DataSet|luga.data.DetailSet} dataSource
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.setDataSource = function(uuid, dataSource){
 		if(luga.data.getDataSource(uuid) !== null){
@@ -97,7 +97,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Given a state string, returns an object containing a boolean field for each possible state
 	 * @param {null|luga.data.STATE} state
-	 * @throws
+	 * @throws {Exception}
 	 * @returns {luga.data.stateDescription}
 	 */
 	luga.data.utils.assembleStateDescription = function(state){
@@ -119,10 +119,10 @@ if(typeof(luga) === "undefined"){
 	 * @param {function}                      filter. Required
 	 * @param {luga.data.DataSet}             dataset. Required
 	 * @returns {array.<luga.data.DataSet.row>}
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.utils.filter = function(rows, filter, dataset){
-		if(jQuery.isFunction(filter) === false){
+		if(luga.isFunction(filter) === false){
 			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 		}
 		var retRows = [];
@@ -133,7 +133,7 @@ if(typeof(luga) === "undefined"){
 				continue;
 			}
 			// Invalid row
-			if(jQuery.isPlainObject(filteredRow) === false){
+			if(luga.isPlainObject(filteredRow) === false){
 				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FORMATTER_ACTION);
 			}
 			// Valid row
@@ -147,15 +147,15 @@ if(typeof(luga) === "undefined"){
 	 * @param {array.<luga.data.DataSet.row>} rows. Required
 	 * @param {function}                      updater. Required
 	 * @param {luga.data.DataSet}             dataset. Required
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.utils.update = function(rows, formatter, dataset){
-		if(jQuery.isFunction(formatter) === false){
+		if(luga.isFunction(formatter) === false){
 			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_UPDATER_ACTION);
 		}
 		for(var i = 0; i < rows.length; i++){
 			var formattedRow = formatter(rows[i], i, dataset);
-			if(jQuery.isPlainObject(formattedRow) === false){
+			if(luga.isPlainObject(formattedRow) === false){
 				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_UPDATER_ACTION);
 			}
 		}
@@ -240,7 +240,7 @@ if(typeof(luga) === "undefined"){
 	 * @fires currentRowChanged
 	 * @fires dataSorted
 	 * @fires preDataSorted
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.DataSet = function(options){
 
@@ -264,10 +264,10 @@ if(typeof(luga) === "undefined"){
 		if(options.uuid === undefined){
 			throw(CONST.ERROR_MESSAGES.INVALID_UUID_PARAMETER);
 		}
-		if((options.formatter !== undefined) && (jQuery.isFunction(options.formatter) === false)){
+		if((options.formatter !== undefined) && (luga.isFunction(options.formatter) === false)){
 			throw(CONST.ERROR_MESSAGES.INVALID_FORMATTER_PARAMETER);
 		}
-		if((options.filter !== undefined) && (jQuery.isFunction(options.filter) === false)){
+		if((options.filter !== undefined) && (luga.isFunction(options.filter) === false)){
 			throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 		}
 		luga.extend(luga.Notifier, this);
@@ -362,14 +362,14 @@ if(typeof(luga) === "undefined"){
 		 * @fires currentRowChanged
 		 * @fires stateChanged
 		 * @fires dataChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.delete = function(filter){
 			if(filter === undefined){
 				deleteAll();
 			}
 			else{
-				if(jQuery.isFunction(filter) === false){
+				if(luga.isFunction(filter) === false){
 					throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 				}
 				var orig = this.records;
@@ -477,7 +477,7 @@ if(typeof(luga) === "undefined"){
 		 * Throws an exception if the index is out of range
 		 * @param {number} index  Required
 		 * @returns {luga.data.DataSet.row}
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.getRowByIndex = function(index){
 			var fetchedRow;
@@ -537,24 +537,24 @@ if(typeof(luga) === "undefined"){
 		 * @param  {array.<object>|object} records   Records to be loaded, either one single object containing value/name pairs, or an array of objects. Required
 		 * @fires stateChanged
 		 * @fires dataChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.insert = function(records){
 			// If we only get one record, we put it inside an array anyway,
 			var recordsHolder = [];
-			if(jQuery.isArray(records) === true){
+			if(luga.isArray(records) === true){
 				recordsHolder = records;
 			}
 			else{
 				// Ensure we don't have primitive values
-				if(jQuery.isPlainObject(records) === false){
+				if(luga.isPlainObject(records) === false){
 					throw(CONST.ERROR_MESSAGES.INVALID_PRIMITIVE);
 				}
 				recordsHolder.push(records);
 			}
 			for(var i = 0; i < recordsHolder.length; i++){
 				// Ensure we don't have primitive values
-				if(jQuery.isPlainObject(recordsHolder[i]) === false){
+				if(luga.isPlainObject(recordsHolder[i]) === false){
 					throw(CONST.ERROR_MESSAGES.INVALID_PRIMITIVE_ARRAY);
 				}
 				// Create new PK
@@ -621,13 +621,13 @@ if(typeof(luga) === "undefined"){
 		 * @param {function} filter   An optional filter function. If specified only records matching the filter will be returned. Optional
 		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @returns {array.<luga.data.DataSet.row>}
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.select = function(filter){
 			if(filter === undefined){
 				return selectAll();
 			}
-			if(jQuery.isFunction(filter) === false){
+			if(luga.isFunction(filter) === false){
 				throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			return luga.data.utils.filter(selectAll(), filter, self);
@@ -640,7 +640,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {string}               columnType   Either "date", "number" or "string"
 		 */
 		this.setColumnType = function(columnNames, columnType){
-			if(jQuery.isArray(columnNames) === false){
+			if(luga.isArray(columnNames) === false){
 				columnNames = [columnNames];
 			}
 			for(var i = 0; i < columnNames.length; i++){
@@ -659,7 +659,7 @@ if(typeof(luga) === "undefined"){
 		 * Triggers a "currentRowChanged" notification
 		 * @param {string|null} rowId  Required
 		 * @fires currentRowChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.setCurrentRowId = function(rowId){
 			// No need to do anything
@@ -695,7 +695,7 @@ if(typeof(luga) === "undefined"){
 		 * Throws an exception if no available record matches the given row
 		 * @param {luga.data.DataSet.row} row
 		 * @fires currentRowChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.setCurrentRow = function(row){
 			var fetchedRowId = this.getRowIndex(row);
@@ -710,7 +710,7 @@ if(typeof(luga) === "undefined"){
 		 * Throws an exception if the index is out of range
 		 * @param {number} index  New index. Required
 		 * @fires currentRowChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.setCurrentRowIndex = function(index){
 			this.setCurrentRow(this.getRowByIndex(index));
@@ -723,10 +723,10 @@ if(typeof(luga) === "undefined"){
 		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @fires currentRowChanged
 		 * @fires dataChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.setFilter = function(filter){
-			if(jQuery.isFunction(filter) === false){
+			if(luga.isFunction(filter) === false){
 				throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			this.filter = filter;
@@ -834,7 +834,7 @@ if(typeof(luga) === "undefined"){
 		var assembleSortColumns = function(columnNames){
 			// If only one column name was specified for sorting
 			// Do a secondary sort on PK so we get a stable sort order
-			if(jQuery.isArray(columnNames) === false){
+			if(luga.isArray(columnNames) === false){
 				return [columnNames, luga.data.CONST.PK_KEY];
 			}
 			else if(columnNames.length < 2 && columnNames[0] !== luga.data.CONST.PK_KEY){
@@ -861,7 +861,7 @@ if(typeof(luga) === "undefined"){
 		 *                            The function is going to be called with this signature: myUpdater(row, rowIndex, dataSet)
 		 * @fires stateChanged
 		 * @fires dataChanged
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.update = function(filter, updater){
 			/** @type {array.<luga.data.DataSet.row>} */
@@ -1035,7 +1035,7 @@ if(typeof(luga) === "undefined"){
 	 * @abstract
 	 * @fires dataLoading
 	 * @fires xhrError
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.HttpDataSet = function(options){
 		luga.extend(luga.data.DataSet, this, [options]);
@@ -1097,7 +1097,11 @@ if(typeof(luga) === "undefined"){
 				timeout: self.timeout,
 				cache: self.cache,
 				headers: self.headers,
-				error: self.xhrError
+				error: self.xhrError,
+				// Need to override jQuery's XML converter
+				converters: {
+					"text xml": luga.xml.parseFromString
+				}
 			};
 			/* istanbul ignore else */
 			if(self.dataType !== null){
@@ -1130,7 +1134,7 @@ if(typeof(luga) === "undefined"){
 		 * Fires an XHR request to fetch and load the data, notify observers ("dataLoading" first, "dataChanged" after records are loaded).
 		 * Throws an exception if URL is not set
 		 * @fires dataLoading
-		 * @throws
+		 * @throws {Exception}
 		 */
 		this.loadData = function(){
 			if(this.url === null){
@@ -1278,6 +1282,216 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	/**
+	 * @typedef {object} luga.data.XmlDataSet.options
+	 *
+	 * @extends luga.data.HttpDataSet.options
+	 * @property {string} path  Specifies the XPath expression to be used to extract nodes from the XML document. Default to: "/"
+	 */
+
+	/**
+	 * XML dataSet class
+	 * @param {luga.data.XmlDataSet.options} options
+	 * @constructor
+	 * @extends luga.data.HttpDataSet
+	 */
+	luga.data.XmlDataSet = function(options){
+		luga.extend(luga.data.HttpDataSet, this, [options]);
+		/** @type {luga.data.XmlDataSet} */
+		var self = this;
+		/** @override */
+		this.dataType = "xml";
+
+		this.path = "/";
+		if(options.path !== undefined){
+			this.path = options.path;
+		}
+
+		/** @type {null|Node} */
+		this.rawXml = null;
+
+		/* Public methods */
+
+		/**
+		 * Returns the raw XML data
+		 * @returns {null|Node}
+		 */
+		this.getRawXml = function(){
+			return this.rawXml;
+		};
+
+		/**
+		 * Returns the XPath expression to be used to extract data out of the XML
+		 * @returns {null|string}
+		 */
+		this.getPath = function(){
+			return this.path;
+		};
+
+		/**
+		 * First delete any existing records, then load data from the given XML, without XHR calls
+		 * @param {Node} Node
+		 */
+		this.loadRawXml = function(node){
+			self.delete();
+			self.loadRecords(node);
+		};
+
+		/**
+		 * Retrieves XML data, either from an HTTP response or from a direct call, apply the path, if any, extract and load records out of it
+		 * @param {Node}     xmlDoc       XML data. Either returned from the server or passed directly
+		 * @param {string}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
+		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
+		 * @override
+		 */
+		this.loadRecords = function(xmlDoc, textStatus, jqXHR){
+			self.rawXml = xmlDoc;
+			var nodes = luga.xml.evaluateXPath(xmlDoc, self.path);
+			var records = [];
+			for(var i = 0; i < nodes.length; i++){
+				records.push(luga.xml.nodeToHash(nodes[i]));
+			}
+			self.insert(records);
+
+		};
+
+		/**
+		 * Set the the XPath expression to be used to extract data out of the XML
+		 * @param {string} path   XPath expression. Required
+		 */
+		this.setPath = function(path){
+			this.path = path;
+		};
+
+	};
+
+}());
+/* istanbul ignore if */
+if(typeof(luga.data) === "undefined"){
+	throw("Unable to find Luga Data");
+}
+
+/**
+ * @typedef {object} luga.data.DataSet.context
+ * @extends luga.data.stateDescription
+ *
+ * @property {number}                         recordCount
+ * @property {array.<luga.data.DataSet.row>}  items
+ */
+
+(function(){
+	"use strict";
+
+	/**
+	 * RSS 2.0 dataSet class
+	 * @param {luga.data.HttpDataSet.options} options
+	 * @constructor
+	 * @extends luga.data.HttpDataSet
+	 */
+	luga.data.Rss2Dataset = function(options){
+		luga.extend(luga.data.HttpDataSet, this, [options]);
+		/** @type {luga.data.Rss2Dataset} */
+		var self = this;
+		/** @override */
+		this.dataType = "text";
+
+		/** @type {null|string} */
+		this.rawXml = null;
+
+		/** @type {array.<string>} */
+		this.channelElements = ["title", "link", "description", "language", "copyright", "managingEditor", "webMaster", "pubDate", "lastBuildDate", "category", "generator", "docs", "cloud", "ttl", "image", "textInput", "skipHours", "skipDays"];
+
+		/** @type {array.<string>} */
+		this.itemElements = ["title", "link", "description", "author", "category", "comments", "enclosure", "guid", "pubDate", "source"];
+
+		// Store metadata extracted from <channel>
+		this.channelMeta = {};
+
+		/**
+		 * Given
+		 * @param {jquery} item  A jQuery wrapper around an <item>
+		 * @returns {object}
+		 */
+		var itemToHash = function(item){
+			var rec = {};
+			for(var i = 0; i < self.itemElements.length; i++){
+				rec[self.itemElements[i]] = jQuery(item).find(self.itemElements[i]).text();
+			}
+			return rec;
+		};
+
+		/**
+		 * Extract metadata from <channel>
+		 * @param {jquery} $channel A jQuery wrapper around the <channel> tag
+		 */
+		var setChannelMeta = function($channel){
+			for(var i = 0; i < self.channelElements.length; i++){
+				self.channelMeta[self.channelElements[i]] = $channel.find(">" + self.channelElements[i]).text();
+			}
+		};
+
+		/* Public methods */
+
+		/**
+		 * @returns {luga.data.Rss2Dataset.context}
+		 * @override
+		 */
+		this.getContext = function(){
+			var context = {
+				items: self.select(),
+				recordCount: self.getRecordsCount()
+			};
+			var stateDesc = luga.data.utils.assembleStateDescription(self.getState());
+			luga.merge(context, stateDesc);
+			luga.merge(context, self.channelMeta);
+			return context;
+		};
+
+		/**
+		 * Returns the raw XML document
+		 * @returns {null|string}
+		 */
+		this.getRawXml = function(){
+			return this.rawXml;
+		};
+
+		/**
+		 * First delete any existing records, then load data from the given XML, without XHR calls
+		 * @param {string} xmlStr  XML document as string
+		 */
+		this.loadRawXml = function(xmlStr){
+			self.delete();
+			self.loadRecords(xmlStr);
+		};
+
+		/**
+		 * Retrieves XML data, either from an HTTP response or from a direct call
+		 * @param {string}   xmlStr       XML document as string. Either returned from the server or passed directly
+		 * @param {string}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
+		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
+		 * @override
+		 */
+		this.loadRecords = function(xmlStr, textStatus, jqXHR){
+			self.rawXml = xmlStr;
+			var $xml = jQuery(jQuery.parseXML(xmlStr));
+			var items = [];
+			// Collect data from each <item>
+			$xml.find("item").each(function(index, element){
+				items.push(itemToHash(jQuery(this)));
+			});
+			setChannelMeta($xml.find("channel"));
+			// Insert all records
+			self.insert(items);
+		};
+
+	};
+
+	luga.data.Rss2Dataset.version = "0.6.0";
+
+}());
+(function(){
+	"use strict";
+
+	/**
 	 * @typedef {object} luga.data.ChildJsonDataSet.options
 	 *
 	 * @extends luga.data.JsonDataSet.options
@@ -1326,7 +1540,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {luga.data.DataSet.row} row
 		 */
 		this.fetchData = function(row){
-			var bindUrl = luga.string.replaceProperty(self.urlPattern, row);
+			var bindUrl = luga.string.populate(self.urlPattern, row);
 			if(bindUrl === self.urlPattern){
 				throw(luga.string.format(CONST.ERROR_MESSAGES.FAILED_URL_BINDING, [bindUrl]));
 			}
@@ -1399,7 +1613,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Given a jQuery object wrapping an HTML node, initialize the relevant Region handler
 	 * @param {jquery} node
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.region.init = function(node){
 		var dataSourceId = node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID);
@@ -1473,7 +1687,7 @@ if(typeof(luga) === "undefined"){
 	 * @fires regionRendered
 	 * @listens dataChanged
 	 * @listens stateChanged
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.region.Base = function(options){
 
@@ -1594,7 +1808,7 @@ if(typeof(luga) === "undefined"){
 	 * @constructor
 	 * @extends luga.data.region.Base
 	 * @fires regionRendered
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.region.Handlebars = function(options){
 
@@ -1993,7 +2207,7 @@ if(typeof(luga) === "undefined"){
 	 * @constructor
 	 * @abstract
 	 * @listens stateChanged
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.widgets.ShowMore = function(options){
 
@@ -2031,7 +2245,7 @@ if(typeof(luga) === "undefined"){
 			if(this.config.paramPath !== ""){
 				bindingObj = luga.lookupProperty(bindingObj, this.config.paramPath);
 			}
-			return luga.string.replaceProperty(this.config.url, bindingObj);
+			return luga.string.populate(this.config.url, bindingObj);
 		};
 
 		/**
@@ -2098,7 +2312,7 @@ if(typeof(luga) === "undefined"){
 	 * @constructor
 	 * @extends luga.data.widgets.ShowMore
 	 * @listens stateChanged
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.widgets.ShowMoreButton = function(options){
 		this.config = {
@@ -2162,7 +2376,7 @@ if(typeof(luga) === "undefined"){
 	 * @constructor
 	 * @extends luga.data.widgets.ShowMore
 	 * @listens stateChanged
-	 * @throws
+	 * @throws {Exception}
 	 */
 	luga.data.widgets.ShowMoreScrolling = function(options){
 
