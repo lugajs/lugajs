@@ -1,5 +1,5 @@
 /*! 
-Luga Ajaxform 0.7.5 2016-07-05T07:17:03.893Z
+Luga Ajaxform 0.7.5 2016-07-08T03:51:41.970Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */

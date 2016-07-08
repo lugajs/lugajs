@@ -12,8 +12,6 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
-	luga.version = "0.5.0";
-
 	/**
 	 * Creates namespaces to be used for scoping variables and classes so that they are not global.
 	 * Specifying the last node of a namespace implicitly creates all other nodes.
@@ -34,6 +32,9 @@ if(typeof(luga) === "undefined"){
 		}
 		return rootObject;
 	};
+
+	luga.namespace("luga.common");
+	luga.common.version = "0.5.0";
 
 	/**
 	 * Offers a simple solution for inheritance among classes

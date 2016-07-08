@@ -1,5 +1,5 @@
 /*! 
-Luga JS  2016-07-07T20:28:17.834Z
+Luga JS  2016-07-08T03:51:41.980Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -16,8 +16,6 @@ if(typeof(luga) === "undefined"){
 
 (function(){
 	"use strict";
-
-	luga.version = "0.5.0";
 
 	/**
 	 * Creates namespaces to be used for scoping variables and classes so that they are not global.
@@ -39,6 +37,9 @@ if(typeof(luga) === "undefined"){
 		}
 		return rootObject;
 	};
+
+	luga.namespace("luga.common");
+	luga.common.version = "0.5.0";
 
 	/**
 	 * Offers a simple solution for inheritance among classes
@@ -2542,7 +2543,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga Data 0.4.0 2016-07-07T20:15:47.385Z
+Luga Data 0.4.0 2016-07-08T03:51:41.180Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */

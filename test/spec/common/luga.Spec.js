@@ -10,9 +10,9 @@ describe("luga", function(){
 		expect(luga).toBeDefined();
 	});
 
-	describe(".version", function(){
+	describe(".common.version", function(){
 		it("Reports the current version number", function(){
-			expect(luga.version).toBeDefined();
+			expect(luga.common.version).toBeDefined();
 		});
 	});
 
