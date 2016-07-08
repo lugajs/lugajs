@@ -30,8 +30,6 @@ HISTORY:
 - Document implication of pushState regarding the server:
   https://github.com/flatiron/director#history-api
 
-- Document basic HTML alternative: <a href="#/books">#/books</a>
-
 -------------
 VALIDATOR:
 -------------
