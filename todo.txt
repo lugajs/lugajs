@@ -21,9 +21,18 @@ AJAXFORM:
 -------------
 CSI:
 -------------
--------------
 COMMON:
 -------------
+
+HISTORY:
+
+- Encode/decode fragment?
+- Expose state object when using pushState?
+- Document implication of pushState regarding the server:
+  https://github.com/flatiron/director#history-api
+
+- Document basic HTML alternative: <a href="#/books">#/books</a>
+
 -------------
 VALIDATOR:
 -------------
