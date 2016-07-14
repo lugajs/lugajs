@@ -18,6 +18,7 @@ var pkg = require("./package.json");
 var CONST = {
 	SRC_FOLDER: "src",
 	DIST_FOLDER: "dist",
+	PATH_TO_COMMON_SRC: "src/luga.common.js",
 	LIB_PREFIX: "luga.",
 	DATA_PREFIX: "luga.data.",
 	DATA_CORE_FILE_KEY: "core",
@@ -151,7 +152,7 @@ gulp.task("libs", function(){
 	// Add luga.data
 	allLibs.push(CONST.DIST_FOLDER + "/" + CONST.CONCATENATED_DATA_FILE);
 	// Concatenated version
-	concatAndMinify(allLibs, CONST.CONCATENATED_LUGA_FILE, pkg.displayName, "");
+	concatAndMinify(allLibs, CONST.CONCATENATED_LUGA_FILE, pkg.displayName, getVersionNumber(CONST.PATH_TO_COMMON_SRC));
 });
 
 gulp.task("zip", function(){
