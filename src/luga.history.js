@@ -13,7 +13,7 @@
 	 * @type {luga.history.options}
 	 */
 	var config = {
-		pushState: true
+		pushState: false
 	};
 
 	/**
