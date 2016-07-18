@@ -1,6 +1,12 @@
 - Decouple luga.core
+- Turn docs into SPA
 
 DOCS:
+
+- Alert about issues on IE9 and CORS:
+  http://stackoverflow.com/questions/10232017/ie9-jquery-ajax-with-cors-returns-access-is-denied
+
+- Move Notifier docs from luga.data to luga.common
 
 - Luga.data: search sample (need REST endpoint)
 - Luga.data: examples with event delegation:
@@ -25,7 +31,7 @@ COMMON:
 HISTORY:
 
 - Encode/decode fragment?
-- Document implication of pushState regarding the server:
+- Document implication of using pushState regarding the server:
   https://github.com/flatiron/director#history-api
 
 -------------
