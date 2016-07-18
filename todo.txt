@@ -40,6 +40,13 @@ VALIDATOR:
 
 DATA:
 
+- Add luga.data.setUp({
+	autoregisterRegion: true|false
+})
+
+Detailset:
+- Rename config.dataSet -> config.masterDataSet
+
 luga.data.DataSet:
 - Allow custom sorter for complex objects
 - Local storage persistence
