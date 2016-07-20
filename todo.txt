@@ -44,6 +44,8 @@ DATA:
 	autoregisterRegion: true|false
 })
 
+- Add luga.data.ChildXmlDataSet
+
 Detailset:
 - Rename config.dataSet -> config.masterDataSet
 
