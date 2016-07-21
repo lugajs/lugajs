@@ -1,16 +1,16 @@
-describe("luga.data.ChildJsonDataSet", function(){
+describe("luga.data.ChildXmlDataSet", function(){
 
 	"use strict";
 
 	var stateRecords, masterDs, remoteDs, DEFAULT_TIMEOUT;
 	beforeEach(function(){
 		stateRecords = getJSONFixture("data/usa-states.json");
-		masterDs = new luga.data.JsonDataSet({uuid: "masterDs"});
+		masterDs = new luga.data.XmlDataSet({uuid: "masterDs"});
 		masterDs.insert(stateRecords);
-		remoteDs = new luga.data.ChildJsonDataSet({
+		remoteDs = new luga.data.ChildXmlDataSet({
 			uuid: "remoteDs",
 			parentDataSet: masterDs,
-			url: "fixtures/data/usa-states-{abbreviation}.json"
+			url: "fixtures/data/usa-states-{abbreviation}.xml"
 		});
 		DEFAULT_TIMEOUT = 2000;
 	});
@@ -19,8 +19,8 @@ describe("luga.data.ChildJsonDataSet", function(){
 		luga.data.dataSourceRegistry = {};
 	});
 
-	it("Extends luga.data.JsonDataSet", function(){
-		expect(remoteDs).toMatchDuckType(new luga.data.JsonDataSet({uuid: "duck"}));
+	it("Extends luga.data.XmlDataSet", function(){
+		expect(remoteDs).toMatchDuckType(new luga.data.XmlDataSet({uuid: "duck"}));
 	});
 
 	it("Register as observer of its parent dataSet", function(){
@@ -28,18 +28,18 @@ describe("luga.data.ChildJsonDataSet", function(){
 
 	});
 
-	describe("Its constructor options are the same as luga.data.JsonDataSet plus:", function(){
+	describe("Its constructor options are the same as luga.data.XmlDataSet plus:", function(){
 
 		describe("options.parentDataSet", function(){
 
-			it("Is the parent JsonDataSet", function(){
+			it("Is the parent XmlDataSet", function(){
 				expect(remoteDs.parentDataSet).toEqual(masterDs);
 			});
 			it("Throws an exception if not specified", function(){
 				expect(function(){
-					new luga.data.ChildJsonDataSet({
+					new luga.data.ChildXmlDataSet({
 						uuid: "remoteDs",
-						url: "fixtures/data/usa-states-{abbreviation}.json"
+						url: "fixtures/data/usa-states-{abbreviation}.xml"
 					});
 				}).toThrow();
 			});
@@ -49,11 +49,11 @@ describe("luga.data.ChildJsonDataSet", function(){
 		describe("options.url", function(){
 
 			it("Is the pattern that will be used to compose the url", function(){
-				expect(remoteDs.urlPattern).toEqual("fixtures/data/usa-states-{abbreviation}.json");
+				expect(remoteDs.urlPattern).toEqual("fixtures/data/usa-states-{abbreviation}.xml");
 			});
 			it("Throws an exception if not specified", function(){
 				expect(function(){
-					new luga.data.ChildJsonDataSet({uuid: "remoteDs", parentDataSet: masterDs});
+					new luga.data.ChildXmlDataSet({uuid: "remoteDs", parentDataSet: masterDs});
 				}).toThrow();
 			});
 
@@ -76,13 +76,13 @@ describe("luga.data.ChildJsonDataSet", function(){
 			});
 			it("Throws an exception if binding fails", function(){
 				expect(function(){
-					remoteDs.urlPattern = "fixtures/data/usa-states-{invalid.property}.json";
+					remoteDs.urlPattern = "fixtures/data/usa-states-{invalid.property}.xml";
 					remoteDs.fetchData(stateRecords[2]);
 				}).toThrow();
 			});
 			it("Update its .url property", function(){
 				remoteDs.fetchData(stateRecords[2]);
-				expect(remoteDs.url).toEqual("fixtures/data/usa-states-AS.json");
+				expect(remoteDs.url).toEqual("fixtures/data/usa-states-AS.xml");
 			});
 
 		});

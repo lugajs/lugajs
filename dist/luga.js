@@ -1,5 +1,5 @@
 /*! 
-Luga JS 0.5.0 2016-07-14T14:54:43.417Z
+Luga JS 0.5.0 2016-07-21T19:34:19.579Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -2543,7 +2543,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga Data 0.4.0 2016-07-14T14:49:39.127Z
+Luga Data 0.4.0 2016-07-21T19:34:18.830Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -4075,6 +4075,84 @@ if(typeof(luga.data) === "undefined"){
 		var self = this;
 
 		/** @type {luga.data.JsonDataSet} */
+		this.parentDataSet = options.parentDataSet;
+		this.parentDataSet.addObserver(this);
+		this.url = null;
+		this.urlPattern = options.url;
+
+		/**
+		 * @param {luga.data.DataSet.row} row
+		 */
+		this.fetchData = function(row){
+			var bindUrl = luga.string.populate(self.urlPattern, row);
+			if(bindUrl === self.urlPattern){
+				throw(luga.string.format(CONST.ERROR_MESSAGES.FAILED_URL_BINDING, [bindUrl]));
+			}
+			self.setUrl(bindUrl);
+			self.loadData();
+		};
+
+		/* Events Handlers */
+
+		/**
+		 * @param {luga.data.DataSet.currentRowChanged} data
+		 */
+		this.onCurrentRowChangedHandler = function(data){
+			if(data.currentRow !== null){
+				self.fetchData(data.currentRow);
+			}
+			else{
+				self.delete();
+			}
+
+		};
+
+	};
+
+}());
+(function(){
+	"use strict";
+
+	/**
+	 * @typedef {object} luga.data.ChildXmlDataSet.options
+	 *
+	 * @extends luga.data.XmlDataSet.options
+	 * @property {luga.data.DataSet}  parentDataSet   Parent dataSet to be used in a master-detail scenario
+	 * @property {string}             url             Unlike XmlDataSet the url here is required and is expected to be a string template like:
+	 *                                                http://www.ciccio.com/api/products/{uuid}
+	 *
+	 */
+
+	/**
+	 * Binded XML dataSet class
+	 * @param {luga.data.ChildXmlDataSet.options} options
+	 * @constructor
+	 * @extends luga.data.XmlDataSet
+	 */
+	luga.data.ChildXmlDataSet = function(options){
+
+		var CONST = {
+			ERROR_MESSAGES: {
+				MISSING_PARENT_DS: "luga.data.ChildXmlDataSet: parentDataSet parameter is required",
+				MISSING_URL: "luga.data.ChildXmlDataSet: url parameter is required",
+				FAILED_URL_BINDING: "luga.data.ChildXmlDataSet: unable to generate valid URL: {0}"
+			}
+		};
+
+		if(options.parentDataSet === undefined){
+			throw(CONST.ERROR_MESSAGES.MISSING_PARENT_DS);
+		}
+
+		if(options.url === undefined){
+			throw(CONST.ERROR_MESSAGES.MISSING_URL);
+		}
+
+		luga.extend(luga.data.XmlDataSet, this, [options]);
+
+		/** @type {luga.data.ChildXmlDataSet} */
+		var self = this;
+
+		/** @type {luga.data.XmlDataSet} */
 		this.parentDataSet = options.parentDataSet;
 		this.parentDataSet.addObserver(this);
 		this.url = null;
