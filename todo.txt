@@ -46,6 +46,8 @@ DATA:
 
 - Add luga.data.ChildXmlDataSet
 
+- Add data-lugaregion-removerowid trait
+
 Detailset:
 - Rename config.dataSet -> config.masterDataSet
 
@@ -67,5 +69,7 @@ luga.data.widgets.PagingBar (needs PagedData)
 - Different GUI styles: Bootstrap, PageList, LinkList
 
 luga.data.widgets.Autosuggest
+
+luga.data.widgets.Tags
 
 -------------
