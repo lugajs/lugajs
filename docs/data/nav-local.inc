@@ -63,6 +63,9 @@
 			<a href="../xml-dataset/path.htm">Data path</a>
 		</li>
 		<li class="list-group-item">
+			<a href="../xml-dataset/master-details.htm">Master-details</a>
+		</li>
+		<li class="list-group-item">
 			<a href="../xml-dataset/api.htm">API Syntax reference</a>
 		</li>
 

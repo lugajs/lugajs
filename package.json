@@ -26,7 +26,7 @@
 			"name": "Luga Validator"
 		}
 	},
-	"dataLibFragments": ["core", "Dataset", "DetailSet", "HttpDataset", "JsonDataSet", "XmlDataSet", "Rss2DataSet", "ChildJsonDataSet", "region", "region.Base", "region.Handlebars", "region.traits", "sort", "widgets.ShowMore"],
+	"dataLibFragments": ["core", "Dataset", "DetailSet", "HttpDataset", "JsonDataSet", "XmlDataSet", "Rss2DataSet", "ChildJsonDataSet", "ChildXmlDataSet", "region", "region.Base", "region.Handlebars", "region.traits", "sort", "widgets.ShowMore"],
 	"dataLibDisplayName": "Luga Data",
 	"devDependencies": {
 		"gulp": "~3.9.0",

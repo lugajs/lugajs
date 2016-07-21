@@ -1,0 +1,30 @@
+<states>
+	<state>
+		<name>Alabama</name>
+		<url>alabama.xml</url>
+	</state>
+	<state>
+		<name>Alaska</name>
+		<url>alaska.xml</url>
+	</state>
+	<state>
+		<name>Arizona</name>
+		<url>arizona.xml</url>
+	</state>
+	<state>
+		<name>Arkansas</name>
+		<url>arkansas.xml</url>
+	</state>
+	<state>
+		<name>California</name>
+		<url>california.xml</url>
+	</state>
+	<state>
+		<name>Colorado</name>
+		<url>colorado.xml</url>
+	</state>
+	<state>
+		<name>Connecticut</name>
+		<url>connecticut.xml</url>
+	</state>
+</states>

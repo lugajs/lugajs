@@ -44,8 +44,6 @@ DATA:
 	autoregisterRegion: true|false
 })
 
-- Add luga.data.ChildXmlDataSet
-
 - Add data-lugaregion-removerowid trait
 
 Detailset:
