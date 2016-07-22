@@ -30,8 +30,8 @@
 
 		var CONST = {
 			ERROR_MESSAGES: {
-				INVALID_UUID_PARAMETER: "Luga.DetailSet: id parameter is required",
-				INVALID_DS_PARAMETER: "Luga.DetailSet: dataSet parameter is required"
+				INVALID_UUID_PARAMETER: "luga.DetailSet: id parameter is required",
+				INVALID_DS_PARAMETER: "luga.DetailSet: dataSet parameter is required"
 			}
 		};
 
