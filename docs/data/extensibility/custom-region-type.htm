@@ -31,7 +31,7 @@
 			url: "../../../test/fixtures/data/people.json",
 			path: "ladies"
 		});
-		test.ladyDetails = new luga.data.DetailSet({uuid: "lady", dataSet: test.ladiesMaster});
+		test.ladyDetails = new luga.data.DetailSet({uuid: "lady", parentDataSet: test.ladiesMaster});
 		jQuery(document).ready(function(){
 			test.ladiesMaster.loadData();
 		});

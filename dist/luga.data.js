@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.4.0 2016-07-21T19:34:18.830Z
+Luga Data 0.4.1 2016-07-22T04:54:14.943Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -19,7 +19,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.4.0";
+	luga.data.version = "0.4.1";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -897,8 +897,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.data.DetailSet.options
 	 *
-	 * @property {string}            uuid     Unique identifier. Required
-	 * @property {luga.data.DataSet} dataSet  Master dataSet. Required
+	 * @property {string}            uuid           Unique identifier. Required
+	 * @property {luga.data.DataSet} parentDataSet  Master dataSet. Required
 	 */
 
 	/**
@@ -924,7 +924,7 @@ if(typeof(luga) === "undefined"){
 		if(options.uuid === undefined){
 			throw(CONST.ERROR_MESSAGES.INVALID_UUID_PARAMETER);
 		}
-		if(options.dataSet === undefined){
+		if(options.parentDataSet === undefined){
 			throw(CONST.ERROR_MESSAGES.INVALID_DS_PARAMETER);
 		}
 
@@ -934,8 +934,8 @@ if(typeof(luga) === "undefined"){
 		var self = this;
 
 		this.uuid = options.uuid;
-		this.dataSet = options.dataSet;
-		this.dataSet.addObserver(this);
+		this.parentDataSet = options.parentDataSet;
+		this.parentDataSet.addObserver(this);
 
 		/** @type {luga.data.DataSet.row} */
 		this.row = null;
@@ -959,11 +959,11 @@ if(typeof(luga) === "undefined"){
 		 * @returns {null|luga.data.STATE}
 		 */
 		this.getState = function(){
-			return self.dataSet.getState();
+			return self.parentDataSet.getState();
 		};
 
 		this.fetchRow = function(){
-			self.row = self.dataSet.getCurrentRow();
+			self.row = self.parentDataSet.getCurrentRow();
 			self.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
@@ -991,7 +991,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/* Fetch row without notifying observers */
-		self.row = self.dataSet.getCurrentRow();
+		self.row = self.parentDataSet.getCurrentRow();
 
 	};
 

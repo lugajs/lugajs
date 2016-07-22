@@ -46,9 +46,6 @@ DATA:
 
 - Add data-lugaregion-removerowid trait
 
-Detailset:
-- Rename config.dataSet -> config.masterDataSet
-
 luga.data.DataSet:
 - Allow custom sorter for complex objects
 - Local storage persistence

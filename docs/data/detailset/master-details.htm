@@ -30,7 +30,7 @@
 				uuid: "ladies",
 				url: "../../../test/fixtures/data/ladies.json"
 			});
-			var ladyDetails = new luga.data.DetailSet({uuid: "lady", dataSet: ladiesMaster});
+			var ladyDetails = new luga.data.DetailSet({uuid: "lady", parentDataSet: ladiesMaster});
 			jQuery(document).ready(function(){
 				ladiesMaster.loadData();
 			});
@@ -100,7 +100,7 @@
 		url: "../../../test/fixtures/data/ladies.json"
 	});
 	// Details
-	var ladyDetails = new luga.data.DetailSet({uuid: "lady", dataSet: ladiesMaster});
+	var ladyDetails = new luga.data.DetailSet({uuid: "lady", parentDataSet: ladiesMaster});
 	// Fetch data only once the DOM is ready
 	jQuery(document).ready(function(){
 		ladiesMaster.loadData();

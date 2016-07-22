@@ -74,7 +74,7 @@
 		url: "../../../test/fixtures/data/ladies.json"
 	});
 	// Details
-	var ladyDetails = new luga.data.DetailSet({uuid: "lady", dataSet: ladiesMaster});
+	var ladyDetails = new luga.data.DetailSet({uuid: "lady", parentDataSet: ladiesMaster});
 	// Fetch data only once the DOM is ready
 	jQuery(document).ready(function(){
 		ladiesMaster.loadData();
@@ -105,7 +105,7 @@
 				<th>Examples</th>
 			</table>
 
-<pre><code class="line-numbers language-javascript">var ladyDetails = new luga.data.DetailSet({uuid: "lady", dataSet: ladiesMaster});
+<pre><code class="line-numbers language-javascript">var ladyDetails = new luga.data.DetailSet({uuid: "lady", parentDataSet: ladiesMaster});
 var contextData = ladyDetails.getContext();
 /*
 	contextData = {
@@ -141,7 +141,7 @@ var contextData = ladyDetails.getContext();
 				<th>Examples</th>
 			</table>
 
-<pre><code class="line-numbers language-javascript">var ladyDetails = new luga.data.DetailSet({uuid: "lady", dataSet: ladiesMaster});
+<pre><code class="line-numbers language-javascript">var ladyDetails = new luga.data.DetailSet({uuid: "lady", parentDataSet: ladiesMaster});
 ladyDetails.getState();
 // => Either null, "error", "loading" or "ready"
 </code></pre>
