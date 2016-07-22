@@ -8,7 +8,7 @@ DOCS:
 
 - Move Notifier docs from luga.data to luga.common
 
-- Document luga.data.region.setUp()
+- Document luga.data.region.setUp() and luga.data.region.init()
 
 - Luga.data: search sample (need REST endpoint)
 - Luga.data: examples with event delegation:
