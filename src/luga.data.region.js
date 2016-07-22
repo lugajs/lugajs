@@ -33,6 +33,29 @@
 	};
 
 	/**
+	 * @typedef {object} luga.data.region.options
+	 *
+	 * @property {boolean} autoregister  Determine if we call luga.data.region.init() on jQuery(document).ready()
+	 */
+
+	/**
+	 * @type {luga.data.region.options}
+	 */
+	var config = {
+		autoregister: true
+	};
+
+	/**
+	 * Change current configuration
+	 * @param {luga.data.region.options} options
+	 * @returns {luga.data.region.options}
+	 */
+	luga.data.region.setup = function(options){
+		luga.merge(config, options);
+		return config;
+	};
+
+	/**
 	 * Given a jQuery object wrapping an HTML node, returns the region object associated to it
 	 * Returns undefined if the node is not associated to a region
 	 * @param {jquery} node
@@ -90,9 +113,11 @@
 
 	jQuery(document).ready(function(){
 		/* istanbul ignore next */
-		jQuery(luga.data.region.CONST.SELECTORS.REGION).each(function(index, item){
-			luga.data.region.init(jQuery(item));
-		});
+		if(config.autoregister === true){
+			jQuery(luga.data.region.CONST.SELECTORS.REGION).each(function(index, item){
+				luga.data.region.init(jQuery(item));
+			});
+		}
 	});
 
 }());

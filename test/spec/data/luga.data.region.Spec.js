@@ -2,7 +2,7 @@ describe("luga.data.region", function(){
 
 	"use strict";
 
-	afterEach(function() {
+	afterEach(function(){
 		luga.data.dataSourceRegistry = {};
 	});
 
@@ -82,6 +82,26 @@ describe("luga.data.region", function(){
 					luga.data.region.init(regionNode);
 					expect(window.mock.regionHandler).toHaveBeenCalledWith({node: regionNode});
 				});
+			});
+
+		});
+
+	});
+
+	describe(".setup()", function(){
+
+		describe("If called with no arguments. Return an object containing name/value pairs:", function(){
+
+			it("autoregister = true", function(){
+				expect(luga.data.region.setup().autoregister).toEqual(true);
+			});
+
+		});
+
+		describe("If a set of name/value pairs is passed as argument. Set the following configuration options:", function(){
+
+			it("autoregister", function(){
+				expect(luga.data.region.setup({autoregister: false}).autoregister).toEqual(false);
 			});
 
 		});

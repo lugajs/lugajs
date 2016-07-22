@@ -1,5 +1,5 @@
 /*! 
-Luga JS 0.5.0 2016-07-22T04:54:15.629Z
+Luga JS 0.5.0 2016-07-22T15:56:07.070Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -2543,7 +2543,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga Data 0.4.1 2016-07-22T04:54:14.943Z
+Luga Data 0.4.1 2016-07-22T15:56:06.367Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -4223,6 +4223,29 @@ if(typeof(luga.data) === "undefined"){
 	};
 
 	/**
+	 * @typedef {object} luga.data.region.options
+	 *
+	 * @property {boolean} autoregister  Determine if we call luga.data.region.init() on jQuery(document).ready()
+	 */
+
+	/**
+	 * @type {luga.data.region.options}
+	 */
+	var config = {
+		autoregister: true
+	};
+
+	/**
+	 * Change current configuration
+	 * @param {luga.data.region.options} options
+	 * @returns {luga.data.region.options}
+	 */
+	luga.data.region.setup = function(options){
+		luga.merge(config, options);
+		return config;
+	};
+
+	/**
 	 * Given a jQuery object wrapping an HTML node, returns the region object associated to it
 	 * Returns undefined if the node is not associated to a region
 	 * @param {jquery} node
@@ -4280,9 +4303,11 @@ if(typeof(luga.data) === "undefined"){
 
 	jQuery(document).ready(function(){
 		/* istanbul ignore next */
-		jQuery(luga.data.region.CONST.SELECTORS.REGION).each(function(index, item){
-			luga.data.region.init(jQuery(item));
-		});
+		if(config.autoregister === true){
+			jQuery(luga.data.region.CONST.SELECTORS.REGION).each(function(index, item){
+				luga.data.region.init(jQuery(item));
+			});
+		}
 	});
 
 }());

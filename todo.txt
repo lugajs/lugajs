@@ -8,6 +8,8 @@ DOCS:
 
 - Move Notifier docs from luga.data to luga.common
 
+- Document luga.data.region.setUp()
+
 - Luga.data: search sample (need REST endpoint)
 - Luga.data: examples with event delegation:
   https://api.jquery.com/on/#direct-and-delegated-events
@@ -39,10 +41,6 @@ VALIDATOR:
 -------------
 
 DATA:
-
-- Add luga.data.setUp({
-	autoregisterRegion: true|false
-})
 
 - Add data-lugaregion-removerowid trait
 
