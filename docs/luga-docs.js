@@ -1,5 +1,5 @@
 if(self.location.protocol === "file:"){
-	alert("The documentation is not going to work properly if accessed froma  file system. You should use a webserver instead.");
+	alert("The documentation is not going to work properly if accessed from a file system. You should use a webserver instead.");
 }
 
 luga.namespace("luga.docs");
