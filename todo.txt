@@ -35,6 +35,7 @@ HISTORY:
 - Encode/decode fragment?
 - Document implication of using pushState regarding the server:
   https://github.com/flatiron/director#history-api
+- Explain how to use pushState on top of SEO <a> links
 
 -------------
 VALIDATOR:
