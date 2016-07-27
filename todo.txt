@@ -43,6 +43,8 @@ VALIDATOR:
 
 DATA:
 
+- Add luga.data.region.initRegions()
+
 - Add data-lugaregion-removerowid trait
 
 luga.data.DataSet:
