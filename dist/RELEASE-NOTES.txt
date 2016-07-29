@@ -1,0 +1,26 @@
+---------------------------------------------------------------------
+Release ?
+---------------------------------------------------------------------
+NEW FEATURES:
+*  Added luga.data.region.setUp({
+   autoregister: true|false
+})
+* luga.data.ChildXmlDataSet is now available
+
+NOTES:
+* Documentation is now a SPA
+
+CHANGES:
+* Luga CSI is not part of the project anymore
+* Detailset: Renamed config.dataSet to config.masterDataSet
+* jQuery updated to 2.2.4
+
+BUG FIXES:
+*
+
+KNOWN ISSUES:
+*
+
+---------------------------------------------------------------------
+Release 0.5
+---------------------------------------------------------------------

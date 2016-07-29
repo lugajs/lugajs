@@ -19,9 +19,6 @@
 		"ajaxform": {
 			"name": "Luga Ajaxform"
 		},
-		"csi": {
-			"name": "Luga CSI"
-		},
 		"validator": {
 			"name": "Luga Validator"
 		}

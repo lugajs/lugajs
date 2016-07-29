@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.4.1 2016-07-22T15:56:06.367Z
+Luga Data 0.4.1 2016-07-29T02:37:32.753Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -246,18 +246,18 @@ if(typeof(luga) === "undefined"){
 
 		var CONST = {
 			ERROR_MESSAGES: {
-				INVALID_COL_TYPE: "Luga.DataSet.setColumnType(): Invalid type passed {0}",
-				INVALID_UUID_PARAMETER: "Luga.DataSet: uuid parameter is required",
-				INVALID_FORMATTER_PARAMETER: "Luga.DataSet: invalid formatter. You must use a function as formatter",
-				INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter",
-				INVALID_PRIMITIVE: "Luga.DataSet: records can be either an array of objects or a single object. Primitives are not accepted",
-				INVALID_PRIMITIVE_ARRAY: "Luga.DataSet: records can be either an array of name/value pairs or a single object. Array of primitives are not accepted",
-				INVALID_ROW_PARAMETER: "Luga.DataSet: invalid row parameter. No available record matches the given row",
-				INVALID_ROW_ID_PARAMETER: "Luga.DataSet: invalid rowId parameter",
-				INVALID_ROW_INDEX_PARAMETER: "Luga.DataSet: invalid parameter. Row index is out of range",
-				INVALID_SORT_COLUMNS: "Luga.DataSet.sort(): Unable to sort dataSet. You must supply one or more column name",
-				INVALID_SORT_ORDER: "Luga.DataSet.sort(): Unable to sort dataSet. Invalid sort order passed {0}",
-				INVALID_STATE: "Luga.DataSet: Unsupported state: {0}"
+				INVALID_COL_TYPE: "luga.DataSet.setColumnType(): Invalid type passed {0}",
+				INVALID_UUID_PARAMETER: "luga.DataSet: uuid parameter is required",
+				INVALID_FORMATTER_PARAMETER: "luga.DataSet: invalid formatter. You must use a function as formatter",
+				INVALID_FILTER_PARAMETER: "luga.DataSet: invalid filter. You must use a function as filter",
+				INVALID_PRIMITIVE: "luga.DataSet: records can be either an array of objects or a single object. Primitives are not accepted",
+				INVALID_PRIMITIVE_ARRAY: "luga.DataSet: records can be either an array of name/value pairs or a single object. Array of primitives are not accepted",
+				INVALID_ROW_PARAMETER: "luga.DataSet: invalid row parameter. No available record matches the given row",
+				INVALID_ROW_ID_PARAMETER: "luga.DataSet: invalid rowId parameter",
+				INVALID_ROW_INDEX_PARAMETER: "luga.DataSet: invalid parameter. Row index is out of range",
+				INVALID_SORT_COLUMNS: "luga.DataSet.sort(): Unable to sort dataSet. You must supply one or more column name",
+				INVALID_SORT_ORDER: "luga.DataSet.sort(): Unable to sort dataSet. Invalid sort order passed {0}",
+				INVALID_STATE: "luga.DataSet: Unsupported state: {0}"
 			}
 		};
 
@@ -916,8 +916,8 @@ if(typeof(luga) === "undefined"){
 
 		var CONST = {
 			ERROR_MESSAGES: {
-				INVALID_UUID_PARAMETER: "Luga.DetailSet: id parameter is required",
-				INVALID_DS_PARAMETER: "Luga.DetailSet: dataSet parameter is required"
+				INVALID_UUID_PARAMETER: "luga.DetailSet: id parameter is required",
+				INVALID_DS_PARAMETER: "luga.DetailSet: dataSet parameter is required"
 			}
 		};
 
@@ -1365,11 +1365,6 @@ if(typeof(luga) === "undefined"){
 	};
 
 }());
-/* istanbul ignore if */
-if(typeof(luga.data) === "undefined"){
-	throw("Unable to find Luga Data");
-}
-
 /**
  * @typedef {object} luga.data.DataSet.context
  * @extends luga.data.stateDescription

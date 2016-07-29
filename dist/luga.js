@@ -1,5 +1,5 @@
 /*! 
-Luga JS 0.5.0 2016-07-22T15:56:07.070Z
+Luga JS 0.5.0 2016-07-29T02:37:33.458Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -1232,104 +1232,6 @@ if(typeof(luga) === "undefined"){
 	});
 
 }());
-/* istanbul ignore if */
-if(typeof(luga) === "undefined"){
-	throw("Unable to find Luga JS Core");
-}
-
-(function(){
-	"use strict";
-
-	luga.namespace("luga.csi");
-
-	luga.csi.version = "1.1.2";
-
-	luga.csi.CONST = {
-		NODE_SELECTOR: "div[data-lugacsi]",
-		URL_ATTRIBUTE: "data-lugacsi",
-		AFTER_ATTRIBUTE: "data-lugacsi-after",
-		MESSAGES: {
-			FILE_NOT_FOUND: "luga.csi failed to retrieve text from: {0}"
-		}
-	};
-
-	/**
-	 * @typedef {object} luga.csi.Include.options
-	 *
-	 * @property {jquery}   rootNode     Root node for widget (DOM reference). Required
-	 * @property {string}   url          Url to be included. Optional. Default to the value of the "data-lugacsi" attribute inside rootNode
-	 * @property {function} success      Function that will be invoked once the url is successfully fetched. Optional, default to the internal "onSuccess" method
-	 * @property {function} after        Function that will be invoked once the include is successfully performed.
-	 *                                   It will be called with the handler(rootNode, url, response) signature. Optional, it can be set using the "data-lugacsi-after" attribute
-	 * @property {function} error        Function that will be invoked if the url request fails. Optional, default to the internal "onError" method
-	 * @property {int}      xhrTimeout   Timeout for XHR call (ms). Optional. Default to 5000 ms
-	 */
-
-	/**
-	 * Client-side Include widget
-	 *
-	 * @param {luga.csi.Include.options} options
-	 * @constructor
-	 */
-	luga.csi.Include = function(options){
-
-		var onSuccess = function(response, textStatus, jqXHR){
-			jQuery(config.rootNode).html(response);
-		};
-
-		/**
-		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
-		 * @param {string}   textStatus   HTTP status
-		 * @param {string}   errorThrown
-		 * @throws {Exception}
-		 */
-		var onError = function(qXHR, textStatus, errorThrown){
-			throw(luga.string.format(luga.csi.CONST.MESSAGES.FILE_NOT_FOUND, [config.url]));
-		};
-
-		var config = {
-			url: jQuery(options.rootNode).attr(luga.csi.CONST.URL_ATTRIBUTE),
-			after: jQuery(options.rootNode).attr(luga.csi.CONST.AFTER_ATTRIBUTE),
-			success: onSuccess,
-			error: onError,
-			xhrTimeout: 5000
-		};
-		luga.merge(config, options);
-
-		this.load = function(){
-			jQuery.ajax({
-				url: config.url,
-				timeout: config.XHR_TIMEOUT,
-				success: function(response, textStatus, jqXHR){
-					config.success.apply(null, [response, textStatus, jqXHR]);
-					var afterHandler = luga.lookupFunction(config.after);
-					if(afterHandler !== undefined){
-						afterHandler.apply(null, [config.rootNode, config.url, response]);
-					}
-				},
-				error: function(jqXHR, textStatus, errorThrown){
-					config.error.apply(null, [jqXHR, textStatus, errorThrown]);
-				}
-			});
-		};
-
-	};
-
-	/**
-	 * Invoke this to programmatically load CSI inside the current document
-	 */
-	luga.csi.loadIncludes = function(){
-		jQuery(luga.csi.CONST.NODE_SELECTOR).each(function(index, item){
-			var includeObj = new luga.csi.Include({rootNode: item});
-			includeObj.load();
-		});
-	};
-
-	jQuery(document).ready(function(){
-		luga.csi.loadIncludes();
-	});
-
-}());
 /* globals alert */
 
 /* istanbul ignore if */
@@ -2543,7 +2445,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga Data 0.4.1 2016-07-22T15:56:06.367Z
+Luga Data 0.4.1 2016-07-29T02:37:32.753Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -2790,18 +2692,18 @@ if(typeof(luga) === "undefined"){
 
 		var CONST = {
 			ERROR_MESSAGES: {
-				INVALID_COL_TYPE: "Luga.DataSet.setColumnType(): Invalid type passed {0}",
-				INVALID_UUID_PARAMETER: "Luga.DataSet: uuid parameter is required",
-				INVALID_FORMATTER_PARAMETER: "Luga.DataSet: invalid formatter. You must use a function as formatter",
-				INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter",
-				INVALID_PRIMITIVE: "Luga.DataSet: records can be either an array of objects or a single object. Primitives are not accepted",
-				INVALID_PRIMITIVE_ARRAY: "Luga.DataSet: records can be either an array of name/value pairs or a single object. Array of primitives are not accepted",
-				INVALID_ROW_PARAMETER: "Luga.DataSet: invalid row parameter. No available record matches the given row",
-				INVALID_ROW_ID_PARAMETER: "Luga.DataSet: invalid rowId parameter",
-				INVALID_ROW_INDEX_PARAMETER: "Luga.DataSet: invalid parameter. Row index is out of range",
-				INVALID_SORT_COLUMNS: "Luga.DataSet.sort(): Unable to sort dataSet. You must supply one or more column name",
-				INVALID_SORT_ORDER: "Luga.DataSet.sort(): Unable to sort dataSet. Invalid sort order passed {0}",
-				INVALID_STATE: "Luga.DataSet: Unsupported state: {0}"
+				INVALID_COL_TYPE: "luga.DataSet.setColumnType(): Invalid type passed {0}",
+				INVALID_UUID_PARAMETER: "luga.DataSet: uuid parameter is required",
+				INVALID_FORMATTER_PARAMETER: "luga.DataSet: invalid formatter. You must use a function as formatter",
+				INVALID_FILTER_PARAMETER: "luga.DataSet: invalid filter. You must use a function as filter",
+				INVALID_PRIMITIVE: "luga.DataSet: records can be either an array of objects or a single object. Primitives are not accepted",
+				INVALID_PRIMITIVE_ARRAY: "luga.DataSet: records can be either an array of name/value pairs or a single object. Array of primitives are not accepted",
+				INVALID_ROW_PARAMETER: "luga.DataSet: invalid row parameter. No available record matches the given row",
+				INVALID_ROW_ID_PARAMETER: "luga.DataSet: invalid rowId parameter",
+				INVALID_ROW_INDEX_PARAMETER: "luga.DataSet: invalid parameter. Row index is out of range",
+				INVALID_SORT_COLUMNS: "luga.DataSet.sort(): Unable to sort dataSet. You must supply one or more column name",
+				INVALID_SORT_ORDER: "luga.DataSet.sort(): Unable to sort dataSet. Invalid sort order passed {0}",
+				INVALID_STATE: "luga.DataSet: Unsupported state: {0}"
 			}
 		};
 
@@ -3460,8 +3362,8 @@ if(typeof(luga) === "undefined"){
 
 		var CONST = {
 			ERROR_MESSAGES: {
-				INVALID_UUID_PARAMETER: "Luga.DetailSet: id parameter is required",
-				INVALID_DS_PARAMETER: "Luga.DetailSet: dataSet parameter is required"
+				INVALID_UUID_PARAMETER: "luga.DetailSet: id parameter is required",
+				INVALID_DS_PARAMETER: "luga.DetailSet: dataSet parameter is required"
 			}
 		};
 
@@ -3909,11 +3811,6 @@ if(typeof(luga) === "undefined"){
 	};
 
 }());
-/* istanbul ignore if */
-if(typeof(luga.data) === "undefined"){
-	throw("Unable to find Luga Data");
-}
-
 /**
  * @typedef {object} luga.data.DataSet.context
  * @extends luga.data.stateDescription
