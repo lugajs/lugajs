@@ -1,0 +1,291 @@
+html, body.luga-docs {
+	background-color: #F1F1F1;
+	box-sizing: border-box;
+	color: #333333;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	/* We use px here because any attempt at using non-fixed values make Bootstrap fails on main navigation */
+	font-size: 13px;
+}
+
+.luga-docs .container-fluid {
+	max-width: 100em;
+}
+
+/* Utilities */
+
+.luga-docs .luga-docs-selected {
+	font-style: italic;
+	font-weight: 700;
+}
+
+/* List reset */
+dl, dt, dd, ol, ul, li {
+	border: 0;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+/* Main navigation */
+
+.luga-docs .navbar {
+	background-color: #FFFFFF;
+	border: 0.15em solid #7C93BA;
+	box-shadow: 0.15em 0.15em 0.15em rgba(0, 0, 0, 0.25);
+	margin-left: 1em;
+	margin-right: 1em;
+	margin-top: 1em;
+}
+
+.luga-docs .navbar a,
+.luga-docs .navbar-brand a,
+.luga-docs .navbar-default a {
+	color: #3362B4 !important;
+	font-weight: 700;
+}
+
+.luga-docs .navbar-default .navbar-nav > .active > a {
+	background: #7C93BA;
+	color: #FFFFFF !important;
+}
+
+.luga-docs .navbar-default .navbar-nav > .active > a,
+.luga-docs .navbar-default .navbar-nav > li > a:hover {
+	text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.1);
+}
+
+.luga-docs .dropdown-menu > .current > a {
+	color: #FFFFFF !important;
+}
+
+/* Local navigation */
+
+.luga-docs .luga-nav-local .list-group {
+	border: 0.15em solid #7C93BA;
+	box-shadow: 0.15em 0.15em 0.15em rgba(0, 0, 0, 0.25)
+}
+
+.luga-docs .luga-nav-local .list-group {
+	border-radius: 0.3em;
+}
+
+.luga-docs .luga-nav-local .list-group .list-group-item {
+	border-left: none;
+	border-right: none;
+	padding: 0.5em 0.5em;
+}
+
+.luga-docs .luga-nav-local .list-group li.luga-docs-list-heading {
+	background: #7C93BA;
+	border: none;
+	color: #FFFFFF;
+	font-weight: 700;
+	margin: 0;
+	padding: 0.3em 3em;
+	text-align: center;
+}
+
+.luga-docs .luga-nav-local .list-group a {
+	background-color: #FFFFFF;
+	display: block;
+	text-decoration: none;
+}
+
+.luga-docs .luga-nav-local .current {
+	font-style: italic;
+	font-weight: bold;
+}
+
+.luga-docs .luga-nav-local .list-group li.luga-docs-list-heading,
+.luga-docs .luga-nav-local .list-group a {
+	text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.1);
+}
+
+.luga-docs .luga-nav-local .list-group a:before {
+	content: ":: ";
+}
+
+/* Panels */
+
+.luga-docs .panel-default {
+	border: 0.15em solid #7C93BA;
+	box-shadow: 0.15em 0.15em 0.15em rgba(0, 0, 0, 0.25)
+}
+
+.luga-docs .panel-heading {
+	background-color: #FFFFFF;
+	border-bottom: 0.1em solid #7C93BA;
+	color: #3362B4;
+	font-weight: 700;
+}
+
+.luga-docs .panel {
+	background-color: #EBEBEB;
+}
+
+.luga-docs .panel-heading.luga-docs-api-heading {
+	background: #7C93BA;
+	color: #FFFFFF;
+	font-weight: 700;
+	text-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.1);
+}
+
+.luga-docs .panel .form-inline {
+	margin-bottom: 1.5em;
+	margin-top: 1.5em;
+}
+
+/* Code listings */
+.luga-docs pre,
+.luga-docs pre code {
+	background-color: #F9F9F9 !important;
+}
+
+.luga-docs .panel > pre {
+	border-radius: 0;
+	margin: 0;
+}
+
+.luga-docs pre + pre {
+	border-top: none;
+}
+
+.luga-docs pre[class*="language-"] {
+	margin: 1.5em 0;
+}
+
+table.luga-docs-api + pre[class*="language-"],
+table.luga-docs-api + pre + pre[class*="language-"]{
+	margin: 0;
+}
+
+/* Lists */
+
+ul.luga-docs-list,
+ol.luga-docs-list {
+	margin-bottom: 1em;
+	margin-left: 0.2em;
+	margin-top: 1em;
+}
+
+ul.luga-docs-list li,
+ol.luga-docs-list li {
+	margin-left: 1em;
+	padding-bottom: 0.5em;
+}
+
+ul.luga-docs-list li {
+	list-style: disc outside none;
+}
+
+ol.luga-docs-list li {
+	list-style: decimal outside none;
+}
+
+/* Forms */
+
+.luga-docs .form-control {
+	width: inherit;
+}
+
+.luga-docs input[type="submit"],
+.luga-docs input[type="button"] {
+	background-color: #7C93BA;
+	border: 0.1em solid #AAAAAA;
+	border-radius: 1em;
+	box-shadow: rgba(0, 0, 0, .75) 0 0.2em 0.5em;
+	color: #FFFFFF;
+	cursor: pointer;
+	font-variant: small-caps;
+	letter-spacing: 0.1em;
+	margin-bottom: 1em;
+	padding: 0.2em 1em;
+}
+
+.luga-docs input[type="submit"]:hover,
+.luga-docs input[type="submit"]:active,
+.luga-docs input[type="submit"]:focus,
+.luga-docs input[type="button"]:hover,
+.luga-docs input[type="button"]:active,
+.luga-docs input[type="button"]:focus {
+	background-color: #FFFFFF;
+	box-shadow: rgba(0, 0, 0, .25) 0 0.15em 0;
+	color: #3362B4;
+}
+
+.luga-docs input:focus,
+.luga-docs textarea:focus {
+	background-image: none !important;
+	border: 0.2em #BB0000 solid;
+}
+
+.luga-docs label {
+	color: #333333;
+	font-weight: normal;
+}
+
+/* Table with attributes/api syntax */
+
+table.luga-docs-attributes,
+table.luga-docs-api {
+	background: #7C93BA;
+	border: 0.15em solid #7C93BA;
+	box-shadow: rgba(0, 0, 0, .25) 0.15em 0.15em 0.15em;
+	width: 100%;
+}
+
+table.luga-docs-api + table.luga-docs-api {
+	border-top: 0.15em solid #DDDDDD;
+}
+
+table.luga-docs-api th,
+table.luga-docs-attributes th {
+	font-weight: 700;
+	padding: 0.8em;
+	text-align: left;
+}
+
+table.luga-docs-api th {
+	background-color: #F5F2F0;
+	color: #3362B4;
+}
+
+table.luga-docs-api .luga-docs-type {
+	white-space: nowrap;
+}
+
+table.luga-docs-attributes th {
+	background: #7C93BA;
+	color: #FFFFFF;
+}
+
+table.luga-docs-attributes th {
+	font-size: 1.1em;
+}
+
+table.luga-docs-attributes td {
+	color: #494949;
+	font-weight: 600;
+}
+
+table.luga-docs-api td,
+table.luga-docs-attributes td {
+	background: #FCFCFC;
+	padding: 0.8em;
+	white-space: nowrap;
+}
+
+table.luga-docs-api td + td,
+table.luga-docs-attributes td + td {
+	font-weight: normal;
+	white-space: normal;
+}
+
+/* Tables */
+
+.luga-docs caption {
+	border: 0.15em solid #DDDDDD;
+	border-bottom: none;
+	padding: 0.8em;
+	text-align: center;
+}
