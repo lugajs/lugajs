@@ -5,6 +5,8 @@ DOCS:
 - Alert about issues on IE9 and CORS:
   http://stackoverflow.com/questions/10232017/ie9-jquery-ajax-with-cors-returns-access-is-denied
 
+- Document - luga.ajaxform.initForms(rootNode)
+
 - Document luga.data.region.setUp() and luga.data.region.init()
 
 - Luga.data: search sample (need REST endpoint)
@@ -15,8 +17,6 @@ DOCS:
 -------------
 
 AJAXFORM:
-
-- luga.ajaxform.initForms() Add optional rootNode param
 
 - Make form serializer configurable
 - Parse and handle error messages from server

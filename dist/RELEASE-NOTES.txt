@@ -2,7 +2,8 @@
 Release ?
 ---------------------------------------------------------------------
 NEW FEATURES:
-*  Added luga.data.region.setUp({
+* luga.ajaxform.initForms now supports an optional rootNode parameter
+* Added luga.data.region.setUp({
    autoregister: true|false
 })
 * luga.data.ChildXmlDataSet is now available
