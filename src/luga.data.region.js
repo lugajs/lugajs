@@ -90,6 +90,19 @@
 		new RegionClass({node: node});
 	};
 
+	/**
+	 * Bootstrap any region contained within the given node
+	 * @param {jquery} rootNode
+	 */
+	luga.data.region.initRegions = function(rootNode){
+		if(rootNode === undefined){
+			rootNode = jQuery("body");
+		}
+		rootNode.find(luga.data.region.CONST.SELECTORS.REGION).each(function(index, item){
+			luga.data.region.init(jQuery(item));
+		});
+	};
+
 	luga.namespace("luga.data.region.utils");
 
 	/**
@@ -112,11 +125,9 @@
 	};
 
 	jQuery(document).ready(function(){
-		/* istanbul ignore next */
+		/* istanbul ignore else */
 		if(config.autoregister === true){
-			jQuery(luga.data.region.CONST.SELECTORS.REGION).each(function(index, item){
-				luga.data.region.init(jQuery(item));
-			});
+			luga.data.region.initRegions();
 		}
 	});
 

@@ -1,5 +1,5 @@
 /*! 
-Luga JS 0.5.0 2016-07-29T02:37:33.458Z
+Luga JS 0.5.0 2016-07-29T19:32:26.255Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -1213,9 +1213,13 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Attach form handlers to onSubmit events
+	 * @param {jquery} rootNode
 	 */
-	luga.ajaxform.initForms = function(){
-		jQuery(luga.ajaxform.CONST.FORM_SELECTOR).each(function(index, item){
+	luga.ajaxform.initForms = function(rootNode){
+		if(rootNode === undefined){
+			rootNode = jQuery("body");
+		}
+		rootNode.find(luga.ajaxform.CONST.FORM_SELECTOR).each(function(index, item){
 			var formNode = jQuery(item);
 			formNode.submit(function(event){
 				event.preventDefault();
@@ -2296,9 +2300,13 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Attach form validators to any suitable form inside the document
+	 * @param {jquery} rootNode
 	 */
-	luga.validator.initForms = function(){
-		jQuery(luga.validator.CONST.FORM_SELECTOR).each(function(index, item){
+	luga.validator.initForms = function(rootNode){
+		if(rootNode === undefined){
+			rootNode = jQuery("body");
+		}
+		rootNode.find(luga.validator.CONST.FORM_SELECTOR).each(function(index, item){
 			var formNode = jQuery(item);
 			/* istanbul ignore else */
 			if(formNode.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.VALIDATE) === "true"){
@@ -2445,7 +2453,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga Data 0.4.1 2016-07-29T02:37:32.753Z
+Luga Data 0.4.1 2016-07-29T19:32:25.515Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -4177,6 +4185,19 @@ if(typeof(luga) === "undefined"){
 		new RegionClass({node: node});
 	};
 
+	/**
+	 * Bootstrap any region contained within the given node
+	 * @param {jquery} rootNode
+	 */
+	luga.data.region.initRegions = function(rootNode){
+		if(rootNode === undefined){
+			rootNode = jQuery("body");
+		}
+		rootNode.find(luga.data.region.CONST.SELECTORS.REGION).each(function(index, item){
+			luga.data.region.init(jQuery(item));
+		});
+	};
+
 	luga.namespace("luga.data.region.utils");
 
 	/**
@@ -4199,11 +4220,9 @@ if(typeof(luga) === "undefined"){
 	};
 
 	jQuery(document).ready(function(){
-		/* istanbul ignore next */
+		/* istanbul ignore else */
 		if(config.autoregister === true){
-			jQuery(luga.data.region.CONST.SELECTORS.REGION).each(function(index, item){
-				luga.data.region.init(jQuery(item));
-			});
+			luga.data.region.initRegions();
 		}
 	});
 

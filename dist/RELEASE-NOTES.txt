@@ -2,6 +2,7 @@
 Release ?
 ---------------------------------------------------------------------
 NEW FEATURES:
+* Added luga.data.region.initRegions()
 * luga.validator.initForms now supports an optional rootNode parameter
 * luga.ajaxform.initForms now supports an optional rootNode parameter
 * Added luga.data.region.setUp({

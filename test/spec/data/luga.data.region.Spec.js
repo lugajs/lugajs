@@ -88,6 +88,28 @@ describe("luga.data.region", function(){
 
 	});
 
+	describe(".initRegions()", function(){
+
+		describe("Is a static utility", function(){
+
+			it("Init all the regions contained inside the <body>", function(){
+				loadFixtures("data/region/Handlebars/ladies.htm");
+				spyOn(luga.data.region, "init");
+				luga.data.region.initRegions();
+				expect(luga.data.region.init).toHaveBeenCalledTimes(2);
+			});
+
+			it("Accepts an optional argument as starting node", function(){
+				loadFixtures("data/region/Handlebars/ladies.htm");
+				spyOn(luga.data.region, "init");
+				luga.data.region.initRegions(jQuery(".container"));
+				expect(luga.data.region.init).toHaveBeenCalledTimes(1);
+			});
+
+		});
+
+	});
+
 	describe(".setup()", function(){
 
 		describe("If called with no arguments. Return an object containing name/value pairs:", function(){

@@ -170,11 +170,8 @@ luga.namespace("luga.docs");
 
 						// Bootstrap libs
 						luga.ajaxform.initForms();
-						jQuery(luga.data.region.CONST.SELECTORS.REGION).each(function(index, item){
-							luga.data.region.init(jQuery(item));
-						});
+						luga.data.region.initRegions();
 						luga.validator.initForms();
-
 						Prism.highlightAll();
 
 					})

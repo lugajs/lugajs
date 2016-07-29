@@ -10,7 +10,19 @@
 	</ul>
 </script>
 
-<div id="embedTemplate" data-lugaregion="true" data-lugaregion-datasource-uuid="loadedDs">
+<div class="container">
+
+	<div id="embedTemplate" data-lugaregion="true" data-lugaregion-datasource-uuid="loadedDs">
+		<ul class="people">
+			{{#each context}}
+			<li>{{firstName}} {{lastName}}</li>
+			{{/each}}
+		</ul>
+	</div>
+
+</div>
+
+<div id="moreEmbedTemplate" data-lugaregion="true" data-lugaregion-datasource-uuid="loadedDs">
 	<ul class="people">
 		{{#each context}}
 		<li>{{firstName}} {{lastName}}</li>

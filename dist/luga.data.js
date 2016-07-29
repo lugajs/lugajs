@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.4.1 2016-07-29T02:37:32.753Z
+Luga Data 0.4.1 2016-07-29T19:32:25.515Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -1731,6 +1731,19 @@ if(typeof(luga) === "undefined"){
 		new RegionClass({node: node});
 	};
 
+	/**
+	 * Bootstrap any region contained within the given node
+	 * @param {jquery} rootNode
+	 */
+	luga.data.region.initRegions = function(rootNode){
+		if(rootNode === undefined){
+			rootNode = jQuery("body");
+		}
+		rootNode.find(luga.data.region.CONST.SELECTORS.REGION).each(function(index, item){
+			luga.data.region.init(jQuery(item));
+		});
+	};
+
 	luga.namespace("luga.data.region.utils");
 
 	/**
@@ -1753,11 +1766,9 @@ if(typeof(luga) === "undefined"){
 	};
 
 	jQuery(document).ready(function(){
-		/* istanbul ignore next */
+		/* istanbul ignore else */
 		if(config.autoregister === true){
-			jQuery(luga.data.region.CONST.SELECTORS.REGION).each(function(index, item){
-				luga.data.region.init(jQuery(item));
-			});
+			luga.data.region.initRegions();
 		}
 	});
 
