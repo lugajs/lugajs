@@ -10,6 +10,8 @@ luga.namespace("luga.docs");
 	var Controller = function(){
 
 		var CONST = {
+			TITLE_ROOT: "Luga",
+			TITLE_SEPARATOR : " :: ",
 			CSS_CLASSES: {
 				CURRENT: "current"
 			},
@@ -139,11 +141,23 @@ luga.namespace("luga.docs");
 
 			var tokens = context.fragment.split("/");
 			loadPage(context.fragment);
+			setPageTitle(tokens);
 
 			// Needs navigation
 			if(tokens.length > 1){
 				loadNavigation(tokens[0], context.fragment);
 			}
+		};
+
+		var setPageTitle = function(tokens){
+			var title = CONST.TITLE_ROOT;
+			if(tokens[1] !== undefined){
+				title += CONST.TITLE_SEPARATOR + tokens[0][0].toUpperCase() + tokens[0].substring(1);
+			}
+			if(tokens[2] !== undefined){
+				title += CONST.TITLE_SEPARATOR + tokens[1];
+			}
+			document.title = title;
 		};
 
 		var loadPage = function(id){
