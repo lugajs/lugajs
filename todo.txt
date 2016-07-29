@@ -1,5 +1,4 @@
 - Decouple luga.core
-- Turn docs into SPA
 
 DOCS:
 
@@ -24,8 +23,6 @@ AJAXFORM:
 - Use live service for samples and docs
 - Standardize JSON schema for error messages
 
--------------
-CSI:
 -------------
 COMMON:
 -------------
