@@ -12,7 +12,7 @@ NOTES:
 
 CHANGES:
 * Luga CSI is not part of the project anymore
-* Detailset: Renamed config.dataSet to config.masterDataSet
+* luga.data.Detailset: Renamed config.dataSet to config.masterDataSet
 * jQuery updated to 2.2.4
 
 BUG FIXES:
