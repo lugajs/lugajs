@@ -74,6 +74,23 @@ describe("luga.validator.initForms()", function(){
 			expect(luga.validator.FormValidator).toHaveBeenCalled();
 		});
 
+		it("Accepts an optional argument as starting node", function(){
+
+			loadFixtures("validator/FormValidator/basic.htm");
+			var mockValidator = {
+				validate: function(event){
+					event.preventDefault();
+				}
+			};
+			spyOn(luga.validator, "FormValidator").and.returnValues(mockValidator);
+
+			luga.validator.initForms(jQuery(".container"));
+			// Simulate click/submit
+			jQuery("*[type=submit]")[0].click();
+
+			expect(luga.validator.FormValidator).toHaveBeenCalled();
+		});
+
 	});
 
 });

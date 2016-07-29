@@ -5,7 +5,8 @@ DOCS:
 - Alert about issues on IE9 and CORS:
   http://stackoverflow.com/questions/10232017/ie9-jquery-ajax-with-cors-returns-access-is-denied
 
-- Document - luga.ajaxform.initForms(rootNode)
+- Document luga.ajaxform.initForms(rootNode)
+- Document luga.validator.initForms(rootNode)
 
 - Document luga.data.region.setUp() and luga.data.region.init()
 
@@ -36,9 +37,6 @@ HISTORY:
 
 -------------
 VALIDATOR:
-
-- luga.validator.initForms() Add optional rootNode param
-
 -------------
 
 DATA:
