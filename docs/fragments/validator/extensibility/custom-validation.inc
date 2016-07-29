@@ -1,0 +1,61 @@
+<script>
+	// <![CDATA[
+	luga.validator.rules.lowercase = function(fieldNode){
+		var lowerStr = fieldNode.val().toLowerCase();
+		return (lowerStr === fieldNode.val());
+	};
+	// ]]>
+</script>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Custom validation</div>
+	<div class="panel-body">
+		<p>
+			Luga Validator was designed with extensibility in mind. There will always be the need for custom validation.
+			Luga Validator stores all rules inside tmt.validator.rules, a JavaScript object, acting as a container for
+			both built-in and custom validation rules.
+		</p>
+
+		<p>
+			In order to invoke the custom validation rule, you need to add a custom attribute to the field that exactly
+			matches the name of the custom validation.
+			Then the validator will call our custom method passing the field's DOM node as an argument and expecting a
+			boolean as return value:
+		</p>
+
+<pre><code class="language-javascript">luga.validator.rules.lowercase = function(fieldNode){
+	var lowerStr = fieldNode.val().toLowerCase();
+	return (lowerStr === fieldNode.val());
+};</code></pre>
+
+		<p>
+			The HTML will look like:
+		</p>
+
+<pre><code class="language-markup">&lt;input type="text" name="mylowercase"
+	data-lugavalidator-required="true"
+	data-lugavalidator-lowercase="true"
+	data-lugavalidator-message="Only lowercase!"
+	value="MixedCase"/&gt;</code></pre>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Only lowercase</div>
+	<div class="panel-body">
+		<form data-lugavalidator-validate="true">
+			<div class="form-group">
+				<label for="mylowercase" class="control-label">Letters must be lowercase, required</label>
+				<input type="text" class="form-control" name="mylowercase" id="mylowercase"
+					   data-lugavalidator-required="true"
+					   data-lugavalidator-lowercase="true"
+					   data-lugavalidator-message="Only lowercase!"
+					   value="MixedCase"/>
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Submit"/>
+			</div>
+		</form>
+	</div>
+</div>

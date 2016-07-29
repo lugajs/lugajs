@@ -1,0 +1,170 @@
+<script>
+	(function(){
+		"use strict";
+		var ladiesMaster = new luga.data.JsonDataSet({
+			uuid: "ladies",
+			url: "../test/fixtures/data/ladies.json"
+		});
+		var ladyDetails = new luga.data.DetailSet({uuid: "lady", parentDataSet: ladiesMaster});
+		jQuery(document).ready(function(){
+			ladiesMaster.loadData();
+		});
+	}());
+</script>
+
+<script id="masterTemplate" type="text/x-handlebars-template">
+	<ul class="luga-docs-list">
+		{{#each entities}}
+		<li><a href="#" data-lugaregion-setrowid="{{lugaRowId}}" data-lugaregion-select="luga-docs-selected">{{lastName}}</a>
+		</li>
+		{{/each}}
+	</ul>
+</script>
+<script id="detailsTemplate" type="text/x-handlebars-template">
+	<ul class="luga-docs-list">
+		{{#entity}}
+		<li>Firstname: {{firstName}}</li>
+		<li>Lastname: {{lastName}}</li>
+		<li>Country: {{country}}</li>
+		{{/entity}}
+	</ul>
+</script>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Master-details</div>
+	<div class="panel-body">
+
+		<div role="alert" class="alert alert-warning">
+			<strong>Warning!</strong><br>
+			If your REST endpoint requires two different HTTP request for a master-details,
+			you better use a <a href="#data/json-dataset/master-details">childJsonDataSet</a>.
+		</div>
+
+		<p>
+			In order to implement a master-detail you need both a dataSet for the master region and a detailSet for the
+			details region.
+		</p>
+
+		<p>
+			You need to pass two arguments to the detailSet's constructor:
+		</p>
+
+		<p>
+			<strong>uuid</strong> must be an identifier that is unique across the current page.
+		</p>
+
+		<p>
+			<strong>dataSet</strong> a reference to the master dataSet.
+		</p>
+
+		<p>
+			The detailSet will register itself as <a href="#common/notifier">observer</a> of the dataSet,
+			its data binded to the dataSet's current row. As soon as the current row in the dataSet changes,
+			the detailSet will reflect it.
+		</p>
+
+
+<pre><code class="line-numbers language-javascript">(function(){
+	"use strict";
+	// Master
+	var ladiesMaster = new luga.data.JsonDataSet({
+		uuid: "ladies",
+		url: "../test/fixtures/data/ladies.json"
+	});
+	// Details
+	var ladyDetails = new luga.data.DetailSet({uuid: "lady", parentDataSet: ladiesMaster});
+	// Fetch data only once the DOM is ready
+	jQuery(document).ready(function(){
+		ladiesMaster.loadData();
+	});
+}());
+</code></pre>
+		<p>
+			All in all, the detailSet is a much discrete object compared to the dataSet, its <a href="#data/detailset/api">API</a>
+			reflect its smaller scope.
+			A detailSet sole purpose is to be used in a master-details GUI.
+		</p>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div id="master" class="panel-heading">Master</div>
+	<div class="panel-body">
+
+		<p>
+			For the master region you want the ability to click on each single record and change the dataSet's current
+			row accordingly.
+			This will be automatically reflected inside the detail region, since the detailSet is binded to the current
+			row.
+			This feature is available as one of the build-in <a href="#data/region/traits">traits</a>.
+			The trait used here is <strong>setrowid</strong> and you can apply the relevant attribute to any HTML tag
+			inside the region.<br>
+			You can also see the <strong>select</strong> trait in action here, it applies a CSS class to the currently
+			selected row.
+		</p>
+
+<pre><code class="line-numbers language-markup">&lt;script id="masterTemplate" type="text/x-handlebars-template"&gt;
+	&lt;ul class="luga-docs-list"&gt;
+		{{#each entities}}
+		&lt;li&gt;&lt;a href="#"
+			data-lugaregion-setrowid="{{lugaRowId}}"
+			data-lugaregion-select="luga-docs-selected"&gt;{{lastName}}&lt;/a&gt;&lt;/li&gt;
+		{{/each}}
+	&lt;/ul&gt;
+&lt;/script&gt;
+
+&lt;div data-lugaregion="true"
+	data-lugaregion-datasource-uuid="ladies"
+	data-lugaregion-template-id="masterTemplate"&gt;&lt;/div&gt;
+</code></pre>
+
+		<div class="alert alert-info" role="alert">
+			<strong>Heads up!</strong><br>
+			Pay attention to the <strong>lugaRowId</strong> field used here. This is a special field added by the
+			dataSet,
+			It's kind of an artificial primary key, holding a unique value that can be used whenever you need to refer
+			to a specific row inside the dataSet.
+		</div>
+
+		<div data-lugaregion="true"
+			 data-lugaregion-datasource-uuid="ladies"
+			 data-lugaregion-template-id="masterTemplate"></div>
+	</div>
+
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Details</div>
+
+	<div class="panel-body">
+		<div data-lugaregion="true"
+			 data-lugaregion-datasource-uuid="lady"
+			 data-lugaregion-template-id="detailsTemplate"></div>
+
+		<p>
+			The code for the detail region is pretty much straightforward, a region can render data coming either from a
+			detailSet or a dataSet,
+			They are both valida datasources.
+			Just keep in mind that you are dealing with a single entity here, not a collection of entities.
+			Your template should reflect this:
+		</p>
+				
+<pre><code class="line-numbers language-markup">&lt;script id="detailsTemplate" type="text/x-handlebars-template"&gt;
+	&lt;ul&gt;
+		{{#entity}}
+			&lt;li&gt;Firstname: {{firstName}}&lt;/li&gt;
+			&lt;li&gt;Lastname: {{lastName}}&lt;/li&gt;
+			&lt;li&gt;Country: {{country}}&lt;/li&gt;
+		{{/entity}}
+	&lt;/ul&gt;
+&lt;/script&gt;
+
+&lt;div data-lugaregion="true"
+	data-lugaregion-datasource-uuid="lady"
+	data-lugaregion-template-id="detailsTemplate"&gt;&lt;/div&gt;
+</code></pre>
+
+	</div>
+
+</div>

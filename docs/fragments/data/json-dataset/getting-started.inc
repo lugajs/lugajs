@@ -1,0 +1,117 @@
+<script>
+	(function(){
+		"use strict";
+
+		var peopleDs = new luga.data.JsonDataSet({
+			uuid: "people",
+			url: "../test/fixtures/data/people.json",
+			path: "ladies"
+		});
+
+		jQuery(document).ready(function(){
+			// Fetch data only once the DOM is ready
+			peopleDs.loadData();
+		});
+
+	}());
+</script>
+<script id="peopleTable" type="text/x-handlebars-template">
+	<table class="table table-bordered table-striped">
+		<th>
+			First Name
+		</th>
+		<th>
+			Last Name
+		</th>
+		<th>
+			Country
+		</th>
+		{{#each entities}}
+		<tr>
+			<td>{{firstName}}</td>
+			<td>{{lastName}}</td>
+			<td>{{country}}</td>
+		</tr>
+		{{/each}}
+	</table>
+</script>
+
+<div class="panel panel-default">
+	<div class="panel-heading">luga.data.JsonDataSet</div>
+	<div class="panel-body">
+		<p>
+			Luga Data was written with few, simple, goals in mind.
+			Make it super easy to fetch JSON from a REST endpoint and quickly generate HTML was at the top of the list.
+		</p>
+
+		<p>
+			For the sake of the demo we are using a static <a href="../test/fixtures/data/people.json">JSON file
+			here</a>.
+			All you need to do to get up and running is to add this JavaScript snippet to the page:
+		</p>
+
+<pre><code class="line-numbers language-javascript">(function(){
+	"use strict";
+	var peopleDs = new luga.data.JsonDataSet({
+		uuid: "people",
+		url: "../test/fixtures/data/people.json",
+		path: "ladies"
+	});
+	jQuery(document).ready(function(){
+		// Fetch data only once the DOM is ready
+		peopleDs.loadData();
+	});
+}());
+</code></pre>
+
+		<p>
+			Another &lt;scrip&gt; tag containing the <a href="#data/region/handlebars">Handlebars</a> template:
+		</p>
+
+<pre><code class="line-numbers language-markup">&lt;script id="peopleTable" type="text/x-handlebars-template"&gt;
+	&lt;table class="table table-bordered table-striped"&gt;
+		&lt;th&gt;
+			First Name
+		&lt;/th&gt;
+		&lt;th&gt;
+			Last Name
+		&lt;/th&gt;
+		&lt;th&gt;
+			Country
+		&lt;/th&gt;
+		{{#each entities}}
+		&lt;tr&gt;
+			&lt;td&gt;{{firstName}}&lt;/td&gt;
+			&lt;td&gt;{{lastName}}&lt;/td&gt;
+			&lt;td&gt;{{country}}&lt;/td&gt;
+		&lt;/tr&gt;
+		{{/each}}
+	&lt;/table&gt;
+&lt;/script&gt;
+</code></pre>
+
+		<p>
+			Finally, you add an HTML tag with some <a href="#data/region/syntax">custom attributes</a>:
+		</p>
+
+<pre><code class="line-numbers language-markup">&lt;div data-lugaregion="true"
+	data-lugaregion-datasource-uuid="people"
+	data-lugaregion-template-id="peopleTable"&gt;&lt;/div&gt;
+</code></pre>
+
+		<p>
+			Below you can see the end result:
+		</p>
+
+		<div data-lugaregion="true" data-lugaregion-datasource-uuid="people"
+			 data-lugaregion-template-id="peopleTable"></div>
+
+		<p>
+			Now that you are up and running, you may want to dig a bit deeper,
+			understand why we passed a <a href="#data/json-dataset/path">path</a> to the constructor,
+			what you can do with a <a href="#data/region/getting-started">region</a>
+			or take a look at <a href="#data/dataset/databinding">databinding</a>.
+		</p>
+
+	</div>
+</div>

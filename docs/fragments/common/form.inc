@@ -1,0 +1,155 @@
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.form.toHash(rootNode, demoronize)</div>
+	<div class="panel-body">
+		Returns a JavaScript object containing name/value pairs from fields contained inside a given root node.
+		Only fields considered successful are returned: <br>
+		<a href="http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2">http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2</a>
+		<br>
+		Values of multiple checked checkboxes and multiple select are included as a single entry, with array value
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>rootNode</td>
+			<td>
+				{jquery}
+			</td>
+			<td>
+				jQuery object wrapping the root node
+			</td>
+		</tr>
+		<tr>
+			<td>demoronize</td>
+			<td>
+				{boolean}
+			</td>
+			<td>
+				If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{object}</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-markup">&lt;form id="basicValue"&gt;
+	&lt;input type="text" name="firstname" value="ciccio"/&gt;
+	&lt;input type="text" name="lastname" value="pasticcio"/&gt;
+	&lt;input type="radio" name="radio" value="yes" checked="checked"/&gt;
+	&lt;input type="radio" name="radio" value="no"/&gt;
+	&lt;input type="submit"/&gt;
+&lt;/form&gt;</code></pre>
+
+<pre><code class="language-javascript">luga.form.toHash(jQuery("#basicValue"));
+// => { firstname: "ciccio", lastname: "pasticcio", radio: "yes" }</code></pre>
+
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.form.toQueryString(rootNode, demoronize)</div>
+	<div class="panel-body">
+		Returns a URI encoded string of name/value pairs from fields contained inside a given root node.
+		Only fields considered successful are returned: <br>
+		<a href="http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2">http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2</a>
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>rootNode</td>
+			<td>
+				{jquery}
+			</td>
+			<td>
+				jQuery object wrapping the root node
+			</td>
+		</tr>
+		<tr>
+			<td>demoronize</td>
+			<td>
+				{boolean}
+			</td>
+			<td>
+				If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{string}</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-markup">&lt;form id="basicValue"&gt;
+	&lt;input type="text" name="firstname" value="ciccio"/&gt;
+	&lt;input type="text" name="lastname" value="pasticcio"/&gt;
+	&lt;input type="radio" name="radio" value="yes" checked="checked"/&gt;
+	&lt;input type="radio" name="radio" value="no"/&gt;
+	&lt;input type="submit"/&gt;
+&lt;/form&gt;</code></pre>
+
+<pre><code class="language-javascript">luga.form.toQueryString(jQuery("#basicValue"));
+// => "firstname=ciccio&lastname=pasticcio&radio=yes"</code></pre>
+
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.form.toJson(rootNode, demoronize)</div>
+	<div class="panel-body">
+		Given a form tag or another element wrapping input fields, serialize their value into JSON data.
+		If fields names contains dots, their are handled as nested properties.
+		Only fields considered successful are returned: <br>
+		<a href="http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2">http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2</a>
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>rootNode</td>
+			<td>
+				{jquery}
+			</td>
+			<td>
+				jQuery object wrapping the root node
+			</td>
+		</tr>
+		<tr>
+			<td>demoronize</td>
+			<td>
+				{boolean}
+			</td>
+			<td>
+				If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{object}</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-markup">&lt;form id="basicValue"&gt;
+	&lt;input type="text" name="person.firstname" value="ciccio"/&gt;
+	&lt;input type="text" name="person.lastname" value="pasticcio"/&gt;
+	&lt;input type="radio" name="radio" value="yes" checked="checked"/&gt;
+	&lt;input type="radio" name="radio" value="no"/&gt;
+	&lt;input type="submit"/&gt;
+&lt;/form&gt;</code></pre>
+
+<pre><code class="language-javascript">luga.form.toJson(jQuery("#basicValue"));
+// => { person: { firstname: "ciccio", lastname: "pasticcio", }, radio: "yes" }</code></pre>
+
+</div>

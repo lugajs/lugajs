@@ -6,8 +6,6 @@ DOCS:
 - Alert about issues on IE9 and CORS:
   http://stackoverflow.com/questions/10232017/ie9-jquery-ajax-with-cors-returns-access-is-denied
 
-- Move Notifier docs from luga.data to luga.common
-
 - Document luga.data.region.setUp() and luga.data.region.init()
 
 - Luga.data: search sample (need REST endpoint)
@@ -18,6 +16,8 @@ DOCS:
 -------------
 
 AJAXFORM:
+
+- luga.ajaxform.initForms() Add optional rootNode param
 
 - Make form serializer configurable
 - Parse and handle error messages from server
@@ -39,11 +39,14 @@ HISTORY:
 
 -------------
 VALIDATOR:
+
+- luga.validator.initForms() Add optional rootNode param
+
 -------------
 
 DATA:
 
-- Add luga.data.region.initRegions()
+- Add luga.data.region.initRegions() With optional rootNode param
 
 - Add data-lugaregion-removerowid trait
 

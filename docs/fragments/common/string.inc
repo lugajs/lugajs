@@ -1,0 +1,123 @@
+<div class="panel panel-default">
+	<div id="demoronize" class="panel-heading luga-docs-api-heading">luga.string.demoronize(str)</div>
+	<div class="panel-body">
+		Replace MS Word's non-ISO characters with plausible substitutes
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>str</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				Incoming string
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{string}</td>
+		</tr>
+	</table>
+
+</div>
+
+<div class="panel panel-default">
+	<div id="format" class="panel-heading luga-docs-api-heading">luga.string.format(str, args)</div>
+	<div class="panel-body">
+		Given a string containing placeholders, it assembles a new string
+		replacing the placeholders with the strings contained inside the second argument (either an object or an array).
+		<br>
+		Loosely based on the .NET implementation: <a
+			href="http://msdn.microsoft.com/en-us/library/system.string.format.aspx">http://msdn.microsoft.com/en-us/library/system.string.format.aspx</a>
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>str</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				String containing placeholders
+			</td>
+		</tr>
+		<tr>
+			<td>args</td>
+			<td>
+				{object|array.&lt;string&gt;}
+			</td>
+			<td>
+				Either an array of strings or an objects containing name/value pairs in string format
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{string}</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-javascript">// Using an array:
+luga.string.format("My name is {0} {1}", ["Ciccio", "Pasticcio"]);
+// => "My name is Ciccio Pasticcio"
+
+// Using an object:
+luga.string.format("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"});
+// => "My name is Ciccio Pasticcio"</code></pre>
+
+</div>
+
+<div class="panel panel-default">
+	<div id="populate" class="panel-heading luga-docs-api-heading">luga.string.populate(str, obj)</div>
+	<div class="panel-body">
+		Given a string containing placeholders in {key} format, it assembles a new string
+		replacing the placeholders with the strings contained inside the second argument keys.
+		Unlike luga.string.format, placeholders can match nested properties too. But it's slower
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>str</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				String containing placeholders
+			</td>
+		</tr>
+		<tr>
+			<td>obj</td>
+			<td>
+				{object}
+			</td>
+			<td>
+				An objects containing name/value pairs in string format
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{string}</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-javascript">luga.string.populate("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"});
+// => "My name is Ciccio Pasticcio"
+
+// With nested properties:
+var nestedObj = { type: "people", person: { firstName: "Ciccio", lastName: "Pasticcio" } };
+luga.string.populate("My name is {person.firstName} {person.lastName}", nestedObj);
+// => "My name is Ciccio Pasticcio"</code></pre>
+
+</div>

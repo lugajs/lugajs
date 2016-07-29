@@ -1,0 +1,83 @@
+<script>
+	//<![CDATA[
+	function submitAsGet(formNode){
+		var sender = new luga.ajaxform.Sender({
+			formNode: formNode,
+			action: "ajaxform-action.json",
+			method: "GET",
+			successmsg: "Form send with raw JSON"
+		});
+		sender.sendJson();
+	};
+	//]]>
+</script>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Programmatically use Ajaxform to send raw JSON data</div>
+	<div class="panel-body">
+		<p>
+			Instead of using custom attributes you can implement a script based solution.
+			First, create a new instance of luga.ajaxform.Sender, then call its sendJson() method instead of the usual
+			send() method
+		</p>
+
+		<p>
+			For a complete list of available options, see the <a href="#ajaxform/api/syntax">syntax reference</a>
+		</p>
+
+<pre><code class="language-javascript">function submitAsGet(formNode){
+	var sender = new luga.ajaxform.Sender({
+		formNode: formNode,
+		action: "../action.json",
+		method: "GET",
+		successmsg: "Form send with raw JSON"
+	});
+	sender.sendJson();
+};
+</code></pre>
+
+<pre><code class="language-markup">&lt;form&gt;
+	&lt;input type="text" name="name"/&gt;
+	&lt;input type="button" value="Send" onclick="submitAsGet(jQuery(this.form))"/&gt;
+&lt;/form&gt;</code></pre>
+				
+<pre><code class="language-markup">&lt;!-- Note the dot-delimited form names --&gt;
+&lt;form&gt;
+	&lt;input type="text" name="person.firstname" value="ciccio"/&gt;
+	&lt;input type="text" name="person.lastname" value="pasticcio"/&gt;
+	&lt;input type="button" value="Send" onclick="submitAsGet(jQuery(this.form))"/&gt;
+&lt;/form&gt;</code></pre>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Send raw JSON</div>
+	<div class="panel-body">
+		<form action="../action.json">
+			<div class="form-group">
+				<input type="text" class="form-control" name="name"/>
+			</div>
+			<div class="form-group">
+				<input type="button" value="Submit" onclick="submitAsGet(jQuery(this.form))"/>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Send raw JSON with nested parameters</div>
+	<div class="panel-body">
+		<form action="../action.json">
+			<div class="form-group">
+				<input type="text" class="form-control" name="person.firstname" value="ciccio"/>
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" name="person.lastname" value="pasticcio"/>
+			</div>
+			<div class="form-group">
+				<input type="button" value="Submit" onclick="submitAsGet(jQuery(this.form))"/>
+			</div>
+		</form>
+	</div>
+</div>

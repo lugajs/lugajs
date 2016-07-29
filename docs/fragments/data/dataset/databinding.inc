@@ -1,0 +1,115 @@
+<script>
+	(function(){
+		"use strict";
+
+		var ladiesDs = new luga.data.JsonDataSet({
+			uuid: "ladiesDs",
+			url: "../test/fixtures/data/ladies.json"
+		});
+
+		jQuery(document).ready(function(){
+			ladiesDs.loadData();
+
+			jQuery("#addButton").on("click", function(event){
+				event.preventDefault();
+				// Assemble the new row:
+				var row = {
+					firstName: jQuery("#ladyFirstName").val(),
+					lastName: jQuery("#ladyLastName").val()
+				};
+				ladiesDs.insert(row);
+			});
+
+		});
+
+	}());
+</script>
+<script id="ladiesTemplate" type="text/x-handlebars-template">
+	<ul class="luga-docs-list">
+		{{#each entities}}
+		<li>{{firstName}} {{lastName}}</li>
+		{{/each}}
+	</ul>
+</script>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Databing with dataSet</div>
+	<div class="panel-body">
+		<p>
+			Before you start generating HTML at run-time, you need an instance of a dataSet, loaded with the data you
+			want to display.
+		</p>
+
+		<p>
+			For this simple demo, fetching data from a <a href="../test/fixtures/data/ladies.json">JSON file</a>,
+			it's better to use a <a href="#data/json-dataset/getting-started">JSON Dataset</a>.
+		</p>
+
+		<p>
+			You need to pass two arguments to the constructor:
+		</p>
+
+		<p>
+			<strong>uuid</strong> must be an identifier that is unique across the current page.
+		</p>
+
+		<p>
+			<strong>url</strong> points to the REST endpoint (a static JSON file for demo purposes).
+		</p>
+
+		<p>
+			Finally you have to call the <a href="#data/json-dataset/api">loadData()</a> method to tell the
+			dataSet it's time to use XHR and fetch the data.
+		</p>
+
+<pre><code class="line-numbers language-javascript">(function(){
+	"use strict";
+	var ladiesDs = new luga.data.JsonDataSet({
+		uuid: "ladiesDs",
+		url: "../test/fixtures/data/ladies.json"
+	});
+	jQuery(document).ready(function(){
+		// Fetch data only once the DOM is ready
+		ladiesDs.loadData();
+	});
+}());
+</code></pre>
+
+		<div class="alert alert-warning" role="alert">
+			<strong>Warning!</strong><br>
+			It's important to call .loadData() only after the DOM is loaded, since we must be sure the region exists and
+			can inject HTML inside the page.
+		</div>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Real-time databinding</div>
+	<div class="panel-body">
+
+		<p>
+			Once you have a dataSet available, you can bind it to a <a href="#data/region/getting-started">region</a>.
+			The region will register itself as <a href="#common/notifier">observer</a> of the dataSet
+			and automatically re-generate the HTML once the dataSet change its <a href="#data/region/state">state</a>
+			or its data.
+		</p>
+
+		<p>
+			Enter a new record inside the form below and see it in action:
+		</p>
+
+		<form class="form-inline">
+			<div class="form-group">
+				<input type="text" class="form-control" id="ladyFirstName" placeholder="type first name">
+				<input type="text" class="form-control" id="ladyLastName" placeholder="type last name">
+			</div>
+			<button type="submit" class="btn btn-info" id="addButton">Add record</button>
+		</form>
+
+		<div data-lugaregion="true"
+			 data-lugaregion-datasource-uuid="ladiesDs"
+			 data-lugaregion-template-id="ladiesTemplate"></div>
+
+	</div>
+</div>

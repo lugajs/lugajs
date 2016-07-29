@@ -1,0 +1,292 @@
+<div class="panel panel-default">
+	<div class="panel-heading">JsonDataSet</div>
+	<div class="panel-body">
+		<p>
+			luga.data.JsonDataSet inherits all <a href="#data/dataset/api">luga.data.DataSet's API</a>.
+			On top of that it adds some additional methods and constructor options.
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div id="constructor" class="panel-heading luga-docs-api-heading">luga.data.JsonDataSet(options)</div>
+	<div class="panel-body">
+		<p>
+			DataSet's constructor. This class triggers the following notifications:
+
+		<ul class="luga-docs-list">
+			<li>"dataLoading" once an XHR request is fired.</li>
+			<li>"xhrError" if an XHR request fails.</li>
+			<li>"dataChanged" every time its data changes.</li>
+			<li>"currentRowChanged" every time its currentRow changes.</li>
+			<li>"dataSorted" once its data is sorted.</li>
+			<li>"preDataSorted" before it attempts to sort its data.</li>
+		</ul>
+
+		</p>
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>options.uuid</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				Unique identifier. Required.
+			</td>
+		</tr>
+		<tr>
+			<td>options.url</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				Url to be fetched to extract JSON data. Default to null.
+			</td>
+		</tr>
+		<tr>
+			<td>options.timeout</td>
+			<td>
+				{number}
+			</td>
+			<td>
+				Timeout (in milliseconds) for the HTTP request. Default to 10.000
+			</td>
+		</tr>
+		<tr>
+			<td>options.headers</td>
+			<td>
+				{object}
+			</td>
+			<td>
+				A set of name/value pairs to be used as custom HTTP headers
+			</td>
+		</tr>
+		<tr>
+			<td>options.incrementalLoad</td>
+			<td>
+				{boolean}
+			</td>
+			<td>
+				By default calling once .loadData() is called the dataSet discard all the previous records.
+				Set this to true to keep the old records. Default to false.
+			</td>
+		</tr>
+		<tr>
+			<td>options.cache</td>
+			<td>
+				{boolean}
+			</td>
+			<td>
+				If set to false, it will force requested pages not to be cached by the browser.
+				It works by appending "_={timestamp}" to the querystring. Default to true.
+			</td>
+		</tr>
+		<tr>
+			<td>options.records</td>
+			<td class="luga-docs-type">
+				{array.&lt;object&gt;|object}
+			</td>
+			<td>
+				Records to be loaded, either one single object containing value/name pairs, or an array of name/value
+				pairs. Optional.
+			</td>
+		</tr>
+		<tr>
+			<td>options.formatter</td>
+			<td>
+				{function}
+			</td>
+			<td>
+				A formatter functions to be called once for each row in the dataSet (<a href="#data/dataset/formatter">read
+				more</a>). Default to null.
+			</td>
+		</tr>
+		<tr>
+			<td>options.filter</td>
+			<td>
+				{function}
+			</td>
+			<td>
+				A filter functions to be called once for each row in the dataSet (<a href="#data/dataset/filter">read
+				more</a>). Default to null.
+			</td>
+		</tr>
+		<tr>
+			<td>options.path</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				Specifies the path to the data within the JSON structure.
+				The path is expressed as a set of property names on the objects, separated by dots.
+				Default to null.
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-javascript">var ladiesDs = new luga.data.JsonDataSet({
+	uuid: "ladiesDs",
+	url: "../test/fixtures/data/ladies.json"
+});
+
+// Using custom HTTP headers
+var testDs = new luga.data.JsonDataSet({
+	uuid: "testDs",
+	headers: {"X-Requested-With": "ciccio"},
+	url: "whatever.json"
+});
+</code></pre>
+
+</div>
+
+<div id="getRawJson" class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">.getRawJson()</div>
+	<div class="panel-body">
+		Returns the raw JSON data structure, if any.
+	</div>
+
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{null|json}</td>
+		</tr>
+	</table>
+
+</div>
+
+<div id="getPath" class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">.getPath()</div>
+	<div class="panel-body">
+		Returns the path to be used to extract data out of the JSON data structure, if any.
+	</div>
+
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{null|string}</td>
+		</tr>
+	</table>
+
+</div>
+
+<div id="loadData" class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">.loadData(columnNames, sortOrder)</div>
+	<div class="panel-body">
+		<p>
+			Fires off XHR request to fetch and load the data, then notify observers ("dataLoading" first, "dataChanged"
+			after records are loaded).<br>
+			Throws an exception if URL is not set.
+		</p>
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="line-numbers language-javascript">(function(){
+	"use strict";
+	var ladiesDs = new luga.data.JsonDataSet({
+		uuid: "ladiesDs",
+		url: "../test/fixtures/data/ladies.json"
+	});
+	// Fetch data only once the DOM is ready
+	jQuery(document).ready(function(){
+		ladiesDs.loadData();
+	});
+}());</code></pre>
+
+</div>
+
+<div id="loadRawJson" class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">.loadRawJson(json)</div>
+	<div class="panel-body">
+		<p>
+			First delete any existing records, then load data from the given JSON, without XHR calls.
+		</p>
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>json</td>
+			<td class="luga-docs-type">
+				{json}
+			</td>
+			<td>
+				JSON data. Required.
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+</div>
+
+<div id="setPath" class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">.setPath(path)</div>
+	<div class="panel-body">
+		Set the path to be used to extract data out of the JSON data structure
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>path</td>
+			<td class="luga-docs-type">
+				{string}
+			</td>
+			<td>
+				Data path, expressed as a set of property names on the objects, separated by dots. Required.
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="line-numbers language-javascript">var testDs = new luga.data.JsonDataSet({
+	uuid: "peopleDs",
+	url: "../test/fixtures/data/people.json",
+	path: "ladies"
+});
+testDs.setPath("others.jazzPlayers");
+testDs.loadData();
+</code></pre>
+
+</div>
+
+<div id="setUrl" class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">.setUrl(url)</div>
+	<div class="panel-body">
+		Set the URL that will be used to fetch the data.
+		This method does not load the data into the data set, it merely sets the internal URL.
+		The developer must call loadData() to actually trigger the data loading
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>url</td>
+			<td class="luga-docs-type">
+				{string}
+			</td>
+			<td>
+				New URL. Required.
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="line-numbers language-javascript">var testDs = new luga.data.JsonDataSet({
+	uuid: "peopleDs",
+	url: "people.json"
+});
+testDs.setUrl("ladies.json");
+testDs.loadData();
+</code></pre>
+
+</div>

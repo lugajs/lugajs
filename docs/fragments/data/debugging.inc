@@ -1,0 +1,93 @@
+<div class="panel panel-default">
+	<div id="loadData" class="panel-heading">.loadData() is asynchronous</div>
+	<div class="panel-body">
+		<p>
+			<a href="#data/json-dataset/api">.loadData()</a> performs asynchronous HTTP calls.
+			This means the code below will not work as expected:
+		</p>
+
+<pre><code class="line-numbers language-javascript">(function(){
+	"use strict";
+	var peopleDs = new luga.data.JsonDataSet({
+		uuid: "peopleDs",
+		url: "../test/fixtures/data/ladies.json"
+	});
+	// Fetch data only once the DOM is ready
+	jQuery(document).ready(function(){
+		peopleDs.loadData();
+		peopleDs.getRecordsCount(); // => Returns 0, since data isn't loaded yet
+	});
+}());</code></pre>
+
+		<p>
+			You should use an <a href="notifier.htm">observer</a> instead:
+		</p>
+
+<pre><code class="line-numbers language-javascript">(function(){
+	"use strict";
+
+	var peopleDs = new luga.data.JsonDataSet({
+		uuid: "people",
+		url: "../../../test/fixtures/data/people.json",
+		path: "ladies"
+	});
+
+	var ObserverClass = function(){
+		this.onDataChangedHandler = function(data){
+			console.log(data.dataSource.getRecordsCount());
+		};
+	};
+
+	var observerObj = new ObserverClass();
+	peopleDs.addObserver(observerObj);
+
+	jQuery(document).ready(function(){
+		// Fetch data only once the DOM is ready
+		peopleDs.loadData();
+	});
+
+}());</code></pre>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div id="observers" class="panel-heading">.observers</div>
+	<div class="panel-body">
+		<p>
+			Every <a href="#common/notifier">notifier</a> contains an <strong>.observers</strong> public property.
+			You should never manipulate it directly, just look into it for debugging.
+			Any <a href="#data/region/getting-started">region</a>,
+			<a href="#data/json-dataset/master-details">childJsonDataSet</a>
+			and <a href="#data/detailset/master-details">detailSet</a>
+			associated with a dataSet will be visible inside the dataSet's .observer property.
+			If they are not, something is wrong.
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div id="getDataSource" class="panel-heading">luga.data.getDataSource(uuid)</div>
+	<div class="panel-body">
+		<p>
+			This static utility allows you to access any dataSet available inside the current page.
+			You are not supposed to use it inside your code, yet it can prove very useful for debugging.
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div id="cors" class="panel-heading">CORS</div>
+	<div class="panel-body">
+		<p>
+			In order to work properly with Luga Data is strongly recommended to get acquainted with cross-origin HTTP
+			requests.
+			The following articles are excellent starting points:
+			<br>
+			<a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">Wikipedia</a>
+			<br>
+			<a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS">Mozilla Developer
+				Network</a>
+		</p>
+	</div>
+</div>

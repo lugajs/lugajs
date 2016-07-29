@@ -1,0 +1,73 @@
+<div class="panel panel-default">
+	<div class="panel-heading">About Luga Data</div>
+	<div class="panel-body">
+		<p>
+			Luga Data is a data-centric library, designed to retrieve data from diverse sources,
+			expose them using a unified API, and allow you to consume and display the data anywhere within your
+			JavaScript and HTML code,
+			leveraging databinding and HTML templating.
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Philosophy</div>
+	<div class="panel-body">
+		<p>
+			Developing Luga Data we keep a few clear goals in mind. We are not looking for another MV* framework,
+			we only want to do few things, stay focused and try to do them well.
+			Luga Data is not strongly opinionated, it does not impose or even suggest the way you should design your
+			applications.
+		</p>
+
+		<p>
+			We want our applications to be independent from the way data is serialized/formatted,
+			data is equalized and consumed using the same API, no matter if it’s JSON or XML.
+			Being format agnostic is a top priority for us, and you can easily extend the library to support additional
+			formats too.
+		</p>
+
+		<p>
+			Above anything else, we believe that simple, common tasks, should become almost trivial.
+			At the very same time, complex tasks should be possible, even if the required functionality is not available
+			out of the box.
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">History</div>
+	<div class="panel-body">
+		<p>
+			Many ideas you will find here were inspired by <a href="https://github.com/adobe/Spry#spry-data">Spry
+			Data</a>.
+			Instead of forking that project, we decided to start afresh, since we wanted to also leverage
+			<a href="http://jquery.com/">jQuery</a> and <a href="http://handlebarsjs.com/">Handlebars</a>.
+			While the code was written from scratch, <a href="#common/notifier">luga.Notifier</a> is heavily based
+			on the original Spry codebase and the data sorting implementation is almost the same.
+		</p>
+
+		<p>
+			Very special thanks to <a href="https://github.com/jblas">Kin Blas</a>.
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Unit test</div>
+	<div class="panel-body">
+		<p>
+			Luga Data contains a comprehensive set of <a href="../test/SpecRunner.htm?spec=luga.data">unit
+			tests</a>, developed with <a href="https://github.com/jasmine/jasmine">Jasmine</a>.
+		</p>
+
+		<p>
+			The unit tests play a fundamental role in ensuring the code is robust and, at the very same time, provide
+			plenty of useful information on the API.
+		</p>
+
+		<p>
+			Code coverage is usually around 100%. You can check <a href="../test/coverage/lcov-report/src/index.html">coverage report</a> by yourself
+		</p>
+	</div>
+</div>

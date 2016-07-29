@@ -1,0 +1,160 @@
+<div class="panel panel-default">
+	<div class="panel-heading">About luga.Notifier</div>
+	<div class="panel-body">
+		<p>
+			luga.Notifier is part of <a href=".../dist/luga.common.min.js">Luga Common</a>, and plays a critical
+			role in other Luga libraries.
+			It's loosely based on the <a href="https://en.wikipedia.org/wiki/Observer_pattern">observer/notifier</a>
+			design pattern, with some peculiar touches,
+			favouring <a href="https://en.wikipedia.org/wiki/Convention_over_configuration">convention over
+			configuration</a>.
+		</p>
+
+		<p>
+			luga.Notifier provides the base functionality necessary to maintain a list of observers and send
+			notifications to them.
+			It's an abstract class, so it's forbidden to use this class directly (it throws an exception if you do), it
+			can only be used as a base class.
+			The Notifier class does not define any notification messages, so it is up to the developer to define the
+			notifications.
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">luga.Notifier in action</div>
+	<div class="panel-body">
+		<p>
+			Let's dig straight into some samples, using uber-simplified code:
+		</p>
+
+<pre><code class="line-numbers language-javascript">var NotifierClass = function(){
+	luga.extend(luga.Notifier, this); // Inherit from luga.Notifier
+};
+
+var ObserverClass = function(){
+	// Just two placeholders, empty methods
+	this.onCompleteHandler = function(data){
+		alert(data.message);
+	};
+	this.onSomethingHandler = function(){};
+};
+
+notifierObj = new NotifierClass();
+observerObj = new ObserverClass();
+
+// Register the observer
+notifierObj.addObserver(observerObj);
+
+// Now notifierObj can propagate events and observerObj may listen to them:
+
+notifierObj.notifyObservers("complete", { message: "I did the job" });
+// => alert("I did the job")
+
+notifierObj.notifyObservers("restart", { message: "I am staring over" });
+// => Nothing happens here, since observerObj.onRestartHandler() does not exists</code></pre>
+
+		<p>
+			Once you call notifyObservers("complete", { message: "I did the job" }), the notifier will loop over its
+			observers, looking for objects that implement an "onCompleteHandler" method.
+		</p>
+
+		<p>
+			It's critical to note the naming convention here, for a <strong>"complete"</strong> event, there must be a
+			matching <strong>"onCompleteHandler"</strong> method.
+			If a method matching the naming convention is found, it gets executed, passing the notification data as its
+			single argument.
+			If the observer does not implements a matching method, nothing happens.
+		</p>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">luga.Notifier API</div>
+	<div class="panel-body">
+		<p>
+			luga.Notifier is a very compact class, exposing just three public methods.
+			You can find the complete API here.
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div id="addObserver" class="panel-heading luga-docs-api-heading">.addObserver(observer)</div>
+	<div class="panel-body">
+		<p>
+			Adds an observer object to the list of observers.
+			Observer objects should implement a method that matches a naming convention for the events they are
+			interested in.
+			For an event named "complete" they must implement a method named: "onCompleteHandler".
+		</p>
+
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>observer</td>
+			<td>
+				{object}
+			</td>
+			<td>
+				Observer object. Required
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div class="panel panel-default">
+	<div id="notifyObservers" class="panel-heading luga-docs-api-heading">.notifyObservers(eventName, data)</div>
+	<div class="panel-body">
+		<p>
+			Sends a notification to all interested observers registered with the notifier.
+		</p>
+
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>eventName</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				Name of the event. Required
+			</td>
+		</tr>
+		<tr>
+			<td>data</td>
+			<td>
+				{object}
+			</td>
+			<td>
+				Object containing data to be passed from the point of notification to all interested observers.
+				If there is no relevant data to pass, use an empty object. Required
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div class="panel panel-default">
+	<div id="removeObserver" class="panel-heading luga-docs-api-heading">.removeObserver(observer)</div>
+	<div class="panel-body">
+		<p>
+			Removes the given observer object. The notifier will stop broadcasting notifications to it.
+		</p>
+
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>observer</td>
+			<td>
+				{object}
+			</td>
+			<td>
+				Observer object. Required
+			</td>
+		</tr>
+	</table>
+</div>
