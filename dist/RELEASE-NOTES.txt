@@ -19,7 +19,7 @@ BUG FIXES:
 *
 
 KNOWN ISSUES:
-*
+* Proper release notes started only after release 0.5 :-)
 
 ---------------------------------------------------------------------
 Release 0.5
