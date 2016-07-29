@@ -19,6 +19,7 @@ BUG FIXES:
 *
 
 KNOWN ISSUES:
+* IE9 and CORS: http://stackoverflow.com/questions/10232017/ie9-jquery-ajax-with-cors-returns-access-is-denied
 * Proper release notes started only after release 0.5 :-)
 
 ---------------------------------------------------------------------
