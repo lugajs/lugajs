@@ -7,9 +7,10 @@ DOCS:
 
 - Document luga.ajaxform.initForms(rootNode)
 - Document luga.validator.initForms(rootNode)
-- Document luga.data.region.initRegions(rootNode)
 
-- Document luga.data.region.setUp() and luga.data.region.init()
+- Document luga.data.region.initRegions(rootNode)
+- Document luga.data.region.init()
+- Document luga.data.region.setUp()
 
 - Luga.data: search sample (need REST endpoint)
 - Luga.data: examples with event delegation:
@@ -20,7 +21,7 @@ DOCS:
 
 AJAXFORM:
 
-- Make form serializer configurable
+- Make JSON serializer configurable
 - Parse and handle error messages from server
 - Use live service for samples and docs
 - Standardize JSON schema for error messages
