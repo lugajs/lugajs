@@ -173,7 +173,7 @@ describe("luga", function(){
 
 		describe("Given an object and the path of a property as a string", function(){
 
-			it("Returns the propetry's value if it is available at the given path", function(){
+			it("Returns the property value if it is available at the given path", function(){
 				expect(luga.lookupProperty({key: "test"}, "key")).toEqual("test");
 			});
 
