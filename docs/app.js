@@ -91,7 +91,7 @@ luga.namespace("luga.docs");
 					})
 					.fail(function(){
 						// TODO: implement error handling
-						console.log("Error loading fragment");
+						console.log("Error loading documentation fragment");
 					});
 
 		};
@@ -106,7 +106,7 @@ luga.namespace("luga.docs");
 					})
 					.fail(function(){
 						// TODO: implement error handling
-						console.log("Error loading fragment");
+						console.log("Error loading navigation");
 					});
 
 		};
