@@ -54,23 +54,22 @@ luga.namespace("luga.docs");
 			jQuery(CONST.SELECTORS.CONTENT).empty();
 			jQuery(CONST.SELECTORS.NAVIGATION).empty();
 
-			var tokens = context.fragment.split("/");
 			loadPage(context.fragment);
-			setPageTitle(tokens);
+			setPageTitle(context.params.lib, context.params.section, context.params.page);
 
-			// Needs navigation
-			if(tokens.length > 1){
-				loadNavigation(tokens[0], context.fragment);
+			// If it's not index, load navigation
+			if(context.params.lib !== "index"){
+				loadNavigation(context.params.lib, context.fragment);
 			}
 		};
 
-		var setPageTitle = function(tokens){
+		var setPageTitle = function(lib, section, page){
 			var title = CONST.TITLE_ROOT;
-			if(tokens[1] !== undefined){
-				title += CONST.TITLE_SEPARATOR + tokens[0][0].toUpperCase() + tokens[0].substring(1);
+			if(section !== undefined){
+				title += CONST.TITLE_SEPARATOR + lib[0].toUpperCase() + lib.substring(1);
 			}
-			if(tokens[2] !== undefined){
-				title += CONST.TITLE_SEPARATOR + tokens[1];
+			if(page !== undefined){
+				title += CONST.TITLE_SEPARATOR + section;
 			}
 			document.title = title;
 		};
