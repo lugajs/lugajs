@@ -36,6 +36,18 @@
 	</div>
 </div>
 
+<div class="panel panel-default">
+	<div class="panel-heading">Bootstrapping forms</div>
+	<div class="panel-body">
+		<p>
+			The library initializes all the forms contained inside the current document as soon as it's loaded.
+			If the DOM structure is not significantly altered at run-time, you don't need to worry about it.
+			If you are working on a single-page application or if you inject new forms inside the document at run-time,
+			you may want to programmatically call <a href="#validator/api/syntax">luga.ajaxform.initForms()</a>
+		</p>
+	</div>
+</div>
+
 <div class="alert alert-warning" role="alert">
 	<strong>Warning!</strong><br>
 	<ul class="luga-docs-list">

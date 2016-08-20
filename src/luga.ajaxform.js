@@ -270,7 +270,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Attach form handlers to onSubmit events
-	 * @param {jquery} rootNode
+	 * @param {jquery|undefined} rootNode  Optional, default to jQuery("body")
 	 */
 	luga.ajaxform.initForms = function(rootNode){
 		if(rootNode === undefined){
