@@ -42,3 +42,9 @@
 
 	</div>
 </div>
+
+<div class="alert alert-info" role="alert">
+	<strong>Heads up!</strong><br>
+	Due to a bug in jQuery, cross-domain XHR requests may fail.
+	You can <a href="http://stackoverflow.com/questions/10232017/ie9-jquery-ajax-with-cors-returns-access-is-denied">read additional details here</a>
+</div>
