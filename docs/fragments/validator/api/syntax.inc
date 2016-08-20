@@ -202,7 +202,7 @@
 	<table class="table table-bordered luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
-			<td>options.rootNode</td>
+			<td>rootNode</td>
 			<td>
 				{jquery}
 			</td>
