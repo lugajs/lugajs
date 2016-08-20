@@ -123,7 +123,6 @@
 
 </div>
 
-
 <div class="panel panel-default">
 	<div class="panel-heading luga-docs-api-heading">luga.data.region.initRegions(rootNode)</div>
 	<div class="panel-body">
@@ -151,7 +150,8 @@
 	<div class="panel-heading luga-docs-api-heading">luga.data.region.init(node)</div>
 	<div class="panel-body">
 		Bootstrap the region contained within the given node.
-		You can invoke it in case the DOM as changed and a new region has been added to the document
+		You can invoke it in case the DOM as changed and a new region has been added to the document.
+		Can be very useful on single-page applications or other scenarios where the DOM is significantly altered at run-time
 	</div>
 	<table class="table table-bordered luga-docs-api">
 		<th colspan="3">Arguments</th>
@@ -166,4 +166,36 @@
 		</tr>
 
 	</table>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.data.region.setup(options)</div>
+	<div class="panel-body">
+		<p>
+			Allows to change default settings for regions
+		</p>
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>options.autoregister</td>
+			<td>
+				{boolean}
+			</td>
+			<td>
+				By default the library calls luga.data.region.init() on jQuery(document).ready()
+				to automatically bootstrap all the regions contained inside the current document.
+				Set this to false if you prefer to have more flexibility and bootstrap the regions programmatically
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-javascript">luga.data.region.setup({
+	autoregister: false
+});
+</code></pre>
+
 </div>

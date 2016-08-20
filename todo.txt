@@ -5,8 +5,6 @@ DOCS:
 - Alert about issues on IE9 and CORS:
   http://stackoverflow.com/questions/10232017/ie9-jquery-ajax-with-cors-returns-access-is-denied
 
-- Document luga.data.region.setUp()
-
 - Luga.data: search sample (need REST endpoint)
 - Luga.data: examples with event delegation:
   https://api.jquery.com/on/#direct-and-delegated-events
