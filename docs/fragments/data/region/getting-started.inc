@@ -107,3 +107,15 @@
 
 	</div>
 </div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Bootstrapping regions</div>
+	<div class="panel-body">
+		<p>
+			The library initializes all the regions contained inside the current document as soon as it's loaded.
+			If the DOM structure is not significantly altered at run-time, you don't need to worry about it.
+			If you are working on a single-page application or if you inject new regions inside the document at run-time,
+			you may want to <a href="#data/region/scripting">programmatically bootstrap one or more region</a>
+		</p>
+	</div>
+</div>

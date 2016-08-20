@@ -122,3 +122,48 @@
 </code></pre>
 
 </div>
+
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.data.region.initRegions(rootNode)</div>
+	<div class="panel-body">
+		Bootstrap any region contained within the given node.
+		The library internally calls this as soon as the document load.
+		You can invoke it in case the DOM as changed and new regions has been added to the document.
+		If you have to bootstrap a single region, you better use luga.data.region.init(node) instead
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>rootNode</td>
+			<td>
+				{jquery}
+			</td>
+			<td>
+				A jQuery object. Optional. If not specified it will default to jQuery("body")
+			</td>
+		</tr>
+
+	</table>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.data.region.init(node)</div>
+	<div class="panel-body">
+		Bootstrap the region contained within the given node.
+		You can invoke it in case the DOM as changed and a new region has been added to the document
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>node</td>
+			<td>
+				{jquery}
+			</td>
+			<td>
+				A jQuery object. Required
+			</td>
+		</tr>
+
+	</table>
+</div>
