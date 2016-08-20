@@ -34,8 +34,6 @@ VALIDATOR:
 
 DATA:
 
-- Add data-lugaregion-removerowid trait
-
 luga.data.DataSet:
 - Allow custom sorter for complex objects
 - Local storage persistence
