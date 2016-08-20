@@ -191,3 +191,25 @@
 <pre><code class="language-javascript">luga.validator.api.validateChildFields({rootNode: jQuery("#fieldGroup")});</code></pre>
 
 </div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.validator.initForms(rootNode)</div>
+	<div class="panel-body">
+		Initialize all the form validators contained inside the given node.
+		The library internally calls this as soon as the document load.
+		You can invoke it in case the DOM as changed and new forms has been added to the document
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>options.rootNode</td>
+			<td>
+				{jquery}
+			</td>
+			<td>
+				A jQuery object wrapping the form. Optional. If not specified it will default to jQuery("body")
+			</td>
+		</tr>
+
+	</table>
+</div>

@@ -39,3 +39,15 @@
 		</form>
 	</div>
 </div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Bootstrapping ajaxforms</div>
+	<div class="panel-body">
+		<p>
+			The library initializes all the ajaxforms contained inside the current document as soon as it's loaded.
+			If the DOM structure is not significantly altered at run-time, you don't need to worry about it.
+			If you are working on a single-page application or if you inject new forms inside the document at run-time,
+			you may want to programmatically call <a href="#validator/api/syntax">luga.validator.initForms()</a>
+		</p>
+	</div>
+</div>
