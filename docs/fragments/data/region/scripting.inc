@@ -172,7 +172,8 @@
 	<div class="panel-heading luga-docs-api-heading">luga.data.region.setup(options)</div>
 	<div class="panel-body">
 		<p>
-			Allows to change default settings for regions
+			Allows to change default settings for regions.
+			If called without arguments, return an object containing name/value pairs reflecting the current settings
 		</p>
 	</div>
 	<table class="table table-bordered luga-docs-api">
