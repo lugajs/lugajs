@@ -30,6 +30,9 @@ HISTORY:
 
 -------------
 VALIDATOR:
+
+- luga.validator.api.validateField() must pass the fieldNode to the callBack function. line 1136
+
 -------------
 
 DATA:
