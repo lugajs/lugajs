@@ -31,7 +31,8 @@ HISTORY:
 -------------
 VALIDATOR:
 
-- luga.validator.api.validateField() must pass the fieldNode to the callBack function. line 1136
+- luga.validator.api.validateField() must pass the fieldNode to the callBack function. line 1136 (need Jasmine test)
+- luga.form.utils.getFieldGroup() must work even if the name contains special chars (need Jasmine test)
 
 -------------
 
