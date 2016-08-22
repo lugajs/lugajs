@@ -105,6 +105,13 @@
 			</td>
 		</tr>
 		<tr>
+			<td>data-lugavalidator-email</td>
+			<td>
+				Optional. Enforce at least an @ followed by a "." are contained.
+				Due to the increasing complexity of <a href="http://emailregex.com/">validating email using regular expression</a>, we prefer to keep it simple
+			</td>
+		</tr>
+		<tr>
 			<td>data-lugavalidator-minlength</td>
 			<td>
 				Optional. Enforce a minimum text length
