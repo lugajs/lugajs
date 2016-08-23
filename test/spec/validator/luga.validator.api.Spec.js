@@ -60,6 +60,22 @@ describe("luga.validator.api", function(){
 
 		});
 
+		it("Accept a custom error handler as an option", function(){
+			loadFixtures("validator/FormValidator/basic.htm");
+
+			formValidatorHandlers.customErrorHandler = function(){};
+			spyOn(formValidatorHandlers, "customErrorHandler");
+
+			var options = {
+				fieldNode: jQuery("#myName"),
+				error: "formValidatorHandlers.customErrorHandler"
+			}
+
+			expect(luga.validator.api.validateField(options)).toEqual(false);
+			expect(formValidatorHandlers.customErrorHandler).toHaveBeenCalled();
+
+		});
+
 	});
 
 	describe(".validateFields()", function(){

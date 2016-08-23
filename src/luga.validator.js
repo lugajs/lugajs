@@ -10,7 +10,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.validator");
 
-	luga.validator.version = "0.9.2";
+	luga.validator.version = "0.9.3";
 
 	/* Validation handlers */
 
@@ -1130,10 +1130,10 @@ if(typeof(luga) === "undefined"){
 		var dirtyValidators = [];
 		var fieldValidator = new luga.validator.fieldValidatorFactory.getInstance(options);
 		fieldValidator.validate(null);
-		if(fieldValidator.isValid() === true){
+		if(fieldValidator.isValid() !== true){
 			var callBack = luga.lookupFunction(options.error);
 			dirtyValidators.push(fieldValidator);
-			callBack(null, []);
+			callBack(options.fieldNode, dirtyValidators);
 		}
 		return fieldValidator.isValid();
 	};
