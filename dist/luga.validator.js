@@ -1,5 +1,5 @@
 /*! 
-Luga Validator 0.9.2 2016-07-08T03:51:41.980Z
+Luga Validator 0.9.3 2016-08-23T08:20:35.691Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -15,7 +15,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.validator");
 
-	luga.validator.version = "0.9.2";
+	luga.validator.version = "0.9.3";
 
 	/* Validation handlers */
 
@@ -1131,10 +1131,10 @@ if(typeof(luga) === "undefined"){
 		var dirtyValidators = [];
 		var fieldValidator = new luga.validator.fieldValidatorFactory.getInstance(options);
 		fieldValidator.validate(null);
-		if(fieldValidator.isValid() === true){
+		if(fieldValidator.isValid() !== true){
 			var callBack = luga.lookupFunction(options.error);
 			dirtyValidators.push(fieldValidator);
-			callBack(null, []);
+			callBack(options.fieldNode, dirtyValidators);
 		}
 		return fieldValidator.isValid();
 	};

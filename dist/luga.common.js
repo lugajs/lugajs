@@ -1,5 +1,5 @@
 /*! 
-Luga Common 0.5.0 2016-07-08T03:51:41.970Z
+Luga Common 0.5.1 2016-08-23T08:20:35.679Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -39,7 +39,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.namespace("luga.common");
-	luga.common.version = "0.5.0";
+	luga.common.version = "0.5.1";
 
 	/**
 	 * Offers a simple solution for inheritance among classes
@@ -531,7 +531,7 @@ if(typeof(luga) === "undefined"){
 	 * @returns {jquery}
 	 */
 	luga.form.utils.getFieldGroup = function(name, rootNode){
-		var selector = "input[name=" + name + "]";
+		var selector = "input[name='" + name + "']";
 		return jQuery(selector, rootNode);
 	};
 

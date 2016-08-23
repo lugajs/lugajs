@@ -1,5 +1,5 @@
 /*! 
-Luga JS 0.5.0 2016-07-14T14:54:43.417Z
+Luga JS 0.5.1 2016-08-23T08:20:35.698Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -39,7 +39,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.namespace("luga.common");
-	luga.common.version = "0.5.0";
+	luga.common.version = "0.5.1";
 
 	/**
 	 * Offers a simple solution for inheritance among classes
@@ -531,7 +531,7 @@ if(typeof(luga) === "undefined"){
 	 * @returns {jquery}
 	 */
 	luga.form.utils.getFieldGroup = function(name, rootNode){
-		var selector = "input[name=" + name + "]";
+		var selector = "input[name='" + name + "']";
 		return jQuery(selector, rootNode);
 	};
 
@@ -1342,7 +1342,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.validator");
 
-	luga.validator.version = "0.9.2";
+	luga.validator.version = "0.9.3";
 
 	/* Validation handlers */
 
@@ -2458,10 +2458,10 @@ if(typeof(luga) === "undefined"){
 		var dirtyValidators = [];
 		var fieldValidator = new luga.validator.fieldValidatorFactory.getInstance(options);
 		fieldValidator.validate(null);
-		if(fieldValidator.isValid() === true){
+		if(fieldValidator.isValid() !== true){
 			var callBack = luga.lookupFunction(options.error);
 			dirtyValidators.push(fieldValidator);
-			callBack(null, []);
+			callBack(options.fieldNode, dirtyValidators);
 		}
 		return fieldValidator.isValid();
 	};
@@ -2543,7 +2543,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga Data 0.4.0 2016-07-14T14:49:39.127Z
+Luga Data 0.4.0 2016-07-08T03:51:41.180Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
