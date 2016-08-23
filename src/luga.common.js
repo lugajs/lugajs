@@ -34,7 +34,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.namespace("luga.common");
-	luga.common.version = "0.5.0";
+	luga.common.version = "0.5.1";
 
 	/**
 	 * Offers a simple solution for inheritance among classes
@@ -526,7 +526,7 @@ if(typeof(luga) === "undefined"){
 	 * @returns {jquery}
 	 */
 	luga.form.utils.getFieldGroup = function(name, rootNode){
-		var selector = "input[name=" + name + "]";
+		var selector = "input[name='" + name + "']";
 		return jQuery(selector, rootNode);
 	};
 
