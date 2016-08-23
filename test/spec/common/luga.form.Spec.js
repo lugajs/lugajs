@@ -166,6 +166,11 @@ describe("luga.form", function(){
 					expect(luga.form.utils.getFieldGroup("lady").length).toEqual(12);
 				});
 
+				it("Even if the name attribute contains invalid characters", function(){
+					loadFixtures("form/common.htm");
+					expect(luga.form.utils.getFieldGroup("specChars(_[here]").length).toEqual(4);
+				});
+
 			});
 
 		});
