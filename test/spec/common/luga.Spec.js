@@ -264,9 +264,13 @@ describe("luga", function(){
 
 			});
 
-			it("Set the property located at the given path to the given value", function(){
+			it("Set or update the property located at the given path to the given value", function(){
+				luga.setProperty(targetObj, "firstName", "Cicciuzzo");
+				expect(targetObj.firstName).toEqual("Cicciuzzo");
+
 				luga.setProperty(targetObj, "lastName", "Pasticcio");
 				expect(targetObj.lastName).toEqual("Pasticcio");
+
 				luga.setProperty(targetObj, "firstLevel.moreSecond", "more");
 				expect(targetObj.firstLevel.moreSecond).toEqual("more");
 			});

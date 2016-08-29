@@ -34,7 +34,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.namespace("luga.common");
-	luga.common.version = "0.5.1";
+	luga.common.version = "0.5.2";
 
 	/**
 	 * Offers a simple solution for inheritance among classes
@@ -163,6 +163,9 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.setProperty = function(object, path, value){
 		var parts = path.split(".");
+		if(parts.length === 1){
+			object[path] = value;
+		}
 		while(parts.length > 0){
 			var part = parts.shift();
 			if(object[part] !== undefined){
