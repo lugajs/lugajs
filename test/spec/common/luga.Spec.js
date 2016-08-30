@@ -277,6 +277,8 @@ describe("luga", function(){
 			it("If the path does not exists, it creates it", function(){
 				luga.setProperty(targetObj, "first.second.third", 3);
 				expect(targetObj.first.second.third).toEqual(3);
+				luga.setProperty(targetObj, "first.second.third", 1);
+				expect(targetObj.first.second.third).toEqual(1);
 			});
 			it("Works on empty objects too", function(){
 				var storage = {};

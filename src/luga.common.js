@@ -169,6 +169,11 @@ if(typeof(luga) === "undefined"){
 		while(parts.length > 0){
 			var part = parts.shift();
 			if(object[part] !== undefined){
+				if(parts.length === 0){
+					// Update
+					object[part] = value;
+					break;
+				}
 				// Keep looping
 				object = object[part];
 			}
