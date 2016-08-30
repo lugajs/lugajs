@@ -1,5 +1,5 @@
 /*! 
-Luga JS 0.5.1 2016-08-23T08:20:35.698Z
+Luga JS 0.5.2 2016-08-30T06:15:15.196Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -39,7 +39,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.namespace("luga.common");
-	luga.common.version = "0.5.1";
+	luga.common.version = "0.5.2";
 
 	/**
 	 * Offers a simple solution for inheritance among classes
@@ -168,9 +168,17 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.setProperty = function(object, path, value){
 		var parts = path.split(".");
+		if(parts.length === 1){
+			object[path] = value;
+		}
 		while(parts.length > 0){
 			var part = parts.shift();
 			if(object[part] !== undefined){
+				if(parts.length === 0){
+					// Update
+					object[part] = value;
+					break;
+				}
 				// Keep looping
 				object = object[part];
 			}
