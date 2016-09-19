@@ -722,6 +722,7 @@ if(typeof(luga) === "undefined"){
 		var boxId = generateBoxId(jQuery(node));
 		var oldBox = jQuery("#" + boxId);
 		// If an error display is already there, get rid of it
+		/* istanbul ignore else */
 		if(oldBox.length > 0){
 			oldBox.remove();
 		}

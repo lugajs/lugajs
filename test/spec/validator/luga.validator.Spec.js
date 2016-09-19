@@ -120,9 +120,17 @@ describe("luga.validator.handlers", function(){
 	});
 
 	describe("luga.validator.handlers.errorBox", function(){
-		it("Display errors inside a box above the form", function(){
-			expect(luga.validator.handlers.errorBox).toBeDefined();
-			expect(jQuery.isFunction(luga.validator.handlers.errorBox)).toEqual(true);
+		it("Invokes luga.utils.displayErrorMessage() to display errors inside a box above the form", function(){
+			spyOn(luga.utils, "displayErrorMessage");
+			var formStub = $("<form>");
+			luga.validator.handlers.errorBox(formStub, [{name: "stub", message: "test"}]);
+			expect(luga.utils.displayErrorMessage).toHaveBeenCalledWith(formStub, "<ul><li><em>stub: </em> test</li></ul>");
+		});
+		it("If the given form contains no validation errors, it call luga.utils.removeDisplayBox()", function(){
+			spyOn(luga.utils, "removeDisplayBox");
+			var formStub = $("<form>");
+			luga.validator.handlers.errorBox(formStub, []);
+			expect(luga.utils.removeDisplayBox).toHaveBeenCalledWith(formStub);
 		});
 	});
 
