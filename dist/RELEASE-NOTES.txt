@@ -6,8 +6,8 @@ NEW FEATURES:
 * luga.validator.initForms now supports an optional rootNode parameter
 * luga.ajaxform.initForms now supports an optional rootNode parameter
 * Added luga.data.region.setUp({
-   autoregister: true|false
-})
+     autoregister: true|false
+  })
 * luga.data.ChildXmlDataSet is now available
 
 NOTES:
@@ -19,7 +19,9 @@ CHANGES:
 * jQuery updated to 2.2.4
 
 BUG FIXES:
-*
+* Two bugs on luga.setProperty()
+* Fixed bug in luga.form.utils.getFieldGroup(). Now it works even if the name attribute contains special chars
+* Callback bug on luga.validator.api.validateField()
 
 KNOWN ISSUES:
 * IE9 and CORS: http://stackoverflow.com/questions/10232017/ie9-jquery-ajax-with-cors-returns-access-is-denied
