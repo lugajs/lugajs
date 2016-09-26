@@ -73,19 +73,35 @@ describe("luga.string", function(){
 		describe("Given a string in querystring format, return an object containing name/value pairs", function(){
 
 			it("A '?' at the beginning of the string is ignored", function(){
-				expect(luga.string.queryToHash("?name=Ciccio&lastname=Pasticcio")).toEqual({name: "Ciccio", lastname: "Pasticcio"});
-				expect(luga.string.queryToHash("name=Ciccio&lastname=Pasticcio")).toEqual({name: "Ciccio", lastname: "Pasticcio"});
+				expect(luga.string.queryToHash("?name=Ciccio&lastname=Pasticcio")).toEqual({
+					name: "Ciccio",
+					lastname: "Pasticcio"
+				});
+				expect(luga.string.queryToHash("name=Ciccio&lastname=Pasticcio")).toEqual({
+					name: "Ciccio",
+					lastname: "Pasticcio"
+				});
 			});
 			it("If a name has no associated value, the hash contains an entry with an empty string value", function(){
 				expect(luga.string.queryToHash("?name=Ciccio&lastname=")).toEqual({name: "Ciccio", lastname: ""});
 				expect(luga.string.queryToHash("?name=Ciccio&lastname")).toEqual({name: "Ciccio", lastname: ""});
 			});
 			it("Names and values are URI decoded", function(){
-				expect(luga.string.queryToHash("name=Ciccio&slash=%2F&ampersand=%26")).toEqual({name: "Ciccio", slash: "/", ampersand: "&"});
+				expect(luga.string.queryToHash("name=Ciccio&slash=%2F&ampersand=%26")).toEqual({
+					name: "Ciccio",
+					slash: "/",
+					ampersand: "&"
+				});
 			});
 			it("If the same name is contained multiple times inside the queryString, the matching entry inside the hash is an array", function(){
-				expect(luga.string.queryToHash("name=Ciccio&box=first&box=second&box=third")).toEqual({name: "Ciccio", box: ["first", "second", "third"]});
-				expect(luga.string.queryToHash("name=Ciccio&box=first&box=&box=third")).toEqual({name: "Ciccio", box: ["first", "", "third"]});
+				expect(luga.string.queryToHash("name=Ciccio&box=first&box=second&box=third")).toEqual({
+					name: "Ciccio",
+					box: ["first", "second", "third"]
+				});
+				expect(luga.string.queryToHash("name=Ciccio&box=first&box=&box=third")).toEqual({
+					name: "Ciccio",
+					box: ["first", "", "third"]
+				});
 			});
 			it("If the given string is empty, an empty hash is returned", function(){
 				expect(luga.string.queryToHash("")).toEqual({});
@@ -143,7 +159,5 @@ describe("luga.string", function(){
 
 		});
 	});
-
-
 
 });
