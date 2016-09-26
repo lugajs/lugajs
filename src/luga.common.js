@@ -555,10 +555,46 @@ if(typeof(luga) === "undefined"){
 		return fields;
 	};
 
-	/* Utilities */
+	luga.namespace("luga.localStorage");
+
+	/**
+	 * Retrieve from localStorage the string corresponding to the given combination of root and path
+	 * Returns undefined if nothing matches the given root/path
+	 * @param {string} root    Top-level key inside localStorage
+	 * @param {string} path    Dot-delimited string
+	 * @returns {*|undefined}
+	 */
+	luga.localStorage.retrieve = function(root, path){
+		return luga.lookupProperty(getRootState(root), path);
+	};
+
+	/**
+	 * Persist the given string inside localStorage, under the given combination of root and path
+	 * The ability to pass a dot-delimited path allow to protect the information from name clashes
+	 * @param {string} root    Top-level key inside localStorage
+	 * @param {string} path    Dot-delimited string
+	 * @param {string} value   String to be persisted
+	 * @returns {*|undefined}
+	 */
+	luga.localStorage.persist = function(root, path, value){
+		var json = getRootState(root);
+		luga.setProperty(json, path, value);
+		setRootState(root, json);
+	};
+
+	var setRootState = function(root, json){
+		localStorage.setItem(root, JSON.stringify(json));
+	};
+
+	var getRootState = function(root){
+		var rootJson = localStorage.getItem(root);
+		if(rootJson === null){
+			return {};
+		}
+		return JSON.parse(rootJson);
+	};
 
 	luga.namespace("luga.string");
-
 
 	/**
 	 * Replace MS Word's non-ISO characters with plausible substitutes

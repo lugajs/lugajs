@@ -9,6 +9,7 @@ NEW FEATURES:
      autoregister: true|false
   })
 * luga.data.ChildXmlDataSet is now available
+* Added luga.localStorage.retrieve() and luga.localStorage.persist()
 
 NOTES:
 * Documentation is now a SPA
