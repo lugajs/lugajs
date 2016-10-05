@@ -10,6 +10,9 @@
 		<a href="#common/string">luga.string</a>
 	</li>
 	<li class="list-group-item">
+		<a href="#common/localStorage">luga.localStorage</a>
+	</li>
+	<li class="list-group-item">
 		<a href="#common/notifier">luga.Notifier</a>
 	</li>
 </ul>
