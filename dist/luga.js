@@ -1,5 +1,5 @@
 /*! 
-Luga JS 0.5.0 2016-07-29T19:32:26.255Z
+Luga JS 0.9.5 2016-10-05T14:01:32.357Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -39,7 +39,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.namespace("luga.common");
-	luga.common.version = "0.5.0";
+	luga.common.version = "0.9.5";
 
 	/**
 	 * Offers a simple solution for inheritance among classes
@@ -168,9 +168,17 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.setProperty = function(object, path, value){
 		var parts = path.split(".");
+		if(parts.length === 1){
+			object[path] = value;
+		}
 		while(parts.length > 0){
 			var part = parts.shift();
 			if(object[part] !== undefined){
+				if(parts.length === 0){
+					// Update
+					object[part] = value;
+					break;
+				}
 				// Keep looping
 				object = object[part];
 			}
@@ -531,7 +539,7 @@ if(typeof(luga) === "undefined"){
 	 * @returns {jquery}
 	 */
 	luga.form.utils.getFieldGroup = function(name, rootNode){
-		var selector = "input[name=" + name + "]";
+		var selector = "input[name='" + name + "']";
 		return jQuery(selector, rootNode);
 	};
 
@@ -552,10 +560,46 @@ if(typeof(luga) === "undefined"){
 		return fields;
 	};
 
-	/* Utilities */
+	luga.namespace("luga.localStorage");
+
+	/**
+	 * Retrieve from localStorage the string corresponding to the given combination of root and path
+	 * Returns undefined if nothing matches the given root/path
+	 * @param {string} root    Top-level key inside localStorage
+	 * @param {string} path    Dot-delimited string
+	 * @returns {*|undefined}
+	 */
+	luga.localStorage.retrieve = function(root, path){
+		return luga.lookupProperty(getRootState(root), path);
+	};
+
+	/**
+	 * Persist the given string inside localStorage, under the given combination of root and path
+	 * The ability to pass a dot-delimited path allow to protect the information from name clashes
+	 * @param {string} root    Top-level key inside localStorage
+	 * @param {string} path    Dot-delimited string
+	 * @param {string} value   String to be persisted
+	 * @returns {*|undefined}
+	 */
+	luga.localStorage.persist = function(root, path, value){
+		var json = getRootState(root);
+		luga.setProperty(json, path, value);
+		setRootState(root, json);
+	};
+
+	var setRootState = function(root, json){
+		localStorage.setItem(root, JSON.stringify(json));
+	};
+
+	var getRootState = function(root){
+		var rootJson = localStorage.getItem(root);
+		if(rootJson === null){
+			return {};
+		}
+		return JSON.parse(rootJson);
+	};
 
 	luga.namespace("luga.string");
-
 
 	/**
 	 * Replace MS Word's non-ISO characters with plausible substitutes
@@ -719,6 +763,7 @@ if(typeof(luga) === "undefined"){
 		var boxId = generateBoxId(jQuery(node));
 		var oldBox = jQuery("#" + boxId);
 		// If an error display is already there, get rid of it
+		/* istanbul ignore else */
 		if(oldBox.length > 0){
 			oldBox.remove();
 		}
@@ -952,7 +997,6 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.ajaxform");
-	luga.ajaxform.version = "0.7.5";
 
 	/* Success and error handlers */
 	luga.namespace("luga.ajaxform.handlers");
@@ -1213,7 +1257,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Attach form handlers to onSubmit events
-	 * @param {jquery} rootNode
+	 * @param {jquery|undefined} rootNode  Optional, default to jQuery("body")
 	 */
 	luga.ajaxform.initForms = function(rootNode){
 		if(rootNode === undefined){
@@ -1247,8 +1291,6 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.validator");
-
-	luga.validator.version = "0.9.2";
 
 	/* Validation handlers */
 
@@ -2300,7 +2342,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Attach form validators to any suitable form inside the document
-	 * @param {jquery} rootNode
+	 * @param {jquery|undefined} rootNode  Optional, default to jQuery("body")
 	 */
 	luga.validator.initForms = function(rootNode){
 		if(rootNode === undefined){
@@ -2368,10 +2410,10 @@ if(typeof(luga) === "undefined"){
 		var dirtyValidators = [];
 		var fieldValidator = new luga.validator.fieldValidatorFactory.getInstance(options);
 		fieldValidator.validate(null);
-		if(fieldValidator.isValid() === true){
+		if(fieldValidator.isValid() !== true){
 			var callBack = luga.lookupFunction(options.error);
 			dirtyValidators.push(fieldValidator);
-			callBack(null, []);
+			callBack(options.fieldNode, dirtyValidators);
 		}
 		return fieldValidator.isValid();
 	};
@@ -2453,7 +2495,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga Data 0.4.1 2016-07-29T19:32:25.515Z
+Luga Data 0.9.5 2016-10-05T14:00:18.004Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -2473,7 +2515,6 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.4.1";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -4187,7 +4228,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Bootstrap any region contained within the given node
-	 * @param {jquery} rootNode
+	 * @param {jquery|undefined} rootNode  Optional, default to jQuery("body")
 	 */
 	luga.data.region.initRegions = function(rootNode){
 		if(rootNode === undefined){

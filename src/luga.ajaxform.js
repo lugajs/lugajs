@@ -9,7 +9,6 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.ajaxform");
-	luga.ajaxform.version = "0.7.5";
 
 	/* Success and error handlers */
 	luga.namespace("luga.ajaxform.handlers");

@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.4.1 2016-07-29T19:32:25.515Z
+Luga Data 0.9.5 2016-10-05T14:00:18.004Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -19,7 +19,6 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.4.1";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -1733,7 +1732,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Bootstrap any region contained within the given node
-	 * @param {jquery} rootNode
+	 * @param {jquery|undefined} rootNode  Optional, default to jQuery("body")
 	 */
 	luga.data.region.initRegions = function(rootNode){
 		if(rootNode === undefined){

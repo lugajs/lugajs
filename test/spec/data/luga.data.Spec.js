@@ -31,12 +31,6 @@ describe("luga.data", function(){
 		});
 	});
 
-	describe(".version", function(){
-		it("Reports the current version number", function(){
-			expect(luga.data.version).toBeDefined();
-		});
-	});
-
 	describe(".getDataSource()", function(){
 		it("Returns a dataSet from the registry", function(){
 			var ds = new luga.data.DataSet({uuid: "myDs"});

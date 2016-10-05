@@ -21,12 +21,6 @@ describe("luga.validator", function(){
 		});
 	});
 
-	describe(".version", function(){
-		it("Reports the current version number", function(){
-			expect(luga.validator.version).toBeDefined();
-		});
-	});
-
 	describe(".CONST", function(){
 
 		it("Contains default values used by the library", function(){

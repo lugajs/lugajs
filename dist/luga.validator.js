@@ -1,5 +1,5 @@
 /*! 
-Luga Validator 0.9.2 2016-07-29T19:32:26.251Z
+Luga Validator 0.9.5 2016-10-05T14:00:18.707Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -14,8 +14,6 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.validator");
-
-	luga.validator.version = "0.9.2";
 
 	/* Validation handlers */
 
@@ -1067,7 +1065,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Attach form validators to any suitable form inside the document
-	 * @param {jquery} rootNode
+	 * @param {jquery|undefined} rootNode  Optional, default to jQuery("body")
 	 */
 	luga.validator.initForms = function(rootNode){
 		if(rootNode === undefined){
@@ -1135,10 +1133,10 @@ if(typeof(luga) === "undefined"){
 		var dirtyValidators = [];
 		var fieldValidator = new luga.validator.fieldValidatorFactory.getInstance(options);
 		fieldValidator.validate(null);
-		if(fieldValidator.isValid() === true){
+		if(fieldValidator.isValid() !== true){
 			var callBack = luga.lookupFunction(options.error);
 			dirtyValidators.push(fieldValidator);
-			callBack(null, []);
+			callBack(options.fieldNode, dirtyValidators);
 		}
 		return fieldValidator.isValid();
 	};

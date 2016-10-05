@@ -1,5 +1,5 @@
 ---------------------------------------------------------------------
-Release ?
+Release 0.9.5
 ---------------------------------------------------------------------
 NEW FEATURES:
 * Added luga.data.region.initRegions()
@@ -15,6 +15,7 @@ NOTES:
 * Documentation is now a SPA
 
 CHANGES:
+* all the libraries now share a unique, common, version number
 * Luga CSI is not part of the project anymore
 * luga.data.Detailset: Renamed config.dataSet to config.masterDataSet
 * jQuery updated to 2.2.4

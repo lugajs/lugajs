@@ -1,5 +1,5 @@
 /*! 
-Luga Ajaxform 0.7.5 2016-07-29T19:32:26.249Z
+Luga Ajaxform 0.9.5 2016-10-05T14:00:18.705Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -14,7 +14,6 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.ajaxform");
-	luga.ajaxform.version = "0.7.5";
 
 	/* Success and error handlers */
 	luga.namespace("luga.ajaxform.handlers");
@@ -275,7 +274,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Attach form handlers to onSubmit events
-	 * @param {jquery} rootNode
+	 * @param {jquery|undefined} rootNode  Optional, default to jQuery("body")
 	 */
 	luga.ajaxform.initForms = function(rootNode){
 		if(rootNode === undefined){
