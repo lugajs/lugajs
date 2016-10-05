@@ -1,0 +1,215 @@
+<div class="panel panel-default">
+	<div class="panel-heading">API Syntax reference</div>
+	<div class="panel-body">
+		<p>
+			Luga Validator exposes some API to programmatically validate fields, group of fields or forms.
+			You can see them <a href="#validator/api/samples">in action</a>
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.validator.api.validateForm(options)</div>
+	<div class="panel-body">
+		Programmatically validate a form
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>options.formNode</td>
+			<td>
+				{jquery}
+			</td>
+			<td>
+				jQuery object wrapping the form node. Required
+			</td>
+		</tr>
+		<tr>
+			<td>options.error</td>
+			<td>
+				{function}
+			</td>
+			<td>
+				Name of the function to be invoked to handle/display validation messages. Default to
+				luga.validator.errorAlert
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{boolean}</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-markup">&lt;form id="basic" data-lugavalidator-validate="true"&gt;
+	&lt;fieldset&gt;
+		&lt;input type="text" id="myName" name="myName"
+		data-lugavalidator-required="true"
+		data-lugavalidator-errorclass="invalid"
+		data-lugavalidator-message="Invalid!"/&gt;
+		&lt;input id="submit" type="submit" data-lugavalidator-disabledlabel="I am disabled" value="Submit"/&gt;
+	&lt;/fieldset&gt;
+&lt;/form&gt;</code></pre>
+
+<pre><code class="language-javascript">luga.validator.api.validateForm({formNode: jQuery("#basic")}); // => false</code></pre>
+
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.validator.api.validateField(options)</div>
+	<div class="panel-body">
+		Programmatically validate a field
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>options.fieldNode</td>
+			<td>
+				{jquery}
+			</td>
+			<td>
+				jQuery object wrapping the field node. Required
+			</td>
+		</tr>
+		<tr>
+			<td>options.error</td>
+			<td>
+				{function}
+			</td>
+			<td>
+				Name of the function to be invoked to handle/display validation messages. Default to
+				luga.validator.errorAlert
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{boolean}</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-markup">&lt;form id="basic" data-lugavalidator-validate="true"&gt;
+	&lt;fieldset&gt;
+		&lt;input type="text" id="myName" name="myName"
+		data-lugavalidator-required="true"
+		data-lugavalidator-errorclass="invalid"
+		data-lugavalidator-message="Invalid!"/&gt;
+		&lt;input id="submit" type="submit" data-lugavalidator-disabledlabel="I am disabled" value="Submit"/&gt;
+	&lt;/fieldset&gt;
+&lt;/form&gt;</code></pre>
+
+<pre><code class="language-javascript">luga.validator.api.validateField({fieldNode: jQuery("#myName")}); // => false</code></pre>
+
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.validator.api.validateFields(options)</div>
+	<div class="panel-body">
+		Programmatically validate a collection of fields
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>options.fields</td>
+			<td>
+				{jquery}
+			</td>
+			<td>
+				jQuery object wrapping the collection of fields. Required
+			</td>
+		</tr>
+		<tr>
+			<td>options.error</td>
+			<td>
+				{function}
+			</td>
+			<td>
+				Name of the function to be invoked to handle/display validation messages. Default to
+				luga.validator.errorAlert
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{boolean}</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-javascript">luga.validator.api.validateFields({fields: jQuery("#name,#age")});</code></pre>
+
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.validator.api.validateChildFields(options)</div>
+	<div class="panel-body">
+		Programmatically validate all fields contained inside a given node
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>options.rootNode</td>
+			<td>
+				{jquery}
+			</td>
+			<td>
+				A jQuery object wrapping the root node. Required
+			</td>
+		</tr>
+		<tr>
+			<td>options.error</td>
+			<td>
+				{function}
+			</td>
+			<td>
+				Name of the function to be invoked to handle/display validation messages. Default to
+				luga.validator.errorAlert
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{boolean}</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-javascript">luga.validator.api.validateChildFields({rootNode: jQuery("#fieldGroup")});</code></pre>
+
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.validator.initForms(rootNode)</div>
+	<div class="panel-body">
+		Initialize all the form validators contained inside the given node.
+		The library internally calls this as soon as the document load.
+		You can invoke it in case the DOM as changed and new forms has been added to the document
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>rootNode</td>
+			<td>
+				{jquery}
+			</td>
+			<td>
+				A jQuery object wrapping the form. Optional. If not specified it will default to jQuery("body")
+			</td>
+		</tr>
+
+	</table>
+</div>

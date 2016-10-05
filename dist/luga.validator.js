@@ -1,5 +1,5 @@
 /*! 
-Luga Validator 0.9.3 2016-08-23T08:20:35.691Z
+Luga Validator 0.9.5 2016-10-05T14:00:18.707Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -14,8 +14,6 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.validator");
-
-	luga.validator.version = "0.9.3";
 
 	/* Validation handlers */
 
@@ -1067,9 +1065,13 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Attach form validators to any suitable form inside the document
+	 * @param {jquery|undefined} rootNode  Optional, default to jQuery("body")
 	 */
-	luga.validator.initForms = function(){
-		jQuery(luga.validator.CONST.FORM_SELECTOR).each(function(index, item){
+	luga.validator.initForms = function(rootNode){
+		if(rootNode === undefined){
+			rootNode = jQuery("body");
+		}
+		rootNode.find(luga.validator.CONST.FORM_SELECTOR).each(function(index, item){
 			var formNode = jQuery(item);
 			/* istanbul ignore else */
 			if(formNode.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.VALIDATE) === "true"){

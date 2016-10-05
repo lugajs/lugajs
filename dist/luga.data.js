@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.4.0 2016-07-08T03:51:41.180Z
+Luga Data 0.9.5 2016-10-05T14:00:18.004Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -19,7 +19,6 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.data");
 
-	luga.data.version = "0.4.0";
 	/** @type {hash.<luga.data.DataSet>} */
 	luga.data.dataSourceRegistry = {};
 
@@ -246,18 +245,18 @@ if(typeof(luga) === "undefined"){
 
 		var CONST = {
 			ERROR_MESSAGES: {
-				INVALID_COL_TYPE: "Luga.DataSet.setColumnType(): Invalid type passed {0}",
-				INVALID_UUID_PARAMETER: "Luga.DataSet: uuid parameter is required",
-				INVALID_FORMATTER_PARAMETER: "Luga.DataSet: invalid formatter. You must use a function as formatter",
-				INVALID_FILTER_PARAMETER: "Luga.DataSet: invalid filter. You must use a function as filter",
-				INVALID_PRIMITIVE: "Luga.DataSet: records can be either an array of objects or a single object. Primitives are not accepted",
-				INVALID_PRIMITIVE_ARRAY: "Luga.DataSet: records can be either an array of name/value pairs or a single object. Array of primitives are not accepted",
-				INVALID_ROW_PARAMETER: "Luga.DataSet: invalid row parameter. No available record matches the given row",
-				INVALID_ROW_ID_PARAMETER: "Luga.DataSet: invalid rowId parameter",
-				INVALID_ROW_INDEX_PARAMETER: "Luga.DataSet: invalid parameter. Row index is out of range",
-				INVALID_SORT_COLUMNS: "Luga.DataSet.sort(): Unable to sort dataSet. You must supply one or more column name",
-				INVALID_SORT_ORDER: "Luga.DataSet.sort(): Unable to sort dataSet. Invalid sort order passed {0}",
-				INVALID_STATE: "Luga.DataSet: Unsupported state: {0}"
+				INVALID_COL_TYPE: "luga.DataSet.setColumnType(): Invalid type passed {0}",
+				INVALID_UUID_PARAMETER: "luga.DataSet: uuid parameter is required",
+				INVALID_FORMATTER_PARAMETER: "luga.DataSet: invalid formatter. You must use a function as formatter",
+				INVALID_FILTER_PARAMETER: "luga.DataSet: invalid filter. You must use a function as filter",
+				INVALID_PRIMITIVE: "luga.DataSet: records can be either an array of objects or a single object. Primitives are not accepted",
+				INVALID_PRIMITIVE_ARRAY: "luga.DataSet: records can be either an array of name/value pairs or a single object. Array of primitives are not accepted",
+				INVALID_ROW_PARAMETER: "luga.DataSet: invalid row parameter. No available record matches the given row",
+				INVALID_ROW_ID_PARAMETER: "luga.DataSet: invalid rowId parameter",
+				INVALID_ROW_INDEX_PARAMETER: "luga.DataSet: invalid parameter. Row index is out of range",
+				INVALID_SORT_COLUMNS: "luga.DataSet.sort(): Unable to sort dataSet. You must supply one or more column name",
+				INVALID_SORT_ORDER: "luga.DataSet.sort(): Unable to sort dataSet. Invalid sort order passed {0}",
+				INVALID_STATE: "luga.DataSet: Unsupported state: {0}"
 			}
 		};
 
@@ -897,8 +896,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {object} luga.data.DetailSet.options
 	 *
-	 * @property {string}            uuid     Unique identifier. Required
-	 * @property {luga.data.DataSet} dataSet  Master dataSet. Required
+	 * @property {string}            uuid           Unique identifier. Required
+	 * @property {luga.data.DataSet} parentDataSet  Master dataSet. Required
 	 */
 
 	/**
@@ -916,15 +915,15 @@ if(typeof(luga) === "undefined"){
 
 		var CONST = {
 			ERROR_MESSAGES: {
-				INVALID_UUID_PARAMETER: "Luga.DetailSet: id parameter is required",
-				INVALID_DS_PARAMETER: "Luga.DetailSet: dataSet parameter is required"
+				INVALID_UUID_PARAMETER: "luga.DetailSet: id parameter is required",
+				INVALID_DS_PARAMETER: "luga.DetailSet: dataSet parameter is required"
 			}
 		};
 
 		if(options.uuid === undefined){
 			throw(CONST.ERROR_MESSAGES.INVALID_UUID_PARAMETER);
 		}
-		if(options.dataSet === undefined){
+		if(options.parentDataSet === undefined){
 			throw(CONST.ERROR_MESSAGES.INVALID_DS_PARAMETER);
 		}
 
@@ -934,8 +933,8 @@ if(typeof(luga) === "undefined"){
 		var self = this;
 
 		this.uuid = options.uuid;
-		this.dataSet = options.dataSet;
-		this.dataSet.addObserver(this);
+		this.parentDataSet = options.parentDataSet;
+		this.parentDataSet.addObserver(this);
 
 		/** @type {luga.data.DataSet.row} */
 		this.row = null;
@@ -959,11 +958,11 @@ if(typeof(luga) === "undefined"){
 		 * @returns {null|luga.data.STATE}
 		 */
 		this.getState = function(){
-			return self.dataSet.getState();
+			return self.parentDataSet.getState();
 		};
 
 		this.fetchRow = function(){
-			self.row = self.dataSet.getCurrentRow();
+			self.row = self.parentDataSet.getCurrentRow();
 			self.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
@@ -991,7 +990,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/* Fetch row without notifying observers */
-		self.row = self.dataSet.getCurrentRow();
+		self.row = self.parentDataSet.getCurrentRow();
 
 	};
 
@@ -1365,11 +1364,6 @@ if(typeof(luga) === "undefined"){
 	};
 
 }());
-/* istanbul ignore if */
-if(typeof(luga.data) === "undefined"){
-	throw("Unable to find Luga Data");
-}
-
 /**
  * @typedef {object} luga.data.DataSet.context
  * @extends luga.data.stateDescription
@@ -1569,6 +1563,84 @@ if(typeof(luga.data) === "undefined"){
 (function(){
 	"use strict";
 
+	/**
+	 * @typedef {object} luga.data.ChildXmlDataSet.options
+	 *
+	 * @extends luga.data.XmlDataSet.options
+	 * @property {luga.data.DataSet}  parentDataSet   Parent dataSet to be used in a master-detail scenario
+	 * @property {string}             url             Unlike XmlDataSet the url here is required and is expected to be a string template like:
+	 *                                                http://www.ciccio.com/api/products/{uuid}
+	 *
+	 */
+
+	/**
+	 * Binded XML dataSet class
+	 * @param {luga.data.ChildXmlDataSet.options} options
+	 * @constructor
+	 * @extends luga.data.XmlDataSet
+	 */
+	luga.data.ChildXmlDataSet = function(options){
+
+		var CONST = {
+			ERROR_MESSAGES: {
+				MISSING_PARENT_DS: "luga.data.ChildXmlDataSet: parentDataSet parameter is required",
+				MISSING_URL: "luga.data.ChildXmlDataSet: url parameter is required",
+				FAILED_URL_BINDING: "luga.data.ChildXmlDataSet: unable to generate valid URL: {0}"
+			}
+		};
+
+		if(options.parentDataSet === undefined){
+			throw(CONST.ERROR_MESSAGES.MISSING_PARENT_DS);
+		}
+
+		if(options.url === undefined){
+			throw(CONST.ERROR_MESSAGES.MISSING_URL);
+		}
+
+		luga.extend(luga.data.XmlDataSet, this, [options]);
+
+		/** @type {luga.data.ChildXmlDataSet} */
+		var self = this;
+
+		/** @type {luga.data.XmlDataSet} */
+		this.parentDataSet = options.parentDataSet;
+		this.parentDataSet.addObserver(this);
+		this.url = null;
+		this.urlPattern = options.url;
+
+		/**
+		 * @param {luga.data.DataSet.row} row
+		 */
+		this.fetchData = function(row){
+			var bindUrl = luga.string.populate(self.urlPattern, row);
+			if(bindUrl === self.urlPattern){
+				throw(luga.string.format(CONST.ERROR_MESSAGES.FAILED_URL_BINDING, [bindUrl]));
+			}
+			self.setUrl(bindUrl);
+			self.loadData();
+		};
+
+		/* Events Handlers */
+
+		/**
+		 * @param {luga.data.DataSet.currentRowChanged} data
+		 */
+		this.onCurrentRowChangedHandler = function(data){
+			if(data.currentRow !== null){
+				self.fetchData(data.currentRow);
+			}
+			else{
+				self.delete();
+			}
+
+		};
+
+	};
+
+}());
+(function(){
+	"use strict";
+
 	luga.namespace("luga.data.region");
 
 	luga.data.region.CONST = {
@@ -1598,6 +1670,29 @@ if(typeof(luga.data) === "undefined"){
 		SELECTORS: {
 			REGION: "*[data-lugaregion='true']"
 		}
+	};
+
+	/**
+	 * @typedef {object} luga.data.region.options
+	 *
+	 * @property {boolean} autoregister  Determine if we call luga.data.region.init() on jQuery(document).ready()
+	 */
+
+	/**
+	 * @type {luga.data.region.options}
+	 */
+	var config = {
+		autoregister: true
+	};
+
+	/**
+	 * Change current configuration
+	 * @param {luga.data.region.options} options
+	 * @returns {luga.data.region.options}
+	 */
+	luga.data.region.setup = function(options){
+		luga.merge(config, options);
+		return config;
 	};
 
 	/**
@@ -1635,6 +1730,19 @@ if(typeof(luga.data) === "undefined"){
 		new RegionClass({node: node});
 	};
 
+	/**
+	 * Bootstrap any region contained within the given node
+	 * @param {jquery|undefined} rootNode  Optional, default to jQuery("body")
+	 */
+	luga.data.region.initRegions = function(rootNode){
+		if(rootNode === undefined){
+			rootNode = jQuery("body");
+		}
+		rootNode.find(luga.data.region.CONST.SELECTORS.REGION).each(function(index, item){
+			luga.data.region.init(jQuery(item));
+		});
+	};
+
 	luga.namespace("luga.data.region.utils");
 
 	/**
@@ -1657,10 +1765,10 @@ if(typeof(luga.data) === "undefined"){
 	};
 
 	jQuery(document).ready(function(){
-		/* istanbul ignore next */
-		jQuery(luga.data.region.CONST.SELECTORS.REGION).each(function(index, item){
-			luga.data.region.init(jQuery(item));
-		});
+		/* istanbul ignore else */
+		if(config.autoregister === true){
+			luga.data.region.initRegions();
+		}
 	});
 
 }());

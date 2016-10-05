@@ -1,0 +1,308 @@
+<div class="panel panel-default">
+	<div class="panel-heading">Syntax reference</div>
+	<div class="panel-body">
+		<p>The complete syntax reference for HTML5 custom data attributes is included below</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<table class="table table-bordered luga-docs-attributes">
+		<th colspan="2">Form tag</th>
+		<tr>
+			<td>data-lugavalidator-validate</td>
+			<td>
+				Required. Set it to true in order to enable validation on the current form
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugavalidator-error</td>
+			<td>
+				<p>Optional. Function that will be invoked to handle/display validation messages</p>
+
+				<p>Default to luga.validator.errorAlert (display plain alert messages)</p>
+
+				<p>A more sophisticated handler is also <a href="#validator/samples/handlers-errorbox">available</a>
+					and you can <a href="#validator/extensibility/custom-error">write your own</a> too</p>
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugavalidator-before</td>
+			<td>
+				Optional. Function that will be invoked before validation is performed. <a
+					href="#validator/extensibility/handlers-custom">See sample</a>
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugavalidator-after</td>
+			<td>
+				Optional. Function that will be invoked after the form is successfully validated. <a
+					href="#validator/extensibility/handlers-custom">See sample</a>
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugavalidator-blocksubmit</td>
+			<td>
+				<p>
+					Optional (default to true). By default submit buttons are disabled after the form is
+					submitted.
+					This prevents multiple submits but also prevents the value of the submit buttons from being
+					passed as part of the HTTP request.
+					Set this attribute to false to keep the submit buttons enabled
+				</p>
+
+				<p>
+					If you expect your users to be able to use the "back" button and resubmit the form, you will
+					need to set data-lugavalidator-blocksubmit="false" or take other steps to re-enable the
+					submit buttons when returning to the form
+				</p>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div class="panel panel-default">
+	<table class="table table-bordered luga-docs-attributes">
+		<th colspan="2">Text fields and textarea tags</th>
+		<tr>
+			<td>data-lugavalidator-required</td>
+			<td>
+				<p>The single most important attributes, set it to true to flag the field as required</p>
+
+				<p>In case you need <a href="#validator/samples/conditional-validation">conditional validation</a>,
+					set it to the name of a custom function</p>
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugavalidator-message</td>
+			<td>
+				Optional. The error message associated with the field
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugavalidator-errorclass</td>
+			<td>
+				Optional. CSS class that will be applied to the field if invalid
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugavalidator-pattern</td>
+			<td>
+				<p>Optional. Validation pattern to be applied, either built-in or custom. There are 9 generic
+					built-in patterns:</p>
+				<ul class="luga-docs-list">
+					<li>lettersonly</li>
+					<li>alphanumeric (<a href="#validator/samples/registration">see sample</a>)</li>
+					<li>integer</li>
+					<li>positiveinteger</li>
+					<li>number</li>
+					<li>filepath_pdf</li>
+					<li>filepath_jpg</li>
+					<li>filepath_zip</li>
+					<li>filepath</li>
+					<li>time HH:MM</li>
+				</ul>
+				<p><a href="#validator/extensibility/custom-patterns">Custom patterns</a> can be added too</p>
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugavalidator-email</td>
+			<td>
+				Optional. Enforce at least an @ followed by a "." are contained.
+				Due to the increasing complexity of <a href="http://emailregex.com/">validating email using regular expression</a>, we prefer to keep it simple
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugavalidator-minlength</td>
+			<td>
+				Optional. Enforce a minimum text length
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugavalidator-maxlength</td>
+			<td>
+				Optional. Enforce a maximum text length
+			</td>
+		</tr>
+
+		<tr>
+			<td>data-lugavalidator-minnumber</td>
+			<td>
+				Optional. Enforce a minimum numeric value
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugavalidator-maxnumber</td>
+			<td>
+				Optional. Enforce a maximum numeric value
+			</td>
+		</tr>
+
+		<tr>
+			<td>data-lugavalidator-datepattern</td>
+			<td>
+				<p>Optional. Date format pattern to be applied, either built-in or custom. There are 14 <a
+						href="#validator/samples/date">built-in date patterns</a>:</p>
+				<ul class="luga-docs-list">
+					<li>YYYY-MM-DD</li>
+					<li>YYYY-M-D</li>
+					<li>MM.DD.YYYY</li>
+					<li>M.D.YYYY</li>
+					<li>MM/DD/YYYY</li>
+					<li>M/D/YYYY</li>
+					<li>MM-DD-YYYY</li>
+					<li>M-D-YYYY</li>
+					<li>DD.MM.YYYY</li>
+					<li>D.M.YYYY</li>
+					<li>DD/MM/YYYY</li>
+					<li>D/M/YYYY</li>
+					<li>DD-MM-YYYY</li>
+					<li>D-M-YYYY</li>
+				</ul>
+				<p><a href="#validator/extensibility/custom-date-patterns">Custom date patterns</a> can be added too</p>
+			</td>
+		</tr>
+
+		<tr>
+			<td>data-lugavalidator-mindate</td>
+			<td>
+				<p>Optional. Enforce a minimum date</p>
+
+				<p>If no data-lugavalidator-datepattern is specified, default pattern (YYYY-MM-DD) will be used
+					to parse and compare dates</p>
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugavalidator-maxdate</td>
+			<td>
+				<p>Optional. Enforce a maximum date</p>
+
+				<p>If no data-lugavalidator-datepattern is specified, default pattern (YYYY-MM-DD) will be used
+					to parse and compare dates</p>
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugavalidator-equalto</td>
+			<td>
+				<p>Optional. Id of another field who's values will be compared for equality (<a
+						href="#validator/samples/registration">see sample</a>)</p>
+
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+				Text fields can also trigger custom validation
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div class="panel panel-default">
+	<table class="table table-bordered luga-docs-attributes">
+		<th colspan="2">Checkboxes</th>
+		<tr>
+			<td>data-lugavalidator-minchecked</td>
+			<td>
+				Specify a minimum number of boxes that can be checked in a group. Set it to 1 to allow only one
+				choice
+				(<a href="#validator/samples/checkboxes">see sample</a>)
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugavalidator-maxchecked</td>
+			<td>
+				Specify a maximum number of boxes that can be checked within a group
+				(<a href="#validator/samples/checkboxes">see sample</a>)
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugavalidator-message</td>
+			<td>
+				Optional. The error message associated with the field
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugavalidator-errorclass</td>
+			<td>
+				Optional. CSS class that will be applied to the field if invalid
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div class="panel panel-default">
+	<table class="table table-bordered luga-docs-attributes">
+		<th colspan="2">Radio buttons</th>
+		<tr>
+			<td>data-lugavalidator-required</td>
+			<td>
+				Set it to true to flag group of buttons as required
+
+				(<a href="#validator/samples/radio">see sample</a>)
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugavalidator-message</td>
+			<td>
+				Optional. The error message associated with the field
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugavalidator-errorclass</td>
+			<td>
+				Optional. CSS class that will be applied to the field if invalid
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div class="panel panel-default">
+	<table class="table table-bordered luga-docs-attributes">
+		<th colspan="2">Select tags</th>
+		<tr>
+			<td>data-lugavalidator-invalidindex</td>
+			<td>
+				Optional. Prevents selection of an entry on a given position, zero based
+				(<a href="#validator/samples/select">see sample</a>)
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugavalidator-invalidvalue</td>
+			<td>
+				Optional. Prevents selection of an entry with a given value
+
+				(<a href="#validator/samples/select">see sample</a>)
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugavalidator-message</td>
+			<td>
+				Optional. The error message associated with the field
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugavalidator-errorclass</td>
+			<td>
+				Optional. CSS class that will be applied to the field if invalid
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div class="panel panel-default">
+	<table class="table table-bordered luga-docs-attributes">
+		<th colspan="2">Submit buttons</th>
+		<tr>
+			<td>data-lugavalidator-disabledlabel</td>
+			<td>
+				<p>Optional. Display this string as the button's label during form processing, after successful
+					validation</p>
+
+				<p>Large forms, especially the ones with file upload, can require some processing time, during
+					this process it's better to avoid multiple submits from the user.
+					That's why the validator automatically disables all the submit buttons after a form
+					successfully passes the validation process</p>
+			</td>
+		</tr>
+	</table>
+</div>

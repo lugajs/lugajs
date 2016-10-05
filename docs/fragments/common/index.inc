@@ -1,0 +1,345 @@
+<div class="panel panel-default">
+	<div class="panel-heading">About Luga Common</div>
+	<div class="panel-body">
+		<p>
+			Luga Common contains a minimal set of API. While most of them are used internally by the libraries,
+			some can be accessed directly
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Unit tests</div>
+	<div class="panel-body">
+		<p>
+			Luga JS contains a comprehensive set of <a href="../test/SpecRunner.htm">unit tests</a>,
+			developed
+			with <a href="https://github.com/jasmine/jasmine">Jasmine</a>
+		</p>
+
+		<p>
+			The unit tests play a fundamental role in ensuring the code is robust and, at the very same time,
+			provide plenty of useful information about the API
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Getting started</div>
+	<div class="panel-body">
+		<p>Include the JavaScript files. First jQuery, then <a href="../dist/luga.common.min.js">Luga Common</a>
+			(in this order)</p>
+
+<pre><code class="language-markup">&lt;script src="js/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script src="js/luga.common.min.js"&gt;&lt;/script&gt;
+</code></pre>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.extend(baseFunc, func, args)</div>
+	<div class="panel-body">
+
+		<p>
+			Offers a simple, minimalist solution for <em>pseudoclassical inheritance</em>, without using prototype.
+		</p>
+
+		<p>
+			Internally it uses apply() for <em>constructor stealing</em>.
+		</p>
+
+		<div class="alert alert-warning" role="alert">
+			<strong>Warning!</strong><br>
+			luga.extend does not set the constructor property of an object and does not give you a way to call the
+			parent from the child constructor.
+		</div>
+
+	</div>
+
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>baseFunc</td>
+			<td>
+				{function}
+			</td>
+			<td>
+				Parent constructor function. Required
+			</td>
+		</tr>
+		<tr>
+			<td>func</td>
+			<td>
+				{function}
+			</td>
+			<td>
+				Child constructor function. Required
+			</td>
+		</tr>
+		<tr>
+			<td>args</td>
+			<td>
+				{array}
+			</td>
+			<td>
+				An array of arguments that will be passed to the parent's constructor. Optional
+			</td>
+		</tr>
+	</table>
+
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-javascript">luga.concreteNotifier = function(options){
+	luga.extend(luga.Notifier, this);
+	this.name = options.name;
+};
+</code></pre>
+<pre><code class="language-javascript">luga.data.region.Handlebars = function(options){
+	luga.extend(luga.data.region.Base, this, [options]);
+	/*
+	More code here, see:
+	src/luga.data.region.Handlebars.js
+	*/
+};</code></pre>
+
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.lookupFunction(path)</div>
+	<div class="panel-body">
+		Given the name of a function as a string, return the relevant function, if any.
+		<br>
+		If nothing exists at that location, returns undefined.
+		<br>
+		Supports namespaces (if the fully qualified path is passed).
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>path</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				Fully qualified name of a function
+			</td>
+		</tr>
+	</table>
+
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{function|undefined}</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-javascript">myLookup = function(){
+};
+luga.lookupFunction("myLookup");
+// => Reference to the function</code></pre>
+<pre><code class="language-javascript">myLookUpSpace = {};
+	myFunction = function(){
+};
+luga.lookupFunction("myLookUpSpace.myFunction");
+// => Reference to the function</code></pre>
+
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.lookupProperty(object, path)</div>
+	<div class="panel-body">
+		Given an object and a path, returns the property located at the given path.
+		<br>
+		If nothing exists at that location, returns undefined.
+		<br>
+		Supports unlimited nesting levels (if the fully qualified path is passed).
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>object</td>
+			<td>
+				{object}
+			</td>
+			<td>
+				Target object
+			</td>
+		</tr>
+		<tr>
+			<td>path</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				Dot-delimited string
+			</td>
+		</tr>
+	</table>
+
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{*|undefined}</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-javascript">luga.lookupProperty({key: "test"}, "key");
+// => "test"</code></pre>
+<pre><code class="language-javascript">var target = {
+	firstLevel: {
+		secondLevel: {
+			message: "Ciao Mamma!"
+		}
+	}
+}
+luga.lookupProperty(target, "firstLevel.secondLevel.message");
+// => "Ciao Mamma!"
+luga.lookupProperty(target, "firstLevel.secondLevel.missing");
+// => undefined</code></pre>
+
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.merge(target, source)</div>
+	<div class="panel-body">
+		Shallow-merge the contents of two objects together into the first object.
+		It wraps jQuery's extend to make names less ambiguous
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>target</td>
+			<td>
+				{object}
+			</td>
+			<td>
+				An object that will receive the new properties
+			</td>
+		</tr>
+		<tr>
+			<td>source</td>
+			<td>
+				{object}
+			</td>
+			<td>
+				An object containing additional properties to merge in
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-javascript">var config = {letter: "a", number: 1};
+var params = {number: 2, symbol: "@"};
+luga.merge(config, params);
+// => config = { letter: "a", number: 2, symbol: "@" }
+</code></pre>
+
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.namespace(ns, rootObject)</div>
+	<div class="panel-body">
+		Creates namespaces to be used for scoping variables and classes so that they are not global.
+		Specifying the last node of a namespace implicitly creates all other nodes.
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>ns</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				Namespace as string
+			</td>
+		</tr>
+		<tr>
+			<td>rootObject</td>
+			<td>
+				{object}
+			</td>
+			<td>
+				Optional root object. Default to window
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+	<pre><code class="language-javascript">luga.namespace("luga.utils");</code></pre>
+
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.setProperty(object, path, value)</div>
+	<div class="panel-body">
+		Given an object, a path and a value, set the property located at the given path to the given value.
+		<br>
+		If the path does not exists, it creates it.
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>object</td>
+			<td>
+				{object}
+			</td>
+			<td>
+				Target object
+			</td>
+		</tr>
+		<tr>
+			<td>path</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				Fully qualified property name
+			</td>
+		</tr>
+		<tr>
+			<td>value</td>
+			<td>
+				{*}
+			</td>
+			<td>
+				Value
+			</td>
+		</tr>
+	</table>
+
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-javascript">var targetObj = {
+	firstName: "Ciccio",
+	children: [],
+	firstLevel: {
+		secondLevel: "Second"
+	}
+};
+
+luga.setProperty(targetObj, "lastName", "Pasticcio");
+// => targetObj.lastName = "Pasticcio"
+
+luga.setProperty(targetObj, "firstLevel.moreSecond", "more");
+// => targetObj.firstLevel.moreSecond = "more"
+
+// If the path does not exists, creates it
+luga.setProperty(targetObj, "first.second.third", 3);
+// => targetObj.first.second.third = 3
+</code></pre>
+
+</div>

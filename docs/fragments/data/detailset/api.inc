@@ -1,0 +1,115 @@
+<div class="panel panel-default">
+	<div id="constructor" class="panel-heading luga-docs-api-heading">luga.data.DetailSet(options)</div>
+	<div class="panel-body">
+		<p>
+			DetailSet's constructor. This class triggers a "dataChanged" notification every time its data changes.
+		</p>
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>options.uuid</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				Unique identifier. Required
+			</td>
+		</tr>
+		<tr>
+			<td>options.dataSet</td>
+			<td>
+				{luga.data.DataSet}
+			</td>
+			<td>
+				Master dataSet. Required. <br>
+				The detailSet will register itself as <a href="#common/notifier">observer</a> of the dataSet,
+				its data binded to the dataSet's current row.
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="line-numbers language-javascript">(function(){
+	"use strict";
+	// Master
+	var ladiesMaster = new luga.data.JsonDataSet({
+		uuid: "ladies",
+		url: "../test/fixtures/data/ladies.json"
+	});
+	// Details
+	var ladyDetails = new luga.data.DetailSet({uuid: "lady", parentDataSet: ladiesMaster});
+	// Fetch data only once the DOM is ready
+	jQuery(document).ready(function(){
+		ladiesMaster.loadData();
+	});
+}());
+</code></pre>
+</div>
+
+
+<div class="panel panel-default">
+	<div id="getContext" class="panel-heading luga-docs-api-heading">.getContext()</div>
+	<div class="panel-body">
+		<p>
+			Returns the detailSet <a href="#data/region/context">context data.</a>
+		</p>
+
+		<div class="alert alert-info" role="alert">
+			<strong>Heads up!</strong><br>
+			The <strong>entity</strong> field inside the context object will be null whenever the dataSet is empty or
+			there is no current row selected.
+		</div>
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{luga.data.DetailSet.context}</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="line-numbers language-javascript">var ladyDetails = new luga.data.DetailSet({uuid: "lady", parentDataSet: ladiesMaster});
+var contextData = ladyDetails.getContext();
+/*
+	contextData = {
+		state: "ready",
+		isStateLoading: false,
+		isStateError: false,
+		isStateReady: true,
+		entity: {
+			firstName: "Nicole",
+			lastName: "Kidman",
+			country: "Australia",
+			lugaRowId: "lugaPk_0"
+		}
+	}
+*/
+</code></pre>
+</div>
+
+<div class="panel panel-default">
+	<div id="getState" class="panel-heading luga-docs-api-heading">.getState()</div>
+	<div class="panel-body">
+		<p>
+			Returns the detailSet's current state. The state matches the current state of the associated dataSet.
+		</p>
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{null|luga.data.STATE}</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="line-numbers language-javascript">var ladyDetails = new luga.data.DetailSet({uuid: "lady", parentDataSet: ladiesMaster});
+ladyDetails.getState(); // => Either null, "error", "loading" or "ready"
+</code></pre>
+</div>

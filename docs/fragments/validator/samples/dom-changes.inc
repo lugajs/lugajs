@@ -1,0 +1,85 @@
+<script>
+	// <![CDATA[
+	function checkMeal(){
+		var checkbox = jQuery("#specialmeal");
+		var textField = jQuery("#newmeal");
+		if(checkbox.prop("checked") === true){
+			textField.attr("data-lugavalidator-required", "true");
+			textField.addClass("required");
+		}
+		else{
+			textField.attr("data-lugavalidator-required", "false");
+			textField.removeClass("required");
+		}
+	}
+
+	function addMeal(){
+		var checkbox = jQuery("#specialmealAdd");
+		var tableCell = jQuery("#mealCell");
+		if(checkbox.prop("checked") === true){
+			var htmlStr = 'Specify the special meal\'s name:';
+			htmlStr += '<label for="dynamicMeal" class="control-label">Specify the special meal\'s name</label>';
+			htmlStr += '<input type="text" name="dynamicMeal" id="dynamicMeal" class="form-control" data-lugavalidator-required="true" data-lugavalidator-message="Meal\'s name?" />';
+			tableCell.html(htmlStr);
+		}
+		else{
+			tableCell.html("");
+		}
+	}
+	// ]]>
+</script>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Manipulating the DOM at run-time</div>
+	<div class="panel-body">
+
+		<p>
+			It's possible to add/remove form fields or add/remove/update validation criteria at run-time.
+		</p>
+
+		<p>
+			Here we edit "data-lugavalidator-required" at run-time:
+		</p>
+
+		<form data-lugavalidator-validate="true">
+			<div class="checkbox">
+				<label class="control-label">
+					<input name="specialmeal" id="specialmeal" type="checkbox" value="true"
+						   onclick="checkMeal()"/>
+					Yes, I want a special meal (clicking this will set data-lugavalidator-required on the text
+					field below)</label>
+			</div>
+			<div class="form-group">
+				<label for="newmeal" class="control-label">Specify the special meal's name</label>
+				<input type="text" class="form-control" name="newmeal" id="newmeal"
+					   data-lugavalidator-message="Meal's name?"/>
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Submit"/>
+			</div>
+		</form>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Add a field at run-time</div>
+	<div class="panel-body">
+
+		<form data-lugavalidator-validate="true">
+			<div class="checkbox">
+				<label class="control-label">
+					<input name="specialmealAdd" id="specialmealAdd" type="checkbox" value="true" onclick="addMeal()"/>
+					Yes, I want a special meal (clicking this will add/remove a new text field to the form)
+				</label>
+			</div>
+			<div id="mealCell" class="form-group">
+
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Submit"/>
+			</div>
+		</form>
+
+	</div>
+</div>

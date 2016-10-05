@@ -1,0 +1,89 @@
+<script>
+	(function(){
+		"use strict";
+		var testDs = new luga.data.JsonDataSet({
+			uuid: "peopleDs",
+			url: "../test/fixtures/data/people.json",
+			path: "ladies"
+		});
+		jQuery(document).ready(function(){
+			testDs.loadData();
+
+			jQuery("#ladiesPath").on("click", function(event){
+				event.preventDefault();
+				testDs.setPath("ladies");
+				testDs.loadData();
+			});
+
+			jQuery("#jazzPlayersPath").on("click", function(event){
+				event.preventDefault();
+				testDs.setPath("others.jazzPlayers");
+				testDs.loadData();
+			});
+
+		});
+	}());
+</script>
+<script id="peopleTable" type="text/x-handlebars-template" src="templates/people-table.hbs"></script>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Extracting data from JSON</div>
+	<div class="panel-body">
+		<p>
+			luga.data.JsonDataSet was designed to let you extract data from different sources,
+			be able to deal with different JSON's schemas, equalize them and consume the data using a common API.
+		</p>
+
+		<p>
+			Take a look at the JSON below, we have some records under the <strong>ladies</strong> property,
+			we also have other records under <strong>others.jazzPlayers</strong> too:
+		</p>
+
+<pre><code class="line-numbers language-javascript">{
+	"ladies": [
+		{"firstName": "Nicole", "lastName": "Kidman", "country": "Australia"},
+		{"firstName": "Kate", "lastName": "Beckinsale", "country": "UK"},
+		{"firstName": "Jennifer", "lastName": "Connelly", "country": "USA"},
+		{"firstName": "Salma", "lastName": "Hayek", "country": "Mexico"},
+		{"firstName": "Gisele", "lastName": "Bundchen", "country": "Brasil"},
+		{"firstName": "Elisabeth", "lastName": "Banks", "country": "USA"},
+		{"firstName": "Liz", "lastName": "Hurley", "country": "UK"}
+	],
+	"others": {
+		"jazzPlayers": [
+			{"firstName": "John", "lastName": "Coltrane", "country": "USA"},
+			{"firstName": "Sonny", "lastName": "Rollins", "country": "USA"},
+			{"firstName": "Tete", "lastName": "Montoliu", "country": "Spain"},
+			{"firstName": "Dexter", "lastName": "Gordon", "country": "USA"}
+		]
+	}
+}</code></pre>
+
+		<p>
+			The key here is to pass the relevant path to the constructor.
+			If we use <strong>ladies</strong> we extract data from that branch of the JSON:
+		</p>
+
+<pre><code class="line-numbers language-javascript">var testDs = new luga.data.JsonDataSet({
+	uuid: "peopleDs",
+	url: "../test/fixtures/data/people.json",
+	path: "ladies"
+});</code></pre>
+
+		<p>
+			You can even change the path at run-time, using the <a href="#data/json-dataset/api">.setPath()</a> method.
+			It's not something you are going to do that often, but it's worth seeing it in action to better understand
+			how JsonDataSet works:
+		</p>
+
+		<form class="form-inline">
+			<button class="btn btn-info" id="ladiesPath">Load ladies</button>
+			<button class="btn btn-info" id="jazzPlayersPath">Load jazz players</button>
+		</form>
+
+		<div data-lugaregion="true"
+			 data-lugaregion-datasource-uuid="peopleDs"
+			 data-lugaregion-template-id="peopleTable"></div>
+
+	</div>
+</div>

@@ -11,8 +11,8 @@
 	/**
 	 * @typedef {object} luga.data.DetailSet.options
 	 *
-	 * @property {string}            uuid     Unique identifier. Required
-	 * @property {luga.data.DataSet} dataSet  Master dataSet. Required
+	 * @property {string}            uuid           Unique identifier. Required
+	 * @property {luga.data.DataSet} parentDataSet  Master dataSet. Required
 	 */
 
 	/**
@@ -30,15 +30,15 @@
 
 		var CONST = {
 			ERROR_MESSAGES: {
-				INVALID_UUID_PARAMETER: "Luga.DetailSet: id parameter is required",
-				INVALID_DS_PARAMETER: "Luga.DetailSet: dataSet parameter is required"
+				INVALID_UUID_PARAMETER: "luga.DetailSet: id parameter is required",
+				INVALID_DS_PARAMETER: "luga.DetailSet: dataSet parameter is required"
 			}
 		};
 
 		if(options.uuid === undefined){
 			throw(CONST.ERROR_MESSAGES.INVALID_UUID_PARAMETER);
 		}
-		if(options.dataSet === undefined){
+		if(options.parentDataSet === undefined){
 			throw(CONST.ERROR_MESSAGES.INVALID_DS_PARAMETER);
 		}
 
@@ -48,8 +48,8 @@
 		var self = this;
 
 		this.uuid = options.uuid;
-		this.dataSet = options.dataSet;
-		this.dataSet.addObserver(this);
+		this.parentDataSet = options.parentDataSet;
+		this.parentDataSet.addObserver(this);
 
 		/** @type {luga.data.DataSet.row} */
 		this.row = null;
@@ -73,11 +73,11 @@
 		 * @returns {null|luga.data.STATE}
 		 */
 		this.getState = function(){
-			return self.dataSet.getState();
+			return self.parentDataSet.getState();
 		};
 
 		this.fetchRow = function(){
-			self.row = self.dataSet.getCurrentRow();
+			self.row = self.parentDataSet.getCurrentRow();
 			self.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
@@ -105,7 +105,7 @@
 		};
 
 		/* Fetch row without notifying observers */
-		self.row = self.dataSet.getCurrentRow();
+		self.row = self.parentDataSet.getCurrentRow();
 
 	};
 

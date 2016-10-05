@@ -26,7 +26,7 @@ var CONST = {
 	MIN_SUFFIX: ".min.js",
 	CONCATENATED_LUGA_FILE: "luga.js",
 	CONCATENATED_DATA_FILE: "luga.data.js",
-	FOLDERS_TO_ARCHIVE: ["LICENSE", "index.htm", "dist/**/*", "docs/**/*", "lib/**/*", "src/**/*", "test/**/*"],
+	FOLDERS_TO_ARCHIVE: ["LICENSE", "dist/**/*", "docs/**/*", "lib/**/*", "src/**/*", "test/**/*"],
 	ARCHIVE_FILE: "luga-js.zip",
 	ARCHIVE_FOLDER: "archive",
 	VERSION_PATTERN: new RegExp(".version = \"(\\d.\\d(.\\d\\d?)?)\";")
@@ -46,8 +46,8 @@ function assembleBanner(name, version){
 	return banner;
 }
 
-function getVersionNumber(filePath){
-	var buffer = fs.readFileSync(filePath);
+function getVersionNumber(){
+	var buffer = fs.readFileSync(CONST.PATH_TO_COMMON_SRC);
 	var fileStr = buffer.toString("utf8", 0, buffer.length);
 	var version = CONST.VERSION_PATTERN.exec(fileStr)[1];
 	return version;
@@ -135,7 +135,7 @@ gulp.task("coverage", function (done) {
 });
 
 gulp.task("data", function(){
-	var dataVersion = getVersionNumber(getDataFragmentSrc(CONST.DATA_CORE_FILE_KEY));
+	var dataVersion = getVersionNumber();
 	return concatAndMinify(getAllDataFragmentsSrc(), CONST.CONCATENATED_DATA_FILE, pkg.dataLibDisplayName, dataVersion);
 });
 
@@ -144,7 +144,7 @@ gulp.task("libs", function(){
 	for(var x in pkg.libs){
 		var src = getLibSrc(x);
 		var libName = pkg.libs[x].name;
-		var libVersion = getVersionNumber(src);
+		var libVersion = getVersionNumber();
 		distributeFile(src, libName, libVersion);
 	}
 	var allLibs = getAllLibsSrc();
@@ -152,7 +152,7 @@ gulp.task("libs", function(){
 	// Add luga.data
 	allLibs.push(CONST.DIST_FOLDER + "/" + CONST.CONCATENATED_DATA_FILE);
 	// Concatenated version
-	concatAndMinify(allLibs, CONST.CONCATENATED_LUGA_FILE, pkg.displayName, getVersionNumber(CONST.PATH_TO_COMMON_SRC));
+	concatAndMinify(allLibs, CONST.CONCATENATED_LUGA_FILE, pkg.displayName, getVersionNumber());
 });
 
 gulp.task("zip", function(){

@@ -4,7 +4,7 @@
 	/**
 	 * @typedef {object} luga.history.options
 	 *
-	 * @property {boolean} pushState  Determine if we use pushState or the location hash. Default to true. If pushState is not available (like in IE9) the location hash will be used anyway
+	 * @property {boolean} pushState  Determine if we use pushState or the location hash. Default to false. If pushState is not available (like in IE9) the location hash will be used anyway
 	 */
 
 	luga.namespace("luga.history");
@@ -13,7 +13,7 @@
 	 * @type {luga.history.options}
 	 */
 	var config = {
-		pushState: true
+		pushState: false
 	};
 
 	/**

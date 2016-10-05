@@ -1,0 +1,93 @@
+<div class="panel panel-default">
+	<div id="format" class="panel-heading luga-docs-api-heading">luga.localStorage.retrieve(root, path)</div>
+	<div class="panel-body">
+		Retrieve from localStorage the string corresponding to the given combination of root and path.
+		Returns undefined if nothing matches the given root/path
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>root</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				Top-level key inside localStorage
+			</td>
+		</tr>
+		<tr>
+			<td>path</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				Dot-delimited string
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{*|undefined}</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-javascript">luga.localStorage.persist("myRoot", "test.name", "Ciccio");
+luga.localStorage.retrieve("myRoot", "test.name"); // => "Ciccio"
+</code></pre>
+
+</div>
+
+<div class="panel panel-default">
+	<div id="populate" class="panel-heading luga-docs-api-heading">luga.localStorage.persist(root, path, value)</div>
+	<div class="panel-body">
+		Persist the given string inside localStorage, under the given combination of root and path.
+		The ability to pass a dot-delimited path allow to protect the information from name clashes
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>root</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				Top-level key inside localStorage
+			</td>
+		</tr>
+		<tr>
+			<td>path</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				Dot-delimited string
+			</td>
+		</tr>
+		<tr>
+			<td>value</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				String to be persisted
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{string}</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-javascript">luga.localStorage.persist("myRoot", "test.name", "Ciccio");
+</code></pre>
+
+</div>

@@ -1,0 +1,48 @@
+<div class="panel panel-default">
+	<div class="panel-heading">New HTML 5 field types</div>
+	<div class="panel-body">
+
+		<p>
+			HTML 5 introduced many <a href="http://diveintohtml5.info/forms.html">new input types and features</a> for
+			forms.
+			Luga Validator plays well with them.
+			Support for the new field types is still lacking in most browsers.
+			This page tries to demonstrate some new features, at the time of this writing it's best viewed in Chrome or
+			Opera.
+		</p>
+
+		<form data-lugavalidator-validate="true">
+			<div class="form-group">
+				<label for="age">Age (required, positive integer, min 18, max 75)</label>
+				<input type="number" class="form-control" id="age" name="age" value="18"
+					   data-lugavalidator-required="true"
+					   data-lugavalidator-errorclass="invalid"
+					   data-lugavalidator-message="Please insert a valid age"
+					   data-lugavalidator-pattern="positiveinteger"
+					   data-lugavalidator-minnumber="18"
+					   data-lugavalidator-maxnumber="75"
+					   data-lugavalidator-filters="numbersonly"/>
+			</div>
+			<div class="form-group">
+				<label for="email" class="control-label">Email</label>
+				<input type="email" class="form-control" id="email" name="email"
+					   data-lugavalidator-required="true"
+					   data-lugavalidator-errorclass="invalid"
+					   data-lugavalidator-message="Please insert a valid email"
+					   data-lugavalidator-email="true"/>
+			</div>
+			<div class="form-group">
+				<label for="date">Date (not required, date, YYYY-MM-DD)</label>
+				<input type="date" class="form-control" id="date" name="date" value="2005-05-09"
+					   data-lugavalidator-message="Please insert a valid date using the YYYY-MM-DD format"
+					   data-lugavalidator-errorclass="invalid"
+					   data-lugavalidator-datepattern="YYYY-MM-DD"/>
+			</div>
+
+			<div class="form-group">
+				<input type="submit" value="Submit"/>
+			</div>
+		</form>
+
+	</div>
+</div>

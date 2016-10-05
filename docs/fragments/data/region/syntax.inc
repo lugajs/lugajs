@@ -1,0 +1,49 @@
+<div class="panel panel-default">
+	<div class="panel-heading">Syntax reference</div>
+	<div class="panel-body">
+		<p>The complete syntax reference for HTML5 custom data attributes is included below</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<table class="table table-bordered luga-docs-attributes">
+		<th>Attribute</th>
+		<th>Description</th>
+		<tr>
+			<td>data-lugaregion</td>
+			<td>
+				Required. Set it to true in order to turn an HTML tag into a region.
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugaregion-datasource-uuid</td>
+			<td>
+				Required. Must match the uuid of an existing dataSource (either dataSet or detailsSet).
+				Enables databinding from the dataSource to the region (<a href="#data/dataset/databinding">read
+				more</a>).
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugaregion-template-id</td>
+			<td>
+				Optional. Must match the id attribute of an existing &lt;script&gt; tag containing template code (<a
+					href="#data/region/handlebars">read more</a>).
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugaregion-traits</td>
+			<td>
+				Optional. Comma-delimited list of function names to be used as custom trait/s (<a
+					href="#data/extensibility/custom-trait">read more</a>).
+			</td>
+		</tr>
+		<tr>
+			<td>data-lugaregion-type</td>
+			<td>
+				Optional. Name of an existing JavaScript constructor function for custom region (<a
+					href="#data/extensibility/custom-region-type">read more</a>).
+				For default rendering, using Handlebars as template engine, there is no need to specify it.
+			</td>
+		</tr>
+	</table>
+</div>

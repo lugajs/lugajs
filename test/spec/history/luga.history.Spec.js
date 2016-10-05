@@ -11,7 +11,7 @@ describe("luga.history", function(){
 
 	afterEach(function(){
 		luga.history.setup({
-			pushState: true
+			pushState: false
 		});
 	});
 
@@ -27,6 +27,19 @@ describe("luga.history", function(){
 		});
 
 		describe("Add an history entry", function(){
+
+			it("Setting location.hash", function(){
+				luga.history.navigate("test/route");
+				expect(location.hash).toEqual("#test/route");
+			});
+
+		});
+
+		describe("If pushState is supported and luga.history is configured to use it", function(){
+
+			beforeEach(function(){
+				luga.history.setup({pushState: true});
+			});
 
 			describe("Invoking history.pushState() passing the given URL and a second argument containing:", function(){
 
@@ -51,42 +64,29 @@ describe("luga.history", function(){
 
 		describe("If options.replace = true, replace the current history entry instead", function(){
 
-			describe("Invoking history.replaceState() passing:", function(){
-
-				it("The given URL fragment and an empty string as title", function(){
-					luga.history.navigate("test/route", {replace: true});
-					expect(history.replaceState).toHaveBeenCalledWith({}, "", "test/route");
-				});
-
-				it("The given URL fragment and an optional title", function(){
-					luga.history.navigate("test/route", {replace: true, title: "Test Title"});
-					expect(history.replaceState).toHaveBeenCalledWith({}, "Test Title", "test/route");
-				});
-
+			it("Invoking location.replace()", function(){
+				luga.history.navigate("test/route", {replace: true});
+				expect(location.hash).toEqual("#test/route");
 			});
 
-		});
+			describe("If pushState is supported and luga.history is configured to use it", function(){
 
-		describe("If pushState is not supported or luga.history is configured to not use it", function(){
+				describe("Invoking history.replaceState() passing:", function(){
 
-			beforeEach(function(){
-				luga.history.setup({pushState: false});
-			});
+					beforeEach(function(){
+						luga.history.setup({pushState: true});
+					});
 
-			describe("Add an history entry", function(){
+					it("The given URL fragment and an empty string as title", function(){
+						luga.history.navigate("test/route", {replace: true});
+						expect(history.replaceState).toHaveBeenCalledWith({}, "", "test/route");
+					});
 
-				it("Setting location.hash", function(){
-					luga.history.navigate("test/route");
-					expect(location.hash).toEqual("#test/route");
-				});
+					it("The given URL fragment and an optional title", function(){
+						luga.history.navigate("test/route", {replace: true, title: "Test Title"});
+						expect(history.replaceState).toHaveBeenCalledWith({}, "Test Title", "test/route");
+					});
 
-			});
-
-			describe("If options.replace = true, replace the current history entry instead", function(){
-
-				it("Invoking location.replace()", function(){
-					luga.history.navigate("test/route", {replace: true});
-					expect(location.hash).toEqual("#test/route");
 				});
 
 			});
@@ -99,8 +99,8 @@ describe("luga.history", function(){
 
 		describe("If called with no arguments. Return an object containing name/value pairs:", function(){
 
-			it("pushState = true", function(){
-				expect(luga.history.setup().pushState).toEqual(true);
+			it("pushState = false", function(){
+				expect(luga.history.setup().pushState).toEqual(false);
 			});
 
 		});
@@ -117,20 +117,11 @@ describe("luga.history", function(){
 
 	describe(".usePushState()", function(){
 
-		describe("Return true:", function(){
-
-			it("By default:", function(){
-				expect(luga.history.usePushState()).toEqual(true);
-			});
-
-			it("If pushState is supported and config.pushState has been set to true", function(){
-				luga.history.setup({pushState: true});
-				expect(luga.history.usePushState()).toEqual(true);
-			});
-
-		});
-
 		describe("Return false:", function(){
+
+			it("By default", function(){
+				expect(luga.history.usePushState()).toEqual(false);
+			});
 
 			it("If pushState is not supported by the current browser, not matter the value of config.pushState", function(){
 				spyOn(luga.history, "isPushStateSupported").and.returnValue(false);
@@ -141,6 +132,15 @@ describe("luga.history", function(){
 			it("If pushState is supported and config.pushState has been set to false", function(){
 				luga.history.setup({pushState: false});
 				expect(luga.history.usePushState()).toEqual(false);
+			});
+
+		});
+
+		describe("Return true:", function(){
+
+			it("If pushState is supported and config.pushState has been set to true", function(){
+				luga.history.setup({pushState: true});
+				expect(luga.history.usePushState()).toEqual(true);
 			});
 
 		});

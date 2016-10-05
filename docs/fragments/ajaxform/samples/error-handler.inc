@@ -1,0 +1,164 @@
+<script>
+	//<![CDATA[
+	handlers = {};
+	handlers.alertHttp = function(msg, formNode, textStatus, errorThrown, jqXHR){
+		// Alert the HTTP status and error message in a error box above the form
+		alert(jqXHR.status + " " + textStatus);
+	};
+	//]]>
+</script>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Error handler</div>
+	<div class="panel-body">
+		<p>
+			By default Ajaxform uses luga.ajaxform.handlers.errorAlert as error handler. It displays either a standard
+			message or the content of the data-lugajax-errormsg custom attribute inside an alert
+		</p>
+
+<pre><code class="language-markup">&lt;form action="missing.json" data-lugajax-form="true" data-lugajax-errormsg="Your
+	error message here"&gt;
+	&lt;input type="text" name="name" /&gt;
+	&lt;input type="submit" value="Submit"/&gt;
+&lt;/form&gt;</code></pre>
+
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">Default error handler</div>
+	<div class="panel-body">
+		<form action="missing.json" data-lugajax-form="true" data-lugajax-errormsg="Your error message here">
+			<div class="form-group">
+				<input type="text" class="form-control" name="name"/>
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Submit"/>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">luga.ajaxform.handlers.errorBox</div>
+	<div class="panel-body">
+		<p>
+			You can use the built-in luga.ajaxform.handlers.errorBox function instead. It works better than a crude
+			alert
+		</p>
+
+		<p>
+			Just set the data-lugajax-error custom attribute
+		</p>
+
+<pre><code class="language-markup">&lt;form action="missing.json" data-lugajax-form="true"
+	data-lugajax-error="luga.ajaxform.handlers.errorBox"&gt;
+	&lt;input type="text" name="name"/&gt;
+	&lt;input type="submit" value="Submit"/&gt;
+&lt;/form&gt;</code></pre>
+
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">errorBox</div>
+	<div class="panel-body">
+		<form action="missing.json" data-lugajax-form="true" data-lugajax-error="luga.ajaxform.handlers.errorBox">
+			<div class="form-group">
+				<input type="text" class="form-control" name="name"/>
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Submit"/>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Custom error handler</div>
+	<div class="panel-body">
+		<p>
+			You can write your own error handler and use it instead
+		</p>
+
+<pre><code class="language-javascript">handlers = {};
+	handlers.alertHttp = function(msg, formNode, textStatus, errorThrown, jqXHR){
+	// Alert the HTTP status and error message in a error box above the form
+	alert(jqXHR.status + " " + textStatus);
+};</code></pre>
+
+<pre><code class="language-markup">&lt;form action="missing.json" data-lugajax-form="true"
+	data-lugajax-error="handlers.alertHttp"&gt;
+	&lt;input type="text" name="name"/&gt;
+	&lt;input type="submit" value="Submit"/&gt;
+&lt;/form&gt;</code></pre>
+
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">Custom handler</div>
+	<div class="panel-body">
+		<form action="missing.json" data-lugajax-form="true" data-lugajax-error="handlers.alertHttp">
+			<div class="form-group">
+				<input type="text" class="form-control" name="name"/>
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Submit"/>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Handler's signature</div>
+	<div class="panel-body">
+		The handler will be invoked with five arguments
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>msg</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				Value of the data-lugajax-errormsg attribute
+			</td>
+		</tr>
+		<tr>
+			<td>formNode</td>
+			<td>
+				{jquery}
+			</td>
+			<td>
+				jQuery object wrapping the form
+			</td>
+		</tr>
+		<tr>
+			<td>textStatus</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				HTTP status
+			</td>
+		</tr>
+		<tr>
+			<td>errorThrown</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				Error message coming from jQuery.ajax()
+			</td>
+		</tr>
+		<tr>
+			<td>jqXHR</td>
+			<td>
+				{object}
+			</td>
+			<td>
+				jQuery wrapper around XMLHttpRequest
+			</td>
+		</tr>
+	</table>
+
+</div>

@@ -1,0 +1,290 @@
+<div class="panel panel-default">
+	<div class="panel-heading">XmlDataSet</div>
+	<div class="panel-body">
+		<p>
+			luga.data.XmlDataSet inherits all <a href="#data/dataset/api">luga.data.DataSet's API</a>.
+			On top of that it adds some additional methods and constructor options.
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div id="constructor" class="panel-heading luga-docs-api-heading">luga.data.XmlDataSet(options)</div>
+	<div class="panel-body">
+		<p>
+			DataSet's constructor. This class triggers the following notifications:
+
+		<ul class="luga-docs-list">
+			<li>"dataLoading" once an XHR request is fired.</li>
+			<li>"xhrError" if an XHR request fails.</li>
+			<li>"dataChanged" every time its data changes.</li>
+			<li>"currentRowChanged" every time its currentRow changes.</li>
+			<li>"dataSorted" once its data is sorted.</li>
+			<li>"preDataSorted" before it attempts to sort its data.</li>
+		</ul>
+
+		</p>
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>options.uuid</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				Unique identifier. Required.
+			</td>
+		</tr>
+		<tr>
+			<td>options.url</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				Url to be fetched to extract XML data. Default to null.
+			</td>
+		</tr>
+		<tr>
+			<td>options.timeout</td>
+			<td>
+				{number}
+			</td>
+			<td>
+				Timeout (in milliseconds) for the HTTP request. Default to 10.000
+			</td>
+		</tr>
+		<tr>
+			<td>options.headers</td>
+			<td>
+				{object}
+			</td>
+			<td>
+				A set of name/value pairs to be used as custom HTTP headers
+			</td>
+		</tr>
+		<tr>
+			<td>options.incrementalLoad</td>
+			<td>
+				{boolean}
+			</td>
+			<td>
+				By default calling once .loadData() is called the dataSet discard all the previous records.
+				Set this to true to keep the old records. Default to false.
+			</td>
+		</tr>
+		<tr>
+			<td>options.cache</td>
+			<td>
+				{boolean}
+			</td>
+			<td>
+				If set to false, it will force requested pages not to be cached by the browser.
+				It works by appending "_={timestamp}" to the querystring. Default to true.
+			</td>
+		</tr>
+		<tr>
+			<td>options.records</td>
+			<td class="luga-docs-type">
+				{array.&lt;object&gt;|object}
+			</td>
+			<td>
+				Records to be loaded, either one single object containing value/name pairs, or an array of name/value
+				pairs. Optional.
+			</td>
+		</tr>
+		<tr>
+			<td>options.formatter</td>
+			<td>
+				{function}
+			</td>
+			<td>
+				A formatter functions to be called once for each row in the dataSet (<a href="#data/dataset/formatter">read
+				more</a>). Default to null.
+			</td>
+		</tr>
+		<tr>
+			<td>options.filter</td>
+			<td>
+				{function}
+			</td>
+			<td>
+				A filter functions to be called once for each row in the dataSet (<a href="#data/dataset/filter">read
+				more</a>). Default to null.
+			</td>
+		</tr>
+		<tr>
+			<td>options.path</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				Specifies the XPath expression to be used to extract nodes from the XML document. Default to: "/"
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-javascript">var ladiesDs = new luga.data.XmlDataSet({
+	uuid: "ladiesDs",
+	url: "../test/fixtures/data/people.xml"
+});
+
+// Using custom HTTP headers
+var testDs = new luga.data.XmlDataSet({
+	uuid: "testDs",
+	headers: {"X-Requested-With": "ciccio"},
+	url: "whatever.xml"
+});
+</code></pre>
+
+</div>
+
+<div id="getRawXml" class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">.getRawXml()</div>
+	<div class="panel-body">
+		Returns the raw XML data structure, if any.
+	</div>
+
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{null|Node}</td>
+		</tr>
+	</table>
+
+</div>
+
+<div id="getPath" class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">.getPath()</div>
+	<div class="panel-body">
+		Returns the XPath expression to be used to extract nodes from the XML document.
+	</div>
+
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{string}</td>
+		</tr>
+	</table>
+
+</div>
+
+<div id="loadData" class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">.loadData(columnNames, sortOrder)</div>
+	<div class="panel-body">
+		<p>
+			Fires off XHR request to fetch and load the data, then notify observers ("dataLoading" first, "dataChanged"
+			after records are loaded).<br>
+			Throws an exception if URL is not set.
+		</p>
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="line-numbers language-javascript">(function(){
+	"use strict";
+	var ladiesDs = new luga.data.XmlDataSet({
+		uuid: "ladiesDs",
+		url: "../test/fixtures/data/people.xml"
+	});
+	// Fetch data only once the DOM is ready
+	jQuery(document).ready(function(){
+		ladiesDs.loadData();
+	});
+}());</code></pre>
+
+</div>
+
+<div id="loadRawXml" class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">.loadRawXml(node)</div>
+	<div class="panel-body">
+		<p>
+			First delete any existing records, then load data from the given XML, without XHR calls.
+		</p>
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>node</td>
+			<td class="luga-docs-type">
+				{node}
+			</td>
+			<td>
+				XML node. Required.
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+</div>
+
+<div id="setPath" class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">.setPath(path)</div>
+	<div class="panel-body">
+		Set XPath expression to be used to extract nodes from the XML document.
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>path</td>
+			<td class="luga-docs-type">
+				{string}
+			</td>
+			<td>
+				XPath expression. Required.
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="line-numbers language-javascript">var testDs = new luga.data.XmlDataSet({
+	uuid: "peopleDs",
+	url: "../test/fixtures/data/people.xml",
+	path: "//ladies/person"
+});
+testDs.setPath("//jazzPlayers/person");
+testDs.loadData();
+</code></pre>
+
+</div>
+
+<div id="setUrl" class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">.setUrl(url)</div>
+	<div class="panel-body">
+		Set the URL that will be used to fetch the data.
+		This method does not load the data into the data set, it merely sets the internal URL.
+		The developer must call loadData() to actually trigger the data loading
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>url</td>
+			<td class="luga-docs-type">
+				{string}
+			</td>
+			<td>
+				New URL. Required.
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="line-numbers language-javascript">var testDs = new luga.data.XmlDataSet({
+	uuid: "peopleDs",
+	url: "people.xml"
+});
+testDs.setUrl("ladies.xml");
+testDs.loadData();
+</code></pre>
+
+</div>

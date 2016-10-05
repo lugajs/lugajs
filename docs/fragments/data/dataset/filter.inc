@@ -1,0 +1,145 @@
+<style>
+	#statesRegion {
+		height: 300px;
+		margin-bottom: 30px;
+		margin-top: 20px;
+		overflow: auto;
+		width: 450px;
+	}
+</style>
+
+<script>
+	(function(){
+		"use strict";
+
+		var states = new luga.data.JsonDataSet({
+			uuid: "statesDs",
+			url: "../test/fixtures/data/usa-states.json"
+		});
+
+		jQuery(document).ready(function(){
+
+			// Fetch JSON data
+			states.loadData();
+
+			jQuery("#searchButton").on("click", function(event){
+				event.preventDefault();
+				var criteria = jQuery("#searchCriteria").val().toLowerCase();
+				// Assemble a filter function on the fly
+				states.setFilter(function(row, rowIndex, dataSet){
+					if(row.name.toLowerCase().search(criteria) === -1){
+						// Filter out non matching row by returning null
+						return null;
+					}
+					// Return matching row
+					return row;
+				});
+			});
+
+			jQuery("#clearButton").on("click", function(event){
+				event.preventDefault();
+				// Clear the filter, full data will be visible again
+				states. clearFilter();
+				jQuery("#searchCriteria").val("");
+			});
+
+		});
+	}());
+</script>
+
+<script id="statesTemplate" type="text/x-handlebars-template">
+	<ul>
+		{{#if recordCount}}
+		{{#each entities}}
+		<li>{{name}}</li>
+		{{/each}}
+		{{else}}
+		<li>No matching record found</li>
+		{{/if}}
+	</ul>
+</script>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Using filter functions</div>
+	<div class="panel-body">
+		<p>
+			A dataSet can use a function to non-destructively filter its data.
+			The filter can be either passed to the <a href="#data/dataset/api">constructor</a>
+			or applied on the fly calling <a href="#data/dataset/api">.setFilter(filter)</a>.
+		</p>
+
+		<p>
+			The filter is called once for each row in the dataSet, with this signature: myFilter(row, rowIndex,
+			dataSet).<br>
+			If the filter wishes to add the row to the filtered view of the dataSet, then it must return the row object
+			passed into the function.
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Use filter for local search</div>
+	<div class="panel-body">
+
+		<p>
+			The most powerful search features usually require server-side programming,
+			yet sometimes you are dealing with a limited amount of data, in this scenarios a filter can do the job.
+			The implementation is pretty simple and interaction is very fast:
+		</p>
+
+		<form class="form-inline">
+			<div class="form-group">
+				<input type="text" class="form-control" id="searchCriteria" placeholder="type search criteria">
+			</div>
+			<button type="submit" class="btn btn-info" id="clearButton">Clear filter</button>
+			<button type="submit" class="btn btn-primary" id="searchButton">Filter dataSet</button>
+		</form>
+
+		<div id="statesRegion"
+			 data-lugaregion="true"
+			 data-lugaregion-datasource-uuid="statesDs"
+			 data-lugaregion-template-id="statesTemplate"></div>
+
+		<p>
+			Here you have to assemble the filter function on the fly. A closure will do the job:
+		</p>
+
+<pre><code class="line-numbers language-javascript">jQuery("#searchButton").on("click", function(event){
+	event.preventDefault();
+	var criteria = jQuery("#searchCriteria").val().toLowerCase();
+	// Assemble a filter function on the fly
+	states.setFilter(function(row, rowIndex, dataSet){
+	if(row.name.toLowerCase().search(criteria) === -1){
+		// Filter out non matching row by returning null
+		return null;
+	}
+	// Return matching row
+	return row;
+	});
+});
+
+jQuery("#clearButton").on("click", function(event){
+	event.preventDefault();
+	// Clear the filter, full data will be visible again
+	states. clearFilter();
+	jQuery("#searchCriteria").val("");
+});
+</code></pre>
+
+		<p>
+			The template looks like this:
+		</p>
+				
+<pre><code class="line-numbers language-markup">&lt;ul&gt;
+	{{#if recordCount}}
+		{{#each entities}}
+			&lt;li&gt;{{name}}&lt;/li&gt;
+		{{/each}}
+	{{else}}
+		&lt;li&gt;No matching record found&lt;/li&gt;
+	{{/if}}
+&lt;/ul&gt;
+</code></pre>
+
+	</div>
+</div>

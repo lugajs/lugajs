@@ -11,8 +11,7 @@
     "url": "git://github.com/lugajs/lugajs"
   },
   "main": [
-    "dist/luga.min.js",
-    "dist/luga.data.min.js"
+    "dist/luga.min.js"
   ],
   "dependencies": {
     "jquery": ">=2",
@@ -24,10 +23,8 @@
   "ignore": [
     "**/.*",
     "gulpfile.js",
-    "index.htm",
     "Root.iml",
     "todo.txt",
-    "sitemap.xml",
     ".idea",
     "archive",
     "docs",

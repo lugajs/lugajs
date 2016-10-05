@@ -1,0 +1,121 @@
+<script>
+	(function(){
+		"use strict";
+		var ladiesDs = new luga.data.JsonDataSet({
+			uuid: "ladiesDs",
+			url: "../test/fixtures/data/ladies.json"
+		});
+		jQuery(document).ready(function(){
+			ladiesDs.loadData();
+		});
+	}());
+</script>
+<script id="ladiesTemplate" type="text/x-handlebars-template">
+	<ul class="luga-docs-list">
+		{{#each entities}}
+		<li>{{firstName}} {{lastName}}</li>
+		{{/each}}
+	</ul>
+</script>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Region</div>
+	<div class="panel-body">
+		<p>
+			After you've created a dataSet, you can display its data inside a region.
+			A region is an area on a web page that's bound to a dataSource (either
+			a <a href="#data/dataset/getting-started">dataSet</a>
+			or a <a href="#data/detailset/master-details">detailSet</a>).
+			The region displays the records from the dataSource and automatically updates the HTML whenever the data is
+			modified.
+		</p>
+
+		<p>
+			Regions regenerate since they register themselves as <a href="#common/notifier">observers</a> of the
+			dataSources to which they are bound.
+			Whenever data in any of these source is modified (loaded, updated, sorted, filtered, and so on),
+			the dataSources send notifications to all of their observers, triggering an automatic regeneration by the
+			regions.
+		</p>
+
+		<div class="alert alert-info" role="alert">
+			<strong>Heads up!</strong><br>
+			The fields contained inside the context data provided by your dataSource (either a dataSet or
+			detailSet), <a href="#data/region/context">may vary</a>.
+		</div>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Dynamically generate HTML with region and databinding</div>
+	<div class="panel-body">
+
+		<p>
+			To define a region you add some custom attributes to the whatever HTML tag you want to contain it (<a
+				href="#data/region/syntax">see the syntax reference</a>).
+		</p>
+
+		<p>
+			First of all <strong>data-lugaregion="true"</strong> tells the library this tag contains a region.
+		</p>
+
+		<p>
+			The <strong>data-lugaregion-datasource-uuid</strong> attribute must match the dataSet's uuid.
+		</p>
+
+		<p>
+			You also need the <strong>data-lugaregion-template-id</strong> attribute here,
+			since we are using an <a href="#data/region/handlebars"> embed template</a>.
+		</p>
+
+<pre><code class="language-markup">&lt;div data-lugaregion="true"
+	data-lugaregion-datasource-uuid="ladiesDs"
+	data-lugaregion-template-id="ladiesTemplate"&gt;&lt;/div&gt;
+</code></pre>
+
+		<p>
+			Our <a href="http://handlebarsjs.com/">Handlebars</a> template looks like this:
+		</p>
+
+<pre><code class="line-numbers language-markup">&lt;script id="ladiesTemplate" type="text/x-handlebars-template"&gt;
+	&lt;ul class="luga-docs-list"&gt;
+	{{#each entities}}
+		&lt;li&gt;{{firstName}} {{lastName}}&lt;/li&gt;
+	{{/each}}
+	&lt;/ul&gt;
+&lt;/script&gt;
+</code></pre>
+
+		<div data-lugaregion="true" data-lugaregion-datasource-uuid="ladiesDs"
+			 data-lugaregion-template-id="ladiesTemplate"></div>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Region and Handlebars templates</div>
+	<div class="panel-body">
+
+		<p>
+			By default Luga regions use <a href="http://handlebarsjs.com/">Handlebars</a> for templating.
+		</p>
+
+		<p>
+			In case you have special needs or would like to use a different templating engine, you can write <a href="#data/extensibility/custom-region-type">your own region implementation</a>.
+		</p>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Bootstrapping regions</div>
+	<div class="panel-body">
+		<p>
+			The library initializes all the regions contained inside the current document as soon as it's loaded.
+			If the DOM structure is not significantly altered at run-time, you don't need to worry about it.
+			If you are working on a single-page application or if you inject new regions inside the document at run-time,
+			you may want to <a href="#data/region/scripting">programmatically bootstrap one or more region</a>
+		</p>
+	</div>
+</div>

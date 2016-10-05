@@ -9,7 +9,6 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	luga.namespace("luga.ajaxform");
-	luga.ajaxform.version = "0.7.5";
 
 	/* Success and error handlers */
 	luga.namespace("luga.ajaxform.handlers");
@@ -270,9 +269,13 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Attach form handlers to onSubmit events
+	 * @param {jquery|undefined} rootNode  Optional, default to jQuery("body")
 	 */
-	luga.ajaxform.initForms = function(){
-		jQuery(luga.ajaxform.CONST.FORM_SELECTOR).each(function(index, item){
+	luga.ajaxform.initForms = function(rootNode){
+		if(rootNode === undefined){
+			rootNode = jQuery("body");
+		}
+		rootNode.find(luga.ajaxform.CONST.FORM_SELECTOR).each(function(index, item){
 			var formNode = jQuery(item);
 			formNode.submit(function(event){
 				event.preventDefault();

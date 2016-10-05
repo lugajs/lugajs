@@ -65,7 +65,7 @@ describe("luga.data.region.traits", function(){
 
 			it("Does nothing if the dataSource is a detailSet", function(){
 				var testDiv = jQuery("<div><a data-lugaregion-select='selectedRow' href='#'>Test</a></div>");
-				var detailSet = new luga.data.DetailSet({uuid: "detailTest", dataSet: ladiesDs});
+				var detailSet = new luga.data.DetailSet({uuid: "detailTest", parentDataSet: ladiesDs});
 				luga.data.region.traits.select({
 					node: testDiv,
 					dataSource: detailSet

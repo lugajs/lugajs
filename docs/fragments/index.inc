@@ -1,0 +1,93 @@
+<blockquote>
+	<p>Simple things must be simple, hard things must be possible, and you must be able to use part of it without
+		understanding all of it.</p>
+	<footer>Rob Pike</footer>
+</blockquote>
+
+<div class="panel panel-default">
+	<div class="panel-heading">About Luga JS</div>
+	<div class="panel-body">
+
+		<p>
+			Luga JS encompass a set of JavaScript libraries, designed to build form and data centric
+			applications, specialized tools that do few things and try to do them well.
+			Luga JS is not intended and will never be a framework, we believe in keeping our tools small,
+			focused and sharp.
+		</p>
+
+		<p>
+			Luga JS requires jQuery, this doesn't means we believe jQuery is the best JavaScript framework available.
+			We just feel it’s better to use a generic framework for things like XHR, DOM traversing and
+			manipulation, jQuery is very popular, lightweight and well-know.
+		</p>
+
+		<p>Right now the following production ready libraries are available:</p>
+		<ul class="luga-docs-list">
+			<li>
+				<a href="#ajaxform/index" title="Submit forms without page reloads">Ajaxform</a>:
+				turn any HTML &lt;form&gt; into a form that get submitted by XHR, without the need to reload the page
+			</li>
+			<li>
+				<a href="#data/index" title="Dataset and binding">Luga Data</a>:
+				data, binding and dynamically generated HTML
+			</li>
+			<li>
+				<a href="#validator/index" title="Client-side form validation">Validator</a>:
+				client-side form validation
+			</li>
+		</ul>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Unit tests</div>
+	<div class="panel-body">
+		<p>
+			Luga JS contains a comprehensive set of <a href="../test/SpecRunner.htm">unit tests</a>, developed
+			with <a href="https://github.com/jasmine/jasmine">Jasmine</a>
+		</p>
+
+		<p>
+			The unit tests play a fundamental role in ensuring the code is robust and, at the very same time,
+			provide plenty of useful information about the API
+		</p>
+
+		<p>
+			Code coverage is usually around 100%. You can check <a href="../test/coverage/lcov-report/src/index.html">coverage
+			report</a> by yourself
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Browser and jQuery compatibility</div>
+	<div class="panel-body">
+		<p>
+			Luga JS is designed to work in IE9+ and most recent versions of Chrome and FireFox
+		</p>
+
+		<p>
+			The codebase is developed and tested alongside <a href="https://jquery.com/browser-support/">jQuery 2.x</a>.
+			We occasionally test it alongside version 3.x to ensure it's fully forward compatible and it should work
+			just fine on that version too
+		</p>
+
+		<p>
+			If you use jQuery version 1.x instead, you might run without major issues in older browser versions,
+			but please be aware we do not actively test or support this configuration
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">License</div>
+	<div class="panel-body">
+		<p>Luga JS is distributed under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a> license</p>
+
+		<p>
+			The Apache License requires preservation of the copyright notice and disclaimer.
+			The Apache License allows the user of the software the freedom to use the software for any purpose,
+			to distribute it, to modify it, and to distribute modified versions of the software
+		</p>
+	</div>
+</div>

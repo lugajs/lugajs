@@ -26,14 +26,8 @@ describe("luga.data", function(){
 			expect(luga.data.dataSourceRegistry["myDs"]).toEqual(ds);
 		});
 		it("Newly created detailSet", function(){
-			var ds = new luga.data.DetailSet({uuid: "myDs", dataSet: emptyDs});
+			var ds = new luga.data.DetailSet({uuid: "myDs", parentDataSet: emptyDs});
 			expect(luga.data.dataSourceRegistry["myDs"]).toEqual(ds);
-		});
-	});
-
-	describe(".version", function(){
-		it("Reports the current version number", function(){
-			expect(luga.data.version).toBeDefined();
 		});
 	});
 

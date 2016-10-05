@@ -1,0 +1,34 @@
+---------------------------------------------------------------------
+Release 0.9.5
+---------------------------------------------------------------------
+NEW FEATURES:
+* Added luga.data.region.initRegions()
+* luga.validator.initForms now supports an optional rootNode parameter
+* luga.ajaxform.initForms now supports an optional rootNode parameter
+* Added luga.data.region.setUp({
+     autoregister: true|false
+  })
+* Added luga.data.ChildXmlDataSet
+* Added luga.localStorage.retrieve() and luga.localStorage.persist()
+
+NOTES:
+* Documentation is now a SPA
+
+CHANGES:
+* all the libraries now share a unique, common, version number
+* Luga CSI is not part of the project anymore
+* luga.data.Detailset: Renamed config.dataSet to config.masterDataSet
+* jQuery updated to 2.2.4
+
+BUG FIXES:
+* Two bugs on luga.setProperty()
+* Fixed bug in luga.form.utils.getFieldGroup(). Now it works even if the name attribute contains special chars
+* Callback bug on luga.validator.api.validateField()
+
+KNOWN ISSUES:
+* IE9 and CORS: http://stackoverflow.com/questions/10232017/ie9-jquery-ajax-with-cors-returns-access-is-denied
+* Proper release notes started only after release 0.5 :-)
+
+---------------------------------------------------------------------
+Release 0.5
+---------------------------------------------------------------------

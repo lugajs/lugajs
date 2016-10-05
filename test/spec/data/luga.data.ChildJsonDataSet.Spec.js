@@ -2,14 +2,14 @@ describe("luga.data.ChildJsonDataSet", function(){
 
 	"use strict";
 
-	var stateRecords, jsonDs, remoteDs, DEFAULT_TIMEOUT;
+	var stateRecords, masterDs, remoteDs, DEFAULT_TIMEOUT;
 	beforeEach(function(){
 		stateRecords = getJSONFixture("data/usa-states.json");
-		jsonDs = new luga.data.JsonDataSet({uuid: "jsonDs"});
-		jsonDs.insert(stateRecords);
+		masterDs = new luga.data.JsonDataSet({uuid: "masterDs"});
+		masterDs.insert(stateRecords);
 		remoteDs = new luga.data.ChildJsonDataSet({
 			uuid: "remoteDs",
-			parentDataSet: jsonDs,
+			parentDataSet: masterDs,
 			url: "fixtures/data/usa-states-{abbreviation}.json"
 		});
 		DEFAULT_TIMEOUT = 2000;
@@ -24,7 +24,7 @@ describe("luga.data.ChildJsonDataSet", function(){
 	});
 
 	it("Register as observer of its parent dataSet", function(){
-		expect(jsonDs.observers.indexOf(remoteDs)).not.toEqual(-1);
+		expect(masterDs.observers.indexOf(remoteDs)).not.toEqual(-1);
 
 	});
 
@@ -33,7 +33,7 @@ describe("luga.data.ChildJsonDataSet", function(){
 		describe("options.parentDataSet", function(){
 
 			it("Is the parent JsonDataSet", function(){
-				expect(remoteDs.parentDataSet).toEqual(jsonDs);
+				expect(remoteDs.parentDataSet).toEqual(masterDs);
 			});
 			it("Throws an exception if not specified", function(){
 				expect(function(){
@@ -53,7 +53,7 @@ describe("luga.data.ChildJsonDataSet", function(){
 			});
 			it("Throws an exception if not specified", function(){
 				expect(function(){
-					new luga.data.ChildJsonDataSet({uuid: "remoteDs", parentDataSet: jsonDs});
+					new luga.data.ChildJsonDataSet({uuid: "remoteDs", parentDataSet: masterDs});
 				}).toThrow();
 			});
 
@@ -101,7 +101,7 @@ describe("luga.data.ChildJsonDataSet", function(){
 
 		it("Is invoked whenever the masterDataSet's currentRow changes", function(){
 			spyOn(remoteDs, "onCurrentRowChangedHandler");
-			jsonDs.setCurrentRowIndex(2);
+			masterDs.setCurrentRowIndex(2);
 			expect(remoteDs.onCurrentRowChangedHandler).toHaveBeenCalled();
 		});
 
@@ -109,7 +109,7 @@ describe("luga.data.ChildJsonDataSet", function(){
 
 			it("Invokes .fetchData(). Passing the masterDataSet's currentRow", function(){
 				spyOn(remoteDs, "fetchData");
-				jsonDs.setCurrentRowIndex(2);
+				masterDs.setCurrentRowIndex(2);
 				expect(remoteDs.fetchData).toHaveBeenCalledWith(stateRecords[2]);
 			});
 
@@ -120,7 +120,7 @@ describe("luga.data.ChildJsonDataSet", function(){
 			it("Invokes .delete()", function(){
 				spyOn(remoteDs, "fetchData");
 				spyOn(remoteDs, "delete");
-				jsonDs.setCurrentRowId(null);
+				masterDs.setCurrentRowId(null);
 				expect(remoteDs.fetchData).not.toHaveBeenCalled();
 				expect(remoteDs.delete).toHaveBeenCalled();
 			});

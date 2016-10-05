@@ -1,8 +1,3 @@
-/* istanbul ignore if */
-if(typeof(luga.data) === "undefined"){
-	throw("Unable to find Luga Data");
-}
-
 /**
  * @typedef {object} luga.data.DataSet.context
  * @extends luga.data.stateDescription

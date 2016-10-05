@@ -1,5 +1,5 @@
 /*! 
-Luga Common 0.5.2 2016-08-30T06:15:15.177Z
+Luga Common 0.9.5 2016-10-05T14:00:18.703Z
 Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -39,7 +39,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.namespace("luga.common");
-	luga.common.version = "0.5.2";
+	luga.common.version = "0.9.5";
 
 	/**
 	 * Offers a simple solution for inheritance among classes
@@ -560,10 +560,46 @@ if(typeof(luga) === "undefined"){
 		return fields;
 	};
 
-	/* Utilities */
+	luga.namespace("luga.localStorage");
+
+	/**
+	 * Retrieve from localStorage the string corresponding to the given combination of root and path
+	 * Returns undefined if nothing matches the given root/path
+	 * @param {string} root    Top-level key inside localStorage
+	 * @param {string} path    Dot-delimited string
+	 * @returns {*|undefined}
+	 */
+	luga.localStorage.retrieve = function(root, path){
+		return luga.lookupProperty(getRootState(root), path);
+	};
+
+	/**
+	 * Persist the given string inside localStorage, under the given combination of root and path
+	 * The ability to pass a dot-delimited path allow to protect the information from name clashes
+	 * @param {string} root    Top-level key inside localStorage
+	 * @param {string} path    Dot-delimited string
+	 * @param {string} value   String to be persisted
+	 * @returns {*|undefined}
+	 */
+	luga.localStorage.persist = function(root, path, value){
+		var json = getRootState(root);
+		luga.setProperty(json, path, value);
+		setRootState(root, json);
+	};
+
+	var setRootState = function(root, json){
+		localStorage.setItem(root, JSON.stringify(json));
+	};
+
+	var getRootState = function(root){
+		var rootJson = localStorage.getItem(root);
+		if(rootJson === null){
+			return {};
+		}
+		return JSON.parse(rootJson);
+	};
 
 	luga.namespace("luga.string");
-
 
 	/**
 	 * Replace MS Word's non-ISO characters with plausible substitutes
@@ -727,6 +763,7 @@ if(typeof(luga) === "undefined"){
 		var boxId = generateBoxId(jQuery(node));
 		var oldBox = jQuery("#" + boxId);
 		// If an error display is already there, get rid of it
+		/* istanbul ignore else */
 		if(oldBox.length > 0){
 			oldBox.remove();
 		}

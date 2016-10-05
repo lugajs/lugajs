@@ -105,12 +105,6 @@ describe("luga.ajaxform", function(){
 		expect(luga.ajaxform).toBeDefined();
 	});
 
-	describe(".version", function(){
-		it("Reports the current version number", function(){
-			expect(luga.ajaxform.version).toBeDefined();
-		});
-	});
-
 	describe(".CONST", function(){
 
 		it("Contains default values used by the library", function(){
@@ -694,7 +688,7 @@ describe("luga.ajaxform", function(){
 
 		describe("Is a static utility", function(){
 
-			it("Turn HTML forms into Ajaxforms", function(){
+			it("Turn any HTML contained inside the <body> into Ajaxforms", function(){
 
 				var mockSender = {
 					send: function(){}
@@ -704,7 +698,19 @@ describe("luga.ajaxform", function(){
 				luga.ajaxform.initForms();
 				// Simulate click/submit
 				jQuery("*[type=submit]")[0].click();
+				expect(luga.ajaxform.Sender).toHaveBeenCalled();
+			});
 
+			it("Accepts an optional argument as starting node", function(){
+
+				var mockSender = {
+					send: function(){}
+				};
+				spyOn(luga.ajaxform, "Sender").and.returnValues(mockSender, mockSender, mockSender);
+
+				luga.ajaxform.initForms(jQuery(".container"));
+				// Simulate click/submit
+				jQuery("*[type=submit]")[2].click();
 				expect(luga.ajaxform.Sender).toHaveBeenCalled();
 			});
 

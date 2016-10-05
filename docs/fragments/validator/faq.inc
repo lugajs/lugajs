@@ -1,0 +1,83 @@
+<div class="panel panel-default">
+	<div class="panel-heading">Case sensitivity</div>
+	<div class="panel-body">
+		<p>
+			Since it makes heavy use of DOM and JavaScript, everything inside Luga Validator is case sensitive.
+			The whole library has been designed with power users in mind, so it doesn't tolerate sloppy coding
+			(most of the time it will fail silently instead of throwing JavaScript errors)
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">The submit button's value isn't passed to the server-side script</div>
+	<div class="panel-body">
+		<p>
+			By default submit buttons are disabled after the form is submitted. This prevents multiple submits
+			but also prevents the value of the submit buttons from being passed as part of the HTTP request.
+			Set the data-lugavalidator-blocksubmit attribute of the &lt;form&gt; tag to false if you want
+			prevent this behavior
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">The onsubmit event</div>
+	<div class="panel-body">
+		<p>
+			Whenever you set the data-lugavalidator-validate to true, the validation is automatically triggered
+			by the form's onsubmit event.
+			In case you want to execute some other JavaScript code, please use the <a
+				href="#validator/extensibility/handlers-custom">custom handlers</a>.
+			If you attach other code to the onsubmit event, there is no guarantee about the order in which they
+			will be executed and they could conflict with Luga Validator,
+			preventing the validation to be executed at all
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Error messages aren't listed in the correct order</div>
+	<div class="panel-body">
+		<p>
+			Most of the times they will, sometimes they won't, you can't count on it.
+			If you are concerned about this issue, you can display error messages <a
+				href="#validator/extensibility/custom-error">next to their relevant field</a>
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Which browsers are supported?</div>
+	<div class="panel-body">
+		<p>
+			The library is tested with FireFox, Chrome, Safari and IE9+
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">I don't know JavaScript, can I still use it?</div>
+	<div class="panel-body">
+		<p>
+			JavaScript programming knowledge isn't required in order to use the Validator. Some decent
+			understanding of JavaScript can indeed help you out whenever you need to extend it
+		</p>Is it open source?mages as my submit buttons?
+	</div>
+	<div class="panel-body">
+		<p>
+			You can use images or &lt;button&gt; tags as submit buttons, but unlike standard form buttons, the
+			Validator will not disable them after successful validation
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Is it open source?</div>
+	<div class="panel-body">
+		<p>
+			Yes, Luga Validator is distributed under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache
+			2 license</a>
+		</p>
+	</div>
+</div>

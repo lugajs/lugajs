@@ -1,0 +1,182 @@
+<script>
+	(function(){
+		"use strict";
+		var ladiesDs = new luga.data.JsonDataSet({
+			uuid: "ladiesDs",
+			url: "../test/fixtures/data/people.json",
+			path: "ladies"
+		});
+		jQuery(document).ready(function(){
+			ladiesDs.loadData();
+		});
+	}());
+</script>
+
+<script id="ladiesTemplate" type="text/x-handlebars-template">
+	<ul class="luga-docs-list">
+		{{#each entities}}
+		<li>{{firstName}} {{lastName}}</li>
+		{{/each}}
+	</ul>
+</script>
+
+<script id="ladiesTable" type="text/x-handlebars-template" src="templates/people-table.hbs"></script>
+
+<template id="myTemplateTag">
+	<ul class="luga-docs-list">
+		{{#each entities}}
+		<li>{{firstName}} {{lastName}}</li>
+		{{/each}}
+	</ul>
+</template>
+
+<div class="panel panel-default">
+	<div class="panel-heading">HTML templating with Handlebars</div>
+	<div class="panel-body">
+
+		<p>
+			By default Luga regions use <a href="http://handlebarsjs.com/">Handlebars</a> for templating.
+			The template itself can be inline, embed, or external.
+			Pick the option that better suit your needs.
+		</p>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div id="inlineTemplate" class="panel-heading">Inline template</div>
+	<div class="panel-body">
+
+		<p>
+			Inline template is the simplest option, just put Handlebars's code inside the region's HTML tag:
+		</p>
+
+		<div class="alert alert-warning" role="alert">
+			<strong>Warning!</strong><br>
+			You may encounter problems if your inline template contains &lt;table&gt; tags.
+			Certain browsers try to parse and render it. If you need tables, you better use embed or external templates.
+		</div>
+
+<pre><code class="line-numbers language-markup">&lt;div data-lugaregion="true" data-lugaregion-datasource-uuid="ladiesDs"&gt;
+	&lt;ul class="luga-docs-list"&gt;
+		{{#each entities}}
+			&lt;li&gt;{{firstName}} {{lastName}}&lt;/li&gt;
+		{{/each}}
+	&lt;/ul&gt;
+&lt;/div&gt;
+</code></pre>
+
+		<div data-lugaregion="true" data-lugaregion-datasource-uuid="ladiesDs">
+			<ul class="luga-docs-list">
+				{{#each entities}}
+				<li>{{firstName}} {{lastName}}</li>
+				{{/each}}
+			</ul>
+		</div>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div id="embedTemplate" class="panel-heading">Embed template</div>
+	<div class="panel-body">
+
+		<p>
+			An embed template store Handlebar's code in a &lt;script&gt; tag inside the current page.
+			This way it will not be visible and parsed by the browser before the JavaScript code gets executed, it will
+			not be indexed by search engines either.
+		</p>
+
+		<div class="alert alert-warning" role="alert">
+			<strong>Warning!</strong><br>
+			It's critical to add the appropriated type attribute to the &lt;script&gt; tag, this way the browser will
+			not execute it as JavaScript code.
+		</div>
+
+<pre><code class="line-numbers language-markup">&lt;script id="ladiesTemplate" type="text/x-handlebars-template"&gt;
+	&lt;ul class="luga-docs-list"&gt;
+		{{#each entities}}
+			&lt;li&gt;{{firstName}} {{lastName}}&lt;/li&gt;
+		{{/each}}
+	&lt;/ul&gt;
+&lt;/script&gt;
+</code></pre>
+
+		<p>
+			Then you use the data-lugaregion-template-id custom attribute inside the region:
+		</p>
+
+<pre><code class="language-markup">&lt;div data-lugaregion="true"
+	data-lugaregion-datasource-uuid="ladiesDs"
+	data-lugaregion-template-id="ladiesTemplate"&gt;&lt;/div&gt;
+</code></pre>
+
+		<div data-lugaregion="true" data-lugaregion-datasource-uuid="ladiesDs"
+			 data-lugaregion-template-id="ladiesTemplate"></div>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div id="templateTag" class="panel-heading">The &lt;template&gt; tag</div>
+	<div class="panel-body">
+
+		<p>
+			As an alternative you can store Handlebar's code inside a <a
+				href="https://developer.mozilla.org/en/docs/Web/HTML/Element/template">&lt;template&gt;</a>
+		</p>
+
+<pre><code class="line-numbers language-markup">&lt;template id="myTemplateTag"&gt;
+	&lt;ul class="luga-docs-list"&gt;
+		{{#each entities}}
+			&lt;li&gt;{{firstName}} {{lastName}}&lt;/li&gt;
+		{{/each}}
+	&lt;/ul&gt;
+&lt;/template&gt;
+</code></pre>
+
+		<p>
+			Then you use the data-lugaregion-template-id custom attribute inside the region:
+		</p>
+
+<pre><code class="language-markup">&lt;div data-lugaregion="true"
+	data-lugaregion-datasource-uuid="ladiesDs"
+	data-lugaregion-template-id="myTemplateTag"&gt;&lt;/div&gt;
+</code></pre>
+
+		<div data-lugaregion="true" data-lugaregion-datasource-uuid="ladiesDs"
+			 data-lugaregion-template-id="myTemplateTag"></div>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div id="externalTemplate" class="panel-heading">External template</div>
+	<div class="panel-body">
+
+		<p>
+			For better reusability you can store templates inside external files and reference them in a &lt;script&gt;
+			tag:
+		</p>
+
+		<div class="alert alert-warning" role="alert">
+			<strong>Warning!</strong><br>
+			It's critical to add the appropriated type attribute to the &lt;script&gt; tag, this way the browser will
+			not execute it as JavaScript code.
+		</div>
+
+<pre><code class="language-markup">&lt;script id="ladiesTable" type="text/x-handlebars-template" src="../templates/people-table.hbs"&gt;&lt;/script&gt;
+</code></pre>
+
+		<p>
+			Then you use the data-lugaregion-template-id custom attribute inside the region, just like you do for
+			embedded templates:
+		</p>
+
+<pre><code class="language-markup">&lt;div data-lugaregion="true"
+	data-lugaregion-datasource-uuid="ladiesDs"
+	data-lugaregion-template-id="ladiesTable"&gt;&lt;/div&gt;
+</code></pre>
+
+		<div data-lugaregion="true" data-lugaregion-datasource-uuid="ladiesDs"
+			 data-lugaregion-template-id="ladiesTable"></div>
+	</div>
+</div>

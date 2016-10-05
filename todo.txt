@@ -11,13 +11,11 @@ DOCS:
 
 AJAXFORM:
 
-- Make form serializer configurable
+- Make JSON serializer configurable
 - Parse and handle error messages from server
 - Use live service for samples and docs
 - Standardize JSON schema for error messages
 
--------------
-CSI:
 -------------
 COMMON:
 -------------
@@ -25,8 +23,12 @@ COMMON:
 HISTORY:
 
 - Encode/decode fragment?
-- Document implication of pushState regarding the server:
-  https://github.com/flatiron/director#history-api
+
+- Write documentation:
+  Implication of using pushState regarding the server: https://github.com/flatiron/director#history-api
+  Explain how to use pushState on top of SEO <a> links
+
+- Add to distro
 
 -------------
 VALIDATOR:
@@ -52,5 +54,7 @@ luga.data.widgets.PagingBar (needs PagedData)
 - Different GUI styles: Bootstrap, PageList, LinkList
 
 luga.data.widgets.Autosuggest
+
+luga.data.widgets.Tags
 
 -------------
