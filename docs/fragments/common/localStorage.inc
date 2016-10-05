@@ -68,15 +68,6 @@ luga.localStorage.retrieve("myRoot", "test.name"); // => "Ciccio"
 			</td>
 		</tr>
 		<tr>
-			<td>root</td>
-			<td>
-				{string}
-			</td>
-			<td>
-				Top-level key inside localStorage
-			</td>
-		</tr>
-		<tr>
 			<td>value</td>
 			<td>
 				{string}
