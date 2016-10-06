@@ -2,8 +2,6 @@ if(self.location.protocol === "file:"){
 	alert("The documentation is not going to work properly if accessed from a file system. You should use an HTTP server instead.");
 }
 
-luga.namespace("luga.docs");
-
 (function(){
 	"use strict";
 
@@ -111,7 +109,7 @@ luga.namespace("luga.docs");
 
 		};
 
-		var highlightNav = function(fragment){
+		var highlightNav = function(){
 			jQuery(CONST.SELECTORS.NAVIGATION).find("a").each(function(index, item){
 				if(isCurrentFragment(jQuery(item).attr("href"))){
 					jQuery(item).parent().addClass(CONST.CSS_CLASSES.CURRENT);
@@ -130,7 +128,7 @@ luga.namespace("luga.docs");
 	};
 
 	jQuery(document).ready(function(){
-		luga.docs.controller = new Controller();
+		new Controller();
 	});
 
 }());
