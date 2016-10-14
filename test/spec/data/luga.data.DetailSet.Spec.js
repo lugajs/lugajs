@@ -29,10 +29,11 @@ describe("luga.data.DetailSet", function(){
 		expect(jQuery.isFunction(luga.data.DetailSet)).toEqual(true);
 	});
 
-	it("Implements the Notifier interface", function(){
-		expect(jQuery.isFunction(detailSet.addObserver)).toEqual(true);
-		expect(jQuery.isFunction(detailSet.notifyObservers)).toEqual(true);
-		expect(jQuery.isArray(detailSet.observers)).toEqual(true);
+	it("Implements the luga.Notifier interface", function(){
+		var MockNotifier = function(){
+			luga.extend(luga.Notifier, this);
+		};
+		expect(detailSet).toMatchDuckType(new MockNotifier());
 	});
 
 	describe("Accepts an Options object as single argument", function(){
