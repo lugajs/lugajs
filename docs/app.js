@@ -9,7 +9,7 @@ if(self.location.protocol === "file:"){
 
 		var CONST = {
 			TITLE_ROOT: "Luga",
-			TITLE_SEPARATOR : " :: ",
+			TITLE_SEPARATOR: " :: ",
 			CSS_CLASSES: {
 				CURRENT: "current"
 			},
@@ -30,14 +30,14 @@ if(self.location.protocol === "file:"){
 
 		var init = function(){
 			initRouter();
-			if(router.resolve(router.normalizeHash(location.hash)) === false){
-				// Current hash is not resolved, load default content
-				loadPage(CONST.DEFAULT_INCLUDE_ID);
-			}
+			router.resolve(router.normalizeHash(location.hash));
 		};
 
 		var initRouter = function(){
 			router.add("{lib}/:section::page:", routeResolver);
+			router.add(":catchall:", function(){
+				loadPage(CONST.DEFAULT_INCLUDE_ID);
+			});
 			router.start();
 		};
 
@@ -76,36 +76,36 @@ if(self.location.protocol === "file:"){
 			var fragmentUrl = CONST.INCLUDES_PATH + id + CONST.INCLUDES_SUFFIX;
 
 			jQuery.ajax(fragmentUrl)
-					.done(function(response, textStatus, jqXHR){
-						// Read include and inject content
-						jQuery(CONST.SELECTORS.CONTENT).html(jqXHR.responseText);
+				.done(function(response, textStatus, jqXHR){
+					// Read include and inject content
+					jQuery(CONST.SELECTORS.CONTENT).html(jqXHR.responseText);
 
-						// Bootstrap libs
-						luga.ajaxform.initForms();
-						luga.data.region.initRegions();
-						luga.validator.initForms();
-						Prism.highlightAll();
+					// Bootstrap libs
+					luga.ajaxform.initForms();
+					luga.data.region.initRegions();
+					luga.validator.initForms();
+					Prism.highlightAll();
 
-					})
-					.fail(function(){
-						// TODO: implement error handling
-						console.log("Error loading documentation fragment");
-					});
+				})
+				.fail(function(){
+					// TODO: implement error handling
+					console.log("Error loading documentation fragment");
+				});
 
 		};
 
 		var loadNavigation = function(id, fragment){
 			var fragmentUrl = CONST.INCLUDES_PATH + id + "/" + CONST.LOCAL_NAV_ID;
 			jQuery.ajax(fragmentUrl)
-					.done(function(response, textStatus, jqXHR){
-						// Read include and inject content
-						jQuery(CONST.SELECTORS.NAVIGATION).html(jqXHR.responseText);
-						highlightNav(fragment);
-					})
-					.fail(function(){
-						// TODO: implement error handling
-						console.log("Error loading navigation");
-					});
+				.done(function(response, textStatus, jqXHR){
+					// Read include and inject content
+					jQuery(CONST.SELECTORS.NAVIGATION).html(jqXHR.responseText);
+					highlightNav(fragment);
+				})
+				.fail(function(){
+					// TODO: implement error handling
+					console.log("Error loading navigation");
+				});
 
 		};
 
@@ -119,7 +119,7 @@ if(self.location.protocol === "file:"){
 
 		var isCurrentFragment = function(href){
 			var tokens = href.split("/");
-			var destination = tokens[tokens.length -2] + "/" + tokens[tokens.length -1];
+			var destination = tokens[tokens.length - 2] + "/" + tokens[tokens.length - 1];
 			return location.href.indexOf(destination) > 0;
 		};
 
