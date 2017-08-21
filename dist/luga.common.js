@@ -1,6 +1,6 @@
 /*! 
-Luga Common 0.9.5 2016-10-05T14:00:18.703Z
-Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
+Luga Common 0.9.5 2017-08-21T16:11:15.992Z
+Copyright 2013-2017 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
 /* globals ActiveXObject */
@@ -363,7 +363,7 @@ if(typeof(luga) === "undefined"){
 	 * @returns {object}              A JavaScript object containing name/value pairs
 	 * @throws {Exception}
 	 */
-	luga.form.toHash = function(rootNode, demoronize){
+	luga.form.toMap = function(rootNode, demoronize){
 
 		if(rootNode.length === 0){
 			throw(luga.form.CONST.MESSAGES.MISSING_FORM);
@@ -414,6 +414,14 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
+	 * Deprecated. Use luga.form.toMap() instead
+	 * @deprecated
+	 */
+	luga.form.toHash = function(rootNode, demoronize){
+		return luga.form.toMap(rootNode, demoronize);
+	};
+
+	/**
 	 * Given a form tag or another element wrapping input fields, serialize their value into JSON data
 	 * If fields names contains dots, their are handled as nested properties
 	 * Only fields considered successful are returned:
@@ -422,7 +430,7 @@ if(typeof(luga) === "undefined"){
 	 * @returns {json}
 	 */
 	luga.form.toJson = function(rootNode){
-		var flatData = luga.form.toHash(rootNode);
+		var flatData = luga.form.toMap(rootNode);
 		var jsonData = {};
 		for(var x in flatData){
 			luga.setProperty(jsonData, x, flatData[x]);

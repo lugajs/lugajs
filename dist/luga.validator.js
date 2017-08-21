@@ -1,6 +1,6 @@
 /*! 
-Luga Validator 0.9.5 2016-10-05T14:00:18.707Z
-Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
+Luga Validator 0.9.5 2017-08-21T16:11:15.994Z
+Copyright 2013-2017 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
 /* globals alert */

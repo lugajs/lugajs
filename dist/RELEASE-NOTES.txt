@@ -2,13 +2,13 @@
 Release
 ---------------------------------------------------------------------
 NEW FEATURES:
-*
+* Added luga.form.toMap() to replace luga.form.toHash()
 
 NOTES:
 *
 
 CHANGES:
-*
+* luga.form.toHash() is deprecated
 
 BUG FIXES:
 *
