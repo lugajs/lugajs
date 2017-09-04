@@ -14,22 +14,6 @@
 </div>
 
 <div class="panel panel-default">
-	<div class="panel-heading">Unit test</div>
-	<div class="panel-body">
-		<p>
-			Luga Ajaxform contains a comprehensive set of <a
-				href="../test/SpecRunner.htm?spec=luga.ajaxform">unit tests</a>, developed with <a
-				href="https://github.com/jasmine/jasmine">Jasmine</a>
-		</p>
-
-		<p>
-			The unit tests play a fundamental role in ensuring the code is robust and, at the very same time,
-			provide plenty of useful information about the API
-		</p>
-	</div>
-</div>
-
-<div class="panel panel-default">
 	<div class="panel-heading">History</div>
 	<div class="panel-body">
 		<p>
