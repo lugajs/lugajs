@@ -8,7 +8,7 @@ if(self.location.protocol === "file:"){
 	var Controller = function(){
 
 		var CONST = {
-			TITLE_ROOT: "Luga",
+			TITLE_ROOT: "Luga JS",
 			TITLE_SEPARATOR: " :: ",
 			CSS_CLASSES: {
 				CURRENT: "current"
