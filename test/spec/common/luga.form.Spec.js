@@ -91,6 +91,14 @@ describe("luga.form", function(){
 			expect(luga.form.toHash).toBeDefined();
 		});
 
+		it("It's just an alias to .toMap()", function(){
+			loadFixtures("form/common.htm");
+			var formNode = jQuery("#multiSelect");
+			spyOn(luga.form, "toMap").and.callThrough();
+			luga.form.toHash(formNode);
+			expect(luga.form.toMap).toHaveBeenCalledWith(formNode, undefined);
+		});
+
 	});
 
 	describe(".toJson()", function(){
