@@ -1,8 +1,11 @@
-- Decouple luga.core
 - Update Bootstrap to 4.x
 - Update jQuery to 3.x
+- Add utility for NodeIterator
+  https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
 
 DOCS:
+
+- Add luga.string.queryToMap()
 
 - Luga.data: search sample (need REST endpoint)
 - Luga.data: examples with event delegation:
