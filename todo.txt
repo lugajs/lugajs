@@ -1,4 +1,6 @@
 - Decouple luga.core
+- Update Bootstrap to 4.x
+- Update jQuery to 3.x
 
 DOCS:
 
