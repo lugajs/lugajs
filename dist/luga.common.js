@@ -1,5 +1,5 @@
 /*! 
-Luga Common 0.9.5 2017-08-21T16:11:15.992Z
+Luga Common 0.9.6 2017-09-25T21:52:44.290Z
 Copyright 2013-2017 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -39,7 +39,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.namespace("luga.common");
-	luga.common.version = "0.9.5";
+	luga.common.version = "0.9.6";
 
 	/**
 	 * Offers a simple solution for inheritance among classes
@@ -672,7 +672,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {string} str  The querystring
 	 * @returns {object}
 	 */
-	luga.string.queryToHash = function(str){
+	luga.string.queryToMap = function(str){
 		var map = {};
 		if(str.charAt(0) === "?"){
 			str = str.substring(1);

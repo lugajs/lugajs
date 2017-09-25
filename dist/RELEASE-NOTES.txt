@@ -3,6 +3,7 @@ Release
 ---------------------------------------------------------------------
 NEW FEATURES:
 * Added luga.form.toMap() to replace luga.form.toHash()
+* Added luga.string.queryToMap
 
 NOTES:
 *

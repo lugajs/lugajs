@@ -34,7 +34,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.namespace("luga.common");
-	luga.common.version = "0.9.5";
+	luga.common.version = "0.9.6";
 
 	/**
 	 * Offers a simple solution for inheritance among classes
@@ -667,7 +667,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {string} str  The querystring
 	 * @returns {object}
 	 */
-	luga.string.queryToHash = function(str){
+	luga.string.queryToMap = function(str){
 		var map = {};
 		if(str.charAt(0) === "?"){
 			str = str.substring(1);

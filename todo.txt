@@ -5,8 +5,6 @@
 
 DOCS:
 
-- Add luga.string.queryToMap()
-
 - Luga.data: search sample (need REST endpoint)
 - Luga.data: examples with event delegation:
   https://api.jquery.com/on/#direct-and-delegated-events
