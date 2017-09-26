@@ -1,3 +1,4 @@
+- Move from JSHint to ESlint
 - Update Bootstrap to 4.x
 - Update jQuery to 3.x
 - Add utility for NodeIterator
