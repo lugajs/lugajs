@@ -21,6 +21,7 @@ module.exports = function(config){
 			"test/fixtures.karma.config.js",
 
 			// Source files
+			// Some of these must be loaded in aspecific order
 			"src/luga.common.js",
 			"src/luga.data.core.js",
 			"src/luga.data.region.js",
