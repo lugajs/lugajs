@@ -105,6 +105,43 @@
 }());
 </code></pre>
 
+		<p>
+			The templates code:
+		</p>
+
+<pre><code class="line-numbers language-markup">&lt;script id="masterTemplate" type="text/x-handlebars-template"&gt;
+	{{#if isStateLoading}}
+	Loading master data...
+	{{/if}}
+	&lt;ul class="luga-docs-list"&gt;
+		{{#each entities}}
+		&lt;li&gt;
+			&lt;a href="#" data-lugaregion-setrowid="{{lugaRowId}}"
+			   data-lugaregion-select="luga-docs-selected"&gt;{{name}}&lt;/a&gt;
+		&lt;/li&gt;
+		{{/each}}
+	&lt;/ul&gt;
+&lt;/script&gt;
+
+&lt;script id="detailsTemplate" type="text/x-handlebars-template"&gt;
+	{{#if isStateLoading}}
+	Loading details data...
+	{{/if}}
+	{{#if isStateReady}}
+	{{#each entities}}
+	&lt;img src="{{images_thumbnail}}"&gt;
+	&lt;ul class="luga-docs-list"&gt;
+			&lt;li&gt;Name: {{name}}&lt;/li&gt;
+		&lt;/ul&gt;
+	&lt;img height="200" width="200" src="{{thumbnail}}"&gt;
+	&lt;p&gt;
+			{{description}}
+		&lt;/p&gt;
+	{{/each}}
+	{{/if}}
+&lt;/script&gt;
+</code></pre>
+
 	</div>
 </div>
 
