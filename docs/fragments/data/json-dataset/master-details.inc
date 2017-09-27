@@ -128,16 +128,16 @@
 	Loading details data...
 	{{/if}}
 	{{#if isStateReady}}
-	{{#each entities}}
-	&lt;img src="{{images_thumbnail}}"&gt;
-	&lt;ul class="luga-docs-list"&gt;
+		{{#each entities}}
+		&lt;img src="{{images_thumbnail}}"&gt;
+		&lt;ul class="luga-docs-list"&gt;
 			&lt;li&gt;Name: {{name}}&lt;/li&gt;
 		&lt;/ul&gt;
-	&lt;img height="200" width="200" src="{{thumbnail}}"&gt;
-	&lt;p&gt;
+		&lt;img height="200" width="200" src="{{thumbnail}}"&gt;
+		&lt;p&gt;
 			{{description}}
 		&lt;/p&gt;
-	{{/each}}
+		{{/each}}
 	{{/if}}
 &lt;/script&gt;
 </code></pre>
