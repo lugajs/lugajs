@@ -2,16 +2,15 @@
 	(function(){
 		"use strict";
 
-		var BASE_URL = "https://gxabmxeqzc.execute-api.us-east-1.amazonaws.com/stage/showreel";
 		var master = new luga.data.JsonDataSet({
 			uuid: "masterDs",
 			path: "result",
-			url: BASE_URL + "/characters?offset=5"
+			url: "https://heroes.stage.waylon.cloud/v1/search/character?offset=0&limit=10"
 		});
 		var details = new luga.data.ChildJsonDataSet({
 			uuid: "detailDs",
 			parentDataSet: master,
-			url: BASE_URL + "/characters/{uuid}"
+			url: "https://heroes.stage.waylon.cloud/v1/character/{uuid}"
 		});
 
 		jQuery(document).ready(function(){
@@ -43,10 +42,8 @@
 		<img src="{{images_thumbnail}}">
 		<ul class="luga-docs-list">
 			<li>Name: {{name}}</li>
-			<li>Real name: {{realName}}</li>
-			<li>Gender: {{gender}}</li>
-			<li>Publisher: {{publisher}}</li>
 		</ul>
+		<img height="200" width="200" src="{{thumbnail}}">
 		<p>
 			{{description}}
 		</p>
@@ -61,7 +58,7 @@
 		<div role="alert" class="alert alert-warning">
 			<strong>Warning!</strong><br>
 			If your REST endpoint returns all the required info for your master-details within one HTTP request,
-			you better use a <a href="../detailset/master-details.htm">DetailSet</a>.
+			you better use a <a href="#data/detailset/master-details">DetailSet</a>.
 		</div>
 
 		<p>
@@ -90,16 +87,16 @@
 
 <pre><code class="line-numbers language-javascript">(function(){
 	"use strict";
-	var BASE_URL = "https://gxabmxeqzc.execute-api.us-east-1.amazonaws.com/stage/showreel";
 	var master = new luga.data.JsonDataSet({
 		uuid: "masterDs",
 		path: "result",
-		url: BASE_URL + "/characters?offset=5"
+		url: "https://heroes.stage.waylon.cloud/v1/search/character?offset=0&limit=10"
 	});
 	var details = new luga.data.ChildJsonDataSet({
 		uuid: "detailDs",
 		parentDataSet: master,
-		url: BASE_URL + "/characters/{uuid}"
+		url: "https://heroes.stage.waylon.cloud/v1/character/{uuid}"
+
 	});
 
 	jQuery(document).ready(function(){
