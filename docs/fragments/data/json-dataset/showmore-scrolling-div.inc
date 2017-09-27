@@ -2,10 +2,10 @@
 	(function(){
 		"use strict";
 
-		var BASE_URL = "https://gxabmxeqzc.execute-api.us-east-1.amazonaws.com/stage/showreel";
+		var BASE_URL = "https://heroes.stage.waylon.cloud/v1/search/character";
 		var master = new luga.data.JsonDataSet({
 			uuid: "masterDs",
-			url: BASE_URL + "/characters?offset=200",
+			url: BASE_URL + "/?offset=0&limit=200",
 			path: "result",
 			timeout: 20000,
 			incrementalLoad: true
@@ -15,7 +15,7 @@
 			new luga.data.widgets.ShowMoreScrolling({
 				node: jQuery("#characters"),
 				dataSet: master,
-				url: BASE_URL + "/characters?offset=200&startKey={lastKey}"
+				url: BASE_URL + "/?offset={lastOffset}&limit=200"
 			});
 			master.loadData();
 		});
@@ -42,8 +42,7 @@
 	<div class="panel-body">
 
 		<p>
-			So you want to implement an <a
-				href="https://www.smashingmagazine.com/2013/05/infinite-scrolling-lets-get-to-the-bottom-of-this/">infinite
+			So you want to implement an <a href="https://www.smashingmagazine.com/2013/05/infinite-scrolling-lets-get-to-the-bottom-of-this/">infinite
 			scrolling</a> GUI,
 			fetching just a bunch of records at time?
 			The ShowMoreScrolling widget offers that capability and you can see it in action here (fetching 200 records
@@ -87,10 +86,10 @@
 <pre><code class="line-numbers language-javascript">(function(){
 	"use strict";
 
-	var BASE_URL = "https://gxabmxeqzc.execute-api.us-east-1.amazonaws.com/stage/showreel";
+	var BASE_URL = "https://heroes.stage.waylon.cloud/v1/search/character";
 	var master = new luga.data.JsonDataSet({
 		uuid: "masterDs",
-		url: BASE_URL + "/characters?offset=200",
+		url: BASE_URL + "/?offset=0&limit=200",
 		path: "result",
 		timeout: 20000,
 		incrementalLoad: true
@@ -100,7 +99,7 @@
 		new luga.data.widgets.ShowMoreScrolling({
 			node: jQuery("#characters"),
 			dataSet: master,
-			url: BASE_URL + "/characters?offset=200&startKey={lastKey}"
+			url: BASE_URL + "/?offset={lastOffset}&limit=200"
 		});
 		master.loadData();
 	});
