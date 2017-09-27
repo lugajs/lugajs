@@ -6,7 +6,8 @@
 
 DOCS:
 
-- Luga.data: search sample (need REST endpoint)
+- Luga.data: search sample:
+  https://heroes.dev.waylon.cloud/v1/search/character?offset=0&limit=10&name=byss
 - Luga.data: explain filters for calculated fields
 - Luga.data: examples with event delegation:
   https://api.jquery.com/on/#direct-and-delegated-events
@@ -59,6 +60,7 @@ luga.data.widgets.PagingBar (needs PagedData)
 - Different GUI styles: Bootstrap, PageList, LinkList
 
 luga.data.widgets.Autosuggest
+  https://heroes.dev.waylon.cloud/v1/search/character?offset=0&limit=10&name=byss
 
 luga.data.widgets.Tags
 
