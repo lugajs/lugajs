@@ -13,6 +13,9 @@
   "main": [
     "dist/luga.min.js"
   ],
+  "moduleType": [
+    "globals"
+  ],
   "dependencies": {
     "jquery": ">=2",
     "handlebars": ">=4"
