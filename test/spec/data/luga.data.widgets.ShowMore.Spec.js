@@ -238,7 +238,7 @@ describe("luga.data.widgets", function(){
 
 	describe(".ShowMoreButton", function(){
 
-		it("Implements the luga.data.region.Base abstract class", function(){
+		it("Implements the luga.data.widgets.ShowMore abstract class", function(){
 			expect(showMoreButton).toMatchDuckType(showMoreBase);
 		});
 
@@ -303,7 +303,7 @@ describe("luga.data.widgets", function(){
 
 	describe(".ShowMoreScrolling", function(){
 
-		it("Implements the luga.data.region.Base abstract class", function(){
+		it("Implements the luga.data.widgets.ShowMore abstract class", function(){
 			expect(showMoreScrollBody).toMatchDuckType(showMoreBase);
 		});
 
