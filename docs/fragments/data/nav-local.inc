@@ -19,7 +19,7 @@
 		<a href="#data/dataset/filter">Filtering</a>
 	</li>
 	<li class="list-group-item">
-		<a href="#data/dataset/formatter">Formatting</a>
+		<a href="#data/dataset/formatter">Formatting and calculated fields</a>
 	</li>
 	<li class="list-group-item">
 		<a href="#data/dataset/sort">Sorting</a>
