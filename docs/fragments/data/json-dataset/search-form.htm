@@ -1,0 +1,126 @@
+<script>
+	(function(){
+		"use strict";
+
+		var BASE_URL = "https://heroes.stage.waylon.cloud/v1/search/character?offset=0&limit=10&";
+		var results = new luga.data.JsonDataSet({
+			uuid: "resultsDs",
+			path: "result",
+			url: BASE_URL
+		});
+
+		jQuery(document).ready(function(){
+			results.loadData();
+
+			jQuery("#searchForm").on("submit", function(event){
+				event.preventDefault();
+				var searchQuery = luga.form.toQueryString(this);
+				results.setUrl(BASE_URL + searchQuery);
+				results.loadData();
+			});
+
+		});
+
+	}());
+</script>
+
+<script id="resultsDsTemplate" type="text/x-handlebars-template">
+	{{#if isStateLoading}}
+		Loading results...
+	{{/if}}
+	{{#if isStateReady}}
+		Record count: <span class="badge">{{recordCount}}</span>
+		<ul class="luga-docs-list">
+			{{#each entities}}
+				<li>{{name}}</li>
+			{{/each}}
+		</ul>
+	{{/if}}
+</script>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Sample search form (showing 10 records at most)</div>
+	<div class="panel-body">
+
+		<form class="form-inline" id="searchForm">
+			<div class="form-group">
+				<input type="text" class="form-control" name="name" placeholder="type hero name">
+			</div>
+			<button type="submit" class="btn btn-info">Search</button>
+		</form>
+
+		<div data-lugaregion="true"
+			 data-lugaregion-datasource-uuid="resultsDs"
+			 data-lugaregion-template-id="resultsDsTemplate"></div>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">The code</div>
+	<div class="panel-body">
+
+		<p>
+			Initially the dataset point to a url that contains no search parameters.
+			Once the form is submitted, the dataset is pointed to a different url that reflect the search parameters.
+		</p>
+
+<pre><code class="line-numbers language-javascript">(function(){
+	"use strict";
+
+	var BASE_URL = "https://heroes.stage.waylon.cloud/v1/search/character?offset=0&limit=10&";
+	var results = new luga.data.JsonDataSet({
+		uuid: "resultsDs",
+		path: "result",
+		url: BASE_URL
+	});
+
+	jQuery(document).ready(function(){
+		results.loadData();
+
+		jQuery("#searchForm").on("submit", function(event){
+			event.preventDefault();
+			// Serialize the form into a querysTring
+			var searchQuery = luga.form.toQueryString(this);
+			// Point to the search url
+			results.setUrl(BASE_URL + searchQuery);
+			// Reload data
+			results.loadData();
+		});
+
+	});
+
+}());
+</code></pre>
+
+		<p>HTML and Handlebars code:</p>
+
+<pre><code class="line-numbers language-markup">&lt;script id="resultsDsTemplate" type="text/x-handlebars-template"&gt;
+	{{#if isStateLoading}}
+		Loading results...
+	{{/if}}
+	{{#if isStateReady}}
+		Record count: &lt;span class="badge"&gt;{{recordCount}}&lt;/span&gt;
+		&lt;ul class="luga-docs-list"&gt;
+			{{#each entities}}
+				&lt;li&gt;{{name}}&lt;/li&gt;
+			{{/each}}
+		&lt;/ul&gt;
+	{{/if}}
+&lt;/script&gt;
+	
+&lt;form class="form-inline" id="searchForm"&gt;
+	&lt;div class="form-group"&gt;
+		&lt;input type="text" class="form-control" name="name" placeholder="type hero name"&gt;
+	&lt;/div&gt;
+	&lt;button type="submit" class="btn btn-info"&gt;Search&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;div data-lugaregion="true"
+	 data-lugaregion-datasource-uuid="resultsDs"
+	 data-lugaregion-template-id="resultsDsTemplate"&gt;&lt;/div&gt;
+</code></pre>
+
+
+	</div>
+</div>

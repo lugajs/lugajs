@@ -10,9 +10,7 @@
 
 DOCS:
 
-- Luga.data: search sample:
-  https://heroes.dev.waylon.cloud/v1/search/character?offset=0&limit=10&name=byss
-- Luga.data: examples with event delegation:
+- Luga.data: examples of region with event delegation:
   https://api.jquery.com/on/#direct-and-delegated-events
   https://learn.jquery.com/events/event-delegation/
 
