@@ -125,6 +125,11 @@
 				href="https://developer.mozilla.org/en/docs/Web/HTML/Element/template">&lt;template&gt;</a>
 		</p>
 
+		<div class="alert alert-warning" role="alert">
+			<strong>Warning!</strong><br>
+			Some older browser may have problems handling &lt;template&gt; tag. Be careful and test on all your target browsers.
+		</div>
+
 <pre><code class="line-numbers language-markup">&lt;template id="myTemplateTag"&gt;
 	&lt;ul class="luga-docs-list"&gt;
 		{{#each entities}}

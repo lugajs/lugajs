@@ -1,4 +1,23 @@
 ---------------------------------------------------------------------
+Release
+---------------------------------------------------------------------
+NEW FEATURES:
+* Added luga.form.toMap() to replace luga.form.toHash()
+* Added luga.string.queryToMap
+
+NOTES:
+*
+
+CHANGES:
+* luga.form.toHash() is deprecated
+
+BUG FIXES:
+*
+
+KNOWN ISSUES:
+* 
+
+---------------------------------------------------------------------
 Release 0.9.5
 ---------------------------------------------------------------------
 NEW FEATURES:

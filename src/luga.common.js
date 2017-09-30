@@ -34,7 +34,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.namespace("luga.common");
-	luga.common.version = "0.9.5";
+	luga.common.version = "0.9.6dev";
 
 	/**
 	 * Offers a simple solution for inheritance among classes
@@ -240,19 +240,19 @@ if(typeof(luga) === "undefined"){
 		 *
 		 * @method
 		 * @param {string}  eventName  Name of the event
-		 * @param {object}  data       Object containing data to be passed from the point of notification to all interested observers.
+		 * @param {object}  payload    Object containing data to be passed from the point of notification to all interested observers.
 		 *                             If there is no relevant data to pass, use an empty object.
 		 * @throws {Exception}
 		 */
-		this.notifyObservers = function(eventName, data){
-			if(luga.type(data) !== "object"){
+		this.notifyObservers = function(eventName, payload){
+			if(luga.type(payload) !== "object"){
 				throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_DATA_PARAMETER);
 			}
 			var method = generateMethodName(eventName);
 			for(var i = 0; i < this.observers.length; i++){
 				var observer = this.observers[i];
 				if(observer[method] && luga.isFunction(observer[method])){
-					observer[method](data);
+					observer[method](payload);
 				}
 			}
 		};
@@ -358,7 +358,7 @@ if(typeof(luga) === "undefined"){
 	 * @returns {object}              A JavaScript object containing name/value pairs
 	 * @throws {Exception}
 	 */
-	luga.form.toHash = function(rootNode, demoronize){
+	luga.form.toMap = function(rootNode, demoronize){
 
 		if(rootNode.length === 0){
 			throw(luga.form.CONST.MESSAGES.MISSING_FORM);
@@ -409,6 +409,14 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
+	 * Deprecated. Use luga.form.toMap() instead
+	 * @deprecated
+	 */
+	luga.form.toHash = function(rootNode, demoronize){
+		return luga.form.toMap(rootNode, demoronize);
+	};
+
+	/**
 	 * Given a form tag or another element wrapping input fields, serialize their value into JSON data
 	 * If fields names contains dots, their are handled as nested properties
 	 * Only fields considered successful are returned:
@@ -417,7 +425,7 @@ if(typeof(luga) === "undefined"){
 	 * @returns {json}
 	 */
 	luga.form.toJson = function(rootNode){
-		var flatData = luga.form.toHash(rootNode);
+		var flatData = luga.form.toMap(rootNode);
 		var jsonData = {};
 		for(var x in flatData){
 			luga.setProperty(jsonData, x, flatData[x]);
@@ -659,7 +667,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {string} str  The querystring
 	 * @returns {object}
 	 */
-	luga.string.queryToHash = function(str){
+	luga.string.queryToMap = function(str){
 		var map = {};
 		if(str.charAt(0) === "?"){
 			str = str.substring(1);

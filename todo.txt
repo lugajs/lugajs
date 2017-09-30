@@ -1,9 +1,16 @@
-- Decouple luga.core
+- Move from JSHint to ESlint
+
+- Update Bootstrap to 4.x
+- Update jQuery to 3.x
+
+- Add utility for NodeIterator
+  https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
+
+- Add second, optional argument to addObserver(observer, eventName)
 
 DOCS:
 
-- Luga.data: search sample (need REST endpoint)
-- Luga.data: examples with event delegation:
+- Luga.data: examples of region with event delegation:
   https://api.jquery.com/on/#direct-and-delegated-events
   https://learn.jquery.com/events/event-delegation/
 
@@ -37,7 +44,6 @@ VALIDATOR:
 DATA:
 
 luga.data.DataSet:
-- Allow custom sorter for complex objects
 - Local storage persistence
 
 luga.data.PagedData:
@@ -54,6 +60,7 @@ luga.data.widgets.PagingBar (needs PagedData)
 - Different GUI styles: Bootstrap, PageList, LinkList
 
 luga.data.widgets.Autosuggest
+  https://heroes.dev.waylon.cloud/v1/search/character?offset=0&limit=10&name=byss
 
 luga.data.widgets.Tags
 

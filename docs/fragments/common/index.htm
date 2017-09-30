@@ -9,22 +9,6 @@
 </div>
 
 <div class="panel panel-default">
-	<div class="panel-heading">Unit tests</div>
-	<div class="panel-body">
-		<p>
-			Luga JS contains a comprehensive set of <a href="../test/SpecRunner.htm">unit tests</a>,
-			developed
-			with <a href="https://github.com/jasmine/jasmine">Jasmine</a>
-		</p>
-
-		<p>
-			The unit tests play a fundamental role in ensuring the code is robust and, at the very same time,
-			provide plenty of useful information about the API
-		</p>
-	</div>
-</div>
-
-<div class="panel panel-default">
 	<div class="panel-heading">Getting started</div>
 	<div class="panel-body">
 		<p>Include the JavaScript files. First jQuery, then <a href="../dist/luga.common.min.js">Luga Common</a>

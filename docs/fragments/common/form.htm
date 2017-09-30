@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-	<div class="panel-heading luga-docs-api-heading">luga.form.toHash(rootNode, demoronize)</div>
+	<div class="panel-heading luga-docs-api-heading">luga.form.toMap(rootNode, demoronize)</div>
 	<div class="panel-body">
 		Returns a JavaScript object containing name/value pairs from fields contained inside a given root node.
 		Only fields considered successful are returned: <br>
@@ -46,7 +46,7 @@
 	&lt;input type="submit"/&gt;
 &lt;/form&gt;</code></pre>
 
-<pre><code class="language-javascript">luga.form.toHash(jQuery("#basicValue"));
+<pre><code class="language-javascript">luga.form.toMap(jQuery("#basicValue"));
 // => { firstname: "ciccio", lastname: "pasticcio", radio: "yes" }</code></pre>
 
 </div>

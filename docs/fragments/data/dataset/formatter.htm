@@ -62,7 +62,7 @@
 		</div>
 
 		<div class="panel panel-default">
-			<div class="panel-heading">Use formatter to add data</div>
+			<div class="panel-heading">Use formatter to add calculated fields</div>
 			<div class="panel-body">
 				<p>
 					Sometimes you have data that is not suited for a GUI.
@@ -102,7 +102,7 @@ var ladies = new luga.data.JsonDataSet({
 </code></pre>
 				
 				<p>
-					The template can use the additional field added by the formatter:
+					The template can use the "birthDateFormatted" field added by the formatter:
 				</p>
 				
 <pre><code class="line-numbers language-markup">&lt;table class="table table-bordered table-striped"&gt;

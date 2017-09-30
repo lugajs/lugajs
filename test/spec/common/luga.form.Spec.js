@@ -47,39 +47,56 @@ describe("luga.form", function(){
 
 	});
 
-	describe(".toHash()", function(){
+	describe(".toMap()", function(){
 
 		beforeEach(function(){
 			loadFixtures("form/common.htm");
 		});
 
 		it("Return a JavaScript object containing name/value pairs from fields contained inside a given node", function(){
-			expect(luga.form.toHash(jQuery("#basicValue"))).toEqual({firstname: "ciccio", lastname: "pasticcio", radio: "yes"});
-			expect(luga.form.toHash(jQuery("#basicNoValue"))).toEqual({firstname: "", lastname: ""});
+			expect(luga.form.toMap(jQuery("#basicValue"))).toEqual({firstname: "ciccio", lastname: "pasticcio", radio: "yes"});
+			expect(luga.form.toMap(jQuery("#basicNoValue"))).toEqual({firstname: "", lastname: ""});
 		});
 
 		it("Throws an exception if the given node does not exists", function(){
 			expect(function(){
-				luga.form.toHash(jQuery("#missing"));
+				luga.form.toMap(jQuery("#missing"));
 			}).toThrow();
 		});
 
 		it("Ignores unsuccessful fields", function(){
-			expect(luga.form.toHash(jQuery("#unsuccessfulFields"))).toEqual({firstname: "ciccio"});
+			expect(luga.form.toMap(jQuery("#unsuccessfulFields"))).toEqual({firstname: "ciccio"});
 		});
 
 		it("Values of multiple checked checkboxes are included as a single entry, with array value", function(){
-			expect(luga.form.toHash(jQuery("#multiBox"))).toEqual({firstname: "ciccio", box: ["first", "second", "fourth"]});
+			expect(luga.form.toMap(jQuery("#multiBox"))).toEqual({firstname: "ciccio", box: ["first", "second", "fourth"]});
 		});
 
 		it("Values of multiple select are included as a single entry, with comma-delimited value", function(){
-			expect(luga.form.toHash(jQuery("#multiSelect"))).toEqual({firstname: "ciccio", select: ["first", "second"]});
+			expect(luga.form.toMap(jQuery("#multiSelect"))).toEqual({firstname: "ciccio", select: ["first", "second"]});
 		});
 
 		it("If the second argument is set to true, MS Word's special chars are replaced with plausible substitutes", function(){
 			var moronicStr = String.fromCharCode(8230);
 			jQuery("#moronicValue").val(moronicStr);
-			expect(luga.form.toHash(jQuery("#moronicForm"), true)).toEqual({firstname: "ciccio", moronicValue: "..."});
+			expect(luga.form.toMap(jQuery("#moronicForm"), true)).toEqual({firstname: "ciccio", moronicValue: "..."});
+		});
+
+	});
+
+
+	describe(".toHash()", function(){
+
+		it("Is deprecated. Use .toMap() instead", function(){
+			expect(luga.form.toHash).toBeDefined();
+		});
+
+		it("It's just an alias to .toMap()", function(){
+			loadFixtures("form/common.htm");
+			var formNode = jQuery("#multiSelect");
+			spyOn(luga.form, "toMap").and.callThrough();
+			luga.form.toHash(formNode);
+			expect(luga.form.toMap).toHaveBeenCalledWith(formNode, undefined);
 		});
 
 	});
@@ -138,10 +155,10 @@ describe("luga.form", function(){
 			});
 		});
 
-		it("Requires luga.form.toHash() in order to work", function(){
-			spyOn(luga.form, "toHash");
+		it("Requires luga.form.toMap() in order to work", function(){
+			spyOn(luga.form, "toMap");
 			luga.form.toJson(jQuery("#basicValue"));
-			expect(luga.form.toHash).toHaveBeenCalledWith($("#basicValue"));
+			expect(luga.form.toMap).toHaveBeenCalledWith($("#basicValue"));
 		});
 
 	});

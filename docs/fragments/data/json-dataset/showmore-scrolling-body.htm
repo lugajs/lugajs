@@ -2,21 +2,21 @@
 	(function(){
 		"use strict";
 
-		var BASE_URL = "https://gxabmxeqzc.execute-api.us-east-1.amazonaws.com/stage/showreel";
+		var BASE_URL = "https://heroes.stage.waylon.cloud/v1/search/character";
 		var master = new luga.data.JsonDataSet({
 			uuid: "masterDs",
-			url: BASE_URL + "/characters?offset=200",
+			url: BASE_URL + "/?offset=0&limit=200",
 			path: "result",
 			timeout: 20000,
 			incrementalLoad: true
 		});
 
+		new luga.data.widgets.ShowMoreScrolling({
+			dataSet: master,
+			url: BASE_URL + "/?offset={lastOffset}&limit=200"
+		});
+
 		jQuery(document).ready(function(){
-			new luga.data.widgets.ShowMoreScrolling({
-				node: jQuery("#characters"),
-				dataSet: master,
-				url: BASE_URL + "/characters?offset=200&startKey={lastKey}"
-			});
 			master.loadData();
 		});
 
@@ -33,7 +33,7 @@
 		{{/each}}
 	</ul>
 	{{#if isStateLoading}}
-	<span class="alert-info">Loading more...</span>
+		<span class="alert-info">Loading more...</span>
 	{{/if}}
 </script>
 
@@ -42,8 +42,7 @@
 	<div class="panel-body">
 
 		<p>
-			So you want to implement an <a
-				href="https://www.smashingmagazine.com/2013/05/infinite-scrolling-lets-get-to-the-bottom-of-this/">infinite
+			So you want to implement an <a href="https://www.smashingmagazine.com/2013/05/infinite-scrolling-lets-get-to-the-bottom-of-this/">infinite
 			scrolling</a> GUI,
 			fetching just a bunch of records at time?
 			The ShowMoreScrolling widget offers that capability and you can see it in action here (fetching 200 records
@@ -68,15 +67,7 @@
 				This means that every time we call .loadData() the results will be added to the ones already fetched.
 			</li>
 			<li>
-				Line 14. The ShowMoreScrolling widget is initialized only after the DOM is ready.
-				That's required because we need to be sure the relevant HTML element is available.
-			</li>
-			<li>
-				Line 15. Since we want to scroll only on a specific element, not the whole page,
-				we pass the <strong>node</strong> parameter to the widget's constructor.
-			</li>
-			<li>
-				Line 17. The <strong>url</strong> parameter is a string template, containing one or more placeholders.
+				Line 15. The <strong>url</strong> parameter is a string template, containing one or more placeholders.
 				Our REST endpoint requires a <strong>startKey</strong> parameter inside the querystring.
 				This parameter must change at run time.
 				The value of this parameter is returned by the server, each time we fetch data, and is stored inside the
@@ -87,35 +78,54 @@
 <pre><code class="line-numbers language-javascript">(function(){
 	"use strict";
 
-	var BASE_URL = "https://gxabmxeqzc.execute-api.us-east-1.amazonaws.com/stage/showreel";
+	var BASE_URL = "https://heroes.stage.waylon.cloud/v1/search/character";
 	var master = new luga.data.JsonDataSet({
 		uuid: "masterDs",
-		url: BASE_URL + "/characters?offset=200",
+		url: BASE_URL + "/?offset=0&limit=200",
 		path: "result",
 		timeout: 20000,
 		incrementalLoad: true
 	});
 
+	new luga.data.widgets.ShowMoreScrolling({
+		dataSet: master,
+		url: BASE_URL + "/?offset={lastOffset}&limit=200"
+	});
+
 	jQuery(document).ready(function(){
-		new luga.data.widgets.ShowMoreScrolling({
-			node: jQuery("#characters"),
-			dataSet: master,
-			url: BASE_URL + "/characters?offset=200&startKey={lastKey}"
-		});
 		master.loadData();
 	});
 
 }());
 </code></pre>
+		
+<pre><code class="line-numbers language-markup">&lt;script id="masterTemplate" type="text/x-handlebars-template"&gt;
+	Record count: &lt;span class="badge"&gt;{{recordCount}}&lt;/span&gt;
+	&lt;ul class="luga-docs-list"&gt;
+		{{#each entities}}
+		&lt;li&gt;
+			{{name}}
+		&lt;/li&gt;
+		{{/each}}
+	&lt;/ul&gt;
+	{{#if isStateLoading}}
+		&lt;span class="alert-info"&gt;Loading more...&lt;/span&gt;
+	{{/if}}
+&lt;/script&gt;
+
+&lt;div id="characters" class="col-xs-6 col-sm-6" data-lugaregion="true"
+	 data-lugaregion-datasource-uuid="masterDs"
+	 data-lugaregion-template-id="masterTemplate"&gt;&lt;/div&gt;	
+</code></pre>
+		
 		<p>
-			If you need infinite scrolling on the whole pag, not inside a specific HTML element,
-			just avoid passing the <a href="#data/json-dataset/showmore-scrolling-body">node parameter</a>
+			If you need infinite scrolling inside a specific HTML element, not the whole page,
+			just pass an <a href="#data/json-dataset/showmore-scrolling-div">additional parameter</a>
 		</p>
 
 		<div role="alert" class="alert alert-warning">
 			<strong>Warning!</strong><br>
-			Your HTML element needs to have a scrollbar, use CSS to set its overflow and height to whatever fits your
-			needs.
+			This widget may not work as expected on some old touch devices.
 		</div>
 
 	</div>
@@ -126,7 +136,7 @@
 	<div class="panel-heading">In action</div>
 	<div class="panel-body">
 
-		<div style="overflow-y: auto; height: 300px" id="characters" class="col-xs-6 col-sm-6" data-lugaregion="true"
+		<div id="characters" class="col-xs-6 col-sm-6" data-lugaregion="true"
 			 data-lugaregion-datasource-uuid="masterDs"
 			 data-lugaregion-template-id="masterTemplate"></div>
 

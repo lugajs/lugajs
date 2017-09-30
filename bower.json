@@ -11,7 +11,10 @@
     "url": "git://github.com/lugajs/lugajs"
   },
   "main": [
-    "dist/luga.min.js"
+    "dist/luga.js"
+  ],
+  "moduleType": [
+    "globals"
   ],
   "dependencies": {
     "jquery": ">=2",

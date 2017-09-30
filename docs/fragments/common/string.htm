@@ -75,6 +75,46 @@ luga.string.format("My name is {firstName} {lastName}", {firstName: "Ciccio", la
 </div>
 
 <div class="panel panel-default">
+	<div id="queryToMap" class="panel-heading luga-docs-api-heading">luga.string.queryToMap(str)</div>
+	<div class="panel-body">
+		Given a string in querystring format, return a JavaScript object containing name/value pairs
+	</div>
+	<table class="table table-bordered luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>str</td>
+			<td>
+				{string}
+			</td>
+			<td>
+				Querystring
+			</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{object}</td>
+		</tr>
+	</table>
+	<table class="table table-bordered luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+	<pre><code class="language-javascript">luga.string.queryToMap("?name=Ciccio&lastname=Pasticcio");
+// => {name: "Ciccio", lastname: "Pasticcio"}
+
+// If a name has no associated value, the hash contains an entry with an empty string value
+luga.string.queryToMap("?name=Ciccio&lastname=");
+// => {name: "Ciccio", lastname: ""}
+
+// If the same name is contained multiple times inside the queryString, the matching entry inside the hash is an array:
+luga.string.queryToMap("name=Ciccio&box=first&box=second&box=third");
+// => {name: "Ciccio", box: ["first", "second", "third"]}</code></pre>
+
+</div>
+
+<div class="panel panel-default">
 	<div id="populate" class="panel-heading luga-docs-api-heading">luga.string.populate(str, obj)</div>
 	<div class="panel-body">
 		Given a string containing placeholders in {key} format, it assembles a new string

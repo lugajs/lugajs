@@ -2,10 +2,10 @@
 	(function(){
 		"use strict";
 
-		var BASE_URL = "https://gxabmxeqzc.execute-api.us-east-1.amazonaws.com/stage/showreel";
+		var BASE_URL = "https://heroes.stage.waylon.cloud/v1/search/character";
 		var master = new luga.data.JsonDataSet({
 			uuid: "masterDs",
-			url: BASE_URL + "/characters?offset=200",
+			url: BASE_URL + "?offset=0&limit=200",
 			path: "result",
 			timeout: 20000,
 			incrementalLoad: true
@@ -16,7 +16,7 @@
 				button: jQuery("#moreButton"),
 				disabledClass: "disabled",
 				dataSet: master,
-				url: BASE_URL + "/characters?offset=200&startKey={lastKey}"
+				url: BASE_URL + "?offset={lastOffset}&limit=200"
 			});
 			master.loadData();
 		});
@@ -90,10 +90,10 @@
 <pre><code class="line-numbers language-javascript">(function(){
 	"use strict";
 
-	var BASE_URL = "https://gxabmxeqzc.execute-api.us-east-1.amazonaws.com/stage/showreel";
+	var BASE_URL = "https://heroes.stage.waylon.cloud/v1/search/character";
 	var master = new luga.data.JsonDataSet({
 		uuid: "masterDs",
-		url: BASE_URL + "/characters?offset=200",
+		url: BASE_URL + "?offset=0&limit=200",
 		path: "result",
 		timeout: 20000,
 		incrementalLoad: true
@@ -104,7 +104,7 @@
 			button: jQuery("#moreButton"),
 			disabledClass: "disabled",
 			dataSet: master,
-			url: BASE_URL + "/characters?offset=200&startKey={lastKey}"
+			url: BASE_URL + "?offset={lastOffset}&limit=200"
 		});
 		master.loadData();
 	});

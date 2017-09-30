@@ -1,4 +1,4 @@
-/* global LUGA_TEST_XHR_BASE */
+/* global TEST_XHR_BASE */
 
 describe("luga.data.Rss2Dataset", function(){
 
@@ -8,7 +8,7 @@ describe("luga.data.Rss2Dataset", function(){
 	beforeEach(function(){
 
 		var response = jQuery.ajax({
-			url: LUGA_TEST_XHR_BASE + "fixtures/data/rss2.xml",
+			url: TEST_XHR_BASE + "fixtures/data/rss2.xml",
 			async: false,
 			dataType: "xml"
 		});
