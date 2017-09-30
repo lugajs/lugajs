@@ -1,4 +1,4 @@
-###About Luga JS
+<h2>About Luga JS</h2>
 
 <a href="http://lugajs.org/docs/index.htm">Luga JS</a> encompass a set of data-centric JavaScript libraries, specialized tools that do few things and try to do them well.
 It is not intended and will never be a framework, we believe in keeping our tools small, focused and sharp.
