@@ -1,6 +1,5 @@
 - Move from JSHint to ESlint
-- Update Bootstrap to 4.x
-- Update jQuery to 3.x
+- Update Bootstrap to 4.x then update jQuery to 3.x
 
 - Add second, optional argument to addObserver(observer, eventName)
 
