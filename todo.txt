@@ -1,9 +1,5 @@
 - Move from JSHint to ESlint
-
 - Update Bootstrap to 4.x
-
-- Add utility for NodeIterator
-  https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
 
 - Add second, optional argument to addObserver(observer, eventName)
 

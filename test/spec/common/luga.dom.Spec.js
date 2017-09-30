@@ -25,19 +25,57 @@ describe("luga.dom", function(){
 		expect(luga.dom).toBeDefined();
 	});
 
+	describe(".nodeIterator.getInstance()", function(){
+
+		describe("Is a static, factory method", function(){
+
+			it("Return a NodeIterator object", function(){
+				var lugaIterator = luga.dom.nodeIterator.getInstance(divNode);
+				var filter = {
+					acceptNode: function(){
+						return NodeFilter.FILTER_ACCEPT;
+					}
+				};
+				var plainIterator = document.createNodeIterator(document.createElement("div"), NodeFilter.SHOW_ELEMENT, filter, false);
+				expect(lugaIterator.constructor).toEqual(plainIterator.constructor);
+			});
+
+			describe("Accept a mandatory DOM Node as first argument", function(){
+
+				it("Used as root by the NodeIterator", function(){
+					var iterator = luga.dom.nodeIterator.getInstance(divNode);
+					expect(iterator.root).toEqual(divNode);
+				});
+
+			});
+
+			describe("Accept an optional filter function as second argument", function(){
+
+				it("Only nodes matching the filter will be accepted", function(){
+					var iterator = luga.dom.nodeIterator.getInstance(basicTree, filterDivOnly);
+					iterator.nextNode()
+					expect(iterator.nextNode()).toEqual(divChild);
+				});
+
+			});
+
+		});
+
+	});
+
 	describe(".treeWalker.getInstance()", function(){
 
 		describe("Is a static, factory method", function(){
 
 			it("Return a TreeWalker object", function(){
-				var awWalker = luga.dom.treeWalker.getInstance(divNode);
+				var lugaWalker = luga.dom.treeWalker.getInstance(divNode);
 				var filter = {
 					acceptNode: function(){
 						return NodeFilter.FILTER_ACCEPT;
 					}
 				};
 				var plainWalker = document.createTreeWalker(document.createElement("div"), NodeFilter.SHOW_ELEMENT, filter, false);
-				expect(awWalker.constructor).toEqual(plainWalker.constructor);
+				expect(lugaWalker.constructor).toEqual(plainWalker.constructor);
 			});
 
 			describe("Accept a mandatory DOM Node as first argument", function(){
