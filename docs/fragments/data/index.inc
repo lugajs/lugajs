@@ -11,7 +11,7 @@
 </div>
 
 <div class="panel panel-default">
-	<div class="panel-heading">Philosophy</div>
+	<div class="panel-heading">Our mission</div>
 	<div class="panel-body">
 		<p>
 			Developing Luga Data we keep a few clear goals in mind. We are not looking for another MV* framework,
