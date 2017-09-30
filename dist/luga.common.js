@@ -1,5 +1,5 @@
 /*! 
-Luga Common 0.9.6dev 2017-09-26T06:01:59.637Z
+Luga Common 0.9.6 2017-09-30T14:44:51.154Z
 Copyright 2013-2017 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -39,7 +39,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.namespace("luga.common");
-	luga.common.version = "0.9.6dev";
+	luga.common.version = "0.9.6";
 
 	/**
 	 * Offers a simple solution for inheritance among classes
@@ -245,19 +245,19 @@ if(typeof(luga) === "undefined"){
 		 *
 		 * @method
 		 * @param {string}  eventName  Name of the event
-		 * @param {object}  data       Object containing data to be passed from the point of notification to all interested observers.
+		 * @param {object}  payload    Object containing data to be passed from the point of notification to all interested observers.
 		 *                             If there is no relevant data to pass, use an empty object.
 		 * @throws {Exception}
 		 */
-		this.notifyObservers = function(eventName, data){
-			if(luga.type(data) !== "object"){
+		this.notifyObservers = function(eventName, payload){
+			if(luga.type(payload) !== "object"){
 				throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_DATA_PARAMETER);
 			}
 			var method = generateMethodName(eventName);
 			for(var i = 0; i < this.observers.length; i++){
 				var observer = this.observers[i];
 				if(observer[method] && luga.isFunction(observer[method])){
-					observer[method](data);
+					observer[method](payload);
 				}
 			}
 		};

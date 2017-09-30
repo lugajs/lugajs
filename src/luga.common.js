@@ -34,7 +34,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.namespace("luga.common");
-	luga.common.version = "0.9.6dev";
+	luga.common.version = "0.9.6";
 
 	/**
 	 * Offers a simple solution for inheritance among classes

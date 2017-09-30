@@ -1,6 +1,6 @@
 /*! 
-Luga Data 0.9.5 2016-10-05T14:00:18.004Z
-Copyright 2013-2016 Massimo Foti (massimo@massimocorner.com)
+Luga Data 0.9.6 2017-09-30T14:44:50.714Z
+Copyright 2013-2017 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
 /* istanbul ignore if */
