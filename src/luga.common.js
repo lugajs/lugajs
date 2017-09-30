@@ -240,19 +240,19 @@ if(typeof(luga) === "undefined"){
 		 *
 		 * @method
 		 * @param {string}  eventName  Name of the event
-		 * @param {object}  data       Object containing data to be passed from the point of notification to all interested observers.
+		 * @param {object}  payload    Object containing data to be passed from the point of notification to all interested observers.
 		 *                             If there is no relevant data to pass, use an empty object.
 		 * @throws {Exception}
 		 */
-		this.notifyObservers = function(eventName, data){
-			if(luga.type(data) !== "object"){
+		this.notifyObservers = function(eventName, payload){
+			if(luga.type(payload) !== "object"){
 				throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_DATA_PARAMETER);
 			}
 			var method = generateMethodName(eventName);
 			for(var i = 0; i < this.observers.length; i++){
 				var observer = this.observers[i];
 				if(observer[method] && luga.isFunction(observer[method])){
-					observer[method](data);
+					observer[method](payload);
 				}
 			}
 		};

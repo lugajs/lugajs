@@ -7,7 +7,6 @@
   https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
 
 - Add second, optional argument to addObserver(observer, eventName)
-  Rename data to payload to make docs easier to understand
 
 DOCS:
 
