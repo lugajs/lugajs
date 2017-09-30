@@ -7,6 +7,8 @@
 
 - Add second, optional argument to addObserver(observer, eventName)
 
+-------------
+
 DOCS:
 
 - Luga.data: examples of region with event delegation:
