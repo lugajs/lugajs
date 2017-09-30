@@ -964,7 +964,7 @@ if(typeof(luga) === "undefined"){
 			var serializer = new XMLSerializer();
 			return serializer.serializeToString(node, luga.xml.MIME_TYPE);
 		}
-	}
+	};
 
 	/**
 	 * Create a DOM Document out of a string
@@ -986,6 +986,5 @@ if(typeof(luga) === "undefined"){
 			return domDoc;
 		}
 	};
-
 
 }());
