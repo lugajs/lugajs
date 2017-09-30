@@ -18,9 +18,9 @@ if(self.location.protocol === "file:"){
 				NAVIGATION: "#navigation"
 			},
 			INCLUDES_PATH: "fragments/",
-			INCLUDES_SUFFIX: ".inc",
+			INCLUDES_SUFFIX: ".htm",
 			DEFAULT_INCLUDE_ID: "index",
-			LOCAL_NAV_ID: "nav-local.inc"
+			LOCAL_NAV_ID: "nav-local.htm"
 		};
 
 		/**
