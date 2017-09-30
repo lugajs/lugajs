@@ -17,7 +17,7 @@
 		/** @override */
 		this.render = function(){
 			var records = this.dataSource.getContext().entities;
-			var htmlStr = "<ul  class='luga-docs-list'>";
+			var htmlStr = "<ul class='luga-docs-list'>";
 			for(var i = 0; i < records.length; i++){
 				var item = records[i];
 				htmlStr += "<li>";
@@ -29,6 +29,7 @@
 			this.config.node.html(htmlStr);
 		};
 	};
+
 	/**
 	 * This simplified implementation of a custom region handler should not be considered production-ready
 	 * @extends luga.data.region.Base
@@ -78,10 +79,12 @@
 			Add the data-lugaregion-type attribute with a value that matches an existing JavaScript
 			constructor function:
 		</p>
+
 <pre><code class="language-markup">&lt;div data-lugaregion="true"
 	data-lugaregion-datasource-uuid="lady"
 	data-lugaregion-template-id="detailsTemplate"
 	data-lugaregion-type="underscoreTemplate"&gt;&lt/div&gt;</code></pre>
+
 		<p>
 			The constructor should extend the luga.data.region.Base class and override its render() method:
 		</p>
@@ -91,6 +94,7 @@
 	* @extends luga.data.region.Base
 */
 var underscoreTemplate = function(options){
+
 	luga.extend(luga.data.region.Base, this, [options]);
 
 	// Underscore specific part
@@ -123,8 +127,37 @@ var underscoreTemplate = function(options){
 <div class="panel panel-default">
 	<div class="panel-heading">Master (with no templating)</div>
 	<div class="panel-body">
-		<div data-lugaregion="true" data-lugaregion-datasource-uuid="ladies"
-			 data-lugaregion-type="customRegion"></div>
+
+	<p>This oversimplified code sample show how you could create a custom region that does not use any template engine</p>
+
+<pre><code class="line-numbers language-javascript">var customRegion = function(options){
+
+	luga.extend(luga.data.region.Base, this, [options]);
+
+	/** @override */
+	this.render = function(){
+		var records = this.dataSource.getContext().entities;
+		var htmlStr = "&lt;ul class='luga-docs-list'&gt;";
+		for(var i = 0; i &lt; records.length; i++){
+			var item = records[i];
+			htmlStr += "&lt;li&gt;";
+			htmlStr += "&lt;a href='javascript:;' onclick='test.ladiesMaster.setCurrentRowId(\"" + item.lugaRowId + "\")'&gt;";
+			htmlStr += item.lastName;
+			htmlStr += "&lt;/a&gt;&lt;/li&gt;";
+		}
+		htmlStr += "&lt;/ul&gt;";
+		this.config.node.html(htmlStr);
+	};
+
+};</code></pre>
+		
+<pre><code class="language-markup">&lt;div data-lugaregion="true"
+	data-lugaregion-datasource-uuid="ladies"
+	data-lugaregion-type="customRegion"&gt;&lt;/div&gt;</code></pre>
+
+	<div data-lugaregion="true" data-lugaregion-datasource-uuid="ladies"
+		 data-lugaregion-type="customRegion"></div>
+
 	</div>
 </div>
 

@@ -33,7 +33,7 @@
 		{{/each}}
 	</ul>
 	{{#if isStateLoading}}
-	<span class="alert-info">Loading more...</span>
+		<span class="alert-info">Loading more...</span>
 	{{/if}}
 </script>
 
@@ -106,6 +106,26 @@
 
 }());
 </code></pre>
+		
+<pre><code class="line-numbers language-markup">&lt;script id="masterTemplate" type="text/x-handlebars-template"&gt;
+	Record count: &lt;span class="badge"&gt;{{recordCount}}&lt;/span&gt;
+	&lt;ul class="luga-docs-list"&gt;
+		{{#each entities}}
+		&lt;li&gt;
+			{{name}}
+		&lt;/li&gt;
+		{{/each}}
+	&lt;/ul&gt;
+	{{#if isStateLoading}}
+		&lt;span class="alert-info"&gt;Loading more...&lt;/span&gt;
+	{{/if}}
+&lt;/script&gt;
+
+&lt;div style="overflow-y: auto; height: 300px" id="characters" class="col-xs-6 col-sm-6" data-lugaregion="true"
+	 data-lugaregion-datasource-uuid="masterDs"
+	 data-lugaregion-template-id="masterTemplate"&gt;&lt;/div&gt;	
+</code></pre>		
+		
 		<p>
 			If you need infinite scrolling on the whole pag, not inside a specific HTML element,
 			just avoid passing the <a href="#data/json-dataset/showmore-scrolling-body">node parameter</a>
