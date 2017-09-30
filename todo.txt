@@ -7,10 +7,6 @@
 
 DOCS:
 
-- Luga.data: examples of region with event delegation:
-  https://api.jquery.com/on/#direct-and-delegated-events
-  https://learn.jquery.com/events/event-delegation/
-
 - Add page for luga.dom
 
 -------------
