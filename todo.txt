@@ -47,7 +47,6 @@ VALIDATOR:
 DATA:
 
 luga.data.DataSet:
-- Allow custom sorter for complex objects
 - Local storage persistence
 
 luga.data.PagedData:
