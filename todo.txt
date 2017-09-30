@@ -53,7 +53,7 @@ luga.data.PagedData:
 
 -------------
 
-WIDGETS:
+DATA WIDGETS:
 
 luga.data.widgets.PagingBar (needs PagedData)
 - Different GUI styles: Bootstrap, PageList, LinkList
