@@ -1,9 +1,8 @@
 #Required on lugajs.org
 
+AddType application/json .map
+
 RewriteEngine On
 RewriteCond %{REQUEST_URI} \.htm$
 RewriteRule    "^/index\.htm$"  "/docs/index.htm" [R]
 RewriteRule    "^/$"  "/docs/index.htm" [R]
-RewriteEngine Off
-
-AddType application/json .map
