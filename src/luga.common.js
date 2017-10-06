@@ -188,6 +188,30 @@ if(typeof(luga) === "undefined"){
 		}
 	};
 
+	var class2type = {};
+	["Array", "Boolean", "Date", "Error", "Function", "Number", "Object", "RegExp", "String", "Symbol"].forEach(function(element, i, collection){
+		class2type["[object " + element + "]"] = element.toLowerCase();
+	});
+
+	/**
+	 * Determine the internal JavaScript [[Class]] of an object
+	 * Based on jQuery.type()
+	 * @param {*} obj
+	 * @returns {string}
+	 */
+	luga.type = function(obj){
+		if(obj === null){
+			return "null";
+		}
+		var rawType = typeof obj;
+		if((rawType === "object") || (rawType === "function")){
+			/* http://perfectionkills.com/instanceof-considered-harmful-or-how-to-write-a-robust-isarray/ */
+			var stringType = Object.prototype.toString.call(obj);
+			return class2type[stringType];
+		}
+		return rawType;
+	};
+
 	luga.NOTIFIER_CONST = {
 		ERROR_MESSAGES: {
 			NOTIFIER_ABSTRACT: "It's forbidden to use luga.Notifier directly, it must be used as a base class instead",
@@ -272,30 +296,6 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
-	};
-
-	var class2type = {};
-	["Array", "Boolean", "Date", "Error", "Function", "Number", "Object", "RegExp", "String", "Symbol"].forEach(function(element, i, collection){
-		class2type["[object " + element + "]"] = element.toLowerCase();
-	});
-
-	/**
-	 * Determine the internal JavaScript [[Class]] of an object
-	 * Based on jQuery.type()
-	 * @param {*} obj
-	 * @returns {string}
-	 */
-	luga.type = function(obj){
-		if(obj === null){
-			return "null";
-		}
-		var rawType = typeof obj;
-		if((rawType === "object") || (rawType === "function")){
-			/* http://perfectionkills.com/instanceof-considered-harmful-or-how-to-write-a-robust-isarray/ */
-			var stringType = Object.prototype.toString.call(obj);
-			return class2type[stringType];
-		}
-		return rawType;
 	};
 
 	/* DOM */
