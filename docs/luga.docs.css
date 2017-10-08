@@ -7,6 +7,11 @@ html, body.luga-docs {
 	font-size: 13px;
 }
 
+body.luga-docs {
+	/* Always show vertical scrollbar */
+	overflow-y: scroll;
+}
+
 .luga-docs .container-fluid {
 	max-width: 100em;
 }
