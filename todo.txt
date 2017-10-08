@@ -1,6 +1,9 @@
 - Move from JSHint to ESlint
 - Update Bootstrap to 4.x then update jQuery to 3.x
 
+- Add second, optional argument to Notifier.addObserver(observer, eventName)
+  Observers can register even for one, single event
+
 -------------
 
 DOCS:
