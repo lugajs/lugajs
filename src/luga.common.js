@@ -34,7 +34,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.namespace("luga.common");
-	luga.common.version = "0.9.6";
+	luga.common.version = "0.9.7dev";
 
 	/**
 	 * Offers a simple solution for inheritance among classes
@@ -188,6 +188,30 @@ if(typeof(luga) === "undefined"){
 		}
 	};
 
+	var class2type = {};
+	["Array", "Boolean", "Date", "Error", "Function", "Number", "Object", "RegExp", "String", "Symbol"].forEach(function(element, i, collection){
+		class2type["[object " + element + "]"] = element.toLowerCase();
+	});
+
+	/**
+	 * Determine the internal JavaScript [[Class]] of an object
+	 * Based on jQuery.type()
+	 * @param {*} obj
+	 * @returns {string}
+	 */
+	luga.type = function(obj){
+		if(obj === null){
+			return "null";
+		}
+		var rawType = typeof obj;
+		if((rawType === "object") || (rawType === "function")){
+			/* http://perfectionkills.com/instanceof-considered-harmful-or-how-to-write-a-robust-isarray/ */
+			var stringType = Object.prototype.toString.call(obj);
+			return class2type[stringType];
+		}
+		return rawType;
+	};
+
 	luga.NOTIFIER_CONST = {
 		ERROR_MESSAGES: {
 			NOTIFIER_ABSTRACT: "It's forbidden to use luga.Notifier directly, it must be used as a base class instead",
@@ -274,31 +298,39 @@ if(typeof(luga) === "undefined"){
 
 	};
 
-	var class2type = {};
-	["Array", "Boolean", "Date", "Error", "Function", "Number", "Object", "RegExp", "String", "Symbol"].forEach(function(element, i, collection){
-		class2type["[object " + element + "]"] = element.toLowerCase();
-	});
+	/* DOM */
+
+	luga.namespace("luga.dom.nodeIterator");
 
 	/**
-	 * Determine the internal JavaScript [[Class]] of an object
-	 * Based on jQuery.type()
-	 * @param {*} obj
-	 * @returns {string}
+	 * Static factory to create a cross-browser DOM NodeIterator
+	 * https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
+	 *
+	 * @param {Node}         rootNode    Start node. Required
+	 * @param {function}     filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
+	 * @returns {NodeIterator}
 	 */
-	luga.type = function(obj){
-		if(obj === null){
-			return "null";
-		}
-		var rawType = typeof obj;
-		if((rawType === "object") || (rawType === "function")){
-			/* http://perfectionkills.com/instanceof-considered-harmful-or-how-to-write-a-robust-isarray/ */
-			var stringType = Object.prototype.toString.call(obj);
-			return class2type[stringType];
-		}
-		return rawType;
-	};
+	luga.dom.nodeIterator.getInstance = function(rootNode, filterFunc){
 
-	/* DOM */
+		var filter = {
+			acceptNode: function(node){
+				/* istanbul ignore else */
+				if(filterFunc !== undefined){
+					if(filterFunc(node) === false){
+						return NodeFilter.FILTER_SKIP;
+					}
+				}
+				return NodeFilter.FILTER_ACCEPT;
+			}
+		};
+
+		// http://stackoverflow.com/questions/5982648/recommendations-for-working-around-ie9-treewalker-filter-bug
+		// A true W3C-compliant nodeFilter object isn't passed, and instead a "safe" one _based_ off of the real one.
+		var safeFilter = filter.acceptNode;
+		safeFilter.acceptNode = filter.acceptNode;
+		return document.createNodeIterator(rootNode, NodeFilter.SHOW_ELEMENT, safeFilter, false);
+	};
 
 	luga.namespace("luga.dom.treeWalker");
 
@@ -964,7 +996,7 @@ if(typeof(luga) === "undefined"){
 			var serializer = new XMLSerializer();
 			return serializer.serializeToString(node, luga.xml.MIME_TYPE);
 		}
-	}
+	};
 
 	/**
 	 * Create a DOM Document out of a string
@@ -986,6 +1018,5 @@ if(typeof(luga) === "undefined"){
 			return domDoc;
 		}
 	};
-
 
 }());

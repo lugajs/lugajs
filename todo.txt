@@ -1,18 +1,14 @@
 - Move from JSHint to ESlint
+- Update Bootstrap to 4.x then update jQuery to 3.x
 
-- Update Bootstrap to 4.x
-- Update jQuery to 3.x
+- Add second, optional argument to Notifier.addObserver(observer, eventName)
+  Observers can register even for one, single event
 
-- Add utility for NodeIterator
-  https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
-
-- Add second, optional argument to addObserver(observer, eventName)
+-------------
 
 DOCS:
 
-- Luga.data: examples of region with event delegation:
-  https://api.jquery.com/on/#direct-and-delegated-events
-  https://learn.jquery.com/events/event-delegation/
+- Add pages for luga.dom and luga.xml?
 
 -------------
 
@@ -29,11 +25,10 @@ COMMON:
 
 HISTORY:
 
-- Encode/decode fragment?
-
 - Write documentation:
   Implication of using pushState regarding the server: https://github.com/flatiron/director#history-api
   Explain how to use pushState on top of SEO <a> links
+  Explain the need to encode fragment before using .navigate()
 
 - Add to distro
 
@@ -44,7 +39,7 @@ VALIDATOR:
 DATA:
 
 luga.data.DataSet:
-- Local storage persistence
+- Ability to persist data inside localStorage
 
 luga.data.PagedData:
 - Mixed client/server (options.threshold)
@@ -54,7 +49,7 @@ luga.data.PagedData:
 
 -------------
 
-WIDGETS:
+DATA WIDGETS:
 
 luga.data.widgets.PagingBar (needs PagedData)
 - Different GUI styles: Bootstrap, PageList, LinkList

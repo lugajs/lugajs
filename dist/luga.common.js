@@ -1,5 +1,5 @@
 /*! 
-Luga Common 0.9.6 2017-09-30T14:44:51.154Z
+Luga Common 0.9.7dev 2017-09-30T18:03:36.521Z
 Copyright 2013-2017 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -39,7 +39,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.namespace("luga.common");
-	luga.common.version = "0.9.6";
+	luga.common.version = "0.9.7dev";
 
 	/**
 	 * Offers a simple solution for inheritance among classes
@@ -304,6 +304,38 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/* DOM */
+
+	luga.namespace("luga.dom.nodeIterator");
+
+	/**
+	 * Static factory to create a cross-browser DOM NodeIterator
+	 * https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
+	 *
+	 * @param {Node}         rootNode    Start node. Required
+	 * @param {function}     filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
+	 * @returns {NodeIterator}
+	 */
+	luga.dom.nodeIterator.getInstance = function(rootNode, filterFunc){
+
+		var filter = {
+			acceptNode: function(node){
+				/* istanbul ignore else */
+				if(filterFunc !== undefined){
+					if(filterFunc(node) === false){
+						return NodeFilter.FILTER_SKIP;
+					}
+				}
+				return NodeFilter.FILTER_ACCEPT;
+			}
+		};
+
+		// http://stackoverflow.com/questions/5982648/recommendations-for-working-around-ie9-treewalker-filter-bug
+		// A true W3C-compliant nodeFilter object isn't passed, and instead a "safe" one _based_ off of the real one.
+		var safeFilter = filter.acceptNode;
+		safeFilter.acceptNode = filter.acceptNode;
+		return document.createNodeIterator(rootNode, NodeFilter.SHOW_ELEMENT, safeFilter, false);
+	};
 
 	luga.namespace("luga.dom.treeWalker");
 
@@ -969,7 +1001,7 @@ if(typeof(luga) === "undefined"){
 			var serializer = new XMLSerializer();
 			return serializer.serializeToString(node, luga.xml.MIME_TYPE);
 		}
-	}
+	};
 
 	/**
 	 * Create a DOM Document out of a string
@@ -991,6 +1023,5 @@ if(typeof(luga) === "undefined"){
 			return domDoc;
 		}
 	};
-
 
 }());

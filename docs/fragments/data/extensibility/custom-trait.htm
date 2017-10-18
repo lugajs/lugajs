@@ -17,8 +17,7 @@
 			$item.datepicker();
 			$item.datepicker("setDate", dateObj);
 		});
-	}
-	;
+	};
 
 	(function(){
 		"use strict";
@@ -134,14 +133,6 @@ function datePickerTrait(options){
 			 data-lugaregion-datasource-uuid="ladiesDs"
 			 data-lugaregion-template-id="ladiesTemplate"
 			 data-lugaregion-traits="datePickerTrait"></div>
-
-		<div class="alert alert-info" role="alert">
-			<strong>Heads up!</strong><br>
-			You can achieve the same results writing an object that initialize the datepickers and register itself as
-			observer of the <a href="../region/scripting.htm">region</a>.
-			Pick the solutions that better fits your needs.
-			A trait is easier to reuse, a region observer instead gives you more control.
-		</div>
 
 	</div>
 
