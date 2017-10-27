@@ -4,8 +4,8 @@
 	luga.namespace("luga.data.sort");
 
 	/**
-	 * @typedef {string} luga.data.sort.ORDER
-	 * @enum {string}
+	 * @typedef {String} luga.data.sort.ORDER
+	 * @enum {String}
 	 */
 	luga.data.sort.ORDER = {
 		ASC: "ascending",
@@ -22,8 +22,8 @@
 
 	/**
 	 * Return true if the passed order is supported
-	 * @param {string}  sortOrder
-	 * @returns {boolean}
+	 * @param {String}  sortOrder
+	 * @returns {Boolean}
 	 */
 	luga.data.sort.isValidSortOrder = function(sortOrder){
 		for(var key in luga.data.sort.ORDER){
@@ -36,7 +36,7 @@
 
 	/**
 	 * Retrieve the relevant sort function matching the given combination of dataType and sortOrder
-	 * @param {string}               dataType
+	 * @param {String}               dataType
 	 * @param {luga.data.sort.ORDER} sortOrder
 	 * @returns {function}
 	 */

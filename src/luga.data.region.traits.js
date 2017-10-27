@@ -4,9 +4,9 @@
 	luga.namespace("luga.data.region.traits");
 
 	/**
-	 * @typedef {object} luga.data.region.traits.options
+	 * @typedef {Object} luga.data.region.traits.options
 	 *
-	 * @property {jquery}                                 node          A jQuery object wrapping the Region's node. Required
+	 * @property {jQuery}                                 node          A jQuery object wrapping the Region's node. Required
 	 * @property {luga.data.DataSet|luga.data.DetailSet}  dataSource    DataSource. Required
 	 */
 

@@ -2,16 +2,16 @@
 	"use strict";
 
 	/**
-	 * @typedef {object} luga.data.DetailSet.context
+	 * @typedef {Object} luga.data.DetailSet.context
 	 * @extends luga.data.stateDescription
 	 *
 	 * @property {null|luga.data.DataSet.row} entity
 	 */
 
 	/**
-	 * @typedef {object} luga.data.DetailSet.options
+	 * @typedef {Object} luga.data.DetailSet.options
 	 *
-	 * @property {string}            uuid           Unique identifier. Required
+	 * @property {String}            uuid           Unique identifier. Required
 	 * @property {luga.data.DataSet} parentDataSet  Master dataSet. Required
 	 */
 

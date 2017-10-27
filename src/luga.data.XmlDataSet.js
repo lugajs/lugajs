@@ -2,10 +2,10 @@
 	"use strict";
 
 	/**
-	 * @typedef {object} luga.data.XmlDataSet.options
+	 * @typedef {Object} luga.data.XmlDataSet.options
 	 *
 	 * @extends luga.data.HttpDataSet.options
-	 * @property {string} path  Specifies the XPath expression to be used to extract nodes from the XML document. Default to: "/"
+	 * @property {String} path  Specifies the XPath expression to be used to extract nodes from the XML document. Default to: "/"
 	 */
 
 	/**
@@ -59,8 +59,8 @@
 		/**
 		 * Retrieves XML data, either from an HTTP response or from a direct call, apply the path, if any, extract and load records out of it
 		 * @param {Node}     xmlDoc       XML data. Either returned from the server or passed directly
-		 * @param {string}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
-		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
+		 * @param {String}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
+		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
 		 * @override
 		 */
 		this.loadRecords = function(xmlDoc, textStatus, jqXHR){
@@ -76,7 +76,7 @@
 
 		/**
 		 * Set the the XPath expression to be used to extract data out of the XML
-		 * @param {string} path   XPath expression. Required
+		 * @param {String} path   XPath expression. Required
 		 */
 		this.setPath = function(path){
 			this.path = path;

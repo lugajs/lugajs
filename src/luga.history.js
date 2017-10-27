@@ -2,9 +2,9 @@
 	"use strict";
 
 	/**
-	 * @typedef {object} luga.history.options
+	 * @typedef {Object} luga.history.options
 	 *
-	 * @property {boolean} pushState  Determine if we use pushState or the location hash. Default to false. If pushState is not available (like in IE9) the location hash will be used anyway
+	 * @property {Boolean} pushState  Determine if we use pushState or the location hash. Default to false. If pushState is not available (like in IE9) the location hash will be used anyway
 	 */
 
 	luga.namespace("luga.history");
@@ -28,7 +28,7 @@
 
 	/**
 	 * Return true if the browser supports pushState, false otherwise
-	 * @returns {boolean}
+	 * @returns {Boolean}
 	 */
 	/* istanbul ignore next */
 	luga.history.isPushStateSupported = function(){
@@ -39,25 +39,25 @@
 	/**
 	 * Return true if we should pushState, false otherwise
 	 * The result depend on a combination of browser capabilities and current configuration
-	 * @returns {boolean}
+	 * @returns {Boolean}
 	 */
 	luga.history.usePushState = function(){
 		return ((config.pushState === true) && (luga.history.isPushStateSupported() === true));
 	};
 
 	/**
-	 * @typedef {object} luga.history.navigate.options
+	 * @typedef {Object} luga.history.navigate.options
 	 *
-	 * @property {boolean} replace  Determine if we add a new history entry or replace the current one
-	 * @property {string}  title    Title to be passed to pushState. Default to empty string. Some browser don't support this yet
-	 * @property {object}  state    A JavaScript object which is associated with the new history entry. DEfault to an empty object. See:
+	 * @property {Boolean} replace  Determine if we add a new history entry or replace the current one
+	 * @property {String}  title    Title to be passed to pushState. Default to empty string. Some browser don't support this yet
+	 * @property {Object}  state    A JavaScript object which is associated with the new history entry. DEfault to an empty object. See:
 	 *                              https://developer.mozilla.org/en-US/docs/Web/API/History_API#The_pushState()_method
 	 */
 
 	/**
 	 * Add an entry to the browser's history or modify the current entry
 	 * https://developer.mozilla.org/en-US/docs/Web/API/History_API
-	 * @param {string} fragment
+	 * @param {String} fragment
 	 * @param {luga.history.navigate.options} options
 	 */
 	luga.history.navigate = function(fragment, options){

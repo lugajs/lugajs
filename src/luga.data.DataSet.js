@@ -2,23 +2,23 @@
 	"use strict";
 
 	/**
-	 * @typedef {object} luga.data.DataSet.row
+	 * @typedef {Object} luga.data.DataSet.row
 	 *
-	 * @property {string} rowID  Artificial PK
+	 * @property {String} rowID  Artificial PK
 	 */
 
 	/**
-	 * @typedef {object} luga.data.DataSet.currentRowChanged
+	 * @typedef {Object} luga.data.DataSet.currentRowChanged
 	 *
-	 * @property {string}                oldRowId
+	 * @property {String}                oldRowId
 	 * @property {luga.data.DataSet.row} oldRow
-	 * @property {string}                currentRowId
+	 * @property {String}                currentRowId
 	 * @property {luga.data.DataSet.row} currentRow
 	 * @property {luga.data.DataSet}     dataSet
 	 */
 
 	/**
-	 * @typedef {object} luga.data.DataSet.dataSorted
+	 * @typedef {Object} luga.data.DataSet.dataSorted
 	 *
 	 * @property {luga.data.DataSet}    dataSet
 	 * @property {array<string>}        oldSortColumns
@@ -28,7 +28,7 @@
 	 */
 
 	/**
-	 * @typedef {object} luga.data.DataSet.stateChanged
+	 * @typedef {Object} luga.data.DataSet.stateChanged
 	 *
 	 * @property {luga.data.DataSet}     dataSet
 	 * @property {null|luga.data.STATE}  currentState
@@ -36,17 +36,17 @@
 	 */
 
 	/**
-	 * @typedef {object} luga.data.DataSet.context
+	 * @typedef {Object} luga.data.DataSet.context
 	 * @extends luga.data.stateDescription
 	 *
-	 * @property {number}                         recordCount
+	 * @property {Number}                         recordCount
 	 * @property {array.<luga.data.DataSet.row>}  entities
 	 */
 
 	/**
-	 * @typedef {object} luga.data.DataSet.options
+	 * @typedef {Object} luga.data.DataSet.options
 	 *
-	 * @property {string}                uuid       Unique identifier. Required
+	 * @property {String}                uuid       Unique identifier. Required
 	 * @property {array.<object>|object} records    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
 	 * @property {function}              formatter  A formatting functions to be called once for each row in the dataSet. Default to null
 	 * @property {function}              filter     A filter functions to be called once for each row in the dataSet. Default to null
@@ -179,8 +179,8 @@
 		/**
 		 * Delete records matching the given filter
 		 * If no filter is passed, delete all records
-		 * @param {function} filter   A filter function. If specified only records matching the filter will be returned. Optional
-		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
+		 * @param {function} [undefined] filter   A filter function. If specified only records matching the filter will be returned. Optional
+		 *                                        The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @fires currentRowChanged
 		 * @fires stateChanged
 		 * @fires dataChanged
@@ -212,8 +212,8 @@
 
 		/**
 		 * Returns the column type of the specified column. Either "date", "number" or "string"
-		 * @param {string} columnName
-		 * @returns {string}
+		 * @param {String} columnName
+		 * @returns {String}
 		 */
 		this.getColumnType = function(columnName){
 			if(this.columnTypes[columnName] !== undefined){
@@ -249,7 +249,7 @@
 		 * Do not confuse the rowId of a row with the index of the row
 		 * RowId is a column that contains a unique identifier for the row
 		 * This identifier does not change if the rows of the dataSet are sorted
-		 * @returns {string}
+		 * @returns {String}
 		 */
 		this.getCurrentRowId = function(){
 			return this.currentRowId;
@@ -257,7 +257,7 @@
 
 		/**
 		 * Returns a zero-based index at which the current row can be found, or -1 if the dataSet is empty
-		 * @returns {number}
+		 * @returns {Number}
 		 */
 		this.getCurrentRowIndex = function(){
 			var row = this.getCurrentRow();
@@ -267,7 +267,7 @@
 		/**
 		 * Returns the number of records in the dataSet
 		 * If the dataSet has a filter, returns the number of filtered records
-		 * @returns {number}
+		 * @returns {Number}
 		 */
 		this.getRecordsCount = function(){
 			return selectAll().length;
@@ -275,7 +275,7 @@
 
 		/**
 		 * Returns the row object associated with the given unique identifier
-		 * @param {string} rowId  Required
+		 * @param {String} rowId  Required
 		 * @returns {null|luga.data.DataSet.row}
 		 */
 		this.getRowById = function(rowId){
@@ -297,7 +297,7 @@
 		/**
 		 * Returns the row object associated with the given index
 		 * Throws an exception if the index is out of range
-		 * @param {number} index  Required
+		 * @param {Number} index  Required
 		 * @returns {luga.data.DataSet.row}
 		 * @throws {Exception}
 		 */
@@ -329,7 +329,7 @@
 		/**
 		 * Returns the name of the column used for the most recent sort
 		 * Returns an empty string if no sort has been performed yet
-		 * @returns {string}
+		 * @returns {String}
 		 */
 		this.getSortColumn = function(){
 			return (this.lastSortColumns && this.lastSortColumns.length > 0) ? this.lastSortColumns[0] : "";
@@ -338,7 +338,7 @@
 		/**
 		 * Returns the order used for the most recent sort
 		 * Returns an empty string if no sort has been performed yet
-		 * @returns {string}
+		 * @returns {String}
 		 */
 		this.getSortOrder = function(){
 			return this.lastSortOrder ? this.lastSortOrder : "";
@@ -440,8 +440,8 @@
 		/**
 		 * Returns an array of the internal row objects that store the records in the dataSet
 		 * Be aware that modifying any property of a returned object results in a modification of the internal records (since records are passed by reference)
-		 * @param {function} filter   An optional filter function. If specified only records matching the filter will be returned. Optional
-		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
+		 * @param {function}  [undefined] filter   An optional filter function. If specified only records matching the filter will be returned. Optional
+		 *                                         The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @returns {array.<luga.data.DataSet.row>}
 		 * @throws {Exception}
 		 */
@@ -459,7 +459,7 @@
 		 * Set a column type for a column. Required for proper sorting of numeric or date data.
 		 * By default data is sorted alpha-numerically, if you want it sorted numerically or by date, set the proper columnType
 		 * @param {string|array<string>} columnNames
-		 * @param {string}               columnType   Either "date", "number" or "string"
+		 * @param {String}               columnType   Either "date", "number" or "string"
 		 */
 		this.setColumnType = function(columnNames, columnType){
 			if(luga.isArray(columnNames) === false){
@@ -530,7 +530,7 @@
 		/**
 		 * Sets the current row of the dataSet to the one matching the given index
 		 * Throws an exception if the index is out of range
-		 * @param {number} index  New index. Required
+		 * @param {Number} index  New index. Required
 		 * @fires currentRowChanged
 		 * @throws {Exception}
 		 */
@@ -582,8 +582,8 @@
 
 		/**
 		 * Sorts the dataSet using the given column(s) and sort order
-		 * @param {string|array<string>}  columnNames Required, either a single column name or an array of names
-		 * @param {luga.data.sort.ORDER}  sortOrder   Either "ascending", "descending" or "toggle". Optional, default to "toggle"
+		 * @param {string|array<string>}              columnNames Required, either a single column name or an array of names
+		 * @param {luga.data.sort.ORDER} ["toggle"]  sortOrder   Either "ascending", "descending" or "toggle". Optional, default to "toggle"
 		 * @fires preDataSorted
 		 * @fires dataSorted
 		 * @fires dataChanged

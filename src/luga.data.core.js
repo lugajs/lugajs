@@ -4,7 +4,7 @@ if(typeof(luga) === "undefined"){
 }
 
 /**
- * @typedef {object} luga.data.dataSourceChanged
+ * @typedef {Object} luga.data.dataSourceChanged
  *
  * @property {luga.data.DataSet|luga.data.DetailSet} dataSource
  */
@@ -44,7 +44,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Returns a dataSource from the registry
 	 * Returns null if no source matches the given id
-	 * @param {string} uuid
+	 * @param {String} uuid
 	 * @returns {luga.data.DataSet|luga.data.DetailSet}
 	 */
 	luga.data.getDataSource = function(uuid){
@@ -56,7 +56,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Adds a dataSource inside the registry
-	 * @param {string}                                uuid
+	 * @param {String}                                uuid
 	 * @param {luga.data.DataSet|luga.data.DetailSet} dataSource
 	 * @throws {Exception}
 	 */
@@ -68,8 +68,8 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @typedef {string} luga.data.STATE
-	 * @enum {string}
+	 * @typedef {String} luga.data.STATE
+	 * @enum {String}
 	 */
 	luga.data.STATE = {
 		ERROR: "error",
@@ -80,12 +80,12 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.data.utils");
 
 	/**
-	 * @typedef {object} luga.data.stateDescription
+	 * @typedef {Object} luga.data.stateDescription
 	 *
 	 * @property {null|luga.data.STATE}  state
-	 * @property {boolean}          isStateLoading
-	 * @property {boolean}          isStateError
-	 * @property {boolean}          isStateReady
+	 * @property {Boolean}          isStateLoading
+	 * @property {Boolean}          isStateError
+	 * @property {Boolean}          isStateReady
 	 */
 
 	/**
@@ -157,8 +157,8 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Return true if the passed state is supported
-	 * @param {string}  state
-	 * @returns {boolean}
+	 * @param {String}  state
+	 * @returns {Boolean}
 	 */
 	luga.data.utils.isValidState = function(state){
 		for(var key in luga.data.STATE){

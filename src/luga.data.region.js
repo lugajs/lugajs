@@ -33,9 +33,9 @@
 	};
 
 	/**
-	 * @typedef {object} luga.data.region.options
+	 * @typedef {Object} luga.data.region.options
 	 *
-	 * @property {boolean} autoregister  Determine if we call luga.data.region.init() on jQuery(document).ready()
+	 * @property {Boolean} autoregister  Determine if we call luga.data.region.init() on jQuery(document).ready()
 	 */
 
 	/**
@@ -58,7 +58,7 @@
 	/**
 	 * Given a jQuery object wrapping an HTML node, returns the region object associated to it
 	 * Returns undefined if the node is not associated to a region
-	 * @param {jquery} node
+	 * @param {jQuery} node
 	 * @returns {undefined|luga.data.region.Base}
 	 */
 	luga.data.region.getReferenceFromNode = function(node){
@@ -67,7 +67,7 @@
 
 	/**
 	 * Given a jQuery object wrapping an HTML node, initialize the relevant Region handler
-	 * @param {jquery} node
+	 * @param {jQuery} node
 	 * @throws {Exception}
 	 */
 	luga.data.region.init = function(node){
@@ -92,7 +92,7 @@
 
 	/**
 	 * Bootstrap any region contained within the given node
-	 * @param {jquery|undefined} rootNode  Optional, default to jQuery("body")
+	 * @param {jquery|undefined} [jQuery("body"] rootNode  Optional, default to jQuery("body")
 	 */
 	luga.data.region.initRegions = function(rootNode){
 		if(rootNode === undefined){
@@ -106,9 +106,9 @@
 	luga.namespace("luga.data.region.utils");
 
 	/**
-	 * @typedef {object} luga.data.region.description
+	 * @typedef {Object} luga.data.region.description
 	 *
-	 * @property {jquery}                                node   A jQuery object wrapping the node containing the region.
+	 * @property {jQuery}                                node   A jQuery object wrapping the node containing the region.
 	 * @property {luga.data.DataSet|luga.data.DetailSet} ds     DataSource
 	 */
 
