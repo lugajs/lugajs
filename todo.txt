@@ -1,5 +1,3 @@
-- Reduce amount of files tracked inside .idea
-
 - Add second, optional argument to Notifier.addObserver(observer, eventName)
   Observers can register even for one, single event
 
