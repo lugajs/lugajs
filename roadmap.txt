@@ -1,4 +1,3 @@
-- Move from JHint to ESLint
 - Update Docs to Bootstrap 4
 - Update to jQuery 3
 
