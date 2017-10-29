@@ -1,5 +1,5 @@
 /*! 
-Luga JS 0.9.7dev 2017-09-30T18:03:36.521Z
+Luga JS 0.9.7dev 2017-10-27T19:30:08.699Z
 Copyright 2013-2017 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -21,8 +21,8 @@ if(typeof(luga) === "undefined"){
 	 * Creates namespaces to be used for scoping variables and classes so that they are not global.
 	 * Specifying the last node of a namespace implicitly creates all other nodes.
 	 * Based on Nicholas C. Zakas's code
-	 * @param {string} ns           Namespace as string
-	 * @param {object} rootObject   Optional root object. Default to window
+	 * @param {String} ns           Namespace as string
+	 * @param {Object} [undefined] rootObject   Optional root object. Default to window
 	 */
 	luga.namespace = function(ns, rootObject){
 		var parts = ns.split(".");
@@ -44,9 +44,9 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Offers a simple solution for inheritance among classes
 	 *
-	 * @param {function} baseFunc  Parent constructor function. Required
-	 * @param {function} func      Child constructor function. Required
-	 * @param {array}    args      An array of arguments that will be passed to the parent's constructor. Optional
+	 * @param {function}           baseFunc  Parent constructor function. Required
+	 * @param {function}           func      Child constructor function. Required
+	 * @param {array} [undefined]  args      An array of arguments that will be passed to the parent's constructor. Optional
 	 */
 	luga.extend = function(baseFunc, func, args){
 		baseFunc.apply(func, args);
@@ -55,7 +55,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Return true if an object is an array. False otherwise
 	 * @param {*} obj
-	 * @returns {boolean}
+	 * @returns {Boolean}
 	 */
 	luga.isArray = function(obj){
 		return Array.isArray(obj);
@@ -64,7 +64,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Return true if an object is a function. False otherwise
 	 * @param {*} obj
-	 * @returns {boolean}
+	 * @returns {Boolean}
 	 */
 	luga.isFunction = function(obj){
 		return luga.type(obj) === "function";
@@ -74,7 +74,7 @@ if(typeof(luga) === "undefined"){
 	 * Return true if an object is a plain object (created using "{}" or "new Object"). False otherwise
 	 * Based on jQuery.isPlainObject()
 	 * @param {*} obj
-	 * @returns {boolean}
+	 * @returns {Boolean}
 	 */
 	luga.isPlainObject = function(obj){
 		// Detect obvious negatives
@@ -99,7 +99,7 @@ if(typeof(luga) === "undefined"){
 	 * Given the name of a function as a string, return the relevant function, if any
 	 * Returns undefined, if the reference has not been found
 	 * Supports namespaces (if the fully qualified path is passed)
-	 * @param {string} path            Fully qualified name of a function
+	 * @param {String} path            Fully qualified name of a function
 	 * @returns {function|undefined}   The javascript reference to the function, undefined if nothing is fund or if it's not a function
 	 */
 	luga.lookupFunction = function(path){
@@ -117,8 +117,8 @@ if(typeof(luga) === "undefined"){
 	 * Given an object and a path, returns the property located at the given path
 	 * If nothing exists at that location, returns undefined
 	 * Supports unlimited nesting levels (if the fully qualified path is passed)
-	 * @param {object} object  Target object
-	 * @param {string} path    Dot-delimited string
+	 * @param {Object} object  Target object
+	 * @param {String} path    Dot-delimited string
 	 * @returns {*|undefined}
 	 */
 	luga.lookupProperty = function(object, path){
@@ -150,8 +150,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Shallow-merge the contents of two objects together into the first object
 	 *
-	 * @param {object} target  An object that will receive the new properties
-	 * @param {object} source     An object containing additional properties to merge in
+	 * @param {Object} target  An object that will receive the new properties
+	 * @param {Object} source     An object containing additional properties to merge in
 	 */
 	luga.merge = function(target, source){
 		for(var x in source){
@@ -162,8 +162,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Given an object, a path and a value, set the property located at the given path to the given value
 	 * If the path does not exists, it creates it
-	 * @param {object} object  Target object
-	 * @param {string} path    Fully qualified property name
+	 * @param {Object} object  Target object
+	 * @param {String} path    Fully qualified property name
 	 * @param {*}      value
 	 */
 	luga.setProperty = function(object, path, value){
@@ -191,6 +191,30 @@ if(typeof(luga) === "undefined"){
 				object[part] = value;
 			}
 		}
+	};
+
+	var class2type = {};
+	["Array", "Boolean", "Date", "Error", "Function", "Number", "Object", "RegExp", "String", "Symbol"].forEach(function(element, i, collection){
+		class2type["[object " + element + "]"] = element.toLowerCase();
+	});
+
+	/**
+	 * Determine the internal JavaScript [[Class]] of an object
+	 * Based on jQuery.type()
+	 * @param {*} obj
+	 * @returns {String}
+	 */
+	luga.type = function(obj){
+		if(obj === null){
+			return "null";
+		}
+		var rawType = typeof obj;
+		if((rawType === "object") || (rawType === "function")){
+			/* http://perfectionkills.com/instanceof-considered-harmful-or-how-to-write-a-robust-isarray/ */
+			var stringType = Object.prototype.toString.call(obj);
+			return class2type[stringType];
+		}
+		return rawType;
 	};
 
 	luga.NOTIFIER_CONST = {
@@ -230,7 +254,7 @@ if(typeof(luga) === "undefined"){
 		 * For an event named "complete" they must implement a method named: "onCompleteHandler"
 		 * The interface for this methods is as follows:
 		 * observer.onCompleteHandler = function(data){};
-		 * @param  {object} observer  Observer object
+		 * @param  {Object} observer  Observer object
 		 * @throws {Exception}
 		 */
 		this.addObserver = function(observer){
@@ -244,8 +268,8 @@ if(typeof(luga) === "undefined"){
 		 * Sends a notification to all interested observers registered with the notifier.
 		 *
 		 * @method
-		 * @param {string}  eventName  Name of the event
-		 * @param {object}  payload    Object containing data to be passed from the point of notification to all interested observers.
+		 * @param {String}  eventName  Name of the event
+		 * @param {Object}  payload    Object containing data to be passed from the point of notification to all interested observers.
 		 *                             If there is no relevant data to pass, use an empty object.
 		 * @throws {Exception}
 		 */
@@ -279,30 +303,6 @@ if(typeof(luga) === "undefined"){
 
 	};
 
-	var class2type = {};
-	["Array", "Boolean", "Date", "Error", "Function", "Number", "Object", "RegExp", "String", "Symbol"].forEach(function(element, i, collection){
-		class2type["[object " + element + "]"] = element.toLowerCase();
-	});
-
-	/**
-	 * Determine the internal JavaScript [[Class]] of an object
-	 * Based on jQuery.type()
-	 * @param {*} obj
-	 * @returns {string}
-	 */
-	luga.type = function(obj){
-		if(obj === null){
-			return "null";
-		}
-		var rawType = typeof obj;
-		if((rawType === "object") || (rawType === "function")){
-			/* http://perfectionkills.com/instanceof-considered-harmful-or-how-to-write-a-robust-isarray/ */
-			var stringType = Object.prototype.toString.call(obj);
-			return class2type[stringType];
-		}
-		return rawType;
-	};
-
 	/* DOM */
 
 	luga.namespace("luga.dom.nodeIterator");
@@ -311,8 +311,8 @@ if(typeof(luga) === "undefined"){
 	 * Static factory to create a cross-browser DOM NodeIterator
 	 * https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
 	 *
-	 * @param {Node}         rootNode    Start node. Required
-	 * @param {function}     filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 * @param {Node}                     rootNode    Start node. Required
+	 * @param {function} [undefined]     filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
 	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
 	 * @returns {NodeIterator}
 	 */
@@ -343,8 +343,8 @@ if(typeof(luga) === "undefined"){
 	 * Static factory to create a cross-browser DOM TreeWalker
 	 * https://developer.mozilla.org/en/docs/Web/API/TreeWalker
 	 *
-	 * @param {Node}         rootNode    Start node. Required
-	 * @param {function}     filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 * @param {Node}                     rootNode    Start node. Required
+	 * @param {function} [undefined]     filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
 	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
 	 * @returns {TreeWalker}
 	 */
@@ -390,9 +390,9 @@ if(typeof(luga) === "undefined"){
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 * Values of multiple checked checkboxes and multiple select are included as a single entry, with array value
 	 *
-	 * @param {jquery}   rootNode     jQuery object wrapping the root node
-	 * @param {boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
-	 * @returns {object}              A JavaScript object containing name/value pairs
+	 * @param {jQuery}   rootNode     jQuery object wrapping the root node
+	 * @param {Boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
+	 * @returns {Object}              A JavaScript object containing name/value pairs
 	 * @throws {Exception}
 	 */
 	luga.form.toMap = function(rootNode, demoronize){
@@ -458,7 +458,7 @@ if(typeof(luga) === "undefined"){
 	 * If fields names contains dots, their are handled as nested properties
 	 * Only fields considered successful are returned:
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
-	 * @param {jquery} rootNode  jQuery object wrapping the form fields
+	 * @param {jQuery} rootNode  jQuery object wrapping the form fields
 	 * @returns {json}
 	 */
 	luga.form.toJson = function(rootNode){
@@ -475,9 +475,9 @@ if(typeof(luga) === "undefined"){
 	 * Only fields considered successful are returned:
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 *
-	 * @param {jquery}   rootNode     jQuery object wrapping the root node
-	 * @param {boolean}  demoronize   If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
-	 * @returns {string}               A URI encoded string
+	 * @param {jQuery}   rootNode     jQuery object wrapping the root node
+	 * @param {Boolean}  demoronize   If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
+	 * @returns {String}               A URI encoded string
 	 * @throws {Exception}
 	 */
 	luga.form.toQueryString = function(rootNode, demoronize){
@@ -537,8 +537,8 @@ if(typeof(luga) === "undefined"){
 	 * Returns true if the given field is successful, false otherwise
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 *
-	 * @param {jquery}  fieldNode
-	 * @returns {boolean}
+	 * @param {jQuery}  fieldNode
+	 * @returns {Boolean}
 	 */
 	luga.form.utils.isSuccessfulField = function(fieldNode){
 		if(luga.form.utils.isInputField(fieldNode) === false){
@@ -556,8 +556,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Returns true if the passed node is a form field that we care about
 	 *
-	 * @param {jquery}  fieldNode
-	 * @returns {boolean}
+	 * @param {jQuery}  fieldNode
+	 * @returns {Boolean}
 	 */
 	luga.form.utils.isInputField = function(fieldNode){
 		if(jQuery(fieldNode).prop("type") === undefined){
@@ -574,9 +574,9 @@ if(typeof(luga) === "undefined"){
 	 * Extracts group of fields that share the same name from a given root node
 	 * Or the whole document if the second argument is not passed
 	 *
-	 * @param {string}  name       Name of the field. Mandatory
-	 * @param {jquery}  rootNode   Root node, optional, default to document
-	 * @returns {jquery}
+	 * @param {String}              name       Name of the field. Mandatory
+	 * @param {jQuery} [undefined]  rootNode   Root node, optional, default to document
+	 * @returns {jQuery}
 	 */
 	luga.form.utils.getFieldGroup = function(name, rootNode){
 		var selector = "input[name='" + name + "']";
@@ -586,7 +586,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Returns an array of input fields contained inside a given root node
 	 *
-	 * @param {jquery}  rootNode   Root node
+	 * @param {jQuery}  rootNode   Root node
 	 * @returns {Array.<jquery>}
 	 */
 	luga.form.utils.getChildFields = function(rootNode){
@@ -605,8 +605,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Retrieve from localStorage the string corresponding to the given combination of root and path
 	 * Returns undefined if nothing matches the given root/path
-	 * @param {string} root    Top-level key inside localStorage
-	 * @param {string} path    Dot-delimited string
+	 * @param {String} root    Top-level key inside localStorage
+	 * @param {String} path    Dot-delimited string
 	 * @returns {*|undefined}
 	 */
 	luga.localStorage.retrieve = function(root, path){
@@ -616,9 +616,9 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Persist the given string inside localStorage, under the given combination of root and path
 	 * The ability to pass a dot-delimited path allow to protect the information from name clashes
-	 * @param {string} root    Top-level key inside localStorage
-	 * @param {string} path    Dot-delimited string
-	 * @param {string} value   String to be persisted
+	 * @param {String} root    Top-level key inside localStorage
+	 * @param {String} path    Dot-delimited string
+	 * @param {String} value   String to be persisted
 	 * @returns {*|undefined}
 	 */
 	luga.localStorage.persist = function(root, path, value){
@@ -644,8 +644,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Replace MS Word's non-ISO characters with plausible substitutes
 	 *
-	 * @param {string} str   String containing MS Word's garbage
-	 * @returns {string}      The de-moronized string
+	 * @param {String} str   String containing MS Word's garbage
+	 * @returns {String}      The de-moronized string
 	 */
 	luga.string.demoronize = function(str){
 		str = str.replace(new RegExp(String.fromCharCode(710), "g"), "^");
@@ -678,9 +678,9 @@ if(typeof(luga) === "undefined"){
 	 * luga.string.format("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"});
 	 * => "My name is Ciccio Pasticcio"
 	 *
-	 * @param  {string}  str                   String containing placeholders
+	 * @param  {String}  str                   String containing placeholders
 	 * @param  {object|array.<string>} args    Either an array of strings or an objects containing name/value pairs in string format
-	 * @returns {string} The newly assembled string
+	 * @returns {String} The newly assembled string
 	 */
 	luga.string.format = function(str, args){
 		var pattern = null;
@@ -701,8 +701,8 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Given a string in querystring format, return a JavaScript object containing name/value pairs
-	 * @param {string} str  The querystring
-	 * @returns {object}
+	 * @param {String} str  The querystring
+	 * @returns {Object}
 	 */
 	luga.string.queryToMap = function(str){
 		var map = {};
@@ -750,9 +750,9 @@ if(typeof(luga) === "undefined"){
 	 * luga.string.populate("My name is {person.firstName} {person.lastName}", nestedObj)
 	 * => "My name is Ciccio Pasticcio"
 	 *
-	 * @param   {string} str   String containing placeholders
-	 * @param   {object} obj   An objects containing name/value pairs in string format
-	 * @returns {string} The newly assembled string
+	 * @param   {String} str   String containing placeholders
+	 * @param   {Object} obj   An objects containing name/value pairs in string format
+	 * @returns {String} The newly assembled string
 	 */
 	luga.string.populate = function(str, obj){
 		if(luga.isPlainObject(obj) === true){
@@ -797,7 +797,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Remove a message box (if any) associated with a given node
-	 * @param {jquery}  node   Target node
+	 * @param {jQuery}  node   Target node
 	 */
 	luga.utils.removeDisplayBox = function(node){
 		var boxId = generateBoxId(jQuery(node));
@@ -811,8 +811,8 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Display a message box above a given node
-	 * @param {jquery}  node   Target node
-	 * @param {string}  html   HTML/Text code to inject
+	 * @param {jQuery}  node   Target node
+	 * @param {String}  html   HTML/Text code to inject
 	 */
 	luga.utils.displayMessage = function(node, html){
 		return luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.MESSAGE);
@@ -820,8 +820,8 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Display an error box above a given node
-	 * @param {jquery}  node   Target node
-	 * @param {string}  html   HTML/Text code to inject
+	 * @param {jQuery}  node   Target node
+	 * @param {String}  html   HTML/Text code to inject
 	 */
 	luga.utils.displayErrorMessage = function(node, html){
 		return luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.ERROR_MESSAGE);
@@ -830,9 +830,9 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Display a box with a message associated with a given node
 	 * Overwrite this method if you want to change the way luga.utils.displayMessage and luga.utils.displayErrorMessage behaves
-	 * @param {jquery}  node      Target node
-	 * @param {string}  html      HTML/Text code to inject
-	 * @param {string}  cssClass  CSS class attached to the box. Default to "luga_message"
+	 * @param {jQuery}  node      Target node
+	 * @param {String}  html      HTML/Text code to inject
+	 * @param {String}  cssClass  CSS class attached to the box. Default to "luga_message"
 	 */
 	luga.utils.displayBox = function(node, html, cssClass){
 		if(cssClass === undefined){
@@ -866,7 +866,7 @@ if(typeof(luga) === "undefined"){
 	 * Given a DOM node, evaluate an XPath expression against it
 	 * Results are returned as an array of nodes. An empty array is returned in case there is no match
 	 * @param {Node} node
-	 * @param {string} path
+	 * @param {String} path
 	 * @returns {Array<Node>}
 	 */
 	luga.xml.evaluateXPath = function(node, path){
@@ -897,7 +897,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Convert an XML node into a JavaScript object
 	 * @param {Node} node
-	 * @returns {object}
+	 * @returns {Object}
 	 */
 	luga.xml.nodeToHash = function(node){
 		var obj = {};
@@ -909,7 +909,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Map attributes to properties
 	 * @param {Node}   node
-	 * @param {object} obj
+	 * @param {Object} obj
 	 */
 	function attributesToProperties(node, obj){
 		if((node.attributes === null) || (node.attributes === undefined)){
@@ -924,7 +924,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Map child nodes to properties
 	 * @param {Node}   node
-	 * @param {object} obj
+	 * @param {Object} obj
 	 */
 	function childrenToProperties(node, obj){
 		for(var i = 0; i < node.childNodes.length; i++){
@@ -964,7 +964,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Extract text out of a TEXT or CDATA node
 	 * @param {Node} node
-	 * @returns {string}
+	 * @returns {String}
 	 */
 	function getTextValue(node){
 		var child = node.childNodes[0];
@@ -977,7 +977,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Return true if a node contains value, false otherwise
 	 * @param {Node}   node
-	 * @returns {boolean}
+	 * @returns {Boolean}
 	 */
 	function nodeHasText(node){
 		var child = node.childNodes[0];
@@ -990,7 +990,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Serialize a DOM node into a string
 	 * @param {Node}   node
-	 * @returns {string}
+	 * @returns {String}
 	 */
 	luga.xml.nodeToString = function(node){
 		/* istanbul ignore if IE-only */
@@ -1005,7 +1005,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Create a DOM Document out of a string
-	 * @param {string} xmlStr
+	 * @param {String} xmlStr
 	 * @returns {Document}
 	 */
 	luga.xml.parseFromString = function(xmlStr){
@@ -1043,10 +1043,10 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Replace form with message
 	 *
-	 * @param {string}   msg          Message to display in the GUI
-	 * @param {jquery}   formNode     jQuery object wrapping the form
-	 * @param {string}   textStatus   HTTP status
-	 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
+	 * @param {String}   msg          Message to display in the GUI
+	 * @param {jQuery}   formNode     jQuery object wrapping the form
+	 * @param {String}   textStatus   HTTP status
+	 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest
 	 */
 	luga.ajaxform.handlers.replaceForm = function(msg, formNode, textStatus, jqXHR){
 		jQuery(formNode).empty();
@@ -1056,11 +1056,11 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Display error message inside alert
 	 *
-	 * @param {string}   msg          Message to display in the GUI
-	 * @param {jquery}   formNode     jQuery object wrapping the form
-	 * @param {string}   textStatus   HTTP status
-	 * @param {string}   errorThrown  Error message from jQuery
-	 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
+	 * @param {String}   msg          Message to display in the GUI
+	 * @param {jQuery}   formNode     jQuery object wrapping the form
+	 * @param {String}   textStatus   HTTP status
+	 * @param {String}   errorThrown  Error message from jQuery
+	 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest
 	 */
 	luga.ajaxform.handlers.errorAlert = function(msg, formNode, textStatus, errorThrown, jqXHR){
 		alert(msg);
@@ -1069,11 +1069,11 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Display errors inside a box above the form
 	 *
-	 * @param {string}   msg          Message to display in the GUI
-	 * @param {jquery}   formNode     jQuery object wrapping the form
-	 * @param {string}   textStatus   HTTP status
-	 * @param {string}   errorThrown  Error message from jQuery
-	 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
+	 * @param {String}   msg          Message to display in the GUI
+	 * @param {jQuery}   formNode     jQuery object wrapping the form
+	 * @param {String}   textStatus   HTTP status
+	 * @param {String}   errorThrown  Error message from jQuery
+	 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest
 	 */
 	luga.ajaxform.handlers.errorBox = function(msg, formNode, textStatus, errorThrown, jqXHR){
 		// Clean-up any existing box
@@ -1084,8 +1084,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Utility function to be used as after handler by Luga Validator
 	 *
-	 * @param {jquery}       formNode  jQuery object wrapping the form
-	 * @param {jquery.Event} event     jQuery object wrapping the submit event
+	 * @param {jQuery}       formNode  jQuery object wrapping the form
+	 * @param {jQuery.Event} event     jQuery object wrapping the submit event
 	 */
 	luga.ajaxform.handlers.afterValidation = function(formNode, event){
 		event.preventDefault();
@@ -1125,19 +1125,19 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @typedef {object} luga.ajaxform.Sender.options
+	 * @typedef {Object} luga.ajaxform.Sender.options
 	 *
-	 * @property {jquery} formNode     Either a jQuery object wrapping the form or the naked DOM object. Required
-	 * @property {string} action       URL to where the form will be send. Default to the current URL
-	 * @property {string} method       HTTP method to be used. Default to GET
-	 * @property {number} timeout      Timeout to be used during the HTTP call (milliseconds). Default to 30000
-	 * @property {string} success      Name of the function to be invoked if the form is successfully submitted. Default to luga.ajaxform.handlers.replaceForm
-	 * @property {string} error        Name of the function to be invoked if the HTTP call failed. Default to luga.ajaxform.handlers.errorAlert
-	 * @property {string} successmsg   Message that will be displayed to the user if the form is successfully submitted. Default to "Thanks for submitting the form"
-	 * @property {string} errormsg     Message that will be displayed to the user if the HTTP call failed. Default to "Failed to submit the form"
-	 * @property {string} before       Name of the function to be invoked before the form is send. Default to null
-	 * @property {string} after        Name of the function to be invoked after the form is send. Default to null
-	 * @property {object} headers      A set of name/value pairs to be used as custom HTTP headers. Available only with JavaScript API
+	 * @property {jQuery} formNode     Either a jQuery object wrapping the form or the naked DOM object. Required
+	 * @property {String} action       URL to where the form will be send. Default to the current URL
+	 * @property {String} method       HTTP method to be used. Default to GET
+	 * @property {Number} timeout      Timeout to be used during the HTTP call (milliseconds). Default to 30000
+	 * @property {String} success      Name of the function to be invoked if the form is successfully submitted. Default to luga.ajaxform.handlers.replaceForm
+	 * @property {String} error        Name of the function to be invoked if the HTTP call failed. Default to luga.ajaxform.handlers.errorAlert
+	 * @property {String} successmsg   Message that will be displayed to the user if the form is successfully submitted. Default to "Thanks for submitting the form"
+	 * @property {String} errormsg     Message that will be displayed to the user if the HTTP call failed. Default to "Failed to submit the form"
+	 * @property {String} before       Name of the function to be invoked before the form is send. Default to null
+	 * @property {String} after        Name of the function to be invoked after the form is send. Default to null
+	 * @property {Object} headers      A set of name/value pairs to be used as custom HTTP headers. Available only with JavaScript API
 	 */
 
 	/**
@@ -1296,7 +1296,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Attach form handlers to onSubmit events
-	 * @param {jquery|undefined} rootNode  Optional, default to jQuery("body")
+	 * @param {jquery|undefined} [jQuery("body")] rootNode  Optional, default to jQuery("body")
 	 */
 	luga.ajaxform.initForms = function(rootNode){
 		if(rootNode === undefined){
@@ -1338,7 +1338,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Display error messages inside alert
 	 *
-	 * @param {jquery}                                      formNode      jQuery object wrapping the form
+	 * @param {jQuery}                                      formNode      jQuery object wrapping the form
 	 * @param {array.<luga.validator.BaseFieldValidator>}   validators    Array of field validators
 	 */
 	luga.validator.handlers.errorAlert = function(formNode, validators){
@@ -1363,7 +1363,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Display errors inside a box above the form
 	 *
-	 * @param {jquery}                                      formNode      jQuery object wrapping the form
+	 * @param {jQuery}                                      formNode      jQuery object wrapping the form
 	 * @param {array.<luga.validator.BaseFieldValidator>}   validators    Array of field validators
 	 */
 	luga.validator.handlers.errorBox = function(formNode, validators){
@@ -1390,7 +1390,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Use Bootstrap validation states to display errors
 	 *
-	 * @param {jquery}                                      formNode      jQuery object wrapping the form
+	 * @param {jQuery}                                      formNode      jQuery object wrapping the form
 	 * @param {array.<luga.validator.BaseFieldValidator>}   validators    Array of field validators
 	 */
 	luga.validator.handlers.bootstrap = function(formNode, validators){
@@ -1467,14 +1467,14 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @typedef {object} luga.validator.FormValidator.options
+	 * @typedef {Object} luga.validator.FormValidator.options
 	 *
-	 * @property {jquery}  formNode      Either a jQuery object wrapping the form or the naked DOM object. Required
-	 * @property {string}  error         Name of the function to be invoked to handle/display validation messages.
+	 * @property {jQuery}  formNode      Either a jQuery object wrapping the form or the naked DOM object. Required
+	 * @property {String}  error         Name of the function to be invoked to handle/display validation messages.
 	 *                                   Default to luga.validator.errorAlert
-	 * @property {string}  before        Name of the function to be invoked before validation is performed. Default to null
-	 * @property {string}  after         Name of the function to be invoked after validation is performed. Default to null
-	 * @property {boolean} blocksubmit   Disable submit buttons if the form isn't valid
+	 * @property {String}  before        Name of the function to be invoked before validation is performed. Default to null
+	 * @property {String}  after         Name of the function to be invoked after validation is performed. Default to null
+	 * @property {Boolean} blocksubmit   Disable submit buttons if the form isn't valid
 	 *                                   This prevents multiple submits but also prevents the value of the submit buttons from being passed as part of the HTTP request
 	 *                                   Set this options to false to keep the submit buttons enabled
 	 */
@@ -1532,7 +1532,7 @@ if(typeof(luga) === "undefined"){
 		 * Execute all field validators. Returns an array of field validators that are in invalid state
 		 * The returned array is empty if there are no errors
 		 *
-		 * @param   {object} event
+		 * @param   {Object} event
 		 * @returns {array.<luga.validator.BaseFieldValidator>}
 		 */
 		this.validate = function(event){
@@ -1580,7 +1580,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Returns truue if the form is valid, false otherwise
-		 * @returns {boolean}
+		 * @returns {Boolean}
 		 */
 		this.isValid = function(){
 			return self.dirtyValidators.length === 0;
@@ -1625,12 +1625,12 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.validator.fieldValidatorFactory");
 
 	/**
-	 * @typedef {object} luga.validator.fieldValidatorFactory.getInstance.options
+	 * @typedef {Object} luga.validator.fieldValidatorFactory.getInstance.options
 	 *
-	 * @property {jquery} formNode    Either a jQuery object wrapping the form or the naked DOM object
-	 *                                Required in case of radio and checkboxes (that are validated as group), optional in all other cases
+	 * @property {jquery|undefined} formNode    Either a jQuery object wrapping the form or the naked DOM object
+	 *                                          Required in case of radio and checkboxes (that are validated as group), optional in all other cases
 
-	 * @property {jquery} fieldNode   Either a jQuery object wrapping the field or the naked DOM object. Required
+	 * @property {jQuery} fieldNode   Either a jQuery object wrapping the field or the naked DOM object. Required
 	 *
 	 * Additional options can be used, but are specific to different kind of input fields.
 	 * Check their implementation for details
@@ -1683,11 +1683,11 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @typedef {object} luga.validator.BaseFieldValidator.options
+	 * @typedef {Object} luga.validator.BaseFieldValidator.options
 	 *
-	 * @property {jquery} fieldNode      Either a jQuery object wrapping the field or the naked DOM object. Required
-	 * @property {string} message        Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property {string} errorclass     CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property {jQuery} fieldNode      Either a jQuery object wrapping the field or the naked DOM object. Required
+	 * @property {String} message        Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property {String} errorclass     CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 *
 	 * Additional options can be used, but are specific to different kind of input fields.
 	 * Check their implementation for details
@@ -1728,7 +1728,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Return true if the field is valid. False otherwise
 		 * @abstract
-		 * @returns {boolean}
+		 * @returns {Boolean}
 		 */
 		/* istanbul ignore next */
 		this.isValid = function(){
@@ -1747,7 +1747,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Be careful, this method returns a boolean but also has side-effects
-		 * @returns {boolean}
+		 * @returns {Boolean}
 		 */
 		this.validate = function(){
 			// Disabled fields are always valid
@@ -1767,24 +1767,24 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @typedef {object} luga.validator.TextValidator.options
+	 * @typedef {Object} luga.validator.TextValidator.options
 	 *
-	 * @property {jquery} fieldNode               Either a jQuery object wrapping the field or the naked DOM object. Required
+	 * @property {jQuery} fieldNode               Either a jQuery object wrapping the field or the naked DOM object. Required
 	 * @property {boolean|function} required      Set it to true to flag the field as required.
 	 *                                            In case you need conditional validation, set it to the name of a custom function that will handle the condition.
 	 *                                            Can also be set using the "data-lugavalidator-required" attribute. Optional
-	 * @property {string} pattern                 Validation pattern to be applied, either built-in or custom.
+	 * @property {String} pattern                 Validation pattern to be applied, either built-in or custom.
 	 *                                            Can also be set using the "data-lugavalidator-pattern" attribute. Optional
-	 * @property {string} minlength               Enforce a minimum text length. Can also be set using the "data-lugavalidator-minlength" attribute. Optional
-	 * @property {string} maxlength               Enforce a maximum text length. Can also be set using the "data-lugavalidator-maxlength" attribute. Optional
-	 * @property {string} minnumber               Enforce a minimum numeric value. Can also be set using the "data-lugavalidator-minnumber" attribute. Optional
-	 * @property {string} maxnumber               Enforce a maximum numeric value. Can also be set using the "data-lugavalidator-maxnumber" attribute. Optional
-	 * @property {string} datepattern             Date format pattern to be applied, either built-in or custom. Can also be set using the "data-lugavalidator-datepattern" attribute. Optional
-	 * @property {string} mindate                 Enforce a minimum date. Can also be set using the "data-lugavalidator-mindate" attribute. Optional
-	 * @property {string} maxdate                 Enforce a maximum date. Can also be set using the "data-lugavalidator-maxdate" attribute. Optional
-	 * @property {string} equalto                 Id of another field who's values will be compared for equality. Can also be set using the "data-lugavalidator-equalto" attribute. Optional
-	 * @property {string} message                 Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property {string} errorclass              CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property {String} minlength               Enforce a minimum text length. Can also be set using the "data-lugavalidator-minlength" attribute. Optional
+	 * @property {String} maxlength               Enforce a maximum text length. Can also be set using the "data-lugavalidator-maxlength" attribute. Optional
+	 * @property {String} minnumber               Enforce a minimum numeric value. Can also be set using the "data-lugavalidator-minnumber" attribute. Optional
+	 * @property {String} maxnumber               Enforce a maximum numeric value. Can also be set using the "data-lugavalidator-maxnumber" attribute. Optional
+	 * @property {String} datepattern             Date format pattern to be applied, either built-in or custom. Can also be set using the "data-lugavalidator-datepattern" attribute. Optional
+	 * @property {String} mindate                 Enforce a minimum date. Can also be set using the "data-lugavalidator-mindate" attribute. Optional
+	 * @property {String} maxdate                 Enforce a maximum date. Can also be set using the "data-lugavalidator-maxdate" attribute. Optional
+	 * @property {String} equalto                 Id of another field who's values will be compared for equality. Can also be set using the "data-lugavalidator-equalto" attribute. Optional
+	 * @property {String} message                 Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property {String} errorclass              CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 */
 
 	/**
@@ -1845,14 +1845,14 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * @returns {boolean}
+		 * @returns {Boolean}
 		 */
 		this.isEmpty = function(){
 			return self.node.val() === "";
 		};
 
 		/**
-		 * @returns {boolean}
+		 * @returns {Boolean}
 		 */
 		this.isRequired = function(){
 			var requiredAtt = this.config.required;
@@ -1876,7 +1876,7 @@ if(typeof(luga) === "undefined"){
 		 * Returns true if the field satisfy the rules associated with it. False otherwise
 		 * Be careful, this method contains multiple exit points!!!
 		 * @override
-		 * @returns {boolean}
+		 * @returns {Boolean}
 		 */
 		this.isValid = function(){
 			if(self.isEmpty()){
@@ -1904,13 +1904,13 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @typedef {object} luga.validator.SelectValidator.options
+	 * @typedef {Object} luga.validator.SelectValidator.options
 	 *
-	 * @property {jquery} fieldNode              Either a jQuery object wrapping the field or the naked DOM object. Required
+	 * @property {jQuery} fieldNode              Either a jQuery object wrapping the field or the naked DOM object. Required
 	 * @property {string|number} invalidindex    Prevents selection of an entry on a given position (zero based). Can also be set using the "data-lugavalidator-invalidindex" attribute. Optional
-	 * @property {string} invalidvalue           Prevents selection of an entry with a given value. Can also be set using the "data-lugavalidator-invalidvalue" attribute. Optional
-	 * @property {string} message                Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property {string} errorclass             CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property {String} invalidvalue           Prevents selection of an entry with a given value. Can also be set using the "data-lugavalidator-invalidvalue" attribute. Optional
+	 * @property {String} message                Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property {String} errorclass             CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 */
 
 	/**
@@ -1957,7 +1957,7 @@ if(typeof(luga) === "undefined"){
 		 * Returns true if the field satisfy the rules associated with it. False otherwise
 		 * Be careful, this method contains multiple exit points!!!
 		 * @override
-		 * @returns {boolean}
+		 * @returns {Boolean}
 		 */
 		this.isValid = function(){
 			// Check for index
@@ -1975,11 +1975,11 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @typedef {object} luga.validator.BaseGroupValidator.options
+	 * @typedef {Object} luga.validator.BaseGroupValidator.options
 	 *
-	 * @property {jquery} inputGroup      A jQuery object wrapping input fields that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
-	 * @property {string} message         Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property {string} errorclass      CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property {jQuery} inputGroup      A jQuery object wrapping input fields that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
+	 * @property {String} message         Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property {String} errorclass      CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 *
 	 * Additional options can be used, but are specific to different kind of input fields.
 	 * Check their implementation for details
@@ -2020,7 +2020,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns true if the field group is valid. False otherwise
 		 * @abstract
-		 * @returns {boolean}
+		 * @returns {Boolean}
 		 */
 		/* istanbul ignore next */
 		this.isValid = function(){
@@ -2049,7 +2049,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Be careful, this method returns a boolean but also has side-effects
-		 * @returns {boolean}
+		 * @returns {Boolean}
 		 */
 		this.validate = function(){
 			if(this.isValid() === true){
@@ -2065,11 +2065,11 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @typedef {object} luga.validator.RadioValidator.options
+	 * @typedef {Object} luga.validator.RadioValidator.options
 	 *
-	 * @property {jquery} inputGroup      A jQuery object wrapping input fields that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
-	 * @property {string} message         Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property {string} errorclass      CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property {jQuery} inputGroup      A jQuery object wrapping input fields that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
+	 * @property {String} message         Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property {String} errorclass      CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 */
 
 	/**
@@ -2089,7 +2089,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Return true if the field group is required
-		 * @returns {boolean}
+		 * @returns {Boolean}
 		 */
 		this.isRequired = function(){
 			var requiredFlag = false;
@@ -2110,7 +2110,7 @@ if(typeof(luga) === "undefined"){
 		 * Returns true if the field satisfy the rules associated with it. False otherwise
 		 * Be careful, this method contains multiple exit points!!!
 		 * @override
-		 * @returns {boolean}
+		 * @returns {Boolean}
 		 */
 		this.isValid = function(){
 			if(this.isRequired() === "true"){
@@ -2129,13 +2129,13 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @typedef {object} luga.validator.CheckboxValidator.options
+	 * @typedef {Object} luga.validator.CheckboxValidator.options
 	 *
-	 * @property {jquery} inputGroup      A jQuery object wrapping input fields that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
-	 * @property {number} minchecked      Specify a minimum number of boxes that can be checked in a group. Set it to 1 to allow only one choice. Optional
-	 * @property {number} maxchecked      Specify a maximum number of boxes that can be checked within a group. Optional
-	 * @property {string} message         Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property {string} errorclass      CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property {jQuery} inputGroup      A jQuery object wrapping input fields that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
+	 * @property {Number} minchecked      Specify a minimum number of boxes that can be checked in a group. Set it to 1 to allow only one choice. Optional
+	 * @property {Number} maxchecked      Specify a maximum number of boxes that can be checked within a group. Optional
+	 * @property {String} message         Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property {String} errorclass      CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 */
 
 	/**
@@ -2171,7 +2171,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns true if the field satisfy the rules associated with it. False otherwise
 		 * @override
-		 * @returns {boolean}
+		 * @returns {Boolean}
 		 */
 		this.isValid = function(){
 			var checkCounter = 0;
@@ -2314,12 +2314,12 @@ if(typeof(luga) === "undefined"){
 	 * Create an object that stores date validation's info
 	 *
 	 * @param rex       {regexp}
-	 * @param year      {number}
-	 * @param month     {number}
-	 * @param day       {number}
-	 * @param separator {string}
+	 * @param year      {Number}
+	 * @param month     {Number}
+	 * @param day       {Number}
+	 * @param separator {String}
 	 *
-	 * @returns {object}
+	 * @returns {Object}
 	 */
 	luga.validator.createDateSpecObj = function(rex, year, month, day, separator){
 		var infoObj = {};
@@ -2334,8 +2334,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Create a Date object out of a string, based on a given date spec key
 	 *
-	 * @param {string}   dateStr
-	 * @param {string}   dateSpecKey
+	 * @param {String}   dateStr
+	 * @param {String}   dateSpecKey
 	 * @returns {date|*}
 	 */
 	luga.validator.dateStrToObj = function(dateStr, dateSpecKey){
@@ -2381,7 +2381,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Attach form validators to any suitable form inside the document
-	 * @param {jquery|undefined} rootNode  Optional, default to jQuery("body")
+	 * @param {jQuery} [jQuery("body")] rootNode  Optional, default to jQuery("body")
 	 */
 	luga.validator.initForms = function(rootNode){
 		if(rootNode === undefined){
@@ -2406,9 +2406,9 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.validator.api");
 
 	/**
-	 * @typedef {object} luga.validator.api.validateForm.options
+	 * @typedef {Object} luga.validator.api.validateForm.options
 	 *
-	 * @property {jquery} formNode       Either a jQuery object wrapping the form or the naked DOM object. Required
+	 * @property {jQuery} formNode       Either a jQuery object wrapping the form or the naked DOM object. Required
 	 * @property {function} error        Name of the function to be invoked to handle/display validation messages.
 	 *                                   Default to luga.validator.errorAlert
 	 */
@@ -2416,7 +2416,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Programmatically validate a form
 	 * @param {luga.validator.api.validateForm.options}
-	 * @returns {boolean}
+	 * @returns {Boolean}
 	 */
 	luga.validator.api.validateForm = function(options){
 		var formValidator = new luga.validator.FormValidator(options);
@@ -2425,9 +2425,9 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @typedef {object} luga.validator.api.validateField.options
+	 * @typedef {Object} luga.validator.api.validateField.options
 	 *
-	 * @property {jquery} fieldNode      Either a jQuery object wrapping the field or the naked DOM object. Required
+	 * @property {jQuery} fieldNode      Either a jQuery object wrapping the field or the naked DOM object. Required
 	 * @property {function} error        Function to be invoked to handle/display validation messages.
 	 *                                   Default to luga.validator.errorAlert
 	 */
@@ -2435,7 +2435,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Programmatically validate a field
 	 * @param {luga.validator.api.validateField.options}
-	 * @returns {boolean}
+	 * @returns {Boolean}
 	 * @throws {Exception}
 	 */
 	luga.validator.api.validateField = function(options){
@@ -2458,9 +2458,9 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @typedef {object} luga.validator.api.validateField.options
+	 * @typedef {Object} luga.validator.api.validateField.options
 	 *
-	 * @property {jquery} fields      A jQuery object wrapping the collection of fields. Required
+	 * @property {jQuery} fields      A jQuery object wrapping the collection of fields. Required
 	 * @property {function} error     Function to be invoked to handle/display validation messages.
 	 *                                Default to luga.validator.errorAlert
 	 */
@@ -2468,7 +2468,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Programmatically validate a collection of fields
 	 * @param {luga.validator.api.validateFields.options}
-	 * @returns {boolean}
+	 * @returns {Boolean}
 	 */
 	luga.validator.api.validateFields = function(options){
 		/* istanbul ignore else */
@@ -2508,9 +2508,9 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @typedef {object} luga.validator.api.validateFields.options
+	 * @typedef {Object} luga.validator.api.validateFields.options
 	 *
-	 * @property {jquery} rootNode    A jQuery object wrapping the root node. Required
+	 * @property {jQuery} rootNode    A jQuery object wrapping the root node. Required
 	 * @property {function} error     Function to be invoked to handle/display validation messages.
 	 *                                Default to luga.validator.errorAlert
 	 */
@@ -2518,7 +2518,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Programmatically validate all fields contained inside a given node
 	 * @param {luga.validator.api.validateFields.options}
-	 * @returns {boolean}
+	 * @returns {Boolean}
 	 */
 	luga.validator.api.validateChildFields = function(options){
 		var fields = luga.form.utils.getChildFields(options.rootNode);
@@ -2534,7 +2534,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga Data 0.9.6 2017-09-30T14:44:50.714Z
+Luga Data 0.9.7dev 2017-10-27T19:30:08.056Z
 Copyright 2013-2017 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -2544,7 +2544,7 @@ if(typeof(luga) === "undefined"){
 }
 
 /**
- * @typedef {object} luga.data.dataSourceChanged
+ * @typedef {Object} luga.data.dataSourceChanged
  *
  * @property {luga.data.DataSet|luga.data.DetailSet} dataSource
  */
@@ -2584,7 +2584,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Returns a dataSource from the registry
 	 * Returns null if no source matches the given id
-	 * @param {string} uuid
+	 * @param {String} uuid
 	 * @returns {luga.data.DataSet|luga.data.DetailSet}
 	 */
 	luga.data.getDataSource = function(uuid){
@@ -2596,7 +2596,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Adds a dataSource inside the registry
-	 * @param {string}                                uuid
+	 * @param {String}                                uuid
 	 * @param {luga.data.DataSet|luga.data.DetailSet} dataSource
 	 * @throws {Exception}
 	 */
@@ -2608,8 +2608,8 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @typedef {string} luga.data.STATE
-	 * @enum {string}
+	 * @typedef {String} luga.data.STATE
+	 * @enum {String}
 	 */
 	luga.data.STATE = {
 		ERROR: "error",
@@ -2620,12 +2620,12 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.data.utils");
 
 	/**
-	 * @typedef {object} luga.data.stateDescription
+	 * @typedef {Object} luga.data.stateDescription
 	 *
 	 * @property {null|luga.data.STATE}  state
-	 * @property {boolean}          isStateLoading
-	 * @property {boolean}          isStateError
-	 * @property {boolean}          isStateReady
+	 * @property {Boolean}          isStateLoading
+	 * @property {Boolean}          isStateError
+	 * @property {Boolean}          isStateReady
 	 */
 
 	/**
@@ -2697,8 +2697,8 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Return true if the passed state is supported
-	 * @param {string}  state
-	 * @returns {boolean}
+	 * @param {String}  state
+	 * @returns {Boolean}
 	 */
 	luga.data.utils.isValidState = function(state){
 		for(var key in luga.data.STATE){
@@ -2714,23 +2714,23 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	/**
-	 * @typedef {object} luga.data.DataSet.row
+	 * @typedef {Object} luga.data.DataSet.row
 	 *
-	 * @property {string} rowID  Artificial PK
+	 * @property {String} rowID  Artificial PK
 	 */
 
 	/**
-	 * @typedef {object} luga.data.DataSet.currentRowChanged
+	 * @typedef {Object} luga.data.DataSet.currentRowChanged
 	 *
-	 * @property {string}                oldRowId
+	 * @property {String}                oldRowId
 	 * @property {luga.data.DataSet.row} oldRow
-	 * @property {string}                currentRowId
+	 * @property {String}                currentRowId
 	 * @property {luga.data.DataSet.row} currentRow
 	 * @property {luga.data.DataSet}     dataSet
 	 */
 
 	/**
-	 * @typedef {object} luga.data.DataSet.dataSorted
+	 * @typedef {Object} luga.data.DataSet.dataSorted
 	 *
 	 * @property {luga.data.DataSet}    dataSet
 	 * @property {array<string>}        oldSortColumns
@@ -2740,7 +2740,7 @@ if(typeof(luga) === "undefined"){
 	 */
 
 	/**
-	 * @typedef {object} luga.data.DataSet.stateChanged
+	 * @typedef {Object} luga.data.DataSet.stateChanged
 	 *
 	 * @property {luga.data.DataSet}     dataSet
 	 * @property {null|luga.data.STATE}  currentState
@@ -2748,17 +2748,17 @@ if(typeof(luga) === "undefined"){
 	 */
 
 	/**
-	 * @typedef {object} luga.data.DataSet.context
+	 * @typedef {Object} luga.data.DataSet.context
 	 * @extends luga.data.stateDescription
 	 *
-	 * @property {number}                         recordCount
+	 * @property {Number}                         recordCount
 	 * @property {array.<luga.data.DataSet.row>}  entities
 	 */
 
 	/**
-	 * @typedef {object} luga.data.DataSet.options
+	 * @typedef {Object} luga.data.DataSet.options
 	 *
-	 * @property {string}                uuid       Unique identifier. Required
+	 * @property {String}                uuid       Unique identifier. Required
 	 * @property {array.<object>|object} records    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
 	 * @property {function}              formatter  A formatting functions to be called once for each row in the dataSet. Default to null
 	 * @property {function}              filter     A filter functions to be called once for each row in the dataSet. Default to null
@@ -2891,8 +2891,8 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Delete records matching the given filter
 		 * If no filter is passed, delete all records
-		 * @param {function} filter   A filter function. If specified only records matching the filter will be returned. Optional
-		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
+		 * @param {function} [undefined] filter   A filter function. If specified only records matching the filter will be returned. Optional
+		 *                                        The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @fires currentRowChanged
 		 * @fires stateChanged
 		 * @fires dataChanged
@@ -2924,8 +2924,8 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Returns the column type of the specified column. Either "date", "number" or "string"
-		 * @param {string} columnName
-		 * @returns {string}
+		 * @param {String} columnName
+		 * @returns {String}
 		 */
 		this.getColumnType = function(columnName){
 			if(this.columnTypes[columnName] !== undefined){
@@ -2961,7 +2961,7 @@ if(typeof(luga) === "undefined"){
 		 * Do not confuse the rowId of a row with the index of the row
 		 * RowId is a column that contains a unique identifier for the row
 		 * This identifier does not change if the rows of the dataSet are sorted
-		 * @returns {string}
+		 * @returns {String}
 		 */
 		this.getCurrentRowId = function(){
 			return this.currentRowId;
@@ -2969,7 +2969,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Returns a zero-based index at which the current row can be found, or -1 if the dataSet is empty
-		 * @returns {number}
+		 * @returns {Number}
 		 */
 		this.getCurrentRowIndex = function(){
 			var row = this.getCurrentRow();
@@ -2979,7 +2979,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns the number of records in the dataSet
 		 * If the dataSet has a filter, returns the number of filtered records
-		 * @returns {number}
+		 * @returns {Number}
 		 */
 		this.getRecordsCount = function(){
 			return selectAll().length;
@@ -2987,7 +2987,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Returns the row object associated with the given unique identifier
-		 * @param {string} rowId  Required
+		 * @param {String} rowId  Required
 		 * @returns {null|luga.data.DataSet.row}
 		 */
 		this.getRowById = function(rowId){
@@ -3009,7 +3009,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns the row object associated with the given index
 		 * Throws an exception if the index is out of range
-		 * @param {number} index  Required
+		 * @param {Number} index  Required
 		 * @returns {luga.data.DataSet.row}
 		 * @throws {Exception}
 		 */
@@ -3041,7 +3041,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns the name of the column used for the most recent sort
 		 * Returns an empty string if no sort has been performed yet
-		 * @returns {string}
+		 * @returns {String}
 		 */
 		this.getSortColumn = function(){
 			return (this.lastSortColumns && this.lastSortColumns.length > 0) ? this.lastSortColumns[0] : "";
@@ -3050,7 +3050,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns the order used for the most recent sort
 		 * Returns an empty string if no sort has been performed yet
-		 * @returns {string}
+		 * @returns {String}
 		 */
 		this.getSortOrder = function(){
 			return this.lastSortOrder ? this.lastSortOrder : "";
@@ -3152,8 +3152,8 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns an array of the internal row objects that store the records in the dataSet
 		 * Be aware that modifying any property of a returned object results in a modification of the internal records (since records are passed by reference)
-		 * @param {function} filter   An optional filter function. If specified only records matching the filter will be returned. Optional
-		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
+		 * @param {function}  [undefined] filter   An optional filter function. If specified only records matching the filter will be returned. Optional
+		 *                                         The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @returns {array.<luga.data.DataSet.row>}
 		 * @throws {Exception}
 		 */
@@ -3171,7 +3171,7 @@ if(typeof(luga) === "undefined"){
 		 * Set a column type for a column. Required for proper sorting of numeric or date data.
 		 * By default data is sorted alpha-numerically, if you want it sorted numerically or by date, set the proper columnType
 		 * @param {string|array<string>} columnNames
-		 * @param {string}               columnType   Either "date", "number" or "string"
+		 * @param {String}               columnType   Either "date", "number" or "string"
 		 */
 		this.setColumnType = function(columnNames, columnType){
 			if(luga.isArray(columnNames) === false){
@@ -3242,7 +3242,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Sets the current row of the dataSet to the one matching the given index
 		 * Throws an exception if the index is out of range
-		 * @param {number} index  New index. Required
+		 * @param {Number} index  New index. Required
 		 * @fires currentRowChanged
 		 * @throws {Exception}
 		 */
@@ -3294,8 +3294,8 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Sorts the dataSet using the given column(s) and sort order
-		 * @param {string|array<string>}  columnNames Required, either a single column name or an array of names
-		 * @param {luga.data.sort.ORDER}  sortOrder   Either "ascending", "descending" or "toggle". Optional, default to "toggle"
+		 * @param {string|array<string>}              columnNames Required, either a single column name or an array of names
+		 * @param {luga.data.sort.ORDER} ["toggle"]  sortOrder   Either "ascending", "descending" or "toggle". Optional, default to "toggle"
 		 * @fires preDataSorted
 		 * @fires dataSorted
 		 * @fires dataChanged
@@ -3422,16 +3422,16 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	/**
-	 * @typedef {object} luga.data.DetailSet.context
+	 * @typedef {Object} luga.data.DetailSet.context
 	 * @extends luga.data.stateDescription
 	 *
 	 * @property {null|luga.data.DataSet.row} entity
 	 */
 
 	/**
-	 * @typedef {object} luga.data.DetailSet.options
+	 * @typedef {Object} luga.data.DetailSet.options
 	 *
-	 * @property {string}            uuid           Unique identifier. Required
+	 * @property {String}            uuid           Unique identifier. Required
 	 * @property {luga.data.DataSet} parentDataSet  Master dataSet. Required
 	 */
 
@@ -3534,30 +3534,30 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	/**
-	 * @typedef {object} luga.data.DataSet.dataLoading
+	 * @typedef {Object} luga.data.DataSet.dataLoading
 	 *
 	 * @property {luga.data.DataSet} dataSet
 	 */
 
 	/**
-	 * @typedef {object} luga.data.HttpDataSet.xhrError
+	 * @typedef {Object} luga.data.HttpDataSet.xhrError
 	 *
-	 * @property {string} message
-	 * @property {object} jqXHR        jQuery wrapper around XMLHttpRequest
-	 * @property {string} textStatus
-	 * @property {string} errorThrown
+	 * @property {String} message
+	 * @property {Object} jqXHR        jQuery wrapper around XMLHttpRequest
+	 * @property {String} textStatus
+	 * @property {String} errorThrown
 	 */
 
 	/**
-	 * @typedef {object} luga.data.HttpDataSet.options
+	 * @typedef {Object} luga.data.HttpDataSet.options
 	 *
 	 * @extends luga.data.DataSet.options
-	 * @property {string}    url              URL to be fetched. Default to null
-	 * @property {number}    timeout          Timeout (in milliseconds) for the HTTP request. Default to 10 seconds
-	 * @property {object}    headers          A set of name/value pairs to be used as custom HTTP headers
-	 * @property {boolean}   incrementalLoad  By default calling once .loadData() is called the dataSet discard all the previous records.
+	 * @property {String}    url              URL to be fetched. Default to null
+	 * @property {Number}    timeout          Timeout (in milliseconds) for the HTTP request. Default to 10 seconds
+	 * @property {Object}    headers          A set of name/value pairs to be used as custom HTTP headers
+	 * @property {Boolean}   incrementalLoad  By default calling once .loadData() is called the dataSet discard all the previous records.
 	 *                                        Set this to true to keep the old records. Default to false
-	 * @property {boolean}   cache            If set to false, it will force requested pages not to be cached by the browser.
+	 * @property {Boolean}   cache            If set to false, it will force requested pages not to be cached by the browser.
 	 *                                        It works by appending "_={timestamp}" to the querystring. Default to true
 	 */
 
@@ -3683,8 +3683,8 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Abstract method, concrete classes must implement it to extract records from XHR response
 		 * @param {*}        response     Data returned from the server
-		 * @param {string}   textStatus   HTTP status
-		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
+		 * @param {String}   textStatus   HTTP status
+		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest
 		 * @abstract
 		 */
 		/* istanbul ignore next */
@@ -3695,7 +3695,7 @@ if(typeof(luga) === "undefined"){
 		 * Set the URL that will be used to fetch the data.
 		 * This method does not load the data into the data set, it merely sets the internal URL.
 		 * The developer must call loadData() to actually trigger the data loading
-		 * @param {string} newUrl
+		 * @param {String} newUrl
 		 */
 		this.setUrl = function(newUrl){
 			this.url = newUrl;
@@ -3703,9 +3703,9 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Is called whenever an XHR request fails, set state to error, notify observers ("xhrError")
-		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
-		 * @param {string}   textStatus   HTTP status
-		 * @param {string}   errorThrown  Error message from jQuery
+		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest
+		 * @param {String}   textStatus   HTTP status
+		 * @param {String}   errorThrown  Error message from jQuery
 		 * @fires xhrError
 		 */
 		this.xhrError = function(jqXHR, textStatus, errorThrown){
@@ -3726,7 +3726,7 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	/**
-	 * @typedef {object} luga.data.JsonDataSet.options
+	 * @typedef {Object} luga.data.JsonDataSet.options
 	 *
 	 * @extends luga.data.HttpDataSet.options
 	 * @property {string|null}   path      Specifies the path to the data within the JSON structure.
@@ -3784,8 +3784,8 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Retrieves JSON data, either from an HTTP response or from a direct call, apply the path, if any, extract and load records out of it
 		 * @param {json}     json         JSON data. Either returned from the server or passed directly
-		 * @param {string}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
-		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
+		 * @param {String}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
+		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
 		 * @override
 		 */
 		this.loadRecords = function(json, textStatus, jqXHR){
@@ -3803,7 +3803,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Set the path to be used to extract data out of the JSON data structure
-		 * @param {string} path   Data path, expressed as a set of property names on the objects, separated by dots. Required
+		 * @param {String} path   Data path, expressed as a set of property names on the objects, separated by dots. Required
 		 */
 		this.setPath = function(path){
 			this.path = path;
@@ -3816,10 +3816,10 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	/**
-	 * @typedef {object} luga.data.XmlDataSet.options
+	 * @typedef {Object} luga.data.XmlDataSet.options
 	 *
 	 * @extends luga.data.HttpDataSet.options
-	 * @property {string} path  Specifies the XPath expression to be used to extract nodes from the XML document. Default to: "/"
+	 * @property {String} path  Specifies the XPath expression to be used to extract nodes from the XML document. Default to: "/"
 	 */
 
 	/**
@@ -3873,8 +3873,8 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Retrieves XML data, either from an HTTP response or from a direct call, apply the path, if any, extract and load records out of it
 		 * @param {Node}     xmlDoc       XML data. Either returned from the server or passed directly
-		 * @param {string}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
-		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
+		 * @param {String}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
+		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
 		 * @override
 		 */
 		this.loadRecords = function(xmlDoc, textStatus, jqXHR){
@@ -3890,7 +3890,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Set the the XPath expression to be used to extract data out of the XML
-		 * @param {string} path   XPath expression. Required
+		 * @param {String} path   XPath expression. Required
 		 */
 		this.setPath = function(path){
 			this.path = path;
@@ -3900,10 +3900,10 @@ if(typeof(luga) === "undefined"){
 
 }());
 /**
- * @typedef {object} luga.data.DataSet.context
+ * @typedef {Object} luga.data.DataSet.context
  * @extends luga.data.stateDescription
  *
- * @property {number}                         recordCount
+ * @property {Number}                         recordCount
  * @property {array.<luga.data.DataSet.row>}  items
  */
 
@@ -3937,8 +3937,8 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Given
-		 * @param {jquery} item  A jQuery wrapper around an <item>
-		 * @returns {object}
+		 * @param {jQuery} item  A jQuery wrapper around an <item>
+		 * @returns {Object}
 		 */
 		var itemToHash = function(item){
 			var rec = {};
@@ -3950,7 +3950,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Extract metadata from <channel>
-		 * @param {jquery} $channel A jQuery wrapper around the <channel> tag
+		 * @param {jQuery} $channel A jQuery wrapper around the <channel> tag
 		 */
 		var setChannelMeta = function($channel){
 			for(var i = 0; i < self.channelElements.length; i++){
@@ -3985,7 +3985,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * First delete any existing records, then load data from the given XML, without XHR calls
-		 * @param {string} xmlStr  XML document as string
+		 * @param {String} xmlStr  XML document as string
 		 */
 		this.loadRawXml = function(xmlStr){
 			self.delete();
@@ -3994,9 +3994,9 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Retrieves XML data, either from an HTTP response or from a direct call
-		 * @param {string}   xmlStr       XML document as string. Either returned from the server or passed directly
-		 * @param {string}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
-		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
+		 * @param {String}   xmlStr       XML document as string. Either returned from the server or passed directly
+		 * @param {String}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
+		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
 		 * @override
 		 */
 		this.loadRecords = function(xmlStr, textStatus, jqXHR){
@@ -4021,11 +4021,11 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	/**
-	 * @typedef {object} luga.data.ChildJsonDataSet.options
+	 * @typedef {Object} luga.data.ChildJsonDataSet.options
 	 *
 	 * @extends luga.data.JsonDataSet.options
 	 * @property {luga.data.DataSet}  parentDataSet   Parent dataSet to be used in a master-detail scenario
-	 * @property {string}             url             Unlike JsonDataSet the url here is required and is expected to be a string template like:
+	 * @property {String}             url             Unlike JsonDataSet the url here is required and is expected to be a string template like:
 	 *                                                http://www.ciccio.com/api/products/{uuid}
 	 *
 	 */
@@ -4099,11 +4099,11 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	/**
-	 * @typedef {object} luga.data.ChildXmlDataSet.options
+	 * @typedef {Object} luga.data.ChildXmlDataSet.options
 	 *
 	 * @extends luga.data.XmlDataSet.options
 	 * @property {luga.data.DataSet}  parentDataSet   Parent dataSet to be used in a master-detail scenario
-	 * @property {string}             url             Unlike XmlDataSet the url here is required and is expected to be a string template like:
+	 * @property {String}             url             Unlike XmlDataSet the url here is required and is expected to be a string template like:
 	 *                                                http://www.ciccio.com/api/products/{uuid}
 	 *
 	 */
@@ -4208,9 +4208,9 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @typedef {object} luga.data.region.options
+	 * @typedef {Object} luga.data.region.options
 	 *
-	 * @property {boolean} autoregister  Determine if we call luga.data.region.init() on jQuery(document).ready()
+	 * @property {Boolean} autoregister  Determine if we call luga.data.region.init() on jQuery(document).ready()
 	 */
 
 	/**
@@ -4233,7 +4233,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Given a jQuery object wrapping an HTML node, returns the region object associated to it
 	 * Returns undefined if the node is not associated to a region
-	 * @param {jquery} node
+	 * @param {jQuery} node
 	 * @returns {undefined|luga.data.region.Base}
 	 */
 	luga.data.region.getReferenceFromNode = function(node){
@@ -4242,7 +4242,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Given a jQuery object wrapping an HTML node, initialize the relevant Region handler
-	 * @param {jquery} node
+	 * @param {jQuery} node
 	 * @throws {Exception}
 	 */
 	luga.data.region.init = function(node){
@@ -4267,7 +4267,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Bootstrap any region contained within the given node
-	 * @param {jquery|undefined} rootNode  Optional, default to jQuery("body")
+	 * @param {jquery|undefined} [jQuery("body"] rootNode  Optional, default to jQuery("body")
 	 */
 	luga.data.region.initRegions = function(rootNode){
 		if(rootNode === undefined){
@@ -4281,9 +4281,9 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.data.region.utils");
 
 	/**
-	 * @typedef {object} luga.data.region.description
+	 * @typedef {Object} luga.data.region.description
 	 *
-	 * @property {jquery}                                node   A jQuery object wrapping the node containing the region.
+	 * @property {jQuery}                                node   A jQuery object wrapping the node containing the region.
 	 * @property {luga.data.DataSet|luga.data.DetailSet} ds     DataSource
 	 */
 
@@ -4311,13 +4311,13 @@ if(typeof(luga) === "undefined"){
 	"use strict";
 
 	/**
-	 * @typedef {object} luga.data.region.options
+	 * @typedef {Object} luga.data.region.options
 	 *
-	 * @property {jquery} node                                Either a jQuery object wrapping the node or the naked DOM object that will contain the region. Required
+	 * @property {jQuery} node                                Either a jQuery object wrapping the node or the naked DOM object that will contain the region. Required
 	 * @property {luga.data.DataSet|luga.data.DetailSet} ds   DataSource. Required if dsUuid is not specified
-	 * @property {string} dsUuid                              DataSource's uuid. Can be specified inside the data-lugaregion-datasource attribute too. Required if ds is not specified
-	 * @property {array.<string>} traits                      An array of function names that will be called every time the Region is rendered. Optional
-	 * @property {string} templateId                          Id of HTML element containing the template. Can be specified inside the data-lugaregion-template attribute too.
+	 * @property {String} dsUuid                              DataSource's uuid. Can be specified inside the data-lugaregion-datasource attribute too. Required if ds is not specified
+	 * @property {array.<string>} [undefined]  traits         An array of function names that will be called every time the Region is rendered. Optional
+	 * @property {String} templateId                          Id of HTML element containing the template. Can be specified inside the data-lugaregion-template attribute too.
 	 *                                                        If not available it assumes the node contains the template
 	 */
 
@@ -4468,8 +4468,8 @@ if(typeof(luga) === "undefined"){
 		this.template = "";
 
 		/**
-		 * @param {jquery} node
-		 * @returns {string}
+		 * @param {jQuery} node
+		 * @returns {String}
 		 */
 		var fetchTemplate = function(node){
 			// Inline template
@@ -4505,7 +4505,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * @returns {string}
+		 * @returns {String}
 		 */
 		this.generateHtml = function(){
 			return this.template(this.dataSource.getContext());
@@ -4537,9 +4537,9 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.data.region.traits");
 
 	/**
-	 * @typedef {object} luga.data.region.traits.options
+	 * @typedef {Object} luga.data.region.traits.options
 	 *
-	 * @property {jquery}                                 node          A jQuery object wrapping the Region's node. Required
+	 * @property {jQuery}                                 node          A jQuery object wrapping the Region's node. Required
 	 * @property {luga.data.DataSet|luga.data.DetailSet}  dataSource    DataSource. Required
 	 */
 
@@ -4649,8 +4649,8 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.data.sort");
 
 	/**
-	 * @typedef {string} luga.data.sort.ORDER
-	 * @enum {string}
+	 * @typedef {String} luga.data.sort.ORDER
+	 * @enum {String}
 	 */
 	luga.data.sort.ORDER = {
 		ASC: "ascending",
@@ -4667,8 +4667,8 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Return true if the passed order is supported
-	 * @param {string}  sortOrder
-	 * @returns {boolean}
+	 * @param {String}  sortOrder
+	 * @returns {Boolean}
 	 */
 	luga.data.sort.isValidSortOrder = function(sortOrder){
 		for(var key in luga.data.sort.ORDER){
@@ -4681,7 +4681,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Retrieve the relevant sort function matching the given combination of dataType and sortOrder
-	 * @param {string}               dataType
+	 * @param {String}               dataType
 	 * @param {luga.data.sort.ORDER} sortOrder
 	 * @returns {function}
 	 */
@@ -4836,11 +4836,11 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.data.widgets");
 
 	/**
-	 * @typedef {object} luga.data.widgets.ShowMore.options
+	 * @typedef {Object} luga.data.widgets.ShowMore.options
 	 *
 	 * @property {luga.data.DataSet} dataSet   DataSet. Required
-	 * @property {string} paramPath            Path to retrieve url template params from the JSON. Optional. If not specified the whole returned JSON will be used
-	 * @property {string} url                  Url to be used by the dataSet to fetch more data. It can contain template placeholders. Required
+	 * @property {string|undefined} paramPath  Path to retrieve url template params from the JSON. Optional. If not specified the whole returned JSON will be used
+	 * @property {String} url                  Url to be used by the dataSet to fetch more data. It can contain template placeholders. Required
 	 */
 
 	/**
@@ -4942,11 +4942,11 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @typedef {object} luga.data.ShowMoreButton.options
+	 * @typedef {Object} luga.data.ShowMoreButton.options
 	 *
 	 * @extends luga.data.widgets.ShowMore.options
 	 * @property {jQuery}  button          Button that will trigger the showMore. Required
-	 * @property {string}  disabledClass   Name of CSS class that will be applied to the button while it's disabled. Optional, default to "disabled"
+	 * @property {String}  disabledClass   Name of CSS class that will be applied to the button while it's disabled. Optional, default to "disabled"
 	 */
 
 	/**
@@ -5007,10 +5007,10 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @typedef {object} luga.data.ShowMoreScrolling.options
+	 * @typedef {Object} luga.data.ShowMoreScrolling.options
 	 *
 	 * @extends luga.data.widgets.ShowMore.options
-	 * @property {jQuery}  node  A jQuery object wrapping the node containing the records. It must have a scrollbar. Optional. If not specified, the whole document is assumed.
+	 * @property {jQuery|undefined}  node  A jQuery object wrapping the node containing the records. It must have a scrollbar. Optional. If not specified, the whole document is assumed.
 	 */
 
 	/**

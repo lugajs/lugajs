@@ -24,8 +24,8 @@
 		this.template = "";
 
 		/**
-		 * @param {jquery} node
-		 * @returns {string}
+		 * @param {jQuery} node
+		 * @returns {String}
 		 */
 		var fetchTemplate = function(node){
 			// Inline template
@@ -61,7 +61,7 @@
 		};
 
 		/**
-		 * @returns {string}
+		 * @returns {String}
 		 */
 		this.generateHtml = function(){
 			return this.template(this.dataSource.getContext());

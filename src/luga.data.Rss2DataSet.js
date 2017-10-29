@@ -1,8 +1,8 @@
 /**
- * @typedef {object} luga.data.DataSet.context
+ * @typedef {Object} luga.data.DataSet.context
  * @extends luga.data.stateDescription
  *
- * @property {number}                         recordCount
+ * @property {Number}                         recordCount
  * @property {array.<luga.data.DataSet.row>}  items
  */
 
@@ -36,8 +36,8 @@
 
 		/**
 		 * Given
-		 * @param {jquery} item  A jQuery wrapper around an <item>
-		 * @returns {object}
+		 * @param {jQuery} item  A jQuery wrapper around an <item>
+		 * @returns {Object}
 		 */
 		var itemToHash = function(item){
 			var rec = {};
@@ -49,7 +49,7 @@
 
 		/**
 		 * Extract metadata from <channel>
-		 * @param {jquery} $channel A jQuery wrapper around the <channel> tag
+		 * @param {jQuery} $channel A jQuery wrapper around the <channel> tag
 		 */
 		var setChannelMeta = function($channel){
 			for(var i = 0; i < self.channelElements.length; i++){
@@ -84,7 +84,7 @@
 
 		/**
 		 * First delete any existing records, then load data from the given XML, without XHR calls
-		 * @param {string} xmlStr  XML document as string
+		 * @param {String} xmlStr  XML document as string
 		 */
 		this.loadRawXml = function(xmlStr){
 			self.delete();
@@ -93,9 +93,9 @@
 
 		/**
 		 * Retrieves XML data, either from an HTTP response or from a direct call
-		 * @param {string}   xmlStr       XML document as string. Either returned from the server or passed directly
-		 * @param {string}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
-		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
+		 * @param {String}   xmlStr       XML document as string. Either returned from the server or passed directly
+		 * @param {String}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
+		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
 		 * @override
 		 */
 		this.loadRecords = function(xmlStr, textStatus, jqXHR){

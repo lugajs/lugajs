@@ -4,11 +4,11 @@
 	luga.namespace("luga.data.widgets");
 
 	/**
-	 * @typedef {object} luga.data.widgets.ShowMore.options
+	 * @typedef {Object} luga.data.widgets.ShowMore.options
 	 *
 	 * @property {luga.data.DataSet} dataSet   DataSet. Required
-	 * @property {string} paramPath            Path to retrieve url template params from the JSON. Optional. If not specified the whole returned JSON will be used
-	 * @property {string} url                  Url to be used by the dataSet to fetch more data. It can contain template placeholders. Required
+	 * @property {string|undefined} paramPath  Path to retrieve url template params from the JSON. Optional. If not specified the whole returned JSON will be used
+	 * @property {String} url                  Url to be used by the dataSet to fetch more data. It can contain template placeholders. Required
 	 */
 
 	/**
@@ -110,11 +110,11 @@
 	};
 
 	/**
-	 * @typedef {object} luga.data.ShowMoreButton.options
+	 * @typedef {Object} luga.data.ShowMoreButton.options
 	 *
 	 * @extends luga.data.widgets.ShowMore.options
 	 * @property {jQuery}  button          Button that will trigger the showMore. Required
-	 * @property {string}  disabledClass   Name of CSS class that will be applied to the button while it's disabled. Optional, default to "disabled"
+	 * @property {String}  disabledClass   Name of CSS class that will be applied to the button while it's disabled. Optional, default to "disabled"
 	 */
 
 	/**
@@ -175,10 +175,10 @@
 	};
 
 	/**
-	 * @typedef {object} luga.data.ShowMoreScrolling.options
+	 * @typedef {Object} luga.data.ShowMoreScrolling.options
 	 *
 	 * @extends luga.data.widgets.ShowMore.options
-	 * @property {jQuery}  node  A jQuery object wrapping the node containing the records. It must have a scrollbar. Optional. If not specified, the whole document is assumed.
+	 * @property {jQuery|undefined}  node  A jQuery object wrapping the node containing the records. It must have a scrollbar. Optional. If not specified, the whole document is assumed.
 	 */
 
 	/**

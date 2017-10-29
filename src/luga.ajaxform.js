@@ -16,10 +16,10 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Replace form with message
 	 *
-	 * @param {string}   msg          Message to display in the GUI
-	 * @param {jquery}   formNode     jQuery object wrapping the form
-	 * @param {string}   textStatus   HTTP status
-	 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
+	 * @param {String}   msg          Message to display in the GUI
+	 * @param {jQuery}   formNode     jQuery object wrapping the form
+	 * @param {String}   textStatus   HTTP status
+	 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest
 	 */
 	luga.ajaxform.handlers.replaceForm = function(msg, formNode, textStatus, jqXHR){
 		jQuery(formNode).empty();
@@ -29,11 +29,11 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Display error message inside alert
 	 *
-	 * @param {string}   msg          Message to display in the GUI
-	 * @param {jquery}   formNode     jQuery object wrapping the form
-	 * @param {string}   textStatus   HTTP status
-	 * @param {string}   errorThrown  Error message from jQuery
-	 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
+	 * @param {String}   msg          Message to display in the GUI
+	 * @param {jQuery}   formNode     jQuery object wrapping the form
+	 * @param {String}   textStatus   HTTP status
+	 * @param {String}   errorThrown  Error message from jQuery
+	 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest
 	 */
 	luga.ajaxform.handlers.errorAlert = function(msg, formNode, textStatus, errorThrown, jqXHR){
 		alert(msg);
@@ -42,11 +42,11 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Display errors inside a box above the form
 	 *
-	 * @param {string}   msg          Message to display in the GUI
-	 * @param {jquery}   formNode     jQuery object wrapping the form
-	 * @param {string}   textStatus   HTTP status
-	 * @param {string}   errorThrown  Error message from jQuery
-	 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
+	 * @param {String}   msg          Message to display in the GUI
+	 * @param {jQuery}   formNode     jQuery object wrapping the form
+	 * @param {String}   textStatus   HTTP status
+	 * @param {String}   errorThrown  Error message from jQuery
+	 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest
 	 */
 	luga.ajaxform.handlers.errorBox = function(msg, formNode, textStatus, errorThrown, jqXHR){
 		// Clean-up any existing box
@@ -57,8 +57,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Utility function to be used as after handler by Luga Validator
 	 *
-	 * @param {jquery}       formNode  jQuery object wrapping the form
-	 * @param {jquery.Event} event     jQuery object wrapping the submit event
+	 * @param {jQuery}       formNode  jQuery object wrapping the form
+	 * @param {jQuery.Event} event     jQuery object wrapping the submit event
 	 */
 	luga.ajaxform.handlers.afterValidation = function(formNode, event){
 		event.preventDefault();
@@ -98,19 +98,19 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @typedef {object} luga.ajaxform.Sender.options
+	 * @typedef {Object} luga.ajaxform.Sender.options
 	 *
-	 * @property {jquery} formNode     Either a jQuery object wrapping the form or the naked DOM object. Required
-	 * @property {string} action       URL to where the form will be send. Default to the current URL
-	 * @property {string} method       HTTP method to be used. Default to GET
-	 * @property {number} timeout      Timeout to be used during the HTTP call (milliseconds). Default to 30000
-	 * @property {string} success      Name of the function to be invoked if the form is successfully submitted. Default to luga.ajaxform.handlers.replaceForm
-	 * @property {string} error        Name of the function to be invoked if the HTTP call failed. Default to luga.ajaxform.handlers.errorAlert
-	 * @property {string} successmsg   Message that will be displayed to the user if the form is successfully submitted. Default to "Thanks for submitting the form"
-	 * @property {string} errormsg     Message that will be displayed to the user if the HTTP call failed. Default to "Failed to submit the form"
-	 * @property {string} before       Name of the function to be invoked before the form is send. Default to null
-	 * @property {string} after        Name of the function to be invoked after the form is send. Default to null
-	 * @property {object} headers      A set of name/value pairs to be used as custom HTTP headers. Available only with JavaScript API
+	 * @property {jQuery} formNode     Either a jQuery object wrapping the form or the naked DOM object. Required
+	 * @property {String} action       URL to where the form will be send. Default to the current URL
+	 * @property {String} method       HTTP method to be used. Default to GET
+	 * @property {Number} timeout      Timeout to be used during the HTTP call (milliseconds). Default to 30000
+	 * @property {String} success      Name of the function to be invoked if the form is successfully submitted. Default to luga.ajaxform.handlers.replaceForm
+	 * @property {String} error        Name of the function to be invoked if the HTTP call failed. Default to luga.ajaxform.handlers.errorAlert
+	 * @property {String} successmsg   Message that will be displayed to the user if the form is successfully submitted. Default to "Thanks for submitting the form"
+	 * @property {String} errormsg     Message that will be displayed to the user if the HTTP call failed. Default to "Failed to submit the form"
+	 * @property {String} before       Name of the function to be invoked before the form is send. Default to null
+	 * @property {String} after        Name of the function to be invoked after the form is send. Default to null
+	 * @property {Object} headers      A set of name/value pairs to be used as custom HTTP headers. Available only with JavaScript API
 	 */
 
 	/**
@@ -269,7 +269,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Attach form handlers to onSubmit events
-	 * @param {jquery|undefined} rootNode  Optional, default to jQuery("body")
+	 * @param {jquery|undefined} [jQuery("body")] rootNode  Optional, default to jQuery("body")
 	 */
 	luga.ajaxform.initForms = function(rootNode){
 		if(rootNode === undefined){

@@ -2,7 +2,7 @@
 	"use strict";
 
 	/**
-	 * @typedef {object} luga.data.JsonDataSet.options
+	 * @typedef {Object} luga.data.JsonDataSet.options
 	 *
 	 * @extends luga.data.HttpDataSet.options
 	 * @property {string|null}   path      Specifies the path to the data within the JSON structure.
@@ -60,8 +60,8 @@
 		/**
 		 * Retrieves JSON data, either from an HTTP response or from a direct call, apply the path, if any, extract and load records out of it
 		 * @param {json}     json         JSON data. Either returned from the server or passed directly
-		 * @param {string}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
-		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
+		 * @param {String}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
+		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
 		 * @override
 		 */
 		this.loadRecords = function(json, textStatus, jqXHR){
@@ -79,7 +79,7 @@
 
 		/**
 		 * Set the path to be used to extract data out of the JSON data structure
-		 * @param {string} path   Data path, expressed as a set of property names on the objects, separated by dots. Required
+		 * @param {String} path   Data path, expressed as a set of property names on the objects, separated by dots. Required
 		 */
 		this.setPath = function(path){
 			this.path = path;

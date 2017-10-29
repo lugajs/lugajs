@@ -2,30 +2,30 @@
 	"use strict";
 
 	/**
-	 * @typedef {object} luga.data.DataSet.dataLoading
+	 * @typedef {Object} luga.data.DataSet.dataLoading
 	 *
 	 * @property {luga.data.DataSet} dataSet
 	 */
 
 	/**
-	 * @typedef {object} luga.data.HttpDataSet.xhrError
+	 * @typedef {Object} luga.data.HttpDataSet.xhrError
 	 *
-	 * @property {string} message
-	 * @property {object} jqXHR        jQuery wrapper around XMLHttpRequest
-	 * @property {string} textStatus
-	 * @property {string} errorThrown
+	 * @property {String} message
+	 * @property {Object} jqXHR        jQuery wrapper around XMLHttpRequest
+	 * @property {String} textStatus
+	 * @property {String} errorThrown
 	 */
 
 	/**
-	 * @typedef {object} luga.data.HttpDataSet.options
+	 * @typedef {Object} luga.data.HttpDataSet.options
 	 *
 	 * @extends luga.data.DataSet.options
-	 * @property {string}    url              URL to be fetched. Default to null
-	 * @property {number}    timeout          Timeout (in milliseconds) for the HTTP request. Default to 10 seconds
-	 * @property {object}    headers          A set of name/value pairs to be used as custom HTTP headers
-	 * @property {boolean}   incrementalLoad  By default calling once .loadData() is called the dataSet discard all the previous records.
+	 * @property {String}    url              URL to be fetched. Default to null
+	 * @property {Number}    timeout          Timeout (in milliseconds) for the HTTP request. Default to 10 seconds
+	 * @property {Object}    headers          A set of name/value pairs to be used as custom HTTP headers
+	 * @property {Boolean}   incrementalLoad  By default calling once .loadData() is called the dataSet discard all the previous records.
 	 *                                        Set this to true to keep the old records. Default to false
-	 * @property {boolean}   cache            If set to false, it will force requested pages not to be cached by the browser.
+	 * @property {Boolean}   cache            If set to false, it will force requested pages not to be cached by the browser.
 	 *                                        It works by appending "_={timestamp}" to the querystring. Default to true
 	 */
 
@@ -151,8 +151,8 @@
 		/**
 		 * Abstract method, concrete classes must implement it to extract records from XHR response
 		 * @param {*}        response     Data returned from the server
-		 * @param {string}   textStatus   HTTP status
-		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
+		 * @param {String}   textStatus   HTTP status
+		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest
 		 * @abstract
 		 */
 		/* istanbul ignore next */
@@ -163,7 +163,7 @@
 		 * Set the URL that will be used to fetch the data.
 		 * This method does not load the data into the data set, it merely sets the internal URL.
 		 * The developer must call loadData() to actually trigger the data loading
-		 * @param {string} newUrl
+		 * @param {String} newUrl
 		 */
 		this.setUrl = function(newUrl){
 			this.url = newUrl;
@@ -171,9 +171,9 @@
 
 		/**
 		 * Is called whenever an XHR request fails, set state to error, notify observers ("xhrError")
-		 * @param {object}   jqXHR        jQuery wrapper around XMLHttpRequest
-		 * @param {string}   textStatus   HTTP status
-		 * @param {string}   errorThrown  Error message from jQuery
+		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest
+		 * @param {String}   textStatus   HTTP status
+		 * @param {String}   errorThrown  Error message from jQuery
 		 * @fires xhrError
 		 */
 		this.xhrError = function(jqXHR, textStatus, errorThrown){
