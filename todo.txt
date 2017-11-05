@@ -18,9 +18,6 @@ AJAXFORM:
 
 -------------
 COMMON:
-
-- Add luga.string.hashToQuery()
-
 -------------
 
 HISTORY:
