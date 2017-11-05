@@ -3,7 +3,7 @@
  * @extends luga.data.stateDescription
  *
  * @property {Number}                         recordCount
- * @property {array.<luga.data.DataSet.row>}  items
+ * @property {Array.<luga.data.DataSet.row>}  items
  */
 
 (function(){
@@ -25,10 +25,10 @@
 		/** @type {null|string} */
 		this.rawXml = null;
 
-		/** @type {array.<string>} */
+		/** @type {Array.<string>} */
 		this.channelElements = ["title", "link", "description", "language", "copyright", "managingEditor", "webMaster", "pubDate", "lastBuildDate", "category", "generator", "docs", "cloud", "ttl", "image", "textInput", "skipHours", "skipDays"];
 
-		/** @type {array.<string>} */
+		/** @type {Array.<string>} */
 		this.itemElements = ["title", "link", "description", "author", "category", "comments", "enclosure", "guid", "pubDate", "source"];
 
 		// Store metadata extracted from <channel>

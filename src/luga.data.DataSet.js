@@ -40,14 +40,14 @@
 	 * @extends luga.data.stateDescription
 	 *
 	 * @property {Number}                         recordCount
-	 * @property {array.<luga.data.DataSet.row>}  entities
+	 * @property {Array.<luga.data.DataSet.row>}  entities
 	 */
 
 	/**
 	 * @typedef {Object} luga.data.DataSet.options
 	 *
 	 * @property {String}                uuid       Unique identifier. Required
-	 * @property {array.<object>|object} records    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
+	 * @property {Array.<object>|object} records    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
 	 * @property {function}              formatter  A formatting functions to be called once for each row in the dataSet. Default to null
 	 * @property {function}              filter     A filter functions to be called once for each row in the dataSet. Default to null
 	 */
@@ -99,7 +99,7 @@
 
 		this.uuid = options.uuid;
 
-		/** @type {array.<luga.data.DataSet.row>} */
+		/** @type {Array.<luga.data.DataSet.row>} */
 		this.records = [];
 
 		/** @type {hash.<luga.data.DataSet.row>} */
@@ -356,7 +356,7 @@
 		 * Adds rows to a dataSet
 		 * Be aware that the dataSet use passed data by reference
 		 * That is, it uses those objects as its row object internally. It does not make a copy
-		 * @param  {array.<object>|object} records   Records to be loaded, either one single object containing value/name pairs, or an array of objects. Required
+		 * @param  {Array.<object>|object} records   Records to be loaded, either one single object containing value/name pairs, or an array of objects. Required
 		 * @fires stateChanged
 		 * @fires dataChanged
 		 * @throws {Exception}
@@ -442,7 +442,7 @@
 		 * Be aware that modifying any property of a returned object results in a modification of the internal records (since records are passed by reference)
 		 * @param {function}  [undefined] filter   An optional filter function. If specified only records matching the filter will be returned. Optional
 		 *                                         The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
-		 * @return {array.<luga.data.DataSet.row>}
+		 * @return {Array.<luga.data.DataSet.row>}
 		 * @throws {Exception}
 		 */
 		this.select = function(filter){
@@ -458,7 +458,7 @@
 		/**
 		 * Set a column type for a column. Required for proper sorting of numeric or date data.
 		 * By default data is sorted alpha-numerically, if you want it sorted numerically or by date, set the proper columnType
-		 * @param {string|array<string>} columnNames
+		 * @param {String|array<string>} columnNames
 		 * @param {String}               columnType   Either "date", "number" or "string"
 		 */
 		this.setColumnType = function(columnNames, columnType){
@@ -479,7 +479,7 @@
 		 * Throws an exception if the given rowId is invalid
 		 * If null is passed, no row is selected
 		 * Triggers a "currentRowChanged" notification
-		 * @param {string|null} rowId  Required
+		 * @param {String|null} rowId  Required
 		 * @fires currentRowChanged
 		 * @throws {Exception}
 		 */
@@ -582,7 +582,7 @@
 
 		/**
 		 * Sorts the dataSet using the given column(s) and sort order
-		 * @param {string|array<string>}              columnNames Required, either a single column name or an array of names
+		 * @param {String|Array<string>}              columnNames Required, either a single column name or an array of names
 		 * @param {luga.data.sort.ORDER} ["toggle"]  sortOrder   Either "ascending", "descending" or "toggle". Optional, default to "toggle"
 		 * @fires preDataSorted
 		 * @fires dataSorted
@@ -686,7 +686,7 @@
 		 * @throws {Exception}
 		 */
 		this.update = function(filter, updater){
-			/** @type {array.<luga.data.DataSet.row>} */
+			/** @type {Array.<luga.data.DataSet.row>} */
 			var filteredRecords = luga.data.utils.filter(this.records, filter, this);
 			luga.data.utils.update(filteredRecords, updater, this);
 			this.resetCurrentRow();

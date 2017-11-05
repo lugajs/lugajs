@@ -109,10 +109,10 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Apply the given filter function to each passed row
 	 * Return an array of filtered rows
-	 * @param {array.<luga.data.DataSet.row>} rows. Required
+	 * @param {Array.<luga.data.DataSet.row>} rows. Required
 	 * @param {function}                      filter. Required
 	 * @param {luga.data.DataSet}             dataset. Required
-	 * @return {array.<luga.data.DataSet.row>}
+	 * @return {Array.<luga.data.DataSet.row>}
 	 * @throws {Exception}
 	 */
 	luga.data.utils.filter = function(rows, filter, dataset){
@@ -138,7 +138,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Apply the given updater function to each passed row
-	 * @param {array.<luga.data.DataSet.row>} rows. Required
+	 * @param {Array.<luga.data.DataSet.row>} rows. Required
 	 * @param {function}                      updater. Required
 	 * @param {luga.data.DataSet}             dataset. Required
 	 * @throws {Exception}
