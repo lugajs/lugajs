@@ -4,7 +4,7 @@
 	/**
 	 * @typedef {Object} luga.data.XmlDataSet.options
 	 *
-	 * @extends luga.data.HttpDataSet.options
+	 * @extend luga.data.HttpDataSet.options
 	 * @property {String} path  Specifies the XPath expression to be used to extract nodes from the XML document. Default to: "/"
 	 */
 
@@ -12,7 +12,7 @@
 	 * XML dataSet class
 	 * @param {luga.data.XmlDataSet.options} options
 	 * @constructor
-	 * @extends luga.data.HttpDataSet
+	 * @extend luga.data.HttpDataSet
 	 */
 	luga.data.XmlDataSet = function(options){
 		luga.extend(luga.data.HttpDataSet, this, [options]);

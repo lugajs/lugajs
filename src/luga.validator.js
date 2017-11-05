@@ -163,7 +163,7 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @constructor
 	 * @param {luga.validator.FormValidator.options} options
-	 * @throws {Exception}
+	 * @throw {Exception}
 	 */
 	luga.validator.FormValidator = function(options){
 		/** @type {luga.validator.FormValidator.options} */
@@ -378,7 +378,7 @@ if(typeof(luga) === "undefined"){
 	 * @constructor
 	 * @abstract
 	 * @param {luga.validator.BaseFieldValidator.options} options
-	 * @throws {Exception}
+	 * @throw {Exception}
 	 */
 	luga.validator.BaseFieldValidator = function(options){
 
@@ -470,9 +470,9 @@ if(typeof(luga) === "undefined"){
 	 * Text field validator class
 	 *
 	 * @constructor
-	 * @extends luga.validator.BaseFieldValidator
+	 * @extend luga.validator.BaseFieldValidator
 	 * @param {luga.validator.TextValidator.options} options
-	 * @throws {Exception}
+	 * @throw {Exception}
 	 */
 	luga.validator.TextValidator = function(options){
 
@@ -596,9 +596,9 @@ if(typeof(luga) === "undefined"){
 	 * Select field validator class
 	 *
 	 * @constructor
-	 * @extends luga.validator.BaseFieldValidator
+	 * @extend luga.validator.BaseFieldValidator
 	 * @param {luga.validator.SelectValidator.options} options
-	 * @throws {Exception}
+	 * @throw {Exception}
 	 */
 	luga.validator.SelectValidator = function(options){
 
@@ -670,7 +670,7 @@ if(typeof(luga) === "undefined"){
 	 * @constructor
 	 * @abstract
 	 * @param {luga.validator.BaseFieldValidator.options} options
-	 * @throws {Exception}
+	 * @throw {Exception}
 	 */
 	luga.validator.BaseGroupValidator = function(options){
 
@@ -755,7 +755,7 @@ if(typeof(luga) === "undefined"){
 	 * Radio button group validator class
 	 *
 	 * @constructor
-	 * @extends luga.validator.BaseGroupValidator
+	 * @extend luga.validator.BaseGroupValidator
 	 * @param {luga.validator.RadioValidator.options} options
 	 *
 	 */
@@ -821,7 +821,7 @@ if(typeof(luga) === "undefined"){
 	 * Checkboxes group validator class
 	 *
 	 * @constructor
-	 * @extends luga.validator.BaseGroupValidator
+	 * @extend luga.validator.BaseGroupValidator
 	 * @param {luga.validator.CheckboxValidator.options} options
 	 *
 	 */
@@ -884,7 +884,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @throws {Exception}
+	 * @throw {Exception}
 	 */
 	luga.validator.rules.equalto = function(fieldNode, validator){
 		var secondFieldNode = jQuery("#" + validator.config.equalto);
@@ -957,7 +957,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @throws {Exception}
+	 * @throw {Exception}
 	 */
 	luga.validator.rules.pattern = function(fieldNode, validator){
 		var regExpObj = luga.validator.patterns[validator.config.pattern];
@@ -1115,7 +1115,7 @@ if(typeof(luga) === "undefined"){
 	 * Programmatically validate a field
 	 * @param {luga.validator.api.validateField.options}
 	 * @return {Boolean}
-	 * @throws {Exception}
+	 * @throw {Exception}
 	 */
 	luga.validator.api.validateField = function(options){
 		if(luga.form.utils.isInputField(options.fieldNode) === false){

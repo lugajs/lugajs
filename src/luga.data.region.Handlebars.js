@@ -5,9 +5,9 @@
 	 * Handlebars Region class
 	 * @param {luga.data.Region.options} options
 	 * @constructor
-	 * @extends luga.data.region.Base
-	 * @fires regionRendered
-	 * @throws {Exception}
+	 * @extend luga.data.region.Base
+	 * @fire regionRendered
+	 * @throw {Exception}
 	 */
 	luga.data.region.Handlebars = function(options){
 
@@ -69,7 +69,7 @@
 
 		/*
 		 @override
-		 @fires regionRendered
+		 @fire regionRendered
 		 */
 		this.render = function(){
 			/* istanbul ignore else */

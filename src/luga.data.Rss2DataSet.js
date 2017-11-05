@@ -1,6 +1,6 @@
 /**
  * @typedef {Object} luga.data.DataSet.context
- * @extends luga.data.stateDescription
+ * @extend luga.data.stateDescription
  *
  * @property {Number}                         recordCount
  * @property {Array.<luga.data.DataSet.row>}  items
@@ -13,7 +13,7 @@
 	 * RSS 2.0 dataSet class
 	 * @param {luga.data.HttpDataSet.options} options
 	 * @constructor
-	 * @extends luga.data.HttpDataSet
+	 * @extend luga.data.HttpDataSet
 	 */
 	luga.data.Rss2Dataset = function(options){
 		luga.extend(luga.data.HttpDataSet, this, [options]);

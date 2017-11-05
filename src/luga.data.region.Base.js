@@ -18,10 +18,11 @@
 	 * @param {luga.data.Region.options} options
 	 * @constructor
 	 * @abstract
-	 * @fires regionRendered
-	 * @listens dataChanged
-	 * @listens stateChanged
-	 * @throws {Exception}
+	 * @extend luga.Notifier
+	 * @fire regionRendered
+	 * @listen dataChanged
+	 * @listen stateChanged
+	 * @throw {Exception}
 	 */
 	luga.data.region.Base = function(options){
 
@@ -99,7 +100,7 @@
 
 		/**
 		 * @abstract
-		 * @fires regionRendered
+		 * @fire regionRendered
 		 */
 		this.render = function(){
 			// Concrete implementations must overwrite this

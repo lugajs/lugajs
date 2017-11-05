@@ -4,7 +4,7 @@
 	/**
 	 * @typedef {Object} luga.data.JsonDataSet.options
 	 *
-	 * @extends luga.data.HttpDataSet.options
+	 * @extend luga.data.HttpDataSet.options
 	 * @property {String|null}   path      Specifies the path to the data within the JSON structure.
 	 *                                     The path is expressed as a set of property names on the objects, separated by dots. Default to null
 	 */
@@ -13,7 +13,7 @@
 	 * JSON dataSet class
 	 * @param {luga.data.JsonDataSet.options} options
 	 * @constructor
-	 * @extends luga.data.HttpDataSet
+	 * @extend luga.data.HttpDataSet
 	 */
 	luga.data.JsonDataSet = function(options){
 		luga.extend(luga.data.HttpDataSet, this, [options]);
