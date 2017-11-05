@@ -213,7 +213,7 @@
 		/**
 		 * Returns the column type of the specified column. Either "date", "number" or "string"
 		 * @param {String} columnName
-		 * @returns {String}
+		 * @return {String}
 		 */
 		this.getColumnType = function(columnName){
 			if(this.columnTypes[columnName] !== undefined){
@@ -223,7 +223,7 @@
 		};
 
 		/**
-		 * @returns {luga.data.DataSet.context}
+		 * @return {luga.data.DataSet.context}
 		 */
 		this.getContext = function(){
 			var context = {
@@ -238,7 +238,7 @@
 		/**
 		 * Returns the current row object
 		 * By default, the current row is the first row of the dataSet, but this can be changed by calling setCurrentRow() or setCurrentRowIndex().
-		 * @returns {luga.data.DataSet.row|null}
+		 * @return {luga.data.DataSet.row|null}
 		 */
 		this.getCurrentRow = function(){
 			return this.getRowById(this.getCurrentRowId());
@@ -249,7 +249,7 @@
 		 * Do not confuse the rowId of a row with the index of the row
 		 * RowId is a column that contains a unique identifier for the row
 		 * This identifier does not change if the rows of the dataSet are sorted
-		 * @returns {String}
+		 * @return {String}
 		 */
 		this.getCurrentRowId = function(){
 			return this.currentRowId;
@@ -257,7 +257,7 @@
 
 		/**
 		 * Returns a zero-based index at which the current row can be found, or -1 if the dataSet is empty
-		 * @returns {Number}
+		 * @return {Number}
 		 */
 		this.getCurrentRowIndex = function(){
 			var row = this.getCurrentRow();
@@ -267,7 +267,7 @@
 		/**
 		 * Returns the number of records in the dataSet
 		 * If the dataSet has a filter, returns the number of filtered records
-		 * @returns {Number}
+		 * @return {Number}
 		 */
 		this.getRecordsCount = function(){
 			return selectAll().length;
@@ -276,7 +276,7 @@
 		/**
 		 * Returns the row object associated with the given unique identifier
 		 * @param {String} rowId  Required
-		 * @returns {null|luga.data.DataSet.row}
+		 * @return {null|luga.data.DataSet.row}
 		 */
 		this.getRowById = function(rowId){
 			var targetRow = this.recordsHash[rowId];
@@ -298,7 +298,7 @@
 		 * Returns the row object associated with the given index
 		 * Throws an exception if the index is out of range
 		 * @param {Number} index  Required
-		 * @returns {luga.data.DataSet.row}
+		 * @return {luga.data.DataSet.row}
 		 * @throws {Exception}
 		 */
 		this.getRowByIndex = function(index){
@@ -329,7 +329,7 @@
 		/**
 		 * Returns the name of the column used for the most recent sort
 		 * Returns an empty string if no sort has been performed yet
-		 * @returns {String}
+		 * @return {String}
 		 */
 		this.getSortColumn = function(){
 			return (this.lastSortColumns && this.lastSortColumns.length > 0) ? this.lastSortColumns[0] : "";
@@ -338,7 +338,7 @@
 		/**
 		 * Returns the order used for the most recent sort
 		 * Returns an empty string if no sort has been performed yet
-		 * @returns {String}
+		 * @return {String}
 		 */
 		this.getSortOrder = function(){
 			return this.lastSortOrder ? this.lastSortOrder : "";
@@ -346,7 +346,7 @@
 
 		/**
 		 * Returns the dataSet's current state
-		 * @returns {null|luga.data.STATE}
+		 * @return {null|luga.data.STATE}
 		 */
 		this.getState = function(){
 			return this.state;
@@ -442,7 +442,7 @@
 		 * Be aware that modifying any property of a returned object results in a modification of the internal records (since records are passed by reference)
 		 * @param {function}  [undefined] filter   An optional filter function. If specified only records matching the filter will be returned. Optional
 		 *                                         The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
-		 * @returns {array.<luga.data.DataSet.row>}
+		 * @return {array.<luga.data.DataSet.row>}
 		 * @throws {Exception}
 		 */
 		this.select = function(filter){

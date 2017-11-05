@@ -126,7 +126,7 @@
 
 		/**
 		 * Returns the URL that will be used to fetch the data. Returns null if URL is not set
-		 * @returns {string|null}
+		 * @return {string|null}
 		 */
 		this.getUrl = function(){
 			return this.url;

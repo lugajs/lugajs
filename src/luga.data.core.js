@@ -45,7 +45,7 @@ if(typeof(luga) === "undefined"){
 	 * Returns a dataSource from the registry
 	 * Returns null if no source matches the given id
 	 * @param {String} uuid
-	 * @returns {luga.data.DataSet|luga.data.DetailSet}
+	 * @return {luga.data.DataSet|luga.data.DetailSet}
 	 */
 	luga.data.getDataSource = function(uuid){
 		if(luga.data.dataSourceRegistry[uuid] !== undefined){
@@ -92,7 +92,7 @@ if(typeof(luga) === "undefined"){
 	 * Given a state string, returns an object containing a boolean field for each possible state
 	 * @param {null|luga.data.STATE} state
 	 * @throws {Exception}
-	 * @returns {luga.data.stateDescription}
+	 * @return {luga.data.stateDescription}
 	 */
 	luga.data.utils.assembleStateDescription = function(state){
 		if((state !== null) && (luga.data.utils.isValidState(state) === false)){
@@ -112,7 +112,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {array.<luga.data.DataSet.row>} rows. Required
 	 * @param {function}                      filter. Required
 	 * @param {luga.data.DataSet}             dataset. Required
-	 * @returns {array.<luga.data.DataSet.row>}
+	 * @return {array.<luga.data.DataSet.row>}
 	 * @throws {Exception}
 	 */
 	luga.data.utils.filter = function(rows, filter, dataset){
@@ -158,7 +158,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Return true if the passed state is supported
 	 * @param {String}  state
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	luga.data.utils.isValidState = function(state){
 		for(var key in luga.data.STATE){

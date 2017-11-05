@@ -37,7 +37,7 @@
 		/**
 		 * Given
 		 * @param {jQuery} item  A jQuery wrapper around an <item>
-		 * @returns {Object}
+		 * @return {Object}
 		 */
 		var itemToHash = function(item){
 			var rec = {};
@@ -60,7 +60,7 @@
 		/* Public methods */
 
 		/**
-		 * @returns {luga.data.Rss2Dataset.context}
+		 * @return {luga.data.Rss2Dataset.context}
 		 * @override
 		 */
 		this.getContext = function(){
@@ -76,7 +76,7 @@
 
 		/**
 		 * Returns the raw XML document
-		 * @returns {null|string}
+		 * @return {null|string}
 		 */
 		this.getRawXml = function(){
 			return this.rawXml;

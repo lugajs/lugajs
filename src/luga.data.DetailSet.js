@@ -57,7 +57,7 @@
 		luga.data.setDataSource(this.uuid, this);
 
 		/**
-		 * @returns {luga.data.DetailSet.context}
+		 * @return {luga.data.DetailSet.context}
 		 */
 		this.getContext = function(){
 			var context = {
@@ -70,7 +70,7 @@
 
 		/**
 		 * Returns the detailSet's current state
-		 * @returns {null|luga.data.STATE}
+		 * @return {null|luga.data.STATE}
 		 */
 		this.getState = function(){
 			return self.parentDataSet.getState();

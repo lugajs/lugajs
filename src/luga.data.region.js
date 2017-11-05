@@ -48,7 +48,7 @@
 	/**
 	 * Change current configuration
 	 * @param {luga.data.region.options} options
-	 * @returns {luga.data.region.options}
+	 * @return {luga.data.region.options}
 	 */
 	luga.data.region.setup = function(options){
 		luga.merge(config, options);
@@ -59,7 +59,7 @@
 	 * Given a jQuery object wrapping an HTML node, returns the region object associated to it
 	 * Returns undefined if the node is not associated to a region
 	 * @param {jQuery} node
-	 * @returns {undefined|luga.data.region.Base}
+	 * @return {undefined|luga.data.region.Base}
 	 */
 	luga.data.region.getReferenceFromNode = function(node){
 		return node.data(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE);
@@ -115,7 +115,7 @@
 	/**
 	 * Given a region instance, returns an object containing its critical data
 	 * @param {luga.data.region.Base} region
-	 * @returns {luga.data.region.description}
+	 * @return {luga.data.region.description}
 	 */
 	luga.data.region.utils.assembleRegionDescription = function(region){
 		return {

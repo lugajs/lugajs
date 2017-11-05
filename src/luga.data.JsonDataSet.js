@@ -34,7 +34,7 @@
 
 		/**
 		 * Returns the raw JSON data structure
-		 * @returns {null|json}
+		 * @return {null|json}
 		 */
 		this.getRawJson = function(){
 			return this.rawJson;
@@ -42,7 +42,7 @@
 
 		/**
 		 * Returns the path to be used to extract data out of the JSON data structure
-		 * @returns {null|string}
+		 * @return {null|string}
 		 */
 		this.getPath = function(){
 			return this.path;

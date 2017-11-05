@@ -212,7 +212,7 @@ if(typeof(luga) === "undefined"){
 		 * The returned array is empty if there are no errors
 		 *
 		 * @param   {Object} event
-		 * @returns {array.<luga.validator.BaseFieldValidator>}
+		 * @return {array.<luga.validator.BaseFieldValidator>}
 		 */
 		this.validate = function(event){
 			self.init();
@@ -259,7 +259,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Returns truue if the form is valid, false otherwise
-		 * @returns {Boolean}
+		 * @return {Boolean}
 		 */
 		this.isValid = function(){
 			return self.dirtyValidators.length === 0;
@@ -319,7 +319,7 @@ if(typeof(luga) === "undefined"){
 	 * Field validator factory. Use this to instantiate a field validator without worrying about the specific implementation
 	 *
 	 * @param {luga.validator.fieldValidatorFactory.getInstance.options} options
-	 * @returns {luga.validator.BaseFieldValidator|luga.validator.BaseGroupValidator}
+	 * @return {luga.validator.BaseFieldValidator|luga.validator.BaseGroupValidator}
 	 */
 	luga.validator.fieldValidatorFactory.getInstance = function(options){
 		/** @type {luga.validator.fieldValidatorFactory.getInstance.options} */
@@ -407,7 +407,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Return true if the field is valid. False otherwise
 		 * @abstract
-		 * @returns {Boolean}
+		 * @return {Boolean}
 		 */
 		/* istanbul ignore next */
 		this.isValid = function(){
@@ -426,7 +426,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Be careful, this method returns a boolean but also has side-effects
-		 * @returns {Boolean}
+		 * @return {Boolean}
 		 */
 		this.validate = function(){
 			// Disabled fields are always valid
@@ -524,14 +524,14 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * @returns {Boolean}
+		 * @return {Boolean}
 		 */
 		this.isEmpty = function(){
 			return self.node.val() === "";
 		};
 
 		/**
-		 * @returns {Boolean}
+		 * @return {Boolean}
 		 */
 		this.isRequired = function(){
 			var requiredAtt = this.config.required;
@@ -555,7 +555,7 @@ if(typeof(luga) === "undefined"){
 		 * Returns true if the field satisfy the rules associated with it. False otherwise
 		 * Be careful, this method contains multiple exit points!!!
 		 * @override
-		 * @returns {Boolean}
+		 * @return {Boolean}
 		 */
 		this.isValid = function(){
 			if(self.isEmpty()){
@@ -636,7 +636,7 @@ if(typeof(luga) === "undefined"){
 		 * Returns true if the field satisfy the rules associated with it. False otherwise
 		 * Be careful, this method contains multiple exit points!!!
 		 * @override
-		 * @returns {Boolean}
+		 * @return {Boolean}
 		 */
 		this.isValid = function(){
 			// Check for index
@@ -699,7 +699,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns true if the field group is valid. False otherwise
 		 * @abstract
-		 * @returns {Boolean}
+		 * @return {Boolean}
 		 */
 		/* istanbul ignore next */
 		this.isValid = function(){
@@ -728,7 +728,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Be careful, this method returns a boolean but also has side-effects
-		 * @returns {Boolean}
+		 * @return {Boolean}
 		 */
 		this.validate = function(){
 			if(this.isValid() === true){
@@ -768,7 +768,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Return true if the field group is required
-		 * @returns {Boolean}
+		 * @return {Boolean}
 		 */
 		this.isRequired = function(){
 			var requiredFlag = false;
@@ -789,7 +789,7 @@ if(typeof(luga) === "undefined"){
 		 * Returns true if the field satisfy the rules associated with it. False otherwise
 		 * Be careful, this method contains multiple exit points!!!
 		 * @override
-		 * @returns {Boolean}
+		 * @return {Boolean}
 		 */
 		this.isValid = function(){
 			if(this.isRequired() === "true"){
@@ -850,7 +850,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns true if the field satisfy the rules associated with it. False otherwise
 		 * @override
-		 * @returns {Boolean}
+		 * @return {Boolean}
 		 */
 		this.isValid = function(){
 			var checkCounter = 0;
@@ -998,7 +998,7 @@ if(typeof(luga) === "undefined"){
 	 * @param day       {Number}
 	 * @param separator {String}
 	 *
-	 * @returns {Object}
+	 * @return {Object}
 	 */
 	luga.validator.createDateSpecObj = function(rex, year, month, day, separator){
 		var infoObj = {};
@@ -1015,7 +1015,7 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param {String}   dateStr
 	 * @param {String}   dateSpecKey
-	 * @returns {date|*}
+	 * @return {date|*}
 	 */
 	luga.validator.dateStrToObj = function(dateStr, dateSpecKey){
 		var dateSpecObj = luga.validator.dateSpecs[dateSpecKey];
@@ -1095,7 +1095,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Programmatically validate a form
 	 * @param {luga.validator.api.validateForm.options}
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	luga.validator.api.validateForm = function(options){
 		var formValidator = new luga.validator.FormValidator(options);
@@ -1114,7 +1114,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Programmatically validate a field
 	 * @param {luga.validator.api.validateField.options}
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 * @throws {Exception}
 	 */
 	luga.validator.api.validateField = function(options){
@@ -1147,7 +1147,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Programmatically validate a collection of fields
 	 * @param {luga.validator.api.validateFields.options}
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	luga.validator.api.validateFields = function(options){
 		/* istanbul ignore else */
@@ -1197,7 +1197,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Programmatically validate all fields contained inside a given node
 	 * @param {luga.validator.api.validateFields.options}
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	luga.validator.api.validateChildFields = function(options){
 		var fields = luga.form.utils.getChildFields(options.rootNode);

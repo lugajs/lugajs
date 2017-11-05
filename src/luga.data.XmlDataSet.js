@@ -33,7 +33,7 @@
 
 		/**
 		 * Returns the raw XML data
-		 * @returns {null|Node}
+		 * @return {null|Node}
 		 */
 		this.getRawXml = function(){
 			return this.rawXml;
@@ -41,7 +41,7 @@
 
 		/**
 		 * Returns the XPath expression to be used to extract data out of the XML
-		 * @returns {null|string}
+		 * @return {null|string}
 		 */
 		this.getPath = function(){
 			return this.path;
