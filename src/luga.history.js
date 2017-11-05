@@ -12,23 +12,23 @@
 	/**
 	 * @type {luga.history.options}
 	 */
-	var config = {
+	var settings = {
 		pushState: false
 	};
 
 	/**
 	 * Change current configuration
 	 * @param {luga.history.options} options
-	 * @returns {luga.history.options}
+	 * @return {luga.history.options}
 	 */
 	luga.history.setup = function(options){
-		luga.merge(config, options);
-		return config;
+		luga.merge(settings, options);
+		return settings;
 	};
 
 	/**
 	 * Return true if the browser supports pushState, false otherwise
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	/* istanbul ignore next */
 	luga.history.isPushStateSupported = function(){
@@ -39,10 +39,10 @@
 	/**
 	 * Return true if we should pushState, false otherwise
 	 * The result depend on a combination of browser capabilities and current configuration
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	luga.history.usePushState = function(){
-		return ((config.pushState === true) && (luga.history.isPushStateSupported() === true));
+		return ((settings.pushState === true) && (luga.history.isPushStateSupported() === true));
 	};
 
 	/**
