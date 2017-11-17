@@ -1,6 +1,8 @@
 - Add second, optional argument to Notifier.addObserver(observer, eventName)
   Observers can register even for one, single event
 
+- luga.localStorage to accept numbers/non-strings as path
+
 -------------
 
 DOCS:
