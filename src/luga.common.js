@@ -605,7 +605,7 @@ if(typeof(luga) === "undefined"){
 	 * @return {*|undefined}
 	 */
 	luga.localStorage.retrieve = function(root, path){
-		return luga.lookupProperty(getRootState(root), path);
+		return luga.lookupProperty(getRootState(root), path.toString());
 	};
 
 	/**
@@ -618,7 +618,7 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.localStorage.persist = function(root, path, value){
 		var json = getRootState(root);
-		luga.setProperty(json, path, value);
+		luga.setProperty(json, path.toString(), value);
 		setRootState(root, json);
 	};
 

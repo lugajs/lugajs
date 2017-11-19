@@ -7,6 +7,9 @@ NOTES:
 
 CHANGES:
 
+BUG FIXES:
+* luga.localStorage do not fails if numbers/non-strings are used as path
+
 ---------------------------------------------------------------------
 Release 0.9.6
 ---------------------------------------------------------------------
