@@ -1,5 +1,5 @@
 /*! 
-Luga Common 0.9.7dev 2017-10-27T19:30:08.692Z
+Luga Common 0.9.7dev 2017-11-19T17:34:24.106Z
 Copyright 2013-2017 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -55,7 +55,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Return true if an object is an array. False otherwise
 	 * @param {*} obj
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	luga.isArray = function(obj){
 		return Array.isArray(obj);
@@ -64,7 +64,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Return true if an object is a function. False otherwise
 	 * @param {*} obj
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	luga.isFunction = function(obj){
 		return luga.type(obj) === "function";
@@ -74,7 +74,7 @@ if(typeof(luga) === "undefined"){
 	 * Return true if an object is a plain object (created using "{}" or "new Object"). False otherwise
 	 * Based on jQuery.isPlainObject()
 	 * @param {*} obj
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	luga.isPlainObject = function(obj){
 		// Detect obvious negatives
@@ -100,7 +100,7 @@ if(typeof(luga) === "undefined"){
 	 * Returns undefined, if the reference has not been found
 	 * Supports namespaces (if the fully qualified path is passed)
 	 * @param {String} path            Fully qualified name of a function
-	 * @returns {function|undefined}   The javascript reference to the function, undefined if nothing is fund or if it's not a function
+	 * @return {function|undefined}   The javascript reference to the function, undefined if nothing is fund or if it's not a function
 	 */
 	luga.lookupFunction = function(path){
 		if(!path){
@@ -119,7 +119,7 @@ if(typeof(luga) === "undefined"){
 	 * Supports unlimited nesting levels (if the fully qualified path is passed)
 	 * @param {Object} object  Target object
 	 * @param {String} path    Dot-delimited string
-	 * @returns {*|undefined}
+	 * @return {*|undefined}
 	 */
 	luga.lookupProperty = function(object, path){
 		// Either of the two params is invalid
@@ -202,7 +202,7 @@ if(typeof(luga) === "undefined"){
 	 * Determine the internal JavaScript [[Class]] of an object
 	 * Based on jQuery.type()
 	 * @param {*} obj
-	 * @returns {String}
+	 * @return {String}
 	 */
 	luga.type = function(obj){
 		if(obj === null){
@@ -229,7 +229,7 @@ if(typeof(luga) === "undefined"){
 	 * Provides the base functionality necessary to maintain a list of observers and send notifications to them.
 	 * It's forbidden to use this class directly, it can only be used as a base class.
 	 * The Notifier class does not define any notification messages, so it is up to the developer to define the notifications sent via the Notifier.
-	 * @throws {Exception}
+	 * @throw {Exception}
 	 */
 	luga.Notifier = function(){
 		if(this.constructor === luga.Notifier){
@@ -255,7 +255,7 @@ if(typeof(luga) === "undefined"){
 		 * The interface for this methods is as follows:
 		 * observer.onCompleteHandler = function(data){};
 		 * @param  {Object} observer  Observer object
-		 * @throws {Exception}
+		 * @throw {Exception}
 		 */
 		this.addObserver = function(observer){
 			if(luga.type(observer) !== "object"){
@@ -271,7 +271,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {String}  eventName  Name of the event
 		 * @param {Object}  payload    Object containing data to be passed from the point of notification to all interested observers.
 		 *                             If there is no relevant data to pass, use an empty object.
-		 * @throws {Exception}
+		 * @throw {Exception}
 		 */
 		this.notifyObservers = function(eventName, payload){
 			if(luga.type(payload) !== "object"){
@@ -311,10 +311,10 @@ if(typeof(luga) === "undefined"){
 	 * Static factory to create a cross-browser DOM NodeIterator
 	 * https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
 	 *
-	 * @param {Node}                     rootNode    Start node. Required
+	 * @param {HTMLElement}              rootNode    Start node. Required
 	 * @param {function} [undefined]     filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
 	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
-	 * @returns {NodeIterator}
+	 * @return {NodeIterator}
 	 */
 	luga.dom.nodeIterator.getInstance = function(rootNode, filterFunc){
 
@@ -343,10 +343,10 @@ if(typeof(luga) === "undefined"){
 	 * Static factory to create a cross-browser DOM TreeWalker
 	 * https://developer.mozilla.org/en/docs/Web/API/TreeWalker
 	 *
-	 * @param {Node}                     rootNode    Start node. Required
+	 * @param {HTMLElement}              rootNode    Start node. Required
 	 * @param {function} [undefined]     filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
 	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
-	 * @returns {TreeWalker}
+	 * @return {TreeWalker}
 	 */
 	luga.dom.treeWalker.getInstance = function(rootNode, filterFunc){
 
@@ -392,8 +392,8 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param {jQuery}   rootNode     jQuery object wrapping the root node
 	 * @param {Boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
-	 * @returns {Object}              A JavaScript object containing name/value pairs
-	 * @throws {Exception}
+	 * @return {Object}              A JavaScript object containing name/value pairs
+	 * @throw {Exception}
 	 */
 	luga.form.toMap = function(rootNode, demoronize){
 
@@ -459,7 +459,7 @@ if(typeof(luga) === "undefined"){
 	 * Only fields considered successful are returned:
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 * @param {jQuery} rootNode  jQuery object wrapping the form fields
-	 * @returns {json}
+	 * @return {json}
 	 */
 	luga.form.toJson = function(rootNode){
 		var flatData = luga.form.toMap(rootNode);
@@ -477,8 +477,8 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param {jQuery}   rootNode     jQuery object wrapping the root node
 	 * @param {Boolean}  demoronize   If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
-	 * @returns {String}               A URI encoded string
-	 * @throws {Exception}
+	 * @return {String}               A URI encoded string
+	 * @throw {Exception}
 	 */
 	luga.form.toQueryString = function(rootNode, demoronize){
 
@@ -538,7 +538,7 @@ if(typeof(luga) === "undefined"){
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 *
 	 * @param {jQuery}  fieldNode
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	luga.form.utils.isSuccessfulField = function(fieldNode){
 		if(luga.form.utils.isInputField(fieldNode) === false){
@@ -557,7 +557,7 @@ if(typeof(luga) === "undefined"){
 	 * Returns true if the passed node is a form field that we care about
 	 *
 	 * @param {jQuery}  fieldNode
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	luga.form.utils.isInputField = function(fieldNode){
 		if(jQuery(fieldNode).prop("type") === undefined){
@@ -576,7 +576,7 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param {String}              name       Name of the field. Mandatory
 	 * @param {jQuery} [undefined]  rootNode   Root node, optional, default to document
-	 * @returns {jQuery}
+	 * @return {jQuery}
 	 */
 	luga.form.utils.getFieldGroup = function(name, rootNode){
 		var selector = "input[name='" + name + "']";
@@ -587,7 +587,7 @@ if(typeof(luga) === "undefined"){
 	 * Returns an array of input fields contained inside a given root node
 	 *
 	 * @param {jQuery}  rootNode   Root node
-	 * @returns {Array.<jquery>}
+	 * @return {Array.<jquery>}
 	 */
 	luga.form.utils.getChildFields = function(rootNode){
 		var fields = [];
@@ -607,10 +607,10 @@ if(typeof(luga) === "undefined"){
 	 * Returns undefined if nothing matches the given root/path
 	 * @param {String} root    Top-level key inside localStorage
 	 * @param {String} path    Dot-delimited string
-	 * @returns {*|undefined}
+	 * @return {*|undefined}
 	 */
 	luga.localStorage.retrieve = function(root, path){
-		return luga.lookupProperty(getRootState(root), path);
+		return luga.lookupProperty(getRootState(root), path.toString());
 	};
 
 	/**
@@ -619,11 +619,11 @@ if(typeof(luga) === "undefined"){
 	 * @param {String} root    Top-level key inside localStorage
 	 * @param {String} path    Dot-delimited string
 	 * @param {String} value   String to be persisted
-	 * @returns {*|undefined}
+	 * @return {*|undefined}
 	 */
 	luga.localStorage.persist = function(root, path, value){
 		var json = getRootState(root);
-		luga.setProperty(json, path, value);
+		luga.setProperty(json, path.toString(), value);
 		setRootState(root, json);
 	};
 
@@ -645,7 +645,7 @@ if(typeof(luga) === "undefined"){
 	 * Replace MS Word's non-ISO characters with plausible substitutes
 	 *
 	 * @param {String} str   String containing MS Word's garbage
-	 * @returns {String}      The de-moronized string
+	 * @return {String}      The de-moronized string
 	 */
 	luga.string.demoronize = function(str){
 		str = str.replace(new RegExp(String.fromCharCode(710), "g"), "^");
@@ -680,7 +680,7 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param  {String}  str                   String containing placeholders
 	 * @param  {object|array.<string>} args    Either an array of strings or an objects containing name/value pairs in string format
-	 * @returns {String} The newly assembled string
+	 * @return {String} The newly assembled string
 	 */
 	luga.string.format = function(str, args){
 		var pattern = null;
@@ -702,7 +702,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Given a string in querystring format, return a JavaScript object containing name/value pairs
 	 * @param {String} str  The querystring
-	 * @returns {Object}
+	 * @return {Object}
 	 */
 	luga.string.queryToMap = function(str){
 		var map = {};
@@ -752,7 +752,7 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param   {String} str   String containing placeholders
 	 * @param   {Object} obj   An objects containing name/value pairs in string format
-	 * @returns {String} The newly assembled string
+	 * @return {String} The newly assembled string
 	 */
 	luga.string.populate = function(str, obj){
 		if(luga.isPlainObject(obj) === true){
@@ -867,7 +867,7 @@ if(typeof(luga) === "undefined"){
 	 * Results are returned as an array of nodes. An empty array is returned in case there is no match
 	 * @param {Node} node
 	 * @param {String} path
-	 * @returns {Array<Node>}
+	 * @return {Array<Node>}
 	 */
 	luga.xml.evaluateXPath = function(node, path){
 		var retArray = [];
@@ -897,7 +897,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Convert an XML node into a JavaScript object
 	 * @param {Node} node
-	 * @returns {Object}
+	 * @return {Object}
 	 */
 	luga.xml.nodeToHash = function(node){
 		var obj = {};
@@ -964,7 +964,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Extract text out of a TEXT or CDATA node
 	 * @param {Node} node
-	 * @returns {String}
+	 * @return {String}
 	 */
 	function getTextValue(node){
 		var child = node.childNodes[0];
@@ -977,7 +977,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Return true if a node contains value, false otherwise
 	 * @param {Node}   node
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	function nodeHasText(node){
 		var child = node.childNodes[0];
@@ -990,7 +990,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Serialize a DOM node into a string
 	 * @param {Node}   node
-	 * @returns {String}
+	 * @return {String}
 	 */
 	luga.xml.nodeToString = function(node){
 		/* istanbul ignore if IE-only */
@@ -1006,7 +1006,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Create a DOM Document out of a string
 	 * @param {String} xmlStr
-	 * @returns {Document}
+	 * @return {Document}
 	 */
 	luga.xml.parseFromString = function(xmlStr){
 		var xmlParser;
