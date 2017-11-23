@@ -1,5 +1,6 @@
 - Update Docs to Bootstrap 4
 - Update to jQuery 3
+- Stop testing on IE9
 
 Version 2.0
 

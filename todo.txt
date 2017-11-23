@@ -5,6 +5,7 @@
 
 DOCS:
 
+- Data: Region: Sample page for jQuery event delegation
 - Add pages for luga.dom and luga.xml?
 
 -------------
