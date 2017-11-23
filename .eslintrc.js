@@ -48,7 +48,6 @@ module.exports = {
 		"no-new-func": ["error"],
 		"no-new-object": ["error"],
 		"no-new-wrappers": ["error"],
-		"no-param-reassign": ["warn"],
 		"no-proto": ["error"],
 		"no-return-assign": ["error", "always"],
 		"no-sequences": ["error"],
