@@ -109,9 +109,9 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Apply the given filter function to each passed row
 	 * Return an array of filtered rows
-	 * @param {Array.<luga.data.DataSet.row>} rows. Required
-	 * @param {function}                      filter. Required
-	 * @param {luga.data.DataSet}             dataset. Required
+	 * @param {Array.<luga.data.DataSet.row>} rows    Required
+	 * @param {function}                      filter  Required
+	 * @param {luga.data.DataSet}             dataset Required
 	 * @return {Array.<luga.data.DataSet.row>}
 	 * @throw {Exception}
 	 */
@@ -128,7 +128,7 @@ if(typeof(luga) === "undefined"){
 			}
 			// Invalid row
 			if(luga.isPlainObject(filteredRow) === false){
-				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FORMATTER_ACTION);
+				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_ACTION);
 			}
 			// Valid row
 			retRows.push(filteredRow);
@@ -138,9 +138,9 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Apply the given updater function to each passed row
-	 * @param {Array.<luga.data.DataSet.row>} rows. Required
-	 * @param {function}                      updater. Required
-	 * @param {luga.data.DataSet}             dataset. Required
+	 * @param {Array.<luga.data.DataSet.row>} rows      Required
+	 * @param {function}                      formatter Required
+	 * @param {luga.data.DataSet}             dataset   Required
 	 * @throw {Exception}
 	 */
 	luga.data.utils.update = function(rows, formatter, dataset){

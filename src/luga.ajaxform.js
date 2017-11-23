@@ -115,7 +115,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Form handler. Invoke its sender() method to serialize the form and send its contents using XHR
-	 * @param options {luga.ajaxform.Sender.options}
+	 * @param {luga.ajaxform.Sender.options} options
 	 * @constructor
 	 * @throw {Exception}
 	 */
@@ -269,7 +269,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Attach form handlers to onSubmit events
-	 * @param {jquery|undefined} [jQuery("body")] rootNode  Optional, default to jQuery("body")
+	 * @param {jquery|undefined} [rootNode=jQuery("body")] Optional, default to jQuery("body")
 	 */
 	luga.ajaxform.initForms = function(rootNode){
 		if(rootNode === undefined){

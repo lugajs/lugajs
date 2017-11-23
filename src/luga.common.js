@@ -6,7 +6,7 @@ if(typeof(jQuery) === "undefined"){
 }
 /* istanbul ignore else */
 if(typeof(luga) === "undefined"){
-	var luga = {};
+	window.luga = {};
 }
 
 (function(){
@@ -16,8 +16,9 @@ if(typeof(luga) === "undefined"){
 	 * Creates namespaces to be used for scoping variables and classes so that they are not global.
 	 * Specifying the last node of a namespace implicitly creates all other nodes.
 	 * Based on Nicholas C. Zakas's code
-	 * @param {String} ns           Namespace as string
-	 * @param {Object} [undefined] rootObject   Optional root object. Default to window
+	 * @param {String} ns                   Namespace as dot-delimited string
+	 * @param {Object} [rootObject=window]  Optional root object. Default to window
+	 * @return {Object}
 	 */
 	luga.namespace = function(ns, rootObject){
 		var parts = ns.split(".");
@@ -39,9 +40,9 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Offers a simple solution for inheritance among classes
 	 *
-	 * @param {function}           baseFunc  Parent constructor function. Required
-	 * @param {function}           func      Child constructor function. Required
-	 * @param {array} [undefined]  args      An array of arguments that will be passed to the parent's constructor. Optional
+	 * @param {function} baseFunc  Parent constructor function. Required
+	 * @param {function} func      Child constructor function. Required
+	 * @param {Array}    [args]    An array of arguments that will be passed to the parent's constructor. Optional
 	 */
 	luga.extend = function(baseFunc, func, args){
 		baseFunc.apply(func, args);
@@ -307,7 +308,7 @@ if(typeof(luga) === "undefined"){
 	 * https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
 	 *
 	 * @param {HTMLElement}              rootNode    Start node. Required
-	 * @param {function} [undefined]     filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 * @param {function} [filterFunc]    Optional filter function. If specified only nodes matching the filter will be accepted
 	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
 	 * @return {NodeIterator}
 	 */
@@ -339,7 +340,7 @@ if(typeof(luga) === "undefined"){
 	 * https://developer.mozilla.org/en/docs/Web/API/TreeWalker
 	 *
 	 * @param {HTMLElement}              rootNode    Start node. Required
-	 * @param {function} [undefined]     filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 * @param {function} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
 	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
 	 * @return {TreeWalker}
 	 */
@@ -569,8 +570,8 @@ if(typeof(luga) === "undefined"){
 	 * Extracts group of fields that share the same name from a given root node
 	 * Or the whole document if the second argument is not passed
 	 *
-	 * @param {String}              name       Name of the field. Mandatory
-	 * @param {jQuery} [undefined]  rootNode   Root node, optional, default to document
+	 * @param {String} name         Name of the field. Mandatory
+	 * @param {jQuery} [rootNode]   Root node, optional, default to document
 	 * @return {jQuery}
 	 */
 	luga.form.utils.getFieldGroup = function(name, rootNode){
@@ -614,7 +615,6 @@ if(typeof(luga) === "undefined"){
 	 * @param {String} root    Top-level key inside localStorage
 	 * @param {String} path    Dot-delimited string
 	 * @param {String} value   String to be persisted
-	 * @return {*|undefined}
 	 */
 	luga.localStorage.persist = function(root, path, value){
 		var json = getRootState(root);
@@ -674,7 +674,7 @@ if(typeof(luga) === "undefined"){
 	 * => "My name is Ciccio Pasticcio"
 	 *
 	 * @param  {String}  str                   String containing placeholders
-	 * @param  {object|array.<string>} args    Either an array of strings or an objects containing name/value pairs in string format
+	 * @param  {Object|Array.<string>} args    Either an array of strings or an objects containing name/value pairs in string format
 	 * @return {String} The newly assembled string
 	 */
 	luga.string.format = function(str, args){
@@ -745,8 +745,8 @@ if(typeof(luga) === "undefined"){
 	 * luga.string.populate("My name is {person.firstName} {person.lastName}", nestedObj)
 	 * => "My name is Ciccio Pasticcio"
 	 *
-	 * @param   {String} str   String containing placeholders
-	 * @param   {Object} obj   An objects containing name/value pairs in string format
+	 * @param  {String} str   String containing placeholders
+	 * @param  {Object} obj   An objects containing name/value pairs in string format
 	 * @return {String} The newly assembled string
 	 */
 	luga.string.populate = function(str, obj){
@@ -778,6 +778,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Private helper function
 	 * Generate node's id
+	 * @param {jQuery} node
+	 * @return {String}
 	 */
 	var generateBoxId = function(node){
 		var boxId = luga.utils.CONST.MSG_BOX_ID;
@@ -808,6 +810,7 @@ if(typeof(luga) === "undefined"){
 	 * Display a message box above a given node
 	 * @param {jQuery}  node   Target node
 	 * @param {String}  html   HTML/Text code to inject
+	 * @return {jQuery}
 	 */
 	luga.utils.displayMessage = function(node, html){
 		return luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.MESSAGE);
@@ -817,6 +820,7 @@ if(typeof(luga) === "undefined"){
 	 * Display an error box above a given node
 	 * @param {jQuery}  node   Target node
 	 * @param {String}  html   HTML/Text code to inject
+	 * @return {jQuery}
 	 */
 	luga.utils.displayErrorMessage = function(node, html){
 		return luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.ERROR_MESSAGE);
@@ -825,9 +829,10 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Display a box with a message associated with a given node
 	 * Overwrite this method if you want to change the way luga.utils.displayMessage and luga.utils.displayErrorMessage behaves
-	 * @param {jQuery}  node      Target node
-	 * @param {String}  html      HTML/Text code to inject
-	 * @param {String}  cssClass  CSS class attached to the box. Default to "luga_message"
+	 * @param {jQuery}  node                       Target node
+	 * @param {String}  html                       HTML/Text code to inject
+	 * @param {String}  [cssClass="luga_message"]  CSS class attached to the box. Default to "luga_message"
+	 * @return {jQuery}
 	 */
 	luga.utils.displayBox = function(node, html, cssClass){
 		if(cssClass === undefined){

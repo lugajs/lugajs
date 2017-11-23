@@ -49,7 +49,7 @@
 
 		/**
 		 * First delete any existing records, then load data from the given XML, without XHR calls
-		 * @param {Node} Node
+		 * @param {Node} node
 		 */
 		this.loadRawXml = function(node){
 			self.delete();

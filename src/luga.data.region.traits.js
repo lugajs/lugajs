@@ -43,10 +43,10 @@
 			var index = 0;
 
 			if(options.dataSource.getCurrentRowIndex() === -1){
-				 // Remove class from everyone
+				// Remove class from everyone
 				nodes.removeClass(cssClass);
 			}
-			else {
+			else{
 				index = options.dataSource.getCurrentRowIndex();
 				// Apply CSS
 				jQuery(nodes.get(index)).addClass(cssClass);

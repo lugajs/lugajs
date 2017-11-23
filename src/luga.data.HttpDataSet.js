@@ -31,7 +31,7 @@
 
 	/**
 	 * Base HttpDataSet class
-	 * @param luga.data.HttpDataSet.options
+	 * @param {luga.data.HttpDataSet.options} options
 	 * @constructor
 	 * @extend luga.data.DataSet
 	 * @abstract

@@ -21,9 +21,9 @@
 	 * @typedef {Object} luga.data.DataSet.dataSorted
 	 *
 	 * @property {luga.data.DataSet}    dataSet
-	 * @property {array<string>}        oldSortColumns
+	 * @property {Array<string>}        oldSortColumns
 	 * @property {luga.data.sort.ORDER} oldSortOrder
-	 * @property {array<string>}        newSortColumns
+	 * @property {Array<string>}        newSortColumns
 	 * @property {luga.data.sort.ORDER} newSortOrder
 	 */
 
@@ -111,7 +111,7 @@
 			this.formatter = options.formatter;
 		}
 
-		/** @type {null|array.<luga.data.DataSet.row>} */
+		/** @type {null|Array.<luga.data.DataSet.row>} */
 		this.filteredRecords = null;
 
 		/** @type {null|function} */
@@ -179,8 +179,8 @@
 		/**
 		 * Delete records matching the given filter
 		 * If no filter is passed, delete all records
-		 * @param {function} [undefined] filter   A filter function. If specified only records matching the filter will be returned. Optional
-		 *                                        The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
+		 * @param {function} [filter]    A filter function. If specified only records matching the filter will be returned. Optional
+		 *                               The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @fire currentRowChanged
 		 * @fire stateChanged
 		 * @fire dataChanged
@@ -318,6 +318,7 @@
 		/**
 		 * Returns the index at which a row can be found in the dataSet, or -1 if no available record matches the given row
 		 * @param {luga.data.DataSet.row} row
+		 * @return {Number}
 		 */
 		this.getRowIndex = function(row){
 			if(hasFilter() === true){
@@ -356,7 +357,7 @@
 		 * Adds rows to a dataSet
 		 * Be aware that the dataSet use passed data by reference
 		 * That is, it uses those objects as its row object internally. It does not make a copy
-		 * @param  {Array.<object>|object} records   Records to be loaded, either one single object containing value/name pairs, or an array of objects. Required
+		 * @param  {Array.<Object>|Object} records   Records to be loaded, either one single object containing value/name pairs, or an array of objects. Required
 		 * @fire stateChanged
 		 * @fire dataChanged
 		 * @throw {Exception}
@@ -440,8 +441,8 @@
 		/**
 		 * Returns an array of the internal row objects that store the records in the dataSet
 		 * Be aware that modifying any property of a returned object results in a modification of the internal records (since records are passed by reference)
-		 * @param {function}  [undefined] filter   An optional filter function. If specified only records matching the filter will be returned. Optional
-		 *                                         The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
+		 * @param {function} [filter]    An optional filter function. If specified only records matching the filter will be returned. Optional
+		 *                               The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @return {Array.<luga.data.DataSet.row>}
 		 * @throw {Exception}
 		 */
@@ -458,7 +459,7 @@
 		/**
 		 * Set a column type for a column. Required for proper sorting of numeric or date data.
 		 * By default data is sorted alpha-numerically, if you want it sorted numerically or by date, set the proper columnType
-		 * @param {String|array<string>} columnNames
+		 * @param {String|Array<string>} columnNames
 		 * @param {String}               columnType   Either "date", "number" or "string"
 		 */
 		this.setColumnType = function(columnNames, columnType){
@@ -582,8 +583,8 @@
 
 		/**
 		 * Sorts the dataSet using the given column(s) and sort order
-		 * @param {String|Array<string>}              columnNames Required, either a single column name or an array of names
-		 * @param {luga.data.sort.ORDER} ["toggle"]  sortOrder   Either "ascending", "descending" or "toggle". Optional, default to "toggle"
+		 * @param {String|Array<string>}  columnNames             Required, either a single column name or an array of names
+		 * @param {luga.data.sort.ORDER} [sortOrder="toggle"]     Either "ascending", "descending" or "toggle". Optional, default to "toggle"
 		 * @fire preDataSorted
 		 * @fire dataSorted
 		 * @fire dataChanged
@@ -677,9 +678,9 @@
 
 		/**
 		 * Updates rows inside the dataSet
-		 * @param {function} filter.  Filter function to be used as search criteria. Required
+		 * @param {function} filter   Filter function to be used as search criteria. Required
 		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
-		 * @param {function} updater. Updater function. Required
+		 * @param {function} updater  Updater function. Required
 		 *                            The function is going to be called with this signature: myUpdater(row, rowIndex, dataSet)
 		 * @fire stateChanged
 		 * @fire dataChanged

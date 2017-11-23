@@ -25,7 +25,6 @@
 
 		/**
 		 * @param {jQuery} node
-		 * @return {String}
 		 */
 		var fetchTemplate = function(node){
 			// Inline template

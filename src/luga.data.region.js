@@ -92,7 +92,7 @@
 
 	/**
 	 * Bootstrap any region contained within the given node
-	 * @param {jquery|undefined} [jQuery("body"] rootNode  Optional, default to jQuery("body")
+	 * @param {jquery|undefined} [rootNode=jQuery("body"]   Optional, default to jQuery("body")
 	 */
 	luga.data.region.initRegions = function(rootNode){
 		if(rootNode === undefined){
