@@ -91,9 +91,10 @@ module.exports = {
 				preferType: {
 					// Use the right string instead of the left one
 					'object': 'Object',
-					'Number': 'Number',
-					'String': 'String',
-					'Boolean': 'Boolean'
+					'boolean': 'Boolean',
+					'number': 'Number',
+					'string': 'String',
+					'array': 'Array'
 				},
 
 				// If and only if the function or method has a return statement (this option value does apply to constructors)
