@@ -213,10 +213,18 @@ if(typeof(luga) === "undefined"){
 		return rawType;
 	};
 
+	/**
+	 * @typedef {Object} luga.eventObserverMap
+	 *
+	 * @property {Object} observer
+	 * @property {String} methodName
+	 */
+
 	luga.NOTIFIER_CONST = {
 		ERROR_MESSAGES: {
 			NOTIFIER_ABSTRACT: "It's forbidden to use luga.Notifier directly, it must be used as a base class instead",
-			INVALID_OBSERVER_PARAMETER: "addObserver(): observer parameter must be an object",
+			INVALID_GENERIC_OBSERVER_PARAMETER: "addObserver(): observer parameter must be an object",
+			INVALID_EVENT_OBSERVER_PARAMETER: "addObserver(): eventName and methodName must be strings",
 			INVALID_DATA_PARAMETER: "notifyObserver(): data parameter is required and must be an object"
 		}
 	};
@@ -231,12 +239,22 @@ if(typeof(luga) === "undefined"){
 		if(this.constructor === luga.Notifier){
 			throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.NOTIFIER_ABSTRACT);
 		}
+
+		/**
+		 * @type {Array.<Object>}
+		 */
 		this.observers = [];
+
+		/**
+		 * @type {Object.<String, Array.<luga.eventObserverMap>>}
+		 */
+		this.eventObservers = {};
+
 		var prefix = "on";
 		var suffix = "Handler";
 
 		// Turns "complete" into "onComplete"
-		var generateMethodName = function(eventName){
+		var generateGenericMethodName = function(eventName){
 			var str = prefix;
 			str += eventName.charAt(0).toUpperCase();
 			str += eventName.substring(1);
@@ -245,23 +263,77 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * Adds an observer object to the list of observers.
-		 * Observer objects should implement a method that matches a naming convention for the events they are interested in.
+		 * Register an observer object.
+		 * This method is overloaded. You can either invoke it with one or three arguments
+		 *
+		 * If you only pass one argument, the given object will be registered as "generic" observer
+		 * "Generic" observer objects should implement a method that matches a naming convention for the events they are interested in.
 		 * For an event named "complete" they must implement a method named: "onCompleteHandler"
 		 * The interface for this methods is as follows:
 		 * observer.onCompleteHandler = function(data){};
+		 *
+		 * If you pass three arguments, the first is the object that will be registered as "event" observer
+		 * The second argument must be the event name
+		 * The third argument is the method of the object that will be invoked once the given event is triggered
+		 *
+		 * The interface for this methods is as follows:
+		 * observer[methodName] = function(data){};
+		 *
 		 * @param  {Object} observer  Observer object
+		 * @param {string} [eventName]
+		 * @param {string} [methodName]
 		 * @throw {Exception}
 		 */
-		this.addObserver = function(observer){
+		this.addObserver = function(observer, eventName, methodName){
 			if(luga.type(observer) !== "object"){
-				throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_OBSERVER_PARAMETER);
+				throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_GENERIC_OBSERVER_PARAMETER);
 			}
-			this.observers.push(observer);
+			if(arguments.length === 1){
+				this.observers.push(observer);
+			}
+			if(arguments.length === 3){
+				if(luga.type(eventName) !== "string" || luga.type(methodName) !== "string"){
+					throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_EVENT_OBSERVER_PARAMETER);
+				}
+				/**
+				 * @type {luga.eventObserverMap}
+				 */
+				var eventMap = {
+					observer: observer,
+					methodName: methodName
+				};
+				// First entry for the given event
+				if(this.eventObservers[eventName] === undefined){
+					this.eventObservers[eventName] = [eventMap];
+				}
+				else{
+					if(findObserverIndex(this.eventObservers[eventName], eventMap) === -1){
+						this.eventObservers[eventName].push(eventMap);
+					}
+				}
+			}
 		};
 
 		/**
-		 * Sends a notification to all interested observers registered with the notifier.
+		 * @param {Array.<luga.eventObserverMap>} eventArray
+		 * @param {luga.eventObserverMap} eventMap
+		 * @return {Number}
+		 */
+		var findObserverIndex = function(eventArray, eventMap){
+			for(var i = 0; i < eventArray.length; i++){
+				/**
+				 * @type {luga.eventObserverMap}
+				 */
+				var currentMap = eventArray[i];
+				if(currentMap.observer === eventMap.observer && currentMap.methodName === eventMap.methodName){
+					return i;
+				}
+			}
+			return -1;
+		};
+
+		/**
+		 * Sends a notification to all relevant observers
 		 *
 		 * @method
 		 * @param {String}  eventName  Name of the event
@@ -273,30 +345,66 @@ if(typeof(luga) === "undefined"){
 			if(luga.type(payload) !== "object"){
 				throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_DATA_PARAMETER);
 			}
-			var method = generateMethodName(eventName);
-			for(var i = 0; i < this.observers.length; i++){
-				var observer = this.observers[i];
-				if(observer[method] && luga.isFunction(observer[method])){
-					observer[method](payload);
+			// "Generic" observers
+			var genericMethod = generateGenericMethodName(eventName);
+			this.observers.forEach(function(element, i, collection){
+				if(element[genericMethod] && luga.isFunction(element[genericMethod])){
+					element[genericMethod](payload);
 				}
+			});
+			// "Event" observers
+			var eventObservers = this.eventObservers[eventName];
+			if(eventObservers !== undefined){
+				eventObservers.forEach(function(element, i, collection){
+					element.observer[element.methodName](payload);
+				});
 			}
 		};
 
 		/**
 		 * Removes the given observer object.
+		 * This method is overloaded. You can either invoke it with one or three arguments
+		 *
+		 * If you only pass one argument, the given observer will be removed as "generic" observer
+		 *
+		 * If you pass three arguments, the given observer will be removed as "event" observer associated with the given event and method
 		 *
 		 * @method
 		 * @param {Object} observer
+		 * @param {string} [eventName]
+		 * @param {string} [methodName]
 		 */
-		this.removeObserver = function(observer){
-			for(var i = 0; i < this.observers.length; i++){
-				if(this.observers[i] === observer){
-					this.observers.splice(i, 1);
-					break;
+		this.removeObserver = function(observer, eventName, methodName){
+			if(arguments.length === 1){
+				for(var i = 0; i < this.observers.length; i++){
+					if(this.observers[i] === observer){
+						this.observers.splice(i, 1);
+						break;
+					}
+				}
+			}
+			if(arguments.length === 3){
+				if(this.eventObservers[eventName] !== undefined){
+					/**
+					 * @type {luga.eventObserverMap}
+					 */
+					var eventMap = {
+						observer: observer,
+						methodName: methodName
+					};
+					var index = findObserverIndex(this.eventObservers[eventName], eventMap);
+					// We have a matching entry
+					/* istanbul ignore else */
+					if(index !== -1){
+						this.eventObservers[eventName].splice(index, 1);
+						// Delete empty entries
+						if(this.eventObservers[eventName].length === 0){
+							delete this.eventObservers[eventName];
+						}
+					}
 				}
 			}
 		};
-
 	};
 
 	/* DOM */
