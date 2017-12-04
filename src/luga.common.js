@@ -356,7 +356,9 @@ if(typeof(luga) === "undefined"){
 			var eventObservers = this.eventObservers[eventName];
 			if(eventObservers !== undefined){
 				eventObservers.forEach(function(element, i, collection){
-					element.observer[element.methodName](payload);
+					if(luga.type(element.observer[element.methodName]) === "function"){
+						element.observer[element.methodName](payload);
+					}
 				});
 			}
 		};

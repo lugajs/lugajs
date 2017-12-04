@@ -184,6 +184,13 @@ describe("luga.Notifier", function(){
 			expect(eventObserverObj.firstHandler).toHaveBeenCalled();
 		});
 
+		it("Fails silently if registered observers do not implement matching methods", function(){
+			notifierObj.addObserver(eventObserverObj, "noWhere", "missingHandler");
+			expect(function(){
+				notifierObj.notifyObservers("noWhere", {});
+			}).not.toThrow();
+		});
+
 		it("Require two parameters: eventName and data. Both are mandatory", function(){
 			expect(function(){
 				notifierObj.notifyObservers("complete");
