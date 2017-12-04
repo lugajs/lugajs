@@ -273,7 +273,7 @@ if(typeof(luga) === "undefined"){
 		 * observer.onCompleteHandler = function(data){};
 		 *
 		 * If you pass three arguments, the first is the object that will be registered as "event" observer
-		 * The second argument must be the event name
+		 * The second argument is the event name
 		 * The third argument is the method of the object that will be invoked once the given event is triggered
 		 *
 		 * The interface for this methods is as follows:
