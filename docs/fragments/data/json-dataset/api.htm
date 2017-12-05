@@ -30,7 +30,7 @@
 		<tr>
 			<td>options.uuid</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
 				Unique identifier. Required.
@@ -39,7 +39,7 @@
 		<tr>
 			<td>options.url</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
 				Url to be fetched to extract JSON data. Default to null.
@@ -48,7 +48,7 @@
 		<tr>
 			<td>options.timeout</td>
 			<td>
-				{number}
+				{Number}
 			</td>
 			<td>
 				Timeout (in milliseconds) for the HTTP request. Default to 10.000
@@ -57,7 +57,7 @@
 		<tr>
 			<td>options.headers</td>
 			<td>
-				{object}
+				{Object}
 			</td>
 			<td>
 				A set of name/value pairs to be used as custom HTTP headers
@@ -66,7 +66,7 @@
 		<tr>
 			<td>options.incrementalLoad</td>
 			<td>
-				{boolean}
+				{Boolean}
 			</td>
 			<td>
 				By default calling once .loadData() is called the dataSet discard all the previous records.
@@ -76,7 +76,7 @@
 		<tr>
 			<td>options.cache</td>
 			<td>
-				{boolean}
+				{Boolean}
 			</td>
 			<td>
 				If set to false, it will force requested pages not to be cached by the browser.
@@ -86,7 +86,7 @@
 		<tr>
 			<td>options.records</td>
 			<td class="luga-docs-type">
-				{array.&lt;object&gt;|object}
+				{Array.&lt;Object&gt;|Object}
 			</td>
 			<td>
 				Records to be loaded, either one single object containing value/name pairs, or an array of name/value
@@ -116,7 +116,7 @@
 		<tr>
 			<td>options.path</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
 				Specifies the path to the data within the JSON structure.
@@ -168,7 +168,7 @@ var testDs = new luga.data.JsonDataSet({
 	<table class="table table-bordered luga-docs-api">
 		<th>Return type</th>
 		<tr>
-			<td>{null|string}</td>
+			<td>{null|String}</td>
 		</tr>
 	</table>
 
@@ -236,7 +236,7 @@ var testDs = new luga.data.JsonDataSet({
 		<tr>
 			<td>path</td>
 			<td class="luga-docs-type">
-				{string}
+				{String}
 			</td>
 			<td>
 				Data path, expressed as a set of property names on the objects, separated by dots. Required.
@@ -270,7 +270,7 @@ testDs.loadData();
 		<tr>
 			<td>url</td>
 			<td class="luga-docs-type">
-				{string}
+				{String}
 			</td>
 			<td>
 				New URL. Required.
