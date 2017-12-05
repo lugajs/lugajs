@@ -2,6 +2,7 @@
 Release 0.9.7
 ---------------------------------------------------------------------
 NEW FEATURES:
+* luga.Notifier now allows more granular control distinguishing between "generic" and "event" observers
 
 NOTES:
 

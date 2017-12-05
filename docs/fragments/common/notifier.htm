@@ -18,21 +18,76 @@
 			The Notifier class does not define any notification messages, so it is up to the developer to define the
 			notifications.
 		</p>
+
+		<p>
+			There are two kinds of observers:
+		<ul class="luga-docs-list">
+			<li>
+				<strong>"event"</strong> observers are registered once for each event they want to listen to.
+				The event/method mapping is explicit and defined at the time the observer is registered
+			</li>
+			<li>
+				<strong>"generic"</strong> observers are registered once and can listen to multiple events.
+				The event/method mapping is based on a naming convention
+			</li>
+		</ul>
+		</p>
 	</div>
 </div>
 
 <div class="panel panel-default">
-	<div class="panel-heading">luga.Notifier in action</div>
+	<div class="panel-heading">"Event" observers in action</div>
 	<div class="panel-body">
 		<p>
 			Let's dig straight into some samples, using uber-simplified code:
 		</p>
 
-<pre><code class="line-numbers language-javascript">var NotifierClass = function(){
+		<pre><code class="line-numbers language-javascript">var NotifierClass = function(){
 	luga.extend(luga.Notifier, this); // Inherit from luga.Notifier
 };
 
-var ObserverClass = function(){
+var EventObserverClass = function(){
+	// Just two placeholders, empty methods
+	this.firstHandler = function(data){
+		alert(data.message);
+	};
+	this.secondHandler = function(){};
+};
+
+notifierObj = new NotifierClass();
+observerObj = new EventObserverClass();
+
+// Register the observer
+notifierObj.addObserver(observerObj, "complete", "firstHandler");
+
+// Now notifierObj can propagate events and observerObj may listen to them:
+
+notifierObj.notifyObservers("complete", { message: "I did the job" });
+// => alert("I did the job")
+
+notifierObj.notifyObservers("restart", { message: "I am staring over" });
+// => Nothing happens here, since no observer is listening to the "restart" event</code></pre>
+
+		<p>
+			We have full granular control here.
+			For example, two methods of the same object can listen to the same event (something not possible with "generic" observers)
+		</p>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">"Generic" observers in action</div>
+	<div class="panel-body">
+		<p>
+			Less thigs to worry about here, but we must follow the naming convention:
+		</p>
+
+		<pre><code class="line-numbers language-javascript">var NotifierClass = function(){
+	luga.extend(luga.Notifier, this); // Inherit from luga.Notifier
+};
+
+var GenericObserverClass = function(){
 	// Just two placeholders, empty methods
 	this.onCompleteHandler = function(data){
 		alert(data.message);
@@ -41,7 +96,7 @@ var ObserverClass = function(){
 };
 
 notifierObj = new NotifierClass();
-observerObj = new ObserverClass();
+observerObj = new GenericObserverClass();
 
 // Register the observer
 notifierObj.addObserver(observerObj);
@@ -81,13 +136,21 @@ notifierObj.notifyObservers("restart", { message: "I am staring over" });
 </div>
 
 <div class="panel panel-default">
-	<div id="addObserver" class="panel-heading luga-docs-api-heading">.addObserver(observer)</div>
+	<div id="addObserver" class="panel-heading luga-docs-api-heading">.addObserver(observer, [eventName], [methodName])</div>
 	<div class="panel-body">
 		<p>
 			Adds an observer object to the list of observers.
-			Observer objects should implement a method that matches a naming convention for the events they are
-			interested in.
-			For an event named "complete" they must implement a method named: "onCompleteHandler".
+			This method is overloaded. You can either invoke it with one or three arguments.
+		</p>
+		<p>
+			If you only pass one argument, the given object will be registered as "generic" observer.
+			"Generic" observer objects should implement a method that matches a naming convention for the events they are interested in.
+			For an event named "complete" they must implement a method named: "onCompleteHandler"
+		</p>
+		<p>
+			If you pass three arguments, the first is the object that will be registered as "event" observer.
+			The second argument is the event name.
+			The third argument is the method of the object that will be invoked once the given event is triggered
 		</p>
 
 	</div>
@@ -100,6 +163,24 @@ notifierObj.notifyObservers("restart", { message: "I am staring over" });
 			</td>
 			<td>
 				Observer object. Required
+			</td>
+		</tr>
+		<tr>
+			<td>eventName</td>
+			<td>
+				{String}
+			</td>
+			<td>
+				Event name. Optional. Required for "event" observers
+			</td>
+		</tr>
+		<tr>
+			<td>methodName</td>
+			<td>
+				{String}
+			</td>
+			<td>
+				Method name. Optional. Required for "event" observers
 			</td>
 		</tr>
 	</table>
@@ -138,10 +219,20 @@ notifierObj.notifyObservers("restart", { message: "I am staring over" });
 </div>
 
 <div class="panel panel-default">
-	<div id="removeObserver" class="panel-heading luga-docs-api-heading">.removeObserver(observer)</div>
+	<div id="removeObserver" class="panel-heading luga-docs-api-heading">.removeObserver(observer, [eventName], [methodName])</div>
 	<div class="panel-body">
 		<p>
 			Removes the given observer object. The notifier will stop broadcasting notifications to it.
+			This method is overloaded. You can either invoke it with one or three arguments
+		</p>
+		<p>
+			If you only pass one argument, the given observer will be removed as "generic" observer
+		</p>
+		<p>
+			If you pass three arguments, the given observer will be removed as "event" observer associated with the given event and method
+		</p>
+		<p>
+			Fails silently if the given object was not registered
 		</p>
 
 	</div>
@@ -154,6 +245,24 @@ notifierObj.notifyObservers("restart", { message: "I am staring over" });
 			</td>
 			<td>
 				Observer object. Required
+			</td>
+		</tr>
+		<tr>
+			<td>eventName</td>
+			<td>
+				{String}
+			</td>
+			<td>
+				Event name. Optional. Required for "event" observers
+			</td>
+		</tr>
+		<tr>
+			<td>methodName</td>
+			<td>
+				{String}
+			</td>
+			<td>
+				Method name. Optional. Required for "event" observers
 			</td>
 		</tr>
 	</table>
