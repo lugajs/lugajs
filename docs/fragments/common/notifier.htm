@@ -111,7 +111,7 @@ notifierObj.notifyObservers("restart", { message: "I am staring over" });
 
 		<p>
 			Once you call notifyObservers("complete", { message: "I did the job" }), the notifier will loop over its
-			observers, looking for objects that implement an "onCompleteHandler" method.
+			observers, looking for objects that implement an "onCompleteHandler" method
 		</p>
 
 		<p>
@@ -119,10 +119,18 @@ notifierObj.notifyObservers("restart", { message: "I am staring over" });
 			matching <strong>"onCompleteHandler"</strong> method.
 			If a method matching the naming convention is found, it gets executed, passing the notification data as its
 			single argument.
-			If the observer does not implements a matching method, nothing happens.
+			If the observer does not implements a matching method, nothing happens
 		</p>
 
 	</div>
+</div>
+
+<div class="alert alert-info" role="alert">
+	<strong>Heads up!</strong><br>
+	You may be surprised to realize that luga.Notifier does not allows you to register function to events.
+	Well, this is a conscious decision, people tend to register anonymous functions,
+	usually resulting in code that is coupled and almost impossible to test.
+	This practice is totally forbidden here
 </div>
 
 <div class="panel panel-default">
