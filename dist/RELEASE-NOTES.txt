@@ -7,6 +7,7 @@ NEW FEATURES:
 NOTES:
 
 CHANGES:
+* luga.merge does not copy properties inherited through the prototype chain
 
 BUG FIXES:
 * luga.localStorage works if numbers/non-strings are used as path

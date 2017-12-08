@@ -221,6 +221,29 @@ describe("luga", function(){
 			expect(config).toEqual({letter: "a", number: 2, symbol: "@"});
 		});
 
+		it("Does not copy properties inherited through the prototype chain", function(){
+			var config = {};
+
+			var Person = function(name){
+				this.name = name;
+			};
+			Person.prototype.greet = function(){
+				console.log("Hello!");
+			};
+
+			var Tester = function(name){
+				Person.call(this, name);
+			};
+			Tester.prototype = Object.create(Person.prototype);
+			Tester.prototype.tool = "Jasmine";
+
+			var params = new Tester("Ciccio");
+
+			luga.merge(config, params);
+			expect(config.greet).toBeUndefined();
+			expect(config.name).toEqual("Ciccio");
+		});
+
 		describe("Works if the target object is", function(){
 
 			it("A complex object", function(){
