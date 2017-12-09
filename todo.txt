@@ -22,14 +22,14 @@ VALIDATOR:
 
 DATA:
 
-luga.data.DataSet:
-- Ability to persist data inside localStorage
-
 luga.data.PagedData:
 - Mixed client/server (options.threshold)
 - Use string templating to customize url/endpoint
 - Request: offsetStart, offsetEnd
 - Response: recordCount, pageSize, currentPage
+
+luga.data.DataSet:
+- Ability to persist data inside localStorage
 
 -------------
 
