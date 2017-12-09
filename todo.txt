@@ -2,7 +2,7 @@
 
 DOCS:
 
-- Add pages for luga.dom and luga.xml?
+- Unveil luga.dom and luga.xml?
 
 -------------
 
