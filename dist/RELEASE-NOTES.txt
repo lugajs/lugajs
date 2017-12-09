@@ -5,6 +5,7 @@ NEW FEATURES:
 * luga.Notifier now allows more granular control distinguishing between "generic" and "event" observers
 
 NOTES:
+* Luga Data Region: Added documentation on using event delegation
 
 CHANGES:
 * luga.merge does not copy properties inherited through the prototype chain
