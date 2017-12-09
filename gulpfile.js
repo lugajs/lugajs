@@ -169,6 +169,7 @@ gulp.task("default", function(callback){
 		"data",
 		"libs",
 		"zip",
+		"coverage",
 		function(error){
 			if(error){
 				console.log(error.message);
