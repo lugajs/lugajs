@@ -115,7 +115,7 @@ describe("luga.validator.SelectValidator", function(){
 		});
 
 		it("Prevents selection of an entry on a given position", function(){
-			loadFixtures("validator/SelectValidator/invalidindex.htm");
+			jasmineFixtures.loadHTML("validator/SelectValidator/invalidindex.htm");
 			var selectValidator = null;
 
 			selectValidator = luga.validator.fieldValidatorFactory.getInstance({
@@ -130,7 +130,7 @@ describe("luga.validator.SelectValidator", function(){
 		});
 
 		it("Works around a weird brower bug when the size attribute is specified", function(){
-			loadFixtures("validator/SelectValidator/invalidindex.htm");
+			jasmineFixtures.loadHTML("validator/SelectValidator/invalidindex.htm");
 			var selectValidator = null;
 
 			selectValidator = luga.validator.fieldValidatorFactory.getInstance({
@@ -145,7 +145,7 @@ describe("luga.validator.SelectValidator", function(){
 	describe("data-lugavalidator-invalidvalue", function(){
 
 		it("Prevents selection of an entry with a given value", function(){
-			loadFixtures("validator/SelectValidator/invalidvalue.htm");
+			jasmineFixtures.loadHTML("validator/SelectValidator/invalidvalue.htm");
 			var selectValidator = null;
 
 			selectValidator = luga.validator.fieldValidatorFactory.getInstance({

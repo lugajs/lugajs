@@ -5,7 +5,7 @@ describe("luga.data.DetailSet", function(){
 	var emptyDs, loadedDs, testRecords, detailSet, emptyDetailSet, testObserver;
 	beforeEach(function(){
 
-		testRecords = getJSONFixture("data/ladies.json");
+		testRecords = jasmineFixtures.read("data/ladies.json");
 		emptyDs = new luga.data.DataSet({uuid: "test"});
 		loadedDs = new luga.data.DataSet({uuid: "myDs", records: testRecords});
 

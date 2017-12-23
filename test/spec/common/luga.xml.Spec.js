@@ -4,7 +4,7 @@ describe("luga.xml", function(){
 
 	var employeesStr, employeesDoc;
 	beforeEach(function(){
-		employeesStr = jasmine.getFixtures().read("xml/employees.xml");
+		employeesStr = jasmineFixtures.read("xml/employees.txt");
 		employeesDoc = luga.xml.parseFromString(employeesStr);
 	});
 

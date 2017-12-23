@@ -26,7 +26,7 @@ describe("luga.validator.TextValidator", function(){
 
 		var basicTextValidator, attributeTextValidator, configTextValidator;
 		beforeEach(function(){
-			loadFixtures("validator/TextValidator/config.htm");
+			jasmineFixtures.loadHTML("validator/TextValidator/config.htm");
 
 			basicTextValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: jQuery("<input type='text'>")
@@ -322,7 +322,7 @@ describe("luga.validator.TextValidator", function(){
 		});
 
 		it("Validates if the two fields are the same", function(){
-			loadFixtures("validator/TextValidator/equalto.htm");
+			jasmineFixtures.loadHTML("validator/TextValidator/equalto.htm");
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: jQuery("#password3")
 			});
@@ -332,7 +332,7 @@ describe("luga.validator.TextValidator", function(){
 		});
 
 		it("Fails if they are not", function(){
-			loadFixtures("validator/TextValidator/equalto.htm");
+			jasmineFixtures.loadHTML("validator/TextValidator/equalto.htm");
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: jQuery("#password1")
 			});
@@ -342,7 +342,7 @@ describe("luga.validator.TextValidator", function(){
 		});
 
 		it("Works on whole form too", function(){
-			loadFixtures("validator/TextValidator/equalto.htm");
+			jasmineFixtures.loadHTML("validator/TextValidator/equalto.htm");
 			var formValidator = new luga.validator.FormValidator({
 				formNode: jQuery("#equal")
 			});
@@ -1447,7 +1447,7 @@ describe("luga.validator.TextValidator", function(){
 	describe("Multiple rules can be used on the same field", function(){
 
 		it("Like data-lugavalidator-minlength and data-lugavalidator-maxlength", function(){
-			loadFixtures("validator/FormValidator/generic.htm");
+			jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
 			var textValidator;
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: jQuery("#comments")

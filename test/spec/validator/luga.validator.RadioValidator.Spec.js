@@ -3,7 +3,7 @@ describe("luga.validator.RadioValidator", function(){
 	"use strict";
 
 	it("Implements the luga.validator.BaseGroupValidator abstract class", function(){
-		loadFixtures("validator/RadioValidator/required.htm");
+		jasmineFixtures.loadHTML("validator/RadioValidator/required.htm");
 		var validator = luga.validator.fieldValidatorFactory.getInstance({
 			formNode: jQuery("#single"),
 			fieldNode: jQuery("#Nicole")
@@ -17,7 +17,7 @@ describe("luga.validator.RadioValidator", function(){
 
 	it("Validates each group of radio buttons as a single unit", function(){
 
-		loadFixtures("validator/RadioValidator/required.htm");
+		jasmineFixtures.loadHTML("validator/RadioValidator/required.htm");
 		var formValidator = new luga.validator.FormValidator({
 			formNode: jQuery("#single")
 		});
@@ -36,7 +36,7 @@ describe("luga.validator.RadioValidator", function(){
 
 	it("In case of conflicting options/attributes among fields. The last one wins", function(){
 
-		loadFixtures("validator/RadioValidator/required.htm");
+		jasmineFixtures.loadHTML("validator/RadioValidator/required.htm");
 		var formValidator = new luga.validator.FormValidator({
 			formNode: jQuery("#multiple")
 		});
@@ -50,7 +50,7 @@ describe("luga.validator.RadioValidator", function(){
 
 	it("Skips disabled fields", function(){
 
-		loadFixtures("validator/RadioValidator/required.htm");
+		jasmineFixtures.loadHTML("validator/RadioValidator/required.htm");
 		var formValidator = new luga.validator.FormValidator({
 			formNode: jQuery("#disabled")
 		});
@@ -67,7 +67,7 @@ describe("luga.validator.RadioValidator", function(){
 
 	it("Skips fields without name too", function(){
 
-		loadFixtures("validator/RadioValidator/required.htm");
+		jasmineFixtures.loadHTML("validator/RadioValidator/required.htm");
 		var formValidator = new luga.validator.FormValidator({
 			formNode: jQuery("#noNames")
 		});

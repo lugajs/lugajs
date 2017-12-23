@@ -4,8 +4,8 @@ describe("luga.data.XmlDataSet", function(){
 
 	var testRecordsStr, testRecordsDoc, noUrlDs, testDs;
 	beforeEach(function(){
-		testRecordsStr = jasmine.getFixtures().read("data/people.xml");
-		testRecordsDoc = luga.xml.parseFromString(testRecordsStr);
+		testRecordsStr = jasmineFixtures.read("data/peopleXml.txt");
+		testRecordsDoc = jasmineFixtures.read("data/people.xml");
 		noUrlDs = new luga.data.XmlDataSet({uuid: "noUrlDs"});
 		testDs = new luga.data.XmlDataSet({uuid: "xmlDs", url: "fixtures/data/people.xml", path: "//ladies/person"});
 	});
@@ -22,7 +22,7 @@ describe("luga.data.XmlDataSet", function(){
 		var MockDs = function(options){
 			luga.extend(luga.data.HttpDataSet, this, [options]);
 		};
-		expect(noUrlDs).toMatchDuckType(new MockDs({uuid: "duck"}, false));
+		expect(noUrlDs).toMatchDuckType(new MockDs({uuid: "duck"}), false);
 	});
 
 	describe("Its constructor options are the same as luga.data.HttpDataSet and also contains:", function(){

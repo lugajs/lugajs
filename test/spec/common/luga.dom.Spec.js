@@ -53,7 +53,7 @@ describe("luga.dom", function(){
 
 				it("Only nodes matching the filter will be accepted", function(){
 					var iterator = luga.dom.nodeIterator.getInstance(basicTree, filterDivOnly);
-					iterator.nextNode()
+					iterator.nextNode();
 					expect(iterator.nextNode()).toEqual(divChild);
 				});
 

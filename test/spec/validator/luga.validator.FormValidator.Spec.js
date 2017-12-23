@@ -9,7 +9,7 @@ describe("luga.validator.FormValidator", function(){
 
 	var basicFormValidator, attributeFormValidator, configFormValidator;
 	beforeEach(function(){
-		loadFixtures("validator/FormValidator/config.htm");
+		jasmineFixtures.loadHTML("validator/FormValidator/config.htm");
 
 		basicFormValidator = new luga.validator.FormValidator({
 			formNode: jQuery("<form></form>")
@@ -53,7 +53,7 @@ describe("luga.validator.FormValidator", function(){
 
 	it("Can validate form with one", function(){
 
-		loadFixtures("validator/FormValidator/basic.htm");
+		jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 		var formValidator = new luga.validator.FormValidator({
 			formNode: jQuery("#basic")
 		});
@@ -70,7 +70,7 @@ describe("luga.validator.FormValidator", function(){
 
 	it("Or multiple fields", function(){
 
-		loadFixtures("validator/FormValidator/generic.htm");
+		jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
 		var formValidator = new luga.validator.FormValidator({
 			formNode: jQuery("#generic")
 		});
@@ -210,7 +210,7 @@ describe("luga.validator.FormValidator", function(){
 
 		it("It overrides the value of the disabled button once the form is validated", function(){
 
-			loadFixtures("validator/FormValidator/basic.htm");
+			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 			var formValidator = new luga.validator.FormValidator({
 				formNode: jQuery("#basic")
 			});
@@ -234,7 +234,7 @@ describe("luga.validator.FormValidator", function(){
 		var formValidator, jForm;
 		beforeEach(function(){
 
-			loadFixtures("validator/FormValidator/basic.htm");
+			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 
 			jForm = jQuery("#basic");
 			formValidatorHandlers.before = function(formNode){
@@ -283,7 +283,7 @@ describe("luga.validator.FormValidator", function(){
 			it("Passing the form's DOM node as first argument, the submit event as second", function(){
 				var formEvent = new jQuery.Event();
 				formValidator.validate(formEvent);
-				expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm[0], formEvent);
+				expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm, formEvent);
 			});
 
 			it("An error is throw if the error handler points to a non existing function", function(){
@@ -326,7 +326,7 @@ describe("luga.validator.FormValidator", function(){
 			it("Passing the form's DOM node as first argument, the submit event as second", function(){
 				var formEvent = new jQuery.Event();
 				formValidator.validate(formEvent);
-				expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm[0], formEvent);
+				expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm, formEvent);
 			});
 
 			it("The error handler is not called", function(){
@@ -374,7 +374,7 @@ describe("luga.validator.FormValidator", function(){
 				jQuery("#myName").val("filled");
 				formValidator.validate(formEvent);
 				expect(formValidator.isValid()).toEqual(true);
-				expect(formValidatorHandlers.after).toHaveBeenCalledWith(jForm[0], formEvent);
+				expect(formValidatorHandlers.after).toHaveBeenCalledWith(jForm, formEvent);
 			});
 
 		});

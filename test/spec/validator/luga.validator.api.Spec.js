@@ -10,7 +10,7 @@ describe("luga.validator.api", function(){
 
 		it("Allows to programmatically validate a form", function(){
 
-			loadFixtures("validator/FormValidator/basic.htm");
+			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 
 			expect(luga.validator.api.validateForm({formNode: jQuery("#basic")})).toEqual(false);
 			expect(jQuery("#myName")).toHaveClass("invalid");
@@ -22,7 +22,7 @@ describe("luga.validator.api", function(){
 		});
 
 		it("And returns a boolean", function(){
-			loadFixtures("validator/FormValidator/basic.htm");
+			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 			expect(luga.validator.api.validateForm({formNode: jQuery("#basic")})).toEqual(false);
 		});
 
@@ -40,7 +40,7 @@ describe("luga.validator.api", function(){
 
 		it("Allows to programmatically validate a field", function(){
 
-			loadFixtures("validator/FormValidator/basic.htm");
+			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 
 			expect(luga.validator.api.validateField({fieldNode: jQuery("#myName")})).toEqual(false);
 			expect(jQuery("#myName")).toHaveClass("invalid");
@@ -55,13 +55,13 @@ describe("luga.validator.api", function(){
 
 		it("And returns a boolean", function(){
 
-			loadFixtures("validator/FormValidator/basic.htm");
+			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 			expect(luga.validator.api.validateField({fieldNode: jQuery("#myName")})).toEqual(false);
 
 		});
 
 		it("Accept a custom error handler as an option", function(){
-			loadFixtures("validator/FormValidator/basic.htm");
+			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 
 			formValidatorHandlers.customErrorHandler = function(){};
 			spyOn(formValidatorHandlers, "customErrorHandler");
@@ -69,7 +69,7 @@ describe("luga.validator.api", function(){
 			var options = {
 				fieldNode: jQuery("#myName"),
 				error: "formValidatorHandlers.customErrorHandler"
-			}
+			};
 
 			expect(luga.validator.api.validateField(options)).toEqual(false);
 			expect(formValidatorHandlers.customErrorHandler).toHaveBeenCalled();
@@ -82,7 +82,7 @@ describe("luga.validator.api", function(){
 
 		it("Allows to programmatically validate a collection of fields", function(){
 
-			loadFixtures("validator/FormValidator/generic.htm");
+			jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
 			var fields = jQuery("#name,#age");
 
 			expect(luga.validator.api.validateFields({fields: fields})).toBe(false);
@@ -92,7 +92,7 @@ describe("luga.validator.api", function(){
 
 		it("And return true if all fields are validated", function(){
 
-			loadFixtures("validator/FormValidator/generic.htm");
+			jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
 			var fields = jQuery("#name,#age");
 
 			jQuery("#age").val("33");
@@ -108,7 +108,7 @@ describe("luga.validator.api", function(){
 
 		it("Allows to programmatically validate all fields contained inside a given node", function(){
 
-			loadFixtures("validator/FormValidator/children.htm");
+			jasmineFixtures.loadHTML("validator/FormValidator/children.htm");
 			var fieldset = jQuery("#fieldGroup");
 
 			expect(luga.validator.api.validateChildFields({rootNode: fieldset})).toBe(false);
@@ -118,7 +118,7 @@ describe("luga.validator.api", function(){
 
 		it("And return true if all fields are validated", function(){
 
-			loadFixtures("validator/FormValidator/generic.htm");
+			jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
 			var fieldset = jQuery("#fieldGroup");
 
 			jQuery("#age").val("33");

@@ -6,9 +6,9 @@ describe("luga.data.region.Handlebars", function(){
 
 	beforeEach(function(){
 
-		loadFixtures("data/region/Handlebars/ladies.htm");
+		jasmineFixtures.loadHTML("data/region/Handlebars/ladies.htm");
 
-		testRecords = getJSONFixture("data/ladies.json");
+		testRecords = jasmineFixtures.read("data/ladies.json");
 		loadedDs = new luga.data.DataSet({uuid: "testDs", records: testRecords});
 		testDiv = jQuery("<div>Ciao Mamma</div>");
 		attributesDiv = jQuery("<div data-lugaregion='true' data-lugaregion-datasource-uuid='testDs' data-lugaregion-template-id='ladiesTemplate' ></div>");

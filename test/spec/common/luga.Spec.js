@@ -330,7 +330,7 @@ describe("luga", function(){
 			});
 
 			it("luga.type(obj.notDefined) === 'undefined'", function(){
-				var test = {}
+				var test = {};
 				expect(luga.type(test.notDefined)).toEqual("undefined");
 			});
 

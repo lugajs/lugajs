@@ -9,9 +9,9 @@ describe("luga.ajaxform", function(){
 
 	beforeEach(function(){
 
-		loadFixtures("ajaxform/form.htm");
+		jasmineFixtures.loadHTML("ajaxform/form.htm");
 
-		mockJson = getJSONFixture("ajaxform/action.json");
+		mockJson = jasmineFixtures.read("ajaxform/action.json");
 
 		jasmine.Ajax.install();
 		jasmine.Ajax.stubRequest("mock/missing.json").andReturn({
@@ -27,7 +27,7 @@ describe("luga.ajaxform", function(){
 			responseText:  JSON.stringify(mockJson),
 			status: 200
 		});
-		jasmine.Ajax.stubRequest('mock/basic.json?{"name":"test"}').andReturn({
+		jasmine.Ajax.stubRequest("mock/basic.json?{\"name\":\"test\"}").andReturn({
 			contentType: "application/json",
 			responseText:  JSON.stringify(mockJson),
 			status: 200
@@ -513,7 +513,7 @@ describe("luga.ajaxform", function(){
 
 				it("Passing the form's DOM node as first argument", function(){
 					configSender.send();
-					expect(ajaxFormHandlers.customBefore).toHaveBeenCalledWith(jQuery("#basic")[0]);
+					expect(ajaxFormHandlers.customBefore).toHaveBeenCalledWith(jQuery("#basic"));
 				});
 
 			});
@@ -592,7 +592,7 @@ describe("luga.ajaxform", function(){
 
 				it("Passing the form's DOM node as first argument", function(){
 					configSender.send();
-					expect(ajaxFormHandlers.customAfter).toHaveBeenCalledWith(jQuery("#basic")[0]);
+					expect(ajaxFormHandlers.customAfter).toHaveBeenCalledWith(jQuery("#basic"));
 				});
 
 			});
@@ -623,7 +623,7 @@ describe("luga.ajaxform", function(){
 
 				it("Passing the form's DOM node as first argument", function(){
 					configSender.sendJson();
-					expect(ajaxFormHandlers.customBefore).toHaveBeenCalledWith(jQuery("#basic")[0]);
+					expect(ajaxFormHandlers.customBefore).toHaveBeenCalledWith(jQuery("#basic"));
 				});
 
 			});
@@ -675,7 +675,7 @@ describe("luga.ajaxform", function(){
 
 				it("Passing the form's DOM node as first argument", function(){
 					configSender.sendJson();
-					expect(ajaxFormHandlers.customAfter).toHaveBeenCalledWith(jQuery("#basic")[0]);
+					expect(ajaxFormHandlers.customAfter).toHaveBeenCalledWith(jQuery("#basic"));
 				});
 
 			});
