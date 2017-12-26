@@ -6,3 +6,5 @@ Version 2.0
 
 - Drop support for IE 9/10
 - Start using const/let and Map
+- luga.isMap()
+- luga.isSet()
