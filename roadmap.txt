@@ -9,3 +9,5 @@ Version 2.0
 - Remove self = this. Use .bind() instead
 - luga.isMap()
 - luga.isSet()
+
+- Event bus concept?
