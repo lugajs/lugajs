@@ -1,4 +1,4 @@
-/* eslint-env node */
+/* global module */
 module.exports = {
 	root: true,
 
@@ -48,6 +48,7 @@ module.exports = {
 		"no-new-func": ["error"],
 		"no-new-object": ["error"],
 		"no-new-wrappers": ["error"],
+		"no-param-reassign": ["warn"],
 		"no-proto": ["error"],
 		"no-return-assign": ["error", "always"],
 		"no-sequences": ["error"],
@@ -103,6 +104,11 @@ module.exports = {
 				requireParamDescription: false,
 				requireReturnDescription: false
 			}
-		]
+		],
+
+		// IE11 specific rules
+		'ie11/no-for-in-const': ['error'], // Error in IE11
+		'ie11/no-weak-collections': ['error'], // Error in IE11
+		'ie11/no-collection-args': ['error']
 	}
 };
