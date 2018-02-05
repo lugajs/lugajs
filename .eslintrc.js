@@ -26,6 +26,8 @@ module.exports = {
 		}
 	},
 
+	plugins: ['ie11'],
+
 	rules: {
 		"camelcase": ["error"],
 		"eqeqeq": ["error"],
