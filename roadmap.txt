@@ -1,11 +1,9 @@
-- Update Docs to Bootstrap 4
-- Update to jQuery 3
 - Stop testing on IE9
 
 Version 2.0
 
 - Drop support for IE 9/10
-- Start using const/let and Map
+- Start using const/let and Map/Set
 - Remove self = this. Use .bind() instead
 - luga.isMap()
 - luga.isSet()
