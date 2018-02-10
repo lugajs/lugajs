@@ -4,7 +4,7 @@ describe("luga.data.JsonDataset", function(){
 
 	var testRecords, noUrlDs, testDs;
 	beforeEach(function(){
-		testRecords = getJSONFixture("data/ladies.json");
+		testRecords = jasmineFixtures.read("data/ladies.json");
 		noUrlDs = new luga.data.JsonDataSet({uuid: "noUrlDs"});
 		testDs = new luga.data.JsonDataSet({uuid: "jsonDs", url: "fixtures/data/ladies.json"});
 	});
@@ -21,7 +21,7 @@ describe("luga.data.JsonDataset", function(){
 		var MockDs = function(options){
 			luga.extend(luga.data.HttpDataSet, this, [options]);
 		};
-		expect(noUrlDs).toMatchDuckType(new MockDs({uuid: "duck"}, false));
+		expect(noUrlDs).toMatchDuckType(new MockDs({uuid: "duck"}), false);
 	});
 
 	describe("Its constructor options are the same as luga.data.HttpDataSet and may also contains:", function(){
@@ -56,7 +56,7 @@ describe("luga.data.JsonDataset", function(){
 		var mockJson, peopleDs, peopleObserver;
 		beforeEach(function(){
 
-			mockJson = getJSONFixture("data/people.json");
+			mockJson = jasmineFixtures.read("data/people.json");
 
 			jasmine.Ajax.install();
 			jasmine.Ajax.stubRequest("mock/people.json").andReturn({
@@ -171,7 +171,7 @@ describe("luga.data.JsonDataset", function(){
 
 				it("First calls luga.lookupProperty() to extract the relevant data", function(){
 					spyOn(luga, "lookupProperty");
-					var peopleRecords = getJSONFixture("data/people.json");
+					var peopleRecords = jasmineFixtures.read("data/people.json");
 					noUrlDs.setPath("others.jazzPlayers");
 					noUrlDs.loadRecords(peopleRecords);
 					expect(luga.lookupProperty).toHaveBeenCalledWith(peopleRecords, "others.jazzPlayers");
@@ -179,7 +179,7 @@ describe("luga.data.JsonDataset", function(){
 				it("Then calls .insert(), passing the relevant data", function(){
 					spyOn(noUrlDs, "insert");
 
-					var peopleRecords = getJSONFixture("data/people.json");
+					var peopleRecords = jasmineFixtures.read("data/people.json");
 					var jazzPlayers = luga.lookupProperty(peopleRecords, "others.jazzPlayers");
 
 					noUrlDs.setPath("others.jazzPlayers");

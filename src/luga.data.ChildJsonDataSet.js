@@ -4,7 +4,7 @@
 	/**
 	 * @typedef {Object} luga.data.ChildJsonDataSet.options
 	 *
-	 * @extends luga.data.JsonDataSet.options
+	 * @extend luga.data.JsonDataSet.options
 	 * @property {luga.data.DataSet}  parentDataSet   Parent dataSet to be used in a master-detail scenario
 	 * @property {String}             url             Unlike JsonDataSet the url here is required and is expected to be a string template like:
 	 *                                                http://www.ciccio.com/api/products/{uuid}
@@ -15,7 +15,7 @@
 	 * Binded JSON dataSet class
 	 * @param {luga.data.ChildJsonDataSet.options} options
 	 * @constructor
-	 * @extends luga.data.JsonDataSet
+	 * @extend luga.data.JsonDataSet
 	 */
 	luga.data.ChildJsonDataSet = function(options){
 

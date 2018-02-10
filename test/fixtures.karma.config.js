@@ -4,9 +4,9 @@
 
 	This requires a different configuration for fixtures compared to the HTML runner
  */
-
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-jasmine.getFixtures().fixturesPath = "base/test/fixtures";
-jasmine.getJSONFixtures().fixturesPath = "base/test/fixtures";
-
-var TEST_XHR_BASE = "base/test/";
+beforeEach(function(){
+	"use strict";
+	jasmineFixtures.setup({
+		basePath: "base/test/fixtures"
+	});
+});

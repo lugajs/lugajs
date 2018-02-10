@@ -45,7 +45,7 @@ describe("luga.data.utils", function(){
 
 		var ladiesRecords, dummyDs, addTestCol, longUk, removeUsa, mock;
 		beforeEach(function(){
-			ladiesRecords = getJSONFixture("data/ladies.json?_luga.data.utils.filter");
+			ladiesRecords = jasmineFixtures.read("data/ladies.json?_luga.data.utils.filter");
 			dummyDs = new luga.data.DataSet({uuid: "testDs"});
 
 			addTestCol = function(row, rowIndex, dataSet){
@@ -200,7 +200,7 @@ describe("luga.data.utils", function(){
 
 		var ladiesRecords, dummyDs, addTestCol, longUk, mock;
 		beforeEach(function(){
-			ladiesRecords = getJSONFixture("data/ladies.json?_luga.data.utils.update");
+			ladiesRecords = jasmineFixtures.read("data/ladies.json?_luga.data.utils.update");
 			dummyDs = new luga.data.DataSet({uuid: "testDs"});
 
 			addTestCol = function(row, rowIndex, dataSet){

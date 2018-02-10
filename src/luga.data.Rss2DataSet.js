@@ -1,9 +1,9 @@
 /**
  * @typedef {Object} luga.data.DataSet.context
- * @extends luga.data.stateDescription
+ * @extend luga.data.stateDescription
  *
  * @property {Number}                         recordCount
- * @property {array.<luga.data.DataSet.row>}  items
+ * @property {Array.<luga.data.DataSet.row>}  items
  */
 
 (function(){
@@ -13,7 +13,7 @@
 	 * RSS 2.0 dataSet class
 	 * @param {luga.data.HttpDataSet.options} options
 	 * @constructor
-	 * @extends luga.data.HttpDataSet
+	 * @extend luga.data.HttpDataSet
 	 */
 	luga.data.Rss2Dataset = function(options){
 		luga.extend(luga.data.HttpDataSet, this, [options]);
@@ -25,10 +25,10 @@
 		/** @type {null|string} */
 		this.rawXml = null;
 
-		/** @type {array.<string>} */
+		/** @type {Array.<string>} */
 		this.channelElements = ["title", "link", "description", "language", "copyright", "managingEditor", "webMaster", "pubDate", "lastBuildDate", "category", "generator", "docs", "cloud", "ttl", "image", "textInput", "skipHours", "skipDays"];
 
-		/** @type {array.<string>} */
+		/** @type {Array.<string>} */
 		this.itemElements = ["title", "link", "description", "author", "category", "comments", "enclosure", "guid", "pubDate", "source"];
 
 		// Store metadata extracted from <channel>
@@ -37,7 +37,7 @@
 		/**
 		 * Given
 		 * @param {jQuery} item  A jQuery wrapper around an <item>
-		 * @returns {Object}
+		 * @return {Object}
 		 */
 		var itemToHash = function(item){
 			var rec = {};
@@ -60,7 +60,7 @@
 		/* Public methods */
 
 		/**
-		 * @returns {luga.data.Rss2Dataset.context}
+		 * @return {luga.data.Rss2Dataset.context}
 		 * @override
 		 */
 		this.getContext = function(){
@@ -76,7 +76,7 @@
 
 		/**
 		 * Returns the raw XML document
-		 * @returns {null|string}
+		 * @return {null|string}
 		 */
 		this.getRawXml = function(){
 			return this.rawXml;

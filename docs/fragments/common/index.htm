@@ -41,7 +41,7 @@
 
 	</div>
 
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>baseFunc</td>
@@ -64,7 +64,7 @@
 		<tr>
 			<td>args</td>
 			<td>
-				{array}
+				{Array}
 			</td>
 			<td>
 				An array of arguments that will be passed to the parent's constructor. Optional
@@ -72,7 +72,7 @@
 		</tr>
 	</table>
 
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Examples</th>
 	</table>
 
@@ -100,12 +100,12 @@
 		<br>
 		Supports namespaces (if the fully qualified path is passed).
 	</div>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>path</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
 				Fully qualified name of a function
@@ -113,13 +113,13 @@
 		</tr>
 	</table>
 
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Return type</th>
 		<tr>
 			<td>{function|undefined}</td>
 		</tr>
 	</table>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Examples</th>
 	</table>
 
@@ -144,12 +144,12 @@ luga.lookupFunction("myLookUpSpace.myFunction");
 		<br>
 		Supports unlimited nesting levels (if the fully qualified path is passed).
 	</div>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>object</td>
 			<td>
-				{object}
+				{Object}
 			</td>
 			<td>
 				Target object
@@ -158,7 +158,7 @@ luga.lookupFunction("myLookUpSpace.myFunction");
 		<tr>
 			<td>path</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
 				Dot-delimited string
@@ -166,13 +166,13 @@ luga.lookupFunction("myLookUpSpace.myFunction");
 		</tr>
 	</table>
 
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Return type</th>
 		<tr>
 			<td>{*|undefined}</td>
 		</tr>
 	</table>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Examples</th>
 	</table>
 
@@ -198,12 +198,12 @@ luga.lookupProperty(target, "firstLevel.secondLevel.missing");
 		Shallow-merge the contents of two objects together into the first object.
 		It wraps jQuery's extend to make names less ambiguous
 	</div>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>target</td>
 			<td>
-				{object}
+				{Object}
 			</td>
 			<td>
 				An object that will receive the new properties
@@ -212,14 +212,14 @@ luga.lookupProperty(target, "firstLevel.secondLevel.missing");
 		<tr>
 			<td>source</td>
 			<td>
-				{object}
+				{Object}
 			</td>
 			<td>
 				An object containing additional properties to merge in
 			</td>
 		</tr>
 	</table>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Examples</th>
 	</table>
 
@@ -237,12 +237,12 @@ luga.merge(config, params);
 		Creates namespaces to be used for scoping variables and classes so that they are not global.
 		Specifying the last node of a namespace implicitly creates all other nodes.
 	</div>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>ns</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
 				Namespace as string
@@ -251,14 +251,14 @@ luga.merge(config, params);
 		<tr>
 			<td>rootObject</td>
 			<td>
-				{object}
+				{Object}
 			</td>
 			<td>
 				Optional root object. Default to window
 			</td>
 		</tr>
 	</table>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Examples</th>
 	</table>
 	<pre><code class="language-javascript">luga.namespace("luga.utils");</code></pre>
@@ -272,12 +272,12 @@ luga.merge(config, params);
 		<br>
 		If the path does not exists, it creates it.
 	</div>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>object</td>
 			<td>
-				{object}
+				{Object}
 			</td>
 			<td>
 				Target object
@@ -286,7 +286,7 @@ luga.merge(config, params);
 		<tr>
 			<td>path</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
 				Fully qualified property name
@@ -303,7 +303,7 @@ luga.merge(config, params);
 		</tr>
 	</table>
 
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Examples</th>
 	</table>
 

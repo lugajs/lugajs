@@ -1,5 +1,5 @@
 /*! 
-Luga Ajaxform 0.9.7dev 2017-10-27T19:30:08.694Z
+Luga Ajaxform 0.9.7dev 2017-11-19T17:34:24.108Z
 Copyright 2013-2017 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -122,7 +122,7 @@ if(typeof(luga) === "undefined"){
 	 * Form handler. Invoke its sender() method to serialize the form and send its contents using XHR
 	 * @param options {luga.ajaxform.Sender.options}
 	 * @constructor
-	 * @throws {Exception}
+	 * @throw {Exception}
 	 */
 	luga.ajaxform.Sender = function(options){
 		// Ensure it's a jQuery object
@@ -153,7 +153,7 @@ if(typeof(luga) === "undefined"){
 		}
 
 		/**
-		 * @throws {Exception}
+		 * @throw {Exception}
 		 */
 		var handleAfter = function(){
 			/* istanbul ignore else */
@@ -167,7 +167,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * @throws {Exception}
+		 * @throw {Exception}
 		 */
 		var handleBefore = function(){
 			/* istanbul ignore else */
@@ -181,7 +181,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * @throws {Exception}
+		 * @throw {Exception}
 		 */
 		var handleError = function(textStatus, jqXHR, errorThrown){
 			var callBack = luga.lookupFunction(self.config.error);
@@ -192,7 +192,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * @throws {Exception}
+		 * @throw {Exception}
 		 */
 		var handleSuccess = function(textStatus, jqXHR){
 			var callBack = luga.lookupFunction(self.config.success);

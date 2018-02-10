@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.9.7dev 2017-10-27T19:30:08.056Z
+Luga Data 0.9.7dev 2017-11-19T17:34:23.620Z
 Copyright 2013-2017 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -50,7 +50,7 @@ if(typeof(luga) === "undefined"){
 	 * Returns a dataSource from the registry
 	 * Returns null if no source matches the given id
 	 * @param {String} uuid
-	 * @returns {luga.data.DataSet|luga.data.DetailSet}
+	 * @return {luga.data.DataSet|luga.data.DetailSet}
 	 */
 	luga.data.getDataSource = function(uuid){
 		if(luga.data.dataSourceRegistry[uuid] !== undefined){
@@ -63,7 +63,7 @@ if(typeof(luga) === "undefined"){
 	 * Adds a dataSource inside the registry
 	 * @param {String}                                uuid
 	 * @param {luga.data.DataSet|luga.data.DetailSet} dataSource
-	 * @throws {Exception}
+	 * @throw {Exception}
 	 */
 	luga.data.setDataSource = function(uuid, dataSource){
 		if(luga.data.getDataSource(uuid) !== null){
@@ -96,8 +96,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Given a state string, returns an object containing a boolean field for each possible state
 	 * @param {null|luga.data.STATE} state
-	 * @throws {Exception}
-	 * @returns {luga.data.stateDescription}
+	 * @throw {Exception}
+	 * @return {luga.data.stateDescription}
 	 */
 	luga.data.utils.assembleStateDescription = function(state){
 		if((state !== null) && (luga.data.utils.isValidState(state) === false)){
@@ -114,11 +114,11 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Apply the given filter function to each passed row
 	 * Return an array of filtered rows
-	 * @param {array.<luga.data.DataSet.row>} rows. Required
+	 * @param {Array.<luga.data.DataSet.row>} rows. Required
 	 * @param {function}                      filter. Required
 	 * @param {luga.data.DataSet}             dataset. Required
-	 * @returns {array.<luga.data.DataSet.row>}
-	 * @throws {Exception}
+	 * @return {Array.<luga.data.DataSet.row>}
+	 * @throw {Exception}
 	 */
 	luga.data.utils.filter = function(rows, filter, dataset){
 		if(luga.isFunction(filter) === false){
@@ -143,10 +143,10 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Apply the given updater function to each passed row
-	 * @param {array.<luga.data.DataSet.row>} rows. Required
+	 * @param {Array.<luga.data.DataSet.row>} rows. Required
 	 * @param {function}                      updater. Required
 	 * @param {luga.data.DataSet}             dataset. Required
-	 * @throws {Exception}
+	 * @throw {Exception}
 	 */
 	luga.data.utils.update = function(rows, formatter, dataset){
 		if(luga.isFunction(formatter) === false){
@@ -163,7 +163,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Return true if the passed state is supported
 	 * @param {String}  state
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	luga.data.utils.isValidState = function(state){
 		for(var key in luga.data.STATE){
@@ -214,17 +214,17 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * @typedef {Object} luga.data.DataSet.context
-	 * @extends luga.data.stateDescription
+	 * @extend luga.data.stateDescription
 	 *
 	 * @property {Number}                         recordCount
-	 * @property {array.<luga.data.DataSet.row>}  entities
+	 * @property {Array.<luga.data.DataSet.row>}  entities
 	 */
 
 	/**
 	 * @typedef {Object} luga.data.DataSet.options
 	 *
 	 * @property {String}                uuid       Unique identifier. Required
-	 * @property {array.<object>|object} records    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
+	 * @property {Array.<object>|object} records    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
 	 * @property {function}              formatter  A formatting functions to be called once for each row in the dataSet. Default to null
 	 * @property {function}              filter     A filter functions to be called once for each row in the dataSet. Default to null
 	 */
@@ -234,12 +234,12 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param {luga.data.DataSet.options} options
 	 * @constructor
-	 * @extends luga.Notifier
-	 * @fires dataChanged
-	 * @fires currentRowChanged
-	 * @fires dataSorted
-	 * @fires preDataSorted
-	 * @throws {Exception}
+	 * @extend luga.Notifier
+	 * @fire dataChanged
+	 * @fire currentRowChanged
+	 * @fire dataSorted
+	 * @fire preDataSorted
+	 * @throw {Exception}
 	 */
 	luga.data.DataSet = function(options){
 
@@ -276,7 +276,7 @@ if(typeof(luga) === "undefined"){
 
 		this.uuid = options.uuid;
 
-		/** @type {array.<luga.data.DataSet.row>} */
+		/** @type {Array.<luga.data.DataSet.row>} */
 		this.records = [];
 
 		/** @type {hash.<luga.data.DataSet.row>} */
@@ -345,7 +345,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Remove the current filter function
 		 * Triggers a "dataChanged" notification
-		 * @fires dataChanged
+		 * @fire dataChanged
 		 */
 		this.clearFilter = function(){
 			this.filter = null;
@@ -358,10 +358,10 @@ if(typeof(luga) === "undefined"){
 		 * If no filter is passed, delete all records
 		 * @param {function} [undefined] filter   A filter function. If specified only records matching the filter will be returned. Optional
 		 *                                        The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
-		 * @fires currentRowChanged
-		 * @fires stateChanged
-		 * @fires dataChanged
-		 * @throws {Exception}
+		 * @fire currentRowChanged
+		 * @fire stateChanged
+		 * @fire dataChanged
+		 * @throw {Exception}
 		 */
 		this.delete = function(filter){
 			if(filter === undefined){
@@ -390,7 +390,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns the column type of the specified column. Either "date", "number" or "string"
 		 * @param {String} columnName
-		 * @returns {String}
+		 * @return {String}
 		 */
 		this.getColumnType = function(columnName){
 			if(this.columnTypes[columnName] !== undefined){
@@ -400,7 +400,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * @returns {luga.data.DataSet.context}
+		 * @return {luga.data.DataSet.context}
 		 */
 		this.getContext = function(){
 			var context = {
@@ -415,7 +415,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns the current row object
 		 * By default, the current row is the first row of the dataSet, but this can be changed by calling setCurrentRow() or setCurrentRowIndex().
-		 * @returns {luga.data.DataSet.row|null}
+		 * @return {luga.data.DataSet.row|null}
 		 */
 		this.getCurrentRow = function(){
 			return this.getRowById(this.getCurrentRowId());
@@ -426,7 +426,7 @@ if(typeof(luga) === "undefined"){
 		 * Do not confuse the rowId of a row with the index of the row
 		 * RowId is a column that contains a unique identifier for the row
 		 * This identifier does not change if the rows of the dataSet are sorted
-		 * @returns {String}
+		 * @return {String}
 		 */
 		this.getCurrentRowId = function(){
 			return this.currentRowId;
@@ -434,7 +434,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Returns a zero-based index at which the current row can be found, or -1 if the dataSet is empty
-		 * @returns {Number}
+		 * @return {Number}
 		 */
 		this.getCurrentRowIndex = function(){
 			var row = this.getCurrentRow();
@@ -444,7 +444,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns the number of records in the dataSet
 		 * If the dataSet has a filter, returns the number of filtered records
-		 * @returns {Number}
+		 * @return {Number}
 		 */
 		this.getRecordsCount = function(){
 			return selectAll().length;
@@ -453,7 +453,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns the row object associated with the given unique identifier
 		 * @param {String} rowId  Required
-		 * @returns {null|luga.data.DataSet.row}
+		 * @return {null|luga.data.DataSet.row}
 		 */
 		this.getRowById = function(rowId){
 			var targetRow = this.recordsHash[rowId];
@@ -475,8 +475,8 @@ if(typeof(luga) === "undefined"){
 		 * Returns the row object associated with the given index
 		 * Throws an exception if the index is out of range
 		 * @param {Number} index  Required
-		 * @returns {luga.data.DataSet.row}
-		 * @throws {Exception}
+		 * @return {luga.data.DataSet.row}
+		 * @throw {Exception}
 		 */
 		this.getRowByIndex = function(index){
 			var fetchedRow;
@@ -506,7 +506,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns the name of the column used for the most recent sort
 		 * Returns an empty string if no sort has been performed yet
-		 * @returns {String}
+		 * @return {String}
 		 */
 		this.getSortColumn = function(){
 			return (this.lastSortColumns && this.lastSortColumns.length > 0) ? this.lastSortColumns[0] : "";
@@ -515,7 +515,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns the order used for the most recent sort
 		 * Returns an empty string if no sort has been performed yet
-		 * @returns {String}
+		 * @return {String}
 		 */
 		this.getSortOrder = function(){
 			return this.lastSortOrder ? this.lastSortOrder : "";
@@ -523,7 +523,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Returns the dataSet's current state
-		 * @returns {null|luga.data.STATE}
+		 * @return {null|luga.data.STATE}
 		 */
 		this.getState = function(){
 			return this.state;
@@ -533,10 +533,10 @@ if(typeof(luga) === "undefined"){
 		 * Adds rows to a dataSet
 		 * Be aware that the dataSet use passed data by reference
 		 * That is, it uses those objects as its row object internally. It does not make a copy
-		 * @param  {array.<object>|object} records   Records to be loaded, either one single object containing value/name pairs, or an array of objects. Required
-		 * @fires stateChanged
-		 * @fires dataChanged
-		 * @throws {Exception}
+		 * @param  {Array.<object>|object} records   Records to be loaded, either one single object containing value/name pairs, or an array of objects. Required
+		 * @fire stateChanged
+		 * @fire dataChanged
+		 * @throw {Exception}
 		 */
 		this.insert = function(records){
 			// If we only get one record, we put it inside an array anyway,
@@ -571,7 +571,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Reset the currentRowId. Persist previous selection if possible
-		 * @fires currentRowChanged
+		 * @fire currentRowChanged
 		 */
 		this.resetCurrentRow = function(){
 			// If we have previous selection
@@ -589,7 +589,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Reset the currentRowId to the first record available
-		 * @fires currentRowChanged
+		 * @fire currentRowChanged
 		 */
 		this.resetCurrentRowToFirst = function(){
 			// We have a filter
@@ -619,8 +619,8 @@ if(typeof(luga) === "undefined"){
 		 * Be aware that modifying any property of a returned object results in a modification of the internal records (since records are passed by reference)
 		 * @param {function}  [undefined] filter   An optional filter function. If specified only records matching the filter will be returned. Optional
 		 *                                         The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
-		 * @returns {array.<luga.data.DataSet.row>}
-		 * @throws {Exception}
+		 * @return {Array.<luga.data.DataSet.row>}
+		 * @throw {Exception}
 		 */
 		this.select = function(filter){
 			if(filter === undefined){
@@ -635,7 +635,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Set a column type for a column. Required for proper sorting of numeric or date data.
 		 * By default data is sorted alpha-numerically, if you want it sorted numerically or by date, set the proper columnType
-		 * @param {string|array<string>} columnNames
+		 * @param {String|array<string>} columnNames
 		 * @param {String}               columnType   Either "date", "number" or "string"
 		 */
 		this.setColumnType = function(columnNames, columnType){
@@ -656,9 +656,9 @@ if(typeof(luga) === "undefined"){
 		 * Throws an exception if the given rowId is invalid
 		 * If null is passed, no row is selected
 		 * Triggers a "currentRowChanged" notification
-		 * @param {string|null} rowId  Required
-		 * @fires currentRowChanged
-		 * @throws {Exception}
+		 * @param {String|null} rowId  Required
+		 * @fire currentRowChanged
+		 * @throw {Exception}
 		 */
 		this.setCurrentRowId = function(rowId){
 			// No need to do anything
@@ -693,8 +693,8 @@ if(typeof(luga) === "undefined"){
 		 * Set the passed row as currentRow
 		 * Throws an exception if no available record matches the given row
 		 * @param {luga.data.DataSet.row} row
-		 * @fires currentRowChanged
-		 * @throws {Exception}
+		 * @fire currentRowChanged
+		 * @throw {Exception}
 		 */
 		this.setCurrentRow = function(row){
 			var fetchedRowId = this.getRowIndex(row);
@@ -708,8 +708,8 @@ if(typeof(luga) === "undefined"){
 		 * Sets the current row of the dataSet to the one matching the given index
 		 * Throws an exception if the index is out of range
 		 * @param {Number} index  New index. Required
-		 * @fires currentRowChanged
-		 * @throws {Exception}
+		 * @fire currentRowChanged
+		 * @throw {Exception}
 		 */
 		this.setCurrentRowIndex = function(index){
 			this.setCurrentRow(this.getRowByIndex(index));
@@ -720,9 +720,9 @@ if(typeof(luga) === "undefined"){
 		 * Triggers a "dataChanged" notification
 		 * @param {function} filter   A filter functions to be called once for each row in the data set. Required
 		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
-		 * @fires currentRowChanged
-		 * @fires dataChanged
-		 * @throws {Exception}
+		 * @fire currentRowChanged
+		 * @fire dataChanged
+		 * @throw {Exception}
 		 */
 		this.setFilter = function(filter){
 			if(luga.isFunction(filter) === false){
@@ -738,7 +738,7 @@ if(typeof(luga) === "undefined"){
 		 * Set current state
 		 * This method is not intended to be called outside the dataSet. It's public only to be accessible to subclasses
 		 * @param {null|luga.data.STATE} newState
-		 * @fires stateChanged
+		 * @fire stateChanged
 		 */
 		this.setState = function(newState){
 			if(luga.data.utils.isValidState(newState) === false){
@@ -759,11 +759,11 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Sorts the dataSet using the given column(s) and sort order
-		 * @param {string|array<string>}              columnNames Required, either a single column name or an array of names
+		 * @param {String|Array<string>}              columnNames Required, either a single column name or an array of names
 		 * @param {luga.data.sort.ORDER} ["toggle"]  sortOrder   Either "ascending", "descending" or "toggle". Optional, default to "toggle"
-		 * @fires preDataSorted
-		 * @fires dataSorted
-		 * @fires dataChanged
+		 * @fire preDataSorted
+		 * @fire dataSorted
+		 * @fire dataChanged
 		 */
 		this.sort = function(columnNames, sortOrder){
 			/*
@@ -858,12 +858,12 @@ if(typeof(luga) === "undefined"){
 		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @param {function} updater. Updater function. Required
 		 *                            The function is going to be called with this signature: myUpdater(row, rowIndex, dataSet)
-		 * @fires stateChanged
-		 * @fires dataChanged
-		 * @throws {Exception}
+		 * @fire stateChanged
+		 * @fire dataChanged
+		 * @throw {Exception}
 		 */
 		this.update = function(filter, updater){
-			/** @type {array.<luga.data.DataSet.row>} */
+			/** @type {Array.<luga.data.DataSet.row>} */
 			var filteredRecords = luga.data.utils.filter(this.records, filter, this);
 			luga.data.utils.update(filteredRecords, updater, this);
 			this.resetCurrentRow();
@@ -888,7 +888,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * @typedef {Object} luga.data.DetailSet.context
-	 * @extends luga.data.stateDescription
+	 * @extend luga.data.stateDescription
 	 *
 	 * @property {null|luga.data.DataSet.row} entity
 	 */
@@ -906,10 +906,10 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param {luga.data.DetailSet.options} options
 	 * @constructor
-	 * @extends luga.Notifier
-	 * @fires dataChanged
-	 * @listens dataChanged
-	 * @listens currentRowChanged
+	 * @extend luga.Notifier
+	 * @fire dataChanged
+	 * @listen dataChanged
+	 * @listen currentRowChanged
 	 */
 	luga.data.DetailSet = function(options){
 
@@ -942,7 +942,7 @@ if(typeof(luga) === "undefined"){
 		luga.data.setDataSource(this.uuid, this);
 
 		/**
-		 * @returns {luga.data.DetailSet.context}
+		 * @return {luga.data.DetailSet.context}
 		 */
 		this.getContext = function(){
 			var context = {
@@ -955,7 +955,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Returns the detailSet's current state
-		 * @returns {null|luga.data.STATE}
+		 * @return {null|luga.data.STATE}
 		 */
 		this.getState = function(){
 			return self.parentDataSet.getState();
@@ -1016,7 +1016,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.data.HttpDataSet.options
 	 *
-	 * @extends luga.data.DataSet.options
+	 * @extend luga.data.DataSet.options
 	 * @property {String}    url              URL to be fetched. Default to null
 	 * @property {Number}    timeout          Timeout (in milliseconds) for the HTTP request. Default to 10 seconds
 	 * @property {Object}    headers          A set of name/value pairs to be used as custom HTTP headers
@@ -1030,11 +1030,11 @@ if(typeof(luga) === "undefined"){
 	 * Base HttpDataSet class
 	 * @param luga.data.HttpDataSet.options
 	 * @constructor
-	 * @extends luga.data.DataSet
+	 * @extend luga.data.DataSet
 	 * @abstract
-	 * @fires dataLoading
-	 * @fires xhrError
-	 * @throws {Exception}
+	 * @fire dataLoading
+	 * @fire xhrError
+	 * @throw {Exception}
 	 */
 	luga.data.HttpDataSet = function(options){
 		luga.extend(luga.data.DataSet, this, [options]);
@@ -1123,7 +1123,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Returns the URL that will be used to fetch the data. Returns null if URL is not set
-		 * @returns {string|null}
+		 * @return {String|null}
 		 */
 		this.getUrl = function(){
 			return this.url;
@@ -1132,8 +1132,8 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Fires an XHR request to fetch and load the data, notify observers ("dataLoading" first, "dataChanged" after records are loaded).
 		 * Throws an exception if URL is not set
-		 * @fires dataLoading
-		 * @throws {Exception}
+		 * @fire dataLoading
+		 * @throw {Exception}
 		 */
 		this.loadData = function(){
 			if(this.url === null){
@@ -1171,7 +1171,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest
 		 * @param {String}   textStatus   HTTP status
 		 * @param {String}   errorThrown  Error message from jQuery
-		 * @fires xhrError
+		 * @fire xhrError
 		 */
 		this.xhrError = function(jqXHR, textStatus, errorThrown){
 			self.setState(luga.data.STATE.ERROR);
@@ -1193,8 +1193,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.data.JsonDataSet.options
 	 *
-	 * @extends luga.data.HttpDataSet.options
-	 * @property {string|null}   path      Specifies the path to the data within the JSON structure.
+	 * @extend luga.data.HttpDataSet.options
+	 * @property {String|null}   path      Specifies the path to the data within the JSON structure.
 	 *                                     The path is expressed as a set of property names on the objects, separated by dots. Default to null
 	 */
 
@@ -1202,7 +1202,7 @@ if(typeof(luga) === "undefined"){
 	 * JSON dataSet class
 	 * @param {luga.data.JsonDataSet.options} options
 	 * @constructor
-	 * @extends luga.data.HttpDataSet
+	 * @extend luga.data.HttpDataSet
 	 */
 	luga.data.JsonDataSet = function(options){
 		luga.extend(luga.data.HttpDataSet, this, [options]);
@@ -1223,7 +1223,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Returns the raw JSON data structure
-		 * @returns {null|json}
+		 * @return {null|json}
 		 */
 		this.getRawJson = function(){
 			return this.rawJson;
@@ -1231,7 +1231,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Returns the path to be used to extract data out of the JSON data structure
-		 * @returns {null|string}
+		 * @return {null|string}
 		 */
 		this.getPath = function(){
 			return this.path;
@@ -1283,7 +1283,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.data.XmlDataSet.options
 	 *
-	 * @extends luga.data.HttpDataSet.options
+	 * @extend luga.data.HttpDataSet.options
 	 * @property {String} path  Specifies the XPath expression to be used to extract nodes from the XML document. Default to: "/"
 	 */
 
@@ -1291,7 +1291,7 @@ if(typeof(luga) === "undefined"){
 	 * XML dataSet class
 	 * @param {luga.data.XmlDataSet.options} options
 	 * @constructor
-	 * @extends luga.data.HttpDataSet
+	 * @extend luga.data.HttpDataSet
 	 */
 	luga.data.XmlDataSet = function(options){
 		luga.extend(luga.data.HttpDataSet, this, [options]);
@@ -1312,7 +1312,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Returns the raw XML data
-		 * @returns {null|Node}
+		 * @return {null|Node}
 		 */
 		this.getRawXml = function(){
 			return this.rawXml;
@@ -1320,7 +1320,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Returns the XPath expression to be used to extract data out of the XML
-		 * @returns {null|string}
+		 * @return {null|string}
 		 */
 		this.getPath = function(){
 			return this.path;
@@ -1366,10 +1366,10 @@ if(typeof(luga) === "undefined"){
 }());
 /**
  * @typedef {Object} luga.data.DataSet.context
- * @extends luga.data.stateDescription
+ * @extend luga.data.stateDescription
  *
  * @property {Number}                         recordCount
- * @property {array.<luga.data.DataSet.row>}  items
+ * @property {Array.<luga.data.DataSet.row>}  items
  */
 
 (function(){
@@ -1379,7 +1379,7 @@ if(typeof(luga) === "undefined"){
 	 * RSS 2.0 dataSet class
 	 * @param {luga.data.HttpDataSet.options} options
 	 * @constructor
-	 * @extends luga.data.HttpDataSet
+	 * @extend luga.data.HttpDataSet
 	 */
 	luga.data.Rss2Dataset = function(options){
 		luga.extend(luga.data.HttpDataSet, this, [options]);
@@ -1391,10 +1391,10 @@ if(typeof(luga) === "undefined"){
 		/** @type {null|string} */
 		this.rawXml = null;
 
-		/** @type {array.<string>} */
+		/** @type {Array.<string>} */
 		this.channelElements = ["title", "link", "description", "language", "copyright", "managingEditor", "webMaster", "pubDate", "lastBuildDate", "category", "generator", "docs", "cloud", "ttl", "image", "textInput", "skipHours", "skipDays"];
 
-		/** @type {array.<string>} */
+		/** @type {Array.<string>} */
 		this.itemElements = ["title", "link", "description", "author", "category", "comments", "enclosure", "guid", "pubDate", "source"];
 
 		// Store metadata extracted from <channel>
@@ -1403,7 +1403,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Given
 		 * @param {jQuery} item  A jQuery wrapper around an <item>
-		 * @returns {Object}
+		 * @return {Object}
 		 */
 		var itemToHash = function(item){
 			var rec = {};
@@ -1426,7 +1426,7 @@ if(typeof(luga) === "undefined"){
 		/* Public methods */
 
 		/**
-		 * @returns {luga.data.Rss2Dataset.context}
+		 * @return {luga.data.Rss2Dataset.context}
 		 * @override
 		 */
 		this.getContext = function(){
@@ -1442,7 +1442,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Returns the raw XML document
-		 * @returns {null|string}
+		 * @return {null|string}
 		 */
 		this.getRawXml = function(){
 			return this.rawXml;
@@ -1488,7 +1488,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.data.ChildJsonDataSet.options
 	 *
-	 * @extends luga.data.JsonDataSet.options
+	 * @extend luga.data.JsonDataSet.options
 	 * @property {luga.data.DataSet}  parentDataSet   Parent dataSet to be used in a master-detail scenario
 	 * @property {String}             url             Unlike JsonDataSet the url here is required and is expected to be a string template like:
 	 *                                                http://www.ciccio.com/api/products/{uuid}
@@ -1499,7 +1499,7 @@ if(typeof(luga) === "undefined"){
 	 * Binded JSON dataSet class
 	 * @param {luga.data.ChildJsonDataSet.options} options
 	 * @constructor
-	 * @extends luga.data.JsonDataSet
+	 * @extend luga.data.JsonDataSet
 	 */
 	luga.data.ChildJsonDataSet = function(options){
 
@@ -1566,7 +1566,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.data.ChildXmlDataSet.options
 	 *
-	 * @extends luga.data.XmlDataSet.options
+	 * @extend luga.data.XmlDataSet.options
 	 * @property {luga.data.DataSet}  parentDataSet   Parent dataSet to be used in a master-detail scenario
 	 * @property {String}             url             Unlike XmlDataSet the url here is required and is expected to be a string template like:
 	 *                                                http://www.ciccio.com/api/products/{uuid}
@@ -1577,7 +1577,7 @@ if(typeof(luga) === "undefined"){
 	 * Binded XML dataSet class
 	 * @param {luga.data.ChildXmlDataSet.options} options
 	 * @constructor
-	 * @extends luga.data.XmlDataSet
+	 * @extend luga.data.XmlDataSet
 	 */
 	luga.data.ChildXmlDataSet = function(options){
 
@@ -1688,7 +1688,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Change current configuration
 	 * @param {luga.data.region.options} options
-	 * @returns {luga.data.region.options}
+	 * @return {luga.data.region.options}
 	 */
 	luga.data.region.setup = function(options){
 		luga.merge(config, options);
@@ -1699,7 +1699,7 @@ if(typeof(luga) === "undefined"){
 	 * Given a jQuery object wrapping an HTML node, returns the region object associated to it
 	 * Returns undefined if the node is not associated to a region
 	 * @param {jQuery} node
-	 * @returns {undefined|luga.data.region.Base}
+	 * @return {undefined|luga.data.region.Base}
 	 */
 	luga.data.region.getReferenceFromNode = function(node){
 		return node.data(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE);
@@ -1708,7 +1708,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Given a jQuery object wrapping an HTML node, initialize the relevant Region handler
 	 * @param {jQuery} node
-	 * @throws {Exception}
+	 * @throw {Exception}
 	 */
 	luga.data.region.init = function(node){
 		var dataSourceId = node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID);
@@ -1755,7 +1755,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Given a region instance, returns an object containing its critical data
 	 * @param {luga.data.region.Base} region
-	 * @returns {luga.data.region.description}
+	 * @return {luga.data.region.description}
 	 */
 	luga.data.region.utils.assembleRegionDescription = function(region){
 		return {
@@ -1781,7 +1781,7 @@ if(typeof(luga) === "undefined"){
 	 * @property {jQuery} node                                Either a jQuery object wrapping the node or the naked DOM object that will contain the region. Required
 	 * @property {luga.data.DataSet|luga.data.DetailSet} ds   DataSource. Required if dsUuid is not specified
 	 * @property {String} dsUuid                              DataSource's uuid. Can be specified inside the data-lugaregion-datasource attribute too. Required if ds is not specified
-	 * @property {array.<string>} [undefined]  traits         An array of function names that will be called every time the Region is rendered. Optional
+	 * @property {Array.<string>} [undefined]  traits         An array of function names that will be called every time the Region is rendered. Optional
 	 * @property {String} templateId                          Id of HTML element containing the template. Can be specified inside the data-lugaregion-template attribute too.
 	 *                                                        If not available it assumes the node contains the template
 	 */
@@ -1792,10 +1792,11 @@ if(typeof(luga) === "undefined"){
 	 * @param {luga.data.Region.options} options
 	 * @constructor
 	 * @abstract
-	 * @fires regionRendered
-	 * @listens dataChanged
-	 * @listens stateChanged
-	 * @throws {Exception}
+	 * @extend luga.Notifier
+	 * @fire regionRendered
+	 * @listen dataChanged
+	 * @listen stateChanged
+	 * @throw {Exception}
 	 */
 	luga.data.region.Base = function(options){
 
@@ -1841,7 +1842,7 @@ if(typeof(luga) === "undefined"){
 		}
 		this.dataSource.addObserver(this);
 
-		/** @type {array.<string>} */
+		/** @type {Array.<string>} */
 		this.traits = luga.data.region.CONST.DEFAULT_TRAITS;
 		// Extract traits from custom attribute, if any
 		var attrTraits = this.config.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TRAITS);
@@ -1873,7 +1874,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * @abstract
-		 * @fires regionRendered
+		 * @fire regionRendered
 		 */
 		this.render = function(){
 			// Concrete implementations must overwrite this
@@ -1914,9 +1915,9 @@ if(typeof(luga) === "undefined"){
 	 * Handlebars Region class
 	 * @param {luga.data.Region.options} options
 	 * @constructor
-	 * @extends luga.data.region.Base
-	 * @fires regionRendered
-	 * @throws {Exception}
+	 * @extend luga.data.region.Base
+	 * @fire regionRendered
+	 * @throw {Exception}
 	 */
 	luga.data.region.Handlebars = function(options){
 
@@ -1934,7 +1935,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * @param {jQuery} node
-		 * @returns {String}
+		 * @return {String}
 		 */
 		var fetchTemplate = function(node){
 			// Inline template
@@ -1970,7 +1971,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * @returns {String}
+		 * @return {String}
 		 */
 		this.generateHtml = function(){
 			return this.template(this.dataSource.getContext());
@@ -1978,7 +1979,7 @@ if(typeof(luga) === "undefined"){
 
 		/*
 		 @override
-		 @fires regionRendered
+		 @fire regionRendered
 		 */
 		this.render = function(){
 			/* istanbul ignore else */
@@ -2133,7 +2134,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Return true if the passed order is supported
 	 * @param {String}  sortOrder
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	luga.data.sort.isValidSortOrder = function(sortOrder){
 		for(var key in luga.data.sort.ORDER){
@@ -2148,7 +2149,7 @@ if(typeof(luga) === "undefined"){
 	 * Retrieve the relevant sort function matching the given combination of dataType and sortOrder
 	 * @param {String}               dataType
 	 * @param {luga.data.sort.ORDER} sortOrder
-	 * @returns {function}
+	 * @return {function}
 	 */
 	luga.data.sort.getSortStrategy = function(dataType, sortOrder){
 		if(luga.data.sort[dataType] === undefined){
@@ -2304,7 +2305,7 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.data.widgets.ShowMore.options
 	 *
 	 * @property {luga.data.DataSet} dataSet   DataSet. Required
-	 * @property {string|undefined} paramPath  Path to retrieve url template params from the JSON. Optional. If not specified the whole returned JSON will be used
+	 * @property {String|undefined} paramPath  Path to retrieve url template params from the JSON. Optional. If not specified the whole returned JSON will be used
 	 * @property {String} url                  Url to be used by the dataSet to fetch more data. It can contain template placeholders. Required
 	 */
 
@@ -2314,8 +2315,8 @@ if(typeof(luga) === "undefined"){
 	 * @param {luga.data.widgets.ShowMore.options} options
 	 * @constructor
 	 * @abstract
-	 * @listens stateChanged
-	 * @throws {Exception}
+	 * @listen stateChanged
+	 * @throw {Exception}
 	 */
 	luga.data.widgets.ShowMore = function(options){
 
@@ -2409,7 +2410,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.data.ShowMoreButton.options
 	 *
-	 * @extends luga.data.widgets.ShowMore.options
+	 * @extend luga.data.widgets.ShowMore.options
 	 * @property {jQuery}  button          Button that will trigger the showMore. Required
 	 * @property {String}  disabledClass   Name of CSS class that will be applied to the button while it's disabled. Optional, default to "disabled"
 	 */
@@ -2418,9 +2419,9 @@ if(typeof(luga) === "undefined"){
 	 * ShowMore button class
 	 * @param {luga.data.widgets.ShowMoreButton.options} options
 	 * @constructor
-	 * @extends luga.data.widgets.ShowMore
-	 * @listens stateChanged
-	 * @throws {Exception}
+	 * @extend luga.data.widgets.ShowMore
+	 * @listen stateChanged
+	 * @throw {Exception}
 	 */
 	luga.data.widgets.ShowMoreButton = function(options){
 		this.config = {
@@ -2474,7 +2475,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.data.ShowMoreScrolling.options
 	 *
-	 * @extends luga.data.widgets.ShowMore.options
+	 * @extend luga.data.widgets.ShowMore.options
 	 * @property {jQuery|undefined}  node  A jQuery object wrapping the node containing the records. It must have a scrollbar. Optional. If not specified, the whole document is assumed.
 	 */
 
@@ -2482,9 +2483,9 @@ if(typeof(luga) === "undefined"){
 	 * ShowMore infinite scrolling class
 	 * @param {luga.data.widgets.ShowMoreScrolling.options} options
 	 * @constructor
-	 * @extends luga.data.widgets.ShowMore
-	 * @listens stateChanged
-	 * @throws {Exception}
+	 * @extend luga.data.widgets.ShowMore
+	 * @listen stateChanged
+	 * @throw {Exception}
 	 */
 	luga.data.widgets.ShowMoreScrolling = function(options){
 

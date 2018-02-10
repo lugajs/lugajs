@@ -28,6 +28,11 @@ describe("luga.localStorage", function(){
 			expect(luga.localStorage.retrieve("myRoot", "path.subpath")).toEqual("y");
 		});
 
+		it("Works even if the path is not a string", function(){
+			luga.localStorage.persist("myRoot", 1, "Xx");
+			expect(localStorage.getItem("myRoot")).toEqual('{"1":"Xx"}');
+		});
+
 	});
 
 	describe(".retrieve()", function(){
@@ -35,6 +40,11 @@ describe("luga.localStorage", function(){
 		it("Retrieve from localStorage the string corresponding to the given combination of root and path", function(){
 			luga.localStorage.persist("myRoot", "test.name", "Ciccio");
 			expect(luga.localStorage.retrieve("myRoot", "test.name")).toEqual("Ciccio");
+		});
+
+		it("Works even if the path is not a string", function(){
+			luga.localStorage.persist("myRoot", 3, "Ciccio");
+			expect(luga.localStorage.retrieve("myRoot", 3)).toEqual("Ciccio");
 		});
 
 		it("Returns undefined if nothing matches the given combination of root and path", function(){

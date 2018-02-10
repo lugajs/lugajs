@@ -9,9 +9,9 @@ describe("luga.data.region.traits", function(){
 			LINK_LI_SELECTOR: "li a"
 		};
 
-		loadFixtures("data/region/traits/generic.htm");
+		jasmineFixtures.loadHTML("data/region/traits/generic.htm");
 
-		ladiesRecords = getJSONFixture("data/ladies.json");
+		ladiesRecords = jasmineFixtures.read("data/ladies.json");
 		ladiesDs = new luga.data.DataSet({uuid: "testDs", records: ladiesRecords});
 
 	});

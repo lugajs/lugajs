@@ -1,4 +1,7 @@
-/* globals console, __dirname, require */
+/* eslint no-implicit-globals: "off" */
+/* eslint strict: "off" */
+/* global require, __dirname */
+
 "use strict";
 
 var gulp = require("gulp");
@@ -60,13 +63,13 @@ function distributeFile(src, name, version){
 		.pipe(header(assembleBanner(name, version))) // Banner for copy
 		.pipe(gulp.dest(CONST.DIST_FOLDER))
 		.pipe(sourcemaps.init())
-			.pipe(uglify({
-				mangle: false
-			}))
-			.pipe(rename({
-				extname: CONST.MIN_SUFFIX
-			}))
-			.pipe(header(assembleBanner(name, version)))
+		.pipe(uglify({
+			mangle: false
+		}))
+		.pipe(rename({
+			extname: CONST.MIN_SUFFIX
+		}))
+		.pipe(header(assembleBanner(name, version)))
 		.pipe(sourcemaps.write(".", {
 			includeContent: true,
 			sourceRoot: "."
@@ -77,18 +80,18 @@ function distributeFile(src, name, version){
 function concatAndMinify(src, fileName, name, version){
 	return gulp.src(src)
 		.pipe(sourcemaps.init())
-			.pipe(concat(fileName))
-			// The "changed" task needs to know the destination directory upfront
-			.pipe(changed(CONST.DIST_FOLDER))
-			.pipe(header(assembleBanner(name, version))) // Banner for copy
-			.pipe(gulp.dest(CONST.DIST_FOLDER))
-			.pipe(rename({
-				extname: CONST.MIN_SUFFIX
-			}))
-			.pipe(uglify({
-				mangle: false
-			}))
-			.pipe(header(assembleBanner(name, version)))// Banner for minified
+		.pipe(concat(fileName))
+		// The "changed" task needs to know the destination directory upfront
+		.pipe(changed(CONST.DIST_FOLDER))
+		.pipe(header(assembleBanner(name, version))) // Banner for copy
+		.pipe(gulp.dest(CONST.DIST_FOLDER))
+		.pipe(rename({
+			extname: CONST.MIN_SUFFIX
+		}))
+		.pipe(uglify({
+			mangle: false
+		}))
+		.pipe(header(assembleBanner(name, version)))// Banner for minified
 		.pipe(sourcemaps.write(".", {
 			includeContent: true,
 			sourceRoot: "."
@@ -166,6 +169,7 @@ gulp.task("default", function(callback){
 		"data",
 		"libs",
 		"zip",
+		"coverage",
 		function(error){
 			if(error){
 				console.log(error.message);

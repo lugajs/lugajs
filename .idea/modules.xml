@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Root.iml" filepath="$PROJECT_DIR$/Root.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/lugajs.iml" filepath="$PROJECT_DIR$/.idea/lugajs.iml" />
     </modules>
   </component>
 </project>
-

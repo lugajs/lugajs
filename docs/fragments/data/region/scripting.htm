@@ -59,12 +59,12 @@
 			Region's constructor. This class triggers a "regionRendered" notification.
 		</p>
 	</div>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>options.node</td>
 			<td>
-				{jquery}
+				{jQuery}
 			</td>
 			<td>
 				A jQuery object wrapping the node or the naked DOM object that will contain the region. Required.
@@ -82,7 +82,7 @@
 		<tr>
 			<td>options.dsUuid</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
 				DataSource's uuid. Can be specified inside the data-lugaregion-datasource attribute too. Required if ds
@@ -92,7 +92,7 @@
 		<tr>
 			<td>options.traits</td>
 			<td class="luga-docs-type">
-				{array.&lt;string&gt;}
+				{Array.&lt;String&gt;}
 			</td>
 			<td>
 				An array of function names that will be called every time the Region is rendered. Optional.
@@ -101,7 +101,7 @@
 		<tr>
 			<td>options.templateId</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
 				Id of HTML element containing the template. Can be specified inside the data-lugaregion-template
@@ -110,7 +110,7 @@
 			</td>
 		</tr>
 	</table>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Examples</th>
 	</table>
 
@@ -131,12 +131,12 @@
 		You can invoke it in case the DOM as changed and new regions has been added to the document.
 		If you have to bootstrap a single region, you better use luga.data.region.init(node) instead
 	</div>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>rootNode</td>
 			<td>
-				{jquery}
+				{jQuery}
 			</td>
 			<td>
 				A jQuery object. Optional. If not specified it will default to jQuery("body")
@@ -153,12 +153,12 @@
 		You can invoke it in case the DOM as changed and a new region has been added to the document.
 		Can be very useful on single-page applications or other scenarios where the DOM is significantly altered at run-time
 	</div>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>node</td>
 			<td>
-				{jquery}
+				{jQuery}
 			</td>
 			<td>
 				A jQuery object. Required
@@ -176,12 +176,12 @@
 			If called without arguments, return an object containing name/value pairs reflecting the current settings
 		</p>
 	</div>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>options.autoregister</td>
 			<td>
-				{boolean}
+				{Boolean}
 			</td>
 			<td>
 				By default the library calls luga.data.region.init() on jQuery(document).ready()
@@ -190,7 +190,7 @@
 			</td>
 		</tr>
 	</table>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Examples</th>
 	</table>
 

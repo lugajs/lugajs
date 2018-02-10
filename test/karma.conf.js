@@ -16,8 +16,9 @@ module.exports = function(config){
 			"lib/handlebars.min.js",
 
 			// Jasmine libs and configuration
-			"test/lib/jasmine/jasmine-jquery.js",
 			"test/lib/jasmine/mock-ajax.js",
+			"test/lib/jasmine/jasmineFixtures.min.js",
+			"test/lib/jasmine/jasmineMatchers.min.js",
 			"test/fixtures.karma.config.js",
 
 			// Source files
@@ -29,9 +30,6 @@ module.exports = function(config){
 			"src/luga.data.HttpDataSet.js",
 			"src/luga.data.JsonDataSet.js",
 			"src/**/*.js",
-
-			// Jasmine custom matcher. Requires Luga
-			"test/lib/jasmine/jasmine-ducktype.js",
 
 			// Test specs
 			"test/spec/*.Spec.js",

@@ -6,7 +6,7 @@ describe("luga.data.Dataset", function(){
 	beforeEach(function(){
 
 		baseDs = new luga.data.DataSet({uuid: "test"});
-		testRecords = getJSONFixture("data/ladies.json");
+		testRecords = jasmineFixtures.read("data/ladies.json");
 		loadedDs = new luga.data.DataSet({uuid: "myDs", records: testRecords});
 
 		addTestCol = function(row, rowIndex, dataSet){
@@ -1098,7 +1098,7 @@ describe("luga.data.Dataset", function(){
 					{name: "ciccio"},
 					{name: "Franco"},
 					{name: "franco"}
-				]
+				];
 				baseDs.insert(records);
 				baseDs.sort("name", "ascending");
 
@@ -1111,7 +1111,7 @@ describe("luga.data.Dataset", function(){
 				var records = [
 					{name: "ciccio"},
 					{name: "ciccione"}
-				]
+				];
 				baseDs.insert(records);
 				baseDs.sort("name", "ascending");
 
@@ -1124,7 +1124,7 @@ describe("luga.data.Dataset", function(){
 				var records = [
 					{name: "ciccione"},
 					{name: "ciccio"}
-				]
+				];
 				baseDs.insert(records);
 				baseDs.sort("name", "descending");
 
@@ -1137,7 +1137,7 @@ describe("luga.data.Dataset", function(){
 				var records = [
 					{name: "ciccio"},
 					{name: "ciccio"}
-				]
+				];
 				baseDs.insert(records);
 				baseDs.sort("name", "ascending");
 
@@ -1150,7 +1150,7 @@ describe("luga.data.Dataset", function(){
 				var records = [
 					{name: "ciccio"},
 					{name: "cicCio"}
-				]
+				];
 				baseDs.insert(records);
 				baseDs.sort("name", "ascending");
 
@@ -1161,7 +1161,7 @@ describe("luga.data.Dataset", function(){
 				var records = [
 					{name: "ciccio"},
 					{name: "cicCio"}
-				]
+				];
 				baseDs.insert(records);
 				baseDs.sort("name", "descending");
 
@@ -1173,7 +1173,7 @@ describe("luga.data.Dataset", function(){
 					{},
 					{name: "test"},
 					{}
-				]
+				];
 				baseDs.insert(records);
 				baseDs.sort("name", "ascending");
 
@@ -1187,7 +1187,7 @@ describe("luga.data.Dataset", function(){
 					{},
 					{name: "test"},
 					{}
-				]
+				];
 				baseDs.insert(records);
 				baseDs.sort("name", "descending");
 
@@ -1201,7 +1201,7 @@ describe("luga.data.Dataset", function(){
 					{},
 					{num: 1},
 					{}
-				]
+				];
 				baseDs.insert(records);
 				baseDs.setColumnType("num", "number");
 				baseDs.sort("num", "ascending");
@@ -1215,7 +1215,7 @@ describe("luga.data.Dataset", function(){
 				var records = [
 					{num: 1},
 					{}
-				]
+				];
 				baseDs.insert(records);
 				baseDs.setColumnType("num", "number");
 				baseDs.sort("num", "descending");
@@ -1244,15 +1244,8 @@ describe("luga.data.Dataset", function(){
 
 	describe(".update()", function(){
 
-		var longUk, onlyUk, mock;
+		var onlyUk, mock;
 		beforeEach(function(){
-
-			longUk = function(row, rowIndex, dataSet){
-				if(row.country === "UK"){
-					row.country = "United Kingdom";
-				}
-				return row;
-			};
 
 			onlyUk = function(row, rowIndex, dataSet){
 				if(row.country === "UK"){

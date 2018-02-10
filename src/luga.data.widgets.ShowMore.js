@@ -7,7 +7,7 @@
 	 * @typedef {Object} luga.data.widgets.ShowMore.options
 	 *
 	 * @property {luga.data.DataSet} dataSet   DataSet. Required
-	 * @property {string|undefined} paramPath  Path to retrieve url template params from the JSON. Optional. If not specified the whole returned JSON will be used
+	 * @property {String|undefined} paramPath  Path to retrieve url template params from the JSON. Optional. If not specified the whole returned JSON will be used
 	 * @property {String} url                  Url to be used by the dataSet to fetch more data. It can contain template placeholders. Required
 	 */
 
@@ -17,8 +17,8 @@
 	 * @param {luga.data.widgets.ShowMore.options} options
 	 * @constructor
 	 * @abstract
-	 * @listens stateChanged
-	 * @throws {Exception}
+	 * @listen stateChanged
+	 * @throw {Exception}
 	 */
 	luga.data.widgets.ShowMore = function(options){
 
@@ -112,7 +112,7 @@
 	/**
 	 * @typedef {Object} luga.data.ShowMoreButton.options
 	 *
-	 * @extends luga.data.widgets.ShowMore.options
+	 * @extend luga.data.widgets.ShowMore.options
 	 * @property {jQuery}  button          Button that will trigger the showMore. Required
 	 * @property {String}  disabledClass   Name of CSS class that will be applied to the button while it's disabled. Optional, default to "disabled"
 	 */
@@ -121,9 +121,9 @@
 	 * ShowMore button class
 	 * @param {luga.data.widgets.ShowMoreButton.options} options
 	 * @constructor
-	 * @extends luga.data.widgets.ShowMore
-	 * @listens stateChanged
-	 * @throws {Exception}
+	 * @extend luga.data.widgets.ShowMore
+	 * @listen stateChanged
+	 * @throw {Exception}
 	 */
 	luga.data.widgets.ShowMoreButton = function(options){
 		this.config = {
@@ -177,7 +177,7 @@
 	/**
 	 * @typedef {Object} luga.data.ShowMoreScrolling.options
 	 *
-	 * @extends luga.data.widgets.ShowMore.options
+	 * @extend luga.data.widgets.ShowMore.options
 	 * @property {jQuery|undefined}  node  A jQuery object wrapping the node containing the records. It must have a scrollbar. Optional. If not specified, the whole document is assumed.
 	 */
 
@@ -185,9 +185,9 @@
 	 * ShowMore infinite scrolling class
 	 * @param {luga.data.widgets.ShowMoreScrolling.options} options
 	 * @constructor
-	 * @extends luga.data.widgets.ShowMore
-	 * @listens stateChanged
-	 * @throws {Exception}
+	 * @extend luga.data.widgets.ShowMore
+	 * @listen stateChanged
+	 * @throw {Exception}
 	 */
 	luga.data.widgets.ShowMoreScrolling = function(options){
 

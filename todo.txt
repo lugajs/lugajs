@@ -1,11 +1,8 @@
-- Add second, optional argument to Notifier.addObserver(observer, eventName)
-  Observers can register even for one, single event
-
 -------------
 
 DOCS:
 
-- Add pages for luga.dom and luga.xml?
+- Unveil luga.dom and luga.xml?
 
 -------------
 
@@ -19,30 +16,19 @@ AJAXFORM:
 -------------
 COMMON:
 -------------
-
-HISTORY:
-
-- Write documentation:
-  Implication of using pushState regarding the server: https://github.com/flatiron/director#history-api
-  Explain how to use pushState on top of SEO <a> links
-  Explain the need to encode fragment before using .navigate()
-
-- Add to distro
-
--------------
 VALIDATOR:
 -------------
 
 DATA:
-
-luga.data.DataSet:
-- Ability to persist data inside localStorage
 
 luga.data.PagedData:
 - Mixed client/server (options.threshold)
 - Use string templating to customize url/endpoint
 - Request: offsetStart, offsetEnd
 - Response: recordCount, pageSize, currentPage
+
+luga.data.DataSet:
+- Ability to persist data inside localStorage
 
 -------------
 

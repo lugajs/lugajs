@@ -6,7 +6,7 @@ if(typeof(jQuery) === "undefined"){
 }
 /* istanbul ignore else */
 if(typeof(luga) === "undefined"){
-	var luga = {};
+	window.luga = {};
 }
 
 (function(){
@@ -16,8 +16,9 @@ if(typeof(luga) === "undefined"){
 	 * Creates namespaces to be used for scoping variables and classes so that they are not global.
 	 * Specifying the last node of a namespace implicitly creates all other nodes.
 	 * Based on Nicholas C. Zakas's code
-	 * @param {String} ns           Namespace as string
-	 * @param {Object} [undefined] rootObject   Optional root object. Default to window
+	 * @param {String} ns                   Namespace as dot-delimited string
+	 * @param {Object} [rootObject=window]  Optional root object. Default to window
+	 * @return {Object}
 	 */
 	luga.namespace = function(ns, rootObject){
 		var parts = ns.split(".");
@@ -34,14 +35,14 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.namespace("luga.common");
-	luga.common.version = "0.9.7dev";
+	luga.common.version = "0.9.7";
 
 	/**
 	 * Offers a simple solution for inheritance among classes
 	 *
-	 * @param {function}           baseFunc  Parent constructor function. Required
-	 * @param {function}           func      Child constructor function. Required
-	 * @param {array} [undefined]  args      An array of arguments that will be passed to the parent's constructor. Optional
+	 * @param {function} baseFunc  Parent constructor function. Required
+	 * @param {function} func      Child constructor function. Required
+	 * @param {Array}    [args]    An array of arguments that will be passed to the parent's constructor. Optional
 	 */
 	luga.extend = function(baseFunc, func, args){
 		baseFunc.apply(func, args);
@@ -50,7 +51,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Return true if an object is an array. False otherwise
 	 * @param {*} obj
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	luga.isArray = function(obj){
 		return Array.isArray(obj);
@@ -59,7 +60,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Return true if an object is a function. False otherwise
 	 * @param {*} obj
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	luga.isFunction = function(obj){
 		return luga.type(obj) === "function";
@@ -69,7 +70,7 @@ if(typeof(luga) === "undefined"){
 	 * Return true if an object is a plain object (created using "{}" or "new Object"). False otherwise
 	 * Based on jQuery.isPlainObject()
 	 * @param {*} obj
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	luga.isPlainObject = function(obj){
 		// Detect obvious negatives
@@ -95,7 +96,7 @@ if(typeof(luga) === "undefined"){
 	 * Returns undefined, if the reference has not been found
 	 * Supports namespaces (if the fully qualified path is passed)
 	 * @param {String} path            Fully qualified name of a function
-	 * @returns {function|undefined}   The javascript reference to the function, undefined if nothing is fund or if it's not a function
+	 * @return {function|undefined}   The javascript reference to the function, undefined if nothing is fund or if it's not a function
 	 */
 	luga.lookupFunction = function(path){
 		if(!path){
@@ -114,7 +115,7 @@ if(typeof(luga) === "undefined"){
 	 * Supports unlimited nesting levels (if the fully qualified path is passed)
 	 * @param {Object} object  Target object
 	 * @param {String} path    Dot-delimited string
-	 * @returns {*|undefined}
+	 * @return {*|undefined}
 	 */
 	luga.lookupProperty = function(object, path){
 		// Either of the two params is invalid
@@ -145,12 +146,14 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Shallow-merge the contents of two objects together into the first object
 	 *
-	 * @param {Object} target  An object that will receive the new properties
+	 * @param {Object} target     An object that will receive the new properties
 	 * @param {Object} source     An object containing additional properties to merge in
 	 */
 	luga.merge = function(target, source){
 		for(var x in source){
-			target[x] = source[x];
+			if(source.hasOwnProperty(x) === true){
+				target[x] = source[x];
+			}
 		}
 	};
 
@@ -197,7 +200,7 @@ if(typeof(luga) === "undefined"){
 	 * Determine the internal JavaScript [[Class]] of an object
 	 * Based on jQuery.type()
 	 * @param {*} obj
-	 * @returns {String}
+	 * @return {String}
 	 */
 	luga.type = function(obj){
 		if(obj === null){
@@ -212,10 +215,18 @@ if(typeof(luga) === "undefined"){
 		return rawType;
 	};
 
+	/**
+	 * @typedef {Object} luga.eventObserverMap
+	 *
+	 * @property {Object} observer
+	 * @property {String} methodName
+	 */
+
 	luga.NOTIFIER_CONST = {
 		ERROR_MESSAGES: {
 			NOTIFIER_ABSTRACT: "It's forbidden to use luga.Notifier directly, it must be used as a base class instead",
-			INVALID_OBSERVER_PARAMETER: "addObserver(): observer parameter must be an object",
+			INVALID_GENERIC_OBSERVER_PARAMETER: "addObserver(): observer parameter must be an object",
+			INVALID_EVENT_OBSERVER_PARAMETER: "addObserver(): eventName and methodName must be strings",
 			INVALID_DATA_PARAMETER: "notifyObserver(): data parameter is required and must be an object"
 		}
 	};
@@ -224,18 +235,28 @@ if(typeof(luga) === "undefined"){
 	 * Provides the base functionality necessary to maintain a list of observers and send notifications to them.
 	 * It's forbidden to use this class directly, it can only be used as a base class.
 	 * The Notifier class does not define any notification messages, so it is up to the developer to define the notifications sent via the Notifier.
-	 * @throws {Exception}
+	 * @throw {Exception}
 	 */
 	luga.Notifier = function(){
 		if(this.constructor === luga.Notifier){
 			throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.NOTIFIER_ABSTRACT);
 		}
+
+		/**
+		 * @type {Array.<Object>}
+		 */
 		this.observers = [];
+
+		/**
+		 * @type {Object.<String, Array.<luga.eventObserverMap>>}
+		 */
+		this.eventObservers = {};
+
 		var prefix = "on";
 		var suffix = "Handler";
 
 		// Turns "complete" into "onComplete"
-		var generateMethodName = function(eventName){
+		var generateGenericMethodName = function(eventName){
 			var str = prefix;
 			str += eventName.charAt(0).toUpperCase();
 			str += eventName.substring(1);
@@ -244,58 +265,150 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * Adds an observer object to the list of observers.
-		 * Observer objects should implement a method that matches a naming convention for the events they are interested in.
+		 * Register an observer object.
+		 * This method is overloaded. You can either invoke it with one or three arguments
+		 *
+		 * If you only pass one argument, the given object will be registered as "generic" observer
+		 * "Generic" observer objects should implement a method that matches a naming convention for the events they are interested in.
 		 * For an event named "complete" they must implement a method named: "onCompleteHandler"
 		 * The interface for this methods is as follows:
 		 * observer.onCompleteHandler = function(data){};
+		 *
+		 * If you pass three arguments, the first is the object that will be registered as "event" observer
+		 * The second argument is the event name
+		 * The third argument is the method of the object that will be invoked once the given event is triggered
+		 *
+		 * The interface for this methods is as follows:
+		 * observer[methodName] = function(data){};
+		 *
 		 * @param  {Object} observer  Observer object
-		 * @throws {Exception}
+		 * @param {string} [eventName]
+		 * @param {string} [methodName]
+		 * @throw {Exception}
 		 */
-		this.addObserver = function(observer){
+		this.addObserver = function(observer, eventName, methodName){
 			if(luga.type(observer) !== "object"){
-				throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_OBSERVER_PARAMETER);
+				throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_GENERIC_OBSERVER_PARAMETER);
 			}
-			this.observers.push(observer);
+			if(arguments.length === 1){
+				this.observers.push(observer);
+			}
+			if(arguments.length === 3){
+				if(luga.type(eventName) !== "string" || luga.type(methodName) !== "string"){
+					throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_EVENT_OBSERVER_PARAMETER);
+				}
+				/**
+				 * @type {luga.eventObserverMap}
+				 */
+				var eventMap = {
+					observer: observer,
+					methodName: methodName
+				};
+				// First entry for the given event
+				if(this.eventObservers[eventName] === undefined){
+					this.eventObservers[eventName] = [eventMap];
+				}
+				else{
+					if(findObserverIndex(this.eventObservers[eventName], eventMap) === -1){
+						this.eventObservers[eventName].push(eventMap);
+					}
+				}
+			}
 		};
 
 		/**
-		 * Sends a notification to all interested observers registered with the notifier.
+		 * @param {Array.<luga.eventObserverMap>} eventArray
+		 * @param {luga.eventObserverMap} eventMap
+		 * @return {Number}
+		 */
+		var findObserverIndex = function(eventArray, eventMap){
+			for(var i = 0; i < eventArray.length; i++){
+				/**
+				 * @type {luga.eventObserverMap}
+				 */
+				var currentMap = eventArray[i];
+				if(currentMap.observer === eventMap.observer && currentMap.methodName === eventMap.methodName){
+					return i;
+				}
+			}
+			return -1;
+		};
+
+		/**
+		 * Sends a notification to all relevant observers
 		 *
 		 * @method
 		 * @param {String}  eventName  Name of the event
 		 * @param {Object}  payload    Object containing data to be passed from the point of notification to all interested observers.
 		 *                             If there is no relevant data to pass, use an empty object.
-		 * @throws {Exception}
+		 * @throw {Exception}
 		 */
 		this.notifyObservers = function(eventName, payload){
 			if(luga.type(payload) !== "object"){
 				throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_DATA_PARAMETER);
 			}
-			var method = generateMethodName(eventName);
-			for(var i = 0; i < this.observers.length; i++){
-				var observer = this.observers[i];
-				if(observer[method] && luga.isFunction(observer[method])){
-					observer[method](payload);
+			// "Generic" observers
+			var genericMethod = generateGenericMethodName(eventName);
+			this.observers.forEach(function(element, i, collection){
+				if(element[genericMethod] && luga.isFunction(element[genericMethod])){
+					element[genericMethod](payload);
 				}
+			});
+			// "Event" observers
+			var eventObservers = this.eventObservers[eventName];
+			if(eventObservers !== undefined){
+				eventObservers.forEach(function(element, i, collection){
+					if(luga.type(element.observer[element.methodName]) === "function"){
+						element.observer[element.methodName](payload);
+					}
+				});
 			}
 		};
 
 		/**
 		 * Removes the given observer object.
+		 * This method is overloaded. You can either invoke it with one or three arguments
+		 *
+		 * If you only pass one argument, the given observer will be removed as "generic" observer
+		 *
+		 * If you pass three arguments, the given observer will be removed as "event" observer associated with the given event and method
 		 *
 		 * @method
 		 * @param {Object} observer
+		 * @param {string} [eventName]
+		 * @param {string} [methodName]
 		 */
-		this.removeObserver = function(observer){
-			for(var i = 0; i < this.observers.length; i++){
-				if(this.observers[i] === observer){
-					this.observers.splice(i, 1);
-					break;
+		this.removeObserver = function(observer, eventName, methodName){
+			if(arguments.length === 1){
+				for(var i = 0; i < this.observers.length; i++){
+					if(this.observers[i] === observer){
+						this.observers.splice(i, 1);
+						break;
+					}
+				}
+			}
+			if(arguments.length === 3){
+				if(this.eventObservers[eventName] !== undefined){
+					/**
+					 * @type {luga.eventObserverMap}
+					 */
+					var eventMap = {
+						observer: observer,
+						methodName: methodName
+					};
+					var index = findObserverIndex(this.eventObservers[eventName], eventMap);
+					// We have a matching entry
+					/* istanbul ignore else */
+					if(index !== -1){
+						this.eventObservers[eventName].splice(index, 1);
+						// Delete empty entries
+						if(this.eventObservers[eventName].length === 0){
+							delete this.eventObservers[eventName];
+						}
+					}
 				}
 			}
 		};
-
 	};
 
 	/* DOM */
@@ -306,10 +419,10 @@ if(typeof(luga) === "undefined"){
 	 * Static factory to create a cross-browser DOM NodeIterator
 	 * https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
 	 *
-	 * @param {Node}                     rootNode    Start node. Required
-	 * @param {function} [undefined]     filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 * @param {HTMLElement}              rootNode    Start node. Required
+	 * @param {function} [filterFunc]    Optional filter function. If specified only nodes matching the filter will be accepted
 	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
-	 * @returns {NodeIterator}
+	 * @return {NodeIterator}
 	 */
 	luga.dom.nodeIterator.getInstance = function(rootNode, filterFunc){
 
@@ -338,10 +451,10 @@ if(typeof(luga) === "undefined"){
 	 * Static factory to create a cross-browser DOM TreeWalker
 	 * https://developer.mozilla.org/en/docs/Web/API/TreeWalker
 	 *
-	 * @param {Node}                     rootNode    Start node. Required
-	 * @param {function} [undefined]     filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 * @param {HTMLElement}              rootNode    Start node. Required
+	 * @param {function} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
 	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
-	 * @returns {TreeWalker}
+	 * @return {TreeWalker}
 	 */
 	luga.dom.treeWalker.getInstance = function(rootNode, filterFunc){
 
@@ -387,8 +500,8 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param {jQuery}   rootNode     jQuery object wrapping the root node
 	 * @param {Boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
-	 * @returns {Object}              A JavaScript object containing name/value pairs
-	 * @throws {Exception}
+	 * @return {Object}              A JavaScript object containing name/value pairs
+	 * @throw {Exception}
 	 */
 	luga.form.toMap = function(rootNode, demoronize){
 
@@ -454,7 +567,7 @@ if(typeof(luga) === "undefined"){
 	 * Only fields considered successful are returned:
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 * @param {jQuery} rootNode  jQuery object wrapping the form fields
-	 * @returns {json}
+	 * @return {json}
 	 */
 	luga.form.toJson = function(rootNode){
 		var flatData = luga.form.toMap(rootNode);
@@ -472,8 +585,8 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param {jQuery}   rootNode     jQuery object wrapping the root node
 	 * @param {Boolean}  demoronize   If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
-	 * @returns {String}               A URI encoded string
-	 * @throws {Exception}
+	 * @return {String}               A URI encoded string
+	 * @throw {Exception}
 	 */
 	luga.form.toQueryString = function(rootNode, demoronize){
 
@@ -533,7 +646,7 @@ if(typeof(luga) === "undefined"){
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 *
 	 * @param {jQuery}  fieldNode
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	luga.form.utils.isSuccessfulField = function(fieldNode){
 		if(luga.form.utils.isInputField(fieldNode) === false){
@@ -552,7 +665,7 @@ if(typeof(luga) === "undefined"){
 	 * Returns true if the passed node is a form field that we care about
 	 *
 	 * @param {jQuery}  fieldNode
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	luga.form.utils.isInputField = function(fieldNode){
 		if(jQuery(fieldNode).prop("type") === undefined){
@@ -569,9 +682,9 @@ if(typeof(luga) === "undefined"){
 	 * Extracts group of fields that share the same name from a given root node
 	 * Or the whole document if the second argument is not passed
 	 *
-	 * @param {String}              name       Name of the field. Mandatory
-	 * @param {jQuery} [undefined]  rootNode   Root node, optional, default to document
-	 * @returns {jQuery}
+	 * @param {String} name         Name of the field. Mandatory
+	 * @param {jQuery} [rootNode]   Root node, optional, default to document
+	 * @return {jQuery}
 	 */
 	luga.form.utils.getFieldGroup = function(name, rootNode){
 		var selector = "input[name='" + name + "']";
@@ -582,7 +695,7 @@ if(typeof(luga) === "undefined"){
 	 * Returns an array of input fields contained inside a given root node
 	 *
 	 * @param {jQuery}  rootNode   Root node
-	 * @returns {Array.<jquery>}
+	 * @return {Array.<jquery>}
 	 */
 	luga.form.utils.getChildFields = function(rootNode){
 		var fields = [];
@@ -602,10 +715,10 @@ if(typeof(luga) === "undefined"){
 	 * Returns undefined if nothing matches the given root/path
 	 * @param {String} root    Top-level key inside localStorage
 	 * @param {String} path    Dot-delimited string
-	 * @returns {*|undefined}
+	 * @return {*|undefined}
 	 */
 	luga.localStorage.retrieve = function(root, path){
-		return luga.lookupProperty(getRootState(root), path);
+		return luga.lookupProperty(getRootState(root), path.toString());
 	};
 
 	/**
@@ -614,11 +727,10 @@ if(typeof(luga) === "undefined"){
 	 * @param {String} root    Top-level key inside localStorage
 	 * @param {String} path    Dot-delimited string
 	 * @param {String} value   String to be persisted
-	 * @returns {*|undefined}
 	 */
 	luga.localStorage.persist = function(root, path, value){
 		var json = getRootState(root);
-		luga.setProperty(json, path, value);
+		luga.setProperty(json, path.toString(), value);
 		setRootState(root, json);
 	};
 
@@ -640,7 +752,7 @@ if(typeof(luga) === "undefined"){
 	 * Replace MS Word's non-ISO characters with plausible substitutes
 	 *
 	 * @param {String} str   String containing MS Word's garbage
-	 * @returns {String}      The de-moronized string
+	 * @return {String}      The de-moronized string
 	 */
 	luga.string.demoronize = function(str){
 		str = str.replace(new RegExp(String.fromCharCode(710), "g"), "^");
@@ -674,8 +786,8 @@ if(typeof(luga) === "undefined"){
 	 * => "My name is Ciccio Pasticcio"
 	 *
 	 * @param  {String}  str                   String containing placeholders
-	 * @param  {object|array.<string>} args    Either an array of strings or an objects containing name/value pairs in string format
-	 * @returns {String} The newly assembled string
+	 * @param  {Object|Array.<string>} args    Either an array of strings or an objects containing name/value pairs in string format
+	 * @return {String} The newly assembled string
 	 */
 	luga.string.format = function(str, args){
 		var pattern = null;
@@ -697,7 +809,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Given a string in querystring format, return a JavaScript object containing name/value pairs
 	 * @param {String} str  The querystring
-	 * @returns {Object}
+	 * @return {Object}
 	 */
 	luga.string.queryToMap = function(str){
 		var map = {};
@@ -745,9 +857,9 @@ if(typeof(luga) === "undefined"){
 	 * luga.string.populate("My name is {person.firstName} {person.lastName}", nestedObj)
 	 * => "My name is Ciccio Pasticcio"
 	 *
-	 * @param   {String} str   String containing placeholders
-	 * @param   {Object} obj   An objects containing name/value pairs in string format
-	 * @returns {String} The newly assembled string
+	 * @param  {String} str   String containing placeholders
+	 * @param  {Object} obj   An objects containing name/value pairs in string format
+	 * @return {String} The newly assembled string
 	 */
 	luga.string.populate = function(str, obj){
 		if(luga.isPlainObject(obj) === true){
@@ -778,6 +890,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Private helper function
 	 * Generate node's id
+	 * @param {jQuery} node
+	 * @return {String}
 	 */
 	var generateBoxId = function(node){
 		var boxId = luga.utils.CONST.MSG_BOX_ID;
@@ -808,6 +922,7 @@ if(typeof(luga) === "undefined"){
 	 * Display a message box above a given node
 	 * @param {jQuery}  node   Target node
 	 * @param {String}  html   HTML/Text code to inject
+	 * @return {jQuery}
 	 */
 	luga.utils.displayMessage = function(node, html){
 		return luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.MESSAGE);
@@ -817,6 +932,7 @@ if(typeof(luga) === "undefined"){
 	 * Display an error box above a given node
 	 * @param {jQuery}  node   Target node
 	 * @param {String}  html   HTML/Text code to inject
+	 * @return {jQuery}
 	 */
 	luga.utils.displayErrorMessage = function(node, html){
 		return luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.ERROR_MESSAGE);
@@ -825,9 +941,10 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Display a box with a message associated with a given node
 	 * Overwrite this method if you want to change the way luga.utils.displayMessage and luga.utils.displayErrorMessage behaves
-	 * @param {jQuery}  node      Target node
-	 * @param {String}  html      HTML/Text code to inject
-	 * @param {String}  cssClass  CSS class attached to the box. Default to "luga_message"
+	 * @param {jQuery}  node                       Target node
+	 * @param {String}  html                       HTML/Text code to inject
+	 * @param {String}  [cssClass="luga_message"]  CSS class attached to the box. Default to "luga_message"
+	 * @return {jQuery}
 	 */
 	luga.utils.displayBox = function(node, html, cssClass){
 		if(cssClass === undefined){
@@ -862,7 +979,7 @@ if(typeof(luga) === "undefined"){
 	 * Results are returned as an array of nodes. An empty array is returned in case there is no match
 	 * @param {Node} node
 	 * @param {String} path
-	 * @returns {Array<Node>}
+	 * @return {Array<Node>}
 	 */
 	luga.xml.evaluateXPath = function(node, path){
 		var retArray = [];
@@ -892,7 +1009,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Convert an XML node into a JavaScript object
 	 * @param {Node} node
-	 * @returns {Object}
+	 * @return {Object}
 	 */
 	luga.xml.nodeToHash = function(node){
 		var obj = {};
@@ -959,7 +1076,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Extract text out of a TEXT or CDATA node
 	 * @param {Node} node
-	 * @returns {String}
+	 * @return {String}
 	 */
 	function getTextValue(node){
 		var child = node.childNodes[0];
@@ -972,7 +1089,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Return true if a node contains value, false otherwise
 	 * @param {Node}   node
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	function nodeHasText(node){
 		var child = node.childNodes[0];
@@ -985,7 +1102,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Serialize a DOM node into a string
 	 * @param {Node}   node
-	 * @returns {String}
+	 * @return {String}
 	 */
 	luga.xml.nodeToString = function(node){
 		/* istanbul ignore if IE-only */
@@ -1001,7 +1118,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Create a DOM Document out of a string
 	 * @param {String} xmlStr
-	 * @returns {Document}
+	 * @return {Document}
 	 */
 	luga.xml.parseFromString = function(xmlStr){
 		var xmlParser;

@@ -26,7 +26,7 @@
 	</script>
 	
 	<script id="ladiesTemplate" type="text/x-handlebars-template">
-		<table class="table table-bordered table-striped">
+		<table class="table  table-striped">
 			<th>
 				Name
 			</th>
@@ -105,7 +105,7 @@ var ladies = new luga.data.JsonDataSet({
 					The template can use the "birthDateFormatted" field added by the formatter:
 				</p>
 				
-<pre><code class="line-numbers language-markup">&lt;table class="table table-bordered table-striped"&gt;
+<pre><code class="line-numbers language-markup">&lt;table class="table  table-striped"&gt;
 	&lt;th&gt;
 		Name
 	&lt;/th&gt;
@@ -123,7 +123,12 @@ var ladies = new luga.data.JsonDataSet({
 	&lt;/tr&gt;
 	{{/each}}
 &lt;/table&gt;
-</code></pre>				
+</code></pre>
+
+				<p>
+					You may also consider using a dedicated library for date parsing and formatting like: <a href="http://momentjs.com/">Moment.js</a>.
+					For number, money and currency <a href="http://openexchangerates.github.io/accounting.js/">accounting.js</a> is great option
+				</p>
 
 			</div>
 		</div>

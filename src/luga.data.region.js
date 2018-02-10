@@ -48,7 +48,7 @@
 	/**
 	 * Change current configuration
 	 * @param {luga.data.region.options} options
-	 * @returns {luga.data.region.options}
+	 * @return {luga.data.region.options}
 	 */
 	luga.data.region.setup = function(options){
 		luga.merge(config, options);
@@ -59,7 +59,7 @@
 	 * Given a jQuery object wrapping an HTML node, returns the region object associated to it
 	 * Returns undefined if the node is not associated to a region
 	 * @param {jQuery} node
-	 * @returns {undefined|luga.data.region.Base}
+	 * @return {undefined|luga.data.region.Base}
 	 */
 	luga.data.region.getReferenceFromNode = function(node){
 		return node.data(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE);
@@ -68,7 +68,7 @@
 	/**
 	 * Given a jQuery object wrapping an HTML node, initialize the relevant Region handler
 	 * @param {jQuery} node
-	 * @throws {Exception}
+	 * @throw {Exception}
 	 */
 	luga.data.region.init = function(node){
 		var dataSourceId = node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID);
@@ -92,7 +92,7 @@
 
 	/**
 	 * Bootstrap any region contained within the given node
-	 * @param {jquery|undefined} [jQuery("body"] rootNode  Optional, default to jQuery("body")
+	 * @param {jquery|undefined} [rootNode=jQuery("body"]   Optional, default to jQuery("body")
 	 */
 	luga.data.region.initRegions = function(rootNode){
 		if(rootNode === undefined){
@@ -115,7 +115,7 @@
 	/**
 	 * Given a region instance, returns an object containing its critical data
 	 * @param {luga.data.region.Base} region
-	 * @returns {luga.data.region.description}
+	 * @return {luga.data.region.description}
 	 */
 	luga.data.region.utils.assembleRegionDescription = function(region){
 		return {

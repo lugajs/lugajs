@@ -23,7 +23,7 @@
 	/**
 	 * Return true if the passed order is supported
 	 * @param {String}  sortOrder
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	luga.data.sort.isValidSortOrder = function(sortOrder){
 		for(var key in luga.data.sort.ORDER){
@@ -38,7 +38,7 @@
 	 * Retrieve the relevant sort function matching the given combination of dataType and sortOrder
 	 * @param {String}               dataType
 	 * @param {luga.data.sort.ORDER} sortOrder
-	 * @returns {function}
+	 * @return {function}
 	 */
 	luga.data.sort.getSortStrategy = function(dataType, sortOrder){
 		if(luga.data.sort[dataType] === undefined){

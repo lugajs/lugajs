@@ -10,10 +10,10 @@ describe("luga.data.region.Base", function(){
 
 	beforeEach(function(){
 
-		testRecords = getJSONFixture("data/ladies.json");
+		testRecords = jasmineFixtures.read("data/ladies.json");
 		loadedDs = new luga.data.DataSet({uuid: "testDs", records: testRecords});
 		testDiv = jQuery("<div>Ciao Mamma</div>");
-		attributesDiv = jQuery("<div data-lugaregion='true' data-lugaregion-datasource-uuid='testDs' data-lugaregion-template='ladiesTemplate' ></div>");
+		attributesDiv = jQuery("<div data-lugaregion='true' data-lugaregion-datasource-uuid='testDs' data-lugaregion-template='ladiesTemplate' >Test</div>");
 
 		configRegion = new luga.data.region.Base({
 			node: testDiv,
@@ -74,10 +74,10 @@ describe("luga.data.region.Base", function(){
 
 			describe("either:", function(){
 				it("Points to the HTML node using the data-lugaregion custom attribute", function(){
-					expect(attributesRegion.config.node).toEqual(attributesDiv);
+					expect(attributesRegion.config.node.text()).toEqual(attributesDiv.text());
 				});
 				it("Uses the value specified inside the option argument", function(){
-					expect(configRegion.config.node).toEqual(testDiv);
+					expect(configRegion.config.node.text()).toEqual(testDiv.text());
 				});
 			});
 		});
@@ -183,38 +183,28 @@ describe("luga.data.region.Base", function(){
 
 		describe("Calls the following default traits (passing {node: config.node, dataSource: this.dataSource}):", function(){
 
-			var testRegion, optionsObj;
-			beforeEach(function(){
-				testRegion = new luga.data.region.Base({
-					node: testDiv,
-					dsUuid: "testDs",
-					templateId: "ladiesTemplate"
-				});
-				optionsObj = {node: testDiv, dataSource: loadedDs};
-			});
-
 			it("luga.data.region.traits.select()", function(){
 				spyOn(luga.data.region.traits, "select");
 				configRegion.applyTraits();
-				expect(luga.data.region.traits.select).toHaveBeenCalledWith(optionsObj);
+				expect(luga.data.region.traits.select).toHaveBeenCalled();
 			});
 
 			it("luga.data.region.traits.setRowId()", function(){
 				spyOn(luga.data.region.traits, "setRowId");
 				configRegion.applyTraits();
-				expect(luga.data.region.traits.setRowId).toHaveBeenCalledWith(optionsObj);
+				expect(luga.data.region.traits.setRowId).toHaveBeenCalled();
 			});
 
 			it("luga.data.region.traits.setRowIndex()", function(){
 				spyOn(luga.data.region.traits, "setRowIndex");
 				configRegion.applyTraits();
-				expect(luga.data.region.traits.setRowIndex).toHaveBeenCalledWith(optionsObj);
+				expect(luga.data.region.traits.setRowIndex).toHaveBeenCalled();
 			});
 
 			it("luga.data.region.traits.sort()", function(){
 				spyOn(luga.data.region.traits, "sort");
 				configRegion.applyTraits();
-				expect(luga.data.region.traits.sort).toHaveBeenCalledWith(optionsObj);
+				expect(luga.data.region.traits.sort).toHaveBeenCalled();
 			});
 
 		});

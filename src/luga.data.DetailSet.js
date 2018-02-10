@@ -3,7 +3,7 @@
 
 	/**
 	 * @typedef {Object} luga.data.DetailSet.context
-	 * @extends luga.data.stateDescription
+	 * @extend luga.data.stateDescription
 	 *
 	 * @property {null|luga.data.DataSet.row} entity
 	 */
@@ -21,10 +21,10 @@
 	 *
 	 * @param {luga.data.DetailSet.options} options
 	 * @constructor
-	 * @extends luga.Notifier
-	 * @fires dataChanged
-	 * @listens dataChanged
-	 * @listens currentRowChanged
+	 * @extend luga.Notifier
+	 * @fire dataChanged
+	 * @listen dataChanged
+	 * @listen currentRowChanged
 	 */
 	luga.data.DetailSet = function(options){
 
@@ -57,7 +57,7 @@
 		luga.data.setDataSource(this.uuid, this);
 
 		/**
-		 * @returns {luga.data.DetailSet.context}
+		 * @return {luga.data.DetailSet.context}
 		 */
 		this.getContext = function(){
 			var context = {
@@ -70,7 +70,7 @@
 
 		/**
 		 * Returns the detailSet's current state
-		 * @returns {null|luga.data.STATE}
+		 * @return {null|luga.data.STATE}
 		 */
 		this.getState = function(){
 			return self.parentDataSet.getState();

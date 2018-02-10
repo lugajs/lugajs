@@ -4,8 +4,8 @@
 	/**
 	 * @typedef {Object} luga.data.JsonDataSet.options
 	 *
-	 * @extends luga.data.HttpDataSet.options
-	 * @property {string|null}   path      Specifies the path to the data within the JSON structure.
+	 * @extend luga.data.HttpDataSet.options
+	 * @property {String|null}   path      Specifies the path to the data within the JSON structure.
 	 *                                     The path is expressed as a set of property names on the objects, separated by dots. Default to null
 	 */
 
@@ -13,7 +13,7 @@
 	 * JSON dataSet class
 	 * @param {luga.data.JsonDataSet.options} options
 	 * @constructor
-	 * @extends luga.data.HttpDataSet
+	 * @extend luga.data.HttpDataSet
 	 */
 	luga.data.JsonDataSet = function(options){
 		luga.extend(luga.data.HttpDataSet, this, [options]);
@@ -34,7 +34,7 @@
 
 		/**
 		 * Returns the raw JSON data structure
-		 * @returns {null|json}
+		 * @return {null|json}
 		 */
 		this.getRawJson = function(){
 			return this.rawJson;
@@ -42,7 +42,7 @@
 
 		/**
 		 * Returns the path to be used to extract data out of the JSON data structure
-		 * @returns {null|string}
+		 * @return {null|string}
 		 */
 		this.getPath = function(){
 			return this.path;

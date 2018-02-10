@@ -1,5 +1,3 @@
-/* global TEST_XHR_BASE */
-
 describe("luga.data.Rss2Dataset", function(){
 
 	"use strict";
@@ -7,12 +5,7 @@ describe("luga.data.Rss2Dataset", function(){
 	var xmlStr, noUrlDs;
 	beforeEach(function(){
 
-		var response = jQuery.ajax({
-			url: TEST_XHR_BASE + "fixtures/data/rss2.xml",
-			async: false,
-			dataType: "xml"
-		});
-		xmlStr = response.responseText;
+		xmlStr = jasmineFixtures.read("data/rss2.txt");
 
 		jasmine.Ajax.install();
 		jasmine.Ajax.stubRequest("mock/rss2.xml").andReturn({

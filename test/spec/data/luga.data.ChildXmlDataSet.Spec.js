@@ -2,9 +2,9 @@ describe("luga.data.ChildXmlDataSet", function(){
 
 	"use strict";
 
-	var stateRecords, masterDs, remoteDs, DEFAULT_TIMEOUT;
+	var stateRecords, masterDs, remoteDs;
 	beforeEach(function(){
-		stateRecords = getJSONFixture("data/usa-states.json");
+		stateRecords = jasmineFixtures.read("data/usa-states.json");
 		masterDs = new luga.data.XmlDataSet({uuid: "masterDs"});
 		masterDs.insert(stateRecords);
 		remoteDs = new luga.data.ChildXmlDataSet({
@@ -12,7 +12,6 @@ describe("luga.data.ChildXmlDataSet", function(){
 			parentDataSet: masterDs,
 			url: "fixtures/data/usa-states-{abbreviation}.xml"
 		});
-		DEFAULT_TIMEOUT = 2000;
 	});
 
 	afterEach(function(){

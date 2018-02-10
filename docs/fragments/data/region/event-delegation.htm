@@ -1,0 +1,97 @@
+<script>
+	(function(){
+		"use strict";
+
+		var ladies = new luga.data.JsonDataSet({
+			uuid: "ladiesDs",
+			url: "../test/fixtures/data/ladies.json"
+		});
+
+		jQuery(document).ready(function(){
+			// Fetch JSON data
+			ladies.loadData();
+
+			$("#ladiesRegion").on("click", "button", function(event){
+				event.preventDefault();
+				var birthDate = $(this).attr("data-birthdate");
+				alert(birthDate);
+			});
+
+		});
+	}());
+
+</script>
+
+<script id="ladiesTemplate" type="text/x-handlebars-template">
+	<table class="table  table-striped">
+		{{#each entities}}
+		<tr>
+			<td>{{firstName}} {{lastName}}</td>
+			<td>
+				<button data-birthdate="{{birthDate}}">Click to alert</button>
+			</td>
+		</tr>
+		{{/each}}
+	</table>
+</script>
+
+<div class="panel panel-default">
+	<div class="panel-heading">jQuery event delegation on regions</div>
+	<div class="panel-body">
+		<p>
+			HTML inside regions is generated and erased at run-time, this means it can be quite tricky to attach JavaScript events inside them,
+			because DOM elements come and go multiple times.
+			We could add inline JavaScript inside the template, yet this solution is not the most elegant and it doesn't scale well.
+		</p>
+		<p>
+			A much better solution is to rely on <a href="https://learn.jquery.com/events/event-delegation/">jQuery event delegation</a>.
+			Event delegation allows us to attach the event to the region root, once the page is loaded and let jQuery filter it out
+			based on the selector, passed as second parameter of the .on() method:
+		</p>
+
+<pre><code class="language-javascript">jQuery(document).ready(function(){
+	// Fetch JSON data
+	ladies.loadData();
+	// Only clicks over buttons will be captured
+	$("#ladiesRegion").on("click", "button", function(event){
+		event.preventDefault();
+		var birthDate = $(this).attr("data-birthdate");
+		alert(birthDate);
+	});
+});</code></pre>
+
+		<p>
+			For the sake of this simplified demo we store the birth date inside a custom attribute of the &lt;button&gt; element.
+			This way we can easily retrieve it from the event handler:
+		</p>
+
+<pre><code class="language-markup">&lt;script id="ladiesTemplate" type="text/x-handlebars-template"&gt;
+	&lt;table class="table  table-striped"&gt;
+		{{#each entities}}
+		&lt;tr&gt;
+			&lt;td&gt;{{firstName}} {{lastName}}&lt;/td&gt;
+			&lt;td&gt;
+				&lt;button data-birthdate="{{birthDate}}"&gt;Click to alert&lt;/button&gt;
+			&lt;/td&gt;
+		&lt;/tr&gt;
+		{{/each}}
+	&lt;/table&gt;
+&lt;/script&gt;
+</code></pre>
+
+	</div>
+</div>
+
+
+<div class="panel panel-default">
+	<div class="panel-heading">Event delegation in action</div>
+	<div class="panel-body">
+
+		<div id="ladiesRegion"
+			 data-lugaregion="true"
+			 data-lugaregion-datasource-uuid="ladiesDs"
+			 data-lugaregion-template-id="ladiesTemplate"></div>
+
+	</div>
+
+</div>

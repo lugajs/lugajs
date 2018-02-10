@@ -5,9 +5,9 @@
 	 * Handlebars Region class
 	 * @param {luga.data.Region.options} options
 	 * @constructor
-	 * @extends luga.data.region.Base
-	 * @fires regionRendered
-	 * @throws {Exception}
+	 * @extend luga.data.region.Base
+	 * @fire regionRendered
+	 * @throw {Exception}
 	 */
 	luga.data.region.Handlebars = function(options){
 
@@ -25,7 +25,6 @@
 
 		/**
 		 * @param {jQuery} node
-		 * @returns {String}
 		 */
 		var fetchTemplate = function(node){
 			// Inline template
@@ -61,7 +60,7 @@
 		};
 
 		/**
-		 * @returns {String}
+		 * @return {String}
 		 */
 		this.generateHtml = function(){
 			return this.template(this.dataSource.getContext());
@@ -69,7 +68,7 @@
 
 		/*
 		 @override
-		 @fires regionRendered
+		 @fire regionRendered
 		 */
 		this.render = function(){
 			/* istanbul ignore else */

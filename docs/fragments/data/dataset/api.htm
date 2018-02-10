@@ -13,12 +13,12 @@
 
 		</p>
 	</div>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>options.uuid</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
 				Unique identifier. Required.
@@ -27,7 +27,7 @@
 		<tr>
 			<td>options.records</td>
 			<td class="luga-docs-type">
-				{array.&lt;object&gt;|object}
+				{Array.&lt;Object&gt;|Object}
 			</td>
 			<td>
 				Records to be loaded, either one single object containing value/name pairs, or an array of name/value
@@ -55,7 +55,7 @@
 			</td>
 		</tr>
 	</table>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Examples</th>
 	</table>
 
@@ -81,7 +81,7 @@
 		If no filter is passed, delete all records.
 		Triggers a "currentRowChanged", "stateChanged", then a "dataChanged" notification.
 	</div>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>filter</td>
@@ -95,7 +95,7 @@
 			</td>
 		</tr>
 	</table>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Examples</th>
 	</table>
 
@@ -118,12 +118,12 @@ testDs.delete();
 	<div class="panel-body">
 		Returns the column type of the specified column. Either "date", "number" or "string".
 	</div>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>columnName</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
 				Name of the column. Required.
@@ -131,10 +131,10 @@ testDs.delete();
 		</tr>
 	</table>
 
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Return type</th>
 		<tr>
-			<td>{string}</td>
+			<td>{String}</td>
 		</tr>
 	</table>
 
@@ -148,7 +148,7 @@ testDs.delete();
 		or setCurrentRowIndex().
 	</div>
 
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Return type</th>
 		<tr>
 			<td>{luga.data.DataSet.row|null}</td>
@@ -166,10 +166,10 @@ testDs.delete();
 		This identifier does not change if the rows of the dataSet are sorted.
 	</div>
 
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Return type</th>
 		<tr>
-			<td>{string}</td>
+			<td>{String}</td>
 		</tr>
 	</table>
 
@@ -181,10 +181,10 @@ testDs.delete();
 		Returns a zero-based index at which the current row can be found, or -1 if the dataSet is empty.
 	</div>
 
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Return type</th>
 		<tr>
-			<td>{number}</td>
+			<td>{Number}</td>
 		</tr>
 	</table>
 
@@ -197,10 +197,10 @@ testDs.delete();
 		If the dataSet has a filter, returns the number of filtered records.
 	</div>
 
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Return type</th>
 		<tr>
-			<td>{number}</td>
+			<td>{Number}</td>
 		</tr>
 	</table>
 
@@ -212,18 +212,18 @@ testDs.delete();
 		Returns the row object associated with the given unique identifier.
 	</div>
 
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Return type</th>
 		<tr class="luga-docs-type">
 			<td>{null|luga.data.DataSet.row}</td>
 		</tr>
 	</table>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>rowId</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
 				Unique identifier. Required
@@ -240,18 +240,18 @@ testDs.delete();
 		Throws an exception if the index is out of range.
 	</div>
 
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Return type</th>
 		<tr class="luga-docs-type">
 			<td>{null|luga.data.DataSet.row}</td>
 		</tr>
 	</table>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>index</td>
 			<td>
-				{number}
+				{Number}
 			</td>
 			<td>
 				Zero-based index. Required
@@ -268,10 +268,10 @@ testDs.delete();
 		Returns an empty string if no sort has been performed yet.
 	</div>
 
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Return type</th>
 		<tr>
-			<td>{string}</td>
+			<td>{String}</td>
 		</tr>
 	</table>
 
@@ -284,10 +284,10 @@ testDs.delete();
 		eturns an empty string if no sort has been performed yet.
 	</div>
 
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Return type</th>
 		<tr>
-			<td>{string}</td>
+			<td>{String}</td>
 		</tr>
 	</table>
 
@@ -299,7 +299,7 @@ testDs.delete();
 		Returns the dataSet's current state.
 	</div>
 
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Return type</th>
 		<tr class="luga-docs-type">
 			<td>{null|luga.data.STATE}</td>
@@ -315,19 +315,19 @@ testDs.delete();
 		Be aware that the dataSet use passed data by reference.
 		That is, it uses those objects as its row object internally. It does not make a copy.
 	</div>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>records</td>
 			<td class="luga-docs-type">
-				{array.&lt;object&gt;|object}
+				{Array.&lt;Object&gt;|Object}
 			</td>
 			<td>
 				Records to be loaded, either one single object, or an array of objects. Required
 			</td>
 		</tr>
 	</table>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Examples</th>
 	</table>
 
@@ -360,7 +360,7 @@ testDs.insert([
 		Be aware that modifying any property of a returned object results in a modification of the internal records
 		(since records are passed by reference).
 	</div>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>filter</td>
@@ -373,13 +373,13 @@ testDs.insert([
 			</td>
 		</tr>
 	</table>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Return type</th>
 		<tr class="luga-docs-type">
-			<td>{array.&lt;luga.data.DataSet.row&gt;}</td>
+			<td>{Array.&lt;luga.data.DataSet.row&gt;}</td>
 		</tr>
 	</table>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Examples</th>
 	</table>
 
@@ -411,12 +411,12 @@ testDs.select(); // => Only two records returned
 		By default data is sorted alpha-numerically, if you want it sorted numerically or by date, set the proper
 		columnType.
 	</div>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>columnNames</td>
 			<td class="luga-docs-type">
-				{string|array&lt;string&gt;}
+				{String|Array&lt;String&gt;}
 			</td>
 			<td>
 				Either a single column name or an array of names. Required
@@ -425,14 +425,14 @@ testDs.select(); // => Only two records returned
 		<tr>
 			<td>columnType</td>
 			<td>
-				{string}
+				{String}
 			</td>
 			<td>
 				Either "date", "number" or "string"
 			</td>
 		</tr>
 	</table>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Examples</th>
 	</table>
 
@@ -452,12 +452,12 @@ testDs.setColumnType(["numberCol", "moreNumber"], "number");
 			Triggers a "currentRowChanged" notification.
 		</p>
 	</div>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>rowId</td>
 			<td>
-				{null|string}
+				{null|String}
 			</td>
 			<td>
 				New rowId. Required.
@@ -475,12 +475,12 @@ testDs.setColumnType(["numberCol", "moreNumber"], "number");
 			Triggers a "currentRowChanged" notification.
 		</p>
 	</div>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>index</td>
 			<td>
-				{number}
+				{Number}
 			</td>
 			<td>
 				New index. Required.
@@ -509,7 +509,7 @@ testDs.setColumnType(["numberCol", "moreNumber"], "number");
 			<a href="#data/dataset/filter">See examples</a>
 		</p>
 	</div>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>filter</td>
@@ -537,12 +537,12 @@ testDs.setColumnType(["numberCol", "moreNumber"], "number");
 			You can use build-in traits to <a href="#data/dataset/sort">sort data within a region</a>.
 		</p>
 	</div>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>columnNames</td>
 			<td class="luga-docs-type">
-				{string|array&lt;string&gt;}
+				{String|Array&lt;String&gt;}
 			</td>
 			<td>
 				Either a single column name or an array of names. Required
@@ -558,7 +558,7 @@ testDs.setColumnType(["numberCol", "moreNumber"], "number");
 			</td>
 		</tr>
 	</table>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Examples</th>
 	</table>
 
@@ -573,7 +573,7 @@ testDs.sort("firstName", "descending");</code></pre>
 	<div class="panel-body">
 		Updates rows inside the dataSet.
 	</div>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
 		<tr>
 			<td>filter</td>
@@ -596,7 +596,7 @@ testDs.sort("firstName", "descending");</code></pre>
 			</td>
 		</tr>
 	</table>
-	<table class="table table-bordered luga-docs-api">
+	<table class="table  luga-docs-api">
 		<th>Examples</th>
 	</table>
 

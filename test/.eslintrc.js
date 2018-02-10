@@ -8,9 +8,12 @@ module.exports = {
 
 	// Add Jasmine globals
 	globals: {
-		loadFixtures: false,
-		readFixtures: false,
-		getJSONFixture: false,
-		spyOnEvent: false
+		"jasmineFixtures": false,
+		"formValidatorHandlers": false
+	},
+
+	rules: {
+		"no-array-constructor": ["warn"],
+		"no-new-wrappers": ["warn"]
 	}
 };

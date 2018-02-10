@@ -80,7 +80,7 @@ describe("luga.data.HttpDataSet", function(){
 		var mockJson, testDs, testObserver;
 		beforeEach(function(){
 
-			mockJson = getJSONFixture("data/ladies.json");
+			mockJson = jasmineFixtures.read("data/ladies.json");
 
 			jasmine.Ajax.install();
 			jasmine.Ajax.stubRequest("mock/missing.json").andReturn({

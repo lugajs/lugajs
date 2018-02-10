@@ -19,7 +19,7 @@
 	/**
 	 * @typedef {Object} luga.data.HttpDataSet.options
 	 *
-	 * @extends luga.data.DataSet.options
+	 * @extend luga.data.DataSet.options
 	 * @property {String}    url              URL to be fetched. Default to null
 	 * @property {Number}    timeout          Timeout (in milliseconds) for the HTTP request. Default to 10 seconds
 	 * @property {Object}    headers          A set of name/value pairs to be used as custom HTTP headers
@@ -31,13 +31,13 @@
 
 	/**
 	 * Base HttpDataSet class
-	 * @param luga.data.HttpDataSet.options
+	 * @param {luga.data.HttpDataSet.options} options
 	 * @constructor
-	 * @extends luga.data.DataSet
+	 * @extend luga.data.DataSet
 	 * @abstract
-	 * @fires dataLoading
-	 * @fires xhrError
-	 * @throws {Exception}
+	 * @fire dataLoading
+	 * @fire xhrError
+	 * @throw {Exception}
 	 */
 	luga.data.HttpDataSet = function(options){
 		luga.extend(luga.data.DataSet, this, [options]);
@@ -126,7 +126,7 @@
 
 		/**
 		 * Returns the URL that will be used to fetch the data. Returns null if URL is not set
-		 * @returns {string|null}
+		 * @return {String|null}
 		 */
 		this.getUrl = function(){
 			return this.url;
@@ -135,8 +135,8 @@
 		/**
 		 * Fires an XHR request to fetch and load the data, notify observers ("dataLoading" first, "dataChanged" after records are loaded).
 		 * Throws an exception if URL is not set
-		 * @fires dataLoading
-		 * @throws {Exception}
+		 * @fire dataLoading
+		 * @throw {Exception}
 		 */
 		this.loadData = function(){
 			if(this.url === null){
@@ -174,7 +174,7 @@
 		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest
 		 * @param {String}   textStatus   HTTP status
 		 * @param {String}   errorThrown  Error message from jQuery
-		 * @fires xhrError
+		 * @fire xhrError
 		 */
 		this.xhrError = function(jqXHR, textStatus, errorThrown){
 			self.setState(luga.data.STATE.ERROR);

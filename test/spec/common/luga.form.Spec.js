@@ -9,7 +9,7 @@ describe("luga.form", function(){
 	describe(".toQueryString()", function(){
 
 		beforeEach(function(){
-			loadFixtures("form/common.htm");
+			jasmineFixtures.loadHTML("form/common.htm");
 		});
 
 		it("Return a string of name/value pairs from fields contained inside a given node", function(){
@@ -50,7 +50,7 @@ describe("luga.form", function(){
 	describe(".toMap()", function(){
 
 		beforeEach(function(){
-			loadFixtures("form/common.htm");
+			jasmineFixtures.loadHTML("form/common.htm");
 		});
 
 		it("Return a JavaScript object containing name/value pairs from fields contained inside a given node", function(){
@@ -92,7 +92,7 @@ describe("luga.form", function(){
 		});
 
 		it("It's just an alias to .toMap()", function(){
-			loadFixtures("form/common.htm");
+			jasmineFixtures.loadHTML("form/common.htm");
 			var formNode = jQuery("#multiSelect");
 			spyOn(luga.form, "toMap").and.callThrough();
 			luga.form.toHash(formNode);
@@ -104,7 +104,7 @@ describe("luga.form", function(){
 	describe(".toJson()", function(){
 
 		beforeEach(function(){
-			loadFixtures("form/tojson.htm");
+			jasmineFixtures.loadHTML("form/tojson.htm");
 		});
 
 		it("Given a form tag or another element wrapping input fields, serialize them into JSON data", function(){
@@ -174,17 +174,17 @@ describe("luga.form", function(){
 			describe("Extracts group of fields that share the same name from", function(){
 
 				it("A given root node", function(){
-					loadFixtures("validator/RadioValidator/required.htm");
+					jasmineFixtures.loadHTML("validator/RadioValidator/required.htm");
 					expect(luga.form.utils.getFieldGroup("lady", jQuery("#single")).length).toEqual(4);
 				});
 
 				it("Or the whole document if the second argument is not passed", function(){
-					loadFixtures("validator/RadioValidator/required.htm");
+					jasmineFixtures.loadHTML("validator/RadioValidator/required.htm");
 					expect(luga.form.utils.getFieldGroup("lady").length).toEqual(12);
 				});
 
 				it("Even if the name attribute contains invalid characters", function(){
-					loadFixtures("form/common.htm");
+					jasmineFixtures.loadHTML("form/common.htm");
 					expect(luga.form.utils.getFieldGroup("specChars(_[here]").length).toEqual(4);
 				});
 
@@ -195,12 +195,12 @@ describe("luga.form", function(){
 		describe(".getChildFields()", function(){
 
 			it("Return an array of input fields contained inside a given root node", function(){
-				loadFixtures("validator/FormValidator/generic.htm");
+				jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
 				expect(luga.form.utils.getChildFields(jQuery("#generic")).length).toEqual(15);
 			});
 
 			it("Return an empty array if there are no suitable input fields", function(){
-				loadFixtures("validator/FormValidator/generic.htm");
+				jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
 				expect(luga.form.utils.getChildFields(jQuery("#food")).length).toEqual(0);
 			});
 

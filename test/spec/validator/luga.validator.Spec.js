@@ -53,7 +53,7 @@ describe("luga.validator.initForms()", function(){
 
 		it("Create Validator objects for forms available inside the document as soon as they are submitted", function(){
 
-			loadFixtures("validator/FormValidator/basic.htm");
+			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 			var mockValidator = {
 				validate: function(event){
 					event.preventDefault();
@@ -70,7 +70,7 @@ describe("luga.validator.initForms()", function(){
 
 		it("Accepts an optional argument as starting node", function(){
 
-			loadFixtures("validator/FormValidator/basic.htm");
+			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 			var mockValidator = {
 				validate: function(event){
 					event.preventDefault();
@@ -99,15 +99,15 @@ describe("luga.validator.handlers", function(){
 
 	describe("luga.validator.handlers.errorAlert", function(){
 		it("Display error messages inside alert", function(){
-			spyOn(window, "alert")
+			spyOn(window, "alert");
 			spyOn(luga.validator.handlers, "errorAlert").and.callThrough();
-			loadFixtures("validator/FormValidator/basic.htm");
+			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 			var formValidator = new luga.validator.FormValidator({
 				formNode: jQuery("#basic"),
 				error: "luga.validator.handlers.errorAlert"
 			});
 
-			formValidator.validate()
+			formValidator.validate();
 			expect(luga.validator.handlers.errorAlert).toHaveBeenCalled();
 			expect(window.alert).toHaveBeenCalled();
 		});
@@ -131,13 +131,13 @@ describe("luga.validator.handlers", function(){
 	describe("luga.validator.handlers.bootstrap", function(){
 		it("Use Bootstrap validation states to display errors", function(){
 			spyOn(luga.validator.handlers, "bootstrap").and.callThrough();
-			loadFixtures("validator/FormValidator/basic.htm");
+			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 			var formValidator = new luga.validator.FormValidator({
 				formNode: jQuery("#basic"),
 				error: "luga.validator.handlers.bootstrap"
 			});
 
-			formValidator.validate()
+			formValidator.validate();
 			expect(luga.validator.handlers.bootstrap).toHaveBeenCalled();
 		});
 
@@ -152,7 +152,7 @@ describe("luga.validator.fieldValidatorFactory.getInstance()", function(){
 	describe("Returns either:", function(){
 
 		beforeEach(function(){
-			loadFixtures("validator/FormValidator/generic.htm");
+			jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
 		});
 
 		it("null if the passed HTML field has no matching validator", function(){

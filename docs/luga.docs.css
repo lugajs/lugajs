@@ -36,9 +36,9 @@ dl, dt, dd, ol, ul, li {
 .luga-docs .navbar {
 	background-color: #FFFFFF;
 	border: 0.15em solid #7C93BA;
+	border-radius: 0.3em;
 	box-shadow: 0.15em 0.15em 0.15em rgba(0, 0, 0, 0.25);
-	margin-left: 1em;
-	margin-right: 1em;
+	margin-bottom: 1em;
 	margin-top: 1em;
 }
 
@@ -67,11 +67,8 @@ dl, dt, dd, ol, ul, li {
 
 .luga-docs .luga-nav-local .list-group {
 	border: 0.15em solid #7C93BA;
-	box-shadow: 0.15em 0.15em 0.15em rgba(0, 0, 0, 0.25)
-}
-
-.luga-docs .luga-nav-local .list-group {
 	border-radius: 0.3em;
+	box-shadow: 0.15em 0.15em 0.15em rgba(0, 0, 0, 0.25)
 }
 
 .luga-docs .luga-nav-local .list-group .list-group-item {
@@ -112,9 +109,24 @@ dl, dt, dd, ol, ul, li {
 
 /* Panels */
 
+.luga-docs .panel {
+	background-color: #EBEBEB;
+	border-radius: 0.3em;
+	margin-bottom: 2em;
+}
+
 .luga-docs .panel-default {
 	border: 0.15em solid #7C93BA;
 	box-shadow: 0.15em 0.15em 0.15em rgba(0, 0, 0, 0.25)
+}
+
+.luga-docs .panel-heading,
+.luga-docs .panel-body {
+	padding: 0.6em 0.8em;
+}
+
+.panel-body .alert {
+	margin-bottom: 0;
 }
 
 .luga-docs .panel-heading {
@@ -122,10 +134,6 @@ dl, dt, dd, ol, ul, li {
 	border-bottom: 0.1em solid #7C93BA;
 	color: #3362B4;
 	font-weight: 700;
-}
-
-.luga-docs .panel {
-	background-color: #EBEBEB;
 }
 
 .luga-docs .panel-heading.luga-docs-api-heading {
@@ -144,6 +152,7 @@ dl, dt, dd, ol, ul, li {
 .luga-docs pre,
 .luga-docs pre code {
 	background-color: #F9F9F9 !important;
+	font-size: inherit;
 }
 
 .luga-docs .panel > pre {
@@ -234,13 +243,9 @@ ol.luga-docs-list li {
 table.luga-docs-attributes,
 table.luga-docs-api {
 	background: #7C93BA;
-	border: 0.15em solid #7C93BA;
 	box-shadow: rgba(0, 0, 0, .25) 0.15em 0.15em 0.15em;
+	margin-bottom: 0;
 	width: 100%;
-}
-
-table.luga-docs-api + table.luga-docs-api {
-	border-top: 0.15em solid #DDDDDD;
 }
 
 table.luga-docs-api th,
@@ -271,6 +276,19 @@ table.luga-docs-attributes th {
 table.luga-docs-attributes td {
 	color: #494949;
 	font-weight: 600;
+}
+
+.table.luga-docs-api td,
+.table.luga-docs-api th {
+	padding: .75rem;
+	vertical-align: top;
+	border: 0.1em solid #DEE2E6;
+	border-bottom: 0;
+	border-right: 0;
+}
+
+.table.luga-docs-api tr:last-child th {
+	border-bottom: 0.1em solid #DEE2E6;
 }
 
 table.luga-docs-api td,
