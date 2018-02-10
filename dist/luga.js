@@ -1,6 +1,6 @@
 /*! 
-Luga JS 0.9.7dev 2017-11-19T17:34:24.113Z
-Copyright 2013-2017 Massimo Foti (massimo@massimocorner.com)
+Luga JS 0.9.7 2018-02-10T14:54:16.350Z
+Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
 /* globals ActiveXObject */
@@ -11,7 +11,7 @@ if(typeof(jQuery) === "undefined"){
 }
 /* istanbul ignore else */
 if(typeof(luga) === "undefined"){
-	var luga = {};
+	window.luga = {};
 }
 
 (function(){
@@ -21,8 +21,9 @@ if(typeof(luga) === "undefined"){
 	 * Creates namespaces to be used for scoping variables and classes so that they are not global.
 	 * Specifying the last node of a namespace implicitly creates all other nodes.
 	 * Based on Nicholas C. Zakas's code
-	 * @param {String} ns           Namespace as string
-	 * @param {Object} [undefined] rootObject   Optional root object. Default to window
+	 * @param {String} ns                   Namespace as dot-delimited string
+	 * @param {Object} [rootObject=window]  Optional root object. Default to window
+	 * @return {Object}
 	 */
 	luga.namespace = function(ns, rootObject){
 		var parts = ns.split(".");
@@ -39,14 +40,14 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.namespace("luga.common");
-	luga.common.version = "0.9.7dev";
+	luga.common.version = "0.9.7";
 
 	/**
 	 * Offers a simple solution for inheritance among classes
 	 *
-	 * @param {function}           baseFunc  Parent constructor function. Required
-	 * @param {function}           func      Child constructor function. Required
-	 * @param {array} [undefined]  args      An array of arguments that will be passed to the parent's constructor. Optional
+	 * @param {function} baseFunc  Parent constructor function. Required
+	 * @param {function} func      Child constructor function. Required
+	 * @param {Array}    [args]    An array of arguments that will be passed to the parent's constructor. Optional
 	 */
 	luga.extend = function(baseFunc, func, args){
 		baseFunc.apply(func, args);
@@ -150,12 +151,14 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Shallow-merge the contents of two objects together into the first object
 	 *
-	 * @param {Object} target  An object that will receive the new properties
+	 * @param {Object} target     An object that will receive the new properties
 	 * @param {Object} source     An object containing additional properties to merge in
 	 */
 	luga.merge = function(target, source){
 		for(var x in source){
-			target[x] = source[x];
+			if(source.hasOwnProperty(x) === true){
+				target[x] = source[x];
+			}
 		}
 	};
 
@@ -217,10 +220,18 @@ if(typeof(luga) === "undefined"){
 		return rawType;
 	};
 
+	/**
+	 * @typedef {Object} luga.eventObserverMap
+	 *
+	 * @property {Object} observer
+	 * @property {String} methodName
+	 */
+
 	luga.NOTIFIER_CONST = {
 		ERROR_MESSAGES: {
 			NOTIFIER_ABSTRACT: "It's forbidden to use luga.Notifier directly, it must be used as a base class instead",
-			INVALID_OBSERVER_PARAMETER: "addObserver(): observer parameter must be an object",
+			INVALID_GENERIC_OBSERVER_PARAMETER: "addObserver(): observer parameter must be an object",
+			INVALID_EVENT_OBSERVER_PARAMETER: "addObserver(): eventName and methodName must be strings",
 			INVALID_DATA_PARAMETER: "notifyObserver(): data parameter is required and must be an object"
 		}
 	};
@@ -235,12 +246,22 @@ if(typeof(luga) === "undefined"){
 		if(this.constructor === luga.Notifier){
 			throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.NOTIFIER_ABSTRACT);
 		}
+
+		/**
+		 * @type {Array.<Object>}
+		 */
 		this.observers = [];
+
+		/**
+		 * @type {Object.<String, Array.<luga.eventObserverMap>>}
+		 */
+		this.eventObservers = {};
+
 		var prefix = "on";
 		var suffix = "Handler";
 
 		// Turns "complete" into "onComplete"
-		var generateMethodName = function(eventName){
+		var generateGenericMethodName = function(eventName){
 			var str = prefix;
 			str += eventName.charAt(0).toUpperCase();
 			str += eventName.substring(1);
@@ -249,23 +270,77 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * Adds an observer object to the list of observers.
-		 * Observer objects should implement a method that matches a naming convention for the events they are interested in.
+		 * Register an observer object.
+		 * This method is overloaded. You can either invoke it with one or three arguments
+		 *
+		 * If you only pass one argument, the given object will be registered as "generic" observer
+		 * "Generic" observer objects should implement a method that matches a naming convention for the events they are interested in.
 		 * For an event named "complete" they must implement a method named: "onCompleteHandler"
 		 * The interface for this methods is as follows:
 		 * observer.onCompleteHandler = function(data){};
+		 *
+		 * If you pass three arguments, the first is the object that will be registered as "event" observer
+		 * The second argument is the event name
+		 * The third argument is the method of the object that will be invoked once the given event is triggered
+		 *
+		 * The interface for this methods is as follows:
+		 * observer[methodName] = function(data){};
+		 *
 		 * @param  {Object} observer  Observer object
+		 * @param {string} [eventName]
+		 * @param {string} [methodName]
 		 * @throw {Exception}
 		 */
-		this.addObserver = function(observer){
+		this.addObserver = function(observer, eventName, methodName){
 			if(luga.type(observer) !== "object"){
-				throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_OBSERVER_PARAMETER);
+				throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_GENERIC_OBSERVER_PARAMETER);
 			}
-			this.observers.push(observer);
+			if(arguments.length === 1){
+				this.observers.push(observer);
+			}
+			if(arguments.length === 3){
+				if(luga.type(eventName) !== "string" || luga.type(methodName) !== "string"){
+					throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_EVENT_OBSERVER_PARAMETER);
+				}
+				/**
+				 * @type {luga.eventObserverMap}
+				 */
+				var eventMap = {
+					observer: observer,
+					methodName: methodName
+				};
+				// First entry for the given event
+				if(this.eventObservers[eventName] === undefined){
+					this.eventObservers[eventName] = [eventMap];
+				}
+				else{
+					if(findObserverIndex(this.eventObservers[eventName], eventMap) === -1){
+						this.eventObservers[eventName].push(eventMap);
+					}
+				}
+			}
 		};
 
 		/**
-		 * Sends a notification to all interested observers registered with the notifier.
+		 * @param {Array.<luga.eventObserverMap>} eventArray
+		 * @param {luga.eventObserverMap} eventMap
+		 * @return {Number}
+		 */
+		var findObserverIndex = function(eventArray, eventMap){
+			for(var i = 0; i < eventArray.length; i++){
+				/**
+				 * @type {luga.eventObserverMap}
+				 */
+				var currentMap = eventArray[i];
+				if(currentMap.observer === eventMap.observer && currentMap.methodName === eventMap.methodName){
+					return i;
+				}
+			}
+			return -1;
+		};
+
+		/**
+		 * Sends a notification to all relevant observers
 		 *
 		 * @method
 		 * @param {String}  eventName  Name of the event
@@ -277,30 +352,68 @@ if(typeof(luga) === "undefined"){
 			if(luga.type(payload) !== "object"){
 				throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_DATA_PARAMETER);
 			}
-			var method = generateMethodName(eventName);
-			for(var i = 0; i < this.observers.length; i++){
-				var observer = this.observers[i];
-				if(observer[method] && luga.isFunction(observer[method])){
-					observer[method](payload);
+			// "Generic" observers
+			var genericMethod = generateGenericMethodName(eventName);
+			this.observers.forEach(function(element, i, collection){
+				if(element[genericMethod] && luga.isFunction(element[genericMethod])){
+					element[genericMethod](payload);
 				}
+			});
+			// "Event" observers
+			var eventObservers = this.eventObservers[eventName];
+			if(eventObservers !== undefined){
+				eventObservers.forEach(function(element, i, collection){
+					if(luga.type(element.observer[element.methodName]) === "function"){
+						element.observer[element.methodName](payload);
+					}
+				});
 			}
 		};
 
 		/**
 		 * Removes the given observer object.
+		 * This method is overloaded. You can either invoke it with one or three arguments
+		 *
+		 * If you only pass one argument, the given observer will be removed as "generic" observer
+		 *
+		 * If you pass three arguments, the given observer will be removed as "event" observer associated with the given event and method
 		 *
 		 * @method
 		 * @param {Object} observer
+		 * @param {string} [eventName]
+		 * @param {string} [methodName]
 		 */
-		this.removeObserver = function(observer){
-			for(var i = 0; i < this.observers.length; i++){
-				if(this.observers[i] === observer){
-					this.observers.splice(i, 1);
-					break;
+		this.removeObserver = function(observer, eventName, methodName){
+			if(arguments.length === 1){
+				for(var i = 0; i < this.observers.length; i++){
+					if(this.observers[i] === observer){
+						this.observers.splice(i, 1);
+						break;
+					}
+				}
+			}
+			if(arguments.length === 3){
+				if(this.eventObservers[eventName] !== undefined){
+					/**
+					 * @type {luga.eventObserverMap}
+					 */
+					var eventMap = {
+						observer: observer,
+						methodName: methodName
+					};
+					var index = findObserverIndex(this.eventObservers[eventName], eventMap);
+					// We have a matching entry
+					/* istanbul ignore else */
+					if(index !== -1){
+						this.eventObservers[eventName].splice(index, 1);
+						// Delete empty entries
+						if(this.eventObservers[eventName].length === 0){
+							delete this.eventObservers[eventName];
+						}
+					}
 				}
 			}
 		};
-
 	};
 
 	/* DOM */
@@ -312,7 +425,7 @@ if(typeof(luga) === "undefined"){
 	 * https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
 	 *
 	 * @param {HTMLElement}              rootNode    Start node. Required
-	 * @param {function} [undefined]     filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 * @param {function} [filterFunc]    Optional filter function. If specified only nodes matching the filter will be accepted
 	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
 	 * @return {NodeIterator}
 	 */
@@ -344,7 +457,7 @@ if(typeof(luga) === "undefined"){
 	 * https://developer.mozilla.org/en/docs/Web/API/TreeWalker
 	 *
 	 * @param {HTMLElement}              rootNode    Start node. Required
-	 * @param {function} [undefined]     filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 * @param {function} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
 	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
 	 * @return {TreeWalker}
 	 */
@@ -574,8 +687,8 @@ if(typeof(luga) === "undefined"){
 	 * Extracts group of fields that share the same name from a given root node
 	 * Or the whole document if the second argument is not passed
 	 *
-	 * @param {String}              name       Name of the field. Mandatory
-	 * @param {jQuery} [undefined]  rootNode   Root node, optional, default to document
+	 * @param {String} name         Name of the field. Mandatory
+	 * @param {jQuery} [rootNode]   Root node, optional, default to document
 	 * @return {jQuery}
 	 */
 	luga.form.utils.getFieldGroup = function(name, rootNode){
@@ -619,7 +732,6 @@ if(typeof(luga) === "undefined"){
 	 * @param {String} root    Top-level key inside localStorage
 	 * @param {String} path    Dot-delimited string
 	 * @param {String} value   String to be persisted
-	 * @return {*|undefined}
 	 */
 	luga.localStorage.persist = function(root, path, value){
 		var json = getRootState(root);
@@ -679,7 +791,7 @@ if(typeof(luga) === "undefined"){
 	 * => "My name is Ciccio Pasticcio"
 	 *
 	 * @param  {String}  str                   String containing placeholders
-	 * @param  {object|array.<string>} args    Either an array of strings or an objects containing name/value pairs in string format
+	 * @param  {Object|Array.<string>} args    Either an array of strings or an objects containing name/value pairs in string format
 	 * @return {String} The newly assembled string
 	 */
 	luga.string.format = function(str, args){
@@ -750,8 +862,8 @@ if(typeof(luga) === "undefined"){
 	 * luga.string.populate("My name is {person.firstName} {person.lastName}", nestedObj)
 	 * => "My name is Ciccio Pasticcio"
 	 *
-	 * @param   {String} str   String containing placeholders
-	 * @param   {Object} obj   An objects containing name/value pairs in string format
+	 * @param  {String} str   String containing placeholders
+	 * @param  {Object} obj   An objects containing name/value pairs in string format
 	 * @return {String} The newly assembled string
 	 */
 	luga.string.populate = function(str, obj){
@@ -783,6 +895,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Private helper function
 	 * Generate node's id
+	 * @param {jQuery} node
+	 * @return {String}
 	 */
 	var generateBoxId = function(node){
 		var boxId = luga.utils.CONST.MSG_BOX_ID;
@@ -813,6 +927,7 @@ if(typeof(luga) === "undefined"){
 	 * Display a message box above a given node
 	 * @param {jQuery}  node   Target node
 	 * @param {String}  html   HTML/Text code to inject
+	 * @return {jQuery}
 	 */
 	luga.utils.displayMessage = function(node, html){
 		return luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.MESSAGE);
@@ -822,6 +937,7 @@ if(typeof(luga) === "undefined"){
 	 * Display an error box above a given node
 	 * @param {jQuery}  node   Target node
 	 * @param {String}  html   HTML/Text code to inject
+	 * @return {jQuery}
 	 */
 	luga.utils.displayErrorMessage = function(node, html){
 		return luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.ERROR_MESSAGE);
@@ -830,9 +946,10 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Display a box with a message associated with a given node
 	 * Overwrite this method if you want to change the way luga.utils.displayMessage and luga.utils.displayErrorMessage behaves
-	 * @param {jQuery}  node      Target node
-	 * @param {String}  html      HTML/Text code to inject
-	 * @param {String}  cssClass  CSS class attached to the box. Default to "luga_message"
+	 * @param {jQuery}  node                       Target node
+	 * @param {String}  html                       HTML/Text code to inject
+	 * @param {String}  [cssClass="luga_message"]  CSS class attached to the box. Default to "luga_message"
+	 * @return {jQuery}
 	 */
 	luga.utils.displayBox = function(node, html, cssClass){
 		if(cssClass === undefined){
@@ -1142,7 +1259,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Form handler. Invoke its sender() method to serialize the form and send its contents using XHR
-	 * @param options {luga.ajaxform.Sender.options}
+	 * @param {luga.ajaxform.Sender.options} options
 	 * @constructor
 	 * @throw {Exception}
 	 */
@@ -1296,7 +1413,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Attach form handlers to onSubmit events
-	 * @param {jquery|undefined} [jQuery("body")] rootNode  Optional, default to jQuery("body")
+	 * @param {jquery|undefined} [rootNode=jQuery("body")] Optional, default to jQuery("body")
 	 */
 	luga.ajaxform.initForms = function(rootNode){
 		if(rootNode === undefined){
@@ -2194,6 +2311,11 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.validator.rules");
 
+	/**
+	 * @param {jQuery} fieldNode
+	 * @param {luga.validator.FormValidator} validator
+	 * @return {Boolean}
+	 */
 	luga.validator.rules.email = function(fieldNode, validator){
 		var fieldValue = fieldNode.val();
 		var containsAt = (fieldValue.indexOf("@") !== -1);
@@ -2205,6 +2327,9 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
+	 * @param {jQuery} fieldNode
+	 * @param {luga.validator.FormValidator} validator
+	 * @return {Boolean}
 	 * @throw {Exception}
 	 */
 	luga.validator.rules.equalto = function(fieldNode, validator){
@@ -2215,6 +2340,11 @@ if(typeof(luga) === "undefined"){
 		return (fieldNode.val() === secondFieldNode.val());
 	};
 
+	/**
+	 * @param {jQuery} fieldNode
+	 * @param {luga.validator.FormValidator} validator
+	 * @return {Boolean}
+	 */
 	luga.validator.rules.datepattern = function(fieldNode, validator){
 		var datObj = luga.validator.dateStrToObj(fieldNode.val(), validator.config.datepattern);
 		if(datObj !== null){
@@ -2223,6 +2353,11 @@ if(typeof(luga) === "undefined"){
 		return false;
 	};
 
+	/**
+	 * @param {jQuery} fieldNode
+	 * @param {luga.validator.FormValidator} validator
+	 * @return {Boolean}
+	 */
 	luga.validator.rules.maxdate = function(fieldNode, validator){
 		var pattern = validator.config.datepattern;
 		var valueDate = luga.validator.dateStrToObj(fieldNode.val(), pattern);
@@ -2233,6 +2368,11 @@ if(typeof(luga) === "undefined"){
 		return false;
 	};
 
+	/**
+	 * @param {jQuery} fieldNode
+	 * @param {luga.validator.FormValidator} validator
+	 * @return {Boolean}
+	 */
 	luga.validator.rules.mindate = function(fieldNode, validator){
 		var pattern = validator.config.datepattern;
 		var valueDate = luga.validator.dateStrToObj(fieldNode.val(), pattern);
@@ -2243,6 +2383,11 @@ if(typeof(luga) === "undefined"){
 		return false;
 	};
 
+	/**
+	 * @param {jQuery} fieldNode
+	 * @param {luga.validator.FormValidator} validator
+	 * @return {Boolean}
+	 */
 	luga.validator.rules.maxlength = function(fieldNode, validator){
 		if(fieldNode.val().length > validator.config.maxlength){
 			return false;
@@ -2250,6 +2395,11 @@ if(typeof(luga) === "undefined"){
 		return true;
 	};
 
+	/**
+	 * @param {jQuery} fieldNode
+	 * @param {luga.validator.FormValidator} validator
+	 * @return {Boolean}
+	 */
 	luga.validator.rules.minlength = function(fieldNode, validator){
 		if(fieldNode.val().length < validator.config.minlength){
 			return false;
@@ -2257,6 +2407,11 @@ if(typeof(luga) === "undefined"){
 		return true;
 	};
 
+	/**
+	 * @param {jQuery} fieldNode
+	 * @param {luga.validator.FormValidator} validator
+	 * @return {Boolean}
+	 */
 	luga.validator.rules.maxnumber = function(fieldNode, validator){
 		if(jQuery.isNumeric(fieldNode.val()) === false){
 			return false;
@@ -2267,6 +2422,11 @@ if(typeof(luga) === "undefined"){
 		return false;
 	};
 
+	/**
+	 * @param {jQuery} fieldNode
+	 * @param {luga.validator.FormValidator} validator
+	 * @return {Boolean}
+	 */
 	luga.validator.rules.minnumber = function(fieldNode, validator){
 		if(jQuery.isNumeric(fieldNode.val()) === false){
 			return false;
@@ -2278,6 +2438,9 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
+	 * @param {jQuery} fieldNode
+	 * @param {luga.validator.FormValidator} validator
+	 * @return {Boolean}
 	 * @throw {Exception}
 	 */
 	luga.validator.rules.pattern = function(fieldNode, validator){
@@ -2313,11 +2476,11 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Create an object that stores date validation's info
 	 *
-	 * @param rex       {regexp}
-	 * @param year      {Number}
-	 * @param month     {Number}
-	 * @param day       {Number}
-	 * @param separator {String}
+	 * @param {regexp} rex
+	 * @param {Number} year
+	 * @param {Number} month
+	 * @param {Number} day
+	 * @param {String} separator
 	 *
 	 * @return {Object}
 	 */
@@ -2381,7 +2544,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Attach form validators to any suitable form inside the document
-	 * @param {jQuery} [jQuery("body")] rootNode  Optional, default to jQuery("body")
+	 * @param {jQuery} [rootNode=jQuery("body")]  Optional, default to jQuery("body")
 	 */
 	luga.validator.initForms = function(rootNode){
 		if(rootNode === undefined){
@@ -2415,7 +2578,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Programmatically validate a form
-	 * @param {luga.validator.api.validateForm.options}
+	 * @param {luga.validator.api.validateForm.options} options
 	 * @return {Boolean}
 	 */
 	luga.validator.api.validateForm = function(options){
@@ -2434,7 +2597,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Programmatically validate a field
-	 * @param {luga.validator.api.validateField.options}
+	 * @param {luga.validator.api.validateField.options} options
 	 * @return {Boolean}
 	 * @throw {Exception}
 	 */
@@ -2447,7 +2610,7 @@ if(typeof(luga) === "undefined"){
 			options.error = luga.validator.CONST.HANDLERS.FORM_ERROR;
 		}
 		var dirtyValidators = [];
-		var fieldValidator = new luga.validator.fieldValidatorFactory.getInstance(options);
+		var fieldValidator = luga.validator.fieldValidatorFactory.getInstance(options);
 		fieldValidator.validate(null);
 		if(fieldValidator.isValid() !== true){
 			var callBack = luga.lookupFunction(options.error);
@@ -2467,7 +2630,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Programmatically validate a collection of fields
-	 * @param {luga.validator.api.validateFields.options}
+	 * @param {luga.validator.api.validateFields.options} options
 	 * @return {Boolean}
 	 */
 	luga.validator.api.validateFields = function(options){
@@ -2517,7 +2680,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Programmatically validate all fields contained inside a given node
-	 * @param {luga.validator.api.validateFields.options}
+	 * @param {luga.validator.api.validateFields.options} options
 	 * @return {Boolean}
 	 */
 	luga.validator.api.validateChildFields = function(options){
@@ -2534,8 +2697,8 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga Data 0.9.7dev 2017-11-19T17:34:23.620Z
-Copyright 2013-2017 Massimo Foti (massimo@massimocorner.com)
+Luga Data 0.9.7 2018-02-10T14:54:15.653Z
+Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
 /* istanbul ignore if */
@@ -2649,9 +2812,9 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Apply the given filter function to each passed row
 	 * Return an array of filtered rows
-	 * @param {Array.<luga.data.DataSet.row>} rows. Required
-	 * @param {function}                      filter. Required
-	 * @param {luga.data.DataSet}             dataset. Required
+	 * @param {Array.<luga.data.DataSet.row>} rows    Required
+	 * @param {function}                      filter  Required
+	 * @param {luga.data.DataSet}             dataset Required
 	 * @return {Array.<luga.data.DataSet.row>}
 	 * @throw {Exception}
 	 */
@@ -2668,7 +2831,7 @@ if(typeof(luga) === "undefined"){
 			}
 			// Invalid row
 			if(luga.isPlainObject(filteredRow) === false){
-				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FORMATTER_ACTION);
+				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_ACTION);
 			}
 			// Valid row
 			retRows.push(filteredRow);
@@ -2678,9 +2841,9 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Apply the given updater function to each passed row
-	 * @param {Array.<luga.data.DataSet.row>} rows. Required
-	 * @param {function}                      updater. Required
-	 * @param {luga.data.DataSet}             dataset. Required
+	 * @param {Array.<luga.data.DataSet.row>} rows      Required
+	 * @param {function}                      formatter Required
+	 * @param {luga.data.DataSet}             dataset   Required
 	 * @throw {Exception}
 	 */
 	luga.data.utils.update = function(rows, formatter, dataset){
@@ -2733,9 +2896,9 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.data.DataSet.dataSorted
 	 *
 	 * @property {luga.data.DataSet}    dataSet
-	 * @property {array<string>}        oldSortColumns
+	 * @property {Array<string>}        oldSortColumns
 	 * @property {luga.data.sort.ORDER} oldSortOrder
-	 * @property {array<string>}        newSortColumns
+	 * @property {Array<string>}        newSortColumns
 	 * @property {luga.data.sort.ORDER} newSortOrder
 	 */
 
@@ -2823,7 +2986,7 @@ if(typeof(luga) === "undefined"){
 			this.formatter = options.formatter;
 		}
 
-		/** @type {null|array.<luga.data.DataSet.row>} */
+		/** @type {null|Array.<luga.data.DataSet.row>} */
 		this.filteredRecords = null;
 
 		/** @type {null|function} */
@@ -2891,8 +3054,8 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Delete records matching the given filter
 		 * If no filter is passed, delete all records
-		 * @param {function} [undefined] filter   A filter function. If specified only records matching the filter will be returned. Optional
-		 *                                        The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
+		 * @param {function} [filter]    A filter function. If specified only records matching the filter will be returned. Optional
+		 *                               The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @fire currentRowChanged
 		 * @fire stateChanged
 		 * @fire dataChanged
@@ -3030,6 +3193,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns the index at which a row can be found in the dataSet, or -1 if no available record matches the given row
 		 * @param {luga.data.DataSet.row} row
+		 * @return {Number}
 		 */
 		this.getRowIndex = function(row){
 			if(hasFilter() === true){
@@ -3068,7 +3232,7 @@ if(typeof(luga) === "undefined"){
 		 * Adds rows to a dataSet
 		 * Be aware that the dataSet use passed data by reference
 		 * That is, it uses those objects as its row object internally. It does not make a copy
-		 * @param  {Array.<object>|object} records   Records to be loaded, either one single object containing value/name pairs, or an array of objects. Required
+		 * @param  {Array.<Object>|Object} records   Records to be loaded, either one single object containing value/name pairs, or an array of objects. Required
 		 * @fire stateChanged
 		 * @fire dataChanged
 		 * @throw {Exception}
@@ -3152,8 +3316,8 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns an array of the internal row objects that store the records in the dataSet
 		 * Be aware that modifying any property of a returned object results in a modification of the internal records (since records are passed by reference)
-		 * @param {function}  [undefined] filter   An optional filter function. If specified only records matching the filter will be returned. Optional
-		 *                                         The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
+		 * @param {function} [filter]    An optional filter function. If specified only records matching the filter will be returned. Optional
+		 *                               The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @return {Array.<luga.data.DataSet.row>}
 		 * @throw {Exception}
 		 */
@@ -3170,7 +3334,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Set a column type for a column. Required for proper sorting of numeric or date data.
 		 * By default data is sorted alpha-numerically, if you want it sorted numerically or by date, set the proper columnType
-		 * @param {String|array<string>} columnNames
+		 * @param {String|Array<string>} columnNames
 		 * @param {String}               columnType   Either "date", "number" or "string"
 		 */
 		this.setColumnType = function(columnNames, columnType){
@@ -3294,8 +3458,8 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Sorts the dataSet using the given column(s) and sort order
-		 * @param {String|Array<string>}              columnNames Required, either a single column name or an array of names
-		 * @param {luga.data.sort.ORDER} ["toggle"]  sortOrder   Either "ascending", "descending" or "toggle". Optional, default to "toggle"
+		 * @param {String|Array<string>}  columnNames             Required, either a single column name or an array of names
+		 * @param {luga.data.sort.ORDER} [sortOrder="toggle"]     Either "ascending", "descending" or "toggle". Optional, default to "toggle"
 		 * @fire preDataSorted
 		 * @fire dataSorted
 		 * @fire dataChanged
@@ -3389,9 +3553,9 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Updates rows inside the dataSet
-		 * @param {function} filter.  Filter function to be used as search criteria. Required
+		 * @param {function} filter   Filter function to be used as search criteria. Required
 		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
-		 * @param {function} updater. Updater function. Required
+		 * @param {function} updater  Updater function. Required
 		 *                            The function is going to be called with this signature: myUpdater(row, rowIndex, dataSet)
 		 * @fire stateChanged
 		 * @fire dataChanged
@@ -3563,7 +3727,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Base HttpDataSet class
-	 * @param luga.data.HttpDataSet.options
+	 * @param {luga.data.HttpDataSet.options} options
 	 * @constructor
 	 * @extend luga.data.DataSet
 	 * @abstract
@@ -3863,7 +4027,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * First delete any existing records, then load data from the given XML, without XHR calls
-		 * @param {Node} Node
+		 * @param {Node} node
 		 */
 		this.loadRawXml = function(node){
 			self.delete();
@@ -4267,7 +4431,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Bootstrap any region contained within the given node
-	 * @param {jquery|undefined} [jQuery("body"] rootNode  Optional, default to jQuery("body")
+	 * @param {jquery|undefined} [rootNode=jQuery("body"]   Optional, default to jQuery("body")
 	 */
 	luga.data.region.initRegions = function(rootNode){
 		if(rootNode === undefined){
@@ -4470,7 +4634,6 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * @param {jQuery} node
-		 * @return {String}
 		 */
 		var fetchTemplate = function(node){
 			// Inline template
@@ -4577,10 +4740,10 @@ if(typeof(luga) === "undefined"){
 			var index = 0;
 
 			if(options.dataSource.getCurrentRowIndex() === -1){
-				 // Remove class from everyone
+				// Remove class from everyone
 				nodes.removeClass(cssClass);
 			}
-			else {
+			else{
 				index = options.dataSource.getCurrentRowIndex();
 				// Apply CSS
 				jQuery(nodes.get(index)).addClass(cssClass);

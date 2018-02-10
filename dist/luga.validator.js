@@ -1,6 +1,6 @@
 /*! 
-Luga Validator 0.9.7dev 2017-11-19T17:34:24.109Z
-Copyright 2013-2017 Massimo Foti (massimo@massimocorner.com)
+Luga Validator 0.9.7 2018-02-10T14:54:16.349Z
+Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
 /* globals alert */
@@ -878,6 +878,11 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.validator.rules");
 
+	/**
+	 * @param {jQuery} fieldNode
+	 * @param {luga.validator.FormValidator} validator
+	 * @return {Boolean}
+	 */
 	luga.validator.rules.email = function(fieldNode, validator){
 		var fieldValue = fieldNode.val();
 		var containsAt = (fieldValue.indexOf("@") !== -1);
@@ -889,6 +894,9 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
+	 * @param {jQuery} fieldNode
+	 * @param {luga.validator.FormValidator} validator
+	 * @return {Boolean}
 	 * @throw {Exception}
 	 */
 	luga.validator.rules.equalto = function(fieldNode, validator){
@@ -899,6 +907,11 @@ if(typeof(luga) === "undefined"){
 		return (fieldNode.val() === secondFieldNode.val());
 	};
 
+	/**
+	 * @param {jQuery} fieldNode
+	 * @param {luga.validator.FormValidator} validator
+	 * @return {Boolean}
+	 */
 	luga.validator.rules.datepattern = function(fieldNode, validator){
 		var datObj = luga.validator.dateStrToObj(fieldNode.val(), validator.config.datepattern);
 		if(datObj !== null){
@@ -907,6 +920,11 @@ if(typeof(luga) === "undefined"){
 		return false;
 	};
 
+	/**
+	 * @param {jQuery} fieldNode
+	 * @param {luga.validator.FormValidator} validator
+	 * @return {Boolean}
+	 */
 	luga.validator.rules.maxdate = function(fieldNode, validator){
 		var pattern = validator.config.datepattern;
 		var valueDate = luga.validator.dateStrToObj(fieldNode.val(), pattern);
@@ -917,6 +935,11 @@ if(typeof(luga) === "undefined"){
 		return false;
 	};
 
+	/**
+	 * @param {jQuery} fieldNode
+	 * @param {luga.validator.FormValidator} validator
+	 * @return {Boolean}
+	 */
 	luga.validator.rules.mindate = function(fieldNode, validator){
 		var pattern = validator.config.datepattern;
 		var valueDate = luga.validator.dateStrToObj(fieldNode.val(), pattern);
@@ -927,6 +950,11 @@ if(typeof(luga) === "undefined"){
 		return false;
 	};
 
+	/**
+	 * @param {jQuery} fieldNode
+	 * @param {luga.validator.FormValidator} validator
+	 * @return {Boolean}
+	 */
 	luga.validator.rules.maxlength = function(fieldNode, validator){
 		if(fieldNode.val().length > validator.config.maxlength){
 			return false;
@@ -934,6 +962,11 @@ if(typeof(luga) === "undefined"){
 		return true;
 	};
 
+	/**
+	 * @param {jQuery} fieldNode
+	 * @param {luga.validator.FormValidator} validator
+	 * @return {Boolean}
+	 */
 	luga.validator.rules.minlength = function(fieldNode, validator){
 		if(fieldNode.val().length < validator.config.minlength){
 			return false;
@@ -941,6 +974,11 @@ if(typeof(luga) === "undefined"){
 		return true;
 	};
 
+	/**
+	 * @param {jQuery} fieldNode
+	 * @param {luga.validator.FormValidator} validator
+	 * @return {Boolean}
+	 */
 	luga.validator.rules.maxnumber = function(fieldNode, validator){
 		if(jQuery.isNumeric(fieldNode.val()) === false){
 			return false;
@@ -951,6 +989,11 @@ if(typeof(luga) === "undefined"){
 		return false;
 	};
 
+	/**
+	 * @param {jQuery} fieldNode
+	 * @param {luga.validator.FormValidator} validator
+	 * @return {Boolean}
+	 */
 	luga.validator.rules.minnumber = function(fieldNode, validator){
 		if(jQuery.isNumeric(fieldNode.val()) === false){
 			return false;
@@ -962,6 +1005,9 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
+	 * @param {jQuery} fieldNode
+	 * @param {luga.validator.FormValidator} validator
+	 * @return {Boolean}
 	 * @throw {Exception}
 	 */
 	luga.validator.rules.pattern = function(fieldNode, validator){
@@ -997,11 +1043,11 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Create an object that stores date validation's info
 	 *
-	 * @param rex       {regexp}
-	 * @param year      {Number}
-	 * @param month     {Number}
-	 * @param day       {Number}
-	 * @param separator {String}
+	 * @param {regexp} rex
+	 * @param {Number} year
+	 * @param {Number} month
+	 * @param {Number} day
+	 * @param {String} separator
 	 *
 	 * @return {Object}
 	 */
@@ -1065,7 +1111,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Attach form validators to any suitable form inside the document
-	 * @param {jQuery} [jQuery("body")] rootNode  Optional, default to jQuery("body")
+	 * @param {jQuery} [rootNode=jQuery("body")]  Optional, default to jQuery("body")
 	 */
 	luga.validator.initForms = function(rootNode){
 		if(rootNode === undefined){
@@ -1099,7 +1145,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Programmatically validate a form
-	 * @param {luga.validator.api.validateForm.options}
+	 * @param {luga.validator.api.validateForm.options} options
 	 * @return {Boolean}
 	 */
 	luga.validator.api.validateForm = function(options){
@@ -1118,7 +1164,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Programmatically validate a field
-	 * @param {luga.validator.api.validateField.options}
+	 * @param {luga.validator.api.validateField.options} options
 	 * @return {Boolean}
 	 * @throw {Exception}
 	 */
@@ -1131,7 +1177,7 @@ if(typeof(luga) === "undefined"){
 			options.error = luga.validator.CONST.HANDLERS.FORM_ERROR;
 		}
 		var dirtyValidators = [];
-		var fieldValidator = new luga.validator.fieldValidatorFactory.getInstance(options);
+		var fieldValidator = luga.validator.fieldValidatorFactory.getInstance(options);
 		fieldValidator.validate(null);
 		if(fieldValidator.isValid() !== true){
 			var callBack = luga.lookupFunction(options.error);
@@ -1151,7 +1197,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Programmatically validate a collection of fields
-	 * @param {luga.validator.api.validateFields.options}
+	 * @param {luga.validator.api.validateFields.options} options
 	 * @return {Boolean}
 	 */
 	luga.validator.api.validateFields = function(options){
@@ -1201,7 +1247,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Programmatically validate all fields contained inside a given node
-	 * @param {luga.validator.api.validateFields.options}
+	 * @param {luga.validator.api.validateFields.options} options
 	 * @return {Boolean}
 	 */
 	luga.validator.api.validateChildFields = function(options){

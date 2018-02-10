@@ -1,6 +1,6 @@
 /*! 
-Luga Ajaxform 0.9.7dev 2017-11-19T17:34:24.108Z
-Copyright 2013-2017 Massimo Foti (massimo@massimocorner.com)
+Luga Ajaxform 0.9.7 2018-02-10T14:54:16.348Z
+Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
 /* globals alert */
@@ -120,7 +120,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Form handler. Invoke its sender() method to serialize the form and send its contents using XHR
-	 * @param options {luga.ajaxform.Sender.options}
+	 * @param {luga.ajaxform.Sender.options} options
 	 * @constructor
 	 * @throw {Exception}
 	 */
@@ -274,7 +274,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Attach form handlers to onSubmit events
-	 * @param {jquery|undefined} [jQuery("body")] rootNode  Optional, default to jQuery("body")
+	 * @param {jquery|undefined} [rootNode=jQuery("body")] Optional, default to jQuery("body")
 	 */
 	luga.ajaxform.initForms = function(rootNode){
 		if(rootNode === undefined){
