@@ -4,6 +4,8 @@ describe("luga.data.region", function(){
 
 	afterEach(function(){
 		luga.data.dataSourceRegistry = {};
+		// Reset to default
+		luga.data.region.setup({autoregister: true});
 	});
 
 	it("Lives inside its own namespace", function(){
