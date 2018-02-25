@@ -1,3 +1,5 @@
+jasmine.getEnv().randomizeTests(false);
+
 beforeEach(function(){
 	"use strict";
 	jasmineFixtures.setup({
