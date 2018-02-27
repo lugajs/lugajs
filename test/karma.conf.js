@@ -20,6 +20,7 @@ module.exports = function(config){
 			"test/lib/jasmine/jasmineFixtures.min.js",
 			"test/lib/jasmine/jasmineMatchers.min.js",
 			"test/fixtures.karma.config.js",
+			"test/jasmine.config.js",
 
 			// Source files
 			// Some of these must be loaded in aspecific order
