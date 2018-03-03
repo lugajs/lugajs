@@ -7,11 +7,11 @@ Version 2.0
 - Remove self = this. Use .bind() instead
 - luga.isMap()
 - luga.isSet()
-- Add ESLint module to care for Map/Set in IE11
 
 - Spin off AjaxForm and Validator into dedicated project
 
-- Spin off Data into dedicated project. Remove jQuery and use Axios for XHR
+- Spin off Data into dedicated project. 
+  Remove jQuery and use Axios for XHR or wait to drop IE11 and use fetch()?
 
 - Remove jQuery from Common
 
