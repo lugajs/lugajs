@@ -1,20 +1,38 @@
 - Stop testing on IE9
 
-- Remove jQuery from Common
 - Move luga.xml inside Luga Data
+
+- Remove jQuery from Common
+  Add luga.dom.ready()
+
 - Spin off AjaxForm and Validator into dedicated Luga Form project
 
-Version 2.0
+- Add support for Template literals as region rendering
+  https://medium.com/your-majesty-co/frameworkless-javascript-template-literals-the-best-thing-since-sliced-bread-d97f000ce955
+
+***
+
+VERSION 2.0
 
 - Drop support for IE 9/10
-- Start using const/let and Map/Set
+- Use const/let and Map/Set
 - Remove self = this. Use .bind() instead
 - luga.isMap()
 - luga.isSet()
 
 
-
-- Spin off Data into dedicated project. 
+- Spin off Data into dedicated project?
   Remove jQuery and use Axios for XHR or wait to drop IE11 and use fetch() plus async/await?
 
 - Event bus concept?
+
+***
+
+VERSION 3.0
+
+- Drop support for IE 11
+- Remove jQuery from everywhere
+- Use import/export
+- Use fetch() for Ajax
+
+- Make Common and Data isomorphic
