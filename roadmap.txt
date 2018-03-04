@@ -1,5 +1,9 @@
 - Stop testing on IE9
 
+- Remove jQuery from Common
+- Move luga.xml inside Luga Data
+- Spin off AjaxForm and Validator into dedicated Luga Form project
+
 Version 2.0
 
 - Drop support for IE 9/10
@@ -8,11 +12,9 @@ Version 2.0
 - luga.isMap()
 - luga.isSet()
 
-- Spin off AjaxForm and Validator into dedicated project
+
 
 - Spin off Data into dedicated project. 
-  Remove jQuery and use Axios for XHR or wait to drop IE11 and use fetch()?
-
-- Remove jQuery from Common
+  Remove jQuery and use Axios for XHR or wait to drop IE11 and use fetch() plus async/await?
 
 - Event bus concept?
