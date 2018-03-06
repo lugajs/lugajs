@@ -21,6 +21,8 @@ VERSION 2.0
   dom.removeEvent()
   dom.dispatchEvent()
   dom.delegateEvent()
+  dom.empty()
+  https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
 
 - Spin off AjaxForm and Validator into dedicated Luga Form project
 
