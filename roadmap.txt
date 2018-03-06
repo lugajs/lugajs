@@ -17,10 +17,17 @@ VERSION 2.0
 - Add DOM utilities to replace jQuery
   dom.ready()
   dom.nodeMatches(node, selector) IE11+
+
   dom.addEvent()
   dom.removeEvent()
   dom.dispatchEvent()
   dom.delegateEvent()
+
+  dom.addClass()
+  dom.removeClass()
+  dom.hasClass()
+  dom.toggleClass()
+
   dom.empty()
   https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
 
