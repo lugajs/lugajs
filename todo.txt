@@ -2,7 +2,8 @@
 
 DOCS:
 
-- Unveil luga.dom and luga.xml?
+- Add docs for Template literals as region rendering
+  https://medium.com/your-majesty-co/frameworkless-javascript-template-literals-the-best-thing-since-sliced-bread-d97f000ce955
 
 -------------
 
