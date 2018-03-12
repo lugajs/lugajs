@@ -1,6 +1,6 @@
 /*! 
-Luga Data 0.9.7dev 2017-11-19T17:34:23.620Z
-Copyright 2013-2017 Massimo Foti (massimo@massimocorner.com)
+Luga Data 0.9.7 2018-03-12T05:11:16.750Z
+Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
 /* istanbul ignore if */
@@ -114,9 +114,9 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Apply the given filter function to each passed row
 	 * Return an array of filtered rows
-	 * @param {Array.<luga.data.DataSet.row>} rows. Required
-	 * @param {function}                      filter. Required
-	 * @param {luga.data.DataSet}             dataset. Required
+	 * @param {Array.<luga.data.DataSet.row>} rows    Required
+	 * @param {function}                      filter  Required
+	 * @param {luga.data.DataSet}             dataset Required
 	 * @return {Array.<luga.data.DataSet.row>}
 	 * @throw {Exception}
 	 */
@@ -133,7 +133,7 @@ if(typeof(luga) === "undefined"){
 			}
 			// Invalid row
 			if(luga.isPlainObject(filteredRow) === false){
-				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FORMATTER_ACTION);
+				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_ACTION);
 			}
 			// Valid row
 			retRows.push(filteredRow);
@@ -143,9 +143,9 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Apply the given updater function to each passed row
-	 * @param {Array.<luga.data.DataSet.row>} rows. Required
-	 * @param {function}                      updater. Required
-	 * @param {luga.data.DataSet}             dataset. Required
+	 * @param {Array.<luga.data.DataSet.row>} rows      Required
+	 * @param {function}                      formatter Required
+	 * @param {luga.data.DataSet}             dataset   Required
 	 * @throw {Exception}
 	 */
 	luga.data.utils.update = function(rows, formatter, dataset){
@@ -175,6 +175,180 @@ if(typeof(luga) === "undefined"){
 	};
 
 }());
+/* global ActiveXObject */
+
+(function(){
+	"use strict";
+
+	luga.namespace("luga.data.xml");
+
+	luga.data.xml.MIME_TYPE = "application/xml";
+	luga.data.xml.ATTRIBUTE_PREFIX = "_";
+	luga.data.xml.DOM_ACTIVEX_NAME = "MSXML2.DOMDocument.4.0";
+
+	/**
+	 * Given a DOM node, evaluate an XPath expression against it
+	 * Results are returned as an array of nodes. An empty array is returned in case there is no match
+	 * @param {Node} node
+	 * @param {String} path
+	 * @return {Array<Node>}
+	 */
+	luga.data.xml.evaluateXPath = function(node, path){
+		var retArray = [];
+		/* istanbul ignore if IE-only */
+		if(window.ActiveXObject !== undefined){
+			var selectedNodes = node.selectNodes(path);
+			// Extract the nodes out of the nodeList returned by selectNodes and put them into an array
+			// We could directly use the nodeList returned by selectNodes, but this would cause inconsistencies across browsers
+			for(var i = 0; i < selectedNodes.length; i++){
+				retArray.push(selectedNodes[i]);
+			}
+			return retArray;
+		}
+		else{
+			var evaluator = new XPathEvaluator();
+			var result = evaluator.evaluate(path, node, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
+			var currentNode = result.iterateNext();
+			// Iterate and populate the array
+			while(currentNode !== null){
+				retArray.push(currentNode);
+				currentNode = result.iterateNext();
+			}
+			return retArray;
+		}
+	};
+
+	/**
+	 * Convert an XML node into a JavaScript object
+	 * @param {Node} node
+	 * @return {Object}
+	 */
+	luga.data.xml.nodeToHash = function(node){
+		var obj = {};
+		attributesToProperties(node, obj);
+		childrenToProperties(node, obj);
+		return obj;
+	};
+
+	/**
+	 * Map attributes to properties
+	 * @param {Node}   node
+	 * @param {Object} obj
+	 */
+	function attributesToProperties(node, obj){
+		if((node.attributes === null) || (node.attributes === undefined)){
+			return;
+		}
+		for(var i = 0; i < node.attributes.length; i++){
+			var attr = node.attributes[i];
+			obj[luga.data.xml.ATTRIBUTE_PREFIX + attr.name] = attr.value;
+		}
+	}
+
+	/**
+	 * Map child nodes to properties
+	 * @param {Node}   node
+	 * @param {Object} obj
+	 */
+	function childrenToProperties(node, obj){
+		for(var i = 0; i < node.childNodes.length; i++){
+			var child = node.childNodes[i];
+
+			if(child.nodeType === 1 /* Node.ELEMENT_NODE */){
+				var isArray = false;
+				var tagName = child.nodeName;
+
+				if(obj[tagName] !== undefined){
+					// If the property exists already, turn it into an array
+					if(obj[tagName].constructor !== Array){
+						var curValue = obj[tagName];
+						obj[tagName] = [];
+						obj[tagName].push(curValue);
+					}
+					isArray = true;
+				}
+
+				if(nodeHasText(child) === true){
+					// This may potentially override an existing property
+					obj[child.nodeName] = getTextValue(child);
+				}
+				else{
+					var childObj = luga.data.xml.nodeToHash(child);
+					if(isArray === true){
+						obj[tagName].push(childObj);
+					}
+					else{
+						obj[tagName] = childObj;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Extract text out of a TEXT or CDATA node
+	 * @param {Node} node
+	 * @return {String}
+	 */
+	function getTextValue(node){
+		var child = node.childNodes[0];
+		/* istanbul ignore else */
+		if((child.nodeType === 3) /* TEXT_NODE */ || (child.nodeType === 4) /* CDATA_SECTION_NODE */){
+			return child.data;
+		}
+	}
+
+	/**
+	 * Return true if a node contains value, false otherwise
+	 * @param {Node}   node
+	 * @return {Boolean}
+	 */
+	function nodeHasText(node){
+		var child = node.childNodes[0];
+		if((child !== null) && (child.nextSibling === null) && (child.nodeType === 3 /* Node.TEXT_NODE */ || child.nodeType === 4 /* CDATA_SECTION_NODE */)){
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Serialize a DOM node into a string
+	 * @param {Node}   node
+	 * @return {String}
+	 */
+	luga.data.xml.nodeToString = function(node){
+		/* istanbul ignore if IE-only */
+		if(window.ActiveXObject !== undefined){
+			return node.xml;
+		}
+		else{
+			var serializer = new XMLSerializer();
+			return serializer.serializeToString(node, luga.data.xml.MIME_TYPE);
+		}
+	};
+
+	/**
+	 * Create a DOM Document out of a string
+	 * @param {String} xmlStr
+	 * @return {Document}
+	 */
+	luga.data.xml.parseFromString = function(xmlStr){
+		var xmlParser;
+		/* istanbul ignore if IE-only */
+		if(window.ActiveXObject !== undefined){
+			var xmlDOMObj = new ActiveXObject(luga.data.xml.DOM_ACTIVEX_NAME);
+			xmlDOMObj.async = false;
+			xmlDOMObj.loadXML(xmlStr);
+			return xmlDOMObj;
+		}
+		else{
+			xmlParser = new DOMParser();
+			var domDoc = xmlParser.parseFromString(xmlStr, luga.data.xml.MIME_TYPE);
+			return domDoc;
+		}
+	};
+
+}());
 (function(){
 	"use strict";
 
@@ -198,9 +372,9 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.data.DataSet.dataSorted
 	 *
 	 * @property {luga.data.DataSet}    dataSet
-	 * @property {array<string>}        oldSortColumns
+	 * @property {Array<string>}        oldSortColumns
 	 * @property {luga.data.sort.ORDER} oldSortOrder
-	 * @property {array<string>}        newSortColumns
+	 * @property {Array<string>}        newSortColumns
 	 * @property {luga.data.sort.ORDER} newSortOrder
 	 */
 
@@ -288,7 +462,7 @@ if(typeof(luga) === "undefined"){
 			this.formatter = options.formatter;
 		}
 
-		/** @type {null|array.<luga.data.DataSet.row>} */
+		/** @type {null|Array.<luga.data.DataSet.row>} */
 		this.filteredRecords = null;
 
 		/** @type {null|function} */
@@ -356,8 +530,8 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Delete records matching the given filter
 		 * If no filter is passed, delete all records
-		 * @param {function} [undefined] filter   A filter function. If specified only records matching the filter will be returned. Optional
-		 *                                        The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
+		 * @param {function} [filter]    A filter function. If specified only records matching the filter will be returned. Optional
+		 *                               The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @fire currentRowChanged
 		 * @fire stateChanged
 		 * @fire dataChanged
@@ -495,6 +669,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns the index at which a row can be found in the dataSet, or -1 if no available record matches the given row
 		 * @param {luga.data.DataSet.row} row
+		 * @return {Number}
 		 */
 		this.getRowIndex = function(row){
 			if(hasFilter() === true){
@@ -533,7 +708,7 @@ if(typeof(luga) === "undefined"){
 		 * Adds rows to a dataSet
 		 * Be aware that the dataSet use passed data by reference
 		 * That is, it uses those objects as its row object internally. It does not make a copy
-		 * @param  {Array.<object>|object} records   Records to be loaded, either one single object containing value/name pairs, or an array of objects. Required
+		 * @param  {Array.<Object>|Object} records   Records to be loaded, either one single object containing value/name pairs, or an array of objects. Required
 		 * @fire stateChanged
 		 * @fire dataChanged
 		 * @throw {Exception}
@@ -617,8 +792,8 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns an array of the internal row objects that store the records in the dataSet
 		 * Be aware that modifying any property of a returned object results in a modification of the internal records (since records are passed by reference)
-		 * @param {function}  [undefined] filter   An optional filter function. If specified only records matching the filter will be returned. Optional
-		 *                                         The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
+		 * @param {function} [filter]    An optional filter function. If specified only records matching the filter will be returned. Optional
+		 *                               The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @return {Array.<luga.data.DataSet.row>}
 		 * @throw {Exception}
 		 */
@@ -635,7 +810,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Set a column type for a column. Required for proper sorting of numeric or date data.
 		 * By default data is sorted alpha-numerically, if you want it sorted numerically or by date, set the proper columnType
-		 * @param {String|array<string>} columnNames
+		 * @param {String|Array<string>} columnNames
 		 * @param {String}               columnType   Either "date", "number" or "string"
 		 */
 		this.setColumnType = function(columnNames, columnType){
@@ -759,8 +934,8 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Sorts the dataSet using the given column(s) and sort order
-		 * @param {String|Array<string>}              columnNames Required, either a single column name or an array of names
-		 * @param {luga.data.sort.ORDER} ["toggle"]  sortOrder   Either "ascending", "descending" or "toggle". Optional, default to "toggle"
+		 * @param {String|Array<string>}  columnNames             Required, either a single column name or an array of names
+		 * @param {luga.data.sort.ORDER} [sortOrder="toggle"]     Either "ascending", "descending" or "toggle". Optional, default to "toggle"
 		 * @fire preDataSorted
 		 * @fire dataSorted
 		 * @fire dataChanged
@@ -854,9 +1029,9 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Updates rows inside the dataSet
-		 * @param {function} filter.  Filter function to be used as search criteria. Required
+		 * @param {function} filter   Filter function to be used as search criteria. Required
 		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
-		 * @param {function} updater. Updater function. Required
+		 * @param {function} updater  Updater function. Required
 		 *                            The function is going to be called with this signature: myUpdater(row, rowIndex, dataSet)
 		 * @fire stateChanged
 		 * @fire dataChanged
@@ -1028,7 +1203,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Base HttpDataSet class
-	 * @param luga.data.HttpDataSet.options
+	 * @param {luga.data.HttpDataSet.options} options
 	 * @constructor
 	 * @extend luga.data.DataSet
 	 * @abstract
@@ -1099,7 +1274,7 @@ if(typeof(luga) === "undefined"){
 				error: self.xhrError,
 				// Need to override jQuery's XML converter
 				converters: {
-					"text xml": luga.xml.parseFromString
+					"text xml": luga.data.xml.parseFromString
 				}
 			};
 			/* istanbul ignore else */
@@ -1328,7 +1503,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * First delete any existing records, then load data from the given XML, without XHR calls
-		 * @param {Node} Node
+		 * @param {Node} node
 		 */
 		this.loadRawXml = function(node){
 			self.delete();
@@ -1344,10 +1519,10 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.loadRecords = function(xmlDoc, textStatus, jqXHR){
 			self.rawXml = xmlDoc;
-			var nodes = luga.xml.evaluateXPath(xmlDoc, self.path);
+			var nodes = luga.data.xml.evaluateXPath(xmlDoc, self.path);
 			var records = [];
 			for(var i = 0; i < nodes.length; i++){
-				records.push(luga.xml.nodeToHash(nodes[i]));
+				records.push(luga.data.xml.nodeToHash(nodes[i]));
 			}
 			self.insert(records);
 
@@ -1732,7 +1907,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Bootstrap any region contained within the given node
-	 * @param {jquery|undefined} [jQuery("body"] rootNode  Optional, default to jQuery("body")
+	 * @param {jquery|undefined} [rootNode=jQuery("body"]   Optional, default to jQuery("body")
 	 */
 	luga.data.region.initRegions = function(rootNode){
 		if(rootNode === undefined){
@@ -1935,7 +2110,6 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * @param {jQuery} node
-		 * @return {String}
 		 */
 		var fetchTemplate = function(node){
 			// Inline template
@@ -2042,10 +2216,10 @@ if(typeof(luga) === "undefined"){
 			var index = 0;
 
 			if(options.dataSource.getCurrentRowIndex() === -1){
-				 // Remove class from everyone
+				// Remove class from everyone
 				nodes.removeClass(cssClass);
 			}
-			else {
+			else{
 				index = options.dataSource.getCurrentRowIndex();
 				// Apply CSS
 				jQuery(nodes.get(index)).addClass(cssClass);

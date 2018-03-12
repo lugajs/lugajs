@@ -102,7 +102,7 @@
 				error: self.xhrError,
 				// Need to override jQuery's XML converter
 				converters: {
-					"text xml": luga.xml.parseFromString
+					"text xml": luga.data.xml.parseFromString
 				}
 			};
 			/* istanbul ignore else */

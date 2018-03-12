@@ -25,6 +25,7 @@
 	},
 	"dataLibFragments": [
 		"core",
+		"xml",
 		"Dataset",
 		"DetailSet",
 		"HttpDataset",
