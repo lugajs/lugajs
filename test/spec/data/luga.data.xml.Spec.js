@@ -1,30 +1,30 @@
-describe("luga.xml", function(){
+describe("luga.data.xml", function(){
 
 	"use strict";
 
 	var employeesStr, employeesDoc;
 	beforeEach(function(){
 		employeesStr = jasmineFixtures.read("xml/employees.txt");
-		employeesDoc = luga.xml.parseFromString(employeesStr);
+		employeesDoc = luga.data.xml.parseFromString(employeesStr);
 	});
 
 	it("Contains XML-related API", function(){
-		expect(luga.xml).toBeDefined();
+		expect(luga.data.xml).toBeDefined();
 	});
 
 	describe(".evaluateXPath()", function(){
 
 		it("Evaluate an XPath expression against a given node", function(){
-			expect(luga.xml.evaluateXPath(employeesDoc, "/employees/employee").length).toEqual(3);
+			expect(luga.data.xml.evaluateXPath(employeesDoc, "/employees/employee").length).toEqual(3);
 		});
 
 		it("Results are returned as an array of nodes", function(){
-			var result = luga.xml.evaluateXPath(employeesDoc, "//employee");
+			var result = luga.data.xml.evaluateXPath(employeesDoc, "//employee");
 			expect(jQuery.isArray(result)).toEqual(true);
 		});
 
 		it("An empty array is returned in case there is no match", function(){
-			expect(luga.xml.evaluateXPath(employeesDoc, "/missing").length).toEqual(0);
+			expect(luga.data.xml.evaluateXPath(employeesDoc, "/missing").length).toEqual(0);
 		});
 
 	});
@@ -39,17 +39,17 @@ describe("luga.xml", function(){
 					var node = document.createElement("test");
 					node.setAttribute("name", "Ciccio");
 					node.setAttribute("lastname", "Pasticcio");
-					var obj = luga.xml.nodeToHash(node);
+					var obj = luga.data.xml.nodeToHash(node);
 					expect(obj["_name"]).toEqual("Ciccio");
 					expect(obj["_lastname"]).toEqual("Pasticcio");
 				});
 
 				it("Child nodes to properties", function(){
 					// Quite an hack to get the employees Node
-					var employeesDoc = luga.xml.parseFromString(employeesStr);
-					var rootNode = luga.xml.evaluateXPath(employeesDoc, "//employees");
+					var employeesDoc = luga.data.xml.parseFromString(employeesStr);
+					var rootNode = luga.data.xml.evaluateXPath(employeesDoc, "//employees");
 
-					var obj = luga.xml.nodeToHash(rootNode[0]);
+					var obj = luga.data.xml.nodeToHash(rootNode[0]);
 					expect(obj["employee"].length).toEqual(3);
 					expect(obj["employee"][0].firstname).toEqual("Edward");
 					expect(obj["employee"][0].lastname).toEqual("Smith");
@@ -63,7 +63,7 @@ describe("luga.xml", function(){
 
 				it("The given node has no attributes and no children", function(){
 					var node = document.createElement("test");
-					var obj = luga.xml.nodeToHash(node);
+					var obj = luga.data.xml.nodeToHash(node);
 					expect(obj).toEqual({});
 				});
 
@@ -85,10 +85,10 @@ describe("luga.xml", function(){
 			xmlStr += "<player instrument=\"trumpet\" name=\"Lee Morgan\"/>";
 			xmlStr += "<player instrument=\"piano\" name=\"Bill Evans\"/>";
 			xmlStr += "</artists>";
-			var xmlNode = luga.xml.parseFromString(xmlStr);
+			var xmlNode = luga.data.xml.parseFromString(xmlStr);
 
 			// Need to use "toMatch" instead of "toEqual" to keep IE happy
-			expect(luga.xml.nodeToString(xmlNode)).toMatch(xmlStr);
+			expect(luga.data.xml.nodeToString(xmlNode)).toMatch(xmlStr);
 		});
 
 	});

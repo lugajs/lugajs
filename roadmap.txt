@@ -1,5 +1,4 @@
-- Move luga.xml inside Luga Data
-- Document luga.xml?
+- Document luga.data.xml?
 
 ***
 
@@ -15,14 +14,13 @@ VERSION 2.0
 - Add DOM utilities to replace jQuery
   dom.ready()
   dom.nodeMatches(node, selector) IE11+
-  dom.empty()
-  https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript
+  dom.delegateEvent()
 
 - Do we need the API below?
   dom.addEvent()
   dom.removeEvent()
   dom.dispatchEvent()
-  dom.delegateEvent()
+
   dom.addClass()
   dom.removeClass()
   dom.hasClass()

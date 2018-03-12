@@ -166,10 +166,10 @@ describe("luga.data.XmlDataSet", function(){
 
 			describe("Then", function(){
 
-				it("Calls luga.xml.evaluateXPath() to extract the nodes from the XML", function(){
-					spyOn(luga.xml, "evaluateXPath").and.callThrough();
+				it("Calls luga.data.xml.evaluateXPath() to extract the nodes from the XML", function(){
+					spyOn(luga.data.xml, "evaluateXPath").and.callThrough();
 					noUrlDs.loadRecords(testRecordsDoc);
-					expect(luga.xml.evaluateXPath).toHaveBeenCalledWith(testRecordsDoc, "/");
+					expect(luga.data.xml.evaluateXPath).toHaveBeenCalledWith(testRecordsDoc, "/");
 				});
 
 			});
@@ -179,10 +179,10 @@ describe("luga.data.XmlDataSet", function(){
 				it("Calls .insert(), passing the relevant data", function(){
 					spyOn(noUrlDs, "insert");
 
-					var jazzPlayerNodes = luga.xml.evaluateXPath(testRecordsDoc, "//jazzPlayers/person");
+					var jazzPlayerNodes = luga.data.xml.evaluateXPath(testRecordsDoc, "//jazzPlayers/person");
 					var jazzPlayerRecords = [];
 					for(var i = 0; i < jazzPlayerNodes.length; i++){
-						jazzPlayerRecords.push(luga.xml.nodeToHash(jazzPlayerNodes[i]));
+						jazzPlayerRecords.push(luga.data.xml.nodeToHash(jazzPlayerNodes[i]));
 					}
 
 					noUrlDs.setPath("//jazzPlayers/person");
