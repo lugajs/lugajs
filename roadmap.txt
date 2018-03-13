@@ -34,6 +34,8 @@ VERSION 2.0
 
 - Event bus concept?
 
+- ES6 modules and Webpack?
+
 ***
 
 VERSION 3.0
