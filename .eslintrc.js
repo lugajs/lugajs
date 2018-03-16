@@ -54,7 +54,6 @@ module.exports = {
 		"no-return-assign": ["error", "always"],
 		"no-sequences": ["error"],
 		"no-shadow": ["warn"],
-		"no-ternary": ["warn"],
 		"no-undef": ["error"],
 		"no-underscore-dangle": ["error"],
 		"no-unused-vars": ["error", {"vars": "all", "args": "none", "ignoreRestSiblings": false}],
