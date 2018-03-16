@@ -55,7 +55,7 @@
 			// Attach click event
 			nodes.each(function(index, item){
 				var jItem = jQuery(item);
-				jItem.click(function(event){
+				jItem.on("click", function(event){
 					event.preventDefault();
 					nodes.removeClass(cssClass);
 					jItem.addClass(cssClass);
@@ -71,7 +71,7 @@
 	luga.data.region.traits.setRowId = function(options){
 		options.node.find(CONST.SELECTORS.SET_ROW_ID).each(function(index, item){
 			var jItem = jQuery(item);
-			jItem.click(function(event){
+			jItem.on("click", function(event){
 				event.preventDefault();
 				var rowId = jItem.attr(CONST.CUSTOM_ATTRIBUTES.SET_ROW_ID);
 				options.dataSource.setCurrentRowId(rowId);
@@ -86,7 +86,7 @@
 	luga.data.region.traits.setRowIndex = function(options){
 		options.node.find(CONST.SELECTORS.SET_ROW_INDEX).each(function(index, item){
 			var jItem = jQuery(item);
-			jItem.click(function(event){
+			jItem.on("click", function(event){
 				event.preventDefault();
 				var rowIndex = parseInt(jItem.attr(CONST.CUSTOM_ATTRIBUTES.SET_ROW_INDEX), 10);
 				options.dataSource.setCurrentRowIndex(rowIndex);
@@ -101,7 +101,7 @@
 	luga.data.region.traits.sort = function(options){
 		options.node.find(CONST.SELECTORS.SORT).each(function(index, item){
 			var jItem = jQuery(item);
-			jItem.click(function(event){
+			jItem.on("click", function(event){
 				event.preventDefault();
 				var sortCol = jItem.attr(CONST.CUSTOM_ATTRIBUTES.SORT);
 				options.dataSource.sort(sortCol);
