@@ -41,7 +41,7 @@
 
 		/**
 		 * Returns the XPath expression to be used to extract data out of the XML
-		 * @return {null|string}
+		 * @return {null|String}
 		 */
 		this.getPath = function(){
 			return this.path;

@@ -25,10 +25,10 @@
 		/** @type {null|string} */
 		this.rawXml = null;
 
-		/** @type {Array.<string>} */
+		/** @type {Array.<String>} */
 		this.channelElements = ["title", "link", "description", "language", "copyright", "managingEditor", "webMaster", "pubDate", "lastBuildDate", "category", "generator", "docs", "cloud", "ttl", "image", "textInput", "skipHours", "skipDays"];
 
-		/** @type {Array.<string>} */
+		/** @type {Array.<String>} */
 		this.itemElements = ["title", "link", "description", "author", "category", "comments", "enclosure", "guid", "pubDate", "source"];
 
 		// Store metadata extracted from <channel>
@@ -76,7 +76,7 @@
 
 		/**
 		 * Returns the raw XML document
-		 * @return {null|string}
+		 * @return {null|String}
 		 */
 		this.getRawXml = function(){
 			return this.rawXml;

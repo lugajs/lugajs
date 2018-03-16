@@ -42,7 +42,7 @@
 
 		/**
 		 * Returns the path to be used to extract data out of the JSON data structure
-		 * @return {null|string}
+		 * @return {null|String}
 		 */
 		this.getPath = function(){
 			return this.path;

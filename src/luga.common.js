@@ -282,8 +282,8 @@ if(typeof(luga) === "undefined"){
 		 * observer[methodName] = function(data){};
 		 *
 		 * @param  {Object} observer  Observer object
-		 * @param {string} [eventName]
-		 * @param {string} [methodName]
+		 * @param {String} [eventName]
+		 * @param {String} [methodName]
 		 * @throw {Exception}
 		 */
 		this.addObserver = function(observer, eventName, methodName){
@@ -375,8 +375,8 @@ if(typeof(luga) === "undefined"){
 		 *
 		 * @method
 		 * @param {Object} observer
-		 * @param {string} [eventName]
-		 * @param {string} [methodName]
+		 * @param {String} [eventName]
+		 * @param {String} [methodName]
 		 */
 		this.removeObserver = function(observer, eventName, methodName){
 			if(arguments.length === 1){
@@ -786,7 +786,7 @@ if(typeof(luga) === "undefined"){
 	 * => "My name is Ciccio Pasticcio"
 	 *
 	 * @param  {String}  str                   String containing placeholders
-	 * @param  {Object|Array.<string>} args    Either an array of strings or an objects containing name/value pairs in string format
+	 * @param  {Object|Array.<String>} args    Either an array of strings or an objects containing name/value pairs in string format
 	 * @return {String} The newly assembled string
 	 */
 	luga.string.format = function(str, args){
