@@ -45,7 +45,7 @@ describe("luga.data.DetailSet", function(){
 			});
 			it("Throws an exception if not specified", function(){
 				expect(function(){
-					new luga.data.DetailSet({dataSet: emptyDs});
+					new luga.data.DetailSet({parentDataSet: emptyDs});
 				}).toThrow();
 			});
 		});
