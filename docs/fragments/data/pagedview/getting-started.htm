@@ -1,0 +1,234 @@
+<script>
+	(function(){
+		"use strict";
+
+		var BASE_URL = "../test/fixtures/data";
+		var baseDsObj = new luga.data.JsonDataSet({
+			uuid: "baseDs",
+			url: BASE_URL + "/usa-states.json"
+		});
+		var pagedViewObj = new luga.data.PagedView({
+			uuid: "pagedView",
+			parentDataSet: baseDsObj
+		});
+
+		// Make this globally visible so that it can be used inside the template
+		window.statesGoToPage = function(number){
+			pagedViewObj.goToPage(number);
+			return false;
+		};
+
+		jQuery(document).ready(function(){
+			pagedViewObj.loadData();
+		});
+
+	}());
+</script>
+
+<script id="masterTemplate" type="text/x-handlebars-template">
+	{{#if isStateLoading}}
+	Loading data...
+	{{/if}}
+	<h5>Records</h5>
+	<ul class="luga-docs-list">
+		{{#each entities}}
+		<li>{{name}}</li>
+		{{/each}}
+	</ul>
+
+	<h5>PagedView specific context properties</h5>
+	<ul class="luga-docs-list">
+		<li>currentPageNumber: {{currentPageNumber}}</li>
+		<li>currentPageRecordCount: {{currentPageRecordCount}}</li>
+		<li>currentOffsetStart: {{currentOffsetStart}}</li>
+		<li>currentOffsetEnd: {{currentOffsetEnd}}</li>
+		<li>pageCount: {{pageCount}}</li>
+		<li>pageSize: {{pageSize}}</li>
+	</ul>
+
+	<h5>Navigation</h5>
+	<div>
+		<a href="javascript:;" onclick="statesGoToPage({{currentPageNumber}} -1)">Prev</a>
+		|
+		<a href="javascript:;" onclick="statesGoToPage({{currentPageNumber}} +1)">Next</a>
+	</div>
+</script>
+
+<div class="panel panel-default">
+	<div class="panel-heading">PagedView</div>
+	<div class="panel-body">
+
+		<p>
+			The PagedView class is a data abstraction that provides paging capabilities for a standard dataSet.
+			PagedView works by reading a dataSet and extracting information out of it in order to generate additional information that can be used for paging.
+		</p>
+		<p>
+			PagedView also offers extra <a href="#data/pagedview/api">api</a> to navigate across pages.
+		</p>
+
+	</div>
+
+</div>
+
+<div class="panel panel-default">
+	<div id="master" class="panel-heading">In action</div>
+	<div class="panel-body">
+
+		<div class="col-xs-6 col-sm-6" data-lugaregion="true"
+			 data-lugaregion-datasource-uuid="pagedView"
+			 data-lugaregion-template-id="masterTemplate"></div>
+
+	</div>
+
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">JavaScript</div>
+	<div class="panel-body">
+
+		<p>
+			Here you can see the relevant JavaScript code.
+			The pagedView works on top of a parentDataSet.
+		</p>
+
+<pre><code class="line-numbers language-javascript">(function(){
+	"use strict";
+	var BASE_URL = "../test/fixtures/data";
+	var baseDsObj = new luga.data.JsonDataSet({
+		uuid: "baseDs",
+		url: BASE_URL + "/usa-states.json"
+	});
+	var pagedViewObj = new luga.data.PagedView({
+		uuid: "pagedView",
+		parentDataSet: baseDsObj
+	});
+
+	// Make this globally visible so that it can be used inside the template
+	window.statesGoToPage = function(number){
+		pagedViewObj.goToPage(number);
+		return false;
+	};
+
+	jQuery(document).ready(function(){
+		pagedViewObj.loadData();
+	});
+
+}());
+</code></pre>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Handlebars template</div>
+	<div class="panel-body">
+
+		<p>
+			Here you can see the relevant HTML/Handlebars code.
+		</p>
+
+		<p>
+			For the sake of this example we made a very basic "next/prev" navigation.
+			For better results use the <a href="#data/pagedview/paginbar">pagingBar widget</a>.
+		</p>
+
+<pre><code class="line-numbers language-markup">&lt;script id="masterTemplate" type="text/x-handlebars-template"&gt;
+	{{#if isStateLoading}}
+	Loading data...
+	{{/if}}
+	&lt;h5&gt;Records&lt;/h5&gt;
+	&lt;ul class="luga-docs-list"&gt;
+		{{#each entities}}
+		&lt;li&gt;{{name}}&lt;/li&gt;
+		{{/each}}
+	&lt;/ul&gt;
+
+	&lt;h5&gt;PagedView specific context properties&lt;/h5&gt;
+	&lt;ul class="luga-docs-list"&gt;
+		&lt;li&gt;currentPageNumber: {{currentPageNumber}}&lt;/li&gt;
+		&lt;li&gt;currentPageRecordCount: {{currentPageRecordCount}}&lt;/li&gt;
+		&lt;li&gt;currentOffsetStart: {{currentOffsetStart}}&lt;/li&gt;
+		&lt;li&gt;currentOffsetEnd: {{currentOffsetEnd}}&lt;/li&gt;
+		&lt;li&gt;pageCount: {{pageCount}}&lt;/li&gt;
+		&lt;li&gt;pageSize: {{pageSize}}&lt;/li&gt;
+	&lt;/ul&gt;
+
+	&lt;h5&gt;Navigation&lt;/h5&gt;
+	&lt;div&gt;
+		&lt;a href="javascript:;" onclick="statesGoToPage({{currentPageNumber}} -1)"&gt;Prev&lt;/a&gt;
+		|
+		&lt;a href="javascript:;" onclick="statesGoToPage({{currentPageNumber}} +1)"&gt;Next&lt;/a&gt;
+	&lt;/div&gt;
+&lt;/script&gt;
+</code></pre>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">The context object</div>
+	<div class="panel-body">
+		<p>
+			Compared to a normal dataSet the <a href="#data/region/context">context properties</a> of a pagedView also contain additional properties.
+		</p>
+
+		<table class="table  luga-docs-api">
+			<th colspan="3">PagedView additional context properties</th>
+			<tr>
+				<td>currentPageNumber</td>
+				<td>
+					{Number}
+				</td>
+				<td>
+					The current page index. Starting at 1
+				</td>
+			</tr>
+			<tr>
+				<td>currentPageRecordCount</td>
+				<td>
+					{Number}
+				</td>
+				<td>
+					The total number of records in the current page
+				</td>
+			</tr>
+			<tr>
+				<td>pageCount</td>
+				<td>
+					{Number}
+				</td>
+				<td>
+					The total number of pages required to display all of the data
+				</td>
+			</tr>
+			<tr>
+				<td>pageSize</td>
+				<td>
+					{Number}
+				</td>
+				<td>
+					The maximum number of items that can be in a page
+				</td>
+			</tr>
+			<tr>
+				<td>currentOffsetStart</td>
+				<td>
+					{Number}
+				</td>
+				<td>
+					Zero-based offset of the first record inside the current page
+				</td>
+			</tr>
+			<tr>
+				<td>currentOffsetEnd</td>
+				<td>
+					{Number}
+				</td>
+				<td>
+					Zero-based offset of the last record inside the current page
+				</td>
+			</tr>
+		</table>
+
+	</div>
+</div>

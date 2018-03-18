@@ -2,6 +2,8 @@
 
 DOCS:
 
+- PagedView API
+
 - Add docs for Template literals as region rendering
   https://medium.com/your-majesty-co/frameworkless-javascript-template-literals-the-best-thing-since-sliced-bread-d97f000ce955
 
@@ -32,7 +34,7 @@ luga.data.DataSet:
 
 DATA WIDGETS:
 
-luga.data.widgets.PagingBar (needs PagedData)
+luga.data.widgets.PagingBar
 - Different GUI styles: Bootstrap, PageList, LinkList
 
 luga.data.widgets.Autosuggest
