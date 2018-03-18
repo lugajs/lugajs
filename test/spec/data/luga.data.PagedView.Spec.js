@@ -171,8 +171,12 @@ describe("luga.data.PagedView", function(){
 
 			// Matching all entities would be a bit overkilling
 			expect(context.entities.length).toEqual(10);
-			expect(context.entities[0]).toEqual({name: "Alabama", abbreviation: "AL",  lugaRowId: "lugaPk_0"});
-			expect(context.entities[9]).toEqual({name: "District Of Columbia", abbreviation: "DC",  lugaRowId: "lugaPk_9"});
+			expect(context.entities[0]).toEqual({name: "Alabama", abbreviation: "AL", lugaRowId: "lugaPk_0"});
+			expect(context.entities[9]).toEqual({
+				name: "District Of Columbia",
+				abbreviation: "DC",
+				lugaRowId: "lugaPk_9"
+			});
 
 			// Navigate to last page and check changed values
 			pagedView.goToPage(6);
@@ -300,6 +304,44 @@ describe("luga.data.PagedView", function(){
 				expect(pagedView.setCurrentRowIndex).not.toHaveBeenCalled();
 			});
 
+		});
+
+	});
+
+	describe(".goToNextPage()", function(){
+
+		it("Navigate to the next page", function(){
+			expect(pagedView.getPageNumber()).toEqual(1);
+			pagedView.goToNextPage();
+			expect(pagedView.getPageNumber()).toEqual(2);
+			pagedView.goToNextPage();
+			expect(pagedView.getPageNumber()).toEqual(3);
+		});
+
+		it("Fails silently if the current page is the last one", function(){
+			pagedView.goToPage(6);
+			expect(pagedView.getPageNumber()).toEqual(6);
+			pagedView.goToNextPage();
+			expect(pagedView.getPageNumber()).toEqual(6);
+		});
+
+	});
+
+	describe(".goToPrevPage()", function(){
+
+		it("Navigate to the next page", function(){
+			pagedView.goToPage(6);
+			expect(pagedView.getPageNumber()).toEqual(6);
+			pagedView.goToPrevPage();
+			expect(pagedView.getPageNumber()).toEqual(5);
+			pagedView.goToPrevPage();
+			expect(pagedView.getPageNumber()).toEqual(4);
+		});
+
+		it("Fails silently if the current page is the first one", function(){
+			expect(pagedView.getPageNumber()).toEqual(1);
+			pagedView.goToPrevPage();
+			expect(pagedView.getPageNumber()).toEqual(1);
 		});
 
 	});

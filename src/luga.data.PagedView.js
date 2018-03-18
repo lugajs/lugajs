@@ -69,7 +69,7 @@
 		 */
 		this.getContext = function(){
 			var context = self.parentDataSet.getContext();
-			context.entities = context.entities.slice(self.getCurrentOffsetStart(), self.getCurrentOffsetEnd() +1);
+			context.entities = context.entities.slice(self.getCurrentOffsetStart(), self.getCurrentOffsetEnd() + 1);
 			// Additional fields
 			context.currentPageNumber = self.getPageNumber();
 			context.currentPageRecordCount = context.entities.length;
@@ -85,7 +85,7 @@
 		 * @return {Number}
 		 */
 		this.getCurrentOffsetEnd = function(){
-			var offSet = self.getCurrentOffsetStart() + self.getPageSize() -1;
+			var offSet = self.getCurrentOffsetStart() + self.getPageSize() - 1;
 			if(offSet > self.getRecordsCount()){
 				offSet = self.getRecordsCount();
 			}
@@ -125,7 +125,8 @@
 		};
 
 		/**
-		 *
+		 * Navigate to the given page number
+		 * Fails silently if the given page number is out of range
 		 * It also change the index of the current row to match the first record in the page
 		 * @param {Number} pageNumber
 		 * @fire dataChanged
@@ -142,6 +143,22 @@
 
 			self.setCurrentRowIndex(self.getCurrentOffsetStart());
 			self.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
+		};
+
+		/**
+		 * Navigate to the next page
+		 * Fails silently if the current page is the last one
+		 */
+		this.goToNextPage = function(){
+			self.goToPage(self.getPageNumber() + 1);
+		};
+
+		/**
+		 * Navigate to the previous page
+		 * Fails silently if the current page is the first one
+		 */
+		this.goToPrevPage = function(){
+			self.goToPage(self.getPageNumber() - 1);
 		};
 
 		/**
