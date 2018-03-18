@@ -9,8 +9,8 @@
 	 * @property {Number} currentPageRecordCount   The total number of records in the current page
 	 * @property {Number} pageCount                The total number of pages required to display all of the data
 	 * @property {Number} pageSize                 The maximum number of items that can be in a page
-	 * @property {Number} startOffset              Zero-based offset of the first record inside the current page
-	 * @property {Number} endOffset                Zero-based offset of the last record inside the current page
+	 * @property {Number} currentOffsetStart       Zero-based offset of the first record inside the current page
+	 * @property {Number} currentOffsetEnd         Zero-based offset of the last record inside the current page
 	 */
 
 	/**
