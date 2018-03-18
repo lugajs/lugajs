@@ -1,1 +1,58 @@
-Pagingbar Placeholder
+<script>
+	(function(){
+		"use strict";
+
+		var BASE_URL = "../test/fixtures/data";
+		var baseDsObj = new luga.data.JsonDataSet({
+			uuid: "baseDs",
+			url: BASE_URL + "/usa-states.json"
+		});
+		var pagedViewObj = new luga.data.PagedView({
+			uuid: "pagedView",
+			parentDataSet: baseDsObj
+		});
+
+		jQuery(document).ready(function(){
+			var linksWidget = new luga.data.widgets.PagingBar({
+				pagedView: pagedViewObj,
+				node: document.getElementById("navBarLinks"),
+				style: "links"
+			});
+
+			var pagesWidget = new luga.data.widgets.PagingBar({
+				pagedView: pagedViewObj,
+				node: document.getElementById("navBarPages"),
+				style: "pages"
+			});
+
+			pagedViewObj.loadData();
+		});
+
+	}());
+</script>
+
+<script id="masterTemplate" type="text/x-handlebars-template">
+	{{#if isStateLoading}}
+	Loading data...
+	{{/if}}
+	<h5>Records</h5>
+	<ul class="luga-docs-list">
+		{{#each entities}}
+		<li>{{name}}</li>
+		{{/each}}
+	</ul>
+</script>
+
+<div class="panel panel-default">
+	<div id="master" class="panel-heading">In action</div>
+	<div class="panel-body">
+
+		<div class="col-xs-6 col-sm-6" data-lugaregion="true"
+			 data-lugaregion-datasource-uuid="pagedView"
+			 data-lugaregion-template-id="masterTemplate"></div>
+		<div id="navBarLinks"></div>
+		<div id="navBarPages"></div>
+
+	</div>
+
+</div>

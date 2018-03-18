@@ -71,12 +71,12 @@
 			var context = self.parentDataSet.getContext();
 			context.entities = context.entities.slice(self.getCurrentOffsetStart(), self.getCurrentOffsetEnd() + 1);
 			// Additional fields
-			context.currentPageNumber = self.getPageNumber();
+			context.currentPageNumber = self.getCurrentPageNumber();
 			context.currentPageRecordCount = context.entities.length;
 			context.currentOffsetEnd = self.getCurrentOffsetEnd();
 			context.currentOffsetStart = self.getCurrentOffsetStart();
 			context.pageSize = self.getPageSize();
-			context.pageCount = self.getPageCount();
+			context.pageCount = self.getPagesCount();
 			return context;
 		};
 
@@ -101,19 +101,19 @@
 		};
 
 		/**
-		 * Return the total number of pages required to display all of the data
-		 * @return {Number}
-		 */
-		this.getPageCount = function(){
-			return parseInt((self.parentDataSet.getRecordsCount() + self.getPageSize() - 1) / self.getPageSize());
-		};
-
-		/**
 		 * Return the current page index. Starting at 1
 		 * @return {Number}
 		 */
-		this.getPageNumber = function(){
+		this.getCurrentPageNumber = function(){
 			return currentPage;
+		};
+
+		/**
+		 * Return the total number of pages required to display all of the data
+		 * @return {Number}
+		 */
+		this.getPagesCount = function(){
+			return parseInt((self.parentDataSet.getRecordsCount() + self.getPageSize() - 1) / self.getPageSize());
 		};
 
 		/**
@@ -135,7 +135,7 @@
 			if(self.isPageInRange(pageNumber) === false){
 				return;
 			}
-			if(pageNumber === self.getPageNumber()){
+			if(pageNumber === self.getCurrentPageNumber()){
 				return;
 			}
 			currentPage = pageNumber;
@@ -150,7 +150,7 @@
 		 * Fails silently if the current page is the last one
 		 */
 		this.goToNextPage = function(){
-			self.goToPage(self.getPageNumber() + 1);
+			self.goToPage(self.getCurrentPageNumber() + 1);
 		};
 
 		/**
@@ -158,7 +158,7 @@
 		 * Fails silently if the current page is the first one
 		 */
 		this.goToPrevPage = function(){
-			self.goToPage(self.getPageNumber() - 1);
+			self.goToPage(self.getCurrentPageNumber() - 1);
 		};
 
 		/**
@@ -167,7 +167,7 @@
 		 * @return {Boolean}
 		 */
 		this.isPageInRange = function(pageNumber){
-			if(pageNumber < 1 || pageNumber > self.getPageCount()){
+			if(pageNumber < 1 || pageNumber > self.getPagesCount()){
 				return false;
 			}
 			return true;
