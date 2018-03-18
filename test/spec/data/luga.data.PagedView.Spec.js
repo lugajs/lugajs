@@ -2,14 +2,21 @@ describe("luga.data.PagedView", function(){
 
 	"use strict";
 
-	var emptyDs, loadedDs, testRecords, pagedView, testObserver;
+	var emptyDs, parentDs, testRecords, pagedView, testObserver;
 	beforeEach(function(){
 
-		testRecords = jasmineFixtures.read("data/ladies.json");
-		emptyDs = new luga.data.DataSet({uuid: "test"});
-		loadedDs = new luga.data.DataSet({uuid: "myDs", records: testRecords});
+		testRecords = jasmineFixtures.read("data/usa-states.json");
+		jasmine.Ajax.install();
+		jasmine.Ajax.stubRequest("data/usa-states.json").andReturn({
+			contentType: "application/json",
+			responseText: JSON.stringify(testRecords),
+			status: 200
+		});
 
-		pagedView = new luga.data.PagedView({uuid: "detailTest", parentDataSet: loadedDs});
+		emptyDs = new luga.data.DataSet({uuid: "test"});
+		parentDs = new luga.data.JsonDataSet({uuid: "myDs", url: "data/usa-states.json"});
+
+		pagedView = new luga.data.PagedView({uuid: "detailTest", parentDataSet: parentDs});
 
 		testObserver = {
 			onDataChangedHandler: function(){
@@ -22,6 +29,7 @@ describe("luga.data.PagedView", function(){
 
 	afterEach(function(){
 		luga.data.dataSourceRegistry = {};
+		jasmine.Ajax.uninstall();
 	});
 
 	it("Is the pagedView class", function(){
@@ -79,8 +87,48 @@ describe("luga.data.PagedView", function(){
 				expect(luga.data.setDataSource).toHaveBeenCalledWith("test", testPagedView);
 			});
 			it("Register itself as observer of options.dataSet", function(){
-				expect(loadedDs.observers[0]).toEqual(pagedView);
+				expect(parentDs.observers[0]).toEqual(pagedView);
 			});
+		});
+
+	});
+
+	describe("The following methods are just proxies to the parentDataset", function(){
+
+		it(".getRecordsCount()", function(){
+			spyOn(parentDs, "getRecordsCount");
+			pagedView.getRecordsCount();
+			expect(parentDs.getRecordsCount).toHaveBeenCalled();
+		});
+
+		it(".loadData()", function(){
+			spyOn(parentDs, "loadData");
+			pagedView.loadData();
+			expect(parentDs.loadData).toHaveBeenCalled();
+		});
+
+		it(".setCurrentRowId()", function(){
+			spyOn(parentDs, "setCurrentRowId");
+			pagedView.setCurrentRowId("testId");
+			expect(parentDs.setCurrentRowId).toHaveBeenCalledWith("testId");
+		});
+
+		it(".setCurrentRowIndex()", function(){
+			spyOn(parentDs, "setCurrentRowIndex");
+			pagedView.setCurrentRowIndex(3);
+			expect(parentDs.setCurrentRowIndex).toHaveBeenCalledWith(3);
+		});
+
+		it(".setState()", function(){
+			spyOn(parentDs, "setState");
+			pagedView.setState(luga.data.STATE.LOADING);
+			expect(parentDs.setState).toHaveBeenCalledWith(luga.data.STATE.LOADING);
+		});
+
+		it(".sort()", function(){
+			spyOn(parentDs, "sort");
+			pagedView.sort("name", luga.data.sort.ORDER.ASC);
+			expect(parentDs.sort).toHaveBeenCalledWith("name", luga.data.sort.ORDER.ASC);
 		});
 
 	});
