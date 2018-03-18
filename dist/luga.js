@@ -1,5 +1,5 @@
 /*! 
-Luga JS 0.9.7 2018-03-12T05:11:17.352Z
+Luga JS 0.9.7 2018-03-18T13:57:32.234Z
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -287,8 +287,8 @@ if(typeof(luga) === "undefined"){
 		 * observer[methodName] = function(data){};
 		 *
 		 * @param  {Object} observer  Observer object
-		 * @param {string} [eventName]
-		 * @param {string} [methodName]
+		 * @param {String} [eventName]
+		 * @param {String} [methodName]
 		 * @throw {Exception}
 		 */
 		this.addObserver = function(observer, eventName, methodName){
@@ -380,8 +380,8 @@ if(typeof(luga) === "undefined"){
 		 *
 		 * @method
 		 * @param {Object} observer
-		 * @param {string} [eventName]
-		 * @param {string} [methodName]
+		 * @param {String} [eventName]
+		 * @param {String} [methodName]
 		 */
 		this.removeObserver = function(observer, eventName, methodName){
 			if(arguments.length === 1){
@@ -791,7 +791,7 @@ if(typeof(luga) === "undefined"){
 	 * => "My name is Ciccio Pasticcio"
 	 *
 	 * @param  {String}  str                   String containing placeholders
-	 * @param  {Object|Array.<string>} args    Either an array of strings or an objects containing name/value pairs in string format
+	 * @param  {Object|Array.<String>} args    Either an array of strings or an objects containing name/value pairs in string format
 	 * @return {String} The newly assembled string
 	 */
 	luga.string.format = function(str, args){
@@ -2361,14 +2361,14 @@ if(typeof(luga) === "undefined"){
 	luga.validator.dateSpecs["YYYY-M-D"] = luga.validator.createDateSpecObj("^([0-9]{4})-([0-1]?[0-9])-([0-3]?[0-9])$", 0, 1, 2, "-");
 	luga.validator.dateSpecs["MM.DD.YYYY"] = luga.validator.createDateSpecObj("^([0-1][0-9]).([0-3][0-9]).([0-9]{4})$", 2, 0, 1, ".");
 	luga.validator.dateSpecs["M.D.YYYY"] = luga.validator.createDateSpecObj("^([0-1]?[0-9]).([0-3]?[0-9]).([0-9]{4})$", 2, 0, 1, ".");
-	luga.validator.dateSpecs["MM/DD/YYYY"] = luga.validator.createDateSpecObj("^([0-1][0-9])\/([0-3][0-9])\/([0-9]{4})$", 2, 0, 1, "/");
-	luga.validator.dateSpecs["M/D/YYYY"] = luga.validator.createDateSpecObj("^([0-1]?[0-9])\/([0-3]?[0-9])\/([0-9]{4})$", 2, 0, 1, "/");
+	luga.validator.dateSpecs["MM/DD/YYYY"] = luga.validator.createDateSpecObj("^([0-1][0-9])/([0-3][0-9])/([0-9]{4})$", 2, 0, 1, "/");
+	luga.validator.dateSpecs["M/D/YYYY"] = luga.validator.createDateSpecObj("^([0-1]?[0-9])/([0-3]?[0-9])/([0-9]{4})$", 2, 0, 1, "/");
 	luga.validator.dateSpecs["MM-DD-YYYY"] = luga.validator.createDateSpecObj("^([0-21][0-9])-([0-3][0-9])-([0-9]{4})$", 2, 0, 1, "-");
 	luga.validator.dateSpecs["M-D-YYYY"] = luga.validator.createDateSpecObj("^([0-1]?[0-9])-([0-3]?[0-9])-([0-9]{4})$", 2, 0, 1, "-");
 	luga.validator.dateSpecs["DD.MM.YYYY"] = luga.validator.createDateSpecObj("^([0-3][0-9]).([0-1][0-9]).([0-9]{4})$", 2, 1, 0, ".");
 	luga.validator.dateSpecs["D.M.YYYY"] = luga.validator.createDateSpecObj("^([0-3]?[0-9]).([0-1]?[0-9]).([0-9]{4})$", 2, 1, 0, ".");
-	luga.validator.dateSpecs["DD/MM/YYYY"] = luga.validator.createDateSpecObj("^([0-3][0-9])\/([0-1][0-9])\/([0-9]{4})$", 2, 1, 0, "/");
-	luga.validator.dateSpecs["D/M/YYYY"] = luga.validator.createDateSpecObj("^([0-3]?[0-9])\/([0-1]?[0-9])\/([0-9]{4})$", 2, 1, 0, "/");
+	luga.validator.dateSpecs["DD/MM/YYYY"] = luga.validator.createDateSpecObj("^([0-3][0-9])/([0-1][0-9])/([0-9]{4})$", 2, 1, 0, "/");
+	luga.validator.dateSpecs["D/M/YYYY"] = luga.validator.createDateSpecObj("^([0-3]?[0-9])/([0-1]?[0-9])/([0-9]{4})$", 2, 1, 0, "/");
 	luga.validator.dateSpecs["DD-MM-YYYY"] = luga.validator.createDateSpecObj("^([0-3][0-9])-([0-1][0-9])-([0-9]{4})$", 2, 1, 0, "-");
 	luga.validator.dateSpecs["D-M-YYYY"] = luga.validator.createDateSpecObj("^([0-3]?[0-9])-([0-1]?[0-9])-([0-9]{4})$", 2, 1, 0, "-");
 
@@ -2527,7 +2527,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga Data 0.9.7 2018-03-12T05:11:16.750Z
+Luga Data 0.9.7 2018-03-18T13:57:31.258Z
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -2900,9 +2900,9 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.data.DataSet.dataSorted
 	 *
 	 * @property {luga.data.DataSet}    dataSet
-	 * @property {Array<string>}        oldSortColumns
+	 * @property {Array<String>}        oldSortColumns
 	 * @property {luga.data.sort.ORDER} oldSortOrder
-	 * @property {Array<string>}        newSortColumns
+	 * @property {Array<String>}        newSortColumns
 	 * @property {luga.data.sort.ORDER} newSortOrder
 	 */
 
@@ -3338,7 +3338,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Set a column type for a column. Required for proper sorting of numeric or date data.
 		 * By default data is sorted alpha-numerically, if you want it sorted numerically or by date, set the proper columnType
-		 * @param {String|Array<string>} columnNames
+		 * @param {String|Array<String>} columnNames
 		 * @param {String}               columnType   Either "date", "number" or "string"
 		 */
 		this.setColumnType = function(columnNames, columnType){
@@ -3462,7 +3462,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Sorts the dataSet using the given column(s) and sort order
-		 * @param {String|Array<string>}  columnNames             Required, either a single column name or an array of names
+		 * @param {String|Array<String>}  columnNames             Required, either a single column name or an array of names
 		 * @param {luga.data.sort.ORDER} [sortOrder="toggle"]     Either "ascending", "descending" or "toggle". Optional, default to "toggle"
 		 * @fire preDataSorted
 		 * @fire dataSorted
@@ -3618,8 +3618,8 @@ if(typeof(luga) === "undefined"){
 
 		var CONST = {
 			ERROR_MESSAGES: {
-				INVALID_UUID_PARAMETER: "luga.DetailSet: id parameter is required",
-				INVALID_DS_PARAMETER: "luga.DetailSet: dataSet parameter is required"
+				INVALID_UUID_PARAMETER: "luga.data.DetailSet: id parameter is required",
+				INVALID_DS_PARAMETER: "luga.data.DetailSet: parentDataSet parameter is required"
 			}
 		};
 
@@ -3934,7 +3934,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Returns the path to be used to extract data out of the JSON data structure
-		 * @return {null|string}
+		 * @return {null|String}
 		 */
 		this.getPath = function(){
 			return this.path;
@@ -4023,7 +4023,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Returns the XPath expression to be used to extract data out of the XML
-		 * @return {null|string}
+		 * @return {null|String}
 		 */
 		this.getPath = function(){
 			return this.path;
@@ -4094,10 +4094,10 @@ if(typeof(luga) === "undefined"){
 		/** @type {null|string} */
 		this.rawXml = null;
 
-		/** @type {Array.<string>} */
+		/** @type {Array.<String>} */
 		this.channelElements = ["title", "link", "description", "language", "copyright", "managingEditor", "webMaster", "pubDate", "lastBuildDate", "category", "generator", "docs", "cloud", "ttl", "image", "textInput", "skipHours", "skipDays"];
 
-		/** @type {Array.<string>} */
+		/** @type {Array.<String>} */
 		this.itemElements = ["title", "link", "description", "author", "category", "comments", "enclosure", "guid", "pubDate", "source"];
 
 		// Store metadata extracted from <channel>
@@ -4145,7 +4145,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Returns the raw XML document
-		 * @return {null|string}
+		 * @return {null|String}
 		 */
 		this.getRawXml = function(){
 			return this.rawXml;
@@ -4344,6 +4344,272 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
+	/**
+	 * @typedef {Object} luga.data.PagedView.context
+	 *
+	 * @extend luga.data.DataSet.context
+	 * @property {Number} currentPageNumber        The current page index. Starting at 1
+	 * @property {Number} currentPageRecordCount   The total number of records in the current page
+	 * @property {Number} pageCount                The total number of pages required to display all of the data
+	 * @property {Number} pageSize                 The maximum number of items that can be in a page
+	 * @property {Number} currentOffsetStart       Zero-based offset of the first record inside the current page
+	 * @property {Number} currentOffsetEnd         Zero-based offset of the last record inside the current page
+	 */
+
+	/**
+	 * @typedef {Object} luga.data.PagedView.options
+	 *
+	 * @property {String}            uuid           Unique identifier. Required
+	 * @property {luga.data.DataSet} parentDataSet  Master dataSet. Required
+	 * @property {Number}            pageSize       The max number of rows in a given page. Default to 10
+	 */
+
+	/*
+	 *  PagedView class
+	 *  Register itself as observer of the passed dataSet and handle pagination on it
+	 *
+	 * @param {luga.data.PagedView.options} options
+	 * @constructor
+	 * @extend luga.Notifier
+	 */
+	luga.data.PagedView = function(options){
+
+		var CONST = {
+			ERROR_MESSAGES: {
+				INVALID_UUID_PARAMETER: "luga.data.PagedView: id parameter is required",
+				INVALID_DS_PARAMETER: "luga.data.PagedView: parentDataSet parameter is required"
+			}
+		};
+
+		if(options.uuid === undefined){
+			throw(CONST.ERROR_MESSAGES.INVALID_UUID_PARAMETER);
+		}
+		if(options.parentDataSet === undefined){
+			throw(CONST.ERROR_MESSAGES.INVALID_DS_PARAMETER);
+		}
+
+		luga.extend(luga.Notifier, this);
+
+		/** @type {luga.data.PagedView} */
+		var self = this;
+
+		this.uuid = options.uuid;
+		this.parentDataSet = options.parentDataSet;
+		this.parentDataSet.addObserver(this);
+
+		luga.data.setDataSource(this.uuid, this);
+
+		var pageSize = 10;
+		if(options.pageSize !== undefined){
+			pageSize = options.pageSize;
+		}
+
+		var currentPage = 1;
+		var currentOffsetStart = 0;
+
+		/**
+		 * @return {luga.data.PagedView.context}
+		 */
+		this.getContext = function(){
+			var context = self.parentDataSet.getContext();
+			context.entities = context.entities.slice(self.getCurrentOffsetStart(), self.getCurrentOffsetEnd() + 1);
+			// Additional fields
+			context.currentPageNumber = self.getPageNumber();
+			context.currentPageRecordCount = context.entities.length;
+			context.currentOffsetEnd = self.getCurrentOffsetEnd();
+			context.currentOffsetStart = self.getCurrentOffsetStart();
+			context.pageSize = self.getPageSize();
+			context.pageCount = self.getPageCount();
+			return context;
+		};
+
+		/**
+		 * Return the zero-based offset of the last record inside the current page
+		 * @return {Number}
+		 */
+		this.getCurrentOffsetEnd = function(){
+			var offSet = self.getCurrentOffsetStart() + self.getPageSize() - 1;
+			if(offSet > self.getRecordsCount()){
+				offSet = self.getRecordsCount();
+			}
+			return offSet;
+		};
+
+		/**
+		 * Return the zero-based offset of the first record inside the current page
+		 * @return {Number}
+		 */
+		this.getCurrentOffsetStart = function(){
+			return currentOffsetStart;
+		};
+
+		/**
+		 * Return the total number of pages required to display all of the data
+		 * @return {Number}
+		 */
+		this.getPageCount = function(){
+			return parseInt((self.parentDataSet.getRecordsCount() + self.getPageSize() - 1) / self.getPageSize());
+		};
+
+		/**
+		 * Return the current page index. Starting at 1
+		 * @return {Number}
+		 */
+		this.getPageNumber = function(){
+			return currentPage;
+		};
+
+		/**
+		 * Return the maximum number of items that can be in a page
+		 * @return {Number}
+		 */
+		this.getPageSize = function(){
+			return pageSize;
+		};
+
+		/**
+		 * Navigate to the given page number
+		 * Fails silently if the given page number is out of range
+		 * It also change the index of the current row to match the first record in the page
+		 * @param {Number} pageNumber
+		 * @fire dataChanged
+		 */
+		this.goToPage = function(pageNumber){
+			if(self.isPageInRange(pageNumber) === false){
+				return;
+			}
+			if(pageNumber === self.getPageNumber()){
+				return;
+			}
+			currentPage = pageNumber;
+			currentOffsetStart = ((pageNumber - 1) * self.getPageSize());
+
+			self.setCurrentRowIndex(self.getCurrentOffsetStart());
+			self.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
+		};
+
+		/**
+		 * Navigate to the next page
+		 * Fails silently if the current page is the last one
+		 */
+		this.goToNextPage = function(){
+			self.goToPage(self.getPageNumber() + 1);
+		};
+
+		/**
+		 * Navigate to the previous page
+		 * Fails silently if the current page is the first one
+		 */
+		this.goToPrevPage = function(){
+			self.goToPage(self.getPageNumber() - 1);
+		};
+
+		/**
+		 * Return true if the given page is within range. False otherwise
+		 * @param {Number} pageNumber
+		 * @return {Boolean}
+		 */
+		this.isPageInRange = function(pageNumber){
+			if(pageNumber < 1 || pageNumber > self.getPageCount()){
+				return false;
+			}
+			return true;
+		};
+
+		/* Proxy methods */
+
+		/**
+		 * Call the parent dataSet
+		 * @return {Number}
+		 */
+		this.getCurrentRowIndex = function(){
+			return self.parentDataSet.getCurrentRowIndex();
+		};
+
+		/**
+		 * Call the parent dataSet
+		 * @return {Number}
+		 */
+		this.getRecordsCount = function(){
+			return self.parentDataSet.getRecordsCount();
+		};
+
+		/**
+		 * Call the parent dataSet .loadData() method, if any
+		 * @fire dataLoading
+		 * @throw {Exception}
+		 */
+		this.loadData = function(){
+			if(self.parentDataSet.loadData !== undefined){
+				self.parentDataSet.loadData();
+			}
+		};
+
+		/**
+		 * Call the parent dataSet
+		 * @param {String|null} rowId  Required
+		 * @fire currentRowChanged
+		 * @throw {Exception}
+		 */
+		this.setCurrentRowId = function(rowId){
+			self.parentDataSet.setCurrentRowId(rowId);
+		};
+
+		/**
+		 * Call the parent dataSet
+		 * @param {Number} index  New index. Required
+		 * @fire currentRowChanged
+		 * @throw {Exception}
+		 */
+		this.setCurrentRowIndex = function(index){
+			self.parentDataSet.setCurrentRowIndex(index);
+		};
+
+		/**
+		 * Call the parent dataSet
+		 * @param {null|luga.data.STATE} newState
+		 * @fire stateChanged
+		 */
+		this.setState = function(newState){
+			self.parentDataSet.setState(newState);
+		};
+
+		/**
+		 * Call the parent dataSet
+		 * Be aware this only sort the data, it does not affects pagination
+		 * @param {String|Array<String>}  columnNames             Required, either a single column name or an array of names
+		 * @param {luga.data.sort.ORDER} [sortOrder="toggle"]     Either "ascending", "descending" or "toggle". Optional, default to "toggle"
+		 * @fire preDataSorted
+		 * @fire dataSorted
+		 * @fire dataChanged
+		 */
+		this.sort = function(columnNames, sortOrder){
+			self.parentDataSet.sort(columnNames, sortOrder);
+			self.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
+		};
+
+		/* Events Handlers */
+
+		/**
+		 * @param {luga.data.dataSourceChanged} data
+		 */
+		this.onDataChangedHandler = function(data){
+			self.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
+		};
+
+		/**
+		 * @param {luga.data.stateChanged} data
+		 */
+		this.onStateChangedHandler = function(data){
+			self.notifyObservers(luga.data.CONST.EVENTS.STATE_CHANGED, {dataSource: this});
+		};
+
+	};
+
+}());
+(function(){
+	"use strict";
+
 	luga.namespace("luga.data.region");
 
 	luga.data.region.CONST = {
@@ -4484,7 +4750,7 @@ if(typeof(luga) === "undefined"){
 	 * @property {jQuery} node                                Either a jQuery object wrapping the node or the naked DOM object that will contain the region. Required
 	 * @property {luga.data.DataSet|luga.data.DetailSet} ds   DataSource. Required if dsUuid is not specified
 	 * @property {String} dsUuid                              DataSource's uuid. Can be specified inside the data-lugaregion-datasource attribute too. Required if ds is not specified
-	 * @property {Array.<string>} [undefined]  traits         An array of function names that will be called every time the Region is rendered. Optional
+	 * @property {Array.<String>} [undefined]  traits         An array of function names that will be called every time the Region is rendered. Optional
 	 * @property {String} templateId                          Id of HTML element containing the template. Can be specified inside the data-lugaregion-template attribute too.
 	 *                                                        If not available it assumes the node contains the template
 	 */
@@ -4545,7 +4811,7 @@ if(typeof(luga) === "undefined"){
 		}
 		this.dataSource.addObserver(this);
 
-		/** @type {Array.<string>} */
+		/** @type {Array.<String>} */
 		this.traits = luga.data.region.CONST.DEFAULT_TRAITS;
 		// Extract traits from custom attribute, if any
 		var attrTraits = this.config.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TRAITS);
@@ -4756,7 +5022,7 @@ if(typeof(luga) === "undefined"){
 			// Attach click event
 			nodes.each(function(index, item){
 				var jItem = jQuery(item);
-				jItem.click(function(event){
+				jItem.on("click", function(event){
 					event.preventDefault();
 					nodes.removeClass(cssClass);
 					jItem.addClass(cssClass);
@@ -4772,7 +5038,7 @@ if(typeof(luga) === "undefined"){
 	luga.data.region.traits.setRowId = function(options){
 		options.node.find(CONST.SELECTORS.SET_ROW_ID).each(function(index, item){
 			var jItem = jQuery(item);
-			jItem.click(function(event){
+			jItem.on("click", function(event){
 				event.preventDefault();
 				var rowId = jItem.attr(CONST.CUSTOM_ATTRIBUTES.SET_ROW_ID);
 				options.dataSource.setCurrentRowId(rowId);
@@ -4787,7 +5053,7 @@ if(typeof(luga) === "undefined"){
 	luga.data.region.traits.setRowIndex = function(options){
 		options.node.find(CONST.SELECTORS.SET_ROW_INDEX).each(function(index, item){
 			var jItem = jQuery(item);
-			jItem.click(function(event){
+			jItem.on("click", function(event){
 				event.preventDefault();
 				var rowIndex = parseInt(jItem.attr(CONST.CUSTOM_ATTRIBUTES.SET_ROW_INDEX), 10);
 				options.dataSource.setCurrentRowIndex(rowIndex);
@@ -4802,7 +5068,7 @@ if(typeof(luga) === "undefined"){
 	luga.data.region.traits.sort = function(options){
 		options.node.find(CONST.SELECTORS.SORT).each(function(index, item){
 			var jItem = jQuery(item);
-			jItem.click(function(event){
+			jItem.on("click", function(event){
 				event.preventDefault();
 				var sortCol = jItem.attr(CONST.CUSTOM_ATTRIBUTES.SORT);
 				options.dataSource.sort(sortCol);
