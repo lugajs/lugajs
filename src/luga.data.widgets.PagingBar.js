@@ -151,6 +151,7 @@
 
 		var getEndIndex = function(currentPageIndex, maxLinks, pagesCount){
 			var startIndex = parseInt(currentPageIndex - parseInt(maxLinks / 2));
+			/* istanbul ignore else */
 			if(startIndex < 1){
 				startIndex = 1;
 			}
@@ -169,6 +170,7 @@
 				labelText = i;
 			}
 
+			/* istanbul ignore else */
 			if(style === luga.data.PAGING_STYLE.LINKS){
 				var startText = "";
 				var endText = "";

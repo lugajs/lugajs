@@ -41,7 +41,7 @@ describe("luga.data.PagedView", function(){
 		jasmine.Ajax.uninstall();
 	});
 
-	it("Is the pagedView class", function(){
+	it("Is the pagedView constructor", function(){
 		expect(jQuery.isFunction(luga.data.PagedView)).toEqual(true);
 	});
 
