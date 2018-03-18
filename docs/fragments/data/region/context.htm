@@ -30,10 +30,23 @@
 			For a detailSet instead, it contains an <strong>entity</strong> property that can be either an object of
 			name/value pairs or null.
 		</div>
+
 		<p>
 			The context object also contains some additional properties, metadata that reflect the dataSource current
 			state:
 		</p>
+
+		<p>
+			All these properties can be used inside a region's template.
+			Information about state can be especially useful for <a href="#data/region/state">displaying different content
+			depending on the datasource state</a>.
+		</p>
+
+		<p>
+			<a href="#data/extensibility/custom-dataset">Custom dataSets</a> may add their own metadata or return a
+			customized context.
+		</p>
+
 		<table class="table  luga-docs-api">
 			<th colspan="3">Context properties</th>
 			<tr>
@@ -82,17 +95,6 @@
 				</td>
 			</tr>
 		</table>
-
-		<p>
-			All these properties can be used inside a region's template.
-			Information about state can be especially useful for <a href="#data/region/state">displaying different content
-			depending on the datasource state</a>.
-		</p>
-
-		<p>
-			<a href="#data/extensibility/custom-dataset">Custom dataSets</a> may add their own metadata or return a
-			customized context
-		</p>
 
 	</div>
 </div>
