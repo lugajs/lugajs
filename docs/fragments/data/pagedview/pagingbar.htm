@@ -13,13 +13,12 @@
 		});
 
 		jQuery(document).ready(function(){
-			var linksWidget = new luga.data.widgets.PagingBar({
+			new luga.data.widgets.PagingBar({
 				pagedView: pagedViewObj,
-				node: document.getElementById("navBarLinks"),
-				style: luga.data.PAGING_STYLE.LINKS
+				node: document.getElementById("navBarLinks")
 			});
 
-			var pagesWidget = new luga.data.widgets.PagingBar({
+			new luga.data.widgets.PagingBar({
 				pagedView: pagedViewObj,
 				node: document.getElementById("navBarPages"),
 				style: luga.data.PAGING_STYLE.PAGES

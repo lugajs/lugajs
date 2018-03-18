@@ -27,7 +27,7 @@
 			pagedView: undefined,
 			/** @type {Element} */
 			node: undefined,
-			style: "links",
+			style: luga.data.PAGING_STYLE.LINKS,
 			nextText: ">",
 			prevText: "<",
 			separator: " | ",
