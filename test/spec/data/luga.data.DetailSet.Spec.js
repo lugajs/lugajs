@@ -25,7 +25,7 @@ describe("luga.data.DetailSet", function(){
 		luga.data.dataSourceRegistry = {};
 	});
 
-	it("Is the detailSet class", function(){
+	it("Is the detailSet constructor", function(){
 		expect(jQuery.isFunction(luga.data.DetailSet)).toEqual(true);
 	});
 

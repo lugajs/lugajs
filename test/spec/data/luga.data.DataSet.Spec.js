@@ -60,7 +60,7 @@ describe("luga.data.Dataset", function(){
 		luga.data.dataSourceRegistry = {};
 	});
 
-	it("Is the base dataSet class", function(){
+	it("Is the base dataSet constructor", function(){
 		expect(jQuery.isFunction(luga.data.DataSet)).toEqual(true);
 	});
 

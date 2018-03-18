@@ -2,10 +2,10 @@ describe("luga.data.PagedView", function(){
 
 	"use strict";
 
-	var emptyDs, jsonDs, testRecords, pagedView, plainPagedView, testObserver;
+	var emptyDs, jsonDs, pagedView, plainPagedView, testObserver;
 	beforeEach(function(){
 
-		testRecords = jasmineFixtures.read("data/usa-states.json");
+		var testRecords = jasmineFixtures.read("data/usa-states.json");
 		jasmine.Ajax.install();
 		jasmine.Ajax.stubRequest("data/usa-states.json").andReturn({
 			contentType: "application/json",

@@ -13,7 +13,7 @@ describe("luga.data.JsonDataset", function(){
 		luga.data.dataSourceRegistry = {};
 	});
 
-	it("Is the JSON dataset class", function(){
+	it("Is the JSON dataSet constructor", function(){
 		expect(jQuery.isFunction(luga.data.JsonDataSet)).toEqual(true);
 	});
 
