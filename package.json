@@ -40,6 +40,7 @@
 		"region.Handlebars",
 		"region.traits",
 		"sort",
+		"widgets.PagingBar",
 		"widgets.ShowMore"
 	],
 	"dataLibDisplayName": "Luga Data",
