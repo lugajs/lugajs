@@ -17,13 +17,10 @@ AJAXFORM:
 -------------
 COMMON:
 -------------
-VALIDATOR:
--------------
 
 DATA:
 
-luga.data.PagedData:
-- Mixed client/server (options.threshold)
+luga.data.ServerPagedView:
 - Use string templating to customize url/endpoint
 - Request: offsetStart, offsetEnd
 - Response: recordCount, pageSize, currentPage
@@ -43,4 +40,6 @@ luga.data.widgets.Autosuggest
 
 luga.data.widgets.Tags
 
+-------------
+VALIDATOR:
 -------------

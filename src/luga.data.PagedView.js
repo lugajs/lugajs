@@ -2,6 +2,18 @@
 	"use strict";
 
 	/**
+	 * @typedef {Object} luga.data.PagedView.context
+	 *
+	 * @extend luga.data.DataSet.context
+	 * @property {Number} currentPageNumber        The current page index. Starting at 1
+	 * @property {Number} currentPageRecordCount   The total number of records in the current page
+	 * @property {Number} pageCount                The total number of pages required to display all of the data
+	 * @property {Number} pageSize                 The maximum number of items that can be in a page
+	 * @property {Number} startOffset              Zero-based offset of the first record inside the current page
+	 * @property {Number} endOffset                Zero-based offset of the last record inside the current page
+	 */
+
+	/**
 	 * @typedef {Object} luga.data.PagedView.options
 	 *
 	 * @property {String}            uuid           Unique identifier. Required
@@ -44,24 +56,114 @@
 
 		luga.data.setDataSource(this.uuid, this);
 
-		this.pageSize = 10;
+		var pageSize = 10;
 		if(options.pageSize !== undefined){
-			this.pageSize = options.pageSize;
+			pageSize = options.pageSize;
 		}
 
-		var pageOffset = 0;
-		var adjustmentValue = 1;
+		var currentPage = 1;
+		var currentOffsetStart = 0;
 
 		/**
-		 * @return {luga.data.DataSet.context}
+		 * @return {luga.data.PagedView.context}
 		 */
 		this.getContext = function(){
 			var context = self.parentDataSet.getContext();
-			context.entities = context.entities.slice(0, 10);
-
-			console.debug(context)
-
+			context.entities = context.entities.slice(self.getCurrentOffsetStart(), self.getCurrentOffsetEnd() +1);
+			// Additional fields
+			context.currentPageNumber = self.getPageNumber();
+			context.currentPageRecordCount = context.entities.length;
+			context.currentOffsetEnd = self.getCurrentOffsetEnd();
+			context.currentOffsetStart = self.getCurrentOffsetStart();
+			context.pageSize = self.getPageSize();
+			context.pageCount = self.getPageCount();
 			return context;
+		};
+
+		/**
+		 * Return the zero-based offset of the last record inside the current page
+		 * @return {Number}
+		 */
+		this.getCurrentOffsetEnd = function(){
+			var offSet = self.getCurrentOffsetStart() + self.getPageSize() -1;
+			if(offSet > self.getRecordsCount()){
+				offSet = self.getRecordsCount();
+			}
+			return offSet;
+		};
+
+		/**
+		 * Return the zero-based offset of the first record inside the current page
+		 * @return {Number}
+		 */
+		this.getCurrentOffsetStart = function(){
+			return currentOffsetStart;
+		};
+
+		/**
+		 * Return the total number of pages required to display all of the data
+		 * @return {Number}
+		 */
+		this.getPageCount = function(){
+			return parseInt((self.parentDataSet.getRecordsCount() + self.getPageSize() - 1) / self.getPageSize());
+		};
+
+		/**
+		 * Return the current page index. Starting at 1
+		 * @return {Number}
+		 */
+		this.getPageNumber = function(){
+			return currentPage;
+		};
+
+		/**
+		 * Return the maximum number of items that can be in a page
+		 * @return {Number}
+		 */
+		this.getPageSize = function(){
+			return pageSize;
+		};
+
+		/**
+		 *
+		 * It also change the index of the current row to match the first record in the page
+		 * @param {Number} pageNumber
+		 * @fire dataChanged
+		 */
+		this.goToPage = function(pageNumber){
+			if(self.isPageInRange(pageNumber) === false){
+				return;
+			}
+			if(pageNumber === self.getPageNumber()){
+				return;
+			}
+			currentPage = pageNumber;
+			currentOffsetStart = ((pageNumber - 1) * self.getPageSize());
+
+			self.setCurrentRowIndex(self.getCurrentOffsetStart());
+			self.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
+		};
+
+		/**
+		 * Return true if the given page is within range. False otherwise
+		 * @param {Number} pageNumber
+		 * @return {Boolean}
+		 */
+		this.isPageInRange = function(pageNumber){
+			if(pageNumber < 1 || pageNumber > self.getPageCount()){
+				return false;
+			}
+			return true;
+		};
+
+		/* Proxy methods */
+
+		/**
+		 * Call the parent dataSet
+		 * @return {Number}
+		 */
+		this.getCurrentRowIndex = function(){
+			return self.parentDataSet.getCurrentRowIndex();
 		};
 
 		/**
@@ -73,12 +175,14 @@
 		};
 
 		/**
-		 * Call the parent dataSet
+		 * Call the parent dataSet .loadData() method, if any
 		 * @fire dataLoading
 		 * @throw {Exception}
 		 */
 		this.loadData = function(){
-			self.parentDataSet.loadData();
+			if(self.parentDataSet.loadData !== undefined){
+				self.parentDataSet.loadData();
+			}
 		};
 
 		/**
@@ -112,6 +216,7 @@
 
 		/**
 		 * Call the parent dataSet
+		 * Be aware this only sort the data, it does not affects pagination
 		 * @param {String|Array<String>}  columnNames             Required, either a single column name or an array of names
 		 * @param {luga.data.sort.ORDER} [sortOrder="toggle"]     Either "ascending", "descending" or "toggle". Optional, default to "toggle"
 		 * @fire preDataSorted
@@ -120,29 +225,23 @@
 		 */
 		this.sort = function(columnNames, sortOrder){
 			self.parentDataSet.sort(columnNames, sortOrder);
+			self.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
 		/* Events Handlers */
 
 		/**
-		 * @param {luga.data.DataSet.currentRowChanged} data
-		 */
-		this.onCurrentRowChangedHandler = function(data){
-			self.notifyObservers(luga.data.CONST.EVENTS.CURRENT_ROW_CHANGED, data);
-		};
-
-		/**
 		 * @param {luga.data.dataSourceChanged} data
 		 */
 		this.onDataChangedHandler = function(data){
-			self.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, data);
+			self.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
 		};
 
 		/**
 		 * @param {luga.data.stateChanged} data
 		 */
 		this.onStateChangedHandler = function(data){
-			self.notifyObservers(luga.data.CONST.EVENTS.STATE_CHANGED, data);
+			self.notifyObservers(luga.data.CONST.EVENTS.STATE_CHANGED, {dataSource: this});
 		};
 
 	};
