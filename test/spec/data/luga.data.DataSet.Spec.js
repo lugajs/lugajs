@@ -271,7 +271,7 @@ describe("luga.data.Dataset", function(){
 
 	});
 
-	describe(".getContext()", function(){
+	describe(".getContext() (of type luga.data.DataSet.context)", function(){
 
 		it("Returns the dataSet's context", function(){
 			var context = loadedDs.getContext();
