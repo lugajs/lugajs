@@ -221,16 +221,16 @@ describe("luga.data.PagedView", function(){
 
 	});
 
-	describe(".getCurrentPageNumber()", function(){
+	describe(".getCurrentPageIndex()", function(){
 
 		it("Return 1 if the parentDataSet is empty", function(){
-			expect(plainPagedView.getCurrentPageNumber()).toEqual(1);
+			expect(plainPagedView.getCurrentPageIndex()).toEqual(1);
 		});
 
 		it("Return the current page index. Starting at 1", function(){
-			expect(pagedView.getCurrentPageNumber()).toEqual(1);
+			expect(pagedView.getCurrentPageIndex()).toEqual(1);
 			pagedView.goToPage(3);
-			expect(pagedView.getCurrentPageNumber()).toEqual(3);
+			expect(pagedView.getCurrentPageIndex()).toEqual(3);
 		});
 
 	});
@@ -267,9 +267,9 @@ describe("luga.data.PagedView", function(){
 		describe("Perform multiple actions:", function(){
 
 			it("Set the current page number", function(){
-				expect(pagedView.getCurrentPageNumber()).toEqual(1);
+				expect(pagedView.getCurrentPageIndex()).toEqual(1);
 				pagedView.goToPage(2);
-				expect(pagedView.getCurrentPageNumber()).toEqual(2);
+				expect(pagedView.getCurrentPageIndex()).toEqual(2);
 			});
 
 			it("Set the current offsetStart", function(){
@@ -289,13 +289,13 @@ describe("luga.data.PagedView", function(){
 		describe("Fails silently if the  given page number is:", function(){
 
 			it("Out of range", function(){
-				expect(plainPagedView.getCurrentPageNumber()).toEqual(1);
+				expect(plainPagedView.getCurrentPageIndex()).toEqual(1);
 				plainPagedView.goToPage(-1);
-				expect(plainPagedView.getCurrentPageNumber()).toEqual(1);
+				expect(plainPagedView.getCurrentPageIndex()).toEqual(1);
 				plainPagedView.goToPage(0);
-				expect(plainPagedView.getCurrentPageNumber()).toEqual(1);
+				expect(plainPagedView.getCurrentPageIndex()).toEqual(1);
 				plainPagedView.goToPage(7);
-				expect(plainPagedView.getCurrentPageNumber()).toEqual(1);
+				expect(plainPagedView.getCurrentPageIndex()).toEqual(1);
 			});
 
 			it("Equal to the current page number", function(){
@@ -311,18 +311,18 @@ describe("luga.data.PagedView", function(){
 	describe(".goToNextPage()", function(){
 
 		it("Navigate to the next page", function(){
-			expect(pagedView.getCurrentPageNumber()).toEqual(1);
+			expect(pagedView.getCurrentPageIndex()).toEqual(1);
 			pagedView.goToNextPage();
-			expect(pagedView.getCurrentPageNumber()).toEqual(2);
+			expect(pagedView.getCurrentPageIndex()).toEqual(2);
 			pagedView.goToNextPage();
-			expect(pagedView.getCurrentPageNumber()).toEqual(3);
+			expect(pagedView.getCurrentPageIndex()).toEqual(3);
 		});
 
 		it("Fails silently if the current page is the last one", function(){
 			pagedView.goToPage(6);
-			expect(pagedView.getCurrentPageNumber()).toEqual(6);
+			expect(pagedView.getCurrentPageIndex()).toEqual(6);
 			pagedView.goToNextPage();
-			expect(pagedView.getCurrentPageNumber()).toEqual(6);
+			expect(pagedView.getCurrentPageIndex()).toEqual(6);
 		});
 
 	});
@@ -331,17 +331,17 @@ describe("luga.data.PagedView", function(){
 
 		it("Navigate to the next page", function(){
 			pagedView.goToPage(6);
-			expect(pagedView.getCurrentPageNumber()).toEqual(6);
+			expect(pagedView.getCurrentPageIndex()).toEqual(6);
 			pagedView.goToPrevPage();
-			expect(pagedView.getCurrentPageNumber()).toEqual(5);
+			expect(pagedView.getCurrentPageIndex()).toEqual(5);
 			pagedView.goToPrevPage();
-			expect(pagedView.getCurrentPageNumber()).toEqual(4);
+			expect(pagedView.getCurrentPageIndex()).toEqual(4);
 		});
 
 		it("Fails silently if the current page is the first one", function(){
-			expect(pagedView.getCurrentPageNumber()).toEqual(1);
+			expect(pagedView.getCurrentPageIndex()).toEqual(1);
 			pagedView.goToPrevPage();
-			expect(pagedView.getCurrentPageNumber()).toEqual(1);
+			expect(pagedView.getCurrentPageIndex()).toEqual(1);
 		});
 
 	});

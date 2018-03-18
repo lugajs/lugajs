@@ -16,13 +16,13 @@
 			var linksWidget = new luga.data.widgets.PagingBar({
 				pagedView: pagedViewObj,
 				node: document.getElementById("navBarLinks"),
-				style: "links"
+				style: luga.data.PAGING_STYLE.LINKS
 			});
 
 			var pagesWidget = new luga.data.widgets.PagingBar({
 				pagedView: pagedViewObj,
 				node: document.getElementById("navBarPages"),
-				style: "pages"
+				style: luga.data.PAGING_STYLE.PAGES
 			});
 
 			pagedViewObj.loadData();
@@ -50,8 +50,8 @@
 		<div class="col-xs-6 col-sm-6" data-lugaregion="true"
 			 data-lugaregion-datasource-uuid="pagedView"
 			 data-lugaregion-template-id="masterTemplate"></div>
-		<div id="navBarLinks"></div>
-		<div id="navBarPages"></div>
+		<nav id="navBarLinks"></nav>
+		<nav id="navBarPages"></nav>
 
 	</div>
 

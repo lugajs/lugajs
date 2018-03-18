@@ -3,14 +3,24 @@
 
 	luga.namespace("luga.data.widgets");
 
+	/**
+	 * @typedef {String} luga.data.PAGING_STYLE
+	 * @enum {String}
+	 */
+	luga.data.PAGING_STYLE = {
+		LINKS: "luga-pagingBarLinks",
+		PAGES: "luga-pagingBarPages"
+	};
+
 	luga.data.widgets.PagingBar = function(options){
 
 		var CONST = {
-			SAFE_HREF: "javascript:;"
+			CSS_BASE_CLASS: "luga-pagingBar",
+			SAFE_HREF: "javascript:;",
+			LINKS_SEPARATOR: " - "
 		};
 
 		// TODO: validate options
-		// TODO: enum for style
 
 		this.config = {
 			/** @type {luga.data.PagedView} */
@@ -29,24 +39,25 @@
 		 * @type {luga.data.widgets.PagingBar}
 		 */
 		var self = this;
-
 		// Alias/shortcuts
 		var pagedView = self.config.pagedView;
 		var node = self.config.node;
 
 		pagedView.addObserver(this);
 
-		this.render = function(){
+		// Add CSS
+		node.classList.add(CONST.CSS_BASE_CLASS);
+		node.classList.add(self.config.style);
+
+		var render = function(){
 			// Reset UI
 			node.innerHTML = "";
+			var currentPageIndex = pagedView.getCurrentPageIndex();
 
-			var pages = pagedView.getPagesCount();
-			var pageIndex = pagedView.getCurrentPageNumber();
-
-			if(pages > 1){
-				renderPrevLink(self.config.prevText, pageIndex);
-				renderMainLinks(self.config.maxLinks, self.config.style, self.config.separator);
-				renderNextLink(self.config.nextText, pageIndex);
+			if(pagedView.getPagesCount() > 1){
+				renderPrevLink(self.config.prevText, currentPageIndex);
+				renderMainLinks(self.config.maxLinks, self.config.style);
+				renderNextLink(self.config.nextText, currentPageIndex);
 			}
 		};
 
@@ -55,9 +66,8 @@
 			var textNode = document.createTextNode(text);
 			var linkNode = document.createElement("a");
 			linkNode.setAttribute("href", CONST.SAFE_HREF);
-			addGoToPageEvent(linkNode, pageIndex - 1);
-
 			linkNode.appendChild(textNode);
+			addGoToPageEvent(linkNode, pageIndex - 1);
 
 			if(pageIndex !== 1){
 				node.appendChild(linkNode);
@@ -74,9 +84,8 @@
 			var textNode = document.createTextNode(text);
 			var linkNode = document.createElement("a");
 			linkNode.setAttribute("href", CONST.SAFE_HREF);
-			addGoToPageEvent(linkNode, pageIndex + 1);
-
 			linkNode.appendChild(textNode);
+			addGoToPageEvent(linkNode, pageIndex + 1);
 
 			if(pageIndex !== pagedView.getPagesCount()){
 				node.appendChild(linkNode);
@@ -86,41 +95,51 @@
 			}
 		};
 
-		var renderMainLinks = function(maxLinks, style, separator){
-			// TODO: Review local vars
+		var renderMainLinks = function(maxLinks, style){
 			var pageSize = pagedView.getPageSize();
 			var recordsCount = pagedView.getRecordsCount();
 			var pagesCount = pagedView.getPagesCount();
-			var currentPageIndex = pagedView.getCurrentPageNumber();
-
-			var range = getIndexRange(currentPageIndex, maxLinks, pagesCount);
+			var currentPageIndex = pagedView.getCurrentPageIndex();
+			var endIndex = getEndIndex(currentPageIndex, maxLinks, pagesCount);
 
 			// Page numbers are between 1 and n. So the loop start from 1
-			for(var i = range.startIndex; i < (range.endIndex + 1); i++){
+			for(var i = 1; i < (endIndex + 1); i++){
 
-				var linkText = getLinkText(i, style, pageSize, pagesCount, recordsCount);
-				var textNode = document.createTextNode(linkText);
-
+				var labelText = getLabelText(i, style, pageSize, pagesCount, recordsCount);
 				if(i !== currentPageIndex){
-					var linkNode = document.createElement("a");
-					linkNode.appendChild(textNode);
-					linkNode.setAttribute("href", CONST.SAFE_HREF);
-					addGoToPageEvent(linkNode, i);
-					node.appendChild(linkNode);
+					renderCurrentLink(i, labelText);
 				}
-				// No link on current page
 				else{
-					var strongNode = document.createElement("strong");
-					strongNode.appendChild(textNode);
-					node.appendChild(strongNode);
+					// No link on current page
+					renderCurrentText(labelText);
 				}
-				// Add the separator until last page
-				if(i < (range.endIndex)){
-					var separatorNode = document.createTextNode(separator);
-					node.appendChild(separatorNode);
+				// No separator on last entry
+				if(i < endIndex){
+					renderSeparator();
 				}
 			}
 
+		};
+
+		var renderCurrentLink = function(i, linkText){
+			var textNode = document.createTextNode(linkText);
+			var linkNode = document.createElement("a");
+			linkNode.appendChild(textNode);
+			linkNode.setAttribute("href", CONST.SAFE_HREF);
+			addGoToPageEvent(linkNode, i);
+			node.appendChild(linkNode);
+		};
+
+		var renderCurrentText = function(labelText){
+			var textNode = document.createTextNode(labelText);
+			var strongNode = document.createElement("strong");
+			strongNode.appendChild(textNode);
+			node.appendChild(strongNode);
+		};
+
+		var renderSeparator = function(){
+			var separatorNode = document.createTextNode(self.config.separator);
+			node.appendChild(separatorNode);
 		};
 
 		var addGoToPageEvent = function(linkNode, pageNumber){
@@ -130,7 +149,7 @@
 			});
 		};
 
-		var getIndexRange = function(currentPageIndex, maxLinks, pagesCount){
+		var getEndIndex = function(currentPageIndex, maxLinks, pagesCount){
 			var startIndex = parseInt(currentPageIndex - parseInt(maxLinks / 2));
 			if(startIndex < 1){
 				startIndex = 1;
@@ -140,49 +159,37 @@
 			if(tempPos < pagesCount){
 				endIndex = tempPos;
 			}
-			if(endIndex === pagesCount){
-				startIndex = pagesCount - maxLinks;
-			}
-			if(startIndex < 1){
-				startIndex = 1;
-			}
-
-			return {
-				startIndex: startIndex,
-				endIndex: endIndex
-			};
+			return endIndex;
 		};
 
-		var getLinkText = function(i, style, pageSize, pagesCount, recordsCount){
+		var getLabelText = function(i, style, pageSize, pagesCount, recordsCount){
+			var labelText = "";
 
-			var linkText = i;
-
-			// It's a pagebar
-			if(style === "pages"){
-				//linkText = i;
+			if(style === luga.data.PAGING_STYLE.PAGES){
+				labelText = i;
 			}
-			// It's a linkbar
-			else{
-				var start = "";
-				var end = "";
+
+			if(style === luga.data.PAGING_STYLE.LINKS){
+				var startText = "";
+				var endText = "";
 				if(i !== 1){
-					start = (pageSize * (i - 1)) + 1;
+					startText = (pageSize * (i - 1)) + 1;
 				}
 				else{
 					// First link
-					start = 1;
+					startText = 1;
 				}
-				if(i < (pagesCount)){
-					end = start + pageSize - 1;
+				if(i < pagesCount){
+					endText = startText + pageSize - 1;
 				}
 				else{
 					// Last link
-					end = recordsCount;
+					endText = recordsCount;
 				}
-				linkText = start + " - " + end;
+				labelText = startText + CONST.LINKS_SEPARATOR + endText;
 			}
 
-			return linkText;
+			return labelText;
 		};
 
 		/* Events Handlers */
@@ -191,9 +198,8 @@
 		 * @param {luga.data.dataSourceChanged} data
 		 */
 		this.onDataChangedHandler = function(data){
-			self.render();
+			render();
 		};
-
 
 	};
 

@@ -71,7 +71,7 @@
 			var context = self.parentDataSet.getContext();
 			context.entities = context.entities.slice(self.getCurrentOffsetStart(), self.getCurrentOffsetEnd() + 1);
 			// Additional fields
-			context.currentPageNumber = self.getCurrentPageNumber();
+			context.currentPageNumber = self.getCurrentPageIndex();
 			context.currentPageRecordCount = context.entities.length;
 			context.currentOffsetEnd = self.getCurrentOffsetEnd();
 			context.currentOffsetStart = self.getCurrentOffsetStart();
@@ -104,7 +104,7 @@
 		 * Return the current page index. Starting at 1
 		 * @return {Number}
 		 */
-		this.getCurrentPageNumber = function(){
+		this.getCurrentPageIndex = function(){
 			return currentPage;
 		};
 
@@ -135,7 +135,7 @@
 			if(self.isPageInRange(pageNumber) === false){
 				return;
 			}
-			if(pageNumber === self.getCurrentPageNumber()){
+			if(pageNumber === self.getCurrentPageIndex()){
 				return;
 			}
 			currentPage = pageNumber;
@@ -150,7 +150,7 @@
 		 * Fails silently if the current page is the last one
 		 */
 		this.goToNextPage = function(){
-			self.goToPage(self.getCurrentPageNumber() + 1);
+			self.goToPage(self.getCurrentPageIndex() + 1);
 		};
 
 		/**
@@ -158,7 +158,7 @@
 		 * Fails silently if the current page is the first one
 		 */
 		this.goToPrevPage = function(){
-			self.goToPage(self.getCurrentPageNumber() - 1);
+			self.goToPage(self.getCurrentPageIndex() - 1);
 		};
 
 		/**
