@@ -113,6 +113,4 @@
 
 	};
 
-	luga.data.Rss2Dataset.version = "0.6.0";
-
 }());

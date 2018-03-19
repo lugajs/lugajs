@@ -42,13 +42,6 @@ describe("luga.data.Rss2Dataset", function(){
 		expect(testDs.getContext()).toEqual(testDs.getContext());
 	});
 
-	describe(".version", function(){
-		it("Reports the current version number", function(){
-			expect(luga.data.Rss2Dataset.version).toBeDefined();
-		});
-	});
-
-
 	describe(".getContext()", function(){
 
 		it("Returns the RSS's context, containing .items and one property for each tag allowed inside <channel>", function(){
