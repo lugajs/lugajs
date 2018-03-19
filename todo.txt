@@ -15,7 +15,11 @@ AJAXFORM:
 - Standardize JSON schema for error messages
 
 -------------
+
 COMMON:
+
+- Remove: luga.isArray(), luga.isFunction() and luga.form.toHash()
+
 -------------
 VALIDATOR:
 -------------
