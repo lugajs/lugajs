@@ -1,5 +1,7 @@
 - Document luga.data.xml?
 
+- Use promises for jQuery.ajax()
+
 ***
 
 VERSION 2.0
@@ -15,17 +17,6 @@ VERSION 2.0
   dom.ready()
   dom.nodeMatches(node, selector) IE11+
   dom.delegateEvent()
-
-- Do we need the API below?
-  dom.addEvent()
-  dom.removeEvent()
-  dom.dispatchEvent()
-
-  dom.addClass()
-  dom.removeClass()
-  dom.hasClass()
-  dom.toggleClass()
-
 
 - Spin off AjaxForm and Validator into dedicated Luga Form project
 
@@ -45,4 +36,4 @@ VERSION 3.0
 - Use import/export
 - Use fetch() for Ajax
 
-- Make Common and Data isomorphic
+- Make Common and Data isomorphic?
