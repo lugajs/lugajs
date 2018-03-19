@@ -4,7 +4,7 @@
 	/**
 	 * @typedef {Object} luga.data.widgets.PagingBar.options
 	 *
-	 * @property {luga.data.PagedView}     pagedView  Instance of a pagedView.. Required
+	 * @property {luga.data.PagedView}     pagedView  Instance of a pagedView that will be controlled by the widget. Required
 	 * @property {Element}                 node       DOM element that will contain the widget. Required
 	 * @property {luga.data.PAGING_STYLE}  style      Style to be used for the widget, either "luga-pagingBarLinks" or "luga-pagingBarPages". Default to "luga-pagingBarLinks"
 	 * @property {String}                  nextText   Text to be used for "next" links. Default to ">"
@@ -25,6 +25,20 @@
 	};
 
 	/**
+	 * Return true if the passed style is supported
+	 * @param {String}  style
+	 * @return {Boolean}
+	 */
+	var isValidStyle = function(style){
+		for(var key in luga.data.PAGING_STYLE){
+			if(luga.data.PAGING_STYLE[key] === style){
+				return true;
+			}
+		}
+		return false;
+	};
+
+	/**
 	 * PagingBar widget
 	 * Given a pagedView, create a fully fledged pagination bar
 	 *
@@ -36,10 +50,25 @@
 		var CONST = {
 			CSS_BASE_CLASS: "luga-pagingBar",
 			SAFE_HREF: "javascript:;",
-			LINKS_SEPARATOR: " - "
+			LINKS_SEPARATOR: " - ",
+			ERROR_MESSAGES: {
+				INVALID_PAGED_VIEW_PARAMETER: "luga.data.widgets.PagingBar: pagedView parameter is required. Must be an instance of luga.data.PagedView",
+				INVALID_NODE_PARAMETER: "luga.data.widgets.PagingBar: node parameter is required. Must be a DOM Element",
+				INVALID_STYLE_PARAMETER: "luga.data.widgets.PagingBar: style parameter must be of type luga.data.PAGING_STYLE"
+			}
 		};
 
-		// TODO: validate options
+		if(options.pagedView === undefined || options.pagedView instanceof luga.data.PagedView === false){
+			throw(CONST.ERROR_MESSAGES.INVALID_PAGED_VIEW_PARAMETER);
+		}
+
+		if(options.node === undefined || options.node instanceof Element === false){
+			throw(CONST.ERROR_MESSAGES.INVALID_NODE_PARAMETER);
+		}
+
+		if(options.style !== undefined && isValidStyle(options.style) === false){
+			throw(CONST.ERROR_MESSAGES.INVALID_STYLE_PARAMETER);
+		}
 
 		this.config = {
 			/** @type {luga.data.PagedView} */

@@ -2,7 +2,7 @@ describe("luga.data.widgets.PagingBar", function(){
 
 	"use strict";
 
-	var pagedView, pagingBarNode;
+	var pagedView, linksBarNode, linksBarWidget, pagesBarNode;
 	beforeEach(function(){
 
 		var testRecords = jasmineFixtures.read("data/usa-states.json");
@@ -15,10 +15,17 @@ describe("luga.data.widgets.PagingBar", function(){
 		var jsonDs = new luga.data.JsonDataSet({uuid: "myDs", url: "data/usa-states.json"});
 		pagedView = new luga.data.PagedView({uuid: "pagedViewTest", parentDataSet: jsonDs});
 
-		pagingBarNode = document.createElement("nav");
+		linksBarNode = document.createElement("nav");
+		linksBarWidget = new luga.data.widgets.PagingBar({
+			pagedView: pagedView,
+			node: linksBarNode
+		});
+
+		pagesBarNode = document.createElement("nav");
 		new luga.data.widgets.PagingBar({
 			pagedView: pagedView,
-			node: pagingBarNode
+			node: pagesBarNode,
+			style: luga.data.PAGING_STYLE.PAGES
 		});
 
 	});
@@ -33,13 +40,95 @@ describe("luga.data.widgets.PagingBar", function(){
 	});
 
 	it("If the passed pagedView is empty, does not render anything", function(){
-		expect(pagingBarNode.innerHTML).toEqual("");
+		expect(linksBarNode.innerHTML).toEqual("");
 	});
 
-	it("Render something only as soon as the pagedView loads data", function(){
-		expect(pagingBarNode.innerHTML).toEqual("");
+	it("Generate HTML only as soon as the pagedView loads data", function(){
+		expect(linksBarNode.innerHTML).toEqual("");
 		pagedView.loadData();
-		expect(pagingBarNode.innerHTML).not.toEqual("");
+		expect(linksBarNode.innerHTML).not.toEqual("");
+	});
+
+	describe("Accepts an Options object as single argument", function(){
+
+		describe("options.pagedView", function(){
+
+			it("Instance of a pagedView that will be controlled by the widget", function(){
+				expect(linksBarWidget.config.node).toEqual(linksBarNode);
+			});
+
+			it("Throws an exception if not specified", function(){
+				expect(function(){
+					new luga.data.widgets.PagingBar({
+						node: pagesBarNode
+					});
+				}).toThrow();
+			});
+
+			it("Throws an exception if it is not of type luga.data.PagedView", function(){
+				expect(function(){
+					new luga.data.widgets.PagingBar({
+						pagedView: "invalid",
+						node: pagesBarNode
+					});
+				}).toThrow();
+			});
+
+		});
+
+		describe("options.node", function(){
+
+			it("DOM element that will contain the widget", function(){
+				expect(linksBarWidget.config.pagedView).toEqual(pagedView);
+			});
+
+			it("Throws an exception if not specified", function(){
+				expect(function(){
+					new luga.data.widgets.PagingBar({
+						pagedView: pagedView
+					});
+				}).toThrow();
+			});
+
+			it("Throws an exception if not of type Element", function(){
+				expect(function(){
+					new luga.data.widgets.PagingBar({
+						pagedView: pagedView,
+						node: "invalid"
+					});
+				}).toThrow();
+			});
+
+			it("Throws an exception if it is a jQuery", function(){
+				expect(function(){
+					new luga.data.widgets.PagingBar({
+						pagedView: pagedView,
+						node: jQuery("nav")
+					});
+				}).toThrow();
+			});
+
+		});
+
+		describe("options.pagedView", function(){
+
+			it("Default to luga.data.PAGING_STYLE.LINKS", function(){
+				expect(linksBarWidget.config.style).toEqual(luga.data.PAGING_STYLE.LINKS);
+			});
+
+			it("Throws an exception if it is not of type luga.data.PAGING_STYLE", function(){
+				expect(function(){
+					new luga.data.widgets.PagingBar({
+						pagedView: pagedView,
+						node: pagesBarNode,
+						style: "invalid"
+					});
+				}).toThrow();
+			});
+
+		});
+
+
 	});
 
 });

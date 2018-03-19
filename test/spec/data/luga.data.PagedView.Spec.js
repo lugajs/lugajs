@@ -105,7 +105,7 @@ describe("luga.data.PagedView", function(){
 			it("Register itself as observer of options.dataSet", function(){
 				expect(jsonDs.observers[0]).toEqual(pagedView);
 			});
-			
+
 		});
 
 	});
