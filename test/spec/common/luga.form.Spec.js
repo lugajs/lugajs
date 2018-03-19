@@ -84,23 +84,6 @@ describe("luga.form", function(){
 
 	});
 
-
-	describe(".toHash()", function(){
-
-		it("Is deprecated. Use .toMap() instead", function(){
-			expect(luga.form.toHash).toBeDefined();
-		});
-
-		it("It's just an alias to .toMap()", function(){
-			jasmineFixtures.loadHTML("form/common.htm");
-			var formNode = jQuery("#multiSelect");
-			spyOn(luga.form, "toMap").and.callThrough();
-			luga.form.toHash(formNode);
-			expect(luga.form.toMap).toHaveBeenCalledWith(formNode, undefined);
-		});
-
-	});
-
 	describe(".toJson()", function(){
 
 		beforeEach(function(){

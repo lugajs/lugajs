@@ -86,10 +86,10 @@
 		if(options.uuid === undefined){
 			throw(CONST.ERROR_MESSAGES.INVALID_UUID_PARAMETER);
 		}
-		if((options.formatter !== undefined) && (luga.isFunction(options.formatter) === false)){
+		if((options.formatter !== undefined) && (luga.type(options.formatter) !== "function")){
 			throw(CONST.ERROR_MESSAGES.INVALID_FORMATTER_PARAMETER);
 		}
-		if((options.filter !== undefined) && (luga.isFunction(options.filter) === false)){
+		if((options.filter !== undefined) && (luga.type(options.filter) !== "function")){
 			throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 		}
 		luga.extend(luga.Notifier, this);
@@ -191,7 +191,7 @@
 				deleteAll();
 			}
 			else{
-				if(luga.isFunction(filter) === false){
+				if(luga.type(filter) !== "function"){
 					throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 				}
 				var orig = this.records;
@@ -365,7 +365,7 @@
 		this.insert = function(records){
 			// If we only get one record, we put it inside an array anyway,
 			var recordsHolder = [];
-			if(luga.isArray(records) === true){
+			if(Array.isArray(records) === true){
 				recordsHolder = records;
 			}
 			else{
@@ -450,7 +450,7 @@
 			if(filter === undefined){
 				return selectAll();
 			}
-			if(luga.isFunction(filter) === false){
+			if(luga.type(filter) !== "function"){
 				throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			return luga.data.utils.filter(selectAll(), filter, self);
@@ -463,7 +463,7 @@
 		 * @param {String}               columnType   Either "date", "number" or "string"
 		 */
 		this.setColumnType = function(columnNames, columnType){
-			if(luga.isArray(columnNames) === false){
+			if(Array.isArray(columnNames) === false){
 				columnNames = [columnNames];
 			}
 			for(var i = 0; i < columnNames.length; i++){
@@ -549,7 +549,7 @@
 		 * @throw {Exception}
 		 */
 		this.setFilter = function(filter){
-			if(luga.isFunction(filter) === false){
+			if(luga.type(filter) !== "function"){
 				throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			this.filter = filter;
@@ -657,7 +657,7 @@
 		var assembleSortColumns = function(columnNames){
 			// If only one column name was specified for sorting
 			// Do a secondary sort on PK so we get a stable sort order
-			if(luga.isArray(columnNames) === false){
+			if(Array.isArray(columnNames) === false){
 				return [columnNames, luga.data.CONST.PK_KEY];
 			}
 			else if(columnNames.length < 2 && columnNames[0] !== luga.data.CONST.PK_KEY){

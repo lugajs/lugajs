@@ -45,7 +45,7 @@ describe("luga.Notifier", function(){
 	describe(".observers", function(){
 
 		it("Is an array", function(){
-			expect(jQuery.isArray(notifierObj.observers)).toEqual(true);
+			expect(luga.type(notifierObj.observers)).toEqual("array");
 		});
 
 		it("Empty by default", function(){

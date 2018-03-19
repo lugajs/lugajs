@@ -80,7 +80,7 @@ describe("luga.ajaxform", function(){
 
 		spyOn(luga.form, "toQueryString").and.callThrough(function(){
 		});
-		spyOn(luga.form, "toHash").and.callThrough(function(){
+		spyOn(luga.form, "toMap").and.callThrough(function(){
 		});
 		spyOn(luga.form, "toJson").and.callThrough(function(){
 		});

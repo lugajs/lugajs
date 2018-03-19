@@ -6,10 +6,12 @@ NEW FEATURES:
 * Added luga.data.widgets.PagingBar
 
 NOTES:
-*
+* Updated documentation
 
 CHANGES:
-*
+* Removed luga.form.toHash()
+* Removed luga.isArray()
+* Removed luga.isFunction()
 
 ---------------------------------------------------------------------
 Release 0.9.7

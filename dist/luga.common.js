@@ -1,5 +1,5 @@
 /*! 
-Luga Common 0.9.7 2018-03-12T05:11:17.336Z
+Luga Common 0.9.7 2018-03-19T10:29:06.362Z
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -54,24 +54,6 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Return true if an object is an array. False otherwise
-	 * @param {*} obj
-	 * @return {Boolean}
-	 */
-	luga.isArray = function(obj){
-		return Array.isArray(obj);
-	};
-
-	/**
-	 * Return true if an object is a function. False otherwise
-	 * @param {*} obj
-	 * @return {Boolean}
-	 */
-	luga.isFunction = function(obj){
-		return luga.type(obj) === "function";
-	};
-
-	/**
 	 * Return true if an object is a plain object (created using "{}" or "new Object"). False otherwise
 	 * Based on jQuery.isPlainObject()
 	 * @param {*} obj
@@ -108,7 +90,7 @@ if(typeof(luga) === "undefined"){
 			return undefined;
 		}
 		var reference = luga.lookupProperty(window, path);
-		if(luga.isFunction(reference) === true){
+		if(luga.type(reference) === "function"){
 			return reference;
 		}
 		return undefined;
@@ -287,8 +269,8 @@ if(typeof(luga) === "undefined"){
 		 * observer[methodName] = function(data){};
 		 *
 		 * @param  {Object} observer  Observer object
-		 * @param {string} [eventName]
-		 * @param {string} [methodName]
+		 * @param {String} [eventName]
+		 * @param {String} [methodName]
 		 * @throw {Exception}
 		 */
 		this.addObserver = function(observer, eventName, methodName){
@@ -355,7 +337,7 @@ if(typeof(luga) === "undefined"){
 			// "Generic" observers
 			var genericMethod = generateGenericMethodName(eventName);
 			this.observers.forEach(function(element, i, collection){
-				if(element[genericMethod] && luga.isFunction(element[genericMethod])){
+				if((element[genericMethod] !== undefined) && (luga.type(element[genericMethod]) === "function")){
 					element[genericMethod](payload);
 				}
 			});
@@ -380,8 +362,8 @@ if(typeof(luga) === "undefined"){
 		 *
 		 * @method
 		 * @param {Object} observer
-		 * @param {string} [eventName]
-		 * @param {string} [methodName]
+		 * @param {String} [eventName]
+		 * @param {String} [methodName]
 		 */
 		this.removeObserver = function(observer, eventName, methodName){
 			if(arguments.length === 1){
@@ -545,7 +527,7 @@ if(typeof(luga) === "undefined"){
 					if(map[fieldName] === undefined){
 						map[fieldName] = fieldValue;
 					}
-					else if(luga.isArray(map[fieldName]) === true){
+					else if(Array.isArray(map[fieldName]) === true){
 						map[fieldName].push(fieldValue);
 					}
 					else{
@@ -556,14 +538,6 @@ if(typeof(luga) === "undefined"){
 			}
 		}
 		return map;
-	};
-
-	/**
-	 * Deprecated. Use luga.form.toMap() instead
-	 * @deprecated
-	 */
-	luga.form.toHash = function(rootNode, demoronize){
-		return luga.form.toMap(rootNode, demoronize);
 	};
 
 	/**
@@ -791,12 +765,12 @@ if(typeof(luga) === "undefined"){
 	 * => "My name is Ciccio Pasticcio"
 	 *
 	 * @param  {String}  str                   String containing placeholders
-	 * @param  {Object|Array.<string>} args    Either an array of strings or an objects containing name/value pairs in string format
+	 * @param  {Object|Array.<String>} args    Either an array of strings or an objects containing name/value pairs in string format
 	 * @return {String} The newly assembled string
 	 */
 	luga.string.format = function(str, args){
 		var pattern = null;
-		if(luga.isArray(args) === true){
+		if(Array.isArray(args) === true){
 			for(var i = 0; i < args.length; i++){
 				pattern = new RegExp("\\{" + i + "\\}", "g");
 				str = str.replace(pattern, args[i]);
@@ -836,7 +810,7 @@ if(typeof(luga) === "undefined"){
 			if(map[fieldName] === undefined){
 				map[fieldName] = fieldValue;
 			}
-			else if(luga.isArray(map[fieldName]) === true){
+			else if(Array.isArray(map[fieldName]) === true){
 				map[fieldName].push(fieldValue);
 			}
 			else{

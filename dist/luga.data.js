@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.9.7 2018-03-19T09:01:01.908Z
+Luga Data 0.9.7 2018-03-19T10:29:05.709Z
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -121,7 +121,7 @@ if(typeof(luga) === "undefined"){
 	 * @throw {Exception}
 	 */
 	luga.data.utils.filter = function(rows, filter, dataset){
-		if(luga.isFunction(filter) === false){
+		if(luga.type(filter) !== "function"){
 			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 		}
 		var retRows = [];
@@ -149,7 +149,7 @@ if(typeof(luga) === "undefined"){
 	 * @throw {Exception}
 	 */
 	luga.data.utils.update = function(rows, formatter, dataset){
-		if(luga.isFunction(formatter) === false){
+		if(luga.type(formatter) !== "function"){
 			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_UPDATER_ACTION);
 		}
 		for(var i = 0; i < rows.length; i++){
@@ -437,10 +437,10 @@ if(typeof(luga) === "undefined"){
 		if(options.uuid === undefined){
 			throw(CONST.ERROR_MESSAGES.INVALID_UUID_PARAMETER);
 		}
-		if((options.formatter !== undefined) && (luga.isFunction(options.formatter) === false)){
+		if((options.formatter !== undefined) && (luga.type(options.formatter) !== "function")){
 			throw(CONST.ERROR_MESSAGES.INVALID_FORMATTER_PARAMETER);
 		}
-		if((options.filter !== undefined) && (luga.isFunction(options.filter) === false)){
+		if((options.filter !== undefined) && (luga.type(options.filter) !== "function")){
 			throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 		}
 		luga.extend(luga.Notifier, this);
@@ -542,7 +542,7 @@ if(typeof(luga) === "undefined"){
 				deleteAll();
 			}
 			else{
-				if(luga.isFunction(filter) === false){
+				if(luga.type(filter) !== "function"){
 					throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 				}
 				var orig = this.records;
@@ -716,7 +716,7 @@ if(typeof(luga) === "undefined"){
 		this.insert = function(records){
 			// If we only get one record, we put it inside an array anyway,
 			var recordsHolder = [];
-			if(luga.isArray(records) === true){
+			if(Array.isArray(records) === true){
 				recordsHolder = records;
 			}
 			else{
@@ -801,7 +801,7 @@ if(typeof(luga) === "undefined"){
 			if(filter === undefined){
 				return selectAll();
 			}
-			if(luga.isFunction(filter) === false){
+			if(luga.type(filter) !== "function"){
 				throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			return luga.data.utils.filter(selectAll(), filter, self);
@@ -814,7 +814,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {String}               columnType   Either "date", "number" or "string"
 		 */
 		this.setColumnType = function(columnNames, columnType){
-			if(luga.isArray(columnNames) === false){
+			if(Array.isArray(columnNames) === false){
 				columnNames = [columnNames];
 			}
 			for(var i = 0; i < columnNames.length; i++){
@@ -900,7 +900,7 @@ if(typeof(luga) === "undefined"){
 		 * @throw {Exception}
 		 */
 		this.setFilter = function(filter){
-			if(luga.isFunction(filter) === false){
+			if(luga.type(filter) !== "function"){
 				throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			this.filter = filter;
@@ -1008,7 +1008,7 @@ if(typeof(luga) === "undefined"){
 		var assembleSortColumns = function(columnNames){
 			// If only one column name was specified for sorting
 			// Do a secondary sort on PK so we get a stable sort order
-			if(luga.isArray(columnNames) === false){
+			if(Array.isArray(columnNames) === false){
 				return [columnNames, luga.data.CONST.PK_KEY];
 			}
 			else if(columnNames.length < 2 && columnNames[0] !== luga.data.CONST.PK_KEY){
@@ -2748,7 +2748,7 @@ if(typeof(luga) === "undefined"){
 	 * @property {String}                  nextText   Text to be used for "next" links. Default to ">"
 	 * @property {String}                  prevText   Text to be used for "previous" links. Default to "<"
 	 * @property {String}                  separator  Text to be used to separate links. Default to " | "
-	 * @property {Number}                  maxLinks   Maximum number of links to show. DEfault to 10
+	 * @property {Number}                  maxLinks   Maximum number of links to show. Default to 10
 	 */
 
 	luga.namespace("luga.data.widgets");

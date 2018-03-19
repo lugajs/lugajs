@@ -49,24 +49,6 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Return true if an object is an array. False otherwise
-	 * @param {*} obj
-	 * @return {Boolean}
-	 */
-	luga.isArray = function(obj){
-		return Array.isArray(obj);
-	};
-
-	/**
-	 * Return true if an object is a function. False otherwise
-	 * @param {*} obj
-	 * @return {Boolean}
-	 */
-	luga.isFunction = function(obj){
-		return luga.type(obj) === "function";
-	};
-
-	/**
 	 * Return true if an object is a plain object (created using "{}" or "new Object"). False otherwise
 	 * Based on jQuery.isPlainObject()
 	 * @param {*} obj
@@ -103,7 +85,7 @@ if(typeof(luga) === "undefined"){
 			return undefined;
 		}
 		var reference = luga.lookupProperty(window, path);
-		if(luga.isFunction(reference) === true){
+		if(luga.type(reference) === "function"){
 			return reference;
 		}
 		return undefined;
@@ -350,7 +332,7 @@ if(typeof(luga) === "undefined"){
 			// "Generic" observers
 			var genericMethod = generateGenericMethodName(eventName);
 			this.observers.forEach(function(element, i, collection){
-				if(element[genericMethod] && luga.isFunction(element[genericMethod])){
+				if((element[genericMethod] !== undefined) && (luga.type(element[genericMethod]) === "function")){
 					element[genericMethod](payload);
 				}
 			});
@@ -540,7 +522,7 @@ if(typeof(luga) === "undefined"){
 					if(map[fieldName] === undefined){
 						map[fieldName] = fieldValue;
 					}
-					else if(luga.isArray(map[fieldName]) === true){
+					else if(Array.isArray(map[fieldName]) === true){
 						map[fieldName].push(fieldValue);
 					}
 					else{
@@ -551,14 +533,6 @@ if(typeof(luga) === "undefined"){
 			}
 		}
 		return map;
-	};
-
-	/**
-	 * Deprecated. Use luga.form.toMap() instead
-	 * @deprecated
-	 */
-	luga.form.toHash = function(rootNode, demoronize){
-		return luga.form.toMap(rootNode, demoronize);
 	};
 
 	/**
@@ -791,7 +765,7 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.string.format = function(str, args){
 		var pattern = null;
-		if(luga.isArray(args) === true){
+		if(Array.isArray(args) === true){
 			for(var i = 0; i < args.length; i++){
 				pattern = new RegExp("\\{" + i + "\\}", "g");
 				str = str.replace(pattern, args[i]);
@@ -831,7 +805,7 @@ if(typeof(luga) === "undefined"){
 			if(map[fieldName] === undefined){
 				map[fieldName] = fieldValue;
 			}
-			else if(luga.isArray(map[fieldName]) === true){
+			else if(Array.isArray(map[fieldName]) === true){
 				map[fieldName].push(fieldValue);
 			}
 			else{

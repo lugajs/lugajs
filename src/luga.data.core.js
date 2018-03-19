@@ -116,7 +116,7 @@ if(typeof(luga) === "undefined"){
 	 * @throw {Exception}
 	 */
 	luga.data.utils.filter = function(rows, filter, dataset){
-		if(luga.isFunction(filter) === false){
+		if(luga.type(filter) !== "function"){
 			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 		}
 		var retRows = [];
@@ -144,7 +144,7 @@ if(typeof(luga) === "undefined"){
 	 * @throw {Exception}
 	 */
 	luga.data.utils.update = function(rows, formatter, dataset){
-		if(luga.isFunction(formatter) === false){
+		if(luga.type(formatter) !== "function"){
 			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_UPDATER_ACTION);
 		}
 		for(var i = 0; i < rows.length; i++){

@@ -2,8 +2,6 @@
 
 DOCS:
 
-- PagedView API
-
 - Add docs for Template literals as region rendering
   https://medium.com/your-majesty-co/frameworkless-javascript-template-literals-the-best-thing-since-sliced-bread-d97f000ce955
 
@@ -17,11 +15,7 @@ AJAXFORM:
 - Standardize JSON schema for error messages
 
 -------------
-
 COMMON:
-
-- Remove: luga.isArray(), luga.isFunction() and luga.form.toHash()
-
 -------------
 
 DATA:
@@ -37,8 +31,6 @@ luga.data.DataSet:
 -------------
 
 DATA WIDGETS:
-
-luga.data.widgets.PagingBar
 
 luga.data.widgets.Autosuggest
   https://heroes.dev.waylon.cloud/v1/search/character?offset=0&limit=10&name=byss

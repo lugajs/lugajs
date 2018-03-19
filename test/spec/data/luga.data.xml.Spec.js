@@ -20,7 +20,7 @@ describe("luga.data.xml", function(){
 
 		it("Results are returned as an array of nodes", function(){
 			var result = luga.data.xml.evaluateXPath(employeesDoc, "//employee");
-			expect(jQuery.isArray(result)).toEqual(true);
+			expect(luga.type(result)).toEqual("array");
 		});
 
 		it("An empty array is returned in case there is no match", function(){

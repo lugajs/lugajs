@@ -74,40 +74,6 @@ describe("luga", function(){
 
 	});
 
-	describe(".isArray()", function(){
-
-		it("Return true if an object is an array", function(){
-			expect(luga.isArray([])).toEqual(true);
-			expect(luga.isArray(new Array())).toEqual(true);
-		});
-
-		it("Return false otherwise", function(){
-			expect(luga.isArray()).toEqual(false);
-			expect(luga.isArray("test")).toEqual(false);
-			expect(luga.isArray(3)).toEqual(false);
-			expect(luga.isArray({})).toEqual(false);
-		});
-
-	});
-
-	describe(".isFunction()", function(){
-
-		it("Return true if an object is a function", function(){
-			//expect(luga.isFunction([])).toEqual(true);
-			expect(luga.isFunction(function(){
-			})).toEqual(true);
-		});
-
-		it("Return false otherwise", function(){
-			expect(luga.isFunction()).toEqual(false);
-			expect(luga.isFunction("test")).toEqual(false);
-			expect(luga.isFunction(3)).toEqual(false);
-			expect(luga.isFunction({})).toEqual(false);
-			expect(luga.isFunction([])).toEqual(false);
-		});
-
-	});
-
 	describe(".isPlainObject()", function(){
 
 		it("Return true if an object is a plain object (created using '{}' or 'new Object')", function(){
