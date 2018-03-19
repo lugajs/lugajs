@@ -17,13 +17,13 @@
 	 * @typedef {Object} luga.data.PagedView.options
 	 *
 	 * @property {String}            uuid           Unique identifier. Required
-	 * @property {luga.data.DataSet} parentDataSet  Master dataSet. Required
+	 * @property {luga.data.DataSet} parentDataSet  Instance of a dataSet. Required
 	 * @property {Number}            pageSize       The max number of rows in a given page. Default to 10
 	 */
 
 	/*
 	 *  PagedView class
-	 *  Register itself as observer of the passed dataSet and handle pagination on it
+	 *  Works by reading a dataSet and extracting information out of it in order to generate additional information that can be used for paging
 	 *
 	 * @param {luga.data.PagedView.options} options
 	 * @constructor
