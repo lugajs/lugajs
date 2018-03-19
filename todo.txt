@@ -22,7 +22,7 @@ DATA:
 
 luga.data.ServerPagedView:
 - Use string templating to customize url/endpoint
-- Request: offsetStart, offsetEnd
+- Request: offsetStart, offsetEnd or pageSize
 - Response: recordCount, pageSize, currentPage
 
 luga.data.DataSet:

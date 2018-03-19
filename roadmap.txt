@@ -6,16 +6,16 @@
 
 VERSION 2.0
 
-- Drop support for IE 10
-- Use const/let
-- Map/Set
-- Remove self = this. Use .bind() instead
-
 - Remove jQuery from Common
 - Add DOM utilities to replace jQuery
   dom.ready()
   dom.nodeMatches(node, selector) IE11+
   dom.delegateEvent()
+
+- Drop support for IE 10
+- Use const/let
+- Map/Set
+- Remove self = this. Use .bind() instead
 
 - Spin off AjaxForm and Validator into dedicated Luga Form project
 
