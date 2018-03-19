@@ -10,7 +10,7 @@
 	 * @property {String}                  nextText   Text to be used for "next" links. Default to ">"
 	 * @property {String}                  prevText   Text to be used for "previous" links. Default to "<"
 	 * @property {String}                  separator  Text to be used to separate links. Default to " | "
-	 * @property {Number}                  maxLinks   Maximum number of links to show. DEfault to 10
+	 * @property {Number}                  maxLinks   Maximum number of links to show. Default to 10
 	 */
 
 	luga.namespace("luga.data.widgets");
