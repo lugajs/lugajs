@@ -385,6 +385,14 @@ describe("luga.data.PagedView", function(){
 
 	});
 
+	describe(".isPagedView()", function(){
+
+		it("Can be used for type validation and always return true", function(){
+			expect(pagedView.isPagedView()).toEqual(true);
+		});
+
+	});
+
 	describe(".loadData()", function(){
 
 		it("If the parent dataSet is HTTP based: invoke its .loadData() method", function(){

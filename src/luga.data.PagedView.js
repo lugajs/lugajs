@@ -173,6 +173,14 @@
 			return true;
 		};
 
+		/**
+		 * To be used for type checking
+		 * @return {Boolean}
+		 */
+		this.isPagedView = function(){
+			return true;
+		};
+
 		/* Proxy methods */
 
 		/**

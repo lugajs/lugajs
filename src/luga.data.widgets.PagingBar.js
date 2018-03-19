@@ -58,7 +58,7 @@
 			}
 		};
 
-		if(options.pagedView === undefined || options.pagedView instanceof luga.data.PagedView === false){
+		if(options.pagedView === undefined || (options.pagedView.isPagedView === undefined || options.pagedView.isPagedView() === false)){
 			throw(CONST.ERROR_MESSAGES.INVALID_PAGED_VIEW_PARAMETER);
 		}
 
