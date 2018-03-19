@@ -7,10 +7,9 @@
 VERSION 2.0
 
 - Drop support for IE 10
-- Use const/let and Map/Set
+- Use const/let
+- Map/Set
 - Remove self = this. Use .bind() instead
-- luga.isMap()
-- luga.isSet()
 
 - Remove jQuery from Common
 - Add DOM utilities to replace jQuery
