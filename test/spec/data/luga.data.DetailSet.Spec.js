@@ -25,7 +25,7 @@ describe("luga.data.DetailSet", function(){
 		luga.data.dataSourceRegistry = {};
 	});
 
-	it("Is the detailSet class", function(){
+	it("Is the detailSet constructor", function(){
 		expect(jQuery.isFunction(luga.data.DetailSet)).toEqual(true);
 	});
 
@@ -45,7 +45,7 @@ describe("luga.data.DetailSet", function(){
 			});
 			it("Throws an exception if not specified", function(){
 				expect(function(){
-					new luga.data.DetailSet({dataSet: emptyDs});
+					new luga.data.DetailSet({parentDataSet: emptyDs});
 				}).toThrow();
 			});
 		});
@@ -78,82 +78,82 @@ describe("luga.data.DetailSet", function(){
 			});
 		});
 
-		describe(".getContext()", function(){
-			it("Returns the associated detailSet's context", function(){
-				var contextMaster = new luga.data.DataSet({uuid: "contextMaster"});
-				contextMaster.insert(testRecords);
-				var contextDetail = new luga.data.DetailSet({uuid: "contextDetail", parentDataSet: contextMaster});
-				var context = contextDetail.getContext();
-				expect(context.entity).toEqual(loadedDs.getCurrentRow());
-			});
+	});
+
+	describe(".getContext()", function(){
+		it("Returns the associated detailSet's context", function(){
+			var contextMaster = new luga.data.DataSet({uuid: "contextMaster"});
+			contextMaster.insert(testRecords);
+			var contextDetail = new luga.data.DetailSet({uuid: "contextDetail", parentDataSet: contextMaster});
+			var context = contextDetail.getContext();
+			expect(context.entity).toEqual(loadedDs.getCurrentRow());
 		});
+	});
 
-		describe(".getState()", function(){
-			it("Returns the associated dataSet's current state", function(){
-				expect(detailSet.getState()).toEqual(loadedDs.getState());
-			});
+	describe(".getState()", function(){
+		it("Returns the associated dataSet's current state", function(){
+			expect(detailSet.getState()).toEqual(loadedDs.getState());
 		});
+	});
 
-		describe(".fetchRow()", function(){
+	describe(".fetchRow()", function(){
 
-			describe("First:", function(){
-				it("Grabs the associated dataSet's current row", function(){
-					spyOn(loadedDs, "getCurrentRow").and.callFake(function(){
-					});
-					detailSet.fetchRow();
-					expect(loadedDs.getCurrentRow).toHaveBeenCalled();
-					expect(loadedDs.getCurrentRow()).toEqual(detailSet.row);
+		describe("First:", function(){
+			it("Grabs the associated dataSet's current row", function(){
+				spyOn(loadedDs, "getCurrentRow").and.callFake(function(){
 				});
-			});
-
-			describe("Then:", function(){
-				it("Triggers a 'dataChanged' notification", function(){
-					detailSet.fetchRow();
-					expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource: detailSet});
-				});
-			});
-
-		});
-
-		describe(".onCurrentRowChangedHandler()", function(){
-			it("Is invoked whenever the associated dataSet's currentRow changes", function(){
-				spyOn(detailSet, "onCurrentRowChangedHandler");
-				loadedDs.setCurrentRowIndex(2);
-				expect(detailSet.onCurrentRowChangedHandler).toHaveBeenCalled();
-			});
-			it("Invokes .fetchRow()", function(){
-				spyOn(detailSet, "fetchRow");
-				detailSet.onCurrentRowChangedHandler();
-				expect(detailSet.fetchRow).toHaveBeenCalled();
+				detailSet.fetchRow();
+				expect(loadedDs.getCurrentRow).toHaveBeenCalled();
+				expect(loadedDs.getCurrentRow()).toEqual(detailSet.row);
 			});
 		});
 
-		describe(".onDataChangedHandler()", function(){
-			it("Is invoked whenever the associated dataSet's data changes", function(){
-				spyOn(emptyDetailSet, "onDataChangedHandler");
-				emptyDs.insert(testRecords);
-				expect(emptyDetailSet.onDataChangedHandler).toHaveBeenCalled();
-			});
-			it("Invokes .fetchRow()", function(){
-				spyOn(emptyDetailSet, "fetchRow");
-				emptyDetailSet.onDataChangedHandler();
-				expect(emptyDetailSet.fetchRow).toHaveBeenCalled();
+		describe("Then:", function(){
+			it("Triggers a 'dataChanged' notification", function(){
+				detailSet.fetchRow();
+				expect(testObserver.onDataChangedHandler).toHaveBeenCalledWith({dataSource: detailSet});
 			});
 		});
 
-		describe(".onStateChangedHandler()", function(){
-			it("Is invoked whenever the associated dataSet's state changes", function(){
-				spyOn(emptyDetailSet, "onStateChangedHandler");
-				emptyDs.insert(testRecords);
-				expect(emptyDetailSet.onStateChangedHandler).toHaveBeenCalled();
-			});
-			it("Invokes .fetchRow()", function(){
-				spyOn(emptyDetailSet, "fetchRow");
-				emptyDetailSet.onStateChangedHandler();
-				expect(emptyDetailSet.fetchRow).toHaveBeenCalled();
-			});
-		});
+	});
 
+	describe(".onCurrentRowChangedHandler()", function(){
+		it("Is invoked whenever the associated dataSet's currentRow changes", function(){
+			spyOn(detailSet, "onCurrentRowChangedHandler");
+			loadedDs.setCurrentRowIndex(2);
+			expect(detailSet.onCurrentRowChangedHandler).toHaveBeenCalled();
+		});
+		it("Invokes .fetchRow()", function(){
+			spyOn(detailSet, "fetchRow");
+			detailSet.onCurrentRowChangedHandler();
+			expect(detailSet.fetchRow).toHaveBeenCalled();
+		});
+	});
+
+	describe(".onDataChangedHandler()", function(){
+		it("Is invoked whenever the associated dataSet's data changes", function(){
+			spyOn(emptyDetailSet, "onDataChangedHandler");
+			emptyDs.insert(testRecords);
+			expect(emptyDetailSet.onDataChangedHandler).toHaveBeenCalled();
+		});
+		it("Invokes .fetchRow()", function(){
+			spyOn(emptyDetailSet, "fetchRow");
+			emptyDetailSet.onDataChangedHandler();
+			expect(emptyDetailSet.fetchRow).toHaveBeenCalled();
+		});
+	});
+
+	describe(".onStateChangedHandler()", function(){
+		it("Is invoked whenever the associated dataSet's state changes", function(){
+			spyOn(emptyDetailSet, "onStateChangedHandler");
+			emptyDs.insert(testRecords);
+			expect(emptyDetailSet.onStateChangedHandler).toHaveBeenCalled();
+		});
+		it("Invokes .fetchRow()", function(){
+			spyOn(emptyDetailSet, "fetchRow");
+			emptyDetailSet.onStateChangedHandler();
+			expect(emptyDetailSet.fetchRow).toHaveBeenCalled();
+		});
 	});
 
 });

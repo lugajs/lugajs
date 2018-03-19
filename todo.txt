@@ -2,6 +2,8 @@
 
 DOCS:
 
+- PagedView API
+
 - Add docs for Template literals as region rendering
   https://medium.com/your-majesty-co/frameworkless-javascript-template-literals-the-best-thing-since-sliced-bread-d97f000ce955
 
@@ -21,13 +23,10 @@ COMMON:
 - Remove: luga.isArray(), luga.isFunction() and luga.form.toHash()
 
 -------------
-VALIDATOR:
--------------
 
 DATA:
 
-luga.data.PagedData:
-- Mixed client/server (options.threshold)
+luga.data.ServerPagedView:
 - Use string templating to customize url/endpoint
 - Request: offsetStart, offsetEnd
 - Response: recordCount, pageSize, currentPage
@@ -39,12 +38,13 @@ luga.data.DataSet:
 
 DATA WIDGETS:
 
-luga.data.widgets.PagingBar (needs PagedData)
-- Different GUI styles: Bootstrap, PageList, LinkList
+luga.data.widgets.PagingBar
 
 luga.data.widgets.Autosuggest
   https://heroes.dev.waylon.cloud/v1/search/character?offset=0&limit=10&name=byss
 
 luga.data.widgets.Tags
 
+-------------
+VALIDATOR:
 -------------

@@ -34,11 +34,13 @@
 		"Rss2DataSet",
 		"ChildJsonDataSet",
 		"ChildXmlDataSet",
+		"PagedView",
 		"region",
 		"region.Base",
 		"region.Handlebars",
 		"region.traits",
 		"sort",
+		"widgets.PagingBar",
 		"widgets.ShowMore"
 	],
 	"dataLibDisplayName": "Luga Data",

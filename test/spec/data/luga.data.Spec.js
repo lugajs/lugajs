@@ -31,6 +31,39 @@ describe("luga.data", function(){
 		});
 	});
 
+	describe(".PAGING_STYLE()", function(){
+
+		it("Contains 2 properties", function(){
+			expect(Object.keys(luga.data.PAGING_STYLE).length).toEqual(2);
+		});
+
+		it(".LINKS", function(){
+			expect(luga.data.PAGING_STYLE.LINKS).toEqual("luga-pagingBarLinks");
+		});
+		it(".PAGES", function(){
+			expect(luga.data.PAGING_STYLE.PAGES).toEqual("luga-pagingBarPages");
+		});
+
+	});
+
+	describe(".STATE()", function(){
+
+		it("Contains 3 properties", function(){
+			expect(Object.keys(luga.data.STATE).length).toEqual(3);
+		});
+
+		it(".ERROR", function(){
+			expect(luga.data.STATE.ERROR).toEqual("error");
+		});
+		it(".LOADING", function(){
+			expect(luga.data.STATE.LOADING).toEqual("loading");
+		});
+		it(".READY", function(){
+			expect(luga.data.STATE.READY).toEqual("ready");
+		});
+
+	});
+
 	describe(".getDataSource()", function(){
 		it("Returns a dataSet from the registry", function(){
 			var ds = new luga.data.DataSet({uuid: "myDs"});
