@@ -55,6 +55,7 @@ describe("luga.data.PagedView", function(){
 	describe("Accepts an Options object as single argument", function(){
 
 		describe("options.uuid", function(){
+
 			it("Acts as unique identifier that will be stored inside a global registry", function(){
 				var ds = new luga.data.PagedView({uuid: "uniqueId", parentDataSet: emptyDs});
 				expect(luga.data.dataSourceRegistry.uniqueId).toEqual(ds);
@@ -64,9 +65,11 @@ describe("luga.data.PagedView", function(){
 					new luga.data.PagedView({dataSet: emptyDs});
 				}).toThrow();
 			});
+
 		});
 
 		describe("options.parentDataSet", function(){
+
 			it("Is the dataSource that will be used by the PagedView", function(){
 				var ds = new luga.data.PagedView({uuid: "uniqueId", parentDataSet: emptyDs});
 				expect(ds.parentDataSet).toEqual(emptyDs);
@@ -76,9 +79,11 @@ describe("luga.data.PagedView", function(){
 					new luga.data.PagedView({uuid: "uniqueId"});
 				}).toThrow();
 			});
+
 		});
 
 		describe("options.pageSize", function(){
+
 			it("Is optional", function(){
 				var ds = new luga.data.PagedView({uuid: "uniqueId", parentDataSet: emptyDs, pageSize: 30});
 				expect(ds.getPageSize()).toEqual(30);
@@ -86,9 +91,11 @@ describe("luga.data.PagedView", function(){
 			it("Default to 10", function(){
 				expect(pagedView.getPageSize()).toEqual(10);
 			});
+
 		});
 
 		describe("Once initialized:", function(){
+
 			it("Calls luga.data.setDataSource()", function(){
 				spyOn(luga.data, "setDataSource").and.callFake(function(){
 				});
@@ -98,6 +105,7 @@ describe("luga.data.PagedView", function(){
 			it("Register itself as observer of options.dataSet", function(){
 				expect(jsonDs.observers[0]).toEqual(pagedView);
 			});
+			
 		});
 
 	});
