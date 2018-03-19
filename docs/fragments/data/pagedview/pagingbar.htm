@@ -43,14 +43,90 @@
 </script>
 
 <div class="panel panel-default">
-	<div id="master" class="panel-heading">In action</div>
+	<div class="panel-heading">PagingBar</div>
 	<div class="panel-body">
+
+		<p>
+			The pagingBar is a widget that must be associated to a <a href="#data/pagedview/getting-started">pagedView</a> in order to automatically generate a UI to navigate across pages.
+		</p>
+		<p>
+			PagingBar also offers plenty of optional configurations <a href="#data/pagedview/api">api</a> to customize its.
+		</p>
+
+	</div>
+
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">In action</div>
+	<div class="panel-body">
+
+		<p>
+			Here you can see a region followed by two paginBars, the first uses "links" style (the default), the second uses "page" style.
+		</p>
 
 		<div class="col-xs-6 col-sm-6" data-lugaregion="true"
 			 data-lugaregion-datasource-uuid="pagedView"
-			 data-lugaregion-template-id="masterTemplate"></div>
+			 data-lugaregion-template-id="masterTemplate">
+		</div>
 		<nav id="navBarLinks"></nav>
 		<nav id="navBarPages"></nav>
+
+	</div>
+
+</div>
+
+<div class="panel panel-default">
+	<div id="master" class="panel-heading">Sample code</div>
+	<div class="panel-body">
+
+		<p>JavaScript</p>
+
+<pre><code class="line-numbers language-javascript">(function(){
+	"use strict";
+
+	var BASE_URL = "../test/fixtures/data";
+	var baseDsObj = new luga.data.JsonDataSet({
+		uuid: "baseDs",
+		url: BASE_URL + "/usa-states.json"
+	});
+	var pagedViewObj = new luga.data.PagedView({
+		uuid: "pagedView",
+		parentDataSet: baseDsObj
+	});
+
+	jQuery(document).ready(function(){
+		new luga.data.widgets.PagingBar({
+			pagedView: pagedViewObj,
+			node: document.getElementById("navBarLinks")
+		});
+
+		new luga.data.widgets.PagingBar({
+			pagedView: pagedViewObj,
+			node: document.getElementById("navBarPages"),
+			style: luga.data.PAGING_STYLE.PAGES
+		});
+
+		pagedViewObj.loadData();
+	});
+
+}());
+</code></pre>
+
+		<p>HTML</p>
+
+<pre><code class="line-numbers language-markup">&lt;div class="col-xs-6 col-sm-6" data-lugaregion="true"
+	data-lugaregion-datasource-uuid="pagedView"
+	data-lugaregion-template-id="masterTemplate"&gt;
+&lt;/div&gt;
+&lt;nav id="navBarLinks"&gt;&lt;/nav&gt;
+&lt;nav id="navBarPages"&gt;&lt;/nav&gt;
+</code></pre>		
+		
+		<div class="alert alert-warning" role="alert">
+			<strong>Warning!</strong><br>
+			Ensure the DOM element containing the pagingBar widget is located outside the region.
+		</div>
 
 	</div>
 
