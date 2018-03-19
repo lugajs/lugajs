@@ -35,7 +35,6 @@ describe("luga.data.Rss2Dataset", function(){
 	});
 
 	it("Can retrieve XML using XHR or consume XML as string", function(){
-		noUrlDs.loadRecords(xmlStr);
 		var testDs = new luga.data.Rss2Dataset({uuid: "rssDs", url: "mock/rss2.xml"});
 		testDs.loadData();
 		expect(testDs.getRecordsCount()).toEqual(testDs.getRecordsCount());
