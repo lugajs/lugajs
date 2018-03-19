@@ -110,7 +110,7 @@ describe("luga.data.widgets.PagingBar", function(){
 
 		});
 
-		describe("options.pagedView", function(){
+		describe("options.style", function(){
 
 			it("Default to luga.data.PAGING_STYLE.LINKS", function(){
 				expect(linksBarWidget.config.style).toEqual(luga.data.PAGING_STYLE.LINKS);
@@ -126,8 +126,201 @@ describe("luga.data.widgets.PagingBar", function(){
 				}).toThrow();
 			});
 
+			it("It is reflected in the CSS class attached to the node", function(){
+				expect(linksBarNode.classList.contains("luga-pagingBarLinks")).toEqual(true);
+				expect(pagesBarNode.classList.contains("luga-pagingBarPages")).toEqual(true);
+			});
+
 		});
 
+		describe("options.nextText", function(){
+
+			var customBarNode, customWidget;
+			beforeEach(function(){
+				customBarNode = document.createElement("nav");
+				customWidget = new luga.data.widgets.PagingBar({
+					pagedView: pagedView,
+					node: customBarNode,
+					nextText: "custom"
+				});
+				pagedView.loadData();
+			});
+
+			it("Default to \">\"", function(){
+				expect(linksBarWidget.config.nextText).toEqual(">");
+				expect(customWidget.config.nextText).toEqual("custom");
+			});
+
+			it("It is used as text for the last element in the widget", function(){
+				expect(linksBarNode.lastChild.textContent).toEqual(">");
+				expect(customBarNode.lastChild.textContent).toEqual("custom");
+			});
+
+		});
+
+		describe("options.prevText", function(){
+
+			var customBarNode, customWidget;
+			beforeEach(function(){
+				customBarNode = document.createElement("nav");
+				customWidget = new luga.data.widgets.PagingBar({
+					pagedView: pagedView,
+					node: customBarNode,
+					prevText: "custom"
+				});
+				pagedView.loadData();
+				pagedView.goToNextPage();
+			});
+
+			it("Default to \"<\"", function(){
+				expect(linksBarWidget.config.prevText).toEqual("<");
+				expect(customWidget.config.prevText).toEqual("custom");
+			});
+
+			it("It is used as text for the first element in the widget", function(){
+				expect(linksBarNode.firstChild.textContent).toEqual("<");
+				expect(customBarNode.firstChild.textContent).toEqual("custom");
+			});
+
+		});
+
+		describe("options.separator", function(){
+
+			var customBarNode, customWidget;
+			beforeEach(function(){
+				customBarNode = document.createElement("nav");
+				customWidget = new luga.data.widgets.PagingBar({
+					pagedView: pagedView,
+					node: customBarNode,
+					separator: "custom"
+				});
+				pagedView.loadData();
+			});
+
+			it("Default to \" | \"", function(){
+				expect(linksBarWidget.config.separator).toEqual(" | ");
+				expect(customWidget.config.separator).toEqual("custom");
+			});
+
+			it("It is used to separate the links", function(){
+				expect(linksBarNode.innerHTML).toContain(" | ");
+				expect(customBarNode.innerHTML).not.toContain(" | ");
+				expect(customBarNode.innerHTML).toContain("custom");
+			});
+
+		});
+
+		describe("options.maxLinks", function(){
+
+			var customBarNode, customWidget;
+			beforeEach(function(){
+				customBarNode = document.createElement("nav");
+				customWidget = new luga.data.widgets.PagingBar({
+					pagedView: pagedView,
+					node: customBarNode,
+					maxLinks: 3
+				});
+				pagedView.loadData();
+			});
+
+			it("Default to 10", function(){
+				expect(linksBarWidget.config.maxLinks).toEqual(10);
+				expect(customWidget.config.maxLinks).toEqual(3);
+			});
+
+			it("Control the total amount of links inside the widget", function(){
+				// We have 6 pages
+				expect(linksBarNode.querySelectorAll("a").length).toEqual(6);
+				// We reduced the amount of links to 3
+				expect(customBarNode.querySelectorAll("a").length).toEqual(3);
+			});
+
+		});
+
+	});
+
+	describe("Render a paging UI", function(){
+
+		beforeEach(function(){
+			pagedView.loadData();
+		});
+
+		describe("If the current page is the first", function(){
+
+			it("The first element is a text node", function(){
+				expect(linksBarNode.firstChild.tagName).toBeUndefined();
+			});
+
+		});
+
+		describe("Else:", function(){
+
+			beforeEach(function(){
+				pagedView.goToPage(3);
+			});
+
+			it("The first element is an <a> node", function(){
+				expect(linksBarNode.firstChild.tagName).toEqual("A");
+			});
+
+			it("A click on it invokes pagedView.goToPage() to navigate to the previous page", function(){
+				spyOn(pagedView, "goToPage");
+				var eventToTrigger = new Event("click");
+				linksBarNode.firstChild.dispatchEvent(eventToTrigger);
+				expect(pagedView.goToPage).toHaveBeenCalledWith(2);
+			});
+
+		});
+
+		describe("If the current page is the last", function(){
+
+			it("The last element is a text node", function(){
+				pagedView.goToPage(6);
+				expect(linksBarNode.lastChild.tagName).toBeUndefined();
+			});
+
+		});
+
+		describe("Else:", function(){
+
+			it("The last element is an <a> node", function(){
+				expect(linksBarNode.lastChild.tagName).toEqual("A");
+			});
+
+			it("A click on it invokes pagedView.goToPage() to navigate to the next page", function(){
+				spyOn(pagedView, "goToPage");
+				var eventToTrigger = new Event("click");
+				linksBarNode.lastChild.dispatchEvent(eventToTrigger);
+				expect(pagedView.goToPage).toHaveBeenCalledWith(2);
+			});
+
+		});
+
+		describe("Depending on options.style", function(){
+
+			describe("The links can be either in:", function(){
+
+				it("1-10 format", function(){
+					expect(linksBarNode.childNodes[4].textContent).toEqual("11 - 20");
+				});
+
+				it("1 format", function(){
+					expect(pagesBarNode.childNodes[2].textContent).toEqual("1");
+				});
+
+			});
+
+		});
+
+	});
+
+	describe(".onDataChangedHandler()", function(){
+
+		it("It is invoked every time the pagedView loads data", function(){
+			spyOn(linksBarWidget, "onDataChangedHandler");
+			pagedView.loadData();
+			expect(linksBarWidget.onDataChangedHandler).toHaveBeenCalled();
+		});
 
 	});
 
