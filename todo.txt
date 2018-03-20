@@ -20,6 +20,9 @@ COMMON:
 
 DATA:
 
+luga.data.widgets.ShowMore
+- Complete rework. Use PagedView instead of DataSet
+
 luga.data.ServerPagedView:
 - Use string templating to customize url/endpoint
 - Request: offsetStart, offsetEnd or pageSize
@@ -28,14 +31,8 @@ luga.data.ServerPagedView:
 luga.data.DataSet:
 - Ability to persist data inside localStorage
 
--------------
-
-DATA WIDGETS:
-
 luga.data.widgets.Autosuggest
-  https://heroes.dev.waylon.cloud/v1/search/character?offset=0&limit=10&name=byss
-
-luga.data.widgets.Tags
+- https://heroes.dev.waylon.cloud/v1/search/character?offset=0&limit=10&name=byss
 
 -------------
 VALIDATOR:

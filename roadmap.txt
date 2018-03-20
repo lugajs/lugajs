@@ -1,7 +1,5 @@
 - Document luga.data.xml?
 
-- Use promises for jQuery.ajax()
-
 ***
 
 VERSION 2.0
@@ -20,7 +18,7 @@ VERSION 2.0
 - Spin off AjaxForm and Validator into dedicated Luga Form project
 
 - Spin off Data into dedicated project?
-  Remove jQuery and use Axios for XHR or wait to drop IE11 and use fetch() plus async/await?
+  Can we replace jQuery for XHR?
 
 - Event bus concept?
 
@@ -33,6 +31,6 @@ VERSION 3.0
 - Drop support for IE 11
 - Remove jQuery from everywhere
 - Use import/export
-- Use fetch() for Ajax
+- Use Axios for XHR or fetch() plus async/await?
 
 - Make Common and Data isomorphic?
