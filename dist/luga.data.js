@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.9.7 2018-03-19T10:29:05.709Z
+Luga Data 0.9.7 2018-03-21T08:23:44.623Z
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -1654,8 +1654,6 @@ if(typeof(luga) === "undefined"){
 
 	};
 
-	luga.data.Rss2Dataset.version = "0.6.0";
-
 }());
 (function(){
 	"use strict";
@@ -1985,6 +1983,14 @@ if(typeof(luga) === "undefined"){
 			if(pageNumber < 1 || pageNumber > self.getPagesCount()){
 				return false;
 			}
+			return true;
+		};
+
+		/**
+		 * To be used for type checking
+		 * @return {Boolean}
+		 */
+		this.isPagedView = function(){
 			return true;
 		};
 
@@ -2796,7 +2802,7 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
-		if(options.pagedView === undefined || options.pagedView instanceof luga.data.PagedView === false){
+		if(options.pagedView === undefined || (options.pagedView.isPagedView === undefined || options.pagedView.isPagedView() === false)){
 			throw(CONST.ERROR_MESSAGES.INVALID_PAGED_VIEW_PARAMETER);
 		}
 

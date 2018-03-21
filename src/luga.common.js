@@ -398,15 +398,14 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.dom.nodeIterator");
 
 	/**
-	 * Static factory to create a cross-browser DOM NodeIterator
-	 * https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
+	 * Static factory to create a cross-browser either DOM NodeIterator or TreeWalker
 	 *
+	 * @param {String}                   type. Either "NodeIterator" or "TreeWalker"
 	 * @param {HTMLElement}              rootNode    Start node. Required
-	 * @param {function} [filterFunc]    Optional filter function. If specified only nodes matching the filter will be accepted
-	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
-	 * @return {NodeIterator}
+	 * @param {function} [filterFunc]    Optional filter function.
+	 * @return {NodeIterator|TreeWalker}
 	 */
-	luga.dom.nodeIterator.getInstance = function(rootNode, filterFunc){
+	var getIteratorInstance = function(type, rootNode, filterFunc){
 
 		var filter = {
 			acceptNode: function(node){
@@ -424,7 +423,26 @@ if(typeof(luga) === "undefined"){
 		// A true W3C-compliant nodeFilter object isn't passed, and instead a "safe" one _based_ off of the real one.
 		var safeFilter = filter.acceptNode;
 		safeFilter.acceptNode = filter.acceptNode;
-		return document.createNodeIterator(rootNode, NodeFilter.SHOW_ELEMENT, safeFilter, false);
+		if(type === "TreeWalker"){
+			return document.createTreeWalker(rootNode, NodeFilter.SHOW_ELEMENT, safeFilter, false);
+		}
+		else{
+			return document.createNodeIterator(rootNode, NodeFilter.SHOW_ELEMENT, safeFilter, false);
+		}
+
+	};
+
+	/**
+	 * Static factory to create a cross-browser DOM NodeIterator
+	 * https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
+	 *
+	 * @param {HTMLElement}              rootNode    Start node. Required
+	 * @param {function} [filterFunc]    Optional filter function. If specified only nodes matching the filter will be accepted
+	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
+	 * @return {NodeIterator}
+	 */
+	luga.dom.nodeIterator.getInstance = function(rootNode, filterFunc){
+		return getIteratorInstance("NodeIterator", rootNode, filterFunc);
 	};
 
 	luga.namespace("luga.dom.treeWalker");
@@ -439,24 +457,7 @@ if(typeof(luga) === "undefined"){
 	 * @return {TreeWalker}
 	 */
 	luga.dom.treeWalker.getInstance = function(rootNode, filterFunc){
-
-		var filter = {
-			acceptNode: function(node){
-				/* istanbul ignore else */
-				if(filterFunc !== undefined){
-					if(filterFunc(node) === false){
-						return NodeFilter.FILTER_SKIP;
-					}
-				}
-				return NodeFilter.FILTER_ACCEPT;
-			}
-		};
-
-		// http://stackoverflow.com/questions/5982648/recommendations-for-working-around-ie9-treewalker-filter-bug
-		// A true W3C-compliant nodeFilter object isn't passed, and instead a "safe" one _based_ off of the real one.
-		var safeFilter = filter.acceptNode;
-		safeFilter.acceptNode = filter.acceptNode;
-		return document.createTreeWalker(rootNode, NodeFilter.SHOW_ELEMENT, safeFilter, false);
+		return getIteratorInstance("TreeWalker", rootNode, filterFunc);
 	};
 
 	/* Form */

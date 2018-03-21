@@ -1,5 +1,5 @@
 /*! 
-Luga JS 0.9.7 2018-03-19T10:29:06.362Z
+Luga JS 0.9.7 2018-03-21T08:23:45.370Z
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -403,15 +403,14 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.dom.nodeIterator");
 
 	/**
-	 * Static factory to create a cross-browser DOM NodeIterator
-	 * https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
+	 * Static factory to create a cross-browser either DOM NodeIterator or TreeWalker
 	 *
+	 * @param {String}                   type. Either "NodeIterator" or "TreeWalker"
 	 * @param {HTMLElement}              rootNode    Start node. Required
-	 * @param {function} [filterFunc]    Optional filter function. If specified only nodes matching the filter will be accepted
-	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
-	 * @return {NodeIterator}
+	 * @param {function} [filterFunc]    Optional filter function.
+	 * @return {NodeIterator|TreeWalker}
 	 */
-	luga.dom.nodeIterator.getInstance = function(rootNode, filterFunc){
+	var getIteratorInstance = function(type, rootNode, filterFunc){
 
 		var filter = {
 			acceptNode: function(node){
@@ -429,7 +428,26 @@ if(typeof(luga) === "undefined"){
 		// A true W3C-compliant nodeFilter object isn't passed, and instead a "safe" one _based_ off of the real one.
 		var safeFilter = filter.acceptNode;
 		safeFilter.acceptNode = filter.acceptNode;
-		return document.createNodeIterator(rootNode, NodeFilter.SHOW_ELEMENT, safeFilter, false);
+		if(type === "TreeWalker"){
+			return document.createTreeWalker(rootNode, NodeFilter.SHOW_ELEMENT, safeFilter, false);
+		}
+		else{
+			return document.createNodeIterator(rootNode, NodeFilter.SHOW_ELEMENT, safeFilter, false);
+		}
+
+	};
+
+	/**
+	 * Static factory to create a cross-browser DOM NodeIterator
+	 * https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
+	 *
+	 * @param {HTMLElement}              rootNode    Start node. Required
+	 * @param {function} [filterFunc]    Optional filter function. If specified only nodes matching the filter will be accepted
+	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
+	 * @return {NodeIterator}
+	 */
+	luga.dom.nodeIterator.getInstance = function(rootNode, filterFunc){
+		return getIteratorInstance("NodeIterator", rootNode, filterFunc);
 	};
 
 	luga.namespace("luga.dom.treeWalker");
@@ -444,24 +462,7 @@ if(typeof(luga) === "undefined"){
 	 * @return {TreeWalker}
 	 */
 	luga.dom.treeWalker.getInstance = function(rootNode, filterFunc){
-
-		var filter = {
-			acceptNode: function(node){
-				/* istanbul ignore else */
-				if(filterFunc !== undefined){
-					if(filterFunc(node) === false){
-						return NodeFilter.FILTER_SKIP;
-					}
-				}
-				return NodeFilter.FILTER_ACCEPT;
-			}
-		};
-
-		// http://stackoverflow.com/questions/5982648/recommendations-for-working-around-ie9-treewalker-filter-bug
-		// A true W3C-compliant nodeFilter object isn't passed, and instead a "safe" one _based_ off of the real one.
-		var safeFilter = filter.acceptNode;
-		safeFilter.acceptNode = filter.acceptNode;
-		return document.createTreeWalker(rootNode, NodeFilter.SHOW_ELEMENT, safeFilter, false);
+		return getIteratorInstance("TreeWalker", rootNode, filterFunc);
 	};
 
 	/* Form */
@@ -2501,7 +2502,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga Data 0.9.7 2018-03-19T10:29:05.709Z
+Luga Data 0.9.7 2018-03-21T08:23:44.623Z
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -4156,8 +4157,6 @@ if(typeof(luga) === "undefined"){
 
 	};
 
-	luga.data.Rss2Dataset.version = "0.6.0";
-
 }());
 (function(){
 	"use strict";
@@ -4487,6 +4486,14 @@ if(typeof(luga) === "undefined"){
 			if(pageNumber < 1 || pageNumber > self.getPagesCount()){
 				return false;
 			}
+			return true;
+		};
+
+		/**
+		 * To be used for type checking
+		 * @return {Boolean}
+		 */
+		this.isPagedView = function(){
 			return true;
 		};
 
@@ -5298,7 +5305,7 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
-		if(options.pagedView === undefined || options.pagedView instanceof luga.data.PagedView === false){
+		if(options.pagedView === undefined || (options.pagedView.isPagedView === undefined || options.pagedView.isPagedView() === false)){
 			throw(CONST.ERROR_MESSAGES.INVALID_PAGED_VIEW_PARAMETER);
 		}
 
