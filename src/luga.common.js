@@ -941,4 +941,83 @@ if(typeof(luga) === "undefined"){
 		return box;
 	};
 
+	/* XHR */
+
+	luga.namespace("luga.xhr");
+
+	/**
+	 * @typedef {Object} luga.xhr.header
+	 *
+	 * @property {String}  header       Name of the HTTP header
+	 * @property {String}  value        Value to be used
+	 */
+
+	/**
+	 * @typedef {Object} luga.xhr.options
+	 *
+	 * @property {String}  method                   HTTP method. Default to GET
+	 * @property {Number}  timeout                  The number of milliseconds a request can take before automatically being terminated
+	 * @property {Boolean} async                    Indicate that the request should be handled asynchronously. Default to true
+	 * @property {Boolean} cache                    If set to false, it will force requested pages not to be cached by the browser. Will only work correctly with HEAD and GET requests
+	 *                                              It works by appending "_={timestamp}" to the GET parameters. Default to true
+	 * @property {Array.<luga.xhr.header>} headers  An array of header/value pairs to be used for the request. Default to an empty array
+	 * @property {String}  requestedWith            Value to be used for the "X-Requested-With" request header. Default to "XMLHttpRequest"
+	 * @property {String}  contentType              MIME type to use instead of the one specified by the server. Default to "text/plain"
+	 *                                              See also: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/overrideMimeType
+	 */
+
+	var xhrSettings = {
+		method: "GET",
+		timeout: 5000,
+		async: true,
+		cache: true,
+		headers: [],
+		requestedWith: "XMLHttpRequest",
+		contentType: "text/plain"
+	};
+
+	luga.XHR_CONST = {
+		POST_CONTENT_TYPE : "application/x-www-form-urlencoded"
+	};
+
+	/**
+	 * Change current configuration
+	 * @param {luga.xhr.options} options
+	 * @return {luga.xhr.options}
+	 */
+	luga.xhr.setup = function(options){
+		luga.merge(xhrSettings, options);
+		return xhrSettings;
+	};
+
+	luga.xhr.Request = function(options){
+		var config = luga.xhr.setup();
+		if(options !== undefined) {
+			config = luga.merge(config, options);
+		}
+		if(config.method.toUpperCase() === "POST") {
+			config.method = luga.XHR_CONST.POST_CONTENT_TYPE;
+		}
+
+		var self = this;
+		var request = new XMLHttpRequest();
+
+		var init = function() {
+			request.timeout = config.timeout;
+			request.setRequestHeader("Content-Type", config.contentType);
+			request.setRequestHeader("X-Requested-With", config.requestedWith);
+			config.headers.forEach(function(item){
+				request.setRequestHeader(item.header, item.value);
+			});
+		};
+
+		this.send = function(url, params) {
+			if(params === undefined){
+				params = null;
+			}
+		};
+
+		init();
+	};
+
 }());
