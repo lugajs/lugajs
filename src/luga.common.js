@@ -1000,24 +1000,26 @@ if(typeof(luga) === "undefined"){
 		}
 
 		var self = this;
-		var request = new XMLHttpRequest();
-
-		var init = function() {
-			request.timeout = config.timeout;
-			request.setRequestHeader("Content-Type", config.contentType);
-			request.setRequestHeader("X-Requested-With", config.requestedWith);
-			config.headers.forEach(function(item){
-				request.setRequestHeader(item.header, item.value);
-			});
-		};
+		self.request = new XMLHttpRequest();
 
 		this.send = function(url, params) {
 			if(params === undefined){
 				params = null;
 			}
+			// TODO add anti-cache
+
+			self.request.open(config.method, url, config.async);
+
+			self.request.timeout = config.timeout;
+			self.request.setRequestHeader("Content-Type", config.contentType);
+			self.request.setRequestHeader("X-Requested-With", config.requestedWith);
+			config.headers.forEach(function(item){
+				self.request.setRequestHeader(item.header, item.value);
+			});
+
+			self.request.send(params);
 		};
 
-		init();
 	};
 
 }());
