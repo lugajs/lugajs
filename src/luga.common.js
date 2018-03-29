@@ -1002,6 +1002,27 @@ if(typeof(luga) === "undefined"){
 		var self = this;
 		self.request = new XMLHttpRequest();
 
+		var finalizeRequest = function(request){
+			request.onreadystatechange = checkReadyState;
+			request.timeout = config.timeout;
+			request.setRequestHeader("Content-Type", config.contentType);
+			request.setRequestHeader("X-Requested-With", config.requestedWith);
+			config.headers.forEach(function(item){
+				request.setRequestHeader(item.header, item.value);
+			});
+		};
+
+		var checkReadyState = function(){
+			if(self.request.readyState === 4){
+				var httpStatus = self.request.status;
+
+				console.debug(httpStatus)
+
+				console.debug(self.request.responseText)
+
+			}
+		};
+
 		this.send = function(url, params) {
 			if(params === undefined){
 				params = null;
@@ -1009,13 +1030,8 @@ if(typeof(luga) === "undefined"){
 			// TODO add anti-cache
 
 			self.request.open(config.method, url, config.async);
+			finalizeRequest(self.request);
 
-			self.request.timeout = config.timeout;
-			self.request.setRequestHeader("Content-Type", config.contentType);
-			self.request.setRequestHeader("X-Requested-With", config.requestedWith);
-			config.headers.forEach(function(item){
-				self.request.setRequestHeader(item.header, item.value);
-			});
 
 			self.request.send(params);
 		};
