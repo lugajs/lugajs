@@ -44,17 +44,16 @@
 				else{
 					// External template
 					var xhrOptions = {
-						url: templateSrc,
-						dataType: "text",
-						success: function(response, textStatus, jqXHR){
-							self.template = Handlebars.compile(response);
+						success: function(response){
+							self.template = Handlebars.compile(response.responseText);
 							self.render();
 						},
-						error: function(jqXHR, textStatus, errorThrown){
+						error: function(response){
 							throw(luga.string.format(self.CONST.HANDLEBARS_ERROR_MESSAGES.MISSING_TEMPLATE_FILE, [templateSrc]));
 						}
 					};
-					jQuery.ajax(xhrOptions);
+					var xhr = new luga.xhr.Request(xhrOptions);
+					xhr.send(templateSrc);
 				}
 			}
 		};

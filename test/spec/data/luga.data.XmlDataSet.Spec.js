@@ -2,12 +2,10 @@ describe("luga.data.XmlDataSet", function(){
 
 	"use strict";
 
-	var testRecordsStr, testRecordsDoc, noUrlDs, testDs;
+	var testRecordsStr, noUrlDs;
 	beforeEach(function(){
 		testRecordsStr = jasmineFixtures.read("data/peopleXml.txt");
-		testRecordsDoc = jasmineFixtures.read("data/people.xml");
 		noUrlDs = new luga.data.XmlDataSet({uuid: "noUrlDs"});
-		testDs = new luga.data.XmlDataSet({uuid: "xmlDs", url: "fixtures/data/people.xml", path: "//ladies/person"});
 	});
 
 	afterEach(function(){
@@ -44,8 +42,10 @@ describe("luga.data.XmlDataSet", function(){
 
 	describe(".getRawXml()", function(){
 		it("Returns the raw XML data", function(){
-			noUrlDs.loadRecords(testRecordsDoc);
-			expect(noUrlDs.getRawXml()).toEqual(testRecordsDoc);
+			noUrlDs.loadRecords({
+				responseText: testRecordsStr
+			});
+			expect(noUrlDs.getRawXml()).toEqual(luga.data.xml.parseFromString(testRecordsStr));
 		});
 		it("Returns null if no data has been loaded yet", function(){
 			expect(noUrlDs.getRawXml()).toBeNull();
@@ -134,17 +134,19 @@ describe("luga.data.XmlDataSet", function(){
 
 	describe(".loadRawXml()", function(){
 
-		describe("Given an Xml document", function(){
+		describe("Given a string", function(){
 
 			it("First calls .delete()", function(){
 				spyOn(noUrlDs, "delete");
-				noUrlDs.loadRawXml(testRecordsDoc);
+				noUrlDs.loadRawXml(testRecordsStr);
 				expect(noUrlDs.delete).toHaveBeenCalled();
 			});
 			it("Then calls .loadRecords()", function(){
 				spyOn(noUrlDs, "loadRecords");
-				noUrlDs.loadRawXml(testRecordsDoc);
-				expect(noUrlDs.loadRecords).toHaveBeenCalledWith(testRecordsDoc);
+				noUrlDs.loadRawXml(testRecordsStr);
+				expect(noUrlDs.loadRecords).toHaveBeenCalledWith({
+					responseText: testRecordsStr
+				});
 			});
 
 		});
@@ -153,13 +155,13 @@ describe("luga.data.XmlDataSet", function(){
 
 	describe(".loadRecords()", function(){
 
-		describe("Given an Xml document", function(){
+		describe("Given an XHR response", function(){
 
 			describe("First:", function(){
 
 				it("Set the .rawXml property", function(){
-					noUrlDs.loadRecords(testRecordsDoc);
-					expect(noUrlDs.rawXml).toEqual(testRecordsDoc);
+					noUrlDs.loadRecords({responseText: testRecordsStr});
+					expect(noUrlDs.rawXml).toEqual(luga.data.xml.parseFromString(testRecordsStr));
 				});
 
 			});
@@ -168,8 +170,8 @@ describe("luga.data.XmlDataSet", function(){
 
 				it("Calls luga.data.xml.evaluateXPath() to extract the nodes from the XML", function(){
 					spyOn(luga.data.xml, "evaluateXPath").and.callThrough();
-					noUrlDs.loadRecords(testRecordsDoc);
-					expect(luga.data.xml.evaluateXPath).toHaveBeenCalledWith(testRecordsDoc, "/");
+					noUrlDs.loadRecords({responseText: testRecordsStr});
+					expect(luga.data.xml.evaluateXPath).toHaveBeenCalled();
 				});
 
 			});
@@ -178,17 +180,8 @@ describe("luga.data.XmlDataSet", function(){
 
 				it("Calls .insert(), passing the relevant data", function(){
 					spyOn(noUrlDs, "insert");
-
-					var jazzPlayerNodes = luga.data.xml.evaluateXPath(testRecordsDoc, "//jazzPlayers/person");
-					var jazzPlayerRecords = [];
-					for(var i = 0; i < jazzPlayerNodes.length; i++){
-						jazzPlayerRecords.push(luga.data.xml.nodeToHash(jazzPlayerNodes[i]));
-					}
-
-					noUrlDs.setPath("//jazzPlayers/person");
-					noUrlDs.loadRecords(testRecordsDoc);
-
-					expect(noUrlDs.insert).toHaveBeenCalledWith(jazzPlayerRecords);
+					noUrlDs.loadRecords({responseText: testRecordsStr});
+					expect(noUrlDs.insert).toHaveBeenCalled();
 				});
 
 			});

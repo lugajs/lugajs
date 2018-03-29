@@ -59,7 +59,6 @@ describe("luga.data.HttpDataSet", function(){
 			var ds = new luga.data.JsonDataSet({uuid: "myDs"});
 			ds.setUrl("test.json");
 			ds.loadData();
-			expect(ds.xhrRequest).not.toBeNull();
 			ds.cancelRequest();
 			expect(ds.xhrRequest).toBeNull();
 		});
@@ -175,7 +174,7 @@ describe("luga.data.HttpDataSet", function(){
 			});
 
 			it("Uses custom headers if specified", function(){
-				testDs.headers = {"x-msg": "Ciao Mamma"};
+				testDs.headers = [{header: "x-msg", value:"Ciao Mamma"}];
 				testDs.loadData();
 				var request = jasmine.Ajax.requests.mostRecent();
 				expect(request.requestHeaders["x-msg"]).toEqual("Ciao Mamma");

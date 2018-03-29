@@ -71,7 +71,7 @@
 			this.cache = options.cache;
 		}
 
-		this.headers = {};
+		this.headers = [];
 		if(options.headers !== undefined){
 			this.headers = options.headers;
 		}
@@ -90,26 +90,24 @@
 		var loadUrl = function(){
 			var xhrOptions = {
 				url: self.url,
-				success: function(response, textStatus, jqXHR){
+				success: function(response){
 					if(self.incrementalLoad === false){
 						self.delete();
 					}
-					self.loadRecords(response, textStatus, jqXHR);
+					self.loadRecords(response);
 				},
 				timeout: self.timeout,
 				cache: self.cache,
 				headers: self.headers,
-				error: self.xhrError,
-				// Need to override jQuery's XML converter
-				converters: {
-					"text xml": luga.data.xml.parseFromString
-				}
+				error: self.xhrError
 			};
 			/* istanbul ignore else */
 			if(self.dataType !== null){
-				xhrOptions.dataType = self.dataType;
+				xhrOptions.contentType = self.dataType;
 			}
-			self.xhrRequest = jQuery.ajax(xhrOptions);
+
+			self.xhrRequest = new luga.xhr.Request(xhrOptions);
+			self.xhrRequest.send(self.url);
 		};
 
 		/* Public methods */
@@ -150,13 +148,11 @@
 
 		/**
 		 * Abstract method, concrete classes must implement it to extract records from XHR response
-		 * @param {*}        response     Data returned from the server
-		 * @param {String}   textStatus   HTTP status
-		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest
+		 * @param {luga.xhr.response} response
 		 * @abstract
 		 */
 		/* istanbul ignore next */
-		this.loadRecords = function(response, textStatus, jqXHR){
+		this.loadRecords = function(response){
 		};
 
 		/**

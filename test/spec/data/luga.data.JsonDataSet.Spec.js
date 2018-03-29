@@ -2,9 +2,10 @@ describe("luga.data.JsonDataset", function(){
 
 	"use strict";
 
-	var testRecords, noUrlDs, testDs;
+	var testRecords, testRecordsStr, noUrlDs, testDs;
 	beforeEach(function(){
 		testRecords = jasmineFixtures.read("data/ladies.json");
+		testRecordsStr = jasmineFixtures.read("data/ladies.txt");
 		noUrlDs = new luga.data.JsonDataSet({uuid: "noUrlDs"});
 		testDs = new luga.data.JsonDataSet({uuid: "jsonDs", url: "fixtures/data/ladies.json"});
 	});
@@ -43,7 +44,7 @@ describe("luga.data.JsonDataset", function(){
 
 	describe(".getRawJson()", function(){
 		it("Returns the raw JSON data structure", function(){
-			noUrlDs.loadRecords(testRecords);
+			noUrlDs.loadRawJson(testRecords);
 			expect(noUrlDs.getRawJson()).toEqual(testRecords);
 		});
 		it("Returns null if no data has been loaded yet", function(){
@@ -134,10 +135,9 @@ describe("luga.data.JsonDataset", function(){
 				noUrlDs.loadRawJson(testRecords);
 				expect(noUrlDs.delete).toHaveBeenCalled();
 			});
-			it("Then calls .loadRecords()", function(){
-				spyOn(noUrlDs, "loadRecords");
+			it("Then load the records", function(){
 				noUrlDs.loadRawJson(testRecords);
-				expect(noUrlDs.loadRecords).toHaveBeenCalledWith(testRecords);
+				expect(noUrlDs.getRecordsCount()).toEqual(7);
 			});
 
 		});
@@ -146,13 +146,13 @@ describe("luga.data.JsonDataset", function(){
 
 	describe(".loadRecords()", function(){
 
-		describe("Given JSON data", function(){
+		describe("Given an XHR response", function(){
 
 			describe("First:", function(){
 
 				it("Set the .rawJson property", function(){
-					noUrlDs.loadRecords(testRecords);
-					expect(noUrlDs.rawJson).toEqual(testRecords);
+					noUrlDs.loadRecords({responseText: testRecordsStr});
+					expect(noUrlDs.rawJson).not.toBeNull();
 				});
 
 			});
@@ -161,8 +161,8 @@ describe("luga.data.JsonDataset", function(){
 
 				it("Directely pass the JSON to .insert()", function(){
 					spyOn(noUrlDs, "insert");
-					noUrlDs.loadRecords(testRecords);
-					expect(noUrlDs.insert).toHaveBeenCalledWith(testRecords);
+					noUrlDs.loadRecords({responseText: testRecordsStr});
+					expect(noUrlDs.insert).toHaveBeenCalled();
 				});
 
 			});
@@ -171,21 +171,14 @@ describe("luga.data.JsonDataset", function(){
 
 				it("First calls luga.lookupProperty() to extract the relevant data", function(){
 					spyOn(luga, "lookupProperty");
-					var peopleRecords = jasmineFixtures.read("data/people.json");
 					noUrlDs.setPath("others.jazzPlayers");
-					noUrlDs.loadRecords(peopleRecords);
-					expect(luga.lookupProperty).toHaveBeenCalledWith(peopleRecords, "others.jazzPlayers");
+					noUrlDs.loadRecords({responseText: testRecordsStr});
+					expect(luga.lookupProperty).toHaveBeenCalled();
 				});
 				it("Then calls .insert(), passing the relevant data", function(){
 					spyOn(noUrlDs, "insert");
-
-					var peopleRecords = jasmineFixtures.read("data/people.json");
-					var jazzPlayers = luga.lookupProperty(peopleRecords, "others.jazzPlayers");
-
-					noUrlDs.setPath("others.jazzPlayers");
-					noUrlDs.loadRecords(peopleRecords);
-
-					expect(noUrlDs.insert).toHaveBeenCalledWith(jazzPlayers);
+					noUrlDs.loadRecords({responseText: testRecordsStr});
+					expect(noUrlDs.insert).toHaveBeenCalled();
 				});
 
 			});

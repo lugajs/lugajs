@@ -19,7 +19,7 @@
 		/** @type {luga.data.XmlDataSet} */
 		var self = this;
 		/** @override */
-		this.dataType = "xml";
+		this.dataType = "text/xml";
 
 		this.path = "/";
 		if(options.path !== undefined){
@@ -49,21 +49,22 @@
 
 		/**
 		 * First delete any existing records, then load data from the given XML, without XHR calls
-		 * @param {Node} node
+		 * @param {String} xml
 		 */
-		this.loadRawXml = function(node){
+		this.loadRawXml = function(xml){
 			self.delete();
-			self.loadRecords(node);
+			self.loadRecords({
+				responseText: xml
+			});
 		};
 
 		/**
-		 * Retrieves XML data, either from an HTTP response or from a direct call, apply the path, if any, extract and load records out of it
-		 * @param {Node}     xmlDoc       XML data. Either returned from the server or passed directly
-		 * @param {String}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
-		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
+		 * Retrieves XML data from an HTTP response, apply the path, if any, extract and load records out of it
+		 * @param {luga.xhr.response} response
 		 * @override
 		 */
-		this.loadRecords = function(xmlDoc, textStatus, jqXHR){
+		this.loadRecords = function(response){
+			var xmlDoc = luga.data.xml.parseFromString(response.responseText);
 			self.rawXml = xmlDoc;
 			var nodes = luga.data.xml.evaluateXPath(xmlDoc, self.path);
 			var records = [];
@@ -71,7 +72,6 @@
 				records.push(luga.data.xml.nodeToHash(nodes[i]));
 			}
 			self.insert(records);
-
 		};
 
 		/**
