@@ -1091,12 +1091,12 @@ if(typeof(luga) === "undefined"){
 		 * Aborts the request if it has already been sent
 		 */
 		this.abort = function() {
-			return self.xhr.abort();
+			self.xhr.abort();
 		};
 
 		/**
 		 * Return true if the request is pending. False otherwise
-		 * @return {boolean}
+		 * @return {Boolean}
 		 */
 		this.isRequestPending = function() {
 			return self.xhr.readyState !== 4;
