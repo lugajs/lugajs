@@ -971,47 +971,36 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.xhr.response
 	 *
-	 * @property {Number}  status                   Status code returned by the HTTP server
-	 * @property {String}  statusText               The response string returned by the HTTP server
+	 * @property {Number}       status              Status code returned by the HTTP server
+	 * @property {String}       statusText          The response string returned by the HTTP server
 	 * @property {String|null}  responseText        The response as text, null if the request was unsuccessful
+	 * @property {String}       responseType        A string which specifies what type of data the response contains. See: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseType
 	 * @property {String|null}  responseXML         The response as text, null if the request was unsuccessful or cannot be parsed as XML or HTML
 	 * @property {Array.<luga.xhr.header>} headers  An array of header/value pairs returned by the server
 	 */
-
-	var xhrSettings = {
-		method: "GET",
-		success: function(res){
-			console.debug(res);
-		},
-		error: function(res){
-			console.debug(res);
-		},
-		timeout: 5000,
-		async: true,
-		cache: true,
-		headers: [],
-		requestedWith: "XMLHttpRequest",
-		contentType: "text/plain"
-	};
 
 	luga.XHR_CONST = {
 		POST_CONTENT_TYPE: "application/x-www-form-urlencoded"
 	};
 
-	/**
-	 * Change current configuration
-	 * @param {luga.xhr.options} options
-	 * @return {luga.xhr.options}
-	 */
-	luga.xhr.setup = function(options){
-		luga.merge(xhrSettings, options);
-		return xhrSettings;
-	};
-
 	luga.xhr.Request = function(options){
-		var config = luga.xhr.setup();
+		var config = {
+			method: "GET",
+			success: function(res){
+				console.debug(res);
+			},
+			error: function(res){
+				console.debug(res);
+			},
+			timeout: 5000,
+			async: true,
+			cache: true,
+			headers: [],
+			requestedWith: "XMLHttpRequest",
+			contentType: "text/plain"
+		};
 		if(options !== undefined){
-			config = luga.merge(config, options);
+			luga.merge(config, options);
 		}
 		if(config.method.toUpperCase() === "POST"){
 			config.method = luga.XHR_CONST.POST_CONTENT_TYPE;
@@ -1046,6 +1035,7 @@ if(typeof(luga) === "undefined"){
 				status: self.xhr.status,
 				statusText: self.xhr.statusText,
 				responseText: self.xhr.responseText,
+				responseType: self.xhr.responseType,
 				responseXML: self.xhr.responseXML,
 				headers: headersToArray(self.xhr.getAllResponseHeaders())
 			};
@@ -1090,7 +1080,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Aborts the request if it has already been sent
 		 */
-		this.abort = function() {
+		this.abort = function(){
 			self.xhr.abort();
 		};
 
@@ -1098,13 +1088,13 @@ if(typeof(luga) === "undefined"){
 		 * Return true if the request is pending. False otherwise
 		 * @return {Boolean}
 		 */
-		this.isRequestPending = function() {
+		this.isRequestPending = function(){
 			return self.xhr.readyState !== 4;
 		};
 
 		/**
 		 * @param {String} url
-		 * @param {{}} params
+		 * @param {{}} [params]
 		 */
 		this.send = function(url, params){
 			if(params === undefined){
