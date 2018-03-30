@@ -240,6 +240,11 @@ ol.luga-docs-list li {
 	font-weight: normal;
 }
 
+.checkbox label input,
+.radio label input{
+	margin-right: 6px;
+}
+
 /* Table with attributes/api syntax */
 
 table.luga-docs-attributes,
