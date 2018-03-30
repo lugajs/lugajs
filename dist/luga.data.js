@@ -1,5 +1,6 @@
 /*! 
-Luga Data 0.9.7 2018-03-21T08:23:44.623Z
+Luga Data 0.9.7 2018-03-30T05:38:55.547Z
+http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -1243,7 +1244,7 @@ if(typeof(luga) === "undefined"){
 			this.cache = options.cache;
 		}
 
-		this.headers = {};
+		this.headers = [];
 		if(options.headers !== undefined){
 			this.headers = options.headers;
 		}
@@ -1262,26 +1263,24 @@ if(typeof(luga) === "undefined"){
 		var loadUrl = function(){
 			var xhrOptions = {
 				url: self.url,
-				success: function(response, textStatus, jqXHR){
+				success: function(response){
 					if(self.incrementalLoad === false){
 						self.delete();
 					}
-					self.loadRecords(response, textStatus, jqXHR);
+					self.loadRecords(response);
 				},
 				timeout: self.timeout,
 				cache: self.cache,
 				headers: self.headers,
-				error: self.xhrError,
-				// Need to override jQuery's XML converter
-				converters: {
-					"text xml": luga.data.xml.parseFromString
-				}
+				error: self.xhrError
 			};
 			/* istanbul ignore else */
 			if(self.dataType !== null){
-				xhrOptions.dataType = self.dataType;
+				xhrOptions.contentType = self.dataType;
 			}
-			self.xhrRequest = jQuery.ajax(xhrOptions);
+
+			self.xhrRequest = new luga.xhr.Request(xhrOptions);
+			self.xhrRequest.send(self.url);
 		};
 
 		/* Public methods */
@@ -1322,13 +1321,11 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Abstract method, concrete classes must implement it to extract records from XHR response
-		 * @param {*}        response     Data returned from the server
-		 * @param {String}   textStatus   HTTP status
-		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest
+		 * @param {luga.xhr.response} response
 		 * @abstract
 		 */
 		/* istanbul ignore next */
-		this.loadRecords = function(response, textStatus, jqXHR){
+		this.loadRecords = function(response){
 		};
 
 		/**
@@ -1383,8 +1380,6 @@ if(typeof(luga) === "undefined"){
 		luga.extend(luga.data.HttpDataSet, this, [options]);
 		/** @type {luga.data.JsonDataSet} */
 		var self = this;
-		/** @override */
-		this.dataType = "json";
 
 		this.path = null;
 		if(options.path !== undefined){
@@ -1418,17 +1413,19 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.loadRawJson = function(json){
 			self.delete();
-			self.loadRecords(json);
+			loadFromJson(json);
 		};
 
 		/**
-		 * Retrieves JSON data, either from an HTTP response or from a direct call, apply the path, if any, extract and load records out of it
-		 * @param {json}     json         JSON data. Either returned from the server or passed directly
-		 * @param {String}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
-		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
+		 * Retrieves JSON data from an HTTP response, apply the path, if any, extract and load records out of it
+		 * @param {luga.xhr.response} response
 		 * @override
 		 */
-		this.loadRecords = function(json, textStatus, jqXHR){
+		this.loadRecords = function(response){
+			loadFromJson(JSON.parse(response.responseText));
+		};
+
+		var loadFromJson = function(json){
 			self.rawJson = json;
 			if(self.path === null){
 				self.insert(json);
@@ -1473,7 +1470,7 @@ if(typeof(luga) === "undefined"){
 		/** @type {luga.data.XmlDataSet} */
 		var self = this;
 		/** @override */
-		this.dataType = "xml";
+		this.dataType = "text/xml";
 
 		this.path = "/";
 		if(options.path !== undefined){
@@ -1503,21 +1500,22 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * First delete any existing records, then load data from the given XML, without XHR calls
-		 * @param {Node} node
+		 * @param {String} xml
 		 */
-		this.loadRawXml = function(node){
+		this.loadRawXml = function(xml){
 			self.delete();
-			self.loadRecords(node);
+			self.loadRecords({
+				responseText: xml
+			});
 		};
 
 		/**
-		 * Retrieves XML data, either from an HTTP response or from a direct call, apply the path, if any, extract and load records out of it
-		 * @param {Node}     xmlDoc       XML data. Either returned from the server or passed directly
-		 * @param {String}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
-		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
+		 * Retrieves XML data from an HTTP response, apply the path, if any, extract and load records out of it
+		 * @param {luga.xhr.response} response
 		 * @override
 		 */
-		this.loadRecords = function(xmlDoc, textStatus, jqXHR){
+		this.loadRecords = function(response){
+			var xmlDoc = luga.data.xml.parseFromString(response.responseText);
 			self.rawXml = xmlDoc;
 			var nodes = luga.data.xml.evaluateXPath(xmlDoc, self.path);
 			var records = [];
@@ -1525,7 +1523,6 @@ if(typeof(luga) === "undefined"){
 				records.push(luga.data.xml.nodeToHash(nodes[i]));
 			}
 			self.insert(records);
-
 		};
 
 		/**
@@ -2401,17 +2398,16 @@ if(typeof(luga) === "undefined"){
 				else{
 					// External template
 					var xhrOptions = {
-						url: templateSrc,
-						dataType: "text",
-						success: function(response, textStatus, jqXHR){
-							self.template = Handlebars.compile(response);
+						success: function(response){
+							self.template = Handlebars.compile(response.responseText);
 							self.render();
 						},
-						error: function(jqXHR, textStatus, errorThrown){
+						error: function(response){
 							throw(luga.string.format(self.CONST.HANDLEBARS_ERROR_MESSAGES.MISSING_TEMPLATE_FILE, [templateSrc]));
 						}
 					};
-					jQuery.ajax(xhrOptions);
+					var xhr = new luga.xhr.Request(xhrOptions);
+					xhr.send(templateSrc);
 				}
 			}
 		};

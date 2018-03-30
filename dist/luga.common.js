@@ -1,5 +1,6 @@
 /*! 
-Luga Common 0.9.7 2018-03-21T08:23:45.365Z
+Luga Common 0.9.7 2018-03-30T05:38:56.354Z
+http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -944,6 +945,172 @@ if(typeof(luga) === "undefined"){
 			jQuery(node).before(box);
 		}
 		return box;
+	};
+
+	/* XHR */
+
+	luga.namespace("luga.xhr");
+
+	/**
+	 * @typedef {Object} luga.xhr.header
+	 *
+	 * @property {String}  header       Name of the HTTP header
+	 * @property {String}  value        Value to be used
+	 */
+
+	/**
+	 * @typedef {Object} luga.xhr.options
+	 *
+	 * @property {String}   method                   HTTP method. Default to GET
+	 * @property {Function} success                  Function to be invoked if the request succeeds. It will receive a single argument of type luga.xhr.response
+	 * @property {Function} error                    Function to be invoked if the request fails. It will receive a single argument of type luga.xhr.response
+	 * @property {Number}   timeout                  The number of milliseconds a request can take before automatically being terminated
+	 * @property {Boolean}  async                    Indicate that the request should be handled asynchronously. Default to true
+	 * @property {Boolean}  cache                    If set to false, it will force requested pages not to be cached by the browser. Will only work correctly with HEAD and GET requests
+	 *                                               It works by appending "_={timestamp}" to the GET parameters. Default to true
+	 * @property {Array.<luga.xhr.header>} headers   An array of header/value pairs to be used for the request. Default to an empty array
+	 * @property {String}   requestedWith            Value to be used for the "X-Requested-With" request header. Default to "XMLHttpRequest"
+	 * @property {String}   contentType              MIME type to use instead of the one specified by the server. Default to "text/plain"
+	 *                                               See also: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/overrideMimeType
+	 */
+
+	/**
+	 * @typedef {Object} luga.xhr.response
+	 *
+	 * @property {Number}       status              Status code returned by the HTTP server
+	 * @property {String}       statusText          The response string returned by the HTTP server
+	 * @property {String|null}  responseText        The response as text, null if the request was unsuccessful
+	 * @property {String}       responseType        A string which specifies what type of data the response contains. See: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseType
+	 * @property {String|null}  responseXML         The response as text, null if the request was unsuccessful or cannot be parsed as XML or HTML
+	 * @property {Array.<luga.xhr.header>} headers  An array of header/value pairs returned by the server
+	 */
+
+	luga.XHR_CONST = {
+		POST_CONTENT_TYPE: "application/x-www-form-urlencoded"
+	};
+
+	luga.xhr.Request = function(options){
+		var config = {
+			method: "GET",
+			success: function(res){
+				console.debug(res);
+			},
+			error: function(res){
+				console.debug(res);
+			},
+			timeout: 5000,
+			async: true,
+			cache: true,
+			headers: [],
+			requestedWith: "XMLHttpRequest",
+			contentType: "text/plain"
+		};
+		if(options !== undefined){
+			luga.merge(config, options);
+		}
+		if(config.method.toUpperCase() === "POST"){
+			config.method = luga.XHR_CONST.POST_CONTENT_TYPE;
+		}
+
+		var self = this;
+		self.xhr = new XMLHttpRequest();
+
+		/**
+		 * Turn the string containing HTTP headers into an array of objects
+		 * @param {String} str
+		 * @return {Array.<luga.xhr.header>}
+		 */
+		var headersToArray = function(str){
+			var headers = str.split("\r\n");
+			// Remove the last element since it's empty
+			headers.pop();
+			return headers.map(function(item){
+				var tokens = item.split(":");
+				return {
+					header: tokens[0],
+					value: tokens[1].substring(1)
+				};
+			});
+		};
+
+		/**
+		 * @return {luga.xhr.response}
+		 */
+		var assembleResponse = function(){
+			return {
+				status: self.xhr.status,
+				statusText: self.xhr.statusText,
+				responseText: self.xhr.responseText,
+				responseType: self.xhr.responseType,
+				responseXML: self.xhr.responseXML,
+				headers: headersToArray(self.xhr.getAllResponseHeaders())
+			};
+		};
+
+		var checkReadyState = function(){
+			if(self.xhr.readyState === 4){
+				var httpStatus = self.xhr.status;
+				if((httpStatus >= 200 && httpStatus <= 300) || (httpStatus === 304)){
+					config.success(assembleResponse());
+				}
+				else{
+					config.error(assembleResponse());
+				}
+			}
+		};
+
+		var finalizeRequest = function(){
+			self.xhr.onreadystatechange = checkReadyState;
+			self.xhr.timeout = config.timeout;
+			self.xhr.setRequestHeader("Content-Type", config.contentType);
+			self.xhr.setRequestHeader("X-Requested-With", config.requestedWith);
+			config.headers.forEach(function(item){
+				self.xhr.setRequestHeader(item.header, item.value);
+			});
+		};
+
+		var finalizeUrl = function(url){
+			if(config.cache === true){
+				return url;
+			}
+			var suffix = "_anti-cache=" + Date.now();
+			if(url.indexOf("?") !== -1){
+				url += "&";
+			}
+			else{
+				url += "?";
+			}
+			return url + suffix;
+		};
+
+		/**
+		 * Aborts the request if it has already been sent
+		 */
+		this.abort = function(){
+			self.xhr.abort();
+		};
+
+		/**
+		 * Return true if the request is pending. False otherwise
+		 * @return {Boolean}
+		 */
+		this.isRequestPending = function(){
+			return self.xhr.readyState !== 4;
+		};
+
+		/**
+		 * @param {String} url
+		 * @param {{}} [params]
+		 */
+		this.send = function(url, params){
+			if(params === undefined){
+				params = null;
+			}
+			self.xhr.open(config.method, finalizeUrl(url), config.async);
+			finalizeRequest();
+			self.xhr.send(params);
+		};
+
 	};
 
 }());

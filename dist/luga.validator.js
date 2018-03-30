@@ -1,5 +1,6 @@
 /*! 
-Luga Validator 0.9.7 2018-03-21T08:23:45.369Z
+Luga Validator 0.9.7 2018-03-30T05:38:56.356Z
+http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */

@@ -42,6 +42,7 @@ function assembleBanner(name, version){
 	var banner = [
 		"/*! ",
 		name + " " + version + " " + now.toISOString(),
+		pkg.homepage,
 		"Copyright 2013-" + now.getFullYear() + " " + pkg.author.name + " (" + pkg.author.email + ")",
 		"Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0",
 		" */",

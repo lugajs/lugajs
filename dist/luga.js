@@ -1,5 +1,6 @@
 /*! 
-Luga JS 0.9.7 2018-03-21T08:23:45.370Z
+Luga JS 0.9.7 2018-03-30T05:38:56.357Z
+http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -946,6 +947,172 @@ if(typeof(luga) === "undefined"){
 		return box;
 	};
 
+	/* XHR */
+
+	luga.namespace("luga.xhr");
+
+	/**
+	 * @typedef {Object} luga.xhr.header
+	 *
+	 * @property {String}  header       Name of the HTTP header
+	 * @property {String}  value        Value to be used
+	 */
+
+	/**
+	 * @typedef {Object} luga.xhr.options
+	 *
+	 * @property {String}   method                   HTTP method. Default to GET
+	 * @property {Function} success                  Function to be invoked if the request succeeds. It will receive a single argument of type luga.xhr.response
+	 * @property {Function} error                    Function to be invoked if the request fails. It will receive a single argument of type luga.xhr.response
+	 * @property {Number}   timeout                  The number of milliseconds a request can take before automatically being terminated
+	 * @property {Boolean}  async                    Indicate that the request should be handled asynchronously. Default to true
+	 * @property {Boolean}  cache                    If set to false, it will force requested pages not to be cached by the browser. Will only work correctly with HEAD and GET requests
+	 *                                               It works by appending "_={timestamp}" to the GET parameters. Default to true
+	 * @property {Array.<luga.xhr.header>} headers   An array of header/value pairs to be used for the request. Default to an empty array
+	 * @property {String}   requestedWith            Value to be used for the "X-Requested-With" request header. Default to "XMLHttpRequest"
+	 * @property {String}   contentType              MIME type to use instead of the one specified by the server. Default to "text/plain"
+	 *                                               See also: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/overrideMimeType
+	 */
+
+	/**
+	 * @typedef {Object} luga.xhr.response
+	 *
+	 * @property {Number}       status              Status code returned by the HTTP server
+	 * @property {String}       statusText          The response string returned by the HTTP server
+	 * @property {String|null}  responseText        The response as text, null if the request was unsuccessful
+	 * @property {String}       responseType        A string which specifies what type of data the response contains. See: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseType
+	 * @property {String|null}  responseXML         The response as text, null if the request was unsuccessful or cannot be parsed as XML or HTML
+	 * @property {Array.<luga.xhr.header>} headers  An array of header/value pairs returned by the server
+	 */
+
+	luga.XHR_CONST = {
+		POST_CONTENT_TYPE: "application/x-www-form-urlencoded"
+	};
+
+	luga.xhr.Request = function(options){
+		var config = {
+			method: "GET",
+			success: function(res){
+				console.debug(res);
+			},
+			error: function(res){
+				console.debug(res);
+			},
+			timeout: 5000,
+			async: true,
+			cache: true,
+			headers: [],
+			requestedWith: "XMLHttpRequest",
+			contentType: "text/plain"
+		};
+		if(options !== undefined){
+			luga.merge(config, options);
+		}
+		if(config.method.toUpperCase() === "POST"){
+			config.method = luga.XHR_CONST.POST_CONTENT_TYPE;
+		}
+
+		var self = this;
+		self.xhr = new XMLHttpRequest();
+
+		/**
+		 * Turn the string containing HTTP headers into an array of objects
+		 * @param {String} str
+		 * @return {Array.<luga.xhr.header>}
+		 */
+		var headersToArray = function(str){
+			var headers = str.split("\r\n");
+			// Remove the last element since it's empty
+			headers.pop();
+			return headers.map(function(item){
+				var tokens = item.split(":");
+				return {
+					header: tokens[0],
+					value: tokens[1].substring(1)
+				};
+			});
+		};
+
+		/**
+		 * @return {luga.xhr.response}
+		 */
+		var assembleResponse = function(){
+			return {
+				status: self.xhr.status,
+				statusText: self.xhr.statusText,
+				responseText: self.xhr.responseText,
+				responseType: self.xhr.responseType,
+				responseXML: self.xhr.responseXML,
+				headers: headersToArray(self.xhr.getAllResponseHeaders())
+			};
+		};
+
+		var checkReadyState = function(){
+			if(self.xhr.readyState === 4){
+				var httpStatus = self.xhr.status;
+				if((httpStatus >= 200 && httpStatus <= 300) || (httpStatus === 304)){
+					config.success(assembleResponse());
+				}
+				else{
+					config.error(assembleResponse());
+				}
+			}
+		};
+
+		var finalizeRequest = function(){
+			self.xhr.onreadystatechange = checkReadyState;
+			self.xhr.timeout = config.timeout;
+			self.xhr.setRequestHeader("Content-Type", config.contentType);
+			self.xhr.setRequestHeader("X-Requested-With", config.requestedWith);
+			config.headers.forEach(function(item){
+				self.xhr.setRequestHeader(item.header, item.value);
+			});
+		};
+
+		var finalizeUrl = function(url){
+			if(config.cache === true){
+				return url;
+			}
+			var suffix = "_anti-cache=" + Date.now();
+			if(url.indexOf("?") !== -1){
+				url += "&";
+			}
+			else{
+				url += "?";
+			}
+			return url + suffix;
+		};
+
+		/**
+		 * Aborts the request if it has already been sent
+		 */
+		this.abort = function(){
+			self.xhr.abort();
+		};
+
+		/**
+		 * Return true if the request is pending. False otherwise
+		 * @return {Boolean}
+		 */
+		this.isRequestPending = function(){
+			return self.xhr.readyState !== 4;
+		};
+
+		/**
+		 * @param {String} url
+		 * @param {{}} [params]
+		 */
+		this.send = function(url, params){
+			if(params === undefined){
+				params = null;
+			}
+			self.xhr.open(config.method, finalizeUrl(url), config.async);
+			finalizeRequest();
+			self.xhr.send(params);
+		};
+
+	};
+
 }());
 /* globals alert */
 
@@ -1049,17 +1216,17 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.ajaxform.Sender.options
 	 *
-	 * @property {jQuery} formNode     Either a jQuery object wrapping the form or the naked DOM object. Required
-	 * @property {String} action       URL to where the form will be send. Default to the current URL
-	 * @property {String} method       HTTP method to be used. Default to GET
-	 * @property {Number} timeout      Timeout to be used during the HTTP call (milliseconds). Default to 30000
-	 * @property {String} success      Name of the function to be invoked if the form is successfully submitted. Default to luga.ajaxform.handlers.replaceForm
-	 * @property {String} error        Name of the function to be invoked if the HTTP call failed. Default to luga.ajaxform.handlers.errorAlert
-	 * @property {String} successmsg   Message that will be displayed to the user if the form is successfully submitted. Default to "Thanks for submitting the form"
-	 * @property {String} errormsg     Message that will be displayed to the user if the HTTP call failed. Default to "Failed to submit the form"
-	 * @property {String} before       Name of the function to be invoked before the form is send. Default to null
-	 * @property {String} after        Name of the function to be invoked after the form is send. Default to null
-	 * @property {Object} headers      A set of name/value pairs to be used as custom HTTP headers. Available only with JavaScript API
+	 * @property {jQuery} formNode                   Either a jQuery object wrapping the form or the naked DOM object. Required
+	 * @property {String} action                     URL to where the form will be send. Default to the current URL
+	 * @property {String} method                     HTTP method to be used. Default to GET
+	 * @property {Number} timeout                    Timeout to be used during the HTTP call (milliseconds). Default to 30000
+	 * @property {String} success                    Name of the function to be invoked if the form is successfully submitted. Default to luga.ajaxform.handlers.replaceForm
+	 * @property {String} error                      Name of the function to be invoked if the HTTP call failed. Default to luga.ajaxform.handlers.errorAlert
+	 * @property {String} successmsg                 Message that will be displayed to the user if the form is successfully submitted. Default to "Thanks for submitting the form"
+	 * @property {String} errormsg                   Message that will be displayed to the user if the HTTP call failed. Default to "Failed to submit the form"
+	 * @property {String} before                     Name of the function to be invoked before the form is send. Default to null
+	 * @property {String} after                      Name of the function to be invoked after the form is send. Default to null
+	 * @property {Array.<luga.xhr.header>} headers   A set of header/value pairs to be used as custom HTTP headers. Available only with JavaScript API
 	 */
 
 	/**
@@ -1086,7 +1253,7 @@ if(typeof(luga) === "undefined"){
 			// Either: custom attribute, incoming option or null
 			before: options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.BEFORE) || null,
 			after: options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.AFTER) || null,
-			headers: null
+			headers: []
 		};
 		luga.merge(this.config, options);
 		this.config.timeout = parseInt(this.config.timeout, 10);
@@ -1125,25 +1292,27 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
+		 * @param {luga.xhr.response} response
 		 * @throw {Exception}
 		 */
-		var handleError = function(textStatus, jqXHR, errorThrown){
+		var handleError = function(response){
 			var callBack = luga.lookupFunction(self.config.error);
 			if(callBack === undefined){
 				throw(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.error]));
 			}
-			callBack.apply(null, [self.config.errormsg, self.config.formNode, textStatus, errorThrown, jqXHR]);
+			callBack.apply(null, [self.config.errormsg, self.config.formNode, response]);
 		};
 
 		/**
+		 * @param {luga.xhr.response} response
 		 * @throw {Exception}
 		 */
-		var handleSuccess = function(textStatus, jqXHR){
+		var handleSuccess = function(response){
 			var callBack = luga.lookupFunction(self.config.success);
 			if(callBack === undefined){
 				throw(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.success]));
 			}
-			callBack.apply(null, [self.config.successmsg, self.config.formNode, textStatus, jqXHR]);
+			callBack.apply(null, [self.config.successmsg, self.config.formNode, response]);
 		};
 
 		/**
@@ -1161,19 +1330,19 @@ if(typeof(luga) === "undefined"){
 				handleBefore();
 			}
 
-			jQuery.ajax({
-				data: formData,
-				error: function(jqXHR, textStatus, errorThrown){
-					handleError(textStatus, jqXHR, errorThrown);
-				},
-				method: self.config.method,
-				headers: self.config.headers,
-				success: function(response, textStatus, jqXHR){
-					handleSuccess(textStatus, jqXHR);
+			var xhrOptions = {
+				url: self.config.action,
+				success: function(response){
+					handleSuccess(response);
 				},
 				timeout: self.config.timeout,
-				url: self.config.action
-			});
+				headers: self.config.headers,
+				error: function(response){
+					handleError(response);
+				}
+			};
+			var xhrRequest = new luga.xhr.Request(xhrOptions);
+			xhrRequest.send(self.config.action, formData);
 
 			if(self.config.after !== null){
 				handleAfter();
@@ -1192,20 +1361,20 @@ if(typeof(luga) === "undefined"){
 				handleBefore();
 			}
 
-			jQuery.ajax({
+			var xhrOptions = {
 				contentType: "application/json",
-				data: JSON.stringify(formData),
-				error: function(jqXHR, textStatus, errorThrown){
-					handleError(textStatus, jqXHR, errorThrown);
-				},
-				method: self.config.method,
-				headers: self.config.headers,
-				success: function(response, textStatus, jqXHR){
-					handleSuccess(textStatus, jqXHR);
+				url: self.config.action,
+				success: function(response){
+					handleSuccess(response);
 				},
 				timeout: self.config.timeout,
-				url: self.config.action
-			});
+				headers: self.config.headers,
+				error: function(response){
+					handleError(response);
+				}
+			};
+			var xhrRequest = new luga.xhr.Request(xhrOptions);
+			xhrRequest.send(self.config.action, JSON.stringify(formData));
 
 			if(self.config.after !== null){
 				handleAfter();
@@ -2502,7 +2671,8 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga Data 0.9.7 2018-03-21T08:23:44.623Z
+Luga Data 0.9.7 2018-03-30T05:38:55.547Z
+http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
@@ -3746,7 +3916,7 @@ if(typeof(luga) === "undefined"){
 			this.cache = options.cache;
 		}
 
-		this.headers = {};
+		this.headers = [];
 		if(options.headers !== undefined){
 			this.headers = options.headers;
 		}
@@ -3765,26 +3935,24 @@ if(typeof(luga) === "undefined"){
 		var loadUrl = function(){
 			var xhrOptions = {
 				url: self.url,
-				success: function(response, textStatus, jqXHR){
+				success: function(response){
 					if(self.incrementalLoad === false){
 						self.delete();
 					}
-					self.loadRecords(response, textStatus, jqXHR);
+					self.loadRecords(response);
 				},
 				timeout: self.timeout,
 				cache: self.cache,
 				headers: self.headers,
-				error: self.xhrError,
-				// Need to override jQuery's XML converter
-				converters: {
-					"text xml": luga.data.xml.parseFromString
-				}
+				error: self.xhrError
 			};
 			/* istanbul ignore else */
 			if(self.dataType !== null){
-				xhrOptions.dataType = self.dataType;
+				xhrOptions.contentType = self.dataType;
 			}
-			self.xhrRequest = jQuery.ajax(xhrOptions);
+
+			self.xhrRequest = new luga.xhr.Request(xhrOptions);
+			self.xhrRequest.send(self.url);
 		};
 
 		/* Public methods */
@@ -3825,13 +3993,11 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Abstract method, concrete classes must implement it to extract records from XHR response
-		 * @param {*}        response     Data returned from the server
-		 * @param {String}   textStatus   HTTP status
-		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest
+		 * @param {luga.xhr.response} response
 		 * @abstract
 		 */
 		/* istanbul ignore next */
-		this.loadRecords = function(response, textStatus, jqXHR){
+		this.loadRecords = function(response){
 		};
 
 		/**
@@ -3886,8 +4052,6 @@ if(typeof(luga) === "undefined"){
 		luga.extend(luga.data.HttpDataSet, this, [options]);
 		/** @type {luga.data.JsonDataSet} */
 		var self = this;
-		/** @override */
-		this.dataType = "json";
 
 		this.path = null;
 		if(options.path !== undefined){
@@ -3921,17 +4085,19 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.loadRawJson = function(json){
 			self.delete();
-			self.loadRecords(json);
+			loadFromJson(json);
 		};
 
 		/**
-		 * Retrieves JSON data, either from an HTTP response or from a direct call, apply the path, if any, extract and load records out of it
-		 * @param {json}     json         JSON data. Either returned from the server or passed directly
-		 * @param {String}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
-		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
+		 * Retrieves JSON data from an HTTP response, apply the path, if any, extract and load records out of it
+		 * @param {luga.xhr.response} response
 		 * @override
 		 */
-		this.loadRecords = function(json, textStatus, jqXHR){
+		this.loadRecords = function(response){
+			loadFromJson(JSON.parse(response.responseText));
+		};
+
+		var loadFromJson = function(json){
 			self.rawJson = json;
 			if(self.path === null){
 				self.insert(json);
@@ -3976,7 +4142,7 @@ if(typeof(luga) === "undefined"){
 		/** @type {luga.data.XmlDataSet} */
 		var self = this;
 		/** @override */
-		this.dataType = "xml";
+		this.dataType = "text/xml";
 
 		this.path = "/";
 		if(options.path !== undefined){
@@ -4006,21 +4172,22 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * First delete any existing records, then load data from the given XML, without XHR calls
-		 * @param {Node} node
+		 * @param {String} xml
 		 */
-		this.loadRawXml = function(node){
+		this.loadRawXml = function(xml){
 			self.delete();
-			self.loadRecords(node);
+			self.loadRecords({
+				responseText: xml
+			});
 		};
 
 		/**
-		 * Retrieves XML data, either from an HTTP response or from a direct call, apply the path, if any, extract and load records out of it
-		 * @param {Node}     xmlDoc       XML data. Either returned from the server or passed directly
-		 * @param {String}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
-		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
+		 * Retrieves XML data from an HTTP response, apply the path, if any, extract and load records out of it
+		 * @param {luga.xhr.response} response
 		 * @override
 		 */
-		this.loadRecords = function(xmlDoc, textStatus, jqXHR){
+		this.loadRecords = function(response){
+			var xmlDoc = luga.data.xml.parseFromString(response.responseText);
 			self.rawXml = xmlDoc;
 			var nodes = luga.data.xml.evaluateXPath(xmlDoc, self.path);
 			var records = [];
@@ -4028,7 +4195,6 @@ if(typeof(luga) === "undefined"){
 				records.push(luga.data.xml.nodeToHash(nodes[i]));
 			}
 			self.insert(records);
-
 		};
 
 		/**
@@ -4904,17 +5070,16 @@ if(typeof(luga) === "undefined"){
 				else{
 					// External template
 					var xhrOptions = {
-						url: templateSrc,
-						dataType: "text",
-						success: function(response, textStatus, jqXHR){
-							self.template = Handlebars.compile(response);
+						success: function(response){
+							self.template = Handlebars.compile(response.responseText);
 							self.render();
 						},
-						error: function(jqXHR, textStatus, errorThrown){
+						error: function(response){
 							throw(luga.string.format(self.CONST.HANDLEBARS_ERROR_MESSAGES.MISSING_TEMPLATE_FILE, [templateSrc]));
 						}
 					};
-					jQuery.ajax(xhrOptions);
+					var xhr = new luga.xhr.Request(xhrOptions);
+					xhr.send(templateSrc);
 				}
 			}
 		};

@@ -1,6 +1,7 @@
 /*! 
-Luga Ajaxform 0.9.7dev 2017-11-19T17:34:24.108Z
-Copyright 2013-2017 Massimo Foti (massimo@massimocorner.com)
+Luga Ajaxform 0.9.7 2018-03-30T05:38:56.355Z
+http://www.lugajs.org
+Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
 /* globals alert */
@@ -105,22 +106,22 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.ajaxform.Sender.options
 	 *
-	 * @property {jQuery} formNode     Either a jQuery object wrapping the form or the naked DOM object. Required
-	 * @property {String} action       URL to where the form will be send. Default to the current URL
-	 * @property {String} method       HTTP method to be used. Default to GET
-	 * @property {Number} timeout      Timeout to be used during the HTTP call (milliseconds). Default to 30000
-	 * @property {String} success      Name of the function to be invoked if the form is successfully submitted. Default to luga.ajaxform.handlers.replaceForm
-	 * @property {String} error        Name of the function to be invoked if the HTTP call failed. Default to luga.ajaxform.handlers.errorAlert
-	 * @property {String} successmsg   Message that will be displayed to the user if the form is successfully submitted. Default to "Thanks for submitting the form"
-	 * @property {String} errormsg     Message that will be displayed to the user if the HTTP call failed. Default to "Failed to submit the form"
-	 * @property {String} before       Name of the function to be invoked before the form is send. Default to null
-	 * @property {String} after        Name of the function to be invoked after the form is send. Default to null
-	 * @property {Object} headers      A set of name/value pairs to be used as custom HTTP headers. Available only with JavaScript API
+	 * @property {jQuery} formNode                   Either a jQuery object wrapping the form or the naked DOM object. Required
+	 * @property {String} action                     URL to where the form will be send. Default to the current URL
+	 * @property {String} method                     HTTP method to be used. Default to GET
+	 * @property {Number} timeout                    Timeout to be used during the HTTP call (milliseconds). Default to 30000
+	 * @property {String} success                    Name of the function to be invoked if the form is successfully submitted. Default to luga.ajaxform.handlers.replaceForm
+	 * @property {String} error                      Name of the function to be invoked if the HTTP call failed. Default to luga.ajaxform.handlers.errorAlert
+	 * @property {String} successmsg                 Message that will be displayed to the user if the form is successfully submitted. Default to "Thanks for submitting the form"
+	 * @property {String} errormsg                   Message that will be displayed to the user if the HTTP call failed. Default to "Failed to submit the form"
+	 * @property {String} before                     Name of the function to be invoked before the form is send. Default to null
+	 * @property {String} after                      Name of the function to be invoked after the form is send. Default to null
+	 * @property {Array.<luga.xhr.header>} headers   A set of header/value pairs to be used as custom HTTP headers. Available only with JavaScript API
 	 */
 
 	/**
 	 * Form handler. Invoke its sender() method to serialize the form and send its contents using XHR
-	 * @param options {luga.ajaxform.Sender.options}
+	 * @param {luga.ajaxform.Sender.options} options
 	 * @constructor
 	 * @throw {Exception}
 	 */
@@ -142,7 +143,7 @@ if(typeof(luga) === "undefined"){
 			// Either: custom attribute, incoming option or null
 			before: options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.BEFORE) || null,
 			after: options.formNode.attr(luga.ajaxform.CONST.CUSTOM_ATTRIBUTES.AFTER) || null,
-			headers: null
+			headers: []
 		};
 		luga.merge(this.config, options);
 		this.config.timeout = parseInt(this.config.timeout, 10);
@@ -181,25 +182,27 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
+		 * @param {luga.xhr.response} response
 		 * @throw {Exception}
 		 */
-		var handleError = function(textStatus, jqXHR, errorThrown){
+		var handleError = function(response){
 			var callBack = luga.lookupFunction(self.config.error);
 			if(callBack === undefined){
 				throw(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.error]));
 			}
-			callBack.apply(null, [self.config.errormsg, self.config.formNode, textStatus, errorThrown, jqXHR]);
+			callBack.apply(null, [self.config.errormsg, self.config.formNode, response]);
 		};
 
 		/**
+		 * @param {luga.xhr.response} response
 		 * @throw {Exception}
 		 */
-		var handleSuccess = function(textStatus, jqXHR){
+		var handleSuccess = function(response){
 			var callBack = luga.lookupFunction(self.config.success);
 			if(callBack === undefined){
 				throw(luga.string.format(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, [self.config.success]));
 			}
-			callBack.apply(null, [self.config.successmsg, self.config.formNode, textStatus, jqXHR]);
+			callBack.apply(null, [self.config.successmsg, self.config.formNode, response]);
 		};
 
 		/**
@@ -217,19 +220,19 @@ if(typeof(luga) === "undefined"){
 				handleBefore();
 			}
 
-			jQuery.ajax({
-				data: formData,
-				error: function(jqXHR, textStatus, errorThrown){
-					handleError(textStatus, jqXHR, errorThrown);
-				},
-				method: self.config.method,
-				headers: self.config.headers,
-				success: function(response, textStatus, jqXHR){
-					handleSuccess(textStatus, jqXHR);
+			var xhrOptions = {
+				url: self.config.action,
+				success: function(response){
+					handleSuccess(response);
 				},
 				timeout: self.config.timeout,
-				url: self.config.action
-			});
+				headers: self.config.headers,
+				error: function(response){
+					handleError(response);
+				}
+			};
+			var xhrRequest = new luga.xhr.Request(xhrOptions);
+			xhrRequest.send(self.config.action, formData);
 
 			if(self.config.after !== null){
 				handleAfter();
@@ -248,20 +251,20 @@ if(typeof(luga) === "undefined"){
 				handleBefore();
 			}
 
-			jQuery.ajax({
+			var xhrOptions = {
 				contentType: "application/json",
-				data: JSON.stringify(formData),
-				error: function(jqXHR, textStatus, errorThrown){
-					handleError(textStatus, jqXHR, errorThrown);
-				},
-				method: self.config.method,
-				headers: self.config.headers,
-				success: function(response, textStatus, jqXHR){
-					handleSuccess(textStatus, jqXHR);
+				url: self.config.action,
+				success: function(response){
+					handleSuccess(response);
 				},
 				timeout: self.config.timeout,
-				url: self.config.action
-			});
+				headers: self.config.headers,
+				error: function(response){
+					handleError(response);
+				}
+			};
+			var xhrRequest = new luga.xhr.Request(xhrOptions);
+			xhrRequest.send(self.config.action, JSON.stringify(formData));
 
 			if(self.config.after !== null){
 				handleAfter();
@@ -274,7 +277,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Attach form handlers to onSubmit events
-	 * @param {jquery|undefined} [jQuery("body")] rootNode  Optional, default to jQuery("body")
+	 * @param {jquery|undefined} [rootNode=jQuery("body")] Optional, default to jQuery("body")
 	 */
 	luga.ajaxform.initForms = function(rootNode){
 		if(rootNode === undefined){
