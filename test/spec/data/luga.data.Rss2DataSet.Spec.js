@@ -18,7 +18,7 @@ describe("luga.data.Rss2Dataset", function(){
 
 	});
 
-	afterEach(function() {
+	afterEach(function(){
 		luga.data.dataSourceRegistry = {};
 		jasmine.Ajax.uninstall();
 	});
@@ -27,11 +27,9 @@ describe("luga.data.Rss2Dataset", function(){
 		expect(jQuery.isFunction(luga.data.Rss2Dataset)).toEqual(true);
 	});
 
-	it("Implements the luga.data.HttpDataSet abstract class", function(){
-		var MockDs = function(options){
-			luga.extend(luga.data.Rss2Dataset, this, [options]);
-		};
-		expect(noUrlDs).toMatchDuckType(new MockDs({uuid: "duck"}, false));
+	it("Extend the luga.data.XmlDataSet class", function(){
+		var xmlDs = new luga.data.XmlDataSet({uuid: "myXmlDs"});
+		expect(noUrlDs).toMatchDuckType(xmlDs);
 	});
 
 	it("Can retrieve XML using XHR or consume XML as string", function(){
@@ -44,7 +42,7 @@ describe("luga.data.Rss2Dataset", function(){
 	describe(".getContext()", function(){
 
 		it("Returns the RSS's context, containing .items and one property for each tag allowed inside <channel>", function(){
-			noUrlDs.loadRecords(xmlStr);
+			noUrlDs.loadRecords({responseText: xmlStr});
 			var context = noUrlDs.getContext();
 			expect(context.items).toEqual(noUrlDs.select());
 			expect(context.recordCount).toEqual(noUrlDs.getRecordsCount());
@@ -53,44 +51,16 @@ describe("luga.data.Rss2Dataset", function(){
 
 	});
 
-	describe(".getRawXml()", function(){
-		it("Returns the raw XML string", function(){
-			noUrlDs.loadRecords(xmlStr);
-			expect(noUrlDs.getRawXml()).toEqual(xmlStr);
-		});
-		it("Returns null if no data has been loaded yet", function(){
-			expect(noUrlDs.getRawXml()).toBeNull();
-		});
-	});
-
-	describe(".loadRawXml()", function(){
-
-		describe("Given an XML string", function(){
-
-			it("First calls .delete()", function(){
-				spyOn(noUrlDs, "delete");
-				noUrlDs.loadRawXml(xmlStr);
-				expect(noUrlDs.delete).toHaveBeenCalled();
-			});
-			it("Then calls .loadRecords()", function(){
-				spyOn(noUrlDs, "loadRecords");
-				noUrlDs.loadRawXml(xmlStr);
-				expect(noUrlDs.loadRecords).toHaveBeenCalledWith(xmlStr);
-			});
-
-		});
-
-	});
-
 	describe(".loadRecords()", function(){
 
-		describe("Given an XML string", function(){
+		describe("Given an XHR response", function(){
 
 			describe("First:", function(){
 
 				it("Set the .rawXml property", function(){
-					noUrlDs.loadRecords(xmlStr);
-					expect(noUrlDs.rawXml).toEqual(xmlStr);
+					expect(noUrlDs.rawXml).toBeNull();
+					noUrlDs.loadRecords({responseText: xmlStr});
+					expect(noUrlDs.rawXml).not.toBeNull();
 				});
 
 			});
@@ -99,24 +69,24 @@ describe("luga.data.Rss2Dataset", function(){
 
 				it("Calls .insert() to insert one record for each <item> inside the XML", function(){
 					spyOn(noUrlDs, "insert").and.callThrough();
-					noUrlDs.loadRecords(xmlStr);
+					noUrlDs.loadRecords({responseText: xmlStr});
 					expect(noUrlDs.insert).toHaveBeenCalled();
 					expect(noUrlDs.getRecordsCount(9)).toEqual(9);
 				});
 
 				it("Each record contains a property for each tag allowed inside <item>", function(){
-					noUrlDs.loadRecords(xmlStr);
+					noUrlDs.loadRecords({responseText: xmlStr});
 					var item = noUrlDs.records[0];
-					expect(item.title).toBeDefined();
-					expect(item.link).toBeDefined();
+					expect(item.title).toBeUndefined();
+					expect(item.link).toBeUndefined();
 					expect(item.description).toBeDefined();
-					expect(item.author).toBeDefined();
-					expect(item.category).toBeDefined();
-					expect(item.comments).toBeDefined();
-					expect(item.enclosure).toBeDefined();
+					expect(item.author).toBeUndefined();
+					expect(item.category).toBeUndefined();
+					expect(item.comments).toBeUndefined();
+					expect(item.enclosure).toBeUndefined();
 					expect(item.guid).toBeDefined();
 					expect(item.pubDate).toBeDefined();
-					expect(item.source).toBeDefined();
+					expect(item.source).toBeUndefined();
 				});
 
 			});
@@ -124,7 +94,7 @@ describe("luga.data.Rss2Dataset", function(){
 			describe("Finally", function(){
 
 				it("Populate .channelMeta with one property for each tag allowed inside <channel>", function(){
-					noUrlDs.loadRecords(xmlStr);
+					noUrlDs.loadRecords({responseText: xmlStr});
 					expect(noUrlDs.channelMeta.title).toBeDefined();
 					expect(noUrlDs.channelMeta.link).toBeDefined();
 					expect(noUrlDs.channelMeta.description).toBeDefined();
@@ -132,16 +102,16 @@ describe("luga.data.Rss2Dataset", function(){
 					expect(noUrlDs.channelMeta.copyright).toBeDefined();
 					expect(noUrlDs.channelMeta.managingEditor).toBeDefined();
 					expect(noUrlDs.channelMeta.webMaster).toBeDefined();
-					expect(noUrlDs.channelMeta.pubDate).toBeDefined();
+					expect(noUrlDs.channelMeta.pubDate).toBeUndefined();
 					expect(noUrlDs.channelMeta.lastBuildDate).toBeDefined();
 					expect(noUrlDs.channelMeta.generator).toBeDefined();
 					expect(noUrlDs.channelMeta.docs).toBeDefined();
-					expect(noUrlDs.channelMeta.cloud).toBeDefined();
+					expect(noUrlDs.channelMeta.cloud).toBeUndefined();
 					expect(noUrlDs.channelMeta.ttl).toBeDefined();
-					expect(noUrlDs.channelMeta.image).toBeDefined();
-					expect(noUrlDs.channelMeta.textInput).toBeDefined();
-					expect(noUrlDs.channelMeta.skipHours).toBeDefined();
-					expect(noUrlDs.channelMeta.skipDays).toBeDefined();
+					expect(noUrlDs.channelMeta.image).toBeUndefined();
+					expect(noUrlDs.channelMeta.textInput).toBeUndefined();
+					expect(noUrlDs.channelMeta.skipHours).toBeUndefined();
+					expect(noUrlDs.channelMeta.skipDays).toBeUndefined();
 				});
 
 			});

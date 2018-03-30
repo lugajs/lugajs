@@ -8,15 +8,6 @@
 	 */
 
 	/**
-	 * @typedef {Object} luga.data.HttpDataSet.xhrError
-	 *
-	 * @property {String} message
-	 * @property {Object} jqXHR        jQuery wrapper around XMLHttpRequest
-	 * @property {String} textStatus
-	 * @property {String} errorThrown
-	 */
-
-	/**
 	 * @typedef {Object} luga.data.HttpDataSet.options
 	 *
 	 * @extend luga.data.DataSet.options
@@ -82,7 +73,7 @@
 		}
 
 		// Concrete implementations can override this
-		this.dataType = null;
+		this.contentType = "text/plain";
 		this.xhrRequest = null;
 
 		/* Private methods */
@@ -96,16 +87,12 @@
 					}
 					self.loadRecords(response);
 				},
+				contentType: self.contentType,
 				timeout: self.timeout,
 				cache: self.cache,
 				headers: self.headers,
 				error: self.xhrError
 			};
-			/* istanbul ignore else */
-			if(self.dataType !== null){
-				xhrOptions.contentType = self.dataType;
-			}
-
 			self.xhrRequest = new luga.xhr.Request(xhrOptions);
 			self.xhrRequest.send(self.url);
 		};
@@ -167,19 +154,15 @@
 
 		/**
 		 * Is called whenever an XHR request fails, set state to error, notify observers ("xhrError")
-		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest
-		 * @param {String}   textStatus   HTTP status
-		 * @param {String}   errorThrown  Error message from jQuery
+		 * @param {luga.xhr.response} response
 		 * @fire xhrError
 		 */
-		this.xhrError = function(jqXHR, textStatus, errorThrown){
+		this.xhrError = function(response){
 			self.setState(luga.data.STATE.ERROR);
 			self.notifyObservers(luga.data.CONST.EVENTS.XHR_ERROR, {
 				dataSet: self,
-				message: luga.string.format(CONST.ERROR_MESSAGES.XHR_FAILURE, [self.url, jqXHR.status, errorThrown]),
-				jqXHR: jqXHR,
-				textStatus: textStatus,
-				errorThrown: errorThrown
+				message: luga.string.format(CONST.ERROR_MESSAGES.XHR_FAILURE, [self.url, response.status]),
+				response: response
 			});
 		};
 

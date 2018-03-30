@@ -54,6 +54,15 @@ describe("luga.data.HttpDataSet", function(){
 
 	});
 
+	describe(".contentType", function(){
+		it("Can ve overridden by child classes", function(){
+			var jsonDs = new luga.data.JsonDataSet({uuid: "myJsonDs"});
+			expect(jsonDs.contentType).toEqual("application/json");
+			var xmlDs = new luga.data.XmlDataSet({uuid: "myXmlDs"});
+			expect(xmlDs.contentType).toEqual("text/xml");
+		});
+	});
+
 	describe(".cancelRequest()", function(){
 		it("Abort any pending XHR request", function(){
 			var ds = new luga.data.JsonDataSet({uuid: "myDs"});

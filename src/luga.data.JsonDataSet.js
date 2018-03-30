@@ -19,6 +19,8 @@
 		luga.extend(luga.data.HttpDataSet, this, [options]);
 		/** @type {luga.data.JsonDataSet} */
 		var self = this;
+		/** @override */
+		this.contentType = "application/json";
 
 		this.path = null;
 		if(options.path !== undefined){

@@ -16,11 +16,9 @@
 	 * @extend luga.data.HttpDataSet
 	 */
 	luga.data.Rss2Dataset = function(options){
-		luga.extend(luga.data.HttpDataSet, this, [options]);
+		luga.extend(luga.data.XmlDataSet, this, [options]);
 		/** @type {luga.data.Rss2Dataset} */
 		var self = this;
-		/** @override */
-		this.dataType = "text";
 
 		/** @type {null|string} */
 		this.rawXml = null;
@@ -35,26 +33,45 @@
 		this.channelMeta = {};
 
 		/**
-		 * Given
-		 * @param {jQuery} item  A jQuery wrapper around an <item>
+		 * Given an <item> node, extract its content inside a JavaScript object
+		 * @param {Node} item
 		 * @return {Object}
 		 */
 		var itemToHash = function(item){
 			var rec = {};
-			for(var i = 0; i < self.itemElements.length; i++){
-				rec[self.itemElements[i]] = jQuery(item).find(self.itemElements[i]).text();
-			}
+			self.itemElements.forEach(function(element){
+				var nodes = luga.data.xml.evaluateXPath(item, element);
+				if(nodes.length > 0){
+					rec[element] = nodes[0].innerHTML;
+				}
+			});
 			return rec;
 		};
 
 		/**
 		 * Extract metadata from <channel>
-		 * @param {jQuery} $channel A jQuery wrapper around the <channel> tag
+		 * @param {Node} channel
 		 */
-		var setChannelMeta = function($channel){
-			for(var i = 0; i < self.channelElements.length; i++){
-				self.channelMeta[self.channelElements[i]] = $channel.find(">" + self.channelElements[i]).text();
-			}
+		var setChannelMeta = function(channel){
+			self.channelElements.forEach(function(element){
+				var nodes = luga.data.xml.evaluateXPath(channel, element);
+				if(nodes.length > 0){
+					self.channelMeta[element] = nodes[0].innerHTML;
+				}
+			});
+		};
+
+		/**
+		 * Turn an array of <items> nodes into an array of records
+		 * @param {Array.<Node>} nodes
+		 * @return {Array.<Object>|Object}
+		 */
+		var extractRecords = function(nodes){
+			var records = [];
+			nodes.forEach(function(element){
+				records.push(itemToHash(element));
+			});
+			return records;
 		};
 
 		/* Public methods */
@@ -75,40 +92,20 @@
 		};
 
 		/**
-		 * Returns the raw XML document
-		 * @return {null|String}
-		 */
-		this.getRawXml = function(){
-			return this.rawXml;
-		};
-
-		/**
-		 * First delete any existing records, then load data from the given XML, without XHR calls
-		 * @param {String} xmlStr  XML document as string
-		 */
-		this.loadRawXml = function(xmlStr){
-			self.delete();
-			self.loadRecords(xmlStr);
-		};
-
-		/**
-		 * Retrieves XML data, either from an HTTP response or from a direct call
-		 * @param {String}   xmlStr       XML document as string. Either returned from the server or passed directly
-		 * @param {String}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
-		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
+		 * Retrieves XML data, either from an HTTP response
+		 * @param {luga.xhr.response} response
 		 * @override
 		 */
-		this.loadRecords = function(xmlStr, textStatus, jqXHR){
-			self.rawXml = xmlStr;
-			var $xml = jQuery(jQuery.parseXML(xmlStr));
-			var items = [];
-			// Collect data from each <item>
-			$xml.find("item").each(function(index, element){
-				items.push(itemToHash(jQuery(this)));
-			});
-			setChannelMeta($xml.find("channel"));
+		this.loadRecords = function(response){
+			var xmlDoc = luga.data.xml.parseFromString(response.responseText);
+			self.rawXml = xmlDoc;
+			// Extract metadata
+			var channelNodes = luga.data.xml.evaluateXPath(xmlDoc, "//channel");
+			setChannelMeta(channelNodes[0]);
 			// Insert all records
-			self.insert(items);
+			var items = luga.data.xml.evaluateXPath(xmlDoc, "//item");
+			var records = extractRecords(items);
+			self.insert(records);
 		};
 
 	};

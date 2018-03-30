@@ -19,7 +19,7 @@
 		/** @type {luga.data.XmlDataSet} */
 		var self = this;
 		/** @override */
-		this.dataType = "text/xml";
+		this.contentType = "text/xml";
 
 		this.path = "/";
 		if(options.path !== undefined){
@@ -49,12 +49,12 @@
 
 		/**
 		 * First delete any existing records, then load data from the given XML, without XHR calls
-		 * @param {String} xml
+		 * @param {String} xmlStr
 		 */
-		this.loadRawXml = function(xml){
+		this.loadRawXml = function(xmlStr){
 			self.delete();
 			self.loadRecords({
-				responseText: xml
+				responseText: xmlStr
 			});
 		};
 

@@ -32,6 +32,13 @@ describe("luga.data.JsonDataset", function(){
 		});
 	});
 
+	describe(".contentType", function(){
+		it("Is: application/json", function(){
+			var xmlDs = new luga.data.JsonDataSet({uuid: "myXmlDs"});
+			expect(xmlDs.contentType).toEqual("application/json");
+		});
+	});
+
 	describe(".getPath()", function(){
 		it("Returns the path to be used to extract data out of the JSON data structure", function(){
 			var ds = new luga.data.JsonDataSet({uuid: "myDs", path: "test"});

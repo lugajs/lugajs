@@ -20,7 +20,7 @@ describe("luga.data.XmlDataSet", function(){
 		var MockDs = function(options){
 			luga.extend(luga.data.HttpDataSet, this, [options]);
 		};
-		expect(noUrlDs).toMatchDuckType(new MockDs({uuid: "duck"}), false);
+		expect(noUrlDs).toMatchDuckType(new MockDs({uuid: "duck"}));
 	});
 
 	describe("Its constructor options are the same as luga.data.HttpDataSet and also contains:", function(){
@@ -30,6 +30,13 @@ describe("luga.data.XmlDataSet", function(){
 		});
 		it("options.path default value is: '/'", function(){
 			expect(noUrlDs.getPath()).toEqual("/");
+		});
+	});
+
+	describe(".contentType", function(){
+		it("Is: text/xml", function(){
+			var xmlDs = new luga.data.XmlDataSet({uuid: "myXmlDs"});
+			expect(xmlDs.contentType).toEqual("text/xml");
 		});
 	});
 
@@ -89,11 +96,16 @@ describe("luga.data.XmlDataSet", function(){
 		});
 
 		describe("First:", function(){
+			it("Populate .rawXml", function(){
+				expect(peopleDs.rawXml).toBeNull();
+				peopleDs.loadData();
+				expect(peopleDs.rawXml).not.toBeNull();
+			});
 			it("Extract records out of the fetched XML data based on the current path", function(){
 				peopleDs.loadData();
 				expect(peopleDs.getRecordsCount()).toEqual(7);
 			});
-			it("Records are extracted even if the HTTP's Content-Type is not application/json (as long as it contains an XML document)", function(){
+			it("Records are extracted even if the HTTP's Content-Type is not text/xml (as long as it contains an XML document)", function(){
 				var txtDs = new luga.data.XmlDataSet({
 					uuid: "uniqueDs",
 					url: "mock/people.txt",
