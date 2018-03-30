@@ -1,5 +1,5 @@
 /*! 
-Luga JS 0.9.7 2018-03-30T13:21:36.916Z
+Luga JS 0.9.7 2018-03-30T16:23:31.672Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -954,8 +954,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.xhr.header
 	 *
-	 * @property {String}  header       Name of the HTTP header
-	 * @property {String}  value        Value to be used
+	 * @property {String}  name       Name of the HTTP header
+	 * @property {String}  value      Value to be used
 	 */
 
 	/**
@@ -968,7 +968,7 @@ if(typeof(luga) === "undefined"){
 	 * @property {Boolean}  async                    Indicate that the request should be handled asynchronously. Default to true
 	 * @property {Boolean}  cache                    If set to false, it will force requested pages not to be cached by the browser. Will only work correctly with HEAD and GET requests
 	 *                                               It works by appending "_={timestamp}" to the GET parameters. Default to true
-	 * @property {Array.<luga.xhr.header>} headers   An array of header/value pairs to be used for the request. Default to an empty array
+	 * @property {Array.<luga.xhr.header>} headers   An array of name/value pairs to be used for custom HTTP headers. Default to an empty array
 	 * @property {String}   requestedWith            Value to be used for the "X-Requested-With" request header. Default to "XMLHttpRequest"
 	 * @property {String}   contentType              MIME type to use instead of the one specified by the server. Default to "text/plain"
 	 *                                               See also: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/overrideMimeType
@@ -1009,7 +1009,7 @@ if(typeof(luga) === "undefined"){
 			luga.merge(config, options);
 		}
 		if(config.method.toUpperCase() === "POST"){
-			config.method = luga.XHR_CONST.POST_CONTENT_TYPE;
+			config.contentType = luga.XHR_CONST.POST_CONTENT_TYPE;
 		}
 
 		var self = this;
@@ -1063,12 +1063,13 @@ if(typeof(luga) === "undefined"){
 			self.xhr.onreadystatechange = checkReadyState;
 			self.xhr.timeout = config.timeout;
 			self.xhr.setRequestHeader("Content-Type", config.contentType);
-			if(url.substring(0, 4) !== "http") {
+			/* istanbul ignore else */
+			if(url.substring(0, 4) !== "http"){
 				// This may cause issue with CORS so better to avoid on cross-site requests
 				self.xhr.setRequestHeader("X-Requested-With", config.requestedWith);
 			}
 			config.headers.forEach(function(item){
-				self.xhr.setRequestHeader(item.header, item.value);
+				self.xhr.setRequestHeader(item.name, item.value);
 			});
 		};
 
@@ -1080,11 +1081,13 @@ if(typeof(luga) === "undefined"){
 			if(params !== null && config.method.toUpperCase() === "GET"){
 				suffix += params;
 			}
-			if(url.indexOf("?") !== -1){
-				url += "&";
-			}
-			else{
-				url += "?";
+			if(suffix !== ""){
+				if(url.indexOf("?") !== -1){
+					url += "&";
+				}
+				else{
+					url += "?";
+				}
 			}
 			return url + suffix;
 		};
@@ -1106,9 +1109,11 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * @param {String} url
-		 * @param {String} [params]
+		 * @param {String} [params] Optional parameter which lets you specify the request's body
+		 *                          See: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/send
 		 */
 		this.send = function(url, params){
+			/* istanbul ignore else */
 			if(params === undefined){
 				params = null;
 			}

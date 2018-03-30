@@ -35,9 +35,12 @@ describe("luga.data.HttpDataSet", function(){
 			expect(fastDs.cache).toBe(false);
 		});
 
-		it("options.headers (name/value pairs to be used as custom HTTP headers)", function(){
-			var ds = new luga.data.JsonDataSet({uuid: "myDs", headers: {"X-Requested-With": "ciccio"}});
-			expect(ds.headers).toEqual({"X-Requested-With": "ciccio"});
+		it("options.headers (array of name/value pairs to be used as custom HTTP headers)", function(){
+			var ds = new luga.data.JsonDataSet({
+				uuid: "myDs"
+				, headers: [{name: "X-Requested-With", value: "ciccio"}]
+			});
+			expect(ds.headers).toEqual([{name: "X-Requested-With", value: "ciccio"}]);
 		});
 
 		it("options.incrementalLoad ", function(){
@@ -183,7 +186,7 @@ describe("luga.data.HttpDataSet", function(){
 			});
 
 			it("Uses custom headers if specified", function(){
-				testDs.headers = [{header: "x-msg", value:"Ciao Mamma"}];
+				testDs.headers = [{name: "x-msg", value:"Ciao Mamma"}];
 				testDs.loadData();
 				var request = jasmine.Ajax.requests.mostRecent();
 				expect(request.requestHeaders["x-msg"]).toEqual("Ciao Mamma");
