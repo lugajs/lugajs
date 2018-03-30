@@ -173,7 +173,7 @@ var testDs = new luga.data.XmlDataSet({
 </div>
 
 <div id="loadData" class="panel panel-default">
-	<div class="panel-heading luga-docs-api-heading">.loadData(columnNames, sortOrder)</div>
+	<div class="panel-heading luga-docs-api-heading">.loadData()</div>
 	<div class="panel-body">
 		<p>
 			Fires off XHR request to fetch and load the data, then notify observers ("dataLoading" first, "dataChanged"
@@ -200,10 +200,10 @@ var testDs = new luga.data.XmlDataSet({
 </div>
 
 <div id="loadRawXml" class="panel panel-default">
-	<div class="panel-heading luga-docs-api-heading">.loadRawXml(node)</div>
+	<div class="panel-heading luga-docs-api-heading">.loadRawXml(xmlStr)</div>
 	<div class="panel-body">
 		<p>
-			First delete any existing records, then load data from the given XML, without XHR calls.
+			First delete any existing records, then load data from the given string, without XHR calls.
 		</p>
 	</div>
 	<table class="table  luga-docs-api">
@@ -211,10 +211,10 @@ var testDs = new luga.data.XmlDataSet({
 		<tr>
 			<td>node</td>
 			<td class="luga-docs-type">
-				{node}
+				{String}
 			</td>
 			<td>
-				XML node. Required.
+				XML as string. Required.
 			</td>
 		</tr>
 	</table>
