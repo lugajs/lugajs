@@ -155,6 +155,7 @@ describe("luga.data.widgets", function(){
 				it("Call .assembleUrl()", function(){
 					spyOn(showMoreBase, "assembleUrl").and.callFake(function(){
 					});
+					spyOn(mockDs, "loadData");
 					showMoreBase.fetch();
 					expect(showMoreBase.assembleUrl).toHaveBeenCalled();
 				});
