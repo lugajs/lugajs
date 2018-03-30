@@ -1063,11 +1063,14 @@ if(typeof(luga) === "undefined"){
 			});
 		};
 
-		var finalizeUrl = function(url){
-			if(config.cache === true){
-				return url;
+		var finalizeUrl = function(url, params){
+			var suffix = "";
+			if(config.cache === false){
+				suffix += "_anti-cache=" + Date.now() + "&";
 			}
-			var suffix = "_anti-cache=" + Date.now();
+			if(params !== null && config.method.toUpperCase() === "GET"){
+				suffix += params;
+			}
 			if(url.indexOf("?") !== -1){
 				url += "&";
 			}
@@ -1094,13 +1097,14 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * @param {String} url
-		 * @param {{}} [params]
+		 * @param {String} [params]
 		 */
 		this.send = function(url, params){
 			if(params === undefined){
 				params = null;
 			}
-			self.xhr.open(config.method, finalizeUrl(url), config.async);
+			url = finalizeUrl(url, params);
+			self.xhr.open(config.method, url, config.async);
 			finalizeRequest();
 			self.xhr.send(params);
 		};
