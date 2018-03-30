@@ -66,7 +66,7 @@ describe("luga.ajaxform", function(){
 			errormsg: "Error",
 			before: "ajaxFormHandlers.customBefore",
 			after: "ajaxFormHandlers.customAfter",
-			headers: {"x-msg": "Ciao Mamma"}
+			headers: [{header:"x-msg", value: "Ciao Mamma"}]
 		});
 
 		ajaxFormHandlers.customSuccessHandler = function(){
@@ -84,7 +84,7 @@ describe("luga.ajaxform", function(){
 		});
 		spyOn(luga.form, "toJson").and.callThrough(function(){
 		});
-		spyOn(jQuery, "ajax").and.callThrough(function(){
+		spyOn(luga.xhr, "Request").and.callThrough(function(){
 		});
 		spyOn(ajaxFormHandlers, "customSuccessHandler").and.callFake(function(){
 		});
@@ -479,10 +479,10 @@ describe("luga.ajaxform", function(){
 			describe("options.headers:", function(){
 
 				it("Default to: null", function(){
-					expect(basicSender.config.headers).toBeNull();
+					expect(basicSender.config.headers).toEqual([]);
 				});
 				it("Uses the value specified inside the option argument", function(){
-					expect(configSender.config.headers).toEqual({"x-msg": "Ciao Mamma"});
+					expect(configSender.config.headers).toEqual([{header:"x-msg", value: "Ciao Mamma"}]);
 				});
 
 			});
@@ -520,9 +520,9 @@ describe("luga.ajaxform", function(){
 
 			describe("Then:", function(){
 
-				it("Send the serialize form's data using jQuery.ajax()", function(){
+				it("Send the serialize form's data using luga.xhr", function(){
 					configSender.send();
-					expect(jQuery.ajax).toHaveBeenCalled();
+					expect(luga.xhr.Request).toHaveBeenCalled();
 				});
 				it("Uses custom headers if specified", function(){
 					configSender.send();
@@ -544,15 +544,17 @@ describe("luga.ajaxform", function(){
 				});
 
 
-				it("Display an error if its success handler is missing", function(){
-
+				it("Throw an error if its success handler is missing", function(){
 					spyOn(luga.string, "format");
 
 					var nakedSender = new luga.ajaxform.Sender({
 						formNode: jQuery("<form action='mock/basic.json'>")
 					});
 					nakedSender.config.success = "missingFunction";
-					nakedSender.send();
+
+					expect(function(){
+						nakedSender.send();
+					}).toThrow();
 					expect(luga.string.format).toHaveBeenCalledWith(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, ["missingFunction"]);
 
 				});
@@ -564,15 +566,17 @@ describe("luga.ajaxform", function(){
 					expect(ajaxFormHandlers.customErrorHandler).toHaveBeenCalled();
 				});
 
-				it("Display an error if its error handler is missing", function(){
-
+				it("Throw an error if its error handler is missing", function(){
 					spyOn(luga.string, "format");
 
 					var nakedSender = new luga.ajaxform.Sender({
 						formNode: jQuery("<form action='mock/missing.json'>")
 					});
 					nakedSender.config.error = "missingFunction";
-					nakedSender.send();
+
+					expect(function(){
+						nakedSender.send();
+					}).toThrow();
 					expect(luga.string.format).toHaveBeenCalledWith(luga.ajaxform.CONST.MESSAGES.MISSING_FUNCTION, ["missingFunction"]);
 
 				});
@@ -630,9 +634,9 @@ describe("luga.ajaxform", function(){
 
 			describe("Then:", function(){
 
-				it("Send the serialize form's data using jQuery.ajax()", function(){
+				it("Send the serialize form's data using luga.xhr", function(){
 					configSender.sendJson();
-					expect(jQuery.ajax).toHaveBeenCalled();
+					expect(luga.xhr.Request).toHaveBeenCalled();
 				});
 				it("Uses custom headers if specified", function(){
 					configSender.sendJson();
