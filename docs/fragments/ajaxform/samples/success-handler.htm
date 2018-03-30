@@ -1,13 +1,11 @@
 <script>
-	//<![CDATA[
 	handlers = {};
-	handlers.displayBox = function(msg, formNode, textStatus, jqXHR){
+	handlers.displayBox = function(msg, formNode, response){
 		// Get the message out of the JSON returned by the server
-		var serverMsg = jqXHR.responseJSON.message;
+		var json = JSON.parse(response.responseText);
 		// Display the message in a box above the form
-		luga.utils.displayBox(formNode, serverMsg);
+		luga.utils.displayBox(formNode, json.message);
 	};
-	//]]>
 </script>
 
 <div class="panel panel-default">
@@ -50,11 +48,11 @@
 		</p>
 
 <pre><code class="language-javascript">handlers = {};
-	handlers.displayBox = function(msg, formNode, textStatus, jqXHR){
+	handlers.displayBox = function(msg, formNode, response){
 	// Get the message out of the JSON returned by the server
-	var serverMsg = jqXHR.responseJSON.message;
+	var json = JSON.parse(response.responseText);
 	// Display the message in a box above the form
-	luga.utils.displayBox(formNode, serverMsg);
+	luga.utils.displayBox(formNode, json.message);
 };</code></pre>
 
 <pre><code class="language-markup">&lt;form action="ajaxform-action.json" data-lugajax-form="true"
@@ -82,7 +80,7 @@
 <div class="panel panel-default">
 	<div class="panel-heading">Handler's signature</div>
 	<div class="panel-body">
-		The handler will be invoked with four arguments
+		The handler will be invoked with 3 arguments
 	</div>
 	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
@@ -105,21 +103,12 @@
 			</td>
 		</tr>
 		<tr>
-			<td>textStatus</td>
+			<td>response</td>
 			<td>
-				{String}
+				{luga.xhr.response}
 			</td>
 			<td>
-				HTTP status
-			</td>
-		</tr>
-		<tr>
-			<td>jqXHR</td>
-			<td>
-				{Object}
-			</td>
-			<td>
-				jQuery wrapper around XMLHttpRequest
+				Luga JS wrapper around XMLHttpRequest
 			</td>
 		</tr>
 	</table>
