@@ -16,12 +16,11 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Replace form with message
 	 *
-	 * @param {String}   msg          Message to display in the GUI
-	 * @param {jQuery}   formNode     jQuery object wrapping the form
-	 * @param {String}   textStatus   HTTP status
-	 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest
+	 * @param {String}            msg       Message to display in the GUI
+	 * @param {jQuery}            formNode  jQuery object wrapping the form
+	 * @param {luga.xhr.response} response  textStatus   HTTP status
 	 */
-	luga.ajaxform.handlers.replaceForm = function(msg, formNode, textStatus, jqXHR){
+	luga.ajaxform.handlers.replaceForm = function(msg, formNode, response){
 		jQuery(formNode).empty();
 		jQuery(formNode).html(msg);
 	};
@@ -29,13 +28,11 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Display error message inside alert
 	 *
-	 * @param {String}   msg          Message to display in the GUI
-	 * @param {jQuery}   formNode     jQuery object wrapping the form
-	 * @param {String}   textStatus   HTTP status
-	 * @param {String}   errorThrown  Error message from jQuery
-	 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest
+	 * @param {String}            msg       Message to display in the GUI
+	 * @param {jQuery}            formNode  jQuery object wrapping the form
+	 * @param {luga.xhr.response} response  textStatus   HTTP status
 	 */
-	luga.ajaxform.handlers.errorAlert = function(msg, formNode, textStatus, errorThrown, jqXHR){
+	luga.ajaxform.handlers.errorAlert = function(msg, formNode, response){
 		alert(msg);
 	};
 
