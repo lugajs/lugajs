@@ -1,5 +1,5 @@
 /*! 
-Luga JS 0.9.7 2018-03-30T10:50:50.002Z
+Luga JS 0.9.7 2018-03-30T13:21:36.916Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -1059,11 +1059,14 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
-		var finalizeRequest = function(){
+		var finalizeRequest = function(url){
 			self.xhr.onreadystatechange = checkReadyState;
 			self.xhr.timeout = config.timeout;
 			self.xhr.setRequestHeader("Content-Type", config.contentType);
-			self.xhr.setRequestHeader("X-Requested-With", config.requestedWith);
+			if(url.substring(0, 4) !== "http") {
+				// This may cause issue with CORS so better to avoid on cross-site requests
+				self.xhr.setRequestHeader("X-Requested-With", config.requestedWith);
+			}
 			config.headers.forEach(function(item){
 				self.xhr.setRequestHeader(item.header, item.value);
 			});
@@ -1111,7 +1114,7 @@ if(typeof(luga) === "undefined"){
 			}
 			url = finalizeUrl(url, params);
 			self.xhr.open(config.method, url, config.async);
-			finalizeRequest();
+			finalizeRequest(url);
 			self.xhr.send(params);
 		};
 
