@@ -6,15 +6,6 @@ DOCS:
   https://medium.com/your-majesty-co/frameworkless-javascript-template-literals-the-best-thing-since-sliced-bread-d97f000ce955
 
 -------------
-
-AJAXFORM:
-
-- Make JSON serializer configurable
-- Parse and handle error messages from server
-- Use live service for samples and docs
-- Standardize JSON schema for error messages
-
--------------
 COMMON:
 
 - Add luga.toQueryString() using private appendQueryString() function

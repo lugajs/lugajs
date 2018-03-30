@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.9.7 2018-03-30T05:38:55.547Z
+Luga Data 0.9.7 2018-03-30T07:26:51.593Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -1255,7 +1255,7 @@ if(typeof(luga) === "undefined"){
 		}
 
 		// Concrete implementations can override this
-		this.dataType = null;
+		this.contentType = null;
 		this.xhrRequest = null;
 
 		/* Private methods */
@@ -1275,8 +1275,8 @@ if(typeof(luga) === "undefined"){
 				error: self.xhrError
 			};
 			/* istanbul ignore else */
-			if(self.dataType !== null){
-				xhrOptions.contentType = self.dataType;
+			if(self.contentType !== null){
+				xhrOptions.contentType = self.contentType;
 			}
 
 			self.xhrRequest = new luga.xhr.Request(xhrOptions);
@@ -1470,7 +1470,7 @@ if(typeof(luga) === "undefined"){
 		/** @type {luga.data.XmlDataSet} */
 		var self = this;
 		/** @override */
-		this.dataType = "text/xml";
+		this.contentType = "text/xml";
 
 		this.path = "/";
 		if(options.path !== undefined){
@@ -1558,7 +1558,7 @@ if(typeof(luga) === "undefined"){
 		/** @type {luga.data.Rss2Dataset} */
 		var self = this;
 		/** @override */
-		this.dataType = "text";
+		this.contentType = "text/xml";
 
 		/** @type {null|string} */
 		this.rawXml = null;

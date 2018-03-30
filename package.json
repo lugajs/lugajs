@@ -16,9 +16,6 @@
 		"common": {
 			"name": "Luga Common"
 		},
-		"ajaxform": {
-			"name": "Luga Ajaxform"
-		},
 		"validator": {
 			"name": "Luga Validator"
 		}

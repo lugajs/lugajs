@@ -4,7 +4,7 @@
 
 VERSION 2.0
 
-- Remove jQuery from Common
+- Remove jQuery from everywhere
 - Add DOM utilities to replace jQuery
   dom.ready()
   dom.nodeMatches(node, selector) IE11+
@@ -15,10 +15,6 @@ VERSION 2.0
 - Map/Set
 - Remove self = this. Use .bind() instead
 
-- Spin off AjaxForm and Validator into dedicated Luga Form project
-
-- Spin off Data into dedicated project?
-
 - Event bus concept?
 
 - ES6 modules and Webpack?
@@ -28,8 +24,6 @@ VERSION 2.0
 VERSION 3.0
 
 - Drop support for IE 11
-- Remove jQuery from everywhere
 - Use import/export
-- Use Axios/SuperAgent for XHR or fetch() plus async/await?
 
 - Make Common and Data isomorphic?

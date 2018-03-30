@@ -9,6 +9,7 @@ NOTES:
 * Updated documentation
 
 CHANGES:
+* Removed Ajaxform
 * Removed luga.form.toHash()
 * Removed luga.isArray()
 * Removed luga.isFunction()

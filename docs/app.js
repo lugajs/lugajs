@@ -1,3 +1,5 @@
+/* global Prism */
+
 if(self.location.protocol === "file:"){
 	alert("The documentation is not going to work properly if accessed from a file system. You should use an HTTP server instead.");
 }
@@ -81,7 +83,6 @@ if(self.location.protocol === "file:"){
 					jQuery(CONST.SELECTORS.CONTENT).html(jqXHR.responseText);
 
 					// Bootstrap libs
-					luga.ajaxform.initForms();
 					luga.data.region.initRegions();
 					luga.validator.initForms();
 					Prism.highlightAll();
