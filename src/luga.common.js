@@ -398,6 +398,14 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.dom");
 
 	/**
+	 * Invoke a function as soon as the DOM is loaded
+	 * @param {Function} fn
+	 */
+	luga.dom.ready = function(fn){
+		document.addEventListener("DOMContentLoaded", fn);
+	};
+
+	/**
 	 * Static factory to create a cross-browser either DOM NodeIterator or TreeWalker
 	 *
 	 * @param {String}                   type        Either "NodeIterator" or "TreeWalker"

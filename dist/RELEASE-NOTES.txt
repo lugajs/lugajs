@@ -2,6 +2,7 @@
 Release 0.9.8
 ---------------------------------------------------------------------
 NEW FEATURES:
+* Added luga.dom.ready()
 * Added luga.data.PagedView
 * Added luga.data.widgets.PagingBar
 

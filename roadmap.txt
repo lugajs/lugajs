@@ -6,7 +6,6 @@ VERSION 2.0
 
 - Remove jQuery from everywhere
 - Add DOM utilities to replace jQuery
-  dom.ready()
   dom.nodeMatches(node, selector) IE11+
   dom.delegateEvent()
 
