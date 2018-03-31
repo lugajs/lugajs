@@ -1,11 +1,8 @@
-- Document luga.data.xml?
-
 ***
 
 VERSION 2.0
 
-- Remove jQuery from everywhere
-- Add DOM utilities to replace jQuery
+- Add DOM utilities to replace jQuery:
   dom.nodeMatches(node, selector) IE11+
   dom.delegateEvent()
 
@@ -26,3 +23,10 @@ VERSION 3.0
 - Use import/export
 
 - Make Common and Data isomorphic?
+
+***
+
+luga.data.widgets.Autosuggest
+- https://heroes.dev.waylon.cloud/v1/search/character?offset=0&limit=10&name=byss
+
+- Document luga.data.xml?

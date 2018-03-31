@@ -1,3 +1,5 @@
+- Remove jQuery from everywhere
+
 -------------
 
 DOCS:
@@ -25,9 +27,6 @@ luga.data.ServerPagedView:
 
 luga.data.DataSet:
 - Ability to persist data inside localStorage
-
-luga.data.widgets.Autosuggest
-- https://heroes.dev.waylon.cloud/v1/search/character?offset=0&limit=10&name=byss
 
 -------------
 VALIDATOR:
