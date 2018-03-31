@@ -35,7 +35,7 @@
 	/**
 	 * @typedef {Object} luga.data.region.options
 	 *
-	 * @property {Boolean} autoregister  Determine if we call luga.data.region.init() on jQuery(document).ready()
+	 * @property {Boolean} autoregister  Determine if we call luga.data.region.init() on luga.dom.ready()
 	 */
 
 	/**
@@ -124,7 +124,7 @@
 		};
 	};
 
-	jQuery(document).ready(function(){
+	luga.dom.ready(function(){
 		/* istanbul ignore else */
 		if(config.autoregister === true){
 			luga.data.region.initRegions();

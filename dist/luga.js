@@ -1,5 +1,5 @@
 /*! 
-Luga JS 0.9.7 2018-03-30T16:23:31.672Z
+Luga JS 0.9.7 2018-03-31T14:08:10.781Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -401,14 +401,23 @@ if(typeof(luga) === "undefined"){
 
 	/* DOM */
 
-	luga.namespace("luga.dom.nodeIterator");
+	luga.namespace("luga.dom");
+
+	/**
+	 * Invoke a function as soon as the DOM is loaded
+	 * @param {Function} fn
+	 */
+	luga.dom.ready = function(fn){
+		document.addEventListener("DOMContentLoaded", fn);
+	};
 
 	/**
 	 * Static factory to create a cross-browser either DOM NodeIterator or TreeWalker
 	 *
-	 * @param {String}                   type. Either "NodeIterator" or "TreeWalker"
+	 * @param {String}                   type        Either "NodeIterator" or "TreeWalker"
 	 * @param {HTMLElement}              rootNode    Start node. Required
-	 * @param {function} [filterFunc]    Optional filter function.
+	 * @param {function} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 *                                               The function will be invoked with this signature: filterFunc(node). Must return true|false
 	 * @return {NodeIterator|TreeWalker}
 	 */
 	var getIteratorInstance = function(type, rootNode, filterFunc){
@@ -438,13 +447,15 @@ if(typeof(luga) === "undefined"){
 
 	};
 
+	luga.namespace("luga.dom.nodeIterator");
+
 	/**
 	 * Static factory to create a cross-browser DOM NodeIterator
 	 * https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
 	 *
 	 * @param {HTMLElement}              rootNode    Start node. Required
-	 * @param {function} [filterFunc]    Optional filter function. If specified only nodes matching the filter will be accepted
-	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
+	 * @param {function} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 *                                               The function will be invoked with this signature: filterFunc(node). Must return true|false
 	 * @return {NodeIterator}
 	 */
 	luga.dom.nodeIterator.getInstance = function(rootNode, filterFunc){
@@ -2381,13 +2392,13 @@ if(typeof(luga) === "undefined"){
 		});
 	};
 
-	jQuery(document).ready(function(){
+	luga.dom.ready(function(){
 		luga.validator.initForms();
 	});
 
 }());
 /*! 
-Luga Data 0.9.7 2018-03-30T10:50:49.116Z
+Luga Data 0.9.7 2018-03-31T14:08:10.120Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -4489,7 +4500,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.data.region.options
 	 *
-	 * @property {Boolean} autoregister  Determine if we call luga.data.region.init() on jQuery(document).ready()
+	 * @property {Boolean} autoregister  Determine if we call luga.data.region.init() on luga.dom.ready()
 	 */
 
 	/**
@@ -4578,7 +4589,7 @@ if(typeof(luga) === "undefined"){
 		};
 	};
 
-	jQuery(document).ready(function(){
+	luga.dom.ready(function(){
 		/* istanbul ignore else */
 		if(config.autoregister === true){
 			luga.data.region.initRegions();

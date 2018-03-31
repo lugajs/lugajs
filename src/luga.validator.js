@@ -1253,7 +1253,7 @@ if(typeof(luga) === "undefined"){
 		});
 	};
 
-	jQuery(document).ready(function(){
+	luga.dom.ready(function(){
 		luga.validator.initForms();
 	});
 

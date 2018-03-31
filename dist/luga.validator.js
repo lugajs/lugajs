@@ -1,5 +1,5 @@
 /*! 
-Luga Validator 0.9.7 2018-03-30T10:43:47.251Z
+Luga Validator 0.9.7 2018-03-31T14:08:10.780Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -1259,7 +1259,7 @@ if(typeof(luga) === "undefined"){
 		});
 	};
 
-	jQuery(document).ready(function(){
+	luga.dom.ready(function(){
 		luga.validator.initForms();
 	});
 
