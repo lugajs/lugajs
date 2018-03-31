@@ -395,14 +395,15 @@ if(typeof(luga) === "undefined"){
 
 	/* DOM */
 
-	luga.namespace("luga.dom.nodeIterator");
+	luga.namespace("luga.dom");
 
 	/**
 	 * Static factory to create a cross-browser either DOM NodeIterator or TreeWalker
 	 *
-	 * @param {String}                   type. Either "NodeIterator" or "TreeWalker"
+	 * @param {String}                   type        Either "NodeIterator" or "TreeWalker"
 	 * @param {HTMLElement}              rootNode    Start node. Required
-	 * @param {function} [filterFunc]    Optional filter function.
+	 * @param {function} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 *                                               The function will be invoked with this signature: filterFunc(node). Must return true|false
 	 * @return {NodeIterator|TreeWalker}
 	 */
 	var getIteratorInstance = function(type, rootNode, filterFunc){
@@ -432,13 +433,15 @@ if(typeof(luga) === "undefined"){
 
 	};
 
+	luga.namespace("luga.dom.nodeIterator");
+
 	/**
 	 * Static factory to create a cross-browser DOM NodeIterator
 	 * https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
 	 *
 	 * @param {HTMLElement}              rootNode    Start node. Required
-	 * @param {function} [filterFunc]    Optional filter function. If specified only nodes matching the filter will be accepted
-	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
+	 * @param {function} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 *                                               The function will be invoked with this signature: filterFunc(node). Must return true|false
 	 * @return {NodeIterator}
 	 */
 	luga.dom.nodeIterator.getInstance = function(rootNode, filterFunc){
