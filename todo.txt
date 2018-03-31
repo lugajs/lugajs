@@ -20,7 +20,7 @@ DATA:
 luga.data.widgets.ShowMore
 - Complete rework. Use PagedView instead of DataSet
 
-luga.data.ServerPagedView:
+luga.data.PagedViewServer:
 - Use string templating to customize url/endpoint
 - Request: offsetStart, offsetEnd and/or pageSize and/or pageNumber
 - Response: recordCount
