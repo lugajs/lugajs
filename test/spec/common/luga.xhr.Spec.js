@@ -8,24 +8,25 @@ describe("luga.xhr", function(){
 
 	describe("luga.xhr.Request", function(){
 
-		var mockJson, req, mockObj;
+		var mockJsonStr, req, mockObj;
 		beforeEach(function(){
 
-			mockJson = jasmineFixtures.read("data/people.json");
+			mockJsonStr = jasmineFixtures.read("data/people.json");
 
 			jasmine.Ajax.install();
 
-			jasmine.Ajax.stubRequest("mock/missing.json?").andReturn({
+			jasmine.Ajax.stubRequest("mock/missing.json").andReturn({
 				status: 404
 			});
 			jasmine.Ajax.stubRequest("mock/people.json").andReturn({
 				contentType: "application/json",
-				responseText: JSON.stringify(mockJson),
-				status: 200
+				responseText: JSON.stringify(mockJsonStr),
+				status: 200,
+				statusText: "OK"
 			});
-			jasmine.Ajax.stubRequest("mock/people.txt?").andReturn({
+			jasmine.Ajax.stubRequest("mock/people.txt").andReturn({
 				contentType: "text/plain",
-				responseText: JSON.stringify(mockJson),
+				responseText: JSON.stringify(mockJsonStr),
 				status: 200
 			});
 
@@ -364,7 +365,7 @@ describe("luga.xhr", function(){
 							expect(customReq.xhr.send).toHaveBeenCalledWith("test=true&riTest=veryTrue");
 						});
 
-						it("If the URL already contains a querystring, it is appended", function(){
+						it("If the URL already contains a querystring, it is appended to it", function(){
 							var customReq = new luga.xhr.Request({
 								method: "GET"
 							});
@@ -373,6 +374,80 @@ describe("luga.xhr", function(){
 							customReq.send("mock/people.json?query=true", "test=true&riTest=veryTrue");
 							expect(customReq.xhr.open).toHaveBeenCalledWith("GET", "mock/people.json?query=true&test=true&riTest=veryTrue", true);
 							expect(customReq.xhr.send).toHaveBeenCalledWith("test=true&riTest=veryTrue");
+						});
+
+					});
+
+				});
+
+			});
+
+			describe("Once fired:", function(){
+
+				describe("First:", function(){
+
+					it("Invoke .xhr.open()", function(){
+						spyOn(req.xhr, "open");
+						spyOn(req.xhr, "send");
+						req.send("mock/people.json");
+						expect(req.xhr.open).toHaveBeenCalled();
+					});
+
+				});
+
+				describe("then:", function(){
+
+					it("Invoke .xhr.send()", function(){
+						spyOn(req.xhr, "open");
+						spyOn(req.xhr, "send");
+						req.send("mock/people.json");
+						expect(req.xhr.send).toHaveBeenCalled();
+					});
+
+				});
+
+				describe("Finally:", function(){
+
+					describe("If the request succeeds:", function(){
+
+						it("The success callback is invoked, passing along the response object", function(){
+
+							var customReq = new luga.xhr.Request({
+								success: mockObj.success
+							});
+							customReq.send("mock/people.json");
+							expect(mockObj.success).toHaveBeenCalled();
+
+							var res = mockObj.success.calls.argsFor(0)[0];
+							expect(res.headers).toEqual([{header: "Content-Type", value: "application/json"}]);
+							expect(res.responseText).toEqual(JSON.stringify(mockJsonStr));
+							expect(res.responseType).toEqual(jasmine.any(String));
+							expect(res.responseXML).toEqual(null);
+							expect(res.status).toEqual(200);
+							expect(res.statusText).toEqual(jasmine.any(String));
+
+						});
+
+					});
+
+					describe("If the request fails:", function(){
+
+						it("The error callback is invoked, passing along the response object", function(){
+
+							var customReq = new luga.xhr.Request({
+								error: mockObj.error
+							});
+							customReq.send("mock/missing.json");
+							expect(mockObj.error).toHaveBeenCalled();
+
+							var res = mockObj.error.calls.argsFor(0)[0];
+							expect(res.headers).toEqual([{header: "Content-Type", value: "application/json"}]);
+							expect(res.responseText).toEqual("");
+							expect(res.responseType).toEqual(jasmine.any(String));
+							expect(res.responseXML).toEqual(null);
+							expect(res.status).toEqual(404);
+							expect(res.statusText).toEqual(jasmine.any(String));
+
 						});
 
 					});
