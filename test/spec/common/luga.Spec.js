@@ -100,7 +100,7 @@ describe("luga", function(){
 				};
 				var result = luga.lookupFunction("MyLookup");
 				expect(result).not.toBeUndefined();
-				expect(jQuery.isFunction(result)).toEqual(true);
+				expect(luga.type(result)).toEqual("function");
 			});
 
 			it("Or any given namespace (if the fully qualified name is passed)", function(){
@@ -109,7 +109,7 @@ describe("luga", function(){
 				};
 				var result = luga.lookupFunction("myLookUpSpace.myFunction");
 				expect(result).not.toBeUndefined();
-				expect(jQuery.isFunction(result)).toEqual(true);
+				expect(luga.type(result)).toEqual("function");
 			});
 
 			describe("Returns undefined if:", function(){

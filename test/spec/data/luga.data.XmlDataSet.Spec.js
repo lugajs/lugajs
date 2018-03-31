@@ -12,8 +12,8 @@ describe("luga.data.XmlDataSet", function(){
 		luga.data.dataSourceRegistry = {};
 	});
 
-	it("Is the XML dataset class", function(){
-		expect(jQuery.isFunction(luga.data.XmlDataSet)).toEqual(true);
+	it("Is the XmlDataSet constructor", function(){
+		expect(luga.type(luga.data.XmlDataSet)).toEqual("function");
 	});
 
 	it("Implements the luga.data.HttpDataSet abstract class", function(){

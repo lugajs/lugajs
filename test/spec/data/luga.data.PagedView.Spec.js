@@ -42,7 +42,7 @@ describe("luga.data.PagedView", function(){
 	});
 
 	it("Is the pagedView constructor", function(){
-		expect(jQuery.isFunction(luga.data.PagedView)).toEqual(true);
+		expect(luga.type(luga.data.PagedView)).toEqual("function");
 	});
 
 	it("Implements the luga.Notifier interface", function(){

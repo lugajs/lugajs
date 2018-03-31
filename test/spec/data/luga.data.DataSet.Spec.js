@@ -61,7 +61,7 @@ describe("luga.data.Dataset", function(){
 	});
 
 	it("Is the base dataSet constructor", function(){
-		expect(jQuery.isFunction(luga.data.DataSet)).toEqual(true);
+		expect(luga.type(luga.data.DataSet)).toEqual("function");
 	});
 
 	it("Implements the luga.Notifier interface", function(){

@@ -224,7 +224,7 @@ describe("luga.data.HttpDataSet", function(){
 
 	describe(".loadRecords()", function(){
 		it("Is an abstract method, child classes must implement it to extract records from XHR response", function(){
-			expect(jQuery.isFunction(testDs.loadRecords)).toEqual(true);
+			expect(luga.type(testDs.loadRecords)).toEqual("function");
 		});
 	});
 

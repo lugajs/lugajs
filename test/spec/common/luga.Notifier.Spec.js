@@ -33,7 +33,7 @@ describe("luga.Notifier", function(){
 	});
 
 	it("Is an interface class, it can only be used as a base class", function(){
-		expect(jQuery.isFunction(luga.Notifier)).toEqual(true);
+		expect(luga.type(luga.Notifier)).toEqual("function");
 	});
 
 	it("Throw an exception if instantiated directly", function(){

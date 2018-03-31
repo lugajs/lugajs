@@ -36,7 +36,7 @@ describe("luga.data.widgets.PagingBar", function(){
 	});
 
 	it("Is the pagingBar constructor", function(){
-		expect(jQuery.isFunction(luga.data.widgets.PagingBar)).toEqual(true);
+		expect(luga.type(luga.data.widgets.PagingBar)).toEqual("function");
 	});
 
 	it("If the passed pagedView is empty, does not render anything", function(){
@@ -99,7 +99,7 @@ describe("luga.data.widgets.PagingBar", function(){
 				}).toThrow();
 			});
 
-			it("Throws an exception if it is a jQuery", function(){
+			it("Throws an exception if it is a jQuery object", function(){
 				expect(function(){
 					new luga.data.widgets.PagingBar({
 						pagedView: pagedView,

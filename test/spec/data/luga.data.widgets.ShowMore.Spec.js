@@ -56,7 +56,7 @@ describe("luga.data.widgets", function(){
 
 		it("Is an abstract widget", function(){
 			expect(luga.data.widgets.ShowMore).toBeDefined();
-			expect(jQuery.isFunction(luga.data.widgets.ShowMore)).toEqual(true);
+			expect(luga.type(luga.data.widgets.ShowMore)).toEqual("function");
 		});
 
 		it("Register itself as observer of the associated dataSource", function(){
@@ -138,13 +138,13 @@ describe("luga.data.widgets", function(){
 
 		describe(".disable()", function(){
 			it("Is an abstract method", function(){
-				expect(jQuery.isFunction(showMoreBase.disable)).toEqual(true);
+				expect(luga.type(showMoreBase.disable)).toEqual("function");
 			});
 		});
 
 		describe(".enable()", function(){
 			it("Is an abstract method", function(){
-				expect(jQuery.isFunction(showMoreBase.disable)).toEqual(true);
+				expect(luga.type(showMoreBase.disable)).toEqual("function");
 			});
 		});
 

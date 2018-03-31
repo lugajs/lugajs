@@ -23,8 +23,8 @@ describe("luga.data.Rss2Dataset", function(){
 		jasmine.Ajax.uninstall();
 	});
 
-	it("Is the RSS2 dataset class", function(){
-		expect(jQuery.isFunction(luga.data.Rss2Dataset)).toEqual(true);
+	it("Is the Rss2Dataset constructor", function(){
+		expect(luga.type(luga.data.Rss2Dataset)).toEqual("function");
 	});
 
 	it("Extend the luga.data.XmlDataSet class", function(){

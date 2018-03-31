@@ -15,7 +15,7 @@ describe("luga.data.JsonDataset", function(){
 	});
 
 	it("Is the JSON dataSet constructor", function(){
-		expect(jQuery.isFunction(luga.data.JsonDataSet)).toEqual(true);
+		expect(luga.type(luga.data.JsonDataSet)).toEqual("function");
 	});
 
 	it("Implements the luga.data.HttpDataSet abstract class", function(){

@@ -14,6 +14,8 @@ describe("luga.data.region.traits", function(){
 		ladiesRecords = jasmineFixtures.read("data/ladies.json");
 		ladiesDs = new luga.data.DataSet({uuid: "testDs", records: ladiesRecords});
 
+
+
 	});
 
 	afterEach(function(){

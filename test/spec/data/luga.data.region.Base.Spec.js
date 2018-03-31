@@ -42,9 +42,9 @@ describe("luga.data.region.Base", function(){
 		luga.data.dataSourceRegistry = {};
 	});
 
-	it("Is the base, astract class for regions", function(){
+	it("Is the base, abstract class for regions", function(){
 		expect(luga.data.region.Base).toBeDefined();
-		expect(jQuery.isFunction(luga.data.region.Base)).toEqual(true);
+		expect(luga.type(luga.data.region.Base)).toEqual("function");
 	});
 
 	it("Implements the luga.Notifier interface", function(){
@@ -258,7 +258,7 @@ describe("luga.data.region.Base", function(){
 	describe(".render()", function(){
 		it("Is an abstract method that concrete implementations must implement", function(){
 			expect(configRegion.render).toBeDefined();
-			expect(jQuery.isFunction(configRegion.render)).toEqual(true);
+			expect(luga.type(configRegion.render)).toEqual("function");
 		});
 		it("Triggers a 'regionRendered' notification. Passing along the region's description", function(){
 			configRegion.render();

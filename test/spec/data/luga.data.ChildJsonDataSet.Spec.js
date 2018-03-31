@@ -18,6 +18,10 @@ describe("luga.data.ChildJsonDataSet", function(){
 		luga.data.dataSourceRegistry = {};
 	});
 
+	it("Is the ChildJsonDataSet constructor", function(){
+		expect(luga.type(luga.data.ChildJsonDataSet)).toEqual("function");
+	});
+
 	it("Extends luga.data.JsonDataSet", function(){
 		expect(remoteDs).toMatchDuckType(new luga.data.JsonDataSet({uuid: "duck"}));
 	});

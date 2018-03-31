@@ -26,7 +26,7 @@ describe("luga.data.DetailSet", function(){
 	});
 
 	it("Is the detailSet constructor", function(){
-		expect(jQuery.isFunction(luga.data.DetailSet)).toEqual(true);
+		expect(luga.type(luga.data.DetailSet)).toEqual("function");
 	});
 
 	it("Implements the luga.Notifier interface", function(){

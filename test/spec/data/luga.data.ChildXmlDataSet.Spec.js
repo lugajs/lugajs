@@ -18,6 +18,10 @@ describe("luga.data.ChildXmlDataSet", function(){
 		luga.data.dataSourceRegistry = {};
 	});
 
+	it("Is the ChildXmlDataSet constructor", function(){
+		expect(luga.type(luga.data.ChildXmlDataSet)).toEqual("function");
+	});
+
 	it("Extends luga.data.XmlDataSet", function(){
 		expect(remoteDs).toMatchDuckType(new luga.data.XmlDataSet({uuid: "duck"}));
 	});

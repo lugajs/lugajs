@@ -72,7 +72,7 @@
 	 */
 	luga.data.region.init = function(node){
 		var dataSourceId = node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID);
-		if(dataSourceId === undefined){
+		if(dataSourceId === null){
 			throw(luga.data.region.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE_ATTRIBUTE);
 		}
 		var dataSource = luga.data.getDataSource(dataSourceId);
