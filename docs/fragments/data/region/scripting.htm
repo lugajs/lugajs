@@ -8,8 +8,7 @@
 	<div class="panel-heading">luga.data.region.getReferenceFromNode(node)</div>
 	<div class="panel-body">
 		<p>
-			This static method requires a jQuery object wrapping an HTML node, returns the region object associated to
-			it
+			This static method requires a DOM node, returns the region object associated to it.
 			Returns undefined if the node is not associated to region.
 		</p>
 
@@ -32,7 +31,7 @@
 		</p>
 
 <pre><code class="language-javascript">var myRegion = new luga.data.region.Handlebars({
-	node: jQuery("#myDiv"),
+	node: document.getElementById("myDiv"),
 	dsUuid: "myDatasetUuid"
 });
 </code></pre>
@@ -64,10 +63,10 @@
 		<tr>
 			<td>options.node</td>
 			<td>
-				{jQuery}
+				{HTMLElement}
 			</td>
 			<td>
-				A jQuery object wrapping the node or the naked DOM object that will contain the region. Required.
+				A DOM node that will contain the region. Required.
 			</td>
 		</tr>
 		<tr>
@@ -115,7 +114,7 @@
 	</table>
 
 <pre><code class="language-javascript">var myRegion = new luga.data.region.Handlebars({
-	node: jQuery("#myDiv"),
+	node: document.getElementById("myDiv"),
 	dsUuid: "myDatasetUuid",
 	traits: ["myFirstTrait", "anotherTrait"]
 });
@@ -136,10 +135,10 @@
 		<tr>
 			<td>rootNode</td>
 			<td>
-				{jQuery}
+				{HTMLElement}
 			</td>
 			<td>
-				A jQuery object. Optional. If not specified it will default to jQuery("body")
+				A DOM node. Optional. If not specified it will default to the body of the current document
 			</td>
 		</tr>
 
@@ -158,10 +157,10 @@
 		<tr>
 			<td>node</td>
 			<td>
-				{jQuery}
+				{HTMLElement}
 			</td>
 			<td>
-				A jQuery object. Required
+				A DOM node. Required
 			</td>
 		</tr>
 

@@ -1,5 +1,5 @@
 /*! 
-Luga JS 0.9.7 2018-03-31T14:08:10.781Z
+Luga JS 0.9.7 2018-03-31T21:34:10.207Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -2398,7 +2398,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga Data 0.9.7 2018-03-31T14:08:10.120Z
+Luga Data 0.9.7 2018-03-31T21:34:09.527Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -4521,22 +4521,22 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Given a jQuery object wrapping an HTML node, returns the region object associated to it
+	 * Given a DOM node, returns the region object associated to it
 	 * Returns undefined if the node is not associated to a region
-	 * @param {jQuery} node
+	 * @param {HTMLElement} node
 	 * @return {undefined|luga.data.region.Base}
 	 */
 	luga.data.region.getReferenceFromNode = function(node){
-		return node.data(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE);
+		return node[luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE];
 	};
 
 	/**
-	 * Given a jQuery object wrapping an HTML node, initialize the relevant Region handler
-	 * @param {jQuery} node
+	 * Given a DOM node, initialize the relevant Region handler
+	 * @param {HTMLElement} node
 	 * @throw {Exception}
 	 */
 	luga.data.region.init = function(node){
-		var dataSourceId = node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID);
+		var dataSourceId = node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID);
 		if(dataSourceId === undefined){
 			throw(luga.data.region.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE_ATTRIBUTE);
 		}
@@ -4544,8 +4544,8 @@ if(typeof(luga) === "undefined"){
 		if(dataSource === null){
 			throw(luga.string.format(luga.data.region.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE, [dataSourceId]));
 		}
-		var regionType = node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_TYPE);
-		if(regionType === undefined){
+		var regionType = node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_TYPE);
+		if(regionType === null){
 			regionType = luga.data.region.CONST.DEFAULT_REGION_TYPE;
 		}
 		var RegionClass = luga.lookupFunction(regionType);
@@ -4557,15 +4557,19 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Bootstrap any region contained within the given node
-	 * @param {jquery|undefined} [rootNode=jQuery("body"]   Optional, default to jQuery("body")
+	 * @param {HTMLElement|undefined} [rootNode]   Optional, default to <body>
 	 */
 	luga.data.region.initRegions = function(rootNode){
 		if(rootNode === undefined){
-			rootNode = jQuery("body");
+			rootNode = document.querySelector("body");
 		}
-		rootNode.find(luga.data.region.CONST.SELECTORS.REGION).each(function(index, item){
-			luga.data.region.init(jQuery(item));
-		});
+		/* istanbul ignore else */
+		if(rootNode !== null){
+			var nodes = rootNode.querySelectorAll(luga.data.region.CONST.SELECTORS.REGION);
+			nodes.forEach(function(item){
+				luga.data.region.init(item);
+			});
+		}
 	};
 
 	luga.namespace("luga.data.region.utils");
@@ -4573,7 +4577,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.data.region.description
 	 *
-	 * @property {jQuery}                                node   A jQuery object wrapping the node containing the region.
+	 * @property {HTMLElement}                                node   A DOM node containing the region.
 	 * @property {luga.data.DataSet|luga.data.DetailSet} ds     DataSource
 	 */
 
@@ -4603,7 +4607,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.data.region.options
 	 *
-	 * @property {jQuery} node                                Either a jQuery object wrapping the node or the naked DOM object that will contain the region. Required
+	 * @property {HTMLElement } node                          The DOM node that will contain the region. Required
 	 * @property {luga.data.DataSet|luga.data.DetailSet} ds   DataSource. Required if dsUuid is not specified
 	 * @property {String} dsUuid                              DataSource's uuid. Can be specified inside the data-lugaregion-datasource attribute too. Required if ds is not specified
 	 * @property {Array.<String>} [undefined]  traits         An array of function names that will be called every time the Region is rendered. Optional
@@ -4634,17 +4638,15 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
-		// Ensure it's a jQuery object
-		options.node = jQuery(options.node);
-		if(options.node.length === 0){
+		if(options.node === undefined){
 			throw(this.CONST.ERROR_MESSAGES.MISSING_NODE);
 		}
 
 		this.config = {
 			node: null, // Required
 			// Either: custom attribute or incoming option
-			dsUuid: options.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID) || null,
-			templateId: options.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TEMPLATE_ID) || null,
+			dsUuid: options.node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID) || null,
+			templateId: options.node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TEMPLATE_ID) || null,
 			// Either: incoming option or null
 			traits: options.traits || null,
 			ds: null
@@ -4670,8 +4672,8 @@ if(typeof(luga) === "undefined"){
 		/** @type {Array.<String>} */
 		this.traits = luga.data.region.CONST.DEFAULT_TRAITS;
 		// Extract traits from custom attribute, if any
-		var attrTraits = this.config.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TRAITS);
-		if(attrTraits !== undefined){
+		var attrTraits = this.config.node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TRAITS);
+		if(attrTraits !== null){
 			this.traits = this.traits.concat(attrTraits.split(","));
 		}
 		if(this.config.traits !== null){
@@ -4679,7 +4681,7 @@ if(typeof(luga) === "undefined"){
 		}
 
 		// Store reference inside node
-		this.config.node.data(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE, this);
+		this.config.node[luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE] = this;
 
 		this.applyTraits = function(){
 			var traitData = {
@@ -4759,22 +4761,22 @@ if(typeof(luga) === "undefined"){
 		this.template = "";
 
 		/**
-		 * @param {jQuery} node
+		 * @param {HTMLElement} node
 		 */
 		var fetchTemplate = function(node){
 			// Inline template
 			if(self.config.templateId === null){
-				self.template = Handlebars.compile(node.html());
+				self.template = Handlebars.compile(node.innerHTML);
 			}
 			else{
-				var templateNode = jQuery("#" + self.config.templateId);
-				if(templateNode.length !== 1){
+				var templateNode = document.getElementById(self.config.templateId);
+				if(templateNode === null){
 					throw(luga.string.format(self.CONST.HANDLEBARS_ERROR_MESSAGES.MISSING_TEMPLATE_NODE, [self.config.templateId]));
 				}
-				var templateSrc = templateNode.attr("src");
-				if(templateSrc === undefined){
+				var templateSrc = templateNode.getAttribute("src");
+				if(templateSrc === null){
 					// Embed template
-					self.template = Handlebars.compile(templateNode.html());
+					self.template = Handlebars.compile(templateNode.innerHTML);
 				}
 				else{
 					// External template
@@ -4807,7 +4809,7 @@ if(typeof(luga) === "undefined"){
 		this.render = function(){
 			/* istanbul ignore else */
 			if(this.template !== ""){
-				this.config.node.html(this.generateHtml());
+				this.config.node.innerHTML = this.generateHtml();
 				this.applyTraits();
 				var desc = luga.data.region.utils.assembleRegionDescription(this);
 				this.notifyObservers(luga.data.region.CONST.EVENTS.REGION_RENDERED, desc);
@@ -4828,7 +4830,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.data.region.traits.options
 	 *
-	 * @property {jQuery}                                 node          A jQuery object wrapping the Region's node. Required
+	 * @property {HTMLElement}                            node          A DOM node. Required
 	 * @property {luga.data.DataSet|luga.data.DetailSet}  dataSource    DataSource. Required
 	 */
 
@@ -4847,42 +4849,48 @@ if(typeof(luga) === "undefined"){
 		}
 	};
 
+	var removeCssClass = function(nodeList, className){
+		nodeList.forEach(function(item){
+			item.classList.remove(className);
+		});
+	};
+
 	/**
 	 * Handles data-lugaregion-select
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.select = function(options){
-		var nodes = options.node.find(CONST.SELECTORS.SELECT);
+		var nodes = options.node.querySelectorAll(CONST.SELECTORS.SELECT);
+
 		if(nodes.length > 0){
 			if(options.dataSource.getCurrentRowIndex === undefined){
 				// It's a detailSet, abort
 				return;
 			}
-			var cssClass = nodes.attr(CONST.CUSTOM_ATTRIBUTES.SELECT);
-			// Clean-up
-			nodes.removeClass(cssClass);
-			// Default to zero
+			var cssClass = nodes[0].getAttribute(CONST.CUSTOM_ATTRIBUTES.SELECT);
+			nodes[0].classList.remove(cssClass);
+			// Default to first row
 			var index = 0;
 
 			if(options.dataSource.getCurrentRowIndex() === -1){
 				// Remove class from everyone
-				nodes.removeClass(cssClass);
+				removeCssClass(nodes, cssClass);
 			}
 			else{
 				index = options.dataSource.getCurrentRowIndex();
 				// Apply CSS
-				jQuery(nodes.get(index)).addClass(cssClass);
+				nodes[index].classList.add(cssClass);
 			}
 
-			// Attach click event
-			nodes.each(function(index, item){
-				var jItem = jQuery(item);
-				jItem.on("click", function(event){
+			// Attach click event to all nodes
+			nodes.forEach(function(item){
+				item.addEventListener("click", function(event){
 					event.preventDefault();
-					nodes.removeClass(cssClass);
-					jItem.addClass(cssClass);
-				});
+					removeCssClass(nodes, cssClass);
+					item.classList.add(cssClass);
+				}, false);
 			});
+
 		}
 	};
 
@@ -4891,14 +4899,16 @@ if(typeof(luga) === "undefined"){
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.setRowId = function(options){
-		options.node.find(CONST.SELECTORS.SET_ROW_ID).each(function(index, item){
-			var jItem = jQuery(item);
-			jItem.on("click", function(event){
+
+		var nodes = options.node.querySelectorAll(CONST.SELECTORS.SET_ROW_ID);
+		nodes.forEach(function(item){
+			item.addEventListener("click", function(event){
 				event.preventDefault();
-				var rowId = jItem.attr(CONST.CUSTOM_ATTRIBUTES.SET_ROW_ID);
+				var rowId = item.getAttribute(CONST.CUSTOM_ATTRIBUTES.SET_ROW_ID);
 				options.dataSource.setCurrentRowId(rowId);
-			});
+			}, false);
 		});
+
 	};
 
 	/**
@@ -4906,13 +4916,14 @@ if(typeof(luga) === "undefined"){
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.setRowIndex = function(options){
-		options.node.find(CONST.SELECTORS.SET_ROW_INDEX).each(function(index, item){
-			var jItem = jQuery(item);
-			jItem.on("click", function(event){
+
+		var nodes = options.node.querySelectorAll(CONST.SELECTORS.SET_ROW_INDEX);
+		nodes.forEach(function(item){
+			item.addEventListener("click", function(event){
 				event.preventDefault();
-				var rowIndex = parseInt(jItem.attr(CONST.CUSTOM_ATTRIBUTES.SET_ROW_INDEX), 10);
+				var rowIndex = parseInt(item.getAttribute(CONST.CUSTOM_ATTRIBUTES.SET_ROW_INDEX), 10);
 				options.dataSource.setCurrentRowIndex(rowIndex);
-			});
+			}, false);
 		});
 	};
 
@@ -4921,14 +4932,16 @@ if(typeof(luga) === "undefined"){
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.sort = function(options){
-		options.node.find(CONST.SELECTORS.SORT).each(function(index, item){
-			var jItem = jQuery(item);
-			jItem.on("click", function(event){
+
+		var nodes = options.node.querySelectorAll(CONST.SELECTORS.SORT);
+		nodes.forEach(function(item){
+			item.addEventListener("click", function(event){
 				event.preventDefault();
-				var sortCol = jItem.attr(CONST.CUSTOM_ATTRIBUTES.SORT);
+				var sortCol = item.getAttribute(CONST.CUSTOM_ATTRIBUTES.SORT);
 				options.dataSource.sort(sortCol);
-			});
+			}, false);
 		});
+
 	};
 
 }());

@@ -18,7 +18,8 @@ describe("luga.data.region", function(){
 		beforeEach(function(){
 
 			testDs = new luga.data.DataSet({uuid: "testDs"});
-			testDiv = jQuery("<div>Ciao Mamma</div>");
+			testDiv = document.createElement("div");
+			testDiv.textContent = "Ciao Mamma";
 			testRegion = new luga.data.region.Base({
 				node: testDiv,
 				ds: testDs
@@ -32,7 +33,7 @@ describe("luga.data.region", function(){
 				expect(luga.data.region.getReferenceFromNode(testDiv)).toEqual(testRegion);
 			});
 			it("Returns undefined if the node is not a region", function(){
-				expect(luga.data.region.getReferenceFromNode(jQuery("<div>"))).toEqual(undefined);
+				expect(luga.data.region.getReferenceFromNode(document.createElement("div"))).toEqual(undefined);
 			});
 
 		});
@@ -41,12 +42,12 @@ describe("luga.data.region", function(){
 
 	describe(".init()", function(){
 
-		describe("Given a jQuery object wrapping a DOM node", function(){
+		describe("Given a DOM node", function(){
 
 			describe("Throws an exception if:", function(){
 				it("The data-lugaregion-datasource attribute is missing", function(){
 					expect(function(){
-						luga.data.region.init(jQuery("<div data-lugaregion='true'>"));
+						luga.data.region.init(jQuery("<div data-lugaregion='true'>")[0]);
 					}).toThrow();
 				});
 				it("The data-lugaregion-datasource-uuid attribute does not matches a dataSource inside the registry", function(){
@@ -65,7 +66,10 @@ describe("luga.data.region", function(){
 			describe("If the data-lugaregion-type attribute is not specified:", function(){
 				it("Creates a new instance of luga.data.region.Handlebars. Passing the given node as options.node", function(){
 					new luga.data.DataSet({uuid: "testDs"});
-					var regionNode = jQuery("<div data-lugaregion='true' data-lugaregion-datasource-uuid='testDs'>");
+					var regionNode = document.createElement("div");
+					regionNode.setAttribute("data-lugaregion", "true");
+					regionNode.setAttribute("data-lugaregion-datasource-uuid", "testDs");
+
 					spyOn(luga.data.region, "Handlebars");
 					luga.data.region.init(regionNode);
 					expect(luga.data.region.Handlebars).toHaveBeenCalledWith({node: regionNode});
@@ -79,7 +83,11 @@ describe("luga.data.region", function(){
 						regionHandler: function(){
 						}
 					};
-					var regionNode = jQuery("<div data-lugaregion='true' data-lugaregion-datasource-uuid='testDs' data-lugaregion-type='window.mock.regionHandler'>");
+					var regionNode = document.createElement("div");
+					regionNode.setAttribute("data-lugaregion", "true");
+					regionNode.setAttribute("data-lugaregion-datasource-uuid", "testDs");
+					regionNode.setAttribute("data-lugaregion-type", "window.mock.regionHandler");
+
 					spyOn(window.mock, "regionHandler");
 					luga.data.region.init(regionNode);
 					expect(window.mock.regionHandler).toHaveBeenCalledWith({node: regionNode});
@@ -104,7 +112,7 @@ describe("luga.data.region", function(){
 			it("Accepts an optional argument as starting node", function(){
 				jasmineFixtures.loadHTML("data/region/Handlebars/ladies.htm");
 				spyOn(luga.data.region, "init");
-				luga.data.region.initRegions(jQuery(".container"));
+				luga.data.region.initRegions(document.querySelectorAll(".container")[0]);
 				expect(luga.data.region.init).toHaveBeenCalledTimes(1);
 			});
 

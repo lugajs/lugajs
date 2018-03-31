@@ -10,14 +10,13 @@
 	 */
 	function datePickerTrait(options){
 		var SELECTOR = "input[data-trait-datepicker='true']";
-		// Use .find() to only select elements contained inside the region, not outside
-		options.node.find(SELECTOR).each(function(index, item){
-			var $item = jQuery(item);
-			var dateObj = new Date($item.val());
-			$item.datepicker();
-			$item.datepicker("setDate", dateObj);
+		var nodes = options.node.querySelectorAll(SELECTOR);
+		nodes.forEach(function(item){
+			jQuery(item).datepicker({
+				dateFormat: "yy-mm-dd"
+			});
 		});
-	};
+	}
 
 	(function(){
 		"use strict";
@@ -83,7 +82,7 @@
 
 <pre><code class="language-javascript">/**
 	* @typedef {Object} luga.data.region.traits.options
-	* @property {jQuery}                                 node          A jQuery object wrapping the Region's node. Required
+	* @property {HTMLElement}                            node          A DOM node. Required
 	* @property {luga.data.DataSet|luga.data.DetailSet}  dataSource    DataSource. Required
 */
 
@@ -93,14 +92,13 @@
 */
 function datePickerTrait(options){
 	var SELECTOR = "input[data-trait-datepicker='true']";
-	// Use .find() to only select elements contained inside the region, not outside
-	options.node.find(SELECTOR).each(function(index, item){
-		var $item = jQuery(item);
-		var dateObj = new Date($item.val());
-		$item.datepicker();
-		$item.datepicker("setDate", dateObj);
+	var nodes = options.node.querySelectorAll(SELECTOR);
+	nodes.forEach(function(item){
+		jQuery(item).datepicker({
+			dateFormat: "yy-mm-dd"
+		});
 	});
-};
+}
 </code></pre>
 
 		<p>

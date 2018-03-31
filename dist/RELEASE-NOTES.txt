@@ -10,6 +10,7 @@ NOTES:
 * Updated documentation
 
 CHANGES:
+* Changed API for traits and regions, from jQuery to DOM
 * Removed Ajaxform
 * Removed luga.form.toHash()
 * Removed luga.isArray()

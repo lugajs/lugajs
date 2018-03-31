@@ -26,7 +26,7 @@
 				htmlStr += "</a></li>";
 			}
 			htmlStr += "</ul>";
-			this.config.node.html(htmlStr);
+			this.config.node.innerHTML = htmlStr;
 		};
 	};
 
@@ -47,11 +47,11 @@
 			var context = this.dataSource.getContext();
 			// DetailSet
 			if((context.entity !== undefined) && (context.entity !== null)){
-				this.config.node.html(compiledTemplate(context.entity));
+				this.config.node.innerHTML = compiledTemplate(context.entity);
 			}
 			// DataSet
 			if(context.entities !== undefined){
-				this.config.node.html(compiledTemplate(context.entities));
+				this.config.node.innerHTML = compiledTemplate(context.entities);
 			}
 		};
 
@@ -111,7 +111,7 @@ var underscoreTemplate = function(options){
 		}
 		// DataSet
 		if(context.entities !== undefined){
-			this.config.node.html(compiledTemplate(context.entities));
+			this.config.node.innerHTML = compiledTemplate(context.entities);
 		}
 	};
 

@@ -24,22 +24,22 @@
 		this.template = "";
 
 		/**
-		 * @param {jQuery} node
+		 * @param {HTMLElement} node
 		 */
 		var fetchTemplate = function(node){
 			// Inline template
 			if(self.config.templateId === null){
-				self.template = Handlebars.compile(node.html());
+				self.template = Handlebars.compile(node.innerHTML);
 			}
 			else{
-				var templateNode = jQuery("#" + self.config.templateId);
-				if(templateNode.length !== 1){
+				var templateNode = document.getElementById(self.config.templateId);
+				if(templateNode === null){
 					throw(luga.string.format(self.CONST.HANDLEBARS_ERROR_MESSAGES.MISSING_TEMPLATE_NODE, [self.config.templateId]));
 				}
-				var templateSrc = templateNode.attr("src");
-				if(templateSrc === undefined){
+				var templateSrc = templateNode.getAttribute("src");
+				if(templateSrc === null){
 					// Embed template
-					self.template = Handlebars.compile(templateNode.html());
+					self.template = Handlebars.compile(templateNode.innerHTML);
 				}
 				else{
 					// External template
@@ -72,7 +72,7 @@
 		this.render = function(){
 			/* istanbul ignore else */
 			if(this.template !== ""){
-				this.config.node.html(this.generateHtml());
+				this.config.node.innerHTML = this.generateHtml();
 				this.applyTraits();
 				var desc = luga.data.region.utils.assembleRegionDescription(this);
 				this.notifyObservers(luga.data.region.CONST.EVENTS.REGION_RENDERED, desc);

@@ -10,8 +10,15 @@ describe("luga.data.region.Handlebars", function(){
 
 		testRecords = jasmineFixtures.read("data/ladies.json");
 		loadedDs = new luga.data.DataSet({uuid: "testDs", records: testRecords});
-		testDiv = jQuery("<div>Ciao Mamma</div>");
-		attributesDiv = jQuery("<div data-lugaregion='true' data-lugaregion-datasource-uuid='testDs' data-lugaregion-template-id='ladiesTemplate' ></div>");
+
+		testDiv = document.createElement("div");
+		testDiv.textContent = "Ciao Mamma";
+
+		attributesDiv = document.createElement("div");
+		attributesDiv.setAttribute("data-lugaregion", "true");
+		attributesDiv.setAttribute("data-lugaregion-datasource-uuid", "testDs");
+		attributesDiv.setAttribute("data-lugaregion-template-id", "ladiesTemplate");
+		attributesDiv.textContent = "Test";
 
 		configRegion = new luga.data.region.Handlebars({
 			node: testDiv,
@@ -29,13 +36,13 @@ describe("luga.data.region.Handlebars", function(){
 
 	});
 
-	afterEach(function() {
+	afterEach(function(){
 		luga.data.dataSourceRegistry = {};
 	});
 
 	it("Is the default region type", function(){
 		expect(luga.data.region.Handlebars).toBeDefined();
-		expect(jQuery.isFunction(luga.data.region.Handlebars)).toEqual(true);
+		expect(luga.type(luga.data.region.Handlebars)).toEqual("function");
 	});
 
 	it("Implements the luga.data.region.Base abstract class", function(){
@@ -46,7 +53,7 @@ describe("luga.data.region.Handlebars", function(){
 
 		describe("options.templateId either", function(){
 
-			it("Retrieves the value from the node's data-lugaregion-template custom attribute", function(){
+			it("Retrieves the value from the node's data-lugaregion-template-id custom attribute", function(){
 				expect(attributesRegion.config.templateId).toEqual("ladiesTemplate");
 			});
 			it("Uses the value specified inside the option argument", function(){
@@ -82,7 +89,7 @@ describe("luga.data.region.Handlebars", function(){
 					node: testDiv,
 					dsUuid: "testDs"
 				});
-				expect(Handlebars.compile).toHaveBeenCalledWith(testDiv.html());
+				expect(Handlebars.compile).toHaveBeenCalledWith(testDiv.innerHTML);
 			});
 		});
 
@@ -97,7 +104,7 @@ describe("luga.data.region.Handlebars", function(){
 						dsUuid: "testDs",
 						templateId: "ladiesTemplate"
 					});
-					expect(Handlebars.compile).toHaveBeenCalledWith(jQuery("#ladiesTemplate").html());
+					expect(Handlebars.compile).toHaveBeenCalledWith(document.getElementById("ladiesTemplate").innerHTML);
 				});
 
 			});
@@ -181,7 +188,7 @@ describe("luga.data.region.Handlebars", function(){
 			it("Injects the generated HTML inside the node", function(){
 				var newHtml = testRegion.generateHtml();
 				testRegion.render();
-				expect(testRegion.config.node.html()).toEqual(newHtml);
+				expect(testRegion.config.node.innerHTML).toEqual(newHtml);
 			});
 		});
 

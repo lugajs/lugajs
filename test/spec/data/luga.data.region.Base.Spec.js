@@ -2,7 +2,7 @@ describe("luga.data.region.Base", function(){
 
 	"use strict";
 
-	var testRecords, loadedDs, testDiv, attributesDiv, configRegion, attributesRegion,testObserver;
+	var testRecords, loadedDs, testDiv, attributesDiv, configRegion, attributesRegion, testObserver;
 	window.regionBaseMockTraitOne = function(){
 	};
 	window.regionBaseMockTraitTwo = function(){
@@ -12,8 +12,15 @@ describe("luga.data.region.Base", function(){
 
 		testRecords = jasmineFixtures.read("data/ladies.json");
 		loadedDs = new luga.data.DataSet({uuid: "testDs", records: testRecords});
-		testDiv = jQuery("<div>Ciao Mamma</div>");
-		attributesDiv = jQuery("<div data-lugaregion='true' data-lugaregion-datasource-uuid='testDs' data-lugaregion-template='ladiesTemplate' >Test</div>");
+
+		testDiv = document.createElement("div");
+		testDiv.textContent = "Ciao Mamma";
+
+		attributesDiv = document.createElement("div");
+		attributesDiv.setAttribute("data-lugaregion", "true");
+		attributesDiv.setAttribute("data-lugaregion-datasource-uuid", "testDs");
+		attributesDiv.setAttribute("data-lugaregion-template-id", "ladiesTemplate");
+		attributesDiv.textContent = "Test";
 
 		configRegion = new luga.data.region.Base({
 			node: testDiv,
@@ -31,7 +38,7 @@ describe("luga.data.region.Base", function(){
 
 	});
 
-	afterEach(function() {
+	afterEach(function(){
 		luga.data.dataSourceRegistry = {};
 	});
 
@@ -51,8 +58,8 @@ describe("luga.data.region.Base", function(){
 		expect(loadedDs.observers[0]).toEqual(configRegion);
 	});
 
-	it("Attach a reference inside the given node, storing it as the luga-region-reference key", function(){
-		expect(testDiv.data(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE)).toEqual(configRegion);
+	it("Attach a reference inside the given node, storing it as the luga-region-reference attribute", function(){
+		expect(testDiv[luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE]).toEqual(configRegion);
 	});
 
 	describe("Accepts an Options object as single argument", function(){
@@ -67,17 +74,17 @@ describe("luga.data.region.Base", function(){
 			it("Throws an exception if the associated node does not exists", function(){
 				expect(function(){
 					new luga.data.region.Base({
-						node: jQuery("#missing")
+						node: document.getElementById("missing")
 					});
 				}).toThrow();
 			});
 
 			describe("either:", function(){
 				it("Points to the HTML node using the data-lugaregion custom attribute", function(){
-					expect(attributesRegion.config.node.text()).toEqual(attributesDiv.text());
+					expect(attributesRegion.config.node.textContent).toEqual(attributesDiv.textContent);
 				});
 				it("Uses the value specified inside the option argument", function(){
-					expect(configRegion.config.node.text()).toEqual(testDiv.text());
+					expect(configRegion.config.node.textContent).toEqual(testDiv.textContent);
 				});
 			});
 		});
@@ -136,12 +143,21 @@ describe("luga.data.region.Base", function(){
 				describe("Retrieves the value from the node's data-lugaregion-traits custom attribute:", function(){
 
 					it("Containing a single function's name", function(){
-						var regionNode = jQuery("<div data-lugaregion='true' data-lugaregion-datasource-uuid='testDs' data-lugaregion-traits='window.regionBaseMockTraitOne'></div>");
+						var regionNode = document.createElement("div");
+						regionNode.setAttribute("data-lugaregion", "true");
+						regionNode.setAttribute("data-lugaregion-datasource-uuid", "testDs");
+						regionNode.setAttribute("data-lugaregion-traits", "window.regionBaseMockTraitOne");
+
 						var region = new luga.data.region.Base({node: regionNode});
 						expect(region.traits.indexOf("window.regionBaseMockTraitOne")).not.toEqual(-1);
 					});
+
 					it("Or a comma-delimited list of function's names", function(){
-						var regionNode = jQuery("<div data-lugaregion='true' data-lugaregion-datasource-uuid='testDs' data-lugaregion-traits='window.regionBaseMockTraitOne,window.regionBaseMockTraitTwo'></div>");
+						var regionNode = document.createElement("div");
+						regionNode.setAttribute("data-lugaregion", "true");
+						regionNode.setAttribute("data-lugaregion-datasource-uuid", "testDs");
+						regionNode.setAttribute("data-lugaregion-traits", "window.regionBaseMockTraitOne,window.regionBaseMockTraitTwo");
+
 						var region = new luga.data.region.Base({node: regionNode});
 						expect(region.traits.indexOf("window.regionBaseMockTraitOne")).not.toEqual(-1);
 						expect(region.traits.indexOf("window.regionBaseMockTraitTwo")).not.toEqual(-1);
@@ -224,7 +240,11 @@ describe("luga.data.region.Base", function(){
 			});
 
 			it("data-lugaregion-traits contains an invalid function name", function(){
-				var regionNode = jQuery("<div data-lugaregion='true' data-lugaregion-datasource-uuid='testDs' data-lugaregion-traits='window.missingFunction'></div>");
+				var regionNode = document.createElement("div");
+				regionNode.setAttribute("data-lugaregion", "true");
+				regionNode.setAttribute("data-lugaregion-datasource-uuid", "testDs");
+				regionNode.setAttribute("data-lugaregion-traits", "window.missingFunction");
+
 				var region = new luga.data.region.Base({node: regionNode});
 				expect(function(){
 					region.applyTraits();

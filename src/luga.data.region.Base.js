@@ -4,7 +4,7 @@
 	/**
 	 * @typedef {Object} luga.data.region.options
 	 *
-	 * @property {jQuery} node                                Either a jQuery object wrapping the node or the naked DOM object that will contain the region. Required
+	 * @property {HTMLElement } node                          The DOM node that will contain the region. Required
 	 * @property {luga.data.DataSet|luga.data.DetailSet} ds   DataSource. Required if dsUuid is not specified
 	 * @property {String} dsUuid                              DataSource's uuid. Can be specified inside the data-lugaregion-datasource attribute too. Required if ds is not specified
 	 * @property {Array.<String>} [undefined]  traits         An array of function names that will be called every time the Region is rendered. Optional
@@ -35,17 +35,15 @@
 			}
 		};
 
-		// Ensure it's a jQuery object
-		options.node = jQuery(options.node);
-		if(options.node.length === 0){
+		if(options.node === undefined){
 			throw(this.CONST.ERROR_MESSAGES.MISSING_NODE);
 		}
 
 		this.config = {
 			node: null, // Required
 			// Either: custom attribute or incoming option
-			dsUuid: options.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID) || null,
-			templateId: options.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TEMPLATE_ID) || null,
+			dsUuid: options.node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID) || null,
+			templateId: options.node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TEMPLATE_ID) || null,
 			// Either: incoming option or null
 			traits: options.traits || null,
 			ds: null
@@ -71,8 +69,8 @@
 		/** @type {Array.<String>} */
 		this.traits = luga.data.region.CONST.DEFAULT_TRAITS;
 		// Extract traits from custom attribute, if any
-		var attrTraits = this.config.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TRAITS);
-		if(attrTraits !== undefined){
+		var attrTraits = this.config.node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TRAITS);
+		if(attrTraits !== null){
 			this.traits = this.traits.concat(attrTraits.split(","));
 		}
 		if(this.config.traits !== null){
@@ -80,7 +78,7 @@
 		}
 
 		// Store reference inside node
-		this.config.node.data(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE, this);
+		this.config.node[luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE] = this;
 
 		this.applyTraits = function(){
 			var traitData = {
