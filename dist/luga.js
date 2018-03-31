@@ -1,5 +1,5 @@
 /*! 
-Luga JS 0.9.7 2018-03-31T21:34:10.207Z
+Luga JS 0.9.7 2018-03-31T22:48:59.819Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -2398,7 +2398,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga Data 0.9.7 2018-03-31T21:34:09.527Z
+Luga Data 0.9.7 2018-03-31T22:48:59.156Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -4537,7 +4537,7 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.data.region.init = function(node){
 		var dataSourceId = node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID);
-		if(dataSourceId === undefined){
+		if(dataSourceId === null){
 			throw(luga.data.region.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE_ATTRIBUTE);
 		}
 		var dataSource = luga.data.getDataSource(dataSourceId);
@@ -4861,12 +4861,12 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.data.region.traits.select = function(options){
 		var nodes = options.node.querySelectorAll(CONST.SELECTORS.SELECT);
+		if(options.dataSource.getCurrentRowIndex === undefined){
+			// It's a detailSet, abort
+			return;
+		}
 
 		if(nodes.length > 0){
-			if(options.dataSource.getCurrentRowIndex === undefined){
-				// It's a detailSet, abort
-				return;
-			}
 			var cssClass = nodes[0].getAttribute(CONST.CUSTOM_ATTRIBUTES.SELECT);
 			nodes[0].classList.remove(cssClass);
 			// Default to first row

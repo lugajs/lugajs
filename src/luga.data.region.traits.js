@@ -37,12 +37,12 @@
 	 */
 	luga.data.region.traits.select = function(options){
 		var nodes = options.node.querySelectorAll(CONST.SELECTORS.SELECT);
+		if(options.dataSource.getCurrentRowIndex === undefined){
+			// It's a detailSet, abort
+			return;
+		}
 
 		if(nodes.length > 0){
-			if(options.dataSource.getCurrentRowIndex === undefined){
-				// It's a detailSet, abort
-				return;
-			}
 			var cssClass = nodes[0].getAttribute(CONST.CUSTOM_ATTRIBUTES.SELECT);
 			nodes[0].classList.remove(cssClass);
 			// Default to first row
