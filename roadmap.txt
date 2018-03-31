@@ -13,14 +13,16 @@ VERSION 2.0
 
 - Event bus concept?
 
-- ES6 modules and Webpack?
+- Server-side validation?
 
 ***
 
 VERSION 3.0
 
 - Drop support for IE 11
-- Use import/export
+
+- ES6 modules and Webpack?
+- ES6 modules import/export
 
 - Make Common and Data isomorphic?
 
