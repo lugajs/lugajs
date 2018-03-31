@@ -28,7 +28,6 @@ VERSION 3.0
 
 ***
 
-luga.data.widgets.Autosuggest
-- https://heroes.dev.waylon.cloud/v1/search/character?offset=0&limit=10&name=byss
+- luga.data.widgets.Autosuggest
 
 - Document luga.data.xml?
