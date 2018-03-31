@@ -171,7 +171,7 @@ dl, dt, dd, ol, ul, li {
 }
 
 table.luga-docs-api + pre[class*="language-"],
-table.luga-docs-api + pre + pre[class*="language-"]{
+table.luga-docs-api + pre + pre[class*="language-"] {
 	margin: 0;
 }
 
@@ -241,11 +241,12 @@ ol.luga-docs-list li {
 }
 
 .checkbox label input,
-.radio label input{
+.radio label input {
 	margin-right: 6px;
 }
 
-button.btn + button.btn {
+button.btn,
+.form-control + .form-control {
 	margin-left: 6px;
 }
 
