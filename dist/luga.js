@@ -1,5 +1,5 @@
 /*! 
-Luga JS 0.9.7 2018-04-01T14:57:36.048Z
+Luga JS 0.9.7 2018-04-01T21:09:59.695Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -180,7 +180,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	var class2type = {};
-	["Array", "Boolean", "Date", "Error", "Function", "Number", "Object", "RegExp", "String", "Symbol"].forEach(function(element, i, collection){
+	["Array", "Boolean", "Date", "Error", "Function", "Number", "Object", "RegExp", "String", "Symbol"].forEach(function(element){
 		class2type["[object " + element + "]"] = element.toLowerCase();
 	});
 
@@ -337,7 +337,7 @@ if(typeof(luga) === "undefined"){
 			}
 			// "Generic" observers
 			var genericMethod = generateGenericMethodName(eventName);
-			this.observers.forEach(function(element, i, collection){
+			this.observers.forEach(function(element){
 				if((element[genericMethod] !== undefined) && (luga.type(element[genericMethod]) === "function")){
 					element[genericMethod](payload);
 				}
@@ -345,7 +345,7 @@ if(typeof(luga) === "undefined"){
 			// "Event" observers
 			var eventObservers = this.eventObservers[eventName];
 			if(eventObservers !== undefined){
-				eventObservers.forEach(function(element, i, collection){
+				eventObservers.forEach(function(element){
 					if(luga.type(element.observer[element.methodName]) === "function"){
 						element.observer[element.methodName](payload);
 					}
@@ -509,26 +509,26 @@ if(typeof(luga) === "undefined"){
 		}
 		var map = {};
 		var fields = luga.form.utils.getChildFields(rootNode);
-		fields.forEach(function(item){
-			if(luga.form.utils.isSuccessfulField(item) === true){
-				var fieldName = item.getAttribute("name");
+		fields.forEach(function(element){
+			if(luga.form.utils.isSuccessfulField(element) === true){
+				var fieldName = element.getAttribute("name");
 				var fieldValue = null;
-				var fieldType = item.type;
+				var fieldType = element.type;
 				switch(fieldType){
 
 					case "select-multiple":
-						fieldValue = getMultiSelectValue(item);
+						fieldValue = getMultiSelectValue(element);
 						break;
 
 					case "checkbox":
 					case "radio":
-						if(item.checked === true){
-							fieldValue = item.value;
+						if(element.checked === true){
+							fieldValue = element.value;
 						}
 						break;
 
 					default:
-						fieldValue = item.value;
+						fieldValue = element.value;
 				}
 
 				if(fieldValue !== null){
@@ -558,8 +558,8 @@ if(typeof(luga) === "undefined"){
 	var getMultiSelectValue = function(node){
 		var fieldValue = [];
 		var options = node.querySelectorAll("option:checked");
-		options.forEach(function(item){
-			fieldValue.push(item.value);
+		options.forEach(function(element){
+			fieldValue.push(element.value);
 		});
 		return fieldValue;
 	};
@@ -598,15 +598,15 @@ if(typeof(luga) === "undefined"){
 		var str = "";
 		var fields = luga.form.utils.getChildFields(rootNode);
 
-		fields.forEach(function(item){
-			if(luga.form.utils.isSuccessfulField(item) === true){
-				var fieldName = item.getAttribute("name");
-				var fieldType = item.type;
+		fields.forEach(function(element){
+			if(luga.form.utils.isSuccessfulField(element) === true){
+				var fieldName = element.getAttribute("name");
+				var fieldType = element.type;
 				switch(fieldType){
 
 					case "select-multiple":
 
-						var multiValue = getMultiSelectValue(item);
+						var multiValue = getMultiSelectValue(element);
 						multiValue.forEach(function(value){
 							str = appendQueryString(str, fieldName, value, demoronize);
 						});
@@ -614,13 +614,13 @@ if(typeof(luga) === "undefined"){
 
 					case "checkbox":
 					case "radio":
-						if(item.checked === true){
-							str = appendQueryString(str, fieldName, item.value, demoronize);
+						if(element.checked === true){
+							str = appendQueryString(str, fieldName, element.value, demoronize);
 						}
 						break;
 
 					default:
-						str = appendQueryString(str, fieldName, item.value, demoronize);
+						str = appendQueryString(str, fieldName, element.value, demoronize);
 				}
 			}
 		});
@@ -702,9 +702,9 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.form.utils.getChildFields = function(rootNode){
 		var fields = [];
-		rootNode.querySelectorAll(luga.form.CONST.FIELD_SELECTOR).forEach(function(item){
-			if(luga.form.utils.isInputField(item) === true){
-				fields.push(item);
+		rootNode.querySelectorAll(luga.form.CONST.FIELD_SELECTOR).forEach(function(element){
+			if(luga.form.utils.isInputField(element) === true){
+				fields.push(element);
 			}
 		});
 		return fields;
@@ -892,16 +892,18 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Private helper function
 	 * Generate node's id
-	 * @param {jQuery} node
+	 * @param {HTMLElement} node
 	 * @return {String}
 	 */
 	var generateBoxId = function(node){
 		var boxId = luga.utils.CONST.MSG_BOX_ID;
-		if(node.attr("id") === undefined){
-			boxId += node.attr("id");
-		}
-		else if(node.attr("name") !== undefined){
-			boxId += node.attr("name");
+		if(node !== undefined){
+			if(node.getAttribute("id") === null){
+				boxId += node.getAttribute("id");
+			}
+			else if(node.getAttribute("name") !== null){
+				boxId += node.getAttribute("name");
+			}
 		}
 		return boxId;
 	};
@@ -911,7 +913,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {jQuery}  node   Target node
 	 */
 	luga.utils.removeDisplayBox = function(node){
-		var boxId = generateBoxId(jQuery(node));
+		var boxId = generateBoxId(jQuery(node)[0]);
 		var oldBox = jQuery("#" + boxId);
 		// If an error display is already there, get rid of it
 		/* istanbul ignore else */
@@ -922,9 +924,9 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Display a message box above a given node
-	 * @param {jQuery}  node   Target node
-	 * @param {String}  html   HTML/Text code to inject
-	 * @return {jQuery}
+	 * @param {HTMLElement}  node   Target node
+	 * @param {String}       html   HTML/Text code to inject
+	 * @return {HTMLElement}
 	 */
 	luga.utils.displayMessage = function(node, html){
 		return luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.MESSAGE);
@@ -932,9 +934,9 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Display an error box above a given node
-	 * @param {jQuery}  node   Target node
-	 * @param {String}  html   HTML/Text code to inject
-	 * @return {jQuery}
+	 * @param {HTMLElement}  node   Target node
+	 * @param {String}       html   HTML/Text code to inject
+	 * @return {HTMLElement}
 	 */
 	luga.utils.displayErrorMessage = function(node, html){
 		return luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.ERROR_MESSAGE);
@@ -952,7 +954,7 @@ if(typeof(luga) === "undefined"){
 		if(cssClass === undefined){
 			cssClass = luga.utils.CONST.CSS_CLASSES.MESSAGE;
 		}
-		var boxId = generateBoxId(jQuery(node));
+		var boxId = generateBoxId(jQuery(node)[0]);
 		var box = jQuery("<div></div>");
 		box.attr("id", boxId);
 		box.addClass(cssClass);
@@ -1089,8 +1091,8 @@ if(typeof(luga) === "undefined"){
 				// This may cause issue with CORS so better to avoid on cross-site requests
 				self.xhr.setRequestHeader("X-Requested-With", config.requestedWith);
 			}
-			config.headers.forEach(function(item){
-				self.xhr.setRequestHeader(item.name, item.value);
+			config.headers.forEach(function(element){
+				self.xhr.setRequestHeader(element.name, element.value);
 			});
 		};
 
@@ -1213,41 +1215,6 @@ if(typeof(luga) === "undefined"){
 		}
 		htmlStr += "</ul>";
 		luga.utils.displayErrorMessage(formNode, htmlStr);
-	};
-
-	/**
-	 * Use Bootstrap validation states to display errors
-	 *
-	 * @param {jQuery}                                      formNode      jQuery object wrapping the form
-	 * @param {Array.<luga.validator.BaseFieldValidator>}   validators    Array of field validators
-	 */
-	luga.validator.handlers.bootstrap = function(formNode, validators){
-		var ERROR_SELECTOR = ".has-error";
-		var ERROR_CLASS = "has-error";
-		var ALERT_SELECTOR = ".alert-danger";
-
-		var FAILED_UPDATE = "<div class=\"alert alert-danger\" role=\"alert\">" +
-			"<span style=\"padding-right:10px\" class=\"glyphicon glyphicon-exclamation-sign\">" +
-			"</span>{0}</div>";
-
-		// Reset all fields in the form
-		jQuery(formNode).find(ERROR_SELECTOR).removeClass(ERROR_CLASS);
-		jQuery(formNode).find(ALERT_SELECTOR).remove();
-
-		var focusGiven = false;
-		for(var i = 0; i < validators.length; i++){
-			var fieldNode = jQuery(validators[i].node);
-			// Attach Bootstrap CSS to parent node
-			fieldNode.parent().addClass(ERROR_CLASS);
-			// Display alert message
-			fieldNode.before(jQuery(luga.string.format(FAILED_UPDATE, [validators[i].message])));
-			// Give focus to the first invalid text field
-			/* istanbul ignore else */
-			if((focusGiven === false) && (validators[i].getFocus)){
-				validators[i].getFocus();
-				focusGiven = true;
-			}
-		}
 	};
 
 	luga.validator.CONST = {

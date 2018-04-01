@@ -1,5 +1,5 @@
 /*! 
-Luga Validator 0.9.7 2018-03-31T22:48:59.819Z
+Luga Validator 0.9.7 2018-04-01T21:09:59.695Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -70,41 +70,6 @@ if(typeof(luga) === "undefined"){
 		}
 		htmlStr += "</ul>";
 		luga.utils.displayErrorMessage(formNode, htmlStr);
-	};
-
-	/**
-	 * Use Bootstrap validation states to display errors
-	 *
-	 * @param {jQuery}                                      formNode      jQuery object wrapping the form
-	 * @param {Array.<luga.validator.BaseFieldValidator>}   validators    Array of field validators
-	 */
-	luga.validator.handlers.bootstrap = function(formNode, validators){
-		var ERROR_SELECTOR = ".has-error";
-		var ERROR_CLASS = "has-error";
-		var ALERT_SELECTOR = ".alert-danger";
-
-		var FAILED_UPDATE = "<div class=\"alert alert-danger\" role=\"alert\">" +
-			"<span style=\"padding-right:10px\" class=\"glyphicon glyphicon-exclamation-sign\">" +
-			"</span>{0}</div>";
-
-		// Reset all fields in the form
-		jQuery(formNode).find(ERROR_SELECTOR).removeClass(ERROR_CLASS);
-		jQuery(formNode).find(ALERT_SELECTOR).remove();
-
-		var focusGiven = false;
-		for(var i = 0; i < validators.length; i++){
-			var fieldNode = jQuery(validators[i].node);
-			// Attach Bootstrap CSS to parent node
-			fieldNode.parent().addClass(ERROR_CLASS);
-			// Display alert message
-			fieldNode.before(jQuery(luga.string.format(FAILED_UPDATE, [validators[i].message])));
-			// Give focus to the first invalid text field
-			/* istanbul ignore else */
-			if((focusGiven === false) && (validators[i].getFocus)){
-				validators[i].getFocus();
-				focusGiven = true;
-			}
-		}
 	};
 
 	luga.validator.CONST = {

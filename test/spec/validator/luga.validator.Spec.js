@@ -51,6 +51,8 @@ describe("luga.validator", function(){
 
 describe("luga.validator.initForms()", function(){
 
+	"use strict";
+
 	describe("Is a static utility", function(){
 
 		it("Create Validator objects for forms available inside the document as soon as they are submitted", function(){
@@ -128,21 +130,6 @@ describe("luga.validator.handlers", function(){
 			luga.validator.handlers.errorBox(formStub, []);
 			expect(luga.utils.removeDisplayBox).toHaveBeenCalledWith(formStub);
 		});
-	});
-
-	describe("luga.validator.handlers.bootstrap", function(){
-		it("Use Bootstrap validation states to display errors", function(){
-			spyOn(luga.validator.handlers, "bootstrap").and.callThrough();
-			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
-			var formValidator = new luga.validator.FormValidator({
-				formNode: document.getElementById("basic"),
-				error: "luga.validator.handlers.bootstrap"
-			});
-
-			formValidator.validate();
-			expect(luga.validator.handlers.bootstrap).toHaveBeenCalled();
-		});
-
 	});
 
 });
