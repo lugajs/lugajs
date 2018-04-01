@@ -1540,24 +1540,35 @@ describe("luga.validator.TextValidator", function(){
 	});
 
 	describe("Custom rules can be added", function(){
-		var textNode, textValidator;
+		var textValidator;
 
 		it("By adding them to luga.validator.rules", function(){
+
+			/**
+			 * @param {String} value
+			 * @return {HTMLInputElement}
+			 */
+			var createLowercaseField = function(value){
+				var node = document.createElement("input");
+				node.setAttribute("type", "text");
+				node.setAttribute("data-lugavalidator-required", "true");
+				node.setAttribute("data-lugavalidator-lowercase", "true");
+				node.value = value;
+				return node;
+			};
 
 			luga.validator.rules.lowercase = function(fieldNode, validator){
 				var lowerStr = fieldNode.val().toLowerCase();
 				return (lowerStr === fieldNode.val());
 			};
 
-			textNode = jQuery('<input type="text" value="all lower" data-lugavalidator-required="true" data-lugavalidator-lowercase="true">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
-				fieldNode: textNode
+				fieldNode: createLowercaseField("all lower")
 			});
 			expect(textValidator.isValid()).toEqual(true);
 
-			textNode = jQuery('<input type="text" value="Mixed Case" data-lugavalidator-required="true" data-lugavalidator-lowercase="true">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
-				fieldNode: textNode
+				fieldNode: createLowercaseField("Mixed Case")
 			});
 
 		});
@@ -1565,21 +1576,32 @@ describe("luga.validator.TextValidator", function(){
 	});
 
 	describe("Custom patterns can be added", function(){
-		var textNode, textValidator;
+		var textValidator;
 
 		it("By adding them to luga.validator.patterns", function(){
 
+			/**
+			 * @param {String} value
+			 * @return {HTMLInputElement}
+			 */
+			var createHttpstartField = function(value){
+				var node = document.createElement("input");
+				node.setAttribute("type", "text");
+				node.setAttribute("data-lugavalidator-required", "true");
+				node.setAttribute("data-lugavalidator-pattern", "httpstart");
+				node.value = value;
+				return node;
+			};
+
 			luga.validator.patterns.httpstart = new RegExp("^http://");
 
-			textNode = jQuery('<input type="text" value="http://www.lugajs.org" data-lugavalidator-required="true" data-lugavalidator-pattern="httpstart">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
-				fieldNode: textNode
+				fieldNode: createHttpstartField("http://www.lugajs.org")
 			});
 			expect(textValidator.isValid()).toEqual(true);
 
-			textNode = jQuery('<input type="text" value="www.lugajs.org" data-lugavalidator-required="true" data-lugavalidator-pattern="httpstart">');
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
-				fieldNode: textNode
+				fieldNode: createHttpstartField("www.lugajs.org")
 			});
 
 		});

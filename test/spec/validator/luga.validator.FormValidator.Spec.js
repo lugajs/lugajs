@@ -217,12 +217,12 @@ describe("luga.validator.FormValidator", function(){
 
 			formValidator.validate();
 			expect(formValidator.isValid()).toEqual(false);
-			expect(jQuery("#submit").val()).toEqual("Submit");
+			expect(document.getElementById("submit").value).toEqual("Submit");
 
-			jQuery("#myName").val("str");
+			document.getElementById("myName").value = "str";
 			formValidator.validate();
 			expect(formValidator.isValid()).toEqual(true);
-			expect(jQuery("#submit").val()).toEqual("I am disabled");
+			expect(document.getElementById("submit").value).toEqual("I am disabled");
 
 		});
 

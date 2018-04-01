@@ -165,7 +165,7 @@ describe("luga.form", function(){
 
 				it("A given root node", function(){
 					jasmineFixtures.loadHTML("validator/RadioValidator/required.htm");
-					expect(luga.form.utils.getFieldGroup("lady", jQuery("#single")).length).toEqual(4);
+					expect(luga.form.utils.getFieldGroup("lady", document.getElementById("single")).length).toEqual(4);
 				});
 
 				it("Or the whole document if the second argument is not passed", function(){
