@@ -10,7 +10,7 @@ NOTES:
 * Updated documentation
 
 CHANGES:
-* Changed API for traits and regions, from jQuery to DOM
+* Changed API for traits, regions and luga.data.widgets, from jQuery to DOM
 * Removed luga.data.widgets.ShowMoreScrolling
 * Removed Ajaxform
 * Removed luga.form.toHash()

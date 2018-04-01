@@ -21,8 +21,8 @@ VERSION 3.0
 
 - Drop support for IE 11
 
-- ES6 modules and Webpack?
 - ES6 modules import/export
+- Webpack?
 
 - Make Common and Data isomorphic?
 

@@ -1,4 +1,5 @@
-- Remove jQuery from everywhere
+- Remove jQuery from common
+- Remove jQuery from validator
 
 -------------
 
