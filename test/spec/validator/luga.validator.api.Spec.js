@@ -111,7 +111,7 @@ describe("luga.validator.api", function(){
 			jasmineFixtures.loadHTML("validator/FormValidator/children.htm");
 			var fieldset = jQuery("#fieldGroup");
 
-			expect(luga.validator.api.validateChildFields({rootNode: fieldset})).toBe(false);
+			expect(luga.validator.api.validateChildFields({rootNode: fieldset[0]})).toBe(false);
 			expect(jQuery("#name")).toHaveClass("invalid");
 
 		});
@@ -124,7 +124,7 @@ describe("luga.validator.api", function(){
 			jQuery("#age").val("33");
 			jQuery("#name").val("filled");
 			jQuery("#boxLady").prop("checked", false);
-			expect(luga.validator.api.validateChildFields({rootNode: fieldset})).toBe(true);
+			expect(luga.validator.api.validateChildFields({rootNode: fieldset[0]})).toBe(true);
 			expect(jQuery("#name")).not.toHaveClass("invalid");
 
 		});

@@ -492,39 +492,37 @@ if(typeof(luga) === "undefined"){
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 * Values of multiple checked checkboxes and multiple select are included as a single entry, with array value
 	 *
-	 * @param {jQuery}   rootNode     jQuery object wrapping the root node
-	 * @param {Boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
-	 * @return {Object}              A JavaScript object containing name/value pairs
+	 * @param {HTMLElement} rootNode     DOM node wrapping the form fields. Required
+	 * @param {Boolean}     demoronize   If true, MS Word's special chars are replaced with plausible substitutes. Default to false
+	 * @return {Object}                  A JavaScript object containing name/value pairs
 	 * @throw {Exception}
 	 */
 	luga.form.toMap = function(rootNode, demoronize){
-
-		if(rootNode.length === 0){
+		if(rootNode === null){
 			throw(luga.form.CONST.MESSAGES.MISSING_FORM);
 		}
-
 		var map = {};
 		var fields = luga.form.utils.getChildFields(rootNode);
-		for(var i = 0; i < fields.length; i++){
-			if(luga.form.utils.isSuccessfulField(fields[i]) === true){
-				var fieldName = jQuery(fields[i]).attr("name");
+		fields.forEach(function(item){
+			if(luga.form.utils.isSuccessfulField(item) === true){
+				var fieldName = item.getAttribute("name");
 				var fieldValue = null;
-				var fieldType = jQuery(fields[i]).prop("type");
+				var fieldType = item.type;
 				switch(fieldType){
 
 					case "select-multiple":
-						fieldValue = jQuery(fields[i]).val();
+						fieldValue = getMultiSelectValue(item);
 						break;
 
 					case "checkbox":
 					case "radio":
-						if(jQuery(fields[i]).prop("checked") === true){
-							fieldValue = jQuery(fields[i]).val();
+						if(item.checked === true){
+							fieldValue = item.value;
 						}
 						break;
 
 					default:
-						fieldValue = jQuery(fields[i]).val();
+						fieldValue = item.value;
 				}
 
 				if(fieldValue !== null){
@@ -543,16 +541,29 @@ if(typeof(luga) === "undefined"){
 				}
 
 			}
-		}
+		});
 		return map;
 	};
 
 	/**
-	 * Given a form tag or another element wrapping input fields, serialize their value into JSON data
+	 * @param {HTMLElement} node
+	 * @return {Array.<String>}
+	 */
+	var getMultiSelectValue = function(node){
+		var fieldValue = [];
+		var options = node.querySelectorAll("option:checked");
+		options.forEach(function(item){
+			fieldValue.push(item.value);
+		});
+		return fieldValue;
+	};
+
+	/**
+	 * Given a form node or another element wrapping input fields, serialize their value into JSON data
 	 * If fields names contains dots, their are handled as nested properties
 	 * Only fields considered successful are returned:
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
-	 * @param {jQuery} rootNode  jQuery object wrapping the form fields
+	 * @param {HTMLElement} rootNode  DOM node wrapping the form fields
 	 * @return {json}
 	 */
 	luga.form.toJson = function(rootNode){
@@ -569,44 +580,44 @@ if(typeof(luga) === "undefined"){
 	 * Only fields considered successful are returned:
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 *
-	 * @param {jQuery}   rootNode     jQuery object wrapping the root node. Required
-	 * @param {Boolean}  demoronize   If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
-	 * @return {String}               A URI encoded string
+	 * @param {HTMLElement} rootNode    DOM node wrapping the form fields. Required
+	 * @param {Boolean}     demoronize  If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
+	 * @return {String}                 A URI encoded string
 	 * @throw {Exception}
 	 */
 	luga.form.toQueryString = function(rootNode, demoronize){
-
-		if(rootNode.length === 0){
+		if(rootNode === null){
 			throw(luga.form.CONST.MESSAGES.MISSING_FORM);
 		}
-
 		var str = "";
 		var fields = luga.form.utils.getChildFields(rootNode);
-		for(var i = 0; i < fields.length; i++){
-			if(luga.form.utils.isSuccessfulField(fields[i]) === true){
-				var fieldName = jQuery(fields[i]).attr("name");
-				var fieldValue = jQuery(fields[i]).val();
-				var fieldType = jQuery(fields[i]).prop("type");
+
+		fields.forEach(function(item){
+			if(luga.form.utils.isSuccessfulField(item) === true){
+				var fieldName = item.getAttribute("name");
+				var fieldType = item.type;
 				switch(fieldType){
 
 					case "select-multiple":
-						for(var j = 0; j < fieldValue.length; j++){
-							str = appendQueryString(str, fieldName, fieldValue[j], demoronize);
-						}
+
+						var multiValue = getMultiSelectValue(item);
+						multiValue.forEach(function(value){
+							str = appendQueryString(str, fieldName, value, demoronize);
+						});
 						break;
 
 					case "checkbox":
 					case "radio":
-						if(jQuery(fields[i]).prop("checked") === true){
-							str = appendQueryString(str, fieldName, fieldValue, demoronize);
+						if(item.checked === true){
+							str = appendQueryString(str, fieldName, item.value, demoronize);
 						}
 						break;
 
 					default:
-						str = appendQueryString(str, fieldName, fieldValue, demoronize);
+						str = appendQueryString(str, fieldName, item.value, demoronize);
 				}
 			}
-		}
+		});
 		return str;
 	};
 
@@ -680,17 +691,16 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Returns an array of input fields contained inside a given root node
 	 *
-	 * @param {jQuery}  rootNode   Root node
-	 * @return {Array.<jquery>}
+	 * @param {HTMLElement}  rootNode   Root node
+	 * @return {Array.<HTMLElement>}
 	 */
 	luga.form.utils.getChildFields = function(rootNode){
 		var fields = [];
-		jQuery(rootNode).find(luga.form.CONST.FIELD_SELECTOR).each(function(index, item){
-			if(luga.form.utils.isInputField(item)){
+		rootNode.querySelectorAll(luga.form.CONST.FIELD_SELECTOR).forEach(function(item){
+			if(luga.form.utils.isInputField(item) === true){
 				fields.push(item);
 			}
 		});
-
 		return fields;
 	};
 

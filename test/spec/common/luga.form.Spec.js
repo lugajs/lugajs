@@ -13,36 +13,36 @@ describe("luga.form", function(){
 		});
 
 		it("Return a string of name/value pairs from fields contained inside a given node", function(){
-			expect(luga.form.toQueryString(jQuery("#basicValue"))).toEqual("firstname=ciccio&lastname=pasticcio&radio=yes");
-			expect(luga.form.toQueryString(jQuery("#basicNoValue"))).toEqual("firstname=&lastname=");
+			expect(luga.form.toQueryString(document.getElementById("basicValue"))).toEqual("firstname=ciccio&lastname=pasticcio&radio=yes");
+			expect(luga.form.toQueryString(document.getElementById("basicNoValue"))).toEqual("firstname=&lastname=");
 		});
 
 		it("Throws an exception if the given node does not exists", function(){
 			expect(function(){
-				luga.form.toQueryString(jQuery("#missing"));
+				luga.form.toQueryString(document.getElementById("missing"));
 			}).toThrow();
 		});
 
 		it("Ignores unsuccessful fields", function(){
-			expect(luga.form.toQueryString(jQuery("#unsuccessfulFields"))).toEqual("firstname=ciccio");
+			expect(luga.form.toQueryString(document.getElementById("unsuccessfulFields"))).toEqual("firstname=ciccio");
 		});
 
 		it("Names and values are URI encoded", function(){
-			expect(luga.form.toQueryString(jQuery("#encodedValue"))).toEqual("firstname=ciccio&slash=%2F&ampersand=%26");
+			expect(luga.form.toQueryString(document.getElementById("encodedValue"))).toEqual("firstname=ciccio&slash=%2F&ampersand=%26");
 		});
 
 		it("Values of multiple checked checkboxes are included as multiple value/pairs", function(){
-			expect(luga.form.toQueryString(jQuery("#multiBox"))).toEqual("firstname=ciccio&box=first&box=second&box=fourth");
+			expect(luga.form.toQueryString(document.getElementById("multiBox"))).toEqual("firstname=ciccio&box=first&box=second&box=fourth");
 		});
 
 		it("Values of multiple select are included as multiple value/pairs", function(){
-			expect(luga.form.toQueryString(jQuery("#multiSelect"))).toEqual("firstname=ciccio&select=first&select=second");
+			expect(luga.form.toQueryString(document.getElementById("multiSelect"))).toEqual("firstname=ciccio&select=first&select=second");
 		});
 
 		it("If the second argument is set to true, MS Word's special chars are replaced with plausible substitutes", function(){
 			var moronicStr = String.fromCharCode(8216) + String.fromCharCode(8220);
-			jQuery("#moronicValue").val(moronicStr);
-			expect(luga.form.toQueryString(jQuery("#moronicForm"), true)).toEqual("firstname=ciccio&moronicValue='%22");
+			document.getElementById("moronicValue").value = moronicStr;
+			expect(luga.form.toQueryString(document.getElementById("moronicForm"), true)).toEqual("firstname=ciccio&moronicValue='%22");
 		});
 
 	});
@@ -54,39 +54,39 @@ describe("luga.form", function(){
 		});
 
 		it("Return a JavaScript object containing name/value pairs from fields contained inside a given node", function(){
-			expect(luga.form.toMap(jQuery("#basicValue"))).toEqual({
+			expect(luga.form.toMap(document.getElementById("basicValue"))).toEqual({
 				firstname: "ciccio",
 				lastname: "pasticcio",
 				radio: "yes"
 			});
-			expect(luga.form.toMap(jQuery("#basicNoValue"))).toEqual({firstname: "", lastname: ""});
+			expect(luga.form.toMap(document.getElementById("basicNoValue"))).toEqual({firstname: "", lastname: ""});
 		});
 
 		it("Throws an exception if the given node does not exists", function(){
 			expect(function(){
-				luga.form.toMap(jQuery("#missing"));
+				luga.form.toMap(document.getElementById("missing"));
 			}).toThrow();
 		});
 
 		it("Ignores unsuccessful fields", function(){
-			expect(luga.form.toMap(jQuery("#unsuccessfulFields"))).toEqual({firstname: "ciccio"});
+			expect(luga.form.toMap(document.getElementById("unsuccessfulFields"))).toEqual({firstname: "ciccio"});
 		});
 
 		it("Values of multiple checked checkboxes are included as a single entry, with array value", function(){
-			expect(luga.form.toMap(jQuery("#multiBox"))).toEqual({
+			expect(luga.form.toMap(document.getElementById("multiBox"))).toEqual({
 				firstname: "ciccio",
 				box: ["first", "second", "fourth"]
 			});
 		});
 
 		it("Values of multiple select are included as a single entry, with comma-delimited value", function(){
-			expect(luga.form.toMap(jQuery("#multiSelect"))).toEqual({firstname: "ciccio", select: ["first", "second"]});
+			expect(luga.form.toMap(document.getElementById("multiSelect"))).toEqual({firstname: "ciccio", select: ["first", "second"]});
 		});
 
 		it("If the second argument is set to true, MS Word's special chars are replaced with plausible substitutes", function(){
 			var moronicStr = String.fromCharCode(8230);
-			jQuery("#moronicValue").val(moronicStr);
-			expect(luga.form.toMap(jQuery("#moronicForm"), true)).toEqual({firstname: "ciccio", moronicValue: "..."});
+			document.getElementById("moronicValue").value = moronicStr;
+			expect(luga.form.toMap(document.getElementById("moronicForm"), true)).toEqual({firstname: "ciccio", moronicValue: "..."});
 		});
 
 	});
@@ -98,14 +98,14 @@ describe("luga.form", function(){
 		});
 
 		it("Given a form tag or another element wrapping input fields, serialize them into JSON data", function(){
-			expect(luga.form.toJson(jQuery("#basicValue"))).toEqual({
+			expect(luga.form.toJson(document.getElementById("basicValue"))).toEqual({
 				person: {
 					firstname: "ciccio",
 					lastname: "pasticcio"
 				},
 				radio: "yes"
 			});
-			expect(luga.form.toJson(jQuery("#basicNoValue"))).toEqual({
+			expect(luga.form.toJson(document.getElementById("basicNoValue"))).toEqual({
 				person: {
 					firstname: "",
 					lastname: ""
@@ -115,12 +115,12 @@ describe("luga.form", function(){
 
 		it("Throws an exception if the given node does not exists", function(){
 			expect(function(){
-				luga.form.toJson(jQuery("#missing"));
+				luga.form.toJson(document.getElementById("missing"));
 			}).toThrow();
 		});
 
 		it("Ignores unsuccessful fields", function(){
-			expect(luga.form.toJson(jQuery("#unsuccessfulFields"))).toEqual({
+			expect(luga.form.toJson(document.getElementById("unsuccessfulFields"))).toEqual({
 				person: {
 					firstname: "ciccio"
 				}
@@ -128,7 +128,7 @@ describe("luga.form", function(){
 		});
 
 		it("Values of multiple checked checkboxes are included as a single entry, with array value", function(){
-			expect(luga.form.toJson(jQuery("#multiBox"))).toEqual({
+			expect(luga.form.toJson(document.getElementById("multiBox"))).toEqual({
 				person: {
 					firstname: "ciccio"
 				},
@@ -137,7 +137,7 @@ describe("luga.form", function(){
 		});
 
 		it("Values of multiple select are included as a single entry, with comma-delimited value", function(){
-			expect(luga.form.toJson(jQuery("#multiSelect"))).toEqual({
+			expect(luga.form.toJson(document.getElementById("multiSelect"))).toEqual({
 				person: {
 					firstname: "ciccio"
 				},
@@ -147,8 +147,8 @@ describe("luga.form", function(){
 
 		it("Requires luga.form.toMap() in order to work", function(){
 			spyOn(luga.form, "toMap");
-			luga.form.toJson(jQuery("#basicValue"));
-			expect(luga.form.toMap).toHaveBeenCalledWith($("#basicValue"));
+			luga.form.toJson(document.getElementById("basicValue"));
+			expect(luga.form.toMap).toHaveBeenCalledWith(document.getElementById("basicValue"));
 		});
 
 	});
@@ -186,12 +186,12 @@ describe("luga.form", function(){
 
 			it("Return an array of input fields contained inside a given root node", function(){
 				jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
-				expect(luga.form.utils.getChildFields(jQuery("#generic")).length).toEqual(15);
+				expect(luga.form.utils.getChildFields(document.getElementById("generic")).length).toEqual(15);
 			});
 
 			it("Return an empty array if there are no suitable input fields", function(){
 				jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
-				expect(luga.form.utils.getChildFields(jQuery("#food")).length).toEqual(0);
+				expect(luga.form.utils.getChildFields(document.getElementById("food")).length).toEqual(0);
 			});
 
 		});
