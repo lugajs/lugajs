@@ -9,17 +9,27 @@ describe("luga.validator.SelectValidator", function(){
 		var MockValidator = function(options){
 			luga.extend(luga.validator.BaseFieldValidator, this, [options]);
 		};
-		expect(validator).toMatchDuckType(new MockValidator({fieldNode: jQuery("<input type='text'>")}));
+		var node = document.createElement("input");
+		node.setAttribute("type", "text");
+		expect(validator).toMatchDuckType(new MockValidator({
+			fieldNode: node
+		}));
 	});
 
 	it("Handle select-multiple", function(){
+		var selectNode = document.createElement("select");
+		selectNode.setAttribute("multiple", "multiple");
 		var validator = luga.validator.fieldValidatorFactory.getInstance({
-			fieldNode: jQuery("<select multiple></select>")
+			fieldNode: selectNode
 		});
 		var MockValidator = function(options){
 			luga.extend(luga.validator.BaseFieldValidator, this, [options]);
 		};
-		expect(validator).toMatchDuckType(new MockValidator({fieldNode: jQuery("<input type='text'>")}));
+		var node = document.createElement("input");
+		node.setAttribute("type", "text");
+		expect(validator).toMatchDuckType(new MockValidator({
+			fieldNode: node
+		}));
 	});
 
 	it("Throws an exception if the associated field node does not exists", function(){
@@ -106,7 +116,8 @@ describe("luga.validator.SelectValidator", function(){
 	describe("data-lugavalidator-invalidindex", function(){
 
 		it("Accepts only numbers", function(){
-			var selectNode = jQuery("<select data-lugavalidator-invalidindex='test'>");
+			var selectNode = document.createElement("select");
+			selectNode.setAttribute("data-lugavalidator-invalidindex", "test");
 			expect(function(){
 				luga.validator.fieldValidatorFactory.getInstance({
 					fieldNode: selectNode

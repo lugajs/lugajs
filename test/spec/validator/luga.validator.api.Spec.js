@@ -32,8 +32,13 @@ describe("luga.validator.api", function(){
 
 		it("Thows an error if the field can't be validated", function(){
 
+			var node = document.createElement("input");
+			node.setAttribute("type", "reset");
+
 			expect(function(){
-				luga.validator.api.validateField({fieldNode: jQuery("<input type='reset'>")});
+				luga.validator.api.validateField({
+					fieldNode: node
+				});
 			}).toThrow();
 
 		});
@@ -63,7 +68,8 @@ describe("luga.validator.api", function(){
 		it("Accept a custom error handler as an option", function(){
 			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 
-			formValidatorHandlers.customErrorHandler = function(){};
+			formValidatorHandlers.customErrorHandler = function(){
+			};
 			spyOn(formValidatorHandlers, "customErrorHandler");
 
 			var options = {
