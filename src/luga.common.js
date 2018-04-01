@@ -886,16 +886,18 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Private helper function
 	 * Generate node's id
-	 * @param {jQuery} node
+	 * @param {HTMLElement} node
 	 * @return {String}
 	 */
 	var generateBoxId = function(node){
 		var boxId = luga.utils.CONST.MSG_BOX_ID;
-		if(node.attr("id") === undefined){
-			boxId += node.attr("id");
-		}
-		else if(node.attr("name") !== undefined){
-			boxId += node.attr("name");
+		if(node !== undefined){
+			if(node.getAttribute("id") === null){
+				boxId += node.getAttribute("id");
+			}
+			else if(node.getAttribute("name") !== null){
+				boxId += node.getAttribute("name");
+			}
 		}
 		return boxId;
 	};
@@ -905,7 +907,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {jQuery}  node   Target node
 	 */
 	luga.utils.removeDisplayBox = function(node){
-		var boxId = generateBoxId(jQuery(node));
+		var boxId = generateBoxId(jQuery(node)[0]);
 		var oldBox = jQuery("#" + boxId);
 		// If an error display is already there, get rid of it
 		/* istanbul ignore else */
@@ -946,7 +948,7 @@ if(typeof(luga) === "undefined"){
 		if(cssClass === undefined){
 			cssClass = luga.utils.CONST.CSS_CLASSES.MESSAGE;
 		}
-		var boxId = generateBoxId(jQuery(node));
+		var boxId = generateBoxId(jQuery(node)[0]);
 		var box = jQuery("<div></div>");
 		box.attr("id", boxId);
 		box.addClass(cssClass);

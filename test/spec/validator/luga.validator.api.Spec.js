@@ -109,23 +109,22 @@ describe("luga.validator.api", function(){
 		it("Allows to programmatically validate all fields contained inside a given node", function(){
 
 			jasmineFixtures.loadHTML("validator/FormValidator/children.htm");
-			var fieldset = jQuery("#fieldGroup");
 
-			expect(luga.validator.api.validateChildFields({rootNode: fieldset[0]})).toBe(false);
-			expect(jQuery("#name")).toHaveClass("invalid");
+			var fieldset = document.getElementById("fieldGroup");
+			expect(luga.validator.api.validateChildFields({rootNode: fieldset})).toBe(false);
+			expect(document.getElementById("name")).toHaveClass("invalid");
 
 		});
 
 		it("And return true if all fields are validated", function(){
 
 			jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
-			var fieldset = jQuery("#fieldGroup");
+			var fieldset = document.getElementById("fieldGroup");
 
-			jQuery("#age").val("33");
-			jQuery("#name").val("filled");
-			jQuery("#boxLady").prop("checked", false);
-			expect(luga.validator.api.validateChildFields({rootNode: fieldset[0]})).toBe(true);
-			expect(jQuery("#name")).not.toHaveClass("invalid");
+			document.getElementById("age").value = "33";
+			document.getElementById("name").value = "filled";
+			expect(luga.validator.api.validateChildFields({rootNode: fieldset})).toBe(true);
+			expect(document.getElementById("name")).not.toHaveClass("invalid");
 
 		});
 
