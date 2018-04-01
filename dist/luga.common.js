@@ -1,5 +1,5 @@
 /*! 
-Luga Common 0.9.7 2018-03-31T22:48:59.819Z
+Luga Common 0.9.7 2018-04-01T08:34:26.618Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -575,7 +575,7 @@ if(typeof(luga) === "undefined"){
 	 * Only fields considered successful are returned:
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 *
-	 * @param {jQuery}   rootNode     jQuery object wrapping the root node
+	 * @param {jQuery}   rootNode     jQuery object wrapping the root node. Required
 	 * @param {Boolean}  demoronize   If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @return {String}               A URI encoded string
 	 * @throw {Exception}
@@ -634,20 +634,20 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.form.utils");
 
 	/**
-	 * Returns true if the given field is successful, false otherwise
+	 * Returns true if the given DOM field is successful, false otherwise
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 *
-	 * @param {jQuery}  fieldNode
+	 * @param {HTMLElement}  fieldNode
 	 * @return {Boolean}
 	 */
 	luga.form.utils.isSuccessfulField = function(fieldNode){
 		if(luga.form.utils.isInputField(fieldNode) === false){
 			return false;
 		}
-		if(jQuery(fieldNode).prop("disabled") === true){
+		if(fieldNode.disabled === true){
 			return false;
 		}
-		if(jQuery(fieldNode).attr("name") === undefined){
+		if(fieldNode.getAttribute("name") === null){
 			return false;
 		}
 		return true;

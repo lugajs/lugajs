@@ -13,7 +13,7 @@
 
 		jQuery(document).ready(function(){
 			new luga.data.widgets.ShowMoreButton({
-				button: jQuery("#moreButton"),
+				button: document.getElementById("moreButton"),
 				disabledClass: "disabled",
 				dataSet: master,
 				url: BASE_URL + "?offset={lastOffset}&limit=200"
@@ -101,7 +101,7 @@
 
 	jQuery(document).ready(function(){
 		new luga.data.widgets.ShowMoreButton({
-			button: jQuery("#moreButton"),
+			button: document.getElementById("moreButton"),
 			disabledClass: "disabled",
 			dataSet: master,
 			url: BASE_URL + "?offset={lastOffset}&limit=200"

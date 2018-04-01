@@ -1,5 +1,5 @@
 /*! 
-Luga JS 0.9.7 2018-03-31T22:48:59.819Z
+Luga JS 0.9.7 2018-04-01T11:36:01.802Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -575,7 +575,7 @@ if(typeof(luga) === "undefined"){
 	 * Only fields considered successful are returned:
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 *
-	 * @param {jQuery}   rootNode     jQuery object wrapping the root node
+	 * @param {jQuery}   rootNode     jQuery object wrapping the root node. Required
 	 * @param {Boolean}  demoronize   If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @return {String}               A URI encoded string
 	 * @throw {Exception}
@@ -634,20 +634,20 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.form.utils");
 
 	/**
-	 * Returns true if the given field is successful, false otherwise
+	 * Returns true if the given DOM field is successful, false otherwise
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 *
-	 * @param {jQuery}  fieldNode
+	 * @param {HTMLElement}  fieldNode
 	 * @return {Boolean}
 	 */
 	luga.form.utils.isSuccessfulField = function(fieldNode){
 		if(luga.form.utils.isInputField(fieldNode) === false){
 			return false;
 		}
-		if(jQuery(fieldNode).prop("disabled") === true){
+		if(fieldNode.disabled === true){
 			return false;
 		}
-		if(jQuery(fieldNode).attr("name") === undefined){
+		if(fieldNode.getAttribute("name") === null){
 			return false;
 		}
 		return true;
@@ -2398,7 +2398,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga Data 0.9.7 2018-03-31T22:48:59.156Z
+Luga Data 0.9.7 2018-04-01T11:36:01.087Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -5503,7 +5503,7 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.data.ShowMoreButton.options
 	 *
 	 * @extend luga.data.widgets.ShowMore.options
-	 * @property {jQuery}  button          Button that will trigger the showMore. Required
+	 * @property {HTMLElement}  button     Button that will trigger the showMore. Required
 	 * @property {String}  disabledClass   Name of CSS class that will be applied to the button while it's disabled. Optional, default to "disabled"
 	 */
 
@@ -5521,7 +5521,7 @@ if(typeof(luga) === "undefined"){
 			dataSet: undefined,
 			paramPath: "",
 			url: undefined,
-			/** @type {jQuery} */
+			/** @type {HTMLElement} */
 			button: undefined,
 			disabledClass: "disabled"
 		};
@@ -5536,92 +5536,27 @@ if(typeof(luga) === "undefined"){
 			MISSING_BUTTON: "luga.data.widgets.ShowMoreButton was unable find the button node"
 		};
 
-		// Ensure it's a jQuery object
-		this.config.button = jQuery(this.config.button);
-		if(this.config.button.length === 0){
+		if(this.config.button === null){
 			throw(this.CONST.BUTTON_ERROR_MESSAGES.MISSING_BUTTON);
 		}
 
 		this.attachEvents = function(){
-			jQuery(self.config.button).on("click", function(event){
+
+			self.config.button.addEventListener("click", function(event){
 				event.preventDefault();
 				if(self.isEnabled() === true){
 					self.fetch();
 				}
-			});
+			}, false);
+
 		};
 
 		this.disable = function(){
-			this.config.button.addClass(this.config.disabledClass);
+			this.config.button.classList.add(this.config.disabledClass);
 		};
 
 		this.enable = function(){
-			this.config.button.removeClass(this.config.disabledClass);
-		};
-
-		/* Constructor */
-		this.attachEvents();
-
-	};
-
-	/**
-	 * @typedef {Object} luga.data.ShowMoreScrolling.options
-	 *
-	 * @extend luga.data.widgets.ShowMore.options
-	 * @property {jQuery|undefined}  node  A jQuery object wrapping the node containing the records. It must have a scrollbar. Optional. If not specified, the whole document is assumed.
-	 */
-
-	/**
-	 * ShowMore infinite scrolling class
-	 * @param {luga.data.widgets.ShowMoreScrolling.options} options
-	 * @constructor
-	 * @extend luga.data.widgets.ShowMore
-	 * @listen stateChanged
-	 * @throw {Exception}
-	 */
-	luga.data.widgets.ShowMoreScrolling = function(options){
-
-		this.config = {
-			/** @type {luga.data.dataSet} */
-			dataSet: undefined,
-			paramPath: "",
-			url: undefined,
-			/** @type {jQuery} */
-			node: undefined
-		};
-		luga.merge(this.config, options);
-		luga.extend(luga.data.widgets.ShowMore, this, [this.config]);
-		/** @type {luga.data.widgets.ShowMoreScrolling} */
-		var self = this;
-
-		var scrollBody = false;
-		if(this.config.node === undefined){
-			scrollBody = true;
-			this.config.node = jQuery(document);
-		}
-
-		this.attachEvents = function(){
-			var targetNode = self.config.node;
-
-			jQuery(targetNode).scroll(function(){
-				var scrolledToBottom = false;
-				if(scrollBody === true){
-					/* istanbul ignore else */
-					if(jQuery(targetNode).scrollTop() === (jQuery(targetNode).height() - jQuery(window).height())){
-						scrolledToBottom = true;
-					}
-				}
-				else{
-					/* istanbul ignore else */
-					if(jQuery(targetNode).scrollTop() >= (targetNode[0].scrollHeight - targetNode.height())){
-						scrolledToBottom = true;
-					}
-				}
-				if((scrolledToBottom === true) && (self.isEnabled() === true)){
-					self.fetch();
-				}
-			});
-
+			this.config.button.classList.remove(this.config.disabledClass);
 		};
 
 		/* Constructor */
