@@ -5,13 +5,17 @@ describe("luga.validator.TextValidator", function(){
 	"use strict";
 
 	it("Implements the luga.validator.BaseFieldValidator abstract class", function(){
+		var node = document.createElement("input");
+		node.setAttribute("type", "text");
 		var validator = luga.validator.fieldValidatorFactory.getInstance({
-			fieldNode: jQuery("<input type='text'>")
+			fieldNode: node
 		});
 		var MockValidator = function(options){
 			luga.extend(luga.validator.BaseFieldValidator, this, [options]);
 		};
-		expect(validator).toMatchDuckType(new MockValidator({fieldNode: jQuery("<input type='text'>")}));
+		expect(validator).toMatchDuckType(new MockValidator({
+			fieldNode: node
+		}));
 	});
 
 	it("Throws an exception if the associated field node does not exists", function(){
@@ -28,8 +32,10 @@ describe("luga.validator.TextValidator", function(){
 		beforeEach(function(){
 			jasmineFixtures.loadHTML("validator/TextValidator/config.htm");
 
+			var node = document.createElement("input");
+			node.setAttribute("type", "text");
 			basicTextValidator = luga.validator.fieldValidatorFactory.getInstance({
-				fieldNode: jQuery("<input type='text'>")
+				fieldNode: node
 			});
 
 			attributeTextValidator = luga.validator.fieldValidatorFactory.getInstance({
@@ -37,7 +43,7 @@ describe("luga.validator.TextValidator", function(){
 			});
 
 			configTextValidator = luga.validator.fieldValidatorFactory.getInstance({
-				fieldNode: jQuery("<input type='text'>"),
+				fieldNode: node,
 				required: true,
 				pattern: "lettersonly",
 				minlength: "4",
