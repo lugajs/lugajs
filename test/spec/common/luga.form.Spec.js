@@ -199,23 +199,48 @@ describe("luga.form", function(){
 		describe(".isInputField()", function(){
 
 			it("Return true if the passed node is a form field that we care about", function(){
-				expect(luga.form.utils.isInputField(jQuery("<textarea>"))).toEqual(true);
-				expect(luga.form.utils.isInputField(jQuery("<input type='text'>"))).toEqual(true);
-				expect(luga.form.utils.isInputField(jQuery("<input type='radio'>"))).toEqual(true);
-				expect(luga.form.utils.isInputField(jQuery("<input type='checkbox'>"))).toEqual(true);
-				expect(luga.form.utils.isInputField(jQuery("<input type='email'>"))).toEqual(true);
-				expect(luga.form.utils.isInputField(jQuery("<input type='date'>"))).toEqual(true);
-				expect(luga.form.utils.isInputField(jQuery("<input type='submit'>"))).toEqual(true);
-				expect(luga.form.utils.isInputField(jQuery("<input type='button'>"))).toEqual(true);
-				expect(luga.form.utils.isInputField(jQuery("<button>"))).toEqual(true);
-				expect(luga.form.utils.isInputField(jQuery("<select>"))).toEqual(true);
+				expect(luga.form.utils.isInputField(document.createElement("textarea"))).toEqual(true);
+
+				var text = document.createElement("input")
+				text.setAttribute("type", "text");
+				expect(luga.form.utils.isInputField(text)).toEqual(true);
+
+				var radio = document.createElement("input")
+				radio.setAttribute("type", "radio");
+				expect(luga.form.utils.isInputField(radio)).toEqual(true);
+
+				var checkbox = document.createElement("input")
+				checkbox.setAttribute("type", "checkbox");
+				expect(luga.form.utils.isInputField(checkbox)).toEqual(true);
+
+				var email = document.createElement("input")
+				email.setAttribute("type", "email");
+				expect(luga.form.utils.isInputField(email)).toEqual(true);
+
+				var date = document.createElement("input")
+				date.setAttribute("type", "date");
+				expect(luga.form.utils.isInputField(date)).toEqual(true);
+
+				var submit = document.createElement("input")
+				submit.setAttribute("type", "submit");
+				expect(luga.form.utils.isInputField(submit)).toEqual(true);
+
+				var button = document.createElement("input")
+				button.setAttribute("type", "button");
+				expect(luga.form.utils.isInputField(button)).toEqual(true);
+
+				expect(luga.form.utils.isInputField(document.createElement("button"))).toEqual(true);
+
+				expect(luga.form.utils.isInputField(document.createElement("select"))).toEqual(true);
 			});
 
 			it("False otherwise", function(){
-				expect(luga.form.utils.isInputField(jQuery("<div>"))).toEqual(false);
-				expect(luga.form.utils.isInputField(jQuery("<form>"))).toEqual(false);
-				expect(luga.form.utils.isInputField(jQuery("<input type='reset'>"))).toEqual(false);
-				expect(luga.form.utils.isInputField(jQuery("<fieldset>"))).toEqual(false);
+				expect(luga.form.utils.isInputField(document.createElement("div"))).toEqual(false);
+				expect(luga.form.utils.isInputField(document.createElement("form"))).toEqual(false);
+				var reset = document.createElement("input")
+				reset.setAttribute("type", "reset");
+				expect(luga.form.utils.isInputField(reset)).toEqual(false);
+				expect(luga.form.utils.isInputField(document.createElement("fieldset"))).toEqual(false);
 			});
 
 		});

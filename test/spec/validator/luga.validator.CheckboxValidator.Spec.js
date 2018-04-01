@@ -5,13 +5,13 @@ describe("luga.validator.CheckboxValidator", function(){
 	it("Implements the luga.validator.BaseGroupValidator abstract class", function(){
 		jasmineFixtures.loadHTML("validator/CheckboxValidator/required.htm");
 		var validator = luga.validator.fieldValidatorFactory.getInstance({
-			formNode: jQuery("#single"),
-			fieldNode: jQuery("#Nicole")
+			formNode: document.getElementById("single"),
+			fieldNode: document.getElementById("Nicole")
 		});
 		var MockValidator = function(options){
 			luga.extend(luga.validator.BaseGroupValidator, this, [options]);
 		};
-		var inputGroup = luga.form.utils.getFieldGroup("lady",jQuery("#single"));
+		var inputGroup = luga.form.utils.getFieldGroup("lady",document.getElementById("single"));
 		expect(validator).toMatchDuckType(new MockValidator({inputGroup: inputGroup}));
 	});
 
@@ -19,31 +19,31 @@ describe("luga.validator.CheckboxValidator", function(){
 
 		jasmineFixtures.loadHTML("validator/CheckboxValidator/required.htm");
 		var formValidator = new luga.validator.FormValidator({
-			formNode: jQuery("#single")
+			formNode: document.getElementById("single")
 		});
 
 		expect(formValidator.validate().length).toEqual(1);
 		expect(formValidator.validate()[0].message).toEqual("Select a Lady");
 		expect(formValidator.isValid()).toEqual(false);
-		expect(jQuery("#Nicole")).toHaveClass("invalid");
+		expect(document.getElementById("Nicole")).toHaveClass("invalid");
 
 		// Check one box
-		jQuery("#Nicole").prop("checked", true);
+		document.getElementById("Nicole").checked = true;
 		expect(formValidator.validate().length).toEqual(0);
 		expect(formValidator.isValid()).toEqual(true);
-		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
+		expect(document.getElementById("Nicole")).not.toHaveClass("invalid");
 	});
 
 	it("In case of conflicting options/attributes among fields. The last one wins", function(){
 
 		jasmineFixtures.loadHTML("validator/CheckboxValidator/required.htm");
 		var formValidator = new luga.validator.FormValidator({
-			formNode: jQuery("#multiple")
+			formNode: document.getElementById("multiple")
 		});
 
 		expect(formValidator.validate().length).toEqual(0);
 		expect(formValidator.isValid()).toEqual(true);
-		jQuery("#Nicole").prop("checked", true);
+		document.getElementById("Nicole").checked = true;
 		expect(formValidator.validate().length).toEqual(0);
 		expect(formValidator.isValid()).toEqual(true);
 	});
@@ -52,74 +52,74 @@ describe("luga.validator.CheckboxValidator", function(){
 
 		jasmineFixtures.loadHTML("validator/CheckboxValidator/required.htm");
 		var formValidator = new luga.validator.FormValidator({
-			formNode: jQuery("#disabled")
+			formNode: document.getElementById("disabled")
 		});
 
 		expect(formValidator.validate().length).toEqual(0);
 		expect(formValidator.isValid()).toEqual(true);
-		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
+		expect(document.getElementById("Nicole")).not.toHaveClass("invalid");
 
-		jQuery("#Nicole").prop("checked", true);
+		document.getElementById("Nicole").checked = true;
 		expect(formValidator.validate().length).toEqual(0);
 		expect(formValidator.isValid()).toEqual(true);
-		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
+		expect(document.getElementById("Nicole")).not.toHaveClass("invalid");
 	});
 
 	it("Skips fields without name too", function(){
 
 		jasmineFixtures.loadHTML("validator/CheckboxValidator/required.htm");
 		var formValidator = new luga.validator.FormValidator({
-			formNode: jQuery("#noNames")
+			formNode: document.getElementById("noNames")
 		});
 
 		expect(formValidator.validate().length).toEqual(0);
 		expect(formValidator.isValid()).toEqual(true);
-		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
+		expect(document.getElementById("Nicole")).not.toHaveClass("invalid");
 
-		jQuery("#Nicole").prop("checked", true);
+		document.getElementById("Nicole").checked = true;
 		expect(formValidator.validate().length).toEqual(0);
 		expect(formValidator.isValid()).toEqual(true);
-		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
+		expect(document.getElementById("Nicole")).not.toHaveClass("invalid");
 	});
 
 	it("Can use a combination of data-lugavalidator-minchecked and data-lugavalidator-maxchecked", function(){
 
 		jasmineFixtures.loadHTML("validator/CheckboxValidator/required.htm");
 		var formValidator = new luga.validator.FormValidator({
-			formNode: jQuery("#minMaxChecked")
+			formNode: document.getElementById("minMaxChecked")
 		});
 
 		expect(formValidator.validate().length).toEqual(1);
 		expect(formValidator.validate()[0].message).toEqual("Select a Lady");
 		expect(formValidator.isValid()).toEqual(false);
-		expect(jQuery("#maxNicole")).toHaveClass("invalid");
+		expect(document.getElementById("maxNicole")).toHaveClass("invalid");
 
 		// Check one box
-		jQuery("#maxNicole").prop("checked", true);
+		document.getElementById("maxNicole").checked = true;
 		expect(formValidator.validate().length).toEqual(0);
 		expect(formValidator.isValid()).toEqual(true);
-		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
+		expect(document.getElementById("Nicole")).not.toHaveClass("invalid");
 
 		// Check three boxes
-		jQuery("#maxNicole").prop("checked", true);
-		jQuery("#maxKate").prop("checked", true);
-		jQuery("#maxJennifer").prop("checked", true);
+		document.getElementById("maxNicole").checked = true;
+		document.getElementById("maxKate").checked = true;
+		document.getElementById("maxJennifer").checked = true;
 		expect(formValidator.validate().length).toEqual(1);
 		expect(formValidator.validate()[0].message).toEqual("Select a Lady");
 		expect(formValidator.isValid()).toEqual(false);
-		expect(jQuery("#maxNicole")).toHaveClass("invalid");
+		expect(document.getElementById("maxNicole")).toHaveClass("invalid");
 	});
 
 	it("data-lugavalidator-maxchecked alone makes everything optional", function(){
 
 		jasmineFixtures.loadHTML("validator/CheckboxValidator/required.htm");
 		var formValidator = new luga.validator.FormValidator({
-			formNode: jQuery("#maxChecked")
+			formNode: document.getElementById("maxChecked")
 		});
 
 		expect(formValidator.validate().length).toEqual(0);
 		expect(formValidator.isValid()).toEqual(true);
-		expect(jQuery("#Nicole")).not.toHaveClass("invalid");
+		expect(document.getElementById("Nicole")).not.toHaveClass("invalid");
 
 	});
 

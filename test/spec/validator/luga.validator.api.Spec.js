@@ -12,18 +12,18 @@ describe("luga.validator.api", function(){
 
 			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 
-			expect(luga.validator.api.validateForm({formNode: jQuery("#basic")})).toEqual(false);
-			expect(jQuery("#myName")).toHaveClass("invalid");
+			expect(luga.validator.api.validateForm({formNode: document.getElementById("basic")})).toEqual(false);
+			expect(document.getElementById("myName")).toHaveClass("invalid");
 
-			jQuery("#myName").val("filled");
-			expect(luga.validator.api.validateForm({formNode: jQuery("#basic")})).toEqual(true);
-			expect(jQuery("#myName")).not.toHaveClass("invalid");
+			document.getElementById("myName").value = "filled";
+			expect(luga.validator.api.validateForm({formNode: document.getElementById("basic")})).toEqual(true);
+			expect(document.getElementById("myName")).not.toHaveClass("invalid");
 
 		});
 
 		it("And returns a boolean", function(){
 			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
-			expect(luga.validator.api.validateForm({formNode: jQuery("#basic")})).toEqual(false);
+			expect(luga.validator.api.validateForm({formNode: document.getElementById("basic")})).toEqual(false);
 		});
 
 	});
@@ -42,21 +42,21 @@ describe("luga.validator.api", function(){
 
 			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 
-			expect(luga.validator.api.validateField({fieldNode: jQuery("#myName")})).toEqual(false);
-			expect(jQuery("#myName")).toHaveClass("invalid");
+			expect(luga.validator.api.validateField({fieldNode: document.getElementById("myName")})).toEqual(false);
+			expect(document.getElementById("myName")).toHaveClass("invalid");
 
-			jQuery("#myName").val("filled");
+			document.getElementById("myName").value = "filled";
 			expect(luga.validator.api.validateField({
-				fieldNode: jQuery("#myName")
+				fieldNode: document.getElementById("myName")
 			})).toEqual(true);
-			expect(jQuery("#myName")).not.toHaveClass("invalid");
+			expect(document.getElementById("myName")).not.toHaveClass("invalid");
 
 		});
 
 		it("And returns a boolean", function(){
 
 			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
-			expect(luga.validator.api.validateField({fieldNode: jQuery("#myName")})).toEqual(false);
+			expect(luga.validator.api.validateField({fieldNode: document.getElementById("myName")})).toEqual(false);
 
 		});
 
@@ -67,7 +67,7 @@ describe("luga.validator.api", function(){
 			spyOn(formValidatorHandlers, "customErrorHandler");
 
 			var options = {
-				fieldNode: jQuery("#myName"),
+				fieldNode: document.getElementById("myName"),
 				error: "formValidatorHandlers.customErrorHandler"
 			};
 
@@ -86,7 +86,7 @@ describe("luga.validator.api", function(){
 			var fields = jQuery("#name,#age");
 
 			expect(luga.validator.api.validateFields({fields: fields})).toBe(false);
-			expect(jQuery("#name")).toHaveClass("invalid");
+			expect(document.getElementById("name")).toHaveClass("invalid");
 
 		});
 
@@ -95,10 +95,10 @@ describe("luga.validator.api", function(){
 			jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
 			var fields = jQuery("#name,#age");
 
-			jQuery("#age").val("33");
-			jQuery("#name").val("filled");
+			document.getElementById("age").value = "33";
+			document.getElementById("name").value = "filled";
 			expect(luga.validator.api.validateFields({fields: fields})).toBe(true);
-			expect(jQuery("#name")).not.toHaveClass("invalid");
+			expect(document.getElementById("name")).not.toHaveClass("invalid");
 
 		});
 

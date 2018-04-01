@@ -103,7 +103,7 @@ describe("luga.validator.handlers", function(){
 			spyOn(luga.validator.handlers, "errorAlert").and.callThrough();
 			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 			var formValidator = new luga.validator.FormValidator({
-				formNode: jQuery("#basic"),
+				formNode: document.getElementById("basic"),
 				error: "luga.validator.handlers.errorAlert"
 			});
 
@@ -133,7 +133,7 @@ describe("luga.validator.handlers", function(){
 			spyOn(luga.validator.handlers, "bootstrap").and.callThrough();
 			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 			var formValidator = new luga.validator.FormValidator({
-				formNode: jQuery("#basic"),
+				formNode: document.getElementById("basic"),
 				error: "luga.validator.handlers.bootstrap"
 			});
 
@@ -156,25 +156,25 @@ describe("luga.validator.fieldValidatorFactory.getInstance()", function(){
 		});
 
 		it("null if the passed HTML field has no matching validator", function(){
-			expect(luga.validator.fieldValidatorFactory.getInstance({fieldNode: jQuery("<div>")})).toBeNull();
+			expect(luga.validator.fieldValidatorFactory.getInstance({fieldNode: document.createElement("div")})).toBeNull();
 			expect(luga.validator.fieldValidatorFactory.getInstance({fieldNode: jQuery("<input type='reset'>")})).toBeNull();
-			expect(luga.validator.fieldValidatorFactory.getInstance({fieldNode: jQuery("<fieldset>")})).toBeNull();
+			expect(luga.validator.fieldValidatorFactory.getInstance({fieldNode: document.createElement("fieldset")})).toBeNull();
 		});
 
 		it("An instance of luga.validator.TextValidator", function(){
-			expect(luga.validator.fieldValidatorFactory.getInstance({fieldNode: jQuery("#age")}).constructor).toEqual(luga.validator.TextValidator);
+			expect(luga.validator.fieldValidatorFactory.getInstance({fieldNode: document.getElementById("age")}).constructor).toEqual(luga.validator.TextValidator);
 		});
 
 		it("An instance of luga.validator.CheckboxValidator", function(){
-			expect(luga.validator.fieldValidatorFactory.getInstance({fieldNode: jQuery("#boxNicole")}).constructor).toEqual(luga.validator.CheckboxValidator);
+			expect(luga.validator.fieldValidatorFactory.getInstance({fieldNode: document.getElementById("boxNicole")}).constructor).toEqual(luga.validator.CheckboxValidator);
 		});
 
 		it("An instance of luga.validator.RadioValidator", function(){
-			expect(luga.validator.fieldValidatorFactory.getInstance({fieldNode: jQuery("#boxNicole")}).constructor).toEqual(luga.validator.CheckboxValidator);
+			expect(luga.validator.fieldValidatorFactory.getInstance({fieldNode: document.getElementById("boxNicole")}).constructor).toEqual(luga.validator.CheckboxValidator);
 		});
 
 		it("An instance of luga.validator.SelectValidator", function(){
-			expect(luga.validator.fieldValidatorFactory.getInstance({fieldNode: jQuery("#food")}).constructor).toEqual(luga.validator.SelectValidator);
+			expect(luga.validator.fieldValidatorFactory.getInstance({fieldNode: document.getElementById("food")}).constructor).toEqual(luga.validator.SelectValidator);
 		});
 
 	});

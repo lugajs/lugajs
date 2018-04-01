@@ -4,7 +4,7 @@ describe("luga.validator.SelectValidator", function(){
 
 	it("Implements the luga.validator.BaseFieldValidator abstract class", function(){
 		var validator = luga.validator.fieldValidatorFactory.getInstance({
-			fieldNode: jQuery("<select></select>")
+			fieldNode: document.createElement("select")
 		});
 		var MockValidator = function(options){
 			luga.extend(luga.validator.BaseFieldValidator, this, [options]);
@@ -25,7 +25,7 @@ describe("luga.validator.SelectValidator", function(){
 	it("Throws an exception if the associated field node does not exists", function(){
 		expect(function(){
 			new luga.validator.SelectValidator({
-				fieldNode: jQuery("#missing")
+				fieldNode: document.getElementById("missing")
 			});
 		}).toThrow();
 	});
@@ -36,7 +36,7 @@ describe("luga.validator.SelectValidator", function(){
 		beforeEach(function(){
 
 			basicSelectValidator = luga.validator.fieldValidatorFactory.getInstance({
-				fieldNode: jQuery("<select></select>")
+				fieldNode: document.createElement("select")
 			});
 
 			attributeSelectValidator = luga.validator.fieldValidatorFactory.getInstance({
@@ -44,7 +44,7 @@ describe("luga.validator.SelectValidator", function(){
 			});
 
 			configSelectValidator = new luga.validator.SelectValidator({
-				fieldNode: jQuery("<select></select>"),
+				fieldNode: document.createElement("select"),
 				errorclass: "invalid-select",
 				message: "Invalid select!",
 				invalidindex: 1,
@@ -119,12 +119,12 @@ describe("luga.validator.SelectValidator", function(){
 			var selectValidator = null;
 
 			selectValidator = luga.validator.fieldValidatorFactory.getInstance({
-				fieldNode: jQuery("#notSelected")
+				fieldNode: document.getElementById("notSelected")
 			});
 			expect(selectValidator.isValid()).toEqual(false);
 
 			selectValidator = luga.validator.fieldValidatorFactory.getInstance({
-				fieldNode: jQuery("#kateSelected")
+				fieldNode: document.getElementById("kateSelected")
 			});
 			expect(selectValidator.isValid()).toEqual(true);
 		});
@@ -134,7 +134,7 @@ describe("luga.validator.SelectValidator", function(){
 			var selectValidator = null;
 
 			selectValidator = luga.validator.fieldValidatorFactory.getInstance({
-				fieldNode: jQuery("#selectWithSize")
+				fieldNode: document.getElementById("selectWithSize")
 			});
 			expect(selectValidator.isValid()).toEqual(false);
 
@@ -149,12 +149,12 @@ describe("luga.validator.SelectValidator", function(){
 			var selectValidator = null;
 
 			selectValidator = luga.validator.fieldValidatorFactory.getInstance({
-				fieldNode: jQuery("#pizza")
+				fieldNode: document.getElementById("pizza")
 			});
 			expect(selectValidator.isValid()).toEqual(false);
 
 			selectValidator = luga.validator.fieldValidatorFactory.getInstance({
-				fieldNode: jQuery("#spaghetti")
+				fieldNode: document.getElementById("spaghetti")
 			});
 			expect(selectValidator.isValid()).toEqual(true);
 		});
