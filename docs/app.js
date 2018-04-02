@@ -1,5 +1,3 @@
-/* global Prism */
-
 if(self.location.protocol === "file:"){
 	alert("The documentation is not going to work properly if accessed from a file system. You should use an HTTP server instead.");
 }
@@ -81,11 +79,10 @@ if(self.location.protocol === "file:"){
 				.done(function(response, textStatus, jqXHR){
 					// Read include and inject content
 					jQuery(CONST.SELECTORS.CONTENT).html(jqXHR.responseText);
-
-					// Bootstrap libs
-					luga.data.region.initRegions();
-					luga.validator.initForms();
-					Prism.highlightAll();
+					// Programmatically trigger "DOMContentLoaded" with IE11 compatible syntax
+					var eventToTrigger = document.createEvent("Event");
+					eventToTrigger.initEvent("DOMContentLoaded", false, true);
+					document.dispatchEvent(eventToTrigger);
 
 				})
 				.fail(function(){
@@ -128,8 +125,7 @@ if(self.location.protocol === "file:"){
 
 	};
 
-	jQuery(document).ready(function(){
-		new Controller();
-	});
+	// Bootstrap the app
+	new Controller();
 
 }());

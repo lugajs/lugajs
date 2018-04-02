@@ -13,7 +13,7 @@
 		url: "../test/fixtures/data/ladies.json"
 	});
 	// Fetch data only once the DOM is ready
-	jQuery(document).ready(function(){
+	luga.dom.ready(function(){
 		peopleDs.loadData();
 		peopleDs.getRecordsCount(); // => Returns 0, since data isn't loaded yet
 	});
@@ -41,7 +41,7 @@
 	var observerObj = new ObserverClass();
 	peopleDs.addObserver(observerObj);
 
-	jQuery(document).ready(function(){
+	luga.dom.ready(function(){
 		// Fetch data only once the DOM is ready
 		peopleDs.loadData();
 	});

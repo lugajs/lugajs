@@ -194,7 +194,7 @@ var testDs = new luga.data.JsonDataSet({
 		url: "../test/fixtures/data/ladies.json"
 	});
 	// Fetch data only once the DOM is ready
-	jQuery(document).ready(function(){
+	luga.dom.ready(function(){
 		ladiesDs.loadData();
 	});
 }());</code></pre>

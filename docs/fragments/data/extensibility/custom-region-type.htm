@@ -7,7 +7,7 @@
 		path: "ladies"
 	});
 	test.ladyDetails = new luga.data.DetailSet({uuid: "lady", parentDataSet: test.ladiesMaster});
-	jQuery(document).ready(function(){
+	luga.dom.ready(function(){
 		test.ladiesMaster.loadData();
 	});
 

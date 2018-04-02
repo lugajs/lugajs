@@ -192,7 +192,7 @@ var testDs = new luga.data.XmlDataSet({
 		url: "../test/fixtures/data/people.xml"
 	});
 	// Fetch data only once the DOM is ready
-	jQuery(document).ready(function(){
+	luga.dom.ready(function(){
 		ladiesDs.loadData();
 	});
 }());</code></pre>

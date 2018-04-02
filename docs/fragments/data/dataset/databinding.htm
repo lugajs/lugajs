@@ -7,7 +7,7 @@
 			url: "../test/fixtures/data/ladies.json"
 		});
 
-		jQuery(document).ready(function(){
+		luga.dom.ready(function(){
 			ladiesDs.loadData();
 
 			jQuery("#addButton").on("click", function(event){
@@ -68,7 +68,7 @@
 		uuid: "ladiesDs",
 		url: "../test/fixtures/data/ladies.json"
 	});
-	jQuery(document).ready(function(){
+	luga.dom.ready(function(){
 		// Fetch data only once the DOM is ready
 		ladiesDs.loadData();
 	});
