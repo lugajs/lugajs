@@ -1047,10 +1047,13 @@ if(typeof(luga) === "undefined"){
 			headers.pop();
 			return headers.map(function(item){
 				var tokens = item.split(":");
-				return {
-					header: tokens[0],
-					value: tokens[1].substring(1)
+				var ret = {
+					header: tokens[0]
 				};
+				if(tokens[1] !== undefined){
+					ret.value = tokens[1].substring(1);
+				}
+				return ret;
 			});
 		};
 

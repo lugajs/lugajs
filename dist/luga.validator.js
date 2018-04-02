@@ -1,5 +1,5 @@
 /*! 
-Luga Validator 0.9.7 2018-04-01T21:09:59.695Z
+Luga Validator 0.9.7 2018-04-02T15:20:38.122Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -1076,25 +1076,25 @@ if(typeof(luga) === "undefined"){
 	luga.validator.dateSpecs["D-M-YYYY"] = luga.validator.createDateSpecObj("^([0-3]?[0-9])-([0-1]?[0-9])-([0-9]{4})$", 2, 1, 0, "-");
 
 	/**
-	 * Attach form validators to any suitable form inside the document
-	 * @param {jQuery} [rootNode=jQuery("body")]  Optional, default to jQuery("body")
+	 * Attach form validators to any suitable form inside the given DOM node
+	 * @param {HTMLElement} [rootNode]  Optional, default to document.body
 	 */
 	luga.validator.initForms = function(rootNode){
 		if(rootNode === undefined){
-			rootNode = jQuery("body");
+			rootNode = document.body;
 		}
-		rootNode.find(luga.validator.CONST.FORM_SELECTOR).each(function(index, item){
-			var formNode = jQuery(item);
-			/* istanbul ignore else */
-			if(formNode.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.VALIDATE) === "true"){
-				formNode.submit(function(event){
+		var nodes = rootNode.querySelectorAll(luga.validator.CONST.FORM_SELECTOR);
+		for(var i = 0; i < nodes.length; i++){
+			var element = nodes[i];
+			if(element.getAttribute(luga.validator.CONST.CUSTOM_ATTRIBUTES.VALIDATE) === "true"){
+				element.addEventListener("submit", function(event){
 					var formValidator = new luga.validator.FormValidator({
-						formNode: formNode
+						formNode: element
 					});
 					formValidator.validate(event);
-				});
+				}, false);
 			}
-		});
+		}
 	};
 
 	/* API */

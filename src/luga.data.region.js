@@ -102,7 +102,7 @@
 		if(rootNode !== null){
 			var nodes = rootNode.querySelectorAll(luga.data.region.CONST.SELECTORS.REGION);
 			for(var i = 0; i < nodes.length; i++){
-				luga.data.region.init(rootNode[i]);
+				luga.data.region.init(nodes[i]);
 			}
 		}
 	};

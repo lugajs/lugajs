@@ -1,5 +1,5 @@
 /*! 
-Luga JS 0.9.7 2018-04-01T21:09:59.695Z
+Luga JS 0.9.7 2018-04-02T15:36:59.408Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -509,7 +509,9 @@ if(typeof(luga) === "undefined"){
 		}
 		var map = {};
 		var fields = luga.form.utils.getChildFields(rootNode);
-		fields.forEach(function(element){
+
+		for(var i = 0; i < fields.length; i++){
+			var element = fields[i];
 			if(luga.form.utils.isSuccessfulField(element) === true){
 				var fieldName = element.getAttribute("name");
 				var fieldValue = null;
@@ -547,7 +549,7 @@ if(typeof(luga) === "undefined"){
 				}
 
 			}
-		});
+		}
 		return map;
 	};
 
@@ -558,9 +560,9 @@ if(typeof(luga) === "undefined"){
 	var getMultiSelectValue = function(node){
 		var fieldValue = [];
 		var options = node.querySelectorAll("option:checked");
-		options.forEach(function(element){
-			fieldValue.push(element.value);
-		});
+		for(var i = 0; i < options.length; i++){
+			fieldValue.push(options[i].value);
+		}
 		return fieldValue;
 	};
 
@@ -598,18 +600,18 @@ if(typeof(luga) === "undefined"){
 		var str = "";
 		var fields = luga.form.utils.getChildFields(rootNode);
 
-		fields.forEach(function(element){
+		for(var i = 0; i < fields.length; i++){
+			var element = fields[i];
 			if(luga.form.utils.isSuccessfulField(element) === true){
 				var fieldName = element.getAttribute("name");
 				var fieldType = element.type;
 				switch(fieldType){
 
 					case "select-multiple":
-
-						var multiValue = getMultiSelectValue(element);
-						multiValue.forEach(function(value){
-							str = appendQueryString(str, fieldName, value, demoronize);
-						});
+						var multiValues = getMultiSelectValue(element);
+						for(var j = 0; j < multiValues.length; j++){
+							str = appendQueryString(str, fieldName, multiValues[i], demoronize);
+						}
 						break;
 
 					case "checkbox":
@@ -623,7 +625,7 @@ if(typeof(luga) === "undefined"){
 						str = appendQueryString(str, fieldName, element.value, demoronize);
 				}
 			}
-		});
+		}
 		return str;
 	};
 
@@ -702,11 +704,13 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.form.utils.getChildFields = function(rootNode){
 		var fields = [];
-		rootNode.querySelectorAll(luga.form.CONST.FIELD_SELECTOR).forEach(function(element){
+		var nodes = rootNode.querySelectorAll(luga.form.CONST.FIELD_SELECTOR);
+		for(var i = 0; i < nodes.length; i++){
+			var element = nodes[i];
 			if(luga.form.utils.isInputField(element) === true){
 				fields.push(element);
 			}
-		});
+		}
 		return fields;
 	};
 
@@ -1049,10 +1053,13 @@ if(typeof(luga) === "undefined"){
 			headers.pop();
 			return headers.map(function(item){
 				var tokens = item.split(":");
-				return {
-					header: tokens[0],
-					value: tokens[1].substring(1)
+				var ret = {
+					header: tokens[0]
 				};
+				if(tokens[1] !== undefined){
+					ret.value = tokens[1].substring(1);
+				}
+				return ret;
 			});
 		};
 
@@ -2221,25 +2228,25 @@ if(typeof(luga) === "undefined"){
 	luga.validator.dateSpecs["D-M-YYYY"] = luga.validator.createDateSpecObj("^([0-3]?[0-9])-([0-1]?[0-9])-([0-9]{4})$", 2, 1, 0, "-");
 
 	/**
-	 * Attach form validators to any suitable form inside the document
-	 * @param {jQuery} [rootNode=jQuery("body")]  Optional, default to jQuery("body")
+	 * Attach form validators to any suitable form inside the given DOM node
+	 * @param {HTMLElement} [rootNode]  Optional, default to document.body
 	 */
 	luga.validator.initForms = function(rootNode){
 		if(rootNode === undefined){
-			rootNode = jQuery("body");
+			rootNode = document.body;
 		}
-		rootNode.find(luga.validator.CONST.FORM_SELECTOR).each(function(index, item){
-			var formNode = jQuery(item);
-			/* istanbul ignore else */
-			if(formNode.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.VALIDATE) === "true"){
-				formNode.submit(function(event){
+		var nodes = rootNode.querySelectorAll(luga.validator.CONST.FORM_SELECTOR);
+		for(var i = 0; i < nodes.length; i++){
+			var element = nodes[i];
+			if(element.getAttribute(luga.validator.CONST.CUSTOM_ATTRIBUTES.VALIDATE) === "true"){
+				element.addEventListener("submit", function(event){
 					var formValidator = new luga.validator.FormValidator({
-						formNode: formNode
+						formNode: element
 					});
 					formValidator.validate(event);
-				});
+				}, false);
 			}
-		});
+		}
 	};
 
 	/* API */
@@ -2375,7 +2382,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga Data 0.9.7 2018-04-01T11:36:01.087Z
+Luga Data 0.9.7 2018-04-02T15:30:22.702Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -2715,6 +2722,7 @@ if(typeof(luga) === "undefined"){
 		if(window.ActiveXObject !== undefined){
 			var xmlDOMObj = new ActiveXObject(luga.data.xml.DOM_ACTIVEX_NAME);
 			xmlDOMObj.async = false;
+			xmlDOMObj.setProperty("SelectionLanguage", "XPath");
 			xmlDOMObj.loadXML(xmlStr);
 			return xmlDOMObj;
 		}
@@ -3831,7 +3839,7 @@ if(typeof(luga) === "undefined"){
 		/** @type {luga.data.XmlDataSet} */
 		var self = this;
 		/** @override */
-		this.contentType = "text/xml";
+		this.contentType = "application/xml";
 
 		this.path = "/";
 		if(options.path !== undefined){
@@ -3938,12 +3946,14 @@ if(typeof(luga) === "undefined"){
 		 */
 		var itemToHash = function(item){
 			var rec = {};
-			self.itemElements.forEach(function(element){
+			for(var i = 0; i < self.itemElements.length; i++){
+				var element = self.itemElements[i];
 				var nodes = luga.data.xml.evaluateXPath(item, element);
 				if(nodes.length > 0){
-					rec[element] = nodes[0].innerHTML;
+					rec[element] = getTextValue(nodes[0]);
 				}
-			});
+
+			}
 			return rec;
 		};
 
@@ -3952,12 +3962,13 @@ if(typeof(luga) === "undefined"){
 		 * @param {Node} channel
 		 */
 		var setChannelMeta = function(channel){
-			self.channelElements.forEach(function(element){
+			for(var i = 0; i < self.channelElements.length; i++){
+				var element = self.channelElements[i];
 				var nodes = luga.data.xml.evaluateXPath(channel, element);
 				if(nodes.length > 0){
-					self.channelMeta[element] = nodes[0].innerHTML;
+					self.channelMeta[element] = getTextValue(nodes[0]);
 				}
-			});
+			}
 		};
 
 		/**
@@ -3972,6 +3983,21 @@ if(typeof(luga) === "undefined"){
 			});
 			return records;
 		};
+
+		/* Utilities */
+
+		/**
+		 * Extract text out of a TEXT or CDATA node
+		 * @param {Node} node
+		 * @return {String}
+		 */
+		function getTextValue(node){
+			var child = node.childNodes[0];
+			/* istanbul ignore else */
+			if((child.nodeType === 3) /* TEXT_NODE */ || (child.nodeType === 4) /* CDATA_SECTION_NODE */){
+				return child.data;
+			}
+		}
 
 		/* Public methods */
 
@@ -4543,9 +4569,9 @@ if(typeof(luga) === "undefined"){
 		/* istanbul ignore else */
 		if(rootNode !== null){
 			var nodes = rootNode.querySelectorAll(luga.data.region.CONST.SELECTORS.REGION);
-			nodes.forEach(function(item){
-				luga.data.region.init(item);
-			});
+			for(var i = 0; i < nodes.length; i++){
+				luga.data.region.init(nodes[i]);
+			}
 		}
 	};
 
@@ -4826,10 +4852,10 @@ if(typeof(luga) === "undefined"){
 		}
 	};
 
-	var removeCssClass = function(nodeList, className){
-		nodeList.forEach(function(item){
-			item.classList.remove(className);
-		});
+	var removeCssClass = function(nodes, className){
+		for(var i = 0; i < nodes.length; i++){
+			nodes[i].classList.remove(className);
+		}
 	};
 
 	/**
@@ -4860,15 +4886,19 @@ if(typeof(luga) === "undefined"){
 			}
 
 			// Attach click event to all nodes
-			nodes.forEach(function(item){
-				item.addEventListener("click", function(event){
-					event.preventDefault();
-					removeCssClass(nodes, cssClass);
-					item.classList.add(cssClass);
-				}, false);
-			});
-
+			for(var i = 0; i < nodes.length; i++){
+				var element = nodes[i];
+				addSelectEvent(element, cssClass, nodes);
+			}
 		}
+	};
+
+	var addSelectEvent = function(element, cssClass, nodes){
+		element.addEventListener("click", function(event){
+			event.preventDefault();
+			removeCssClass(nodes, cssClass);
+			element.classList.add(cssClass);
+		}, false);
 	};
 
 	/**
@@ -4876,16 +4906,19 @@ if(typeof(luga) === "undefined"){
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.setRowId = function(options){
-
 		var nodes = options.node.querySelectorAll(CONST.SELECTORS.SET_ROW_ID);
-		nodes.forEach(function(item){
-			item.addEventListener("click", function(event){
-				event.preventDefault();
-				var rowId = item.getAttribute(CONST.CUSTOM_ATTRIBUTES.SET_ROW_ID);
-				options.dataSource.setCurrentRowId(rowId);
-			}, false);
-		});
+		for(var i = 0; i < nodes.length; i++){
+			var element = nodes[i];
+			var rowId = element.getAttribute(CONST.CUSTOM_ATTRIBUTES.SET_ROW_ID);
+			addRowIdEvent(element, rowId, options.dataSource);
+		}
+	};
 
+	var addRowIdEvent = function(element, rowId, dataSource){
+		element.addEventListener("click", function(event){
+			event.preventDefault();
+			dataSource.setCurrentRowId(rowId);
+		}, false);
 	};
 
 	/**
@@ -4893,15 +4926,19 @@ if(typeof(luga) === "undefined"){
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.setRowIndex = function(options){
-
 		var nodes = options.node.querySelectorAll(CONST.SELECTORS.SET_ROW_INDEX);
-		nodes.forEach(function(item){
-			item.addEventListener("click", function(event){
-				event.preventDefault();
-				var rowIndex = parseInt(item.getAttribute(CONST.CUSTOM_ATTRIBUTES.SET_ROW_INDEX), 10);
-				options.dataSource.setCurrentRowIndex(rowIndex);
-			}, false);
-		});
+		for(var i = 0; i < nodes.length; i++){
+			var element = nodes[i];
+			var rowIndex = parseInt(element.getAttribute(CONST.CUSTOM_ATTRIBUTES.SET_ROW_INDEX), 10);
+			addRowIndexEvent(element, rowIndex, options.dataSource);
+		}
+	};
+
+	var addRowIndexEvent = function(element, rowIndex, dataSource){
+		element.addEventListener("click", function(event){
+			event.preventDefault();
+			dataSource.setCurrentRowIndex(rowIndex);
+		}, false);
 	};
 
 	/**
@@ -4909,16 +4946,15 @@ if(typeof(luga) === "undefined"){
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.sort = function(options){
-
 		var nodes = options.node.querySelectorAll(CONST.SELECTORS.SORT);
-		nodes.forEach(function(item){
-			item.addEventListener("click", function(event){
+		for(var i = 0; i < nodes.length; i++){
+			var element = nodes[i];
+			element.addEventListener("click", function(event){
 				event.preventDefault();
-				var sortCol = item.getAttribute(CONST.CUSTOM_ATTRIBUTES.SORT);
+				var sortCol = element.getAttribute(CONST.CUSTOM_ATTRIBUTES.SORT);
 				options.dataSource.sort(sortCol);
 			}, false);
-		});
-
+		}
 	};
 
 }());
@@ -5513,7 +5549,7 @@ if(typeof(luga) === "undefined"){
 			MISSING_BUTTON: "luga.data.widgets.ShowMoreButton was unable find the button node"
 		};
 
-		if(this.config.button === null){
+		if(self.config.button === null){
 			throw(this.CONST.BUTTON_ERROR_MESSAGES.MISSING_BUTTON);
 		}
 
@@ -5529,11 +5565,11 @@ if(typeof(luga) === "undefined"){
 		};
 
 		this.disable = function(){
-			this.config.button.classList.add(this.config.disabledClass);
+			self.config.button.classList.add(this.config.disabledClass);
 		};
 
 		this.enable = function(){
-			this.config.button.classList.remove(this.config.disabledClass);
+			self.config.button.classList.remove(this.config.disabledClass);
 		};
 
 		/* Constructor */

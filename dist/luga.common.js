@@ -1,5 +1,5 @@
 /*! 
-Luga Common 0.9.7 2018-04-01T21:09:59.695Z
+Luga Common 0.9.7 2018-04-02T15:36:59.392Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -509,7 +509,9 @@ if(typeof(luga) === "undefined"){
 		}
 		var map = {};
 		var fields = luga.form.utils.getChildFields(rootNode);
-		fields.forEach(function(element){
+
+		for(var i = 0; i < fields.length; i++){
+			var element = fields[i];
 			if(luga.form.utils.isSuccessfulField(element) === true){
 				var fieldName = element.getAttribute("name");
 				var fieldValue = null;
@@ -547,7 +549,7 @@ if(typeof(luga) === "undefined"){
 				}
 
 			}
-		});
+		}
 		return map;
 	};
 
@@ -558,9 +560,9 @@ if(typeof(luga) === "undefined"){
 	var getMultiSelectValue = function(node){
 		var fieldValue = [];
 		var options = node.querySelectorAll("option:checked");
-		options.forEach(function(element){
-			fieldValue.push(element.value);
-		});
+		for(var i = 0; i < options.length; i++){
+			fieldValue.push(options[i].value);
+		}
 		return fieldValue;
 	};
 
@@ -598,18 +600,18 @@ if(typeof(luga) === "undefined"){
 		var str = "";
 		var fields = luga.form.utils.getChildFields(rootNode);
 
-		fields.forEach(function(element){
+		for(var i = 0; i < fields.length; i++){
+			var element = fields[i];
 			if(luga.form.utils.isSuccessfulField(element) === true){
 				var fieldName = element.getAttribute("name");
 				var fieldType = element.type;
 				switch(fieldType){
 
 					case "select-multiple":
-
-						var multiValue = getMultiSelectValue(element);
-						multiValue.forEach(function(value){
-							str = appendQueryString(str, fieldName, value, demoronize);
-						});
+						var multiValues = getMultiSelectValue(element);
+						for(var j = 0; j < multiValues.length; j++){
+							str = appendQueryString(str, fieldName, multiValues[i], demoronize);
+						}
 						break;
 
 					case "checkbox":
@@ -623,7 +625,7 @@ if(typeof(luga) === "undefined"){
 						str = appendQueryString(str, fieldName, element.value, demoronize);
 				}
 			}
-		});
+		}
 		return str;
 	};
 
@@ -702,11 +704,13 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.form.utils.getChildFields = function(rootNode){
 		var fields = [];
-		rootNode.querySelectorAll(luga.form.CONST.FIELD_SELECTOR).forEach(function(element){
+		var nodes = rootNode.querySelectorAll(luga.form.CONST.FIELD_SELECTOR);
+		for(var i = 0; i < nodes.length; i++){
+			var element = nodes[i];
 			if(luga.form.utils.isInputField(element) === true){
 				fields.push(element);
 			}
-		});
+		}
 		return fields;
 	};
 
@@ -1049,10 +1053,13 @@ if(typeof(luga) === "undefined"){
 			headers.pop();
 			return headers.map(function(item){
 				var tokens = item.split(":");
-				return {
-					header: tokens[0],
-					value: tokens[1].substring(1)
+				var ret = {
+					header: tokens[0]
 				};
+				if(tokens[1] !== undefined){
+					ret.value = tokens[1].substring(1);
+				}
+				return ret;
 			});
 		};
 
