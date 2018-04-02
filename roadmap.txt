@@ -6,7 +6,6 @@ VERSION 2.0
   dom.nodeMatches(node, selector) IE11+
   dom.delegateEvent()
 
-- Drop support for IE 10
 - Use const/let
 - Map/Set
 - Remove self = this. Use .bind() instead

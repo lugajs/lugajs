@@ -1,5 +1,9 @@
+- Drop support for IE 10
 - Remove jQuery from common
 - Remove jQuery from validator
+
+- Improve feature detection in luga.data.xml?
+  Test carefully in IE11
 
 -------------
 
