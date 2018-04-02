@@ -25,23 +25,25 @@ describe("luga.dom", function(){
 		expect(luga.dom).toBeDefined();
 	});
 
-	describe(".ready()", function(){
+	// ALERT: IE11 throws and error if we dynamically trigger DOMContentLoaded
+	if(window.isIE === false){
+		describe(".ready()", function(){
 
-		it("Invoke the given function as soon as the DOM is loaded", function(){
-			var mock = {
-				callBack: function(){
-				}
-			};
-			spyOn(mock, "callBack");
-			luga.dom.ready(mock.callBack);
+			it("Invoke the given function as soon as the DOM is loaded", function(){
+				var mock = {
+					callBack: function(){
+					}
+				};
+				spyOn(mock, "callBack");
+				luga.dom.ready(mock.callBack);
 
-			var eventToTrigger = new Event("DOMContentLoaded");
-			document.dispatchEvent(eventToTrigger);
+				var eventToTrigger = new Event("DOMContentLoaded");
+				document.dispatchEvent(eventToTrigger);
+				expect(mock.callBack).toHaveBeenCalled();
+			});
 
-			expect(mock.callBack).toHaveBeenCalled();
 		});
-
-	});
+	}
 
 	describe(".nodeIterator.getInstance()", function(){
 
