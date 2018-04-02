@@ -62,7 +62,7 @@ describe("luga.data.HttpDataSet", function(){
 			var jsonDs = new luga.data.JsonDataSet({uuid: "myJsonDs"});
 			expect(jsonDs.contentType).toEqual("application/json");
 			var xmlDs = new luga.data.XmlDataSet({uuid: "myXmlDs"});
-			expect(xmlDs.contentType).toEqual("text/xml");
+			expect(xmlDs.contentType).toEqual("application/xml");
 		});
 	});
 

@@ -39,12 +39,14 @@
 		 */
 		var itemToHash = function(item){
 			var rec = {};
-			self.itemElements.forEach(function(element){
+			for(var i = 0; i < self.itemElements.length; i++){
+				var element = self.itemElements[i];
 				var nodes = luga.data.xml.evaluateXPath(item, element);
 				if(nodes.length > 0){
-					rec[element] = nodes[0].innerHTML;
+					rec[element] = getTextValue(nodes[0]);
 				}
-			});
+
+			}
 			return rec;
 		};
 
@@ -53,12 +55,13 @@
 		 * @param {Node} channel
 		 */
 		var setChannelMeta = function(channel){
-			self.channelElements.forEach(function(element){
+			for(var i = 0; i < self.channelElements.length; i++){
+				var element = self.channelElements[i];
 				var nodes = luga.data.xml.evaluateXPath(channel, element);
 				if(nodes.length > 0){
-					self.channelMeta[element] = nodes[0].innerHTML;
+					self.channelMeta[element] = getTextValue(nodes[0]);
 				}
-			});
+			}
 		};
 
 		/**
@@ -73,6 +76,21 @@
 			});
 			return records;
 		};
+
+		/* Utilities */
+
+		/**
+		 * Extract text out of a TEXT or CDATA node
+		 * @param {Node} node
+		 * @return {String}
+		 */
+		function getTextValue(node){
+			var child = node.childNodes[0];
+			/* istanbul ignore else */
+			if((child.nodeType === 3) /* TEXT_NODE */ || (child.nodeType === 4) /* CDATA_SECTION_NODE */){
+				return child.data;
+			}
+		}
 
 		/* Public methods */
 

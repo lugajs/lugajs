@@ -161,6 +161,7 @@
 		if(window.ActiveXObject !== undefined){
 			var xmlDOMObj = new ActiveXObject(luga.data.xml.DOM_ACTIVEX_NAME);
 			xmlDOMObj.async = false;
+			xmlDOMObj.setProperty("SelectionLanguage", "XPath");
 			xmlDOMObj.loadXML(xmlStr);
 			return xmlDOMObj;
 		}

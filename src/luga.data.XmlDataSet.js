@@ -19,7 +19,7 @@
 		/** @type {luga.data.XmlDataSet} */
 		var self = this;
 		/** @override */
-		this.contentType = "text/xml";
+		this.contentType = "application/xml";
 
 		this.path = "/";
 		if(options.path !== undefined){
