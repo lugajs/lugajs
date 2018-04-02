@@ -77,18 +77,26 @@ describe("luga.data.xml", function(){
 
 		it("Serialize a DOM Node into a string", function(){
 
+			/**
+			 * Remove whitespace to equalize serialized XML across browsers
+			 * @param {String} str
+			 * @return {String}
+			 */
+			var equalizeXmlString = function(str){
+				return str.replace(/\s/g, "");
+			};
+
 			var xmlStr = "";
 			xmlStr += "<artists>";
-			xmlStr += "<player instrument=\"tenor sax\" name=\"Dexter Gordon\"/>";
-			xmlStr += "<player instrument=\"tenor sax\" name=\"Sonny Rollins\"/>";
-			xmlStr += "<player instrument=\"trumpet\" name=\"Thad Jones\"/>";
-			xmlStr += "<player instrument=\"trumpet\" name=\"Lee Morgan\"/>";
-			xmlStr += "<player instrument=\"piano\" name=\"Bill Evans\"/>";
+			xmlStr += "<player name=\"Dexter Gordon\" instrument=\"tenor sax\" />";
+			xmlStr += "<player name=\"Sonny Rollins\" instrument=\"tenor sax\" />";
+			xmlStr += "<player name=\"Thad Jones\" instrument=\"trumpet\" />";
+			xmlStr += "<player name=\"Lee Morgan\" instrument=\"trumpet\" />";
+			xmlStr += "<player name=\"Bill Evans\" instrument=\"piano\" />";
 			xmlStr += "</artists>";
 			var xmlNode = luga.data.xml.parseFromString(xmlStr);
-
-			// Need to use "toMatch" instead of "toEqual" to keep IE happy
-			expect(luga.data.xml.nodeToString(xmlNode)).toMatch(xmlStr);
+			
+			expect(equalizeXmlString(luga.data.xml.nodeToString(xmlNode))).toEqual(equalizeXmlString(xmlStr));
 		});
 
 	});
