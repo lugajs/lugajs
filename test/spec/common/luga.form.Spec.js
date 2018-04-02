@@ -36,7 +36,7 @@ describe("luga.form", function(){
 		});
 
 		it("Values of multiple select are included as multiple value/pairs", function(){
-			expect(luga.form.toQueryString(document.getElementById("multiSelect"))).toEqual("firstname=ciccio&select=first&select=second");
+			expect(luga.form.toQueryString(document.getElementById("multiSelect"))).toEqual("firstname=ciccio&select=second&select=second");
 		});
 
 		it("If the second argument is set to true, MS Word's special chars are replaced with plausible substitutes", function(){

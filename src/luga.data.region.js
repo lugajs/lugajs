@@ -101,9 +101,9 @@
 		/* istanbul ignore else */
 		if(rootNode !== null){
 			var nodes = rootNode.querySelectorAll(luga.data.region.CONST.SELECTORS.REGION);
-			nodes.forEach(function(item){
-				luga.data.region.init(item);
-			});
+			for(var i = 0; i < nodes.length; i++){
+				luga.data.region.init(rootNode[i]);
+			}
 		}
 	};
 

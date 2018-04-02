@@ -146,7 +146,7 @@
 			MISSING_BUTTON: "luga.data.widgets.ShowMoreButton was unable find the button node"
 		};
 
-		if(this.config.button === null){
+		if(self.config.button === null){
 			throw(this.CONST.BUTTON_ERROR_MESSAGES.MISSING_BUTTON);
 		}
 
@@ -162,11 +162,11 @@
 		};
 
 		this.disable = function(){
-			this.config.button.classList.add(this.config.disabledClass);
+			self.config.button.classList.add(this.config.disabledClass);
 		};
 
 		this.enable = function(){
-			this.config.button.classList.remove(this.config.disabledClass);
+			self.config.button.classList.remove(this.config.disabledClass);
 		};
 
 		/* Constructor */

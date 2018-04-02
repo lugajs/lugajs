@@ -25,10 +25,10 @@
 		}
 	};
 
-	var removeCssClass = function(nodeList, className){
-		nodeList.forEach(function(item){
-			item.classList.remove(className);
-		});
+	var removeCssClass = function(nodes, className){
+		for(var i = 0; i < nodes.length; i++){
+			nodes[i].classList.remove(className);
+		}
 	};
 
 	/**
@@ -59,15 +59,19 @@
 			}
 
 			// Attach click event to all nodes
-			nodes.forEach(function(item){
-				item.addEventListener("click", function(event){
-					event.preventDefault();
-					removeCssClass(nodes, cssClass);
-					item.classList.add(cssClass);
-				}, false);
-			});
-
+			for(var i = 0; i < nodes.length; i++){
+				var element = nodes[i];
+				addSelectEvent(element, cssClass, nodes);
+			}
 		}
+	};
+
+	var addSelectEvent = function(element, cssClass, nodes){
+		element.addEventListener("click", function(event){
+			event.preventDefault();
+			removeCssClass(nodes, cssClass);
+			element.classList.add(cssClass);
+		}, false);
 	};
 
 	/**
@@ -75,16 +79,19 @@
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.setRowId = function(options){
-
 		var nodes = options.node.querySelectorAll(CONST.SELECTORS.SET_ROW_ID);
-		nodes.forEach(function(item){
-			item.addEventListener("click", function(event){
-				event.preventDefault();
-				var rowId = item.getAttribute(CONST.CUSTOM_ATTRIBUTES.SET_ROW_ID);
-				options.dataSource.setCurrentRowId(rowId);
-			}, false);
-		});
+		for(var i = 0; i < nodes.length; i++){
+			var element = nodes[i];
+			var rowId = element.getAttribute(CONST.CUSTOM_ATTRIBUTES.SET_ROW_ID);
+			addRowIdEvent(element, rowId, options.dataSource);
+		}
+	};
 
+	var addRowIdEvent = function(element, rowId, dataSource){
+		element.addEventListener("click", function(event){
+			event.preventDefault();
+			dataSource.setCurrentRowId(rowId);
+		}, false);
 	};
 
 	/**
@@ -92,15 +99,19 @@
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.setRowIndex = function(options){
-
 		var nodes = options.node.querySelectorAll(CONST.SELECTORS.SET_ROW_INDEX);
-		nodes.forEach(function(item){
-			item.addEventListener("click", function(event){
-				event.preventDefault();
-				var rowIndex = parseInt(item.getAttribute(CONST.CUSTOM_ATTRIBUTES.SET_ROW_INDEX), 10);
-				options.dataSource.setCurrentRowIndex(rowIndex);
-			}, false);
-		});
+		for(var i = 0; i < nodes.length; i++){
+			var element = nodes[i];
+			var rowIndex = parseInt(element.getAttribute(CONST.CUSTOM_ATTRIBUTES.SET_ROW_INDEX), 10);
+			addRowIndexEvent(element, rowIndex, options.dataSource);
+		}
+	};
+
+	var addRowIndexEvent = function(element, rowIndex, dataSource){
+		element.addEventListener("click", function(event){
+			event.preventDefault();
+			dataSource.setCurrentRowIndex(rowIndex);
+		}, false);
 	};
 
 	/**
@@ -108,16 +119,15 @@
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.sort = function(options){
-
 		var nodes = options.node.querySelectorAll(CONST.SELECTORS.SORT);
-		nodes.forEach(function(item){
-			item.addEventListener("click", function(event){
+		for(var i = 0; i < nodes.length; i++){
+			var element = nodes[i];
+			element.addEventListener("click", function(event){
 				event.preventDefault();
-				var sortCol = item.getAttribute(CONST.CUSTOM_ATTRIBUTES.SORT);
+				var sortCol = element.getAttribute(CONST.CUSTOM_ATTRIBUTES.SORT);
 				options.dataSource.sort(sortCol);
 			}, false);
-		});
-
+		}
 	};
 
 }());

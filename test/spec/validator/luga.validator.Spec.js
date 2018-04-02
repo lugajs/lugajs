@@ -82,7 +82,7 @@ describe("luga.validator.initForms()", function(){
 			};
 			spyOn(luga.validator, "FormValidator").and.returnValues(mockValidator);
 
-			luga.validator.initForms(jQuery(".container"));
+			luga.validator.initForms(document.querySelector(".container"));
 			// Simulate click/submit
 			document.querySelectorAll("*[type=submit]")[0].click();
 
