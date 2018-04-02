@@ -265,8 +265,7 @@ describe("luga.data.widgets.PagingBar", function(){
 
 			it("A click on it invokes pagedView.goToPage() to navigate to the previous page", function(){
 				spyOn(pagedView, "goToPage");
-				var eventToTrigger = new Event("click");
-				linksBarNode.firstChild.dispatchEvent(eventToTrigger);
+				linksBarNode.firstChild.click();
 				expect(pagedView.goToPage).toHaveBeenCalledWith(2);
 			});
 
@@ -287,12 +286,13 @@ describe("luga.data.widgets.PagingBar", function(){
 				expect(linksBarNode.lastChild.tagName).toEqual("A");
 			});
 
+
 			it("A click on it invokes pagedView.goToPage() to navigate to the next page", function(){
 				spyOn(pagedView, "goToPage");
-				var eventToTrigger = new Event("click");
-				linksBarNode.lastChild.dispatchEvent(eventToTrigger);
+				linksBarNode.lastChild.click();
 				expect(pagedView.goToPage).toHaveBeenCalledWith(2);
 			});
+
 
 		});
 

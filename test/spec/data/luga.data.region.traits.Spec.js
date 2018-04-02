@@ -60,7 +60,7 @@ describe("luga.data.region.traits", function(){
 				var secondItem = testDiv.querySelectorAll(CONST.LINK_LI_SELECTOR)[1];
 
 				// Simulate click
-				secondItem.dispatchEvent(new Event("click"));
+				secondItem.click();
 
 				expect(firstItem).not.toHaveClass("selectedRow");
 				expect(secondItem).toHaveClass("selectedRow");

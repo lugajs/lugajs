@@ -278,12 +278,12 @@ describe("luga.data.widgets", function(){
 				it("If the widget is enabled. It call .fetch()", function(){
 					spyOn(showMoreWidget, "fetch");
 					mockDs.setState(luga.data.STATE.READY);
-					mockButton.dispatchEvent(new Event("click"));
+					mockButton.click();
 					expect(showMoreWidget.fetch).toHaveBeenCalled();
 				});
 				it("If the widget is disabled. Nothing happens", function(){
 					spyOn(showMoreWidget, "fetch");
-					mockButton.dispatchEvent(new Event("click"));
+					mockButton.click();
 					expect(showMoreWidget.fetch).not.toHaveBeenCalled();
 				});
 

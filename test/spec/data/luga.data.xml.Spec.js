@@ -95,7 +95,7 @@ describe("luga.data.xml", function(){
 			xmlStr += "<player name=\"Bill Evans\" instrument=\"piano\" />";
 			xmlStr += "</artists>";
 			var xmlNode = luga.data.xml.parseFromString(xmlStr);
-			
+
 			expect(equalizeXmlString(luga.data.xml.nodeToString(xmlNode))).toEqual(equalizeXmlString(xmlStr));
 		});
 

@@ -25,25 +25,25 @@ describe("luga.dom", function(){
 		expect(luga.dom).toBeDefined();
 	});
 
-	// ALERT: IE11 throws and error if we dynamically trigger DOMContentLoaded
-	if(window.isIE === false){
-		describe(".ready()", function(){
+	describe(".ready()", function(){
 
-			it("Invoke the given function as soon as the DOM is loaded", function(){
-				var mock = {
-					callBack: function(){
-					}
-				};
-				spyOn(mock, "callBack");
-				luga.dom.ready(mock.callBack);
+		it("Invoke the given function as soon as the DOM is loaded", function(){
+			var mock = {
+				callBack: function(){
+				}
+			};
+			spyOn(mock, "callBack");
+			luga.dom.ready(mock.callBack);
 
-				var eventToTrigger = new Event("DOMContentLoaded");
-				document.dispatchEvent(eventToTrigger);
-				expect(mock.callBack).toHaveBeenCalled();
-			});
+			// Use old syntax for IE11: https://stackoverflow.com/questions/27176983/dispatchevent-not-working-in-ie11
+			var eventToTrigger = document.createEvent("Event");
+			eventToTrigger.initEvent("DOMContentLoaded", false, true);
+			document.dispatchEvent(eventToTrigger);
 
+			expect(mock.callBack).toHaveBeenCalled();
 		});
-	}
+
+	});
 
 	describe(".nodeIterator.getInstance()", function(){
 
