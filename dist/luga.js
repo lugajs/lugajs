@@ -1,5 +1,5 @@
 /*! 
-Luga JS 0.9.7 2018-04-02T15:36:59.408Z
+Luga JS 0.9.7 2018-04-02T18:46:31.886Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -2382,7 +2382,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga Data 0.9.7 2018-04-02T15:30:22.702Z
+Luga Data 0.9.7 2018-04-02T18:46:31.266Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -2579,17 +2579,8 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.data.xml.evaluateXPath = function(node, path){
 		var retArray = [];
-		/* istanbul ignore if IE-only */
-		if(window.ActiveXObject !== undefined){
-			var selectedNodes = node.selectNodes(path);
-			// Extract the nodes out of the nodeList returned by selectNodes and put them into an array
-			// We could directly use the nodeList returned by selectNodes, but this would cause inconsistencies across browsers
-			for(var i = 0; i < selectedNodes.length; i++){
-				retArray.push(selectedNodes[i]);
-			}
-			return retArray;
-		}
-		else{
+		/* istanbul ignore else IE-only */
+		if(window.XPathEvaluator !== undefined){
 			var evaluator = new XPathEvaluator();
 			var result = evaluator.evaluate(path, node, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
 			var currentNode = result.iterateNext();
@@ -2598,8 +2589,16 @@ if(typeof(luga) === "undefined"){
 				retArray.push(currentNode);
 				currentNode = result.iterateNext();
 			}
-			return retArray;
 		}
+		else if(window.ActiveXObject !== undefined){
+			var selectedNodes = node.selectNodes(path);
+			// Extract the nodes out of the nodeList returned by selectNodes and put them into an array
+			// We could directly use the nodeList returned by selectNodes, but this would cause inconsistencies across browsers
+			for(var i = 0; i < selectedNodes.length; i++){
+				retArray.push(selectedNodes[i]);
+			}
+		}
+		return retArray;
 	};
 
 	/**
@@ -2703,6 +2702,7 @@ if(typeof(luga) === "undefined"){
 	luga.data.xml.nodeToString = function(node){
 		/* istanbul ignore if IE-only */
 		if(window.ActiveXObject !== undefined){
+			// IE11 supports XMLSerializer but fails on serializeToString()
 			return node.xml;
 		}
 		else{
@@ -2720,6 +2720,7 @@ if(typeof(luga) === "undefined"){
 		var xmlParser;
 		/* istanbul ignore if IE-only */
 		if(window.ActiveXObject !== undefined){
+			// IE11 supports DOMParser but fails on parseFromString()
 			var xmlDOMObj = new ActiveXObject(luga.data.xml.DOM_ACTIVEX_NAME);
 			xmlDOMObj.async = false;
 			xmlDOMObj.setProperty("SelectionLanguage", "XPath");
