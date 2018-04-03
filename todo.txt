@@ -2,6 +2,13 @@
 - Remove jQuery from common
 - Remove jQuery from validator
 
+- Add detection method for XML-related Active-X
+- Fail/throw on unsupported XML API
+- Document XML/IE11 potential issues
+
+- Update readme file
+  Link to luga.router
+
 -------------
 
 DOCS:

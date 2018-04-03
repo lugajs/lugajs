@@ -6,10 +6,6 @@ It is not intended and will never be a framework, we believe in keeping our tool
 Right now the following production ready libraries are available:
 <ul>
 	<li>
-		<a href="http://lugajs.org/docs/index.htm#ajaxform/index" title="Submit forms without page reloads">Ajaxform</a>:
-		turn any HTML &lt;form&gt; into a form that get submitted by XHR, without the need to reload the page
-	</li>
-	<li>
 		<a href="http://lugajs.org/docs/index.htm#data/index" title="Data, binding and HTML templating">Data</a>:
 		retrieve data from diverse sources, expose them using a unified API, leverage databinding and HTML templating
 	</li>
