@@ -6,6 +6,8 @@
 - Fail/throw on unsupported XML API
 - Document XML/IE11 potential issues
 
+- New example for custom dataset
+
 - Update readme file
   Link to luga.router
 
