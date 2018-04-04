@@ -1,14 +1,9 @@
-- Jasmine tests for TsvDataset
-
 - Drop support for IE 10
 - Remove jQuery from common
 - Remove jQuery from validator
 
-- Add detection method for XML-related Active-X
-- Fail/throw on unsupported XML API
+- Better Active-X loading on XML API
 - Document XML/IE11 potential issues
-
-- Conditional tests for luga.data.xml
 
 - Update readme file
   Link to luga.router
@@ -39,8 +34,6 @@ luga.data.PagedViewServer:
 - Use string templating to customize url/endpoint
 - Request: offsetStart, offsetEnd and/or pageSize and/or pageNumber
 - Response: recordCount
-
-luga.data.HtmlTableDataSet
 
 luga.data.DataSet:
 - Ability to persist data inside localStorage

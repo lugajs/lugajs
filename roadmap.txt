@@ -34,3 +34,4 @@ VERSION 2.0
 ***
 
 - luga.data.widgets.Autosuggest?
+- luga.data.HtmlTableDataSet?
