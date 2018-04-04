@@ -1,10 +1,6 @@
 ***
 
-VERSION 1.5
-
-- Add DOM utilities to replace jQuery:
-  dom.nodeMatches(node, selector) IE11+
-  dom.delegateEvent()
+VERSION 1.x
 
 - Use const/let
 - Map/Set
@@ -21,8 +17,7 @@ VERSION 2.0
 - Drop support for IE 11
   Use forEach on NodeList
   Remove usage of Active-X for XML
-
-- Use arrow functions to avoid .bind() and/or self = this
+  Use arrow functions to avoid .bind() and/or self = this
 
 - Document luga.data.xml
 

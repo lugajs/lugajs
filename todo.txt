@@ -15,6 +15,10 @@ COMMON:
 - Add luga.toQueryString() using private appendQueryString() function
   http://api.jquery.com/jquery.param/
 
+- Add DOM utilities to replace jQuery:
+  dom.nodeMatches(node, selector) IE11+
+  dom.delegateEvent() Use it for region doc
+
 -------------
 
 DATA:
