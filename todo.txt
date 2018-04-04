@@ -8,12 +8,7 @@
   Link to luga.router
 
 -------------
-
 DOCS:
-
-- Add docs for Template literals as region rendering
-  https://medium.com/your-majesty-co/frameworkless-javascript-template-literals-the-best-thing-since-sliced-bread-d97f000ce955
-
 -------------
 COMMON:
 
