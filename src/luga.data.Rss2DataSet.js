@@ -67,7 +67,7 @@
 		/**
 		 * Turn an array of <items> nodes into an array of records
 		 * @param {Array.<Node>} nodes
-		 * @return {Array.<Object>|Object}
+		 * @return {Array.<Object>}
 		 */
 		var extractRecords = function(nodes){
 			var records = [];
@@ -110,7 +110,7 @@
 		};
 
 		/**
-		 * Retrieves XML data, either from an HTTP response
+		 * Retrieves XML data from an HTTP response
 		 * @param {luga.xhr.response} response
 		 * @override
 		 */

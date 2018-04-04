@@ -1,3 +1,5 @@
+- Jasmine tests for TsvDataset
+
 - Drop support for IE 10
 - Remove jQuery from common
 - Remove jQuery from validator
@@ -8,16 +10,14 @@
 
 - Conditional tests for luga.data.xml
 
-- New example for custom dataset
-  TSV?
-  https://en.wikipedia.org/wiki/Tab-separated_values
-
 - Update readme file
   Link to luga.router
 
 -------------
 
 DOCS:
+
+- Remove jQuery from samples and doc
 
 - Add docs for Template literals as region rendering
   https://medium.com/your-majesty-co/frameworkless-javascript-template-literals-the-best-thing-since-sliced-bread-d97f000ce955

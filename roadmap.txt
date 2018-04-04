@@ -22,7 +22,9 @@ VERSION 2.0
   Use forEach on NodeList
   Remove usage of Active-X for XML
 
-- Use arrow functions to avoid .bind()
+- Use arrow functions to avoid .bind() and/or self = this
+
+- Document luga.data.xml
 
 - ES6 modules import/export
 - Webpack?
@@ -31,6 +33,4 @@ VERSION 2.0
 
 ***
 
-- luga.data.widgets.Autosuggest
-
-- Document luga.data.xml?
+- luga.data.widgets.Autosuggest?
