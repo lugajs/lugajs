@@ -7,7 +7,7 @@
 
 	luga.data.xml.MIME_TYPE = "application/xml";
 	luga.data.xml.ATTRIBUTE_PREFIX = "_";
-	luga.data.xml.DOM_ACTIVEX_NAME = "MSXML2.DOMDocument.4.0";
+	luga.data.xml.DOM_ACTIVEX_NAME = "MSXML2.DOMDocument.6.0";
 
 	/**
 	 * Given a DOM node, evaluate an XPath expression against it
