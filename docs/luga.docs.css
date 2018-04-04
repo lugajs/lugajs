@@ -250,6 +250,10 @@ button.btn,
 	margin-left: 6px;
 }
 
+div.alert + p {
+	margin-top: 12px;
+}
+
 /* Table with attributes/api syntax */
 
 table.luga-docs-attributes,

@@ -2,8 +2,7 @@
 - Remove jQuery from common
 - Remove jQuery from validator
 
-- Better Active-X loading on XML API
-- Document XML/IE11 potential issues
+- Remove jQuery from samples and doc
 
 - Update readme file
   Link to luga.router
@@ -11,8 +10,6 @@
 -------------
 
 DOCS:
-
-- Remove jQuery from samples and doc
 
 - Add docs for Template literals as region rendering
   https://medium.com/your-majesty-co/frameworkless-javascript-template-literals-the-best-thing-since-sliced-bread-d97f000ce955
