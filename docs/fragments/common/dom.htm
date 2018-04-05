@@ -1,7 +1,132 @@
 <div class="panel panel-default">
-	<div class="panel-heading luga-docs-api-heading">luga.localStorage.retrieve(root, path)</div>
+	<div class="panel-heading luga-docs-api-heading">luga.dom.delegateEvent(node, eventType, selector, callback)</div>
 	<div class="panel-body">
-		A modern, simple alternative to jQuery's .ready().
+		Attach a single event listener, to a parent element, that will fire for all descendants matching a given selector.
+		No matter whether those descendants exist now or are added in the future.
+	</div>
+	<table class="table  luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>node</td>
+			<td>
+				{HTMLElement}
+			</td>
+			<td>
+				Element which receives a notification when an event of the given type occurs.
+			</td>
+		</tr>
+		<tr>
+			<td>eventType</td>
+			<td>
+				{String}
+			</td>
+			<td>
+				A case-sensitive string representing the event type to listen for.
+			</td>
+		</tr>
+		<tr>
+			<td>selector</td>
+			<td>
+				{String}
+			</td>
+			<td>
+				Selector to match
+			</td>
+		</tr>
+		<tr>
+			<td>callback</td>
+			<td>
+				{Function}
+			</td>
+			<td>
+				The function to be invoked.
+				It will receive two arguments: the event object and the target element.
+			</td>
+		</tr>
+	</table>
+	<table class="table  luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-markup">&lt;style&gt;
+	.clicked {
+		font-weight: 800;
+	}
+&lt;/style&gt;
+	
+&lt;div id="container"&gt;
+	&lt;button id="childButton" class="clickable"&gt;You can click me&lt;/button&gt;
+	&lt;button id="neutralButton"&gt;Nothing happens&lt;/button&gt;
+	&lt;div id="nestedContainer"&gt;
+		&lt;h5&gt;More nesting&lt;/h5&gt;
+		&lt;button id="nestedButton" class="clickable"&gt;Try a click&lt;/button&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+	const toggleClicked = function(event, element){
+		event.preventDefault();
+		element.classList.toggle("clicked");
+	};
+	const parentNode = document.getElementById("container");
+	luga.dom.delegateEvent(parentNode, "click", "button.clickable", toggleClicked);
+&lt;/script&gt;
+</code></pre>
+
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.dom.nodeMatches(node, selector)</div>
+	<div class="panel-body">
+		An alternative to <a href="">Element.matches()</a> that works on IE11.
+		Returns true if the given element would be selected by the specified selector, false otherwise.
+	</div>
+	<table class="table  luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>node</td>
+			<td>
+				{HTMLElement}
+			</td>
+			<td>
+				Node to test
+			</td>
+		</tr>
+		<tr>
+			<td>selector</td>
+			<td>
+				{String}
+			</td>
+			<td>
+				Selector to match
+			</td>
+		</tr>
+	</table>
+	<table class="table  luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{Boolean}</td>
+		</tr>
+	</table>
+	<table class="table  luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="language-markup">&lt;div id="container"&gt;Ciao Mamma!&lt;/div&gt;
+&lt;script&gt;
+	const container = document.getElementById("container");
+	luga.dom.nodeMatches(container, "div"); // => true
+	luga.dom.nodeMatches(container, "#container"); // => true
+	luga.dom.nodeMatches(container, "span"); // => false
+&lt;/script&gt;
+</code></pre>
+
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading luga-docs-api-heading">luga.dom.ready(fn)</div>
+	<div class="panel-body">
+		A lean, simple alternative to jQuery's .ready().
 		Invoke the given function as soon as the DOM is loaded
 	</div>
 	<table class="table  luga-docs-api">

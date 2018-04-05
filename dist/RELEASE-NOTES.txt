@@ -2,6 +2,8 @@
 Release 0.9.8
 ---------------------------------------------------------------------
 NEW FEATURES:
+* Added luga.dom.delegateEvent()
+* Added luga.dom.nodeMatches()
 * Added luga.dom.ready()
 * Added luga.data.PagedView
 * Added luga.data.widgets.PagingBar
@@ -10,6 +12,7 @@ NOTES:
 * Updated documentation
 
 CHANGES:
+* IMPORTANT: IE10 is not supported anymore
 * Changed API for traits, regions and luga.data.widgets, from jQuery to DOM
 * Removed luga.data.widgets.ShowMoreScrolling
 * Removed Ajaxform

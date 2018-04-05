@@ -1,8 +1,9 @@
-- Drop support for IE 10
 - Remove jQuery from common
-- Remove jQuery from validator
+- Remove jQuery from Validator
+- Remove jQuery from Validator samples and doc
 
-- Remove jQuery from samples and doc
+- Add notes on dist files
+- Add notes on dependencies
 
 - Update readme file
   Link to luga.router
@@ -14,10 +15,6 @@ COMMON:
 
 - Add luga.toQueryString() using private appendQueryString() function
   http://api.jquery.com/jquery.param/
-
-- Add DOM utilities to replace jQuery:
-  dom.nodeMatches(node, selector) IE11+
-  dom.delegateEvent() Use it for region doc
 
 -------------
 

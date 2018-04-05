@@ -398,6 +398,40 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.dom");
 
 	/**
+	 * Attach a single event listener, to a parent element, that will fire for all descendants matching a selector
+	 * No matter whether those descendants exist now or are added in the future
+	 * @param {HTMLElement} node
+	 * @param {String} eventType
+	 * @param {String} selector
+	 * @param {Function} callback
+	 */
+	luga.dom.delegateEvent = function(node, eventType, selector, callback){
+		node.addEventListener(eventType, function(/** @type {Event} */ event){
+			/** @type {Element} */
+			const currentElement = event.target;
+			if(luga.dom.nodeMatches(currentElement, selector) === true){
+				callback(event, currentElement);
+			}
+		});
+	};
+
+	/**
+	 * Equalize element.matches across browsers
+	 * @param {HTMLElement} node
+	 * @param {String} selector
+	 * @return {Boolean}
+	 */
+	luga.dom.nodeMatches = function(node, selector){
+		let methodName = "matches";
+		// Deal with IE11 without polyfills
+		/* istanbul ignore next IE-only */
+		if(node.matches === undefined && node.msMatchesSelector !== undefined){
+			methodName = "msMatchesSelector";
+		}
+		return node[methodName](selector);
+	};
+
+	/**
 	 * Invoke a function as soon as the DOM is loaded
 	 * @param {Function} fn
 	 */
