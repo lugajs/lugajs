@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.9.7 2018-04-02T18:46:31.266Z
+Luga Data 0.9.7 2018-04-05T10:44:12.701Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -185,7 +185,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.data.xml.MIME_TYPE = "application/xml";
 	luga.data.xml.ATTRIBUTE_PREFIX = "_";
-	luga.data.xml.DOM_ACTIVEX_NAME = "MSXML2.DOMDocument.4.0";
+	luga.data.xml.DOM_ACTIVEX_NAME = "MSXML2.DOMDocument.6.0";
 
 	/**
 	 * Given a DOM node, evaluate an XPath expression against it
@@ -1592,7 +1592,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Turn an array of <items> nodes into an array of records
 		 * @param {Array.<Node>} nodes
-		 * @return {Array.<Object>|Object}
+		 * @return {Array.<Object>}
 		 */
 		var extractRecords = function(nodes){
 			var records = [];
@@ -1635,7 +1635,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * Retrieves XML data, either from an HTTP response
+		 * Retrieves XML data from an HTTP response
 		 * @param {luga.xhr.response} response
 		 * @override
 		 */

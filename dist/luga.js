@@ -1,11 +1,9 @@
 /*! 
-Luga JS 0.9.7 2018-04-02T18:46:31.886Z
+Luga JS 0.9.7 2018-04-05T15:05:17.041Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
-/* globals ActiveXObject */
-
 /* istanbul ignore if */
 if(typeof(jQuery) === "undefined"){
 	throw("Unable to find jQuery");
@@ -27,11 +25,11 @@ if(typeof(luga) === "undefined"){
 	 * @return {Object}
 	 */
 	luga.namespace = function(ns, rootObject){
-		var parts = ns.split(".");
+		const parts = ns.split(".");
 		if(rootObject === undefined){
 			rootObject = window;
 		}
-		for(var i = 0; i < parts.length; i++){
+		for(let i = 0; i < parts.length; i++){
 			if(rootObject[parts[i]] === undefined){
 				rootObject[parts[i]] = {};
 			}
@@ -67,7 +65,7 @@ if(typeof(luga) === "undefined"){
 			return false;
 		}
 
-		var proto = Object.getPrototypeOf(obj);
+		const proto = Object.getPrototypeOf(obj);
 
 		// Objects with no prototype (e.g., Object.create(null)) are plain
 		if(proto === null){
@@ -75,7 +73,7 @@ if(typeof(luga) === "undefined"){
 		}
 
 		// Objects with prototype are plain if they were constructed by a global Object function
-		var constructor = Object.prototype.hasOwnProperty.call(proto, "constructor") && proto.constructor;
+		const constructor = Object.prototype.hasOwnProperty.call(proto, "constructor") && proto.constructor;
 		return typeof (constructor === "function") && (Function.toString.call(constructor) === Function.toString.call(Object));
 	};
 
@@ -90,7 +88,7 @@ if(typeof(luga) === "undefined"){
 		if(!path){
 			return undefined;
 		}
-		var reference = luga.lookupProperty(window, path);
+		const reference = luga.lookupProperty(window, path);
 		if(luga.type(reference) === "function"){
 			return reference;
 		}
@@ -114,9 +112,9 @@ if(typeof(luga) === "undefined"){
 		if(object[path] !== undefined){
 			return object[path];
 		}
-		var parts = path.split(".");
+		let parts = path.split(".");
 		while(parts.length > 0){
-			var part = parts.shift();
+			const part = parts.shift();
 			if(object[part] !== undefined){
 				if(parts.length === 0){
 					// We got it
@@ -138,7 +136,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {Object} source     An object containing additional properties to merge in
 	 */
 	luga.merge = function(target, source){
-		for(var x in source){
+		for(let x in source){
 			if(source.hasOwnProperty(x) === true){
 				target[x] = source[x];
 			}
@@ -153,12 +151,12 @@ if(typeof(luga) === "undefined"){
 	 * @param {*}      value
 	 */
 	luga.setProperty = function(object, path, value){
-		var parts = path.split(".");
+		const parts = path.split(".");
 		if(parts.length === 1){
 			object[path] = value;
 		}
 		while(parts.length > 0){
-			var part = parts.shift();
+			let part = parts.shift();
 			if(object[part] !== undefined){
 				if(parts.length === 0){
 					// Update
@@ -179,7 +177,7 @@ if(typeof(luga) === "undefined"){
 		}
 	};
 
-	var class2type = {};
+	const class2type = {};
 	["Array", "Boolean", "Date", "Error", "Function", "Number", "Object", "RegExp", "String", "Symbol"].forEach(function(element){
 		class2type["[object " + element + "]"] = element.toLowerCase();
 	});
@@ -194,10 +192,10 @@ if(typeof(luga) === "undefined"){
 		if(obj === null){
 			return "null";
 		}
-		var rawType = typeof obj;
+		const rawType = typeof obj;
 		if((rawType === "object") || (rawType === "function")){
 			/* http://perfectionkills.com/instanceof-considered-harmful-or-how-to-write-a-robust-isarray/ */
-			var stringType = Object.prototype.toString.call(obj);
+			const stringType = Object.prototype.toString.call(obj);
 			return class2type[stringType];
 		}
 		return rawType;
@@ -240,12 +238,12 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.eventObservers = {};
 
-		var prefix = "on";
-		var suffix = "Handler";
+		const prefix = "on";
+		const suffix = "Handler";
 
 		// Turns "complete" into "onComplete"
-		var generateGenericMethodName = function(eventName){
-			var str = prefix;
+		const generateGenericMethodName = function(eventName){
+			let str = prefix;
 			str += eventName.charAt(0).toUpperCase();
 			str += eventName.substring(1);
 			str += suffix;
@@ -288,7 +286,7 @@ if(typeof(luga) === "undefined"){
 				/**
 				 * @type {luga.eventObserverMap}
 				 */
-				var eventMap = {
+				const eventMap = {
 					observer: observer,
 					methodName: methodName
 				};
@@ -309,12 +307,12 @@ if(typeof(luga) === "undefined"){
 		 * @param {luga.eventObserverMap} eventMap
 		 * @return {Number}
 		 */
-		var findObserverIndex = function(eventArray, eventMap){
-			for(var i = 0; i < eventArray.length; i++){
+		const findObserverIndex = function(eventArray, eventMap){
+			for(let i = 0; i < eventArray.length; i++){
 				/**
 				 * @type {luga.eventObserverMap}
 				 */
-				var currentMap = eventArray[i];
+				const currentMap = eventArray[i];
 				if(currentMap.observer === eventMap.observer && currentMap.methodName === eventMap.methodName){
 					return i;
 				}
@@ -336,14 +334,14 @@ if(typeof(luga) === "undefined"){
 				throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_DATA_PARAMETER);
 			}
 			// "Generic" observers
-			var genericMethod = generateGenericMethodName(eventName);
+			const genericMethod = generateGenericMethodName(eventName);
 			this.observers.forEach(function(element){
 				if((element[genericMethod] !== undefined) && (luga.type(element[genericMethod]) === "function")){
 					element[genericMethod](payload);
 				}
 			});
 			// "Event" observers
-			var eventObservers = this.eventObservers[eventName];
+			const eventObservers = this.eventObservers[eventName];
 			if(eventObservers !== undefined){
 				eventObservers.forEach(function(element){
 					if(luga.type(element.observer[element.methodName]) === "function"){
@@ -368,7 +366,7 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.removeObserver = function(observer, eventName, methodName){
 			if(arguments.length === 1){
-				for(var i = 0; i < this.observers.length; i++){
+				for(let i = 0; i < this.observers.length; i++){
 					if(this.observers[i] === observer){
 						this.observers.splice(i, 1);
 						break;
@@ -380,11 +378,11 @@ if(typeof(luga) === "undefined"){
 					/**
 					 * @type {luga.eventObserverMap}
 					 */
-					var eventMap = {
+					const eventMap = {
 						observer: observer,
 						methodName: methodName
 					};
-					var index = findObserverIndex(this.eventObservers[eventName], eventMap);
+					const index = findObserverIndex(this.eventObservers[eventName], eventMap);
 					// We have a matching entry
 					/* istanbul ignore else */
 					if(index !== -1){
@@ -404,6 +402,40 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.dom");
 
 	/**
+	 * Attach a single event listener, to a parent element, that will fire for all descendants matching a selector
+	 * No matter whether those descendants exist now or are added in the future
+	 * @param {HTMLElement} node
+	 * @param {String} eventType
+	 * @param {String} selector
+	 * @param {Function} callback
+	 */
+	luga.dom.delegateEvent = function(node, eventType, selector, callback){
+		node.addEventListener(eventType, function(/** @type {Event} */ event){
+			/** @type {Element} */
+			const currentElement = event.target;
+			if(luga.dom.nodeMatches(currentElement, selector) === true){
+				callback(event, currentElement);
+			}
+		});
+	};
+
+	/**
+	 * Equalize element.matches across browsers
+	 * @param {HTMLElement} node
+	 * @param {String} selector
+	 * @return {Boolean}
+	 */
+	luga.dom.nodeMatches = function(node, selector){
+		let methodName = "matches";
+		// Deal with IE11 without polyfills
+		/* istanbul ignore next IE-only */
+		if(node.matches === undefined && node.msMatchesSelector !== undefined){
+			methodName = "msMatchesSelector";
+		}
+		return node[methodName](selector);
+	};
+
+	/**
 	 * Invoke a function as soon as the DOM is loaded
 	 * @param {Function} fn
 	 */
@@ -420,9 +452,9 @@ if(typeof(luga) === "undefined"){
 	 *                                               The function will be invoked with this signature: filterFunc(node). Must return true|false
 	 * @return {NodeIterator|TreeWalker}
 	 */
-	var getIteratorInstance = function(type, rootNode, filterFunc){
+	const getIteratorInstance = function(type, rootNode, filterFunc){
 
-		var filter = {
+		const filter = {
 			acceptNode: function(node){
 				/* istanbul ignore else */
 				if(filterFunc !== undefined){
@@ -436,7 +468,7 @@ if(typeof(luga) === "undefined"){
 
 		// http://stackoverflow.com/questions/5982648/recommendations-for-working-around-ie9-treewalker-filter-bug
 		// A true W3C-compliant nodeFilter object isn't passed, and instead a "safe" one _based_ off of the real one.
-		var safeFilter = filter.acceptNode;
+		const safeFilter = filter.acceptNode;
 		safeFilter.acceptNode = filter.acceptNode;
 		if(type === "TreeWalker"){
 			return document.createTreeWalker(rootNode, NodeFilter.SHOW_ELEMENT, safeFilter, false);
@@ -507,15 +539,15 @@ if(typeof(luga) === "undefined"){
 		if(rootNode === null){
 			throw(luga.form.CONST.MESSAGES.MISSING_FORM);
 		}
-		var map = {};
-		var fields = luga.form.utils.getChildFields(rootNode);
+		const map = {};
+		const fields = luga.form.utils.getChildFields(rootNode);
 
-		for(var i = 0; i < fields.length; i++){
-			var element = fields[i];
+		for(let i = 0; i < fields.length; i++){
+			const element = fields[i];
 			if(luga.form.utils.isSuccessfulField(element) === true){
-				var fieldName = element.getAttribute("name");
-				var fieldValue = null;
-				var fieldType = element.type;
+				const fieldName = element.getAttribute("name");
+				let fieldValue = null;
+				const fieldType = element.type;
 				switch(fieldType){
 
 					case "select-multiple":
@@ -557,10 +589,10 @@ if(typeof(luga) === "undefined"){
 	 * @param {HTMLElement} node
 	 * @return {Array.<String>}
 	 */
-	var getMultiSelectValue = function(node){
-		var fieldValue = [];
-		var options = node.querySelectorAll("option:checked");
-		for(var i = 0; i < options.length; i++){
+	const getMultiSelectValue = function(node){
+		const fieldValue = [];
+		const options = node.querySelectorAll("option:checked");
+		for(let i = 0; i < options.length; i++){
 			fieldValue.push(options[i].value);
 		}
 		return fieldValue;
@@ -575,9 +607,9 @@ if(typeof(luga) === "undefined"){
 	 * @return {json}
 	 */
 	luga.form.toJson = function(rootNode){
-		var flatData = luga.form.toMap(rootNode);
-		var jsonData = {};
-		for(var x in flatData){
+		const flatData = luga.form.toMap(rootNode);
+		const jsonData = {};
+		for(let x in flatData){
 			luga.setProperty(jsonData, x, flatData[x]);
 		}
 		return jsonData;
@@ -597,19 +629,19 @@ if(typeof(luga) === "undefined"){
 		if(rootNode === null){
 			throw(luga.form.CONST.MESSAGES.MISSING_FORM);
 		}
-		var str = "";
-		var fields = luga.form.utils.getChildFields(rootNode);
+		let str = "";
+		const fields = luga.form.utils.getChildFields(rootNode);
 
-		for(var i = 0; i < fields.length; i++){
-			var element = fields[i];
+		for(let i = 0; i < fields.length; i++){
+			const element = fields[i];
 			if(luga.form.utils.isSuccessfulField(element) === true){
-				var fieldName = element.getAttribute("name");
-				var fieldType = element.type;
+				const fieldName = element.getAttribute("name");
+				const fieldType = element.type;
 				switch(fieldType){
 
 					case "select-multiple":
-						var multiValues = getMultiSelectValue(element);
-						for(var j = 0; j < multiValues.length; j++){
+						const multiValues = getMultiSelectValue(element);
+						for(let j = 0; j < multiValues.length; j++){
 							str = appendQueryString(str, fieldName, multiValues[i], demoronize);
 						}
 						break;
@@ -629,7 +661,7 @@ if(typeof(luga) === "undefined"){
 		return str;
 	};
 
-	var appendQueryString = function(str, fieldName, fieldValue, demoronize){
+	const appendQueryString = function(str, fieldName, fieldValue, demoronize){
 		if(str !== ""){
 			str += "&";
 		}
@@ -692,7 +724,7 @@ if(typeof(luga) === "undefined"){
 	 * @return {jQuery}
 	 */
 	luga.form.utils.getFieldGroup = function(name, rootNode){
-		var selector = "input[name='" + name + "']";
+		const selector = "input[name='" + name + "']";
 		return jQuery(selector, rootNode);
 	};
 
@@ -703,10 +735,10 @@ if(typeof(luga) === "undefined"){
 	 * @return {Array.<HTMLElement>}
 	 */
 	luga.form.utils.getChildFields = function(rootNode){
-		var fields = [];
-		var nodes = rootNode.querySelectorAll(luga.form.CONST.FIELD_SELECTOR);
-		for(var i = 0; i < nodes.length; i++){
-			var element = nodes[i];
+		const fields = [];
+		const nodes = rootNode.querySelectorAll(luga.form.CONST.FIELD_SELECTOR);
+		for(let i = 0; i < nodes.length; i++){
+			const element = nodes[i];
 			if(luga.form.utils.isInputField(element) === true){
 				fields.push(element);
 			}
@@ -735,17 +767,17 @@ if(typeof(luga) === "undefined"){
 	 * @param {String} value   String to be persisted
 	 */
 	luga.localStorage.persist = function(root, path, value){
-		var json = getRootState(root);
+		const json = getRootState(root);
 		luga.setProperty(json, path.toString(), value);
 		setRootState(root, json);
 	};
 
-	var setRootState = function(root, json){
+	const setRootState = function(root, json){
 		localStorage.setItem(root, JSON.stringify(json));
 	};
 
-	var getRootState = function(root){
-		var rootJson = localStorage.getItem(root);
+	const getRootState = function(root){
+		const rootJson = localStorage.getItem(root);
 		if(rootJson === null){
 			return {};
 		}
@@ -796,15 +828,15 @@ if(typeof(luga) === "undefined"){
 	 * @return {String} The newly assembled string
 	 */
 	luga.string.format = function(str, args){
-		var pattern = null;
+		let pattern = null;
 		if(Array.isArray(args) === true){
-			for(var i = 0; i < args.length; i++){
+			for(let i = 0; i < args.length; i++){
 				pattern = new RegExp("\\{" + i + "\\}", "g");
 				str = str.replace(pattern, args[i]);
 			}
 		}
 		if(luga.isPlainObject(args) === true){
-			for(var x in args){
+			for(let x in args){
 				pattern = new RegExp("\\{" + x + "\\}", "g");
 				str = str.replace(pattern, args[x]);
 			}
@@ -818,19 +850,19 @@ if(typeof(luga) === "undefined"){
 	 * @return {Object}
 	 */
 	luga.string.queryToMap = function(str){
-		var map = {};
+		const map = {};
 		if(str.charAt(0) === "?"){
 			str = str.substring(1);
 		}
 		if(str.length === 0){
 			return map;
 		}
-		var parts = str.split("&");
+		const parts = str.split("&");
 
-		for(var i = 0; i < parts.length; i++){
-			var tokens = parts[i].split("=");
-			var fieldName = decodeURIComponent(tokens[0]);
-			var fieldValue = "";
+		for(let i = 0; i < parts.length; i++){
+			const tokens = parts[i].split("=");
+			const fieldName = decodeURIComponent(tokens[0]);
+			let fieldValue = "";
 			if(tokens.length === 2){
 				fieldValue = decodeURIComponent(tokens[1]);
 			}
@@ -847,7 +879,7 @@ if(typeof(luga) === "undefined"){
 		return map;
 	};
 
-	var propertyPattern = new RegExp("\\{([^}]*)}", "g");
+	const propertyPattern = new RegExp("\\{([^}]*)}", "g");
 
 	/**
 	 * Given a string containing placeholders in {key} format, it assembles a new string
@@ -859,7 +891,7 @@ if(typeof(luga) === "undefined"){
 	 * => "My name is Ciccio Pasticcio"
 	 *
 	 * Example with nested properties:
-	 * var nestedObj = { type: "people", person: { firstName: "Ciccio", lastName: "Pasticcio" } };
+	 * const nestedObj = { type: "people", person: { firstName: "Ciccio", lastName: "Pasticcio" } };
 	 * luga.string.populate("My name is {person.firstName} {person.lastName}", nestedObj)
 	 * => "My name is Ciccio Pasticcio"
 	 *
@@ -869,11 +901,11 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.string.populate = function(str, obj){
 		if(luga.isPlainObject(obj) === true){
-			var results;
+			let results;
 			while((results = propertyPattern.exec(str)) !== null){
-				var property = luga.lookupProperty(obj, results[1]);
+				const property = luga.lookupProperty(obj, results[1]);
 				if(property !== undefined){
-					var pattern = new RegExp(results[0], "g");
+					const pattern = new RegExp(results[0], "g");
 					str = str.replace(pattern, property);
 					// Keep searching
 					propertyPattern.test(str);
@@ -899,8 +931,8 @@ if(typeof(luga) === "undefined"){
 	 * @param {HTMLElement} node
 	 * @return {String}
 	 */
-	var generateBoxId = function(node){
-		var boxId = luga.utils.CONST.MSG_BOX_ID;
+	const generateBoxId = function(node){
+		let boxId = luga.utils.CONST.MSG_BOX_ID;
 		if(node !== undefined){
 			if(node.getAttribute("id") === null){
 				boxId += node.getAttribute("id");
@@ -917,8 +949,8 @@ if(typeof(luga) === "undefined"){
 	 * @param {jQuery}  node   Target node
 	 */
 	luga.utils.removeDisplayBox = function(node){
-		var boxId = generateBoxId(jQuery(node)[0]);
-		var oldBox = jQuery("#" + boxId);
+		const boxId = generateBoxId(jQuery(node)[0]);
+		const oldBox = jQuery("#" + boxId);
 		// If an error display is already there, get rid of it
 		/* istanbul ignore else */
 		if(oldBox.length > 0){
@@ -958,12 +990,12 @@ if(typeof(luga) === "undefined"){
 		if(cssClass === undefined){
 			cssClass = luga.utils.CONST.CSS_CLASSES.MESSAGE;
 		}
-		var boxId = generateBoxId(jQuery(node)[0]);
-		var box = jQuery("<div></div>");
+		const boxId = generateBoxId(jQuery(node)[0]);
+		const box = jQuery("<div></div>");
 		box.attr("id", boxId);
 		box.addClass(cssClass);
 		box.html(html);
-		var oldBox = jQuery("#" + boxId);
+		const oldBox = jQuery("#" + boxId);
 		// If a box display is already there, replace it, if not, we create one from scratch
 		if(oldBox.length > 0){
 			oldBox.replaceWith(box);
@@ -1017,7 +1049,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.xhr.Request = function(options){
-		var config = {
+		const config = {
 			method: "GET",
 			success: function(res){
 				console.debug(res);
@@ -1039,7 +1071,7 @@ if(typeof(luga) === "undefined"){
 			config.contentType = luga.XHR_CONST.POST_CONTENT_TYPE;
 		}
 
-		var self = this;
+		const self = this;
 		self.xhr = new XMLHttpRequest();
 
 		/**
@@ -1047,13 +1079,13 @@ if(typeof(luga) === "undefined"){
 		 * @param {String} str
 		 * @return {Array.<luga.xhr.header>}
 		 */
-		var headersToArray = function(str){
-			var headers = str.split("\r\n");
+		const headersToArray = function(str){
+			const headers = str.split("\r\n");
 			// Remove the last element since it's empty
 			headers.pop();
 			return headers.map(function(item){
-				var tokens = item.split(":");
-				var ret = {
+				const tokens = item.split(":");
+				const ret = {
 					header: tokens[0]
 				};
 				if(tokens[1] !== undefined){
@@ -1066,7 +1098,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * @return {luga.xhr.response}
 		 */
-		var assembleResponse = function(){
+		const assembleResponse = function(){
 			return {
 				status: self.xhr.status,
 				statusText: self.xhr.statusText,
@@ -1077,9 +1109,9 @@ if(typeof(luga) === "undefined"){
 			};
 		};
 
-		var checkReadyState = function(){
+		const checkReadyState = function(){
 			if(self.xhr.readyState === 4){
-				var httpStatus = self.xhr.status;
+				const httpStatus = self.xhr.status;
 				if((httpStatus >= 200 && httpStatus <= 300) || (httpStatus === 304)){
 					config.success(assembleResponse());
 				}
@@ -1089,7 +1121,7 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
-		var finalizeRequest = function(url){
+		const finalizeRequest = function(url){
 			self.xhr.onreadystatechange = checkReadyState;
 			self.xhr.timeout = config.timeout;
 			self.xhr.setRequestHeader("Content-Type", config.contentType);
@@ -1103,8 +1135,8 @@ if(typeof(luga) === "undefined"){
 			});
 		};
 
-		var finalizeUrl = function(url, params){
-			var suffix = "";
+		const finalizeUrl = function(url, params){
+			let suffix = "";
 			if(config.cache === false){
 				suffix += "_anti-cache=" + Date.now() + "&";
 			}
@@ -2382,7 +2414,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga Data 0.9.7 2018-04-02T18:46:31.266Z
+Luga Data 0.9.7 2018-04-05T10:44:12.701Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -2568,7 +2600,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.data.xml.MIME_TYPE = "application/xml";
 	luga.data.xml.ATTRIBUTE_PREFIX = "_";
-	luga.data.xml.DOM_ACTIVEX_NAME = "MSXML2.DOMDocument.4.0";
+	luga.data.xml.DOM_ACTIVEX_NAME = "MSXML2.DOMDocument.6.0";
 
 	/**
 	 * Given a DOM node, evaluate an XPath expression against it
@@ -3975,7 +4007,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Turn an array of <items> nodes into an array of records
 		 * @param {Array.<Node>} nodes
-		 * @return {Array.<Object>|Object}
+		 * @return {Array.<Object>}
 		 */
 		var extractRecords = function(nodes){
 			var records = [];
@@ -4018,7 +4050,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * Retrieves XML data, either from an HTTP response
+		 * Retrieves XML data from an HTTP response
 		 * @param {luga.xhr.response} response
 		 * @override
 		 */
