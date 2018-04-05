@@ -2,7 +2,7 @@
 	(function(){
 		"use strict";
 
-		var ladies = new luga.data.JsonDataSet({
+		const ladies = new luga.data.JsonDataSet({
 			uuid: "ladiesDs",
 			url: "../test/fixtures/data/ladies.json"
 		});
@@ -13,8 +13,8 @@
 
 			$("#ladiesRegion").on("click", "button", function(event){
 				event.preventDefault();
-				var birthDate = $(this).attr("data-birthdate");
-				alert(birthDate);
+				const birthDate = this.getAttribute("data-birthdate");
+				this.outerHTML = birthDate;
 			});
 
 		});
@@ -28,7 +28,7 @@
 		<tr>
 			<td>{{firstName}} {{lastName}}</td>
 			<td>
-				<button data-birthdate="{{birthDate}}">Click to alert</button>
+				<button data-birthdate="{{birthDate}}">Click to unveil</button>
 			</td>
 		</tr>
 		{{/each}}
@@ -55,8 +55,8 @@
 	// Only clicks over buttons will be captured
 	$("#ladiesRegion").on("click", "button", function(event){
 		event.preventDefault();
-		var birthDate = $(this).attr("data-birthdate");
-		alert(birthDate);
+		const birthDate = this.getAttribute("data-birthdate");
+		this.outerHTML = birthDate;
 	});
 });</code></pre>
 
@@ -71,7 +71,7 @@
 		&lt;tr&gt;
 			&lt;td&gt;{{firstName}} {{lastName}}&lt;/td&gt;
 			&lt;td&gt;
-				&lt;button data-birthdate="{{birthDate}}"&gt;Click to alert&lt;/button&gt;
+				&lt;button data-birthdate="{{birthDate}}"&gt;Click to unveil&lt;/button&gt;
 			&lt;/td&gt;
 		&lt;/tr&gt;
 		{{/each}}
