@@ -15,12 +15,12 @@
 		const delimiter = "\t";
 		this.columnNames = [];
 
-		/** @type {null|string} */
+		/** @type {null|String} */
 		this.rawTsv = null;
 
 		/**
 		 * Returns the raw TSV data
-		 * @return {null|Node}
+		 * @return {null|String}
 		 */
 		this.getRawTsv = function(){
 			return self.rawTsv;
@@ -64,9 +64,9 @@
 						columnsLoaded = true;
 					}
 					else{
-						let rec = {};
-						fields.forEach(function(element, index, collection){
-							rec[self.columnNames[index]] = element
+						const rec = {};
+						fields.forEach(function(element, index){
+							rec[self.columnNames[index]] = element;
 						});
 						records.push(rec);
 					}
