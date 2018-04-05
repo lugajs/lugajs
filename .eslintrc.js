@@ -7,7 +7,7 @@ module.exports = {
 
 	// Default environments
 	env: {
-		es6: false,
+		es6: true,
 		browser: true,
 		jquery: true
 	},
