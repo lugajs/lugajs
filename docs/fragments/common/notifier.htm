@@ -42,11 +42,11 @@
 			Let's dig straight into some samples, using uber-simplified code:
 		</p>
 
-		<pre><code class="line-numbers language-javascript">var NotifierClass = function(){
+		<pre><code class="line-numbers language-javascript">const NotifierClass = function(){
 	luga.extend(luga.Notifier, this); // Inherit from luga.Notifier
 };
 
-var EventObserverClass = function(){
+const EventObserverClass = function(){
 	// Just two placeholders, empty methods
 	this.firstHandler = function(data){
 		alert(data.message);
@@ -83,11 +83,11 @@ notifierObj.notifyObservers("restart", { message: "I am staring over" });
 			Less thigs to worry about here, but we must follow the naming convention:
 		</p>
 
-		<pre><code class="line-numbers language-javascript">var NotifierClass = function(){
+		<pre><code class="line-numbers language-javascript">const NotifierClass = function(){
 	luga.extend(luga.Notifier, this); // Inherit from luga.Notifier
 };
 
-var GenericObserverClass = function(){
+const GenericObserverClass = function(){
 	// Just two placeholders, empty methods
 	this.onCompleteHandler = function(data){
 		alert(data.message);

@@ -10,11 +10,9 @@
 <div class="panel panel-default">
 	<div class="panel-heading">Getting started</div>
 	<div class="panel-body">
-		<p>Include the JavaScript files. First jQuery, then <a href="../dist/luga.common.min.js">Luga Common</a>
-			(in this order)</p>
+		<p>Include <a href="../dist/luga.common.min.js">Luga Common</a></p>
 
-<pre><code class="language-markup">&lt;script src="js/jquery.min.js"&gt;&lt;/script&gt;
-&lt;script src="js/luga.common.min.js"&gt;&lt;/script&gt;
+<pre><code class="language-markup">&lt;script src="js/luga.common.min.js"&gt;&lt;/script&gt;
 </code></pre>
 
 	</div>
@@ -175,9 +173,8 @@ luga.lookupFunction("myLookUpSpace.myFunction");
 		<th>Examples</th>
 	</table>
 
-<pre><code class="language-javascript">luga.lookupProperty({key: "test"}, "key");
-// => "test"</code></pre>
-<pre><code class="language-javascript">var target = {
+<pre><code class="language-javascript">luga.lookupProperty({key: "test"}, "key"); // => "test"</code></pre>
+<pre><code class="language-javascript">const target = {
 	firstLevel: {
 		secondLevel: {
 			message: "Ciao Mamma!"
@@ -195,7 +192,6 @@ luga.lookupProperty(target, "firstLevel.secondLevel.missing");
 	<div class="panel-heading luga-docs-api-heading">luga.merge(target, source)</div>
 	<div class="panel-body">
 		Shallow-merge the contents of two objects together into the first object.
-		It wraps jQuery's extend to make names less ambiguous
 	</div>
 	<table class="table  luga-docs-api">
 		<th colspan="3">Arguments</th>
@@ -222,8 +218,8 @@ luga.lookupProperty(target, "firstLevel.secondLevel.missing");
 		<th>Examples</th>
 	</table>
 
-<pre><code class="language-javascript">var config = {letter: "a", number: 1};
-var params = {number: 2, symbol: "@"};
+<pre><code class="language-javascript">const config = {letter: "a", number: 1};
+const params = {number: 2, symbol: "@"};
 luga.merge(config, params);
 // => config = { letter: "a", number: 2, symbol: "@" }
 </code></pre>
@@ -306,7 +302,7 @@ luga.merge(config, params);
 		<th>Examples</th>
 	</table>
 
-<pre><code class="language-javascript">var targetObj = {
+<pre><code class="language-javascript">const targetObj = {
 	firstName: "Ciccio",
 	children: [],
 	firstLevel: {
@@ -344,8 +340,7 @@ luga.setProperty(targetObj, "first.second.third", 3);
 	<table class="table  luga-docs-api">
 		<th>Examples</th>
 	</table>
-<pre><code class="language-javascript">luga.type([1, 2]);
-// => "array"
+<pre><code class="language-javascript">luga.type([1, 2]); // => "array"
 </code></pre>
 	<table class="table  luga-docs-api">
 		<th>Return type</th>
