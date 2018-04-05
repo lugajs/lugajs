@@ -5,9 +5,9 @@ if(self.location.protocol === "file:"){
 (function(){
 	"use strict";
 
-	var Controller = function(){
+	const Controller = function(){
 
-		var CONST = {
+		const CONST = {
 			TITLE_ROOT: "Luga JS",
 			TITLE_SEPARATOR: " :: ",
 			CSS_CLASSES: {
@@ -26,14 +26,14 @@ if(self.location.protocol === "file:"){
 		/**
 		 * @type {luga.router.Router}
 		 */
-		var router = new luga.router.Router();
+		const router = new luga.router.Router();
 
-		var init = function(){
+		const init = function(){
 			initRouter();
 			router.resolve(router.normalizeHash(location.hash));
 		};
 
-		var initRouter = function(){
+		const initRouter = function(){
 			router.add("{lib}/:section::page:", routeResolver);
 			router.add(":catchall:", function(){
 				loadPage(CONST.DEFAULT_INCLUDE_ID);
@@ -45,7 +45,7 @@ if(self.location.protocol === "file:"){
 		 * Execute registered enter callbacks, if any
 		 * @param {luga.router.routeContext} context
 		 */
-		var routeResolver = function(context){
+		const routeResolver = function(context){
 
 			luga.data.dataSourceRegistry = {};
 
@@ -61,8 +61,8 @@ if(self.location.protocol === "file:"){
 			}
 		};
 
-		var setPageTitle = function(lib, section, page){
-			var title = CONST.TITLE_ROOT;
+		const setPageTitle = function(lib, section, page){
+			let title = CONST.TITLE_ROOT;
 			if(section !== undefined){
 				title += CONST.TITLE_SEPARATOR + lib[0].toUpperCase() + lib.substring(1);
 			}
@@ -72,15 +72,15 @@ if(self.location.protocol === "file:"){
 			document.title = title;
 		};
 
-		var loadPage = function(id){
-			var fragmentUrl = CONST.INCLUDES_PATH + id + CONST.INCLUDES_SUFFIX;
+		const loadPage = function(id){
+			const fragmentUrl = CONST.INCLUDES_PATH + id + CONST.INCLUDES_SUFFIX;
 
 			jQuery.ajax(fragmentUrl)
 				.done(function(response, textStatus, jqXHR){
 					// Read include and inject content
 					jQuery(CONST.SELECTORS.CONTENT).html(jqXHR.responseText);
 					// Programmatically trigger "DOMContentLoaded" with IE11 compatible syntax
-					var eventToTrigger = document.createEvent("Event");
+					const eventToTrigger = document.createEvent("Event");
 					eventToTrigger.initEvent("DOMContentLoaded", false, true);
 					document.dispatchEvent(eventToTrigger);
 
@@ -92,8 +92,8 @@ if(self.location.protocol === "file:"){
 
 		};
 
-		var loadNavigation = function(id, fragment){
-			var fragmentUrl = CONST.INCLUDES_PATH + id + "/" + CONST.LOCAL_NAV_ID;
+		const loadNavigation = function(id, fragment){
+			const fragmentUrl = CONST.INCLUDES_PATH + id + "/" + CONST.LOCAL_NAV_ID;
 			jQuery.ajax(fragmentUrl)
 				.done(function(response, textStatus, jqXHR){
 					// Read include and inject content
@@ -107,7 +107,7 @@ if(self.location.protocol === "file:"){
 
 		};
 
-		var highlightNav = function(){
+		const highlightNav = function(){
 			jQuery(CONST.SELECTORS.NAVIGATION).find("a").each(function(index, item){
 				if(isCurrentFragment(jQuery(item).attr("href"))){
 					jQuery(item).parent().addClass(CONST.CSS_CLASSES.CURRENT);
@@ -115,9 +115,9 @@ if(self.location.protocol === "file:"){
 			});
 		};
 
-		var isCurrentFragment = function(href){
-			var tokens = href.split("/");
-			var destination = tokens[tokens.length - 2] + "/" + tokens[tokens.length - 1];
+		const isCurrentFragment = function(href){
+			const tokens = href.split("/");
+			const destination = tokens[tokens.length - 2] + "/" + tokens[tokens.length - 1];
 			return location.href.indexOf(destination) > 0;
 		};
 
