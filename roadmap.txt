@@ -3,7 +3,8 @@
 VERSION 1.x
 
 - Use const/let
-- Map/Set
+- Use Map/Set
+- Use frozen property for public constants
 - Remove self = this. Use .bind() instead?
 
 - Add support for XSLT
