@@ -2,7 +2,6 @@
 
 VERSION 1.x
 
-- Use const/let
 - Use Map/Set
 - Use frozen property for public constants
 - Remove self = this. Use .bind() instead?
@@ -19,6 +18,7 @@ VERSION 2.0
   Use forEach on NodeList
   Remove usage of Active-X for XML
   Use arrow functions to avoid .bind() and/or self = this
+  Remove IE11 plugin for ESLint
 
 - Document luga.data.xml
 
