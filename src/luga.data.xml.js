@@ -17,12 +17,12 @@
 	 * @return {Array<Node>}
 	 */
 	luga.data.xml.evaluateXPath = function(node, path){
-		var retArray = [];
+		const retArray = [];
 		/* istanbul ignore else IE-only */
 		if(window.XPathEvaluator !== undefined){
-			var evaluator = new XPathEvaluator();
-			var result = evaluator.evaluate(path, node, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
-			var currentNode = result.iterateNext();
+			const evaluator = new XPathEvaluator();
+			const result = evaluator.evaluate(path, node, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
+			let currentNode = result.iterateNext();
 			// Iterate and populate the array
 			while(currentNode !== null){
 				retArray.push(currentNode);
@@ -30,10 +30,10 @@
 			}
 		}
 		else if(window.ActiveXObject !== undefined){
-			var selectedNodes = node.selectNodes(path);
+			const selectedNodes = node.selectNodes(path);
 			// Extract the nodes out of the nodeList returned by selectNodes and put them into an array
 			// We could directly use the nodeList returned by selectNodes, but this would cause inconsistencies across browsers
-			for(var i = 0; i < selectedNodes.length; i++){
+			for(let i = 0; i < selectedNodes.length; i++){
 				retArray.push(selectedNodes[i]);
 			}
 		}
@@ -46,7 +46,7 @@
 	 * @return {Object}
 	 */
 	luga.data.xml.nodeToHash = function(node){
-		var obj = {};
+		const obj = {};
 		attributesToProperties(node, obj);
 		childrenToProperties(node, obj);
 		return obj;
@@ -61,8 +61,8 @@
 		if((node.attributes === null) || (node.attributes === undefined)){
 			return;
 		}
-		for(var i = 0; i < node.attributes.length; i++){
-			var attr = node.attributes[i];
+		for(let i = 0; i < node.attributes.length; i++){
+			const attr = node.attributes[i];
 			obj[luga.data.xml.ATTRIBUTE_PREFIX + attr.name] = attr.value;
 		}
 	}
@@ -73,17 +73,17 @@
 	 * @param {Object} obj
 	 */
 	function childrenToProperties(node, obj){
-		for(var i = 0; i < node.childNodes.length; i++){
-			var child = node.childNodes[i];
+		for(let i = 0; i < node.childNodes.length; i++){
+			const child = node.childNodes[i];
 
 			if(child.nodeType === 1 /* Node.ELEMENT_NODE */){
-				var isArray = false;
-				var tagName = child.nodeName;
+				let isArray = false;
+				const tagName = child.nodeName;
 
 				if(obj[tagName] !== undefined){
 					// If the property exists already, turn it into an array
 					if(obj[tagName].constructor !== Array){
-						var curValue = obj[tagName];
+						const curValue = obj[tagName];
 						obj[tagName] = [];
 						obj[tagName].push(curValue);
 					}
@@ -95,7 +95,7 @@
 					obj[child.nodeName] = getTextValue(child);
 				}
 				else{
-					var childObj = luga.data.xml.nodeToHash(child);
+					const childObj = luga.data.xml.nodeToHash(child);
 					if(isArray === true){
 						obj[tagName].push(childObj);
 					}
@@ -113,7 +113,7 @@
 	 * @return {String}
 	 */
 	function getTextValue(node){
-		var child = node.childNodes[0];
+		const child = node.childNodes[0];
 		/* istanbul ignore else */
 		if((child.nodeType === 3) /* TEXT_NODE */ || (child.nodeType === 4) /* CDATA_SECTION_NODE */){
 			return child.data;
@@ -126,7 +126,7 @@
 	 * @return {Boolean}
 	 */
 	function nodeHasText(node){
-		var child = node.childNodes[0];
+		const child = node.childNodes[0];
 		if((child !== null) && (child.nextSibling === null) && (child.nodeType === 3 /* Node.TEXT_NODE */ || child.nodeType === 4 /* CDATA_SECTION_NODE */)){
 			return true;
 		}
@@ -145,7 +145,7 @@
 			return node.xml;
 		}
 		else{
-			var serializer = new XMLSerializer();
+			const serializer = new XMLSerializer();
 			return serializer.serializeToString(node, luga.data.xml.MIME_TYPE);
 		}
 	};
@@ -156,11 +156,11 @@
 	 * @return {Document}
 	 */
 	luga.data.xml.parseFromString = function(xmlStr){
-		var xmlParser;
+		let xmlParser;
 		/* istanbul ignore if IE-only */
 		if(window.ActiveXObject !== undefined){
 			// IE11 supports DOMParser but fails on parseFromString()
-			var xmlDOMObj = new ActiveXObject(luga.data.xml.DOM_ACTIVEX_NAME);
+			const xmlDOMObj = new ActiveXObject(luga.data.xml.DOM_ACTIVEX_NAME);
 			xmlDOMObj.async = false;
 			xmlDOMObj.setProperty("SelectionLanguage", "XPath");
 			xmlDOMObj.loadXML(xmlStr);
@@ -168,7 +168,7 @@
 		}
 		else{
 			xmlParser = new DOMParser();
-			var domDoc = xmlParser.parseFromString(xmlStr, luga.data.xml.MIME_TYPE);
+			const domDoc = xmlParser.parseFromString(xmlStr, luga.data.xml.MIME_TYPE);
 			return domDoc;
 		}
 	};

@@ -2,7 +2,7 @@ describe("luga.data.region.utils", function(){
 
 	"use strict";
 
-	var testDs, testDiv, testRegion;
+	let testDs, testDiv, testRegion;
 	beforeEach(function(){
 
 		testDs = new luga.data.DataSet({uuid: "testDs"});
@@ -27,11 +27,11 @@ describe("luga.data.region.utils", function(){
 
 		describe("Given a region instance,, returns an object containing the following fields:", function(){
 			it("node (a DOM node containing the region)", function(){
-				var desc = luga.data.region.utils.assembleRegionDescription(testRegion);
+				const desc = luga.data.region.utils.assembleRegionDescription(testRegion);
 				expect(desc.node.textContent).toEqual(testDiv.textContent);
 			});
 			it("ds (the associated dataSource)", function(){
-				var desc = luga.data.region.utils.assembleRegionDescription(testRegion);
+				const desc = luga.data.region.utils.assembleRegionDescription(testRegion);
 				expect(desc.ds).toEqual(testDs);
 			});
 		});

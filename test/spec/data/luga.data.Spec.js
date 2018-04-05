@@ -2,7 +2,7 @@ describe("luga.data", function(){
 
 	"use strict";
 
-	var emptyDs;
+	let emptyDs;
 	beforeEach(function(){
 		emptyDs = new luga.data.DataSet({uuid: "test"});
 	});
@@ -22,11 +22,11 @@ describe("luga.data", function(){
 
 	describe("A reference is stored inside the registry for each:", function(){
 		it("Newly created dataSet", function(){
-			var ds = new luga.data.DataSet({uuid: "myDs"});
+			const ds = new luga.data.DataSet({uuid: "myDs"});
 			expect(luga.data.dataSourceRegistry["myDs"]).toEqual(ds);
 		});
 		it("Newly created detailSet", function(){
-			var ds = new luga.data.DetailSet({uuid: "myDs", parentDataSet: emptyDs});
+			const ds = new luga.data.DetailSet({uuid: "myDs", parentDataSet: emptyDs});
 			expect(luga.data.dataSourceRegistry["myDs"]).toEqual(ds);
 		});
 	});
@@ -66,7 +66,7 @@ describe("luga.data", function(){
 
 	describe(".getDataSource()", function(){
 		it("Returns a dataSet from the registry", function(){
-			var ds = new luga.data.DataSet({uuid: "myDs"});
+			const ds = new luga.data.DataSet({uuid: "myDs"});
 			expect(luga.data.getDataSource("myDs")).toEqual(ds);
 		});
 		it("Returns null if no dataSet matches the given uuid", function(){
@@ -76,7 +76,7 @@ describe("luga.data", function(){
 
 	describe(".setDataSource()", function(){
 		it("Adds a dataSource inside the registry, using the given uuid", function(){
-			var myDataSource = {type: "whatever"};
+			const myDataSource = {type: "whatever"};
 			luga.data.setDataSource("testDs", myDataSource);
 			expect(luga.data.getDataSource("testDs")).toEqual(myDataSource);
 		});

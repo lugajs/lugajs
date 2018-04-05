@@ -4,21 +4,21 @@ describe("luga.validator.CheckboxValidator", function(){
 
 	it("Implements the luga.validator.BaseGroupValidator abstract class", function(){
 		jasmineFixtures.loadHTML("validator/CheckboxValidator/required.htm");
-		var validator = luga.validator.fieldValidatorFactory.getInstance({
+		const validator = luga.validator.fieldValidatorFactory.getInstance({
 			formNode: document.getElementById("single"),
 			fieldNode: document.getElementById("Nicole")
 		});
-		var MockValidator = function(options){
+		const MockValidator = function(options){
 			luga.extend(luga.validator.BaseGroupValidator, this, [options]);
 		};
-		var inputGroup = luga.form.utils.getFieldGroup("lady",document.getElementById("single"));
+		const inputGroup = luga.form.utils.getFieldGroup("lady",document.getElementById("single"));
 		expect(validator).toMatchDuckType(new MockValidator({inputGroup: inputGroup}));
 	});
 
 	it("Validates each group of checkboxes as a single unit", function(){
 
 		jasmineFixtures.loadHTML("validator/CheckboxValidator/required.htm");
-		var formValidator = new luga.validator.FormValidator({
+		const formValidator = new luga.validator.FormValidator({
 			formNode: document.getElementById("single")
 		});
 
@@ -37,7 +37,7 @@ describe("luga.validator.CheckboxValidator", function(){
 	it("In case of conflicting options/attributes among fields. The last one wins", function(){
 
 		jasmineFixtures.loadHTML("validator/CheckboxValidator/required.htm");
-		var formValidator = new luga.validator.FormValidator({
+		const formValidator = new luga.validator.FormValidator({
 			formNode: document.getElementById("multiple")
 		});
 
@@ -51,7 +51,7 @@ describe("luga.validator.CheckboxValidator", function(){
 	it("Skips disabled fields", function(){
 
 		jasmineFixtures.loadHTML("validator/CheckboxValidator/required.htm");
-		var formValidator = new luga.validator.FormValidator({
+		const formValidator = new luga.validator.FormValidator({
 			formNode: document.getElementById("disabled")
 		});
 
@@ -68,7 +68,7 @@ describe("luga.validator.CheckboxValidator", function(){
 	it("Skips fields without name too", function(){
 
 		jasmineFixtures.loadHTML("validator/CheckboxValidator/required.htm");
-		var formValidator = new luga.validator.FormValidator({
+		const formValidator = new luga.validator.FormValidator({
 			formNode: document.getElementById("noNames")
 		});
 
@@ -85,7 +85,7 @@ describe("luga.validator.CheckboxValidator", function(){
 	it("Can use a combination of data-lugavalidator-minchecked and data-lugavalidator-maxchecked", function(){
 
 		jasmineFixtures.loadHTML("validator/CheckboxValidator/required.htm");
-		var formValidator = new luga.validator.FormValidator({
+		const formValidator = new luga.validator.FormValidator({
 			formNode: document.getElementById("minMaxChecked")
 		});
 
@@ -113,7 +113,7 @@ describe("luga.validator.CheckboxValidator", function(){
 	it("data-lugavalidator-maxchecked alone makes everything optional", function(){
 
 		jasmineFixtures.loadHTML("validator/CheckboxValidator/required.htm");
-		var formValidator = new luga.validator.FormValidator({
+		const formValidator = new luga.validator.FormValidator({
 			formNode: document.getElementById("maxChecked")
 		});
 

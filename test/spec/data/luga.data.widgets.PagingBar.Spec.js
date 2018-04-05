@@ -2,17 +2,17 @@ describe("luga.data.widgets.PagingBar", function(){
 
 	"use strict";
 
-	var pagedView, linksBarNode, linksBarWidget, pagesBarNode;
+	let pagedView, linksBarNode, linksBarWidget, pagesBarNode;
 	beforeEach(function(){
 
-		var testRecords = jasmineFixtures.read("data/usa-states.json");
+		const testRecords = jasmineFixtures.read("data/usa-states.json");
 		jasmine.Ajax.install();
 		jasmine.Ajax.stubRequest("data/usa-states.json").andReturn({
 			contentType: "application/json",
 			responseText: JSON.stringify(testRecords),
 			status: 200
 		});
-		var jsonDs = new luga.data.JsonDataSet({uuid: "myDs", url: "data/usa-states.json"});
+		const jsonDs = new luga.data.JsonDataSet({uuid: "myDs", url: "data/usa-states.json"});
 		pagedView = new luga.data.PagedView({uuid: "pagedViewTest", parentDataSet: jsonDs});
 
 		linksBarNode = document.createElement("nav");
@@ -135,7 +135,7 @@ describe("luga.data.widgets.PagingBar", function(){
 
 		describe("options.nextText", function(){
 
-			var customBarNode, customWidget;
+			let customBarNode, customWidget;
 			beforeEach(function(){
 				customBarNode = document.createElement("nav");
 				customWidget = new luga.data.widgets.PagingBar({
@@ -160,7 +160,7 @@ describe("luga.data.widgets.PagingBar", function(){
 
 		describe("options.prevText", function(){
 
-			var customBarNode, customWidget;
+			let customBarNode, customWidget;
 			beforeEach(function(){
 				customBarNode = document.createElement("nav");
 				customWidget = new luga.data.widgets.PagingBar({
@@ -186,7 +186,7 @@ describe("luga.data.widgets.PagingBar", function(){
 
 		describe("options.separator", function(){
 
-			var customBarNode, customWidget;
+			let customBarNode, customWidget;
 			beforeEach(function(){
 				customBarNode = document.createElement("nav");
 				customWidget = new luga.data.widgets.PagingBar({
@@ -212,7 +212,7 @@ describe("luga.data.widgets.PagingBar", function(){
 
 		describe("options.maxLinks", function(){
 
-			var customBarNode, customWidget;
+			let customBarNode, customWidget;
 			beforeEach(function(){
 				customBarNode = document.createElement("nav");
 				customWidget = new luga.data.widgets.PagingBar({

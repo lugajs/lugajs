@@ -2,7 +2,7 @@ describe("luga.data.XmlDataSet", function(){
 
 	"use strict";
 
-	var testRecordsStr, noUrlDs;
+	let testRecordsStr, noUrlDs;
 	beforeEach(function(){
 		testRecordsStr = jasmineFixtures.read("data/peopleXml.txt");
 		noUrlDs = new luga.data.XmlDataSet({uuid: "noUrlDs"});
@@ -17,7 +17,7 @@ describe("luga.data.XmlDataSet", function(){
 	});
 
 	it("Implements the luga.data.HttpDataSet abstract class", function(){
-		var MockDs = function(options){
+		const MockDs = function(options){
 			luga.extend(luga.data.HttpDataSet, this, [options]);
 		};
 		expect(noUrlDs).toMatchDuckType(new MockDs({uuid: "duck"}));
@@ -25,7 +25,7 @@ describe("luga.data.XmlDataSet", function(){
 
 	describe("Its constructor options are the same as luga.data.HttpDataSet and also contains:", function(){
 		it("options.path", function(){
-			var ds = new luga.data.XmlDataSet({uuid: "myDs", path: "myPath"});
+			const ds = new luga.data.XmlDataSet({uuid: "myDs", path: "myPath"});
 			expect(ds.path).toEqual("myPath");
 		});
 		it("options.path default value is: '/'", function(){
@@ -35,14 +35,14 @@ describe("luga.data.XmlDataSet", function(){
 
 	describe(".contentType", function(){
 		it("Is: application/xml", function(){
-			var xmlDs = new luga.data.XmlDataSet({uuid: "myXmlDs"});
+			const xmlDs = new luga.data.XmlDataSet({uuid: "myXmlDs"});
 			expect(xmlDs.contentType).toEqual("application/xml");
 		});
 	});
 
 	describe(".getPath()", function(){
 		it("Returns the XPath expression to be used to extract data out of the XML", function(){
-			var ds = new luga.data.XmlDataSet({uuid: "myDs", path: "test"});
+			const ds = new luga.data.XmlDataSet({uuid: "myDs", path: "test"});
 			expect(ds.getPath()).toEqual("test");
 		});
 	});
@@ -64,7 +64,7 @@ describe("luga.data.XmlDataSet", function(){
 
 	describe(".loadData()", function(){
 
-		var peopleDs, peopleObserver;
+		let peopleDs, peopleObserver;
 		beforeEach(function(){
 
 			jasmine.Ajax.install();
@@ -85,7 +85,7 @@ describe("luga.data.XmlDataSet", function(){
 				path: "//ladies/person"
 			});
 
-			var ObserverClass = function(){
+			const ObserverClass = function(){
 				this.onDataChangedHandler = function(data){
 				};
 			};
@@ -112,7 +112,7 @@ describe("luga.data.XmlDataSet", function(){
 			});
 
 			it("Records are extracted even if the HTTP's Content-Type is not text/xml (as long as it contains an XML document)", function(){
-				var txtDs = new luga.data.XmlDataSet({
+				const txtDs = new luga.data.XmlDataSet({
 					uuid: "uniqueDs",
 					url: "mock/people.txt",
 					path: "//ladies/person"
@@ -215,7 +215,7 @@ describe("luga.data.XmlDataSet", function(){
 
 	describe(".setPath()", function(){
 		it("Set the the XPath expression to be used to extract data out of the XML", function(){
-			var ds = new luga.data.XmlDataSet({uuid: "myDs"});
+			const ds = new luga.data.XmlDataSet({uuid: "myDs"});
 			ds.setPath("test");
 			expect(ds.getPath()).toEqual("test");
 		});

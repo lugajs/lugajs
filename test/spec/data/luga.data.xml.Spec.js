@@ -2,7 +2,7 @@ describe("luga.data.xml", function(){
 
 	"use strict";
 
-	var employeesStr, employeesDoc;
+	let employeesStr, employeesDoc;
 	beforeEach(function(){
 		employeesStr = jasmineFixtures.read("xml/employees.txt");
 		employeesDoc = luga.data.xml.parseFromString(employeesStr);
@@ -19,7 +19,7 @@ describe("luga.data.xml", function(){
 		});
 
 		it("Results are returned as an array of nodes", function(){
-			var result = luga.data.xml.evaluateXPath(employeesDoc, "//employee");
+			const result = luga.data.xml.evaluateXPath(employeesDoc, "//employee");
 			expect(luga.type(result)).toEqual("array");
 		});
 
@@ -36,20 +36,20 @@ describe("luga.data.xml", function(){
 			describe("Mapping:", function(){
 
 				it("Attributes to properties. Prefixed by '_'", function(){
-					var node = document.createElement("test");
+					const node = document.createElement("test");
 					node.setAttribute("name", "Ciccio");
 					node.setAttribute("lastname", "Pasticcio");
-					var obj = luga.data.xml.nodeToHash(node);
+					const obj = luga.data.xml.nodeToHash(node);
 					expect(obj["_name"]).toEqual("Ciccio");
 					expect(obj["_lastname"]).toEqual("Pasticcio");
 				});
 
 				it("Child nodes to properties", function(){
 					// Quite an hack to get the employees Node
-					var employeesDoc = luga.data.xml.parseFromString(employeesStr);
-					var rootNode = luga.data.xml.evaluateXPath(employeesDoc, "//employees");
+					const employeesDoc = luga.data.xml.parseFromString(employeesStr);
+					const rootNode = luga.data.xml.evaluateXPath(employeesDoc, "//employees");
 
-					var obj = luga.data.xml.nodeToHash(rootNode[0]);
+					const obj = luga.data.xml.nodeToHash(rootNode[0]);
 					expect(obj["employee"].length).toEqual(3);
 					expect(obj["employee"][0].firstname).toEqual("Edward");
 					expect(obj["employee"][0].lastname).toEqual("Smith");
@@ -62,8 +62,8 @@ describe("luga.data.xml", function(){
 			describe("Return an empty object if:", function(){
 
 				it("The given node has no attributes and no children", function(){
-					var node = document.createElement("test");
-					var obj = luga.data.xml.nodeToHash(node);
+					const node = document.createElement("test");
+					const obj = luga.data.xml.nodeToHash(node);
 					expect(obj).toEqual({});
 				});
 
@@ -82,11 +82,11 @@ describe("luga.data.xml", function(){
 			 * @param {String} str
 			 * @return {String}
 			 */
-			var equalizeXmlString = function(str){
+			const equalizeXmlString = function(str){
 				return str.replace(/\s/g, "");
 			};
 
-			var xmlStr = "";
+			let xmlStr = "";
 			xmlStr += "<artists>";
 			xmlStr += "<player name=\"Dexter Gordon\" instrument=\"tenor sax\" />";
 			xmlStr += "<player name=\"Sonny Rollins\" instrument=\"tenor sax\" />";
@@ -94,7 +94,7 @@ describe("luga.data.xml", function(){
 			xmlStr += "<player name=\"Lee Morgan\" instrument=\"trumpet\" />";
 			xmlStr += "<player name=\"Bill Evans\" instrument=\"piano\" />";
 			xmlStr += "</artists>";
-			var xmlNode = luga.data.xml.parseFromString(xmlStr);
+			const xmlNode = luga.data.xml.parseFromString(xmlStr);
 
 			expect(equalizeXmlString(luga.data.xml.nodeToString(xmlNode))).toEqual(equalizeXmlString(xmlStr));
 		});

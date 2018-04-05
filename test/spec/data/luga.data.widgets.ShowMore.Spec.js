@@ -2,7 +2,7 @@ describe("luga.data.widgets", function(){
 
 	"use strict";
 
-	var mockButton, mockDiv, mockDs, mockJson, baseWidget, showMoreWidget;
+	let mockButton, mockDiv, mockDs, mockJson, baseWidget, showMoreWidget;
 	beforeEach(function(){
 
 		mockButton = document.createElement("button");
@@ -69,7 +69,7 @@ describe("luga.data.widgets", function(){
 
 			describe("options.url", function(){
 				it("Is a string template that will be used to assemble the url for next XHR call", function(){
-					var widget = new luga.data.widgets.ShowMore({
+					const widget = new luga.data.widgets.ShowMore({
 						dataSet: mockDs,
 						url: "/test/{placeHolder}"
 					});
@@ -87,7 +87,7 @@ describe("luga.data.widgets", function(){
 					expect(baseWidget.config.paramPath).toEqual("params");
 				});
 				it("Default to an empty string", function(){
-					var widget = new luga.data.widgets.ShowMore({
+					const widget = new luga.data.widgets.ShowMore({
 						dataSet: mockDs,
 						url: "/test/{placeHolder}"
 					});
@@ -159,7 +159,7 @@ describe("luga.data.widgets", function(){
 					it("Call dataSet.setUrl(), then dataSet.loadData()", function(){
 						spyOn(mockDs, "setUrl");
 						spyOn(mockDs, "loadData");
-						var newUrl = baseWidget.assembleUrl();
+						const newUrl = baseWidget.assembleUrl();
 						baseWidget.fetch();
 						expect(mockDs.setUrl).toHaveBeenCalledWith(newUrl);
 						expect(mockDs.loadData).toHaveBeenCalled();
@@ -257,7 +257,7 @@ describe("luga.data.widgets", function(){
 
 			describe("options.disabledClass", function(){
 				it("Is a CSS class that will be associated to the button while it's disabled", function(){
-					var widget = new luga.data.widgets.ShowMore({
+					const widget = new luga.data.widgets.ShowMore({
 						dataSet: mockDs,
 						url: "/test/{placeHolder}",
 						disabledClass: "myCss"

@@ -2,10 +2,10 @@ describe("luga.data.PagedView", function(){
 
 	"use strict";
 
-	var emptyDs, jsonDs, pagedView, plainPagedView, testObserver;
+	let emptyDs, jsonDs, pagedView, plainPagedView, testObserver;
 	beforeEach(function(){
 
-		var testRecords = jasmineFixtures.read("data/usa-states.json");
+		const testRecords = jasmineFixtures.read("data/usa-states.json");
 		jasmine.Ajax.install();
 		jasmine.Ajax.stubRequest("data/usa-states.json").andReturn({
 			contentType: "application/json",
@@ -46,7 +46,7 @@ describe("luga.data.PagedView", function(){
 	});
 
 	it("Implements the luga.Notifier interface", function(){
-		var MockNotifier = function(){
+		const MockNotifier = function(){
 			luga.extend(luga.Notifier, this);
 		};
 		expect(pagedView).toMatchDuckType(new MockNotifier());
@@ -57,7 +57,7 @@ describe("luga.data.PagedView", function(){
 		describe("options.uuid", function(){
 
 			it("Acts as unique identifier that will be stored inside a global registry", function(){
-				var ds = new luga.data.PagedView({uuid: "uniqueId", parentDataSet: emptyDs});
+				const ds = new luga.data.PagedView({uuid: "uniqueId", parentDataSet: emptyDs});
 				expect(luga.data.dataSourceRegistry.uniqueId).toEqual(ds);
 			});
 			it("Throws an exception if not specified", function(){
@@ -71,7 +71,7 @@ describe("luga.data.PagedView", function(){
 		describe("options.parentDataSet", function(){
 
 			it("Is the dataSource that will be used by the PagedView", function(){
-				var ds = new luga.data.PagedView({uuid: "uniqueId", parentDataSet: emptyDs});
+				const ds = new luga.data.PagedView({uuid: "uniqueId", parentDataSet: emptyDs});
 				expect(ds.parentDataSet).toEqual(emptyDs);
 			});
 			it("Throws an exception if not specified", function(){
@@ -85,7 +85,7 @@ describe("luga.data.PagedView", function(){
 		describe("options.pageSize", function(){
 
 			it("Is optional", function(){
-				var ds = new luga.data.PagedView({uuid: "uniqueId", parentDataSet: emptyDs, pageSize: 30});
+				const ds = new luga.data.PagedView({uuid: "uniqueId", parentDataSet: emptyDs, pageSize: 30});
 				expect(ds.getPageSize()).toEqual(30);
 			});
 			it("Default to 10", function(){
@@ -99,7 +99,7 @@ describe("luga.data.PagedView", function(){
 			it("Calls luga.data.setDataSource()", function(){
 				spyOn(luga.data, "setDataSource").and.callFake(function(){
 				});
-				var testPagedView = new luga.data.PagedView({uuid: "test", parentDataSet: emptyDs});
+				const testPagedView = new luga.data.PagedView({uuid: "test", parentDataSet: emptyDs});
 				expect(luga.data.setDataSource).toHaveBeenCalledWith("test", testPagedView);
 			});
 			it("Register itself as observer of options.dataSet", function(){
@@ -168,7 +168,7 @@ describe("luga.data.PagedView", function(){
 
 		it("Return the pagedView context (of type luga.data.PagedView.context)", function(){
 
-			var context = pagedView.getContext();
+			let context = pagedView.getContext();
 			expect(context.recordCount).toEqual(59);
 			expect(context.currentPageNumber).toEqual(1);
 			expect(context.currentPageRecordCount).toEqual(10);
@@ -260,7 +260,7 @@ describe("luga.data.PagedView", function(){
 	describe(".getPageSize()", function(){
 
 		it("Return the value of options.pageSize", function(){
-			var ds = new luga.data.PagedView({uuid: "uniqueId", parentDataSet: emptyDs, pageSize: 30});
+			const ds = new luga.data.PagedView({uuid: "uniqueId", parentDataSet: emptyDs, pageSize: 30});
 			expect(ds.getPageSize()).toEqual(30);
 		});
 

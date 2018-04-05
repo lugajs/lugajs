@@ -11,7 +11,7 @@ describe("luga.string", function(){
 		describe("Given a string", function(){
 
 			it("Replace MS Word's non-ISO characters with plausible substitutes", function(){
-				var crappyStr = String.fromCharCode(710);
+				let crappyStr = String.fromCharCode(710);
 				crappyStr += String.fromCharCode(732);
 				crappyStr += String.fromCharCode(8216);
 				crappyStr += String.fromCharCode(8217);
@@ -19,7 +19,7 @@ describe("luga.string", function(){
 				crappyStr += String.fromCharCode(8221);
 				crappyStr += String.fromCharCode(8211);
 				crappyStr += String.fromCharCode(8230);
-				var cleanStr = "^~''\"\"-...";
+				const cleanStr = "^~''\"\"-...";
 				expect(luga.string.demoronize(crappyStr)).toBe(cleanStr);
 			});
 		});
@@ -145,7 +145,7 @@ describe("luga.string", function(){
 				});
 
 				it("Placeholders can match nested properties too {placeholder.key}", function(){
-					var nestedObj = {
+					const nestedObj = {
 						type: "people",
 						person: {
 							firstName: "Ciccio",

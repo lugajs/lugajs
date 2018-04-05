@@ -28,7 +28,7 @@
 	 */
 	luga.data.DetailSet = function(options){
 
-		var CONST = {
+		const CONST = {
 			ERROR_MESSAGES: {
 				INVALID_UUID_PARAMETER: "luga.data.DetailSet: id parameter is required",
 				INVALID_DS_PARAMETER: "luga.data.DetailSet: parentDataSet parameter is required"
@@ -45,7 +45,7 @@
 		luga.extend(luga.Notifier, this);
 
 		/** @type {luga.data.DetailSet} */
-		var self = this;
+		const self = this;
 
 		this.uuid = options.uuid;
 		this.parentDataSet = options.parentDataSet;
@@ -60,10 +60,10 @@
 		 * @return {luga.data.DetailSet.context}
 		 */
 		this.getContext = function(){
-			var context = {
+			const context = {
 				entity: self.row
 			};
-			var stateDesc = luga.data.utils.assembleStateDescription(self.getState());
+			const stateDesc = luga.data.utils.assembleStateDescription(self.getState());
 			luga.merge(context, stateDesc);
 			return context;
 		};

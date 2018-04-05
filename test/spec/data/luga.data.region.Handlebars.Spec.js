@@ -2,8 +2,7 @@ describe("luga.data.region.Handlebars", function(){
 
 	"use strict";
 
-	var testRecords, loadedDs, testDiv, attributesDiv, configRegion, attributesRegion, testObserver;
-
+	let testRecords, loadedDs, testDiv, attributesDiv, configRegion, attributesRegion, testObserver;
 	beforeEach(function(){
 
 		jasmineFixtures.loadHTML("data/region/Handlebars/ladies.htm");
@@ -69,7 +68,7 @@ describe("luga.data.region.Handlebars", function(){
 				}).toThrow();
 			});
 			it("Default to null", function(){
-				var testRegion = new luga.data.region.Handlebars({
+				const testRegion = new luga.data.region.Handlebars({
 					node: testDiv,
 					dsUuid: "testDs"
 				});
@@ -167,7 +166,7 @@ describe("luga.data.region.Handlebars", function(){
 
 	describe(".render()", function(){
 
-		var testRegion;
+		let testRegion;
 		beforeEach(function(){
 			testRegion = new luga.data.region.Handlebars({
 				node: testDiv,
@@ -186,7 +185,7 @@ describe("luga.data.region.Handlebars", function(){
 
 		describe("Then:", function(){
 			it("Injects the generated HTML inside the node", function(){
-				var newHtml = testRegion.generateHtml();
+				const newHtml = testRegion.generateHtml();
 				testRegion.render();
 				expect(testRegion.config.node.innerHTML).toEqual(newHtml);
 			});
@@ -203,7 +202,7 @@ describe("luga.data.region.Handlebars", function(){
 		describe("Finally:", function(){
 			it("Triggers a 'regionRendered' notification. Passing along the region's description", function(){
 				configRegion.render();
-				var desc = luga.data.region.utils.assembleRegionDescription(configRegion);
+				const desc = luga.data.region.utils.assembleRegionDescription(configRegion);
 				expect(testObserver.onRegionRenderedHandler).toHaveBeenCalledWith(desc);
 			});
 		});

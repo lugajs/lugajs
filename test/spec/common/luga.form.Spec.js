@@ -40,7 +40,7 @@ describe("luga.form", function(){
 		});
 
 		it("If the second argument is set to true, MS Word's special chars are replaced with plausible substitutes", function(){
-			var moronicStr = String.fromCharCode(8216) + String.fromCharCode(8220);
+			const moronicStr = String.fromCharCode(8216) + String.fromCharCode(8220);
 			document.getElementById("moronicValue").value = moronicStr;
 			expect(luga.form.toQueryString(document.getElementById("moronicForm"), true)).toEqual("firstname=ciccio&moronicValue='%22");
 		});
@@ -84,7 +84,7 @@ describe("luga.form", function(){
 		});
 
 		it("If the second argument is set to true, MS Word's special chars are replaced with plausible substitutes", function(){
-			var moronicStr = String.fromCharCode(8230);
+			const moronicStr = String.fromCharCode(8230);
 			document.getElementById("moronicValue").value = moronicStr;
 			expect(luga.form.toMap(document.getElementById("moronicForm"), true)).toEqual({firstname: "ciccio", moronicValue: "..."});
 		});
@@ -201,31 +201,31 @@ describe("luga.form", function(){
 			it("Return true if the passed node is a form field that we care about", function(){
 				expect(luga.form.utils.isInputField(document.createElement("textarea"))).toEqual(true);
 
-				var text = document.createElement("input")
+				const text = document.createElement("input")
 				text.setAttribute("type", "text");
 				expect(luga.form.utils.isInputField(text)).toEqual(true);
 
-				var radio = document.createElement("input")
+				const radio = document.createElement("input")
 				radio.setAttribute("type", "radio");
 				expect(luga.form.utils.isInputField(radio)).toEqual(true);
 
-				var checkbox = document.createElement("input")
+				const checkbox = document.createElement("input")
 				checkbox.setAttribute("type", "checkbox");
 				expect(luga.form.utils.isInputField(checkbox)).toEqual(true);
 
-				var email = document.createElement("input")
+				const email = document.createElement("input")
 				email.setAttribute("type", "email");
 				expect(luga.form.utils.isInputField(email)).toEqual(true);
 
-				var date = document.createElement("input")
+				const date = document.createElement("input")
 				date.setAttribute("type", "date");
 				expect(luga.form.utils.isInputField(date)).toEqual(true);
 
-				var submit = document.createElement("input")
+				const submit = document.createElement("input")
 				submit.setAttribute("type", "submit");
 				expect(luga.form.utils.isInputField(submit)).toEqual(true);
 
-				var button = document.createElement("input")
+				const button = document.createElement("input")
 				button.setAttribute("type", "button");
 				expect(luga.form.utils.isInputField(button)).toEqual(true);
 
@@ -237,7 +237,7 @@ describe("luga.form", function(){
 			it("False otherwise", function(){
 				expect(luga.form.utils.isInputField(document.createElement("div"))).toEqual(false);
 				expect(luga.form.utils.isInputField(document.createElement("form"))).toEqual(false);
-				var reset = document.createElement("input")
+				const reset = document.createElement("input")
 				reset.setAttribute("type", "reset");
 				expect(luga.form.utils.isInputField(reset)).toEqual(false);
 				expect(luga.form.utils.isInputField(document.createElement("fieldset"))).toEqual(false);
@@ -248,7 +248,7 @@ describe("luga.form", function(){
 		describe(".isSuccessfulField()", function(){
 
 			it("Return false if the field is disabled", function(){
-				var input = document.createElement("input");
+				const input = document.createElement("input");
 				input.setAttribute("name", "b");
 				input.setAttribute("disabled", "disabled");
 				input.setAttribute("type", "text");
@@ -256,50 +256,50 @@ describe("luga.form", function(){
 			});
 
 			it("Return true if the given field is successful", function(){
-				var textarea = document.createElement("textarea");
+				const textarea = document.createElement("textarea");
 				textarea.setAttribute("name", "a");
 				expect(luga.form.utils.isSuccessfulField(textarea)).toEqual(true);
 
-				var text = document.createElement("input");
+				const text = document.createElement("input");
 				text.setAttribute("name", "b");
 				text.setAttribute("type", "text");
 				expect(luga.form.utils.isSuccessfulField(text)).toEqual(true);
 
-				var radio = document.createElement("input");
+				const radio = document.createElement("input");
 				radio.setAttribute("name", "c");
 				radio.setAttribute("type", "radio");
 				expect(luga.form.utils.isSuccessfulField(radio)).toEqual(true);
 
-				var checkbox = document.createElement("input");
+				const checkbox = document.createElement("input");
 				checkbox.setAttribute("name", "c");
 				checkbox.setAttribute("type", "checkbox");
 				expect(luga.form.utils.isSuccessfulField(checkbox)).toEqual(true);
 
-				var email = document.createElement("input");
+				const email = document.createElement("input");
 				email.setAttribute("name", "e");
 				email.setAttribute("type", "email");
 				expect(luga.form.utils.isSuccessfulField(email)).toEqual(true);
 
-				var date = document.createElement("input");
+				const date = document.createElement("input");
 				date.setAttribute("name", "f");
 				date.setAttribute("type", "date");
 				expect(luga.form.utils.isSuccessfulField(date)).toEqual(true);
 
-				var submit = document.createElement("input");
+				const submit = document.createElement("input");
 				submit.setAttribute("name", "g");
 				submit.setAttribute("type", "submit");
 				expect(luga.form.utils.isSuccessfulField(submit)).toEqual(true);
 
-				var inputButton = document.createElement("input");
+				const inputButton = document.createElement("input");
 				inputButton.setAttribute("name", "h");
 				inputButton.setAttribute("type", "button");
 				expect(luga.form.utils.isSuccessfulField(inputButton)).toEqual(true);
 
-				var button = document.createElement("button");
+				const button = document.createElement("button");
 				button.setAttribute("name", "i");
 				expect(luga.form.utils.isSuccessfulField(button)).toEqual(true);
 
-				var select = document.createElement("select");
+				const select = document.createElement("select");
 				select.setAttribute("name", "l");
 				expect(luga.form.utils.isSuccessfulField(select)).toEqual(true);
 			});
@@ -311,19 +311,19 @@ describe("luga.form", function(){
 				expect(luga.form.utils.isSuccessfulField(document.createElement("select"))).toEqual(false);
 				expect(luga.form.utils.isSuccessfulField(document.createElement("textarea"))).toEqual(false);
 
-				var submit = document.createElement("input");
+				const submit = document.createElement("input");
 				submit.setAttribute("type", "submit");
 				expect(luga.form.utils.isSuccessfulField(submit)).toEqual(false);
 
-				var text = document.createElement("input");
+				const text = document.createElement("input");
 				text.setAttribute("type", "text");
 				expect(luga.form.utils.isSuccessfulField(text)).toEqual(false);
 
-				var reset = document.createElement("input");
+				const reset = document.createElement("input");
 				reset.setAttribute("type", "reset");
 				expect(luga.form.utils.isSuccessfulField(reset)).toEqual(false);
 
-				var namedReset = document.createElement("input");
+				const namedReset = document.createElement("input");
 				namedReset.setAttribute("type", "reset");
 				namedReset.setAttribute("name", "test");
 				expect(luga.form.utils.isSuccessfulField(namedReset)).toEqual(false);

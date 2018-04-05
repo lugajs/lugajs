@@ -19,7 +19,7 @@
 	 */
 	luga.data.ChildXmlDataSet = function(options){
 
-		var CONST = {
+		const CONST = {
 			ERROR_MESSAGES: {
 				MISSING_PARENT_DS: "luga.data.ChildXmlDataSet: parentDataSet parameter is required",
 				MISSING_URL: "luga.data.ChildXmlDataSet: url parameter is required",
@@ -38,7 +38,7 @@
 		luga.extend(luga.data.XmlDataSet, this, [options]);
 
 		/** @type {luga.data.ChildXmlDataSet} */
-		var self = this;
+		const self = this;
 
 		/** @type {luga.data.XmlDataSet} */
 		this.parentDataSet = options.parentDataSet;
@@ -50,7 +50,7 @@
 		 * @param {luga.data.DataSet.row} row
 		 */
 		this.fetchData = function(row){
-			var bindUrl = luga.string.populate(self.urlPattern, row);
+			const bindUrl = luga.string.populate(self.urlPattern, row);
 			if(bindUrl === self.urlPattern){
 				throw(luga.string.format(CONST.ERROR_MESSAGES.FAILED_URL_BINDING, [bindUrl]));
 			}

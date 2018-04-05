@@ -2,7 +2,7 @@ describe("luga.data.JsonDataset", function(){
 
 	"use strict";
 
-	var testRecords, testRecordsStr, noUrlDs, testDs;
+	let testRecords, testRecordsStr, noUrlDs, testDs;
 	beforeEach(function(){
 		testRecords = jasmineFixtures.read("data/ladies.json");
 		testRecordsStr = jasmineFixtures.read("data/ladies.txt");
@@ -19,7 +19,7 @@ describe("luga.data.JsonDataset", function(){
 	});
 
 	it("Implements the luga.data.HttpDataSet abstract class", function(){
-		var MockDs = function(options){
+		const MockDs = function(options){
 			luga.extend(luga.data.HttpDataSet, this, [options]);
 		};
 		expect(noUrlDs).toMatchDuckType(new MockDs({uuid: "duck"}), false);
@@ -27,21 +27,21 @@ describe("luga.data.JsonDataset", function(){
 
 	describe("Its constructor options are the same as luga.data.HttpDataSet and may also contains:", function(){
 		it("options.path", function(){
-			var ds = new luga.data.JsonDataSet({uuid: "myDs", path: "myPath"});
+			const ds = new luga.data.JsonDataSet({uuid: "myDs", path: "myPath"});
 			expect(ds.path).toEqual("myPath");
 		});
 	});
 
 	describe(".contentType", function(){
 		it("Is: application/json", function(){
-			var xmlDs = new luga.data.JsonDataSet({uuid: "myXmlDs"});
+			const xmlDs = new luga.data.JsonDataSet({uuid: "myXmlDs"});
 			expect(xmlDs.contentType).toEqual("application/json");
 		});
 	});
 
 	describe(".getPath()", function(){
 		it("Returns the path to be used to extract data out of the JSON data structure", function(){
-			var ds = new luga.data.JsonDataSet({uuid: "myDs", path: "test"});
+			const ds = new luga.data.JsonDataSet({uuid: "myDs", path: "test"});
 			expect(ds.getPath()).toEqual("test");
 		});
 		it("Returns null if path is not set", function(){
@@ -61,7 +61,7 @@ describe("luga.data.JsonDataset", function(){
 
 	describe(".loadData()", function(){
 
-		var mockJson, peopleDs, peopleObserver;
+		let mockJson, peopleDs, peopleObserver;
 		beforeEach(function(){
 
 			mockJson = jasmineFixtures.read("data/people.json");
@@ -80,7 +80,7 @@ describe("luga.data.JsonDataset", function(){
 
 			peopleDs = new luga.data.JsonDataSet({uuid: "loadDataUniqueDs", url: "mock/people.json", path: "ladies"});
 
-			var ObserverClass = function(){
+			const ObserverClass = function(){
 				this.onDataChangedHandler = function(data){
 				};
 			};
@@ -99,7 +99,7 @@ describe("luga.data.JsonDataset", function(){
 				expect(peopleDs.getRecordsCount()).toEqual(7);
 			});
 			it("Records are extracted even if the HTTP's Content-Type is not application/json (as long as it contains JSON data)", function(){
-				var txtDs = new luga.data.JsonDataSet({uuid: "uniqueDs", url: "mock/people.txt", path: "ladies"});
+				const txtDs = new luga.data.JsonDataSet({uuid: "uniqueDs", url: "mock/people.txt", path: "ladies"});
 				txtDs.loadData();
 				expect(txtDs.getRecordsCount()).toEqual(7);
 			});
@@ -196,7 +196,7 @@ describe("luga.data.JsonDataset", function(){
 
 	describe(".setPath()", function(){
 		it("Set the path to be used to extract data out of the JSON data structure", function(){
-			var ds = new luga.data.JsonDataSet({uuid: "myDs"});
+			const ds = new luga.data.JsonDataSet({uuid: "myDs"});
 			ds.setPath("test");
 			expect(ds.getPath()).toEqual("test");
 		});

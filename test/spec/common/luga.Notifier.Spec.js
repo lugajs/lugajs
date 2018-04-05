@@ -2,24 +2,24 @@ describe("luga.Notifier", function(){
 
 	"use strict";
 
-	var notifierObj, observerObj, uselessObj, eventObserverObj;
+	let notifierObj, observerObj, uselessObj, eventObserverObj;
 	beforeEach(function(){
 
-		var NotifierClass = function(){
+		const NotifierClass = function(){
 			luga.extend(luga.Notifier, this);
 		};
 
-		var ObserverClass = function(){
+		const ObserverClass = function(){
 			this.onCompleteHandler = function(data){
 			};
 			this.onSomethingHandler = function(){
 			};
 		};
 
-		var UselessObserverClass = function(){
+		const UselessObserverClass = function(){
 		};
 
-		var EventObserverClass = function(){
+		const EventObserverClass = function(){
 			this.firstHandler = function(data){
 			};
 			this.secondHandler = function(){

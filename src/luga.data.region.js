@@ -41,7 +41,7 @@
 	/**
 	 * @type {luga.data.region.options}
 	 */
-	var config = {
+	const config = {
 		autoregister: true
 	};
 
@@ -71,19 +71,19 @@
 	 * @throw {Exception}
 	 */
 	luga.data.region.init = function(node){
-		var dataSourceId = node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID);
+		const dataSourceId = node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID);
 		if(dataSourceId === null){
 			throw(luga.data.region.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE_ATTRIBUTE);
 		}
-		var dataSource = luga.data.getDataSource(dataSourceId);
+		const dataSource = luga.data.getDataSource(dataSourceId);
 		if(dataSource === null){
 			throw(luga.string.format(luga.data.region.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE, [dataSourceId]));
 		}
-		var regionType = node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_TYPE);
+		let regionType = node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_TYPE);
 		if(regionType === null){
 			regionType = luga.data.region.CONST.DEFAULT_REGION_TYPE;
 		}
-		var RegionClass = luga.lookupFunction(regionType);
+		const RegionClass = luga.lookupFunction(regionType);
 		if(RegionClass === undefined){
 			throw(luga.string.format(luga.data.region.CONST.ERROR_MESSAGES.MISSING_REGION_TYPE_FUNCTION, [regionType]));
 		}
@@ -100,8 +100,8 @@
 		}
 		/* istanbul ignore else */
 		if(rootNode !== null){
-			var nodes = rootNode.querySelectorAll(luga.data.region.CONST.SELECTORS.REGION);
-			for(var i = 0; i < nodes.length; i++){
+			const nodes = rootNode.querySelectorAll(luga.data.region.CONST.SELECTORS.REGION);
+			for(let i = 0; i < nodes.length; i++){
 				luga.data.region.init(nodes[i]);
 			}
 		}

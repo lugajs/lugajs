@@ -2,7 +2,7 @@ describe("luga.data.DetailSet", function(){
 
 	"use strict";
 
-	var emptyDs, loadedDs, testRecords, detailSet, emptyDetailSet, testObserver;
+	let emptyDs, loadedDs, testRecords, detailSet, emptyDetailSet, testObserver;
 	beforeEach(function(){
 
 		testRecords = jasmineFixtures.read("data/ladies.json");
@@ -30,7 +30,7 @@ describe("luga.data.DetailSet", function(){
 	});
 
 	it("Implements the luga.Notifier interface", function(){
-		var MockNotifier = function(){
+		const MockNotifier = function(){
 			luga.extend(luga.Notifier, this);
 		};
 		expect(detailSet).toMatchDuckType(new MockNotifier());
@@ -40,7 +40,7 @@ describe("luga.data.DetailSet", function(){
 
 		describe("options.uuid", function(){
 			it("Acts as unique identifier that will be stored inside a global registry", function(){
-				var ds = new luga.data.DetailSet({uuid: "uniqueId", parentDataSet: emptyDs});
+				const ds = new luga.data.DetailSet({uuid: "uniqueId", parentDataSet: emptyDs});
 				expect(luga.data.dataSourceRegistry.uniqueId).toEqual(ds);
 			});
 			it("Throws an exception if not specified", function(){
@@ -52,7 +52,7 @@ describe("luga.data.DetailSet", function(){
 
 		describe("options.parentDataSet", function(){
 			it("Is the dataSource that will be used by the detailSet", function(){
-				var ds = new luga.data.DetailSet({uuid: "uniqueId", parentDataSet: emptyDs});
+				const ds = new luga.data.DetailSet({uuid: "uniqueId", parentDataSet: emptyDs});
 				expect(ds.parentDataSet).toEqual(emptyDs);
 			});
 			it("Throws an exception if not specified", function(){
@@ -66,7 +66,7 @@ describe("luga.data.DetailSet", function(){
 			it("Calls luga.data.setDataSource()", function(){
 				spyOn(luga.data, "setDataSource").and.callFake(function(){
 				});
-				var testDetailSet = new luga.data.DetailSet({uuid: "test", parentDataSet: emptyDs});
+				const testDetailSet = new luga.data.DetailSet({uuid: "test", parentDataSet: emptyDs});
 				expect(luga.data.setDataSource).toHaveBeenCalledWith("test", testDetailSet);
 			});
 			it("Register itself as observer of options.dataSet", function(){
@@ -82,10 +82,10 @@ describe("luga.data.DetailSet", function(){
 
 	describe(".getContext()", function(){
 		it("Returns the associated detailSet's context", function(){
-			var contextMaster = new luga.data.DataSet({uuid: "contextMaster"});
+			const contextMaster = new luga.data.DataSet({uuid: "contextMaster"});
 			contextMaster.insert(testRecords);
-			var contextDetail = new luga.data.DetailSet({uuid: "contextDetail", parentDataSet: contextMaster});
-			var context = contextDetail.getContext();
+			const contextDetail = new luga.data.DetailSet({uuid: "contextDetail", parentDataSet: contextMaster});
+			const context = contextDetail.getContext();
 			expect(context.entity).toEqual(loadedDs.getCurrentRow());
 		});
 	});

@@ -66,7 +66,7 @@
 	 */
 	luga.data.DataSet = function(options){
 
-		var CONST = {
+		const CONST = {
 			ERROR_MESSAGES: {
 				INVALID_COL_TYPE: "luga.DataSet.setColumnType(): Invalid type passed {0}",
 				INVALID_UUID_PARAMETER: "luga.DataSet: uuid parameter is required",
@@ -95,7 +95,7 @@
 		luga.extend(luga.Notifier, this);
 
 		/** @type {luga.data.DataSet} */
-		var self = this;
+		const self = this;
 
 		this.uuid = options.uuid;
 
@@ -129,34 +129,34 @@
 
 		/* Private methods */
 
-		var deleteAll = function(){
+		const deleteAll = function(){
 			self.filteredRecords = null;
 			self.records = [];
 			self.recordsHash = {};
 		};
 
-		var applyFilter = function(){
+		const applyFilter = function(){
 			if(hasFilter() === true){
 				self.filteredRecords = luga.data.utils.filter(self.records, self.filter, self);
 				self.resetCurrentRow();
 			}
 		};
 
-		var applyFormatter = function(){
+		const applyFormatter = function(){
 			if(hasFormatter() === true){
 				luga.data.utils.update(self.records, self.formatter, self);
 			}
 		};
 
-		var hasFilter = function(){
+		const hasFilter = function(){
 			return (self.filter !== null);
 		};
 
-		var hasFormatter = function(){
+		const hasFormatter = function(){
 			return (self.formatter !== null);
 		};
 
-		var selectAll = function(){
+		const selectAll = function(){
 			if(hasFilter() === true){
 				return self.filteredRecords;
 			}
@@ -194,11 +194,11 @@
 				if(luga.type(filter) !== "function"){
 					throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 				}
-				var orig = this.records;
-				for(var i = 0; i < orig.length; i++){
+				const orig = this.records;
+				for(let i = 0; i < orig.length; i++){
 					if(filter(orig[i], i, this) === null){
 						// If matches, delete from array and hash
-						var rowToDelete = orig[i];
+						const rowToDelete = orig[i];
 						this.records.splice(i, 1);
 						delete this.recordsHash[rowToDelete[luga.data.CONST.PK_KEY]];
 					}
@@ -226,11 +226,11 @@
 		 * @return {luga.data.DataSet.context}
 		 */
 		this.getContext = function(){
-			var context = {
+			const context = {
 				entities: self.select(),
 				recordCount: self.getRecordsCount()
 			};
-			var stateDesc = luga.data.utils.assembleStateDescription(self.getState());
+			const stateDesc = luga.data.utils.assembleStateDescription(self.getState());
 			luga.merge(context, stateDesc);
 			return context;
 		};
@@ -260,7 +260,7 @@
 		 * @return {Number}
 		 */
 		this.getCurrentRowIndex = function(){
-			var row = this.getCurrentRow();
+			const row = this.getCurrentRow();
 			return this.getRowIndex(row);
 		};
 
@@ -279,7 +279,7 @@
 		 * @return {null|luga.data.DataSet.row}
 		 */
 		this.getRowById = function(rowId){
-			var targetRow = this.recordsHash[rowId];
+			const targetRow = this.recordsHash[rowId];
 			if(targetRow === undefined){
 				// Nothing matches
 				return null;
@@ -302,7 +302,7 @@
 		 * @throw {Exception}
 		 */
 		this.getRowByIndex = function(index){
-			var fetchedRow;
+			let fetchedRow;
 			if(hasFilter() === true){
 				fetchedRow = this.filteredRecords[index];
 			}
@@ -364,7 +364,7 @@
 		 */
 		this.insert = function(records){
 			// If we only get one record, we put it inside an array anyway,
-			var recordsHolder = [];
+			let recordsHolder = [];
 			if(Array.isArray(records) === true){
 				recordsHolder = records;
 			}
@@ -375,13 +375,13 @@
 				}
 				recordsHolder.push(records);
 			}
-			for(var i = 0; i < recordsHolder.length; i++){
+			for(let i = 0; i < recordsHolder.length; i++){
 				// Ensure we don't have primitive values
 				if(luga.isPlainObject(recordsHolder[i]) === false){
 					throw(CONST.ERROR_MESSAGES.INVALID_PRIMITIVE_ARRAY);
 				}
 				// Create new PK
-				var recordID = luga.data.CONST.PK_KEY_PREFIX + this.records.length;
+				const recordID = luga.data.CONST.PK_KEY_PREFIX + this.records.length;
 				recordsHolder[i][luga.data.CONST.PK_KEY] = recordID;
 				this.recordsHash[recordID] = recordsHolder[i];
 				this.records.push(recordsHolder[i]);
@@ -401,7 +401,7 @@
 			// If we have previous selection
 			if(this.currentRowId !== null){
 				// Try to persist
-				var targetRow = this.getRowById(this.currentRowId);
+				const targetRow = this.getRowById(this.currentRowId);
 				if(targetRow !== null){
 					this.setCurrentRowId(this.currentRowId);
 					return;
@@ -466,8 +466,8 @@
 			if(Array.isArray(columnNames) === false){
 				columnNames = [columnNames];
 			}
-			for(var i = 0; i < columnNames.length; i++){
-				var colName = columnNames[i];
+			for(let i = 0; i < columnNames.length; i++){
+				const colName = columnNames[i];
 				if(luga.data.CONST.COL_TYPES.indexOf(columnType) === -1){
 					throw(luga.string.format(CONST.ERROR_MESSAGES.INVALID_COL_TYPE, [colName]));
 				}
@@ -492,7 +492,7 @@
 			/**
 			 * @type {luga.data.DataSet.currentRowChanged}
 			 */
-			var notificationData = {
+			const notificationData = {
 				oldRowId: this.getCurrentRowId(),
 				oldRow: this.getRowById(this.currentRowId),
 				currentRowId: rowId,
@@ -521,7 +521,7 @@
 		 * @throw {Exception}
 		 */
 		this.setCurrentRow = function(row){
-			var fetchedRowId = this.getRowIndex(row);
+			const fetchedRowId = this.getRowIndex(row);
 			if(fetchedRowId === -1){
 				throw(CONST.ERROR_MESSAGES.INVALID_ROW_PARAMETER);
 			}
@@ -568,11 +568,11 @@
 			if(luga.data.utils.isValidState(newState) === false){
 				throw(luga.string.format(CONST.ERROR_MESSAGES.INVALID_STATE, [newState]));
 			}
-			var oldState = this.state;
+			const oldState = this.state;
 			this.state = newState;
 
 			/** @type {luga.data.DataSet.stateChanged} */
-			var notificationData = {
+			const notificationData = {
 				oldState: oldState,
 				currentState: this.state,
 				dataSet: this
@@ -603,14 +603,14 @@
 				throw(luga.string.format(CONST.ERROR_MESSAGES.INVALID_SORT_ORDER, [sortOrder]));
 			}
 
-			var sortColumns = assembleSortColumns(columnNames);
+			const sortColumns = assembleSortColumns(columnNames);
 
 			if(sortOrder === luga.data.sort.ORDER.TOG){
 				sortOrder = defineToggleSortOrder(sortColumns);
 			}
 
 			/** @type {luga.data.DataSet.dataSorted} */
-			var notificationData = {
+			const notificationData = {
 				dataSet: this,
 				oldSortColumns: this.lastSortColumns,
 				oldSortOrder: this.lastSortOrder,
@@ -620,14 +620,14 @@
 
 			this.notifyObservers(luga.data.CONST.EVENTS.PRE_DATA_SORTED, notificationData);
 
-			var sortColumnName = sortColumns[sortColumns.length - 1];
-			var sortColumnType = this.getColumnType(sortColumnName);
-			var sortFunction = luga.data.sort.getSortStrategy(sortColumnType, sortOrder);
+			const sortColumnName = sortColumns[sortColumns.length - 1];
+			const sortColumnType = this.getColumnType(sortColumnName);
+			let sortFunction = luga.data.sort.getSortStrategy(sortColumnType, sortOrder);
 
-			for(var i = sortColumns.length - 2; i >= 0; i--){
-				var columnToSortName = sortColumns[i];
-				var columnToSortType = this.getColumnType(columnToSortName);
-				var sortStrategy = luga.data.sort.getSortStrategy(columnToSortType, sortOrder);
+			for(let i = sortColumns.length - 2; i >= 0; i--){
+				const columnToSortName = sortColumns[i];
+				const columnToSortType = this.getColumnType(columnToSortName);
+				const sortStrategy = luga.data.sort.getSortStrategy(columnToSortType, sortOrder);
 				sortFunction = buildSecondarySortFunction(sortStrategy(columnToSortName), sortFunction);
 			}
 
@@ -644,9 +644,9 @@
 
 		};
 
-		var buildSecondarySortFunction = function(funcA, funcB){
+		const buildSecondarySortFunction = function(funcA, funcB){
 			return function(a, b){
-				var ret = funcA(a, b);
+				let ret = funcA(a, b);
 				if(ret === 0){
 					ret = funcB(a, b);
 				}
@@ -654,7 +654,7 @@
 			};
 		};
 
-		var assembleSortColumns = function(columnNames){
+		const assembleSortColumns = function(columnNames){
 			// If only one column name was specified for sorting
 			// Do a secondary sort on PK so we get a stable sort order
 			if(Array.isArray(columnNames) === false){
@@ -667,7 +667,7 @@
 			return columnNames;
 		};
 
-		var defineToggleSortOrder = function(sortColumns){
+		const defineToggleSortOrder = function(sortColumns){
 			if((self.lastSortColumns.length > 0) && (self.lastSortColumns[0] === sortColumns[0]) && (self.lastSortOrder === luga.data.sort.ORDER.ASC)){
 				return luga.data.sort.ORDER.DESC;
 			}
@@ -688,7 +688,7 @@
 		 */
 		this.update = function(filter, updater){
 			/** @type {Array.<luga.data.DataSet.row>} */
-			var filteredRecords = luga.data.utils.filter(this.records, filter, this);
+			const filteredRecords = luga.data.utils.filter(this.records, filter, this);
 			luga.data.utils.update(filteredRecords, updater, this);
 			this.resetCurrentRow();
 			this.setState(luga.data.STATE.READY);

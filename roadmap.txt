@@ -4,6 +4,7 @@ VERSION 1.x
 
 - Use Map/Set
 - Use frozen property for public constants
+- Replace for loops with forEach whenever possible
 - Remove self = this. Use .bind() instead?
 
 - Add support for XSLT

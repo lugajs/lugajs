@@ -31,7 +31,7 @@
 	 */
 	luga.data.PagedView = function(options){
 
-		var CONST = {
+		const CONST = {
 			ERROR_MESSAGES: {
 				INVALID_UUID_PARAMETER: "luga.data.PagedView: id parameter is required",
 				INVALID_DS_PARAMETER: "luga.data.PagedView: parentDataSet parameter is required"
@@ -48,7 +48,7 @@
 		luga.extend(luga.Notifier, this);
 
 		/** @type {luga.data.PagedView} */
-		var self = this;
+		const self = this;
 
 		this.uuid = options.uuid;
 		this.parentDataSet = options.parentDataSet;
@@ -56,19 +56,19 @@
 
 		luga.data.setDataSource(this.uuid, this);
 
-		var pageSize = 10;
+		let pageSize = 10;
 		if(options.pageSize !== undefined){
 			pageSize = options.pageSize;
 		}
 
-		var currentPage = 1;
-		var currentOffsetStart = 0;
+		let currentPage = 1;
+		let currentOffsetStart = 0;
 
 		/**
 		 * @return {luga.data.PagedView.context}
 		 */
 		this.getContext = function(){
-			var context = self.parentDataSet.getContext();
+			const context = self.parentDataSet.getContext();
 			context.entities = context.entities.slice(self.getCurrentOffsetStart(), self.getCurrentOffsetEnd() + 1);
 			// Additional fields
 			context.currentPageNumber = self.getCurrentPageIndex();
@@ -85,7 +85,7 @@
 		 * @return {Number}
 		 */
 		this.getCurrentOffsetEnd = function(){
-			var offSet = self.getCurrentOffsetStart() + self.getPageSize() - 1;
+			let offSet = self.getCurrentOffsetStart() + self.getPageSize() - 1;
 			if(offSet > self.getRecordsCount()){
 				offSet = self.getRecordsCount();
 			}

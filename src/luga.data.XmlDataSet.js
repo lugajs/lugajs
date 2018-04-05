@@ -17,7 +17,7 @@
 	luga.data.XmlDataSet = function(options){
 		luga.extend(luga.data.HttpDataSet, this, [options]);
 		/** @type {luga.data.XmlDataSet} */
-		var self = this;
+		const self = this;
 		/** @override */
 		this.contentType = "application/xml";
 
@@ -64,11 +64,11 @@
 		 * @override
 		 */
 		this.loadRecords = function(response){
-			var xmlDoc = luga.data.xml.parseFromString(response.responseText);
+			const xmlDoc = luga.data.xml.parseFromString(response.responseText);
 			self.rawXml = xmlDoc;
-			var nodes = luga.data.xml.evaluateXPath(xmlDoc, self.path);
-			var records = [];
-			for(var i = 0; i < nodes.length; i++){
+			const nodes = luga.data.xml.evaluateXPath(xmlDoc, self.path);
+			const records = [];
+			for(let i = 0; i < nodes.length; i++){
 				records.push(luga.data.xml.nodeToHash(nodes[i]));
 			}
 			self.insert(records);

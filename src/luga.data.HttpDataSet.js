@@ -33,9 +33,9 @@
 	luga.data.HttpDataSet = function(options){
 		luga.extend(luga.data.DataSet, this, [options]);
 		/** @type {luga.data.HttpDataSet} */
-		var self = this;
+		const self = this;
 
-		var CONST = {
+		const CONST = {
 			ERROR_MESSAGES: {
 				HTTP_DATA_SET_ABSTRACT: "luga.data.HttpDataSet is an abstract class",
 				XHR_FAILURE: "Failed to retrieve: {0}. HTTP status: {1}. Error: {2}",
@@ -78,8 +78,8 @@
 
 		/* Private methods */
 
-		var loadUrl = function(){
-			var xhrOptions = {
+		const loadUrl = function(){
+			const xhrOptions = {
 				url: self.url,
 				success: function(response){
 					if(self.incrementalLoad === false){

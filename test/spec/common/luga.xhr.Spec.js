@@ -8,7 +8,7 @@ describe("luga.xhr", function(){
 
 	describe("luga.xhr.Request", function(){
 
-		var mockJsonStr, req, mockObj;
+		let mockJsonStr, req, mockObj;
 		beforeEach(function(){
 
 			mockJsonStr = jasmineFixtures.read("data/people.json");
@@ -63,7 +63,7 @@ describe("luga.xhr", function(){
 				});
 
 				it("Affect the HTTP method used", function(){
-					var customReq = new luga.xhr.Request({
+					const customReq = new luga.xhr.Request({
 						method: "POST"
 					});
 					spyOn(customReq.xhr, "open");
@@ -83,7 +83,7 @@ describe("luga.xhr", function(){
 				});
 
 				it("Is the function to be invoked if the request succeeds", function(){
-					var customReq = new luga.xhr.Request({
+					const customReq = new luga.xhr.Request({
 						success: mockObj.success
 					});
 					customReq.send("mock/people.json");
@@ -101,7 +101,7 @@ describe("luga.xhr", function(){
 				});
 
 				it("Is the function to be invoked if the request fails", function(){
-					var customReq = new luga.xhr.Request({
+					const customReq = new luga.xhr.Request({
 						error: mockObj.error
 					});
 					customReq.send("mock/missing.json");
@@ -120,7 +120,7 @@ describe("luga.xhr", function(){
 				});
 
 				it("Set the timeout on XHR", function(){
-					var customReq = new luga.xhr.Request({
+					const customReq = new luga.xhr.Request({
 						timeout: 100
 					});
 					spyOn(customReq.xhr, "open");
@@ -141,7 +141,7 @@ describe("luga.xhr", function(){
 				});
 
 				it("Indicate that the request should be handled asynchronously", function(){
-					var customReq = new luga.xhr.Request({
+					const customReq = new luga.xhr.Request({
 						async: false
 					});
 					spyOn(customReq.xhr, "open");
@@ -162,7 +162,7 @@ describe("luga.xhr", function(){
 				});
 
 				it("If set to false, a timestamp will be appended to the querystring of the requested URL", function(){
-					var customReq = new luga.xhr.Request({
+					const customReq = new luga.xhr.Request({
 						cache: false
 					});
 					spyOn(customReq.xhr, "open");
@@ -170,7 +170,7 @@ describe("luga.xhr", function(){
 					customReq.send("mock/people.json");
 
 					// Timestamp vary, so we just look for a partial match
-					var calledUrl = customReq.xhr.open.calls.argsFor(0)[1];
+					const calledUrl = customReq.xhr.open.calls.argsFor(0)[1];
 					expect(calledUrl.substring(0, 29)).toEqual("mock/people.json?_anti-cache=");
 				});
 
@@ -188,7 +188,7 @@ describe("luga.xhr", function(){
 				});
 
 				it("Is an array of name/value pairs to be used for custom HTTP headers", function(){
-					var customReq = new luga.xhr.Request({
+					const customReq = new luga.xhr.Request({
 						headers: [{
 							name: "X-test",
 							value: "Testing"
@@ -221,7 +221,7 @@ describe("luga.xhr", function(){
 				});
 
 				it("Is the value used for the X-Requested-With custom HTTP header", function(){
-					var customReq = new luga.xhr.Request({
+					const customReq = new luga.xhr.Request({
 						requestedWith: "XHRtesting"
 					});
 					spyOn(customReq.xhr, "open");
@@ -235,7 +235,7 @@ describe("luga.xhr", function(){
 				});
 
 				it("The X-Requested-With custom HTTP header is not set for cross-site requests", function(){
-					var customReq = new luga.xhr.Request({
+					const customReq = new luga.xhr.Request({
 						requestedWith: "XHRtesting"
 					});
 					spyOn(customReq.xhr, "open");
@@ -262,7 +262,7 @@ describe("luga.xhr", function(){
 				});
 
 				it("Default to: application/x-www-form-urlencoded for POST requests", function(){
-					var customReq = new luga.xhr.Request({
+					const customReq = new luga.xhr.Request({
 						method: "POST"
 					});
 					spyOn(customReq.xhr, "open");
@@ -336,7 +336,7 @@ describe("luga.xhr", function(){
 				describe("The second is an Optional parameter which lets you specify the request's body", function(){
 
 					it("If specified, it is send to the server", function(){
-						var customReq = new luga.xhr.Request({
+						const customReq = new luga.xhr.Request({
 							method: "POST"
 						});
 						spyOn(customReq.xhr, "open");
@@ -355,7 +355,7 @@ describe("luga.xhr", function(){
 					describe("If method is GET:", function(){
 
 						it("It is also used as querystring", function(){
-							var customReq = new luga.xhr.Request({
+							const customReq = new luga.xhr.Request({
 								method: "GET"
 							});
 							spyOn(customReq.xhr, "open");
@@ -366,7 +366,7 @@ describe("luga.xhr", function(){
 						});
 
 						it("If the URL already contains a querystring, it is appended to it", function(){
-							var customReq = new luga.xhr.Request({
+							const customReq = new luga.xhr.Request({
 								method: "GET"
 							});
 							spyOn(customReq.xhr, "open");
@@ -412,13 +412,13 @@ describe("luga.xhr", function(){
 
 						it("The success callback is invoked, passing along the response object", function(){
 
-							var customReq = new luga.xhr.Request({
+							const customReq = new luga.xhr.Request({
 								success: mockObj.success
 							});
 							customReq.send("mock/people.json");
 							expect(mockObj.success).toHaveBeenCalled();
 
-							var res = mockObj.success.calls.argsFor(0)[0];
+							const res = mockObj.success.calls.argsFor(0)[0];
 							expect(res.headers).toEqual([{header: "Content-Type", value: "application/json"}]);
 							expect(res.responseText).toEqual(JSON.stringify(mockJsonStr));
 							expect(res.responseType).toEqual(jasmine.any(String));
@@ -434,13 +434,13 @@ describe("luga.xhr", function(){
 
 						it("The error callback is invoked, passing along the response object", function(){
 
-							var customReq = new luga.xhr.Request({
+							const customReq = new luga.xhr.Request({
 								error: mockObj.error
 							});
 							customReq.send("mock/missing.json");
 							expect(mockObj.error).toHaveBeenCalled();
 
-							var res = mockObj.error.calls.argsFor(0)[0];
+							const res = mockObj.error.calls.argsFor(0)[0];
 							expect(res.headers).toEqual([{header: "Content-Type", value: "application/json"}]);
 							expect(res.responseText).toEqual("");
 							expect(res.responseType).toEqual(jasmine.any(String));

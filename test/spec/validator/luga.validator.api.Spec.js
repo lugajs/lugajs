@@ -32,7 +32,7 @@ describe("luga.validator.api", function(){
 
 		it("Thows an error if the field can't be validated", function(){
 
-			var node = document.createElement("input");
+			const node = document.createElement("input");
 			node.setAttribute("type", "reset");
 
 			expect(function(){
@@ -72,7 +72,7 @@ describe("luga.validator.api", function(){
 			};
 			spyOn(formValidatorHandlers, "customErrorHandler");
 
-			var options = {
+			const options = {
 				fieldNode: document.getElementById("myName"),
 				error: "formValidatorHandlers.customErrorHandler"
 			};
@@ -89,7 +89,7 @@ describe("luga.validator.api", function(){
 		it("Allows to programmatically validate a collection of fields", function(){
 
 			jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
-			var fields = jQuery("#name,#age");
+			const fields = jQuery("#name,#age");
 
 			expect(luga.validator.api.validateFields({fields: fields})).toBe(false);
 			expect(document.getElementById("name")).toHaveClass("invalid");
@@ -99,7 +99,7 @@ describe("luga.validator.api", function(){
 		it("And return true if all fields are validated", function(){
 
 			jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
-			var fields = jQuery("#name,#age");
+			const fields = jQuery("#name,#age");
 
 			document.getElementById("age").value = "33";
 			document.getElementById("name").value = "filled";
@@ -116,7 +116,7 @@ describe("luga.validator.api", function(){
 
 			jasmineFixtures.loadHTML("validator/FormValidator/children.htm");
 
-			var fieldset = document.getElementById("fieldGroup");
+			const fieldset = document.getElementById("fieldGroup");
 			expect(luga.validator.api.validateChildFields({rootNode: fieldset})).toBe(false);
 			expect(document.getElementById("name")).toHaveClass("invalid");
 
@@ -125,7 +125,7 @@ describe("luga.validator.api", function(){
 		it("And return true if all fields are validated", function(){
 
 			jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
-			var fieldset = document.getElementById("fieldGroup");
+			const fieldset = document.getElementById("fieldGroup");
 
 			document.getElementById("age").value = "33";
 			document.getElementById("name").value = "filled";

@@ -29,8 +29,8 @@
 	 * @param {String}  style
 	 * @return {Boolean}
 	 */
-	var isValidStyle = function(style){
-		for(var key in luga.data.PAGING_STYLE){
+	const isValidStyle = function(style){
+		for(let key in luga.data.PAGING_STYLE){
 			if(luga.data.PAGING_STYLE[key] === style){
 				return true;
 			}
@@ -47,7 +47,7 @@
 	 */
 	luga.data.widgets.PagingBar = function(options){
 
-		var CONST = {
+		const CONST = {
 			CSS_BASE_CLASS: "luga-pagingBar",
 			SAFE_HREF: "javascript:;",
 			LINKS_SEPARATOR: " - ",
@@ -86,10 +86,10 @@
 		/**
 		 * @type {luga.data.widgets.PagingBar}
 		 */
-		var self = this;
+		const self = this;
 		// Alias/shortcuts
-		var pagedView = self.config.pagedView;
-		var node = self.config.node;
+		const pagedView = self.config.pagedView;
+		const node = self.config.node;
 
 		pagedView.addObserver(this);
 
@@ -97,10 +97,10 @@
 		node.classList.add(CONST.CSS_BASE_CLASS);
 		node.classList.add(self.config.style);
 
-		var render = function(){
+		const render = function(){
 			// Reset UI
 			node.innerHTML = "";
-			var currentPageIndex = pagedView.getCurrentPageIndex();
+			const currentPageIndex = pagedView.getCurrentPageIndex();
 
 			if(pagedView.getPagesCount() > 1){
 				renderPrevLink(self.config.prevText, currentPageIndex);
@@ -109,10 +109,10 @@
 			}
 		};
 
-		var renderPrevLink = function(text, pageIndex){
+		const renderPrevLink = function(text, pageIndex){
 
-			var textNode = document.createTextNode(text);
-			var linkNode = document.createElement("a");
+			const textNode = document.createTextNode(text);
+			const linkNode = document.createElement("a");
 			linkNode.setAttribute("href", CONST.SAFE_HREF);
 			linkNode.appendChild(textNode);
 			addGoToPageEvent(linkNode, pageIndex - 1);
@@ -127,10 +127,10 @@
 			node.appendChild(document.createTextNode(" "));
 		};
 
-		var renderNextLink = function(text, pageIndex){
+		const renderNextLink = function(text, pageIndex){
 			node.appendChild(document.createTextNode(" "));
-			var textNode = document.createTextNode(text);
-			var linkNode = document.createElement("a");
+			const textNode = document.createTextNode(text);
+			const linkNode = document.createElement("a");
 			linkNode.setAttribute("href", CONST.SAFE_HREF);
 			linkNode.appendChild(textNode);
 			addGoToPageEvent(linkNode, pageIndex + 1);
@@ -143,17 +143,17 @@
 			}
 		};
 
-		var renderMainLinks = function(maxLinks, style){
-			var pageSize = pagedView.getPageSize();
-			var recordsCount = pagedView.getRecordsCount();
-			var pagesCount = pagedView.getPagesCount();
-			var currentPageIndex = pagedView.getCurrentPageIndex();
-			var endIndex = getEndIndex(currentPageIndex, maxLinks, pagesCount);
+		const renderMainLinks = function(maxLinks, style){
+			const pageSize = pagedView.getPageSize();
+			const recordsCount = pagedView.getRecordsCount();
+			const pagesCount = pagedView.getPagesCount();
+			const currentPageIndex = pagedView.getCurrentPageIndex();
+			const endIndex = getEndIndex(currentPageIndex, maxLinks, pagesCount);
 
 			// Page numbers are between 1 and n. So the loop start from 1
-			for(var i = 1; i < (endIndex + 1); i++){
+			for(let i = 1; i < (endIndex + 1); i++){
 
-				var labelText = getLabelText(i, style, pageSize, pagesCount, recordsCount);
+				const labelText = getLabelText(i, style, pageSize, pagesCount, recordsCount);
 				if(i !== currentPageIndex){
 					renderCurrentLink(i, labelText);
 				}
@@ -169,50 +169,50 @@
 
 		};
 
-		var renderCurrentLink = function(i, linkText){
-			var textNode = document.createTextNode(linkText);
-			var linkNode = document.createElement("a");
+		const renderCurrentLink = function(i, linkText){
+			const textNode = document.createTextNode(linkText);
+			const linkNode = document.createElement("a");
 			linkNode.appendChild(textNode);
 			linkNode.setAttribute("href", CONST.SAFE_HREF);
 			addGoToPageEvent(linkNode, i);
 			node.appendChild(linkNode);
 		};
 
-		var renderCurrentText = function(labelText){
-			var textNode = document.createTextNode(labelText);
-			var strongNode = document.createElement("strong");
+		const renderCurrentText = function(labelText){
+			const textNode = document.createTextNode(labelText);
+			const strongNode = document.createElement("strong");
 			strongNode.appendChild(textNode);
 			node.appendChild(strongNode);
 		};
 
-		var renderSeparator = function(){
-			var separatorNode = document.createTextNode(self.config.separator);
+		const renderSeparator = function(){
+			const separatorNode = document.createTextNode(self.config.separator);
 			node.appendChild(separatorNode);
 		};
 
-		var addGoToPageEvent = function(linkNode, pageNumber){
+		const addGoToPageEvent = function(linkNode, pageNumber){
 			linkNode.addEventListener("click", function(event){
 				event.preventDefault();
 				pagedView.goToPage(pageNumber);
 			});
 		};
 
-		var getEndIndex = function(currentPageIndex, maxLinks, pagesCount){
-			var startIndex = parseInt(currentPageIndex - parseInt(maxLinks / 2));
+		const getEndIndex = function(currentPageIndex, maxLinks, pagesCount){
+			let startIndex = parseInt(currentPageIndex - parseInt(maxLinks / 2));
 			/* istanbul ignore else */
 			if(startIndex < 1){
 				startIndex = 1;
 			}
-			var tempPos = startIndex + maxLinks - 1;
-			var endIndex = pagesCount;
+			const tempPos = startIndex + maxLinks - 1;
+			let endIndex = pagesCount;
 			if(tempPos < pagesCount){
 				endIndex = tempPos;
 			}
 			return endIndex;
 		};
 
-		var getLabelText = function(i, style, pageSize, pagesCount, recordsCount){
-			var labelText = "";
+		const getLabelText = function(i, style, pageSize, pagesCount, recordsCount){
+			let labelText = "";
 
 			if(style === luga.data.PAGING_STYLE.PAGES){
 				labelText = i;
@@ -220,8 +220,8 @@
 
 			/* istanbul ignore else */
 			if(style === luga.data.PAGING_STYLE.LINKS){
-				var startText = "";
-				var endText = "";
+				let startText = "";
+				let endText = "";
 				if(i !== 1){
 					startText = (pageSize * (i - 1)) + 1;
 				}

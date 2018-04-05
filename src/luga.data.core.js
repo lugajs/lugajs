@@ -119,9 +119,9 @@ if(typeof(luga) === "undefined"){
 		if(luga.type(filter) !== "function"){
 			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 		}
-		var retRows = [];
-		for(var i = 0; i < rows.length; i++){
-			var filteredRow = filter(rows[i], i, dataset);
+		const retRows = [];
+		for(let i = 0; i < rows.length; i++){
+			const filteredRow = filter(rows[i], i, dataset);
 			// Row to be removed
 			if(filteredRow === null){
 				continue;
@@ -147,8 +147,8 @@ if(typeof(luga) === "undefined"){
 		if(luga.type(formatter) !== "function"){
 			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_UPDATER_ACTION);
 		}
-		for(var i = 0; i < rows.length; i++){
-			var formattedRow = formatter(rows[i], i, dataset);
+		for(let i = 0; i < rows.length; i++){
+			const formattedRow = formatter(rows[i], i, dataset);
 			if(luga.isPlainObject(formattedRow) === false){
 				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_UPDATER_ACTION);
 			}
@@ -161,7 +161,7 @@ if(typeof(luga) === "undefined"){
 	 * @return {Boolean}
 	 */
 	luga.data.utils.isValidState = function(state){
-		for(var key in luga.data.STATE){
+		for(let key in luga.data.STATE){
 			if(luga.data.STATE[key] === state){
 				return true;
 			}

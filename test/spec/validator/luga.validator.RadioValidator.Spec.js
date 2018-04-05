@@ -4,21 +4,21 @@ describe("luga.validator.RadioValidator", function(){
 
 	it("Implements the luga.validator.BaseGroupValidator abstract class", function(){
 		jasmineFixtures.loadHTML("validator/RadioValidator/required.htm");
-		var validator = luga.validator.fieldValidatorFactory.getInstance({
+		const validator = luga.validator.fieldValidatorFactory.getInstance({
 			formNode: document.getElementById("single"),
 			fieldNode: document.getElementById("Nicole")
 		});
-		var MockValidator = function(options){
+		const MockValidator = function(options){
 			luga.extend(luga.validator.BaseGroupValidator, this, [options]);
 		};
-		var inputGroup = luga.form.utils.getFieldGroup("lady",document.getElementById("single"));
+		const inputGroup = luga.form.utils.getFieldGroup("lady",document.getElementById("single"));
 		expect(validator).toMatchDuckType(new MockValidator({inputGroup: inputGroup}));
 	});
 
 	it("Validates each group of radio buttons as a single unit", function(){
 
 		jasmineFixtures.loadHTML("validator/RadioValidator/required.htm");
-		var formValidator = new luga.validator.FormValidator({
+		const formValidator = new luga.validator.FormValidator({
 			formNode: document.getElementById("single")
 		});
 
@@ -38,7 +38,7 @@ describe("luga.validator.RadioValidator", function(){
 	it("In case of conflicting options/attributes among fields. The last one wins", function(){
 
 		jasmineFixtures.loadHTML("validator/RadioValidator/required.htm");
-		var formValidator = new luga.validator.FormValidator({
+		const formValidator = new luga.validator.FormValidator({
 			formNode: document.getElementById("multiple")
 		});
 
@@ -52,7 +52,7 @@ describe("luga.validator.RadioValidator", function(){
 	it("Skips disabled fields", function(){
 
 		jasmineFixtures.loadHTML("validator/RadioValidator/required.htm");
-		var formValidator = new luga.validator.FormValidator({
+		const formValidator = new luga.validator.FormValidator({
 			formNode: document.getElementById("disabled")
 		});
 
@@ -69,7 +69,7 @@ describe("luga.validator.RadioValidator", function(){
 	it("Skips fields without name too", function(){
 
 		jasmineFixtures.loadHTML("validator/RadioValidator/required.htm");
-		var formValidator = new luga.validator.FormValidator({
+		const formValidator = new luga.validator.FormValidator({
 			formNode: document.getElementById("noNames")
 		});
 

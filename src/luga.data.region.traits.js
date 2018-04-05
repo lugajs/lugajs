@@ -10,7 +10,7 @@
 	 * @property {luga.data.DataSet|luga.data.DetailSet}  dataSource    DataSource. Required
 	 */
 
-	var CONST = {
+	const CONST = {
 		CUSTOM_ATTRIBUTES: {
 			SELECT: "data-lugaregion-select",
 			SET_ROW_ID: "data-lugaregion-setrowid",
@@ -25,8 +25,8 @@
 		}
 	};
 
-	var removeCssClass = function(nodes, className){
-		for(var i = 0; i < nodes.length; i++){
+	const removeCssClass = function(nodes, className){
+		for(let i = 0; i < nodes.length; i++){
 			nodes[i].classList.remove(className);
 		}
 	};
@@ -36,17 +36,17 @@
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.select = function(options){
-		var nodes = options.node.querySelectorAll(CONST.SELECTORS.SELECT);
+		const nodes = options.node.querySelectorAll(CONST.SELECTORS.SELECT);
 		if(options.dataSource.getCurrentRowIndex === undefined){
 			// It's a detailSet, abort
 			return;
 		}
 
 		if(nodes.length > 0){
-			var cssClass = nodes[0].getAttribute(CONST.CUSTOM_ATTRIBUTES.SELECT);
+			const cssClass = nodes[0].getAttribute(CONST.CUSTOM_ATTRIBUTES.SELECT);
 			nodes[0].classList.remove(cssClass);
 			// Default to first row
-			var index = 0;
+			let index = 0;
 
 			if(options.dataSource.getCurrentRowIndex() === -1){
 				// Remove class from everyone
@@ -59,14 +59,14 @@
 			}
 
 			// Attach click event to all nodes
-			for(var i = 0; i < nodes.length; i++){
-				var element = nodes[i];
+			for(let i = 0; i < nodes.length; i++){
+				const element = nodes[i];
 				addSelectEvent(element, cssClass, nodes);
 			}
 		}
 	};
 
-	var addSelectEvent = function(element, cssClass, nodes){
+	const addSelectEvent = function(element, cssClass, nodes){
 		element.addEventListener("click", function(event){
 			event.preventDefault();
 			removeCssClass(nodes, cssClass);
@@ -79,15 +79,15 @@
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.setRowId = function(options){
-		var nodes = options.node.querySelectorAll(CONST.SELECTORS.SET_ROW_ID);
-		for(var i = 0; i < nodes.length; i++){
-			var element = nodes[i];
-			var rowId = element.getAttribute(CONST.CUSTOM_ATTRIBUTES.SET_ROW_ID);
+		const nodes = options.node.querySelectorAll(CONST.SELECTORS.SET_ROW_ID);
+		for(let i = 0; i < nodes.length; i++){
+			const element = nodes[i];
+			const rowId = element.getAttribute(CONST.CUSTOM_ATTRIBUTES.SET_ROW_ID);
 			addRowIdEvent(element, rowId, options.dataSource);
 		}
 	};
 
-	var addRowIdEvent = function(element, rowId, dataSource){
+	const addRowIdEvent = function(element, rowId, dataSource){
 		element.addEventListener("click", function(event){
 			event.preventDefault();
 			dataSource.setCurrentRowId(rowId);
@@ -99,15 +99,15 @@
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.setRowIndex = function(options){
-		var nodes = options.node.querySelectorAll(CONST.SELECTORS.SET_ROW_INDEX);
-		for(var i = 0; i < nodes.length; i++){
-			var element = nodes[i];
-			var rowIndex = parseInt(element.getAttribute(CONST.CUSTOM_ATTRIBUTES.SET_ROW_INDEX), 10);
+		const nodes = options.node.querySelectorAll(CONST.SELECTORS.SET_ROW_INDEX);
+		for(let i = 0; i < nodes.length; i++){
+			const element = nodes[i];
+			const rowIndex = parseInt(element.getAttribute(CONST.CUSTOM_ATTRIBUTES.SET_ROW_INDEX), 10);
 			addRowIndexEvent(element, rowIndex, options.dataSource);
 		}
 	};
 
-	var addRowIndexEvent = function(element, rowIndex, dataSource){
+	const addRowIndexEvent = function(element, rowIndex, dataSource){
 		element.addEventListener("click", function(event){
 			event.preventDefault();
 			dataSource.setCurrentRowIndex(rowIndex);
@@ -119,12 +119,12 @@
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.sort = function(options){
-		var nodes = options.node.querySelectorAll(CONST.SELECTORS.SORT);
-		for(var i = 0; i < nodes.length; i++){
-			var element = nodes[i];
+		const nodes = options.node.querySelectorAll(CONST.SELECTORS.SORT);
+		for(let i = 0; i < nodes.length; i++){
+			const element = nodes[i];
 			element.addEventListener("click", function(event){
 				event.preventDefault();
-				var sortCol = element.getAttribute(CONST.CUSTOM_ATTRIBUTES.SORT);
+				const sortCol = element.getAttribute(CONST.CUSTOM_ATTRIBUTES.SORT);
 				options.dataSource.sort(sortCol);
 			}, false);
 		}

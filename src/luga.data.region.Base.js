@@ -49,7 +49,7 @@
 			ds: null
 		};
 		luga.merge(this.config, options);
-		var self = this;
+		const self = this;
 
 		/** @type {luga.data.DataSet|luga.data.DetailSet} */
 		this.dataSource = null;
@@ -69,7 +69,7 @@
 		/** @type {Array.<String>} */
 		this.traits = luga.data.region.CONST.DEFAULT_TRAITS;
 		// Extract traits from custom attribute, if any
-		var attrTraits = this.config.node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TRAITS);
+		const attrTraits = this.config.node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TRAITS);
 		if(attrTraits !== null){
 			this.traits = this.traits.concat(attrTraits.split(","));
 		}
@@ -81,12 +81,12 @@
 		this.config.node[luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE] = this;
 
 		this.applyTraits = function(){
-			var traitData = {
+			const traitData = {
 				node: this.config.node,
 				dataSource: this.dataSource
 			};
-			for(var i = 0; i < this.traits.length; i++){
-				var func = luga.lookupFunction(this.traits[i]);
+			for(let i = 0; i < this.traits.length; i++){
+				const func = luga.lookupFunction(this.traits[i]);
 				if(func !== undefined){
 					func(traitData);
 				}
@@ -102,7 +102,7 @@
 		 */
 		this.render = function(){
 			// Concrete implementations must overwrite this
-			var desc = luga.data.region.utils.assembleRegionDescription(this);
+			const desc = luga.data.region.utils.assembleRegionDescription(this);
 			this.notifyObservers(luga.data.region.CONST.EVENTS.REGION_RENDERED, desc);
 		};
 

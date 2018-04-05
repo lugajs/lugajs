@@ -3,13 +3,13 @@ describe("luga.validator.SelectValidator", function(){
 	"use strict";
 
 	it("Implements the luga.validator.BaseFieldValidator abstract class", function(){
-		var validator = luga.validator.fieldValidatorFactory.getInstance({
+		const validator = luga.validator.fieldValidatorFactory.getInstance({
 			fieldNode: document.createElement("select")
 		});
-		var MockValidator = function(options){
+		const MockValidator = function(options){
 			luga.extend(luga.validator.BaseFieldValidator, this, [options]);
 		};
-		var node = document.createElement("input");
+		const node = document.createElement("input");
 		node.setAttribute("type", "text");
 		expect(validator).toMatchDuckType(new MockValidator({
 			fieldNode: node
@@ -17,15 +17,15 @@ describe("luga.validator.SelectValidator", function(){
 	});
 
 	it("Handle select-multiple", function(){
-		var selectNode = document.createElement("select");
+		const selectNode = document.createElement("select");
 		selectNode.setAttribute("multiple", "multiple");
-		var validator = luga.validator.fieldValidatorFactory.getInstance({
+		const validator = luga.validator.fieldValidatorFactory.getInstance({
 			fieldNode: selectNode
 		});
-		var MockValidator = function(options){
+		const MockValidator = function(options){
 			luga.extend(luga.validator.BaseFieldValidator, this, [options]);
 		};
-		var node = document.createElement("input");
+		const node = document.createElement("input");
 		node.setAttribute("type", "text");
 		expect(validator).toMatchDuckType(new MockValidator({
 			fieldNode: node
@@ -42,14 +42,14 @@ describe("luga.validator.SelectValidator", function(){
 
 	describe("Accepts an Options object as single argument", function(){
 
-		var basicSelectValidator, attributeSelectValidator, configSelectValidator;
+		let basicSelectValidator, attributeSelectValidator, configSelectValidator;
 		beforeEach(function(){
 
 			basicSelectValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: document.createElement("select")
 			});
 
-			var selectNode = document.createElement("select");
+			const selectNode = document.createElement("select");
 			selectNode.setAttribute("name", "dish");
 			selectNode.setAttribute("data-lugavalidator-errorclass", "invalid-select");
 			selectNode.setAttribute("data-lugavalidator-message", "Invalid select!");
@@ -123,7 +123,7 @@ describe("luga.validator.SelectValidator", function(){
 	describe("data-lugavalidator-invalidindex", function(){
 
 		it("Accepts only numbers", function(){
-			var selectNode = document.createElement("select");
+			const selectNode = document.createElement("select");
 			selectNode.setAttribute("data-lugavalidator-invalidindex", "test");
 			expect(function(){
 				luga.validator.fieldValidatorFactory.getInstance({
@@ -134,7 +134,7 @@ describe("luga.validator.SelectValidator", function(){
 
 		it("Prevents selection of an entry on a given position", function(){
 			jasmineFixtures.loadHTML("validator/SelectValidator/invalidindex.htm");
-			var selectValidator = null;
+			let selectValidator = null;
 
 			selectValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: document.getElementById("notSelected")
@@ -149,7 +149,7 @@ describe("luga.validator.SelectValidator", function(){
 
 		it("Works around a weird brower bug when the size attribute is specified", function(){
 			jasmineFixtures.loadHTML("validator/SelectValidator/invalidindex.htm");
-			var selectValidator = null;
+			let selectValidator = null;
 
 			selectValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: document.getElementById("selectWithSize")
@@ -164,7 +164,7 @@ describe("luga.validator.SelectValidator", function(){
 
 		it("Prevents selection of an entry with a given value", function(){
 			jasmineFixtures.loadHTML("validator/SelectValidator/invalidvalue.htm");
-			var selectValidator = null;
+			let selectValidator = null;
 
 			selectValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: document.getElementById("pizza")

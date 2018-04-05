@@ -7,7 +7,7 @@ describe("luga.validator.FormValidator", function(){
 
 	"use strict";
 
-	var basicFormValidator, attributeFormValidator, configFormValidator;
+	let basicFormValidator, attributeFormValidator, configFormValidator;
 	beforeEach(function(){
 		jasmineFixtures.loadHTML("validator/FormValidator/config.htm");
 
@@ -45,7 +45,7 @@ describe("luga.validator.FormValidator", function(){
 	});
 
 	it("Always positively validates empty forms", function(){
-		var formValidator = new luga.validator.FormValidator({
+		const formValidator = new luga.validator.FormValidator({
 			formNode: document.createElement("form")
 		});
 		expect(formValidator.isValid()).toEqual(true);
@@ -54,7 +54,7 @@ describe("luga.validator.FormValidator", function(){
 	it("Can validate form with one", function(){
 
 		jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
-		var formValidator = new luga.validator.FormValidator({
+		const formValidator = new luga.validator.FormValidator({
 			formNode: document.getElementById("basic")
 		});
 
@@ -71,7 +71,7 @@ describe("luga.validator.FormValidator", function(){
 	it("Or multiple fields", function(){
 
 		jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
-		var formValidator = new luga.validator.FormValidator({
+		const formValidator = new luga.validator.FormValidator({
 			formNode: document.getElementById("generic")
 		});
 		expect(formValidator.validate().length).toEqual(8);
@@ -211,7 +211,7 @@ describe("luga.validator.FormValidator", function(){
 		it("It overrides the value of the disabled button once the form is validated", function(){
 
 			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
-			var formValidator = new luga.validator.FormValidator({
+			const formValidator = new luga.validator.FormValidator({
 				formNode: document.getElementById("basic")
 			});
 
@@ -231,7 +231,7 @@ describe("luga.validator.FormValidator", function(){
 	describe("Exposes three handlers functions that will be called at different times after the onSubmit event is triggered", function(){
 
 		window.formValidatorHandlers = {};
-		var formValidator, jForm;
+		let formValidator, jForm;
 		beforeEach(function(){
 
 			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
@@ -281,7 +281,7 @@ describe("luga.validator.FormValidator", function(){
 			});
 
 			it("Passing the form's DOM node as first argument, the submit event as second", function(){
-				var formEvent = new jQuery.Event();
+				const formEvent = new jQuery.Event();
 				formValidator.validate(formEvent);
 				expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm, formEvent);
 			});
@@ -324,7 +324,7 @@ describe("luga.validator.FormValidator", function(){
 				expect(formValidatorHandlers.before).toHaveBeenCalled();
 			});
 			it("Passing the form's DOM node as first argument, the submit event as second", function(){
-				var formEvent = new jQuery.Event();
+				const formEvent = new jQuery.Event();
 				formValidator.validate(formEvent);
 				expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm, formEvent);
 			});
@@ -370,7 +370,7 @@ describe("luga.validator.FormValidator", function(){
 				expect(formValidatorHandlers.after).toHaveBeenCalled();
 			});
 			it("Passing the form's DOM node as first argument, the submit event as second", function(){
-				var formEvent = new jQuery.Event();
+				const formEvent = new jQuery.Event();
 				document.getElementById("myName").value = "filled";
 				formValidator.validate(formEvent);
 				expect(formValidator.isValid()).toEqual(true);

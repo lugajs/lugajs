@@ -18,7 +18,7 @@
 	luga.data.Rss2Dataset = function(options){
 		luga.extend(luga.data.XmlDataSet, this, [options]);
 		/** @type {luga.data.Rss2Dataset} */
-		var self = this;
+		const self = this;
 
 		/** @type {null|string} */
 		this.rawXml = null;
@@ -37,11 +37,11 @@
 		 * @param {Node} item
 		 * @return {Object}
 		 */
-		var itemToHash = function(item){
-			var rec = {};
-			for(var i = 0; i < self.itemElements.length; i++){
-				var element = self.itemElements[i];
-				var nodes = luga.data.xml.evaluateXPath(item, element);
+		const itemToHash = function(item){
+			const rec = {};
+			for(let i = 0; i < self.itemElements.length; i++){
+				const element = self.itemElements[i];
+				const nodes = luga.data.xml.evaluateXPath(item, element);
 				if(nodes.length > 0){
 					rec[element] = getTextValue(nodes[0]);
 				}
@@ -54,10 +54,10 @@
 		 * Extract metadata from <channel>
 		 * @param {Node} channel
 		 */
-		var setChannelMeta = function(channel){
-			for(var i = 0; i < self.channelElements.length; i++){
-				var element = self.channelElements[i];
-				var nodes = luga.data.xml.evaluateXPath(channel, element);
+		const setChannelMeta = function(channel){
+			for(let i = 0; i < self.channelElements.length; i++){
+				const element = self.channelElements[i];
+				const nodes = luga.data.xml.evaluateXPath(channel, element);
 				if(nodes.length > 0){
 					self.channelMeta[element] = getTextValue(nodes[0]);
 				}
@@ -69,8 +69,8 @@
 		 * @param {Array.<Node>} nodes
 		 * @return {Array.<Object>}
 		 */
-		var extractRecords = function(nodes){
-			var records = [];
+		const extractRecords = function(nodes){
+			const records = [];
 			nodes.forEach(function(element){
 				records.push(itemToHash(element));
 			});
@@ -85,7 +85,7 @@
 		 * @return {String}
 		 */
 		function getTextValue(node){
-			var child = node.childNodes[0];
+			const child = node.childNodes[0];
 			/* istanbul ignore else */
 			if((child.nodeType === 3) /* TEXT_NODE */ || (child.nodeType === 4) /* CDATA_SECTION_NODE */){
 				return child.data;
@@ -99,11 +99,11 @@
 		 * @override
 		 */
 		this.getContext = function(){
-			var context = {
+			const context = {
 				items: self.select(),
 				recordCount: self.getRecordsCount()
 			};
-			var stateDesc = luga.data.utils.assembleStateDescription(self.getState());
+			const stateDesc = luga.data.utils.assembleStateDescription(self.getState());
 			luga.merge(context, stateDesc);
 			luga.merge(context, self.channelMeta);
 			return context;
@@ -115,14 +115,14 @@
 		 * @override
 		 */
 		this.loadRecords = function(response){
-			var xmlDoc = luga.data.xml.parseFromString(response.responseText);
+			const xmlDoc = luga.data.xml.parseFromString(response.responseText);
 			self.rawXml = xmlDoc;
 			// Extract metadata
-			var channelNodes = luga.data.xml.evaluateXPath(xmlDoc, "//channel");
+			const channelNodes = luga.data.xml.evaluateXPath(xmlDoc, "//channel");
 			setChannelMeta(channelNodes[0]);
 			// Insert all records
-			var items = luga.data.xml.evaluateXPath(xmlDoc, "//item");
-			var records = extractRecords(items);
+			const items = luga.data.xml.evaluateXPath(xmlDoc, "//item");
+			const records = extractRecords(items);
 			self.insert(records);
 		};
 

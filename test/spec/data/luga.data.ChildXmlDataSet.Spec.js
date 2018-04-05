@@ -2,7 +2,7 @@ describe("luga.data.ChildXmlDataSet", function(){
 
 	"use strict";
 
-	var stateRecords, masterDs, remoteDs;
+	let stateRecords, masterDs, remoteDs;
 	beforeEach(function(){
 		stateRecords = jasmineFixtures.read("data/usa-states.json");
 		masterDs = new luga.data.XmlDataSet({uuid: "masterDs"});

@@ -2,7 +2,7 @@ describe("luga.data.Rss2Dataset", function(){
 
 	"use strict";
 
-	var xmlStr, noUrlDs;
+	let xmlStr, noUrlDs;
 	beforeEach(function(){
 
 		xmlStr = jasmineFixtures.read("data/rss2.txt");
@@ -28,12 +28,12 @@ describe("luga.data.Rss2Dataset", function(){
 	});
 
 	it("Extend the luga.data.XmlDataSet class", function(){
-		var xmlDs = new luga.data.XmlDataSet({uuid: "myXmlDs"});
+		const xmlDs = new luga.data.XmlDataSet({uuid: "myXmlDs"});
 		expect(noUrlDs).toMatchDuckType(xmlDs);
 	});
 
 	it("Can retrieve XML using XHR", function(){
-		var testDs = new luga.data.Rss2Dataset({uuid: "rssDs", url: "mock/rss2.xml"});
+		const testDs = new luga.data.Rss2Dataset({uuid: "rssDs", url: "mock/rss2.xml"});
 		expect(testDs.getRecordsCount()).toEqual(0);
 		testDs.loadData();
 		expect(testDs.getRecordsCount()).toEqual(9);
@@ -43,7 +43,7 @@ describe("luga.data.Rss2Dataset", function(){
 
 		it("Returns the RSS's context, containing .items and one property for each tag allowed inside <channel>", function(){
 			noUrlDs.loadRecords({responseText: xmlStr});
-			var context = noUrlDs.getContext();
+			const context = noUrlDs.getContext();
 			expect(context.items).toEqual(noUrlDs.select());
 			expect(context.recordCount).toEqual(noUrlDs.getRecordsCount());
 			expect(context).toMatchDuckType(noUrlDs.channelMeta);
@@ -76,7 +76,7 @@ describe("luga.data.Rss2Dataset", function(){
 
 				it("Each record contains a property for each tag allowed inside <item>", function(){
 					noUrlDs.loadRecords({responseText: xmlStr});
-					var item = noUrlDs.records[0];
+					const item = noUrlDs.records[0];
 					expect(item.title).toBeUndefined();
 					expect(item.link).toBeUndefined();
 					expect(item.description).toBeDefined();

@@ -4,7 +4,7 @@ describe("luga.localStorage", function(){
 
 	afterEach(function(){
 		// Clean-up localStorage
-		for(var x in localStorage){
+		for(let x in localStorage){
 			delete localStorage[x];
 		}
 	});

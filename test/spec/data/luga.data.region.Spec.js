@@ -14,7 +14,7 @@ describe("luga.data.region", function(){
 
 	describe(".getReferenceFromNode()", function(){
 
-		var testDs, testDiv, testRegion;
+		let testDs, testDiv, testRegion;
 		beforeEach(function(){
 
 			testDs = new luga.data.DataSet({uuid: "testDs"});
@@ -45,7 +45,7 @@ describe("luga.data.region", function(){
 
 		describe("Given a DOM node", function(){
 
-			var testDiv
+			let testDiv
 			beforeEach(function(){
 				testDiv = document.createElement("div");
 				testDiv.setAttribute("data-lugaregion", "true");
@@ -81,7 +81,7 @@ describe("luga.data.region", function(){
 
 				it("Creates a new instance of luga.data.region.Handlebars. Passing the given node as options.node", function(){
 					new luga.data.DataSet({uuid: "testDs"});
-					var regionNode = document.createElement("div");
+					const regionNode = document.createElement("div");
 					regionNode.setAttribute("data-lugaregion", "true");
 					regionNode.setAttribute("data-lugaregion-datasource-uuid", "testDs");
 
@@ -100,7 +100,7 @@ describe("luga.data.region", function(){
 						regionHandler: function(){
 						}
 					};
-					var regionNode = document.createElement("div");
+					const regionNode = document.createElement("div");
 					regionNode.setAttribute("data-lugaregion", "true");
 					regionNode.setAttribute("data-lugaregion-datasource-uuid", "testDs");
 					regionNode.setAttribute("data-lugaregion-type", "window.mock.regionHandler");

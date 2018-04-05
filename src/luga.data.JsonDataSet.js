@@ -18,7 +18,7 @@
 	luga.data.JsonDataSet = function(options){
 		luga.extend(luga.data.HttpDataSet, this, [options]);
 		/** @type {luga.data.JsonDataSet} */
-		var self = this;
+		const self = this;
 		/** @override */
 		this.contentType = "application/json";
 
@@ -66,13 +66,13 @@
 			loadFromJson(JSON.parse(response.responseText));
 		};
 
-		var loadFromJson = function(json){
+		const loadFromJson = function(json){
 			self.rawJson = json;
 			if(self.path === null){
 				self.insert(json);
 			}
 			else{
-				var records = luga.lookupProperty(json, self.path);
+				const records = luga.lookupProperty(json, self.path);
 				if(records !== undefined){
 					self.insert(records);
 				}

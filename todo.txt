@@ -2,8 +2,6 @@
 - Remove jQuery from Validator
 - Remove jQuery from Validator samples and doc
 
-- Use const/let
-
 - Add notes on dist files
 - Add notes on dependencies
 

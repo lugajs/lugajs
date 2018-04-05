@@ -5,12 +5,12 @@ describe("luga.validator.TextValidator", function(){
 	"use strict";
 
 	it("Implements the luga.validator.BaseFieldValidator abstract class", function(){
-		var node = document.createElement("input");
+		const node = document.createElement("input");
 		node.setAttribute("type", "text");
-		var validator = luga.validator.fieldValidatorFactory.getInstance({
+		const validator = luga.validator.fieldValidatorFactory.getInstance({
 			fieldNode: node
 		});
-		var MockValidator = function(options){
+		const MockValidator = function(options){
 			luga.extend(luga.validator.BaseFieldValidator, this, [options]);
 		};
 		expect(validator).toMatchDuckType(new MockValidator({
@@ -28,11 +28,11 @@ describe("luga.validator.TextValidator", function(){
 
 	describe("Accepts an Options object as single argument", function(){
 
-		var basicTextValidator, attributeTextValidator, configTextValidator;
+		let basicTextValidator, attributeTextValidator, configTextValidator;
 		beforeEach(function(){
 			jasmineFixtures.loadHTML("validator/TextValidator/config.htm");
 
-			var node = document.createElement("input");
+			const node = document.createElement("input");
 			node.setAttribute("type", "text");
 			basicTextValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: node
@@ -212,8 +212,8 @@ describe("luga.validator.TextValidator", function(){
 		 * @param {String} value
 		 * @return {HTMLInputElement}
 		 */
-		var createRequiredField = function(value){
-			var node = document.createElement("input");
+		const createRequiredField = function(value){
+			const node = document.createElement("input");
 			node.setAttribute("type", "text");
 			node.setAttribute("data-lugavalidator-required", value);
 			return node;
@@ -221,14 +221,14 @@ describe("luga.validator.TextValidator", function(){
 
 
 		it("If set to true. Requires the field to contain a value", function(){
-			var textValidator = luga.validator.fieldValidatorFactory.getInstance({
+			const textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: createRequiredField("true")
 			});
 			expect(textValidator.isRequired()).toEqual(true);
 		});
 
 		it("If set to false. Does not requires the field to contain anything", function(){
-			var textValidator = luga.validator.fieldValidatorFactory.getInstance({
+			const textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: createRequiredField("false")
 			});
 			expect(textValidator.isRequired()).toEqual(false);
@@ -244,7 +244,7 @@ describe("luga.validator.TextValidator", function(){
 				return false;
 			};
 
-			var textValidator = luga.validator.fieldValidatorFactory.getInstance({
+			let textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: createRequiredField("textValidatorHandlers.returnTrue")
 			});
 			expect(textValidator.isRequired()).toEqual(true);
@@ -258,7 +258,7 @@ describe("luga.validator.TextValidator", function(){
 
 		it("Throw an exception if data-lugavalidator-required point to a non existing funtion", function(){
 
-			var textValidator = luga.validator.fieldValidatorFactory.getInstance({
+			const textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: createRequiredField("missingFunction")
 			});
 
@@ -276,8 +276,8 @@ describe("luga.validator.TextValidator", function(){
 		 * @param {String} value
 		 * @return {HTMLInputElement}
 		 */
-		var createEmailField = function(value){
-			var node = document.createElement("input");
+		const createEmailField = function(value){
+			const node = document.createElement("input");
 			node.setAttribute("type", "text");
 			node.setAttribute("data-lugavalidator-required", "true");
 			node.setAttribute("data-lugavalidator-email", "true");
@@ -285,7 +285,7 @@ describe("luga.validator.TextValidator", function(){
 			return node;
 		};
 
-		var textValidator;
+		let textValidator;
 
 		it("data-lugavalidator-email only check that one @ and a dot are there", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
@@ -329,11 +329,11 @@ describe("luga.validator.TextValidator", function(){
 	});
 
 	describe("data-lugavalidator-equalto:", function(){
-		var textValidator;
+		let textValidator;
 
 		it("Throws an exception if the second field does not exists", function(){
 
-			var node = document.createElement("input");
+			const node = document.createElement("input");
 			node.setAttribute("type", "text");
 			node.setAttribute("data-lugavalidator-required", "true");
 			node.setAttribute("data-lugavalidator-equalto", "missing");
@@ -369,7 +369,7 @@ describe("luga.validator.TextValidator", function(){
 
 		it("Works on whole form too", function(){
 			jasmineFixtures.loadHTML("validator/TextValidator/equalto.htm");
-			var formValidator = new luga.validator.FormValidator({
+			const formValidator = new luga.validator.FormValidator({
 				formNode: document.getElementById("equal")
 			});
 			expect(formValidator.validate().length).toEqual(0);
@@ -391,8 +391,8 @@ describe("luga.validator.TextValidator", function(){
 		 * @param {String} value
 		 * @return {HTMLInputElement}
 		 */
-		var createPatternField = function(pattern, value){
-			var node = document.createElement("input");
+		const createPatternField = function(pattern, value){
+			const node = document.createElement("input");
 			node.setAttribute("type", "text");
 			node.setAttribute("data-lugavalidator-required", "true");
 			node.setAttribute("data-lugavalidator-pattern", pattern);
@@ -400,7 +400,7 @@ describe("luga.validator.TextValidator", function(){
 			return node;
 		};
 
-		var textValidator;
+		let textValidator;
 
 		it("Throws an exception if the corresponding pattern does not exist", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
@@ -653,13 +653,13 @@ describe("luga.validator.TextValidator", function(){
 
 			luga.validator.patterns.httpstart = new RegExp("^http://");
 
-			var textNode = document.createElement("input");
+			const textNode = document.createElement("input");
 			textNode.setAttribute("type", "text");
 			textNode.setAttribute("data-lugavalidator-required", "true");
 			textNode.setAttribute("data-lugavalidator-pattern", "httpstart");
 			textNode.value = "test";
 
-			var textValidator = luga.validator.fieldValidatorFactory.getInstance({
+			const textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: textNode
 			});
 			expect(textValidator.isValid()).toEqual(false);
@@ -674,8 +674,8 @@ describe("luga.validator.TextValidator", function(){
 		 * @param {String} value
 		 * @return {HTMLInputElement}
 		 */
-		var createMinNumberField = function(value){
-			var node = document.createElement("input");
+		const createMinNumberField = function(value){
+			const node = document.createElement("input");
 			node.setAttribute("type", "text");
 			node.setAttribute("data-lugavalidator-required", "true");
 			node.setAttribute("data-lugavalidator-minnumber", 18);
@@ -683,7 +683,7 @@ describe("luga.validator.TextValidator", function(){
 			return node;
 		};
 
-		var textValidator;
+		let textValidator;
 
 		it("Enforces a minimum numeric value", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
@@ -715,8 +715,8 @@ describe("luga.validator.TextValidator", function(){
 		 * @param {String} value
 		 * @return {HTMLInputElement}
 		 */
-		var createMaxNumberField = function(value){
-			var node = document.createElement("input");
+		const createMaxNumberField = function(value){
+			const node = document.createElement("input");
 			node.setAttribute("type", "text");
 			node.setAttribute("data-lugavalidator-required", "true");
 			node.setAttribute("data-lugavalidator-maxnumber", 18);
@@ -724,7 +724,7 @@ describe("luga.validator.TextValidator", function(){
 			return node;
 		};
 
-		var textValidator;
+		let textValidator;
 
 		it("Enforces a maximum numeric value", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
@@ -756,8 +756,8 @@ describe("luga.validator.TextValidator", function(){
 		 * @param {String} value
 		 * @return {HTMLInputElement}
 		 */
-		var createMinLenField = function(value){
-			var node = document.createElement("input");
+		const createMinLenField = function(value){
+			const node = document.createElement("input");
 			node.setAttribute("type", "text");
 			node.setAttribute("data-lugavalidator-required", "true");
 			node.setAttribute("data-lugavalidator-minlength", 3);
@@ -765,7 +765,7 @@ describe("luga.validator.TextValidator", function(){
 			return node;
 		};
 
-		var textValidator;
+		let textValidator;
 
 		it("Enforces a minimum string length", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
@@ -797,8 +797,8 @@ describe("luga.validator.TextValidator", function(){
 		 * @param {String} value
 		 * @return {HTMLInputElement}
 		 */
-		var createMaxLenField = function(value){
-			var node = document.createElement("input");
+		const createMaxLenField = function(value){
+			const node = document.createElement("input");
 			node.setAttribute("type", "text");
 			node.setAttribute("data-lugavalidator-required", "true");
 			node.setAttribute("data-lugavalidator-maxlength", 3);
@@ -806,7 +806,7 @@ describe("luga.validator.TextValidator", function(){
 			return node;
 		};
 
-		var textValidator;
+		let textValidator;
 
 		it("Enforces a maximum string length", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
@@ -839,8 +839,8 @@ describe("luga.validator.TextValidator", function(){
 		 * @param {String} value
 		 * @return {HTMLInputElement}
 		 */
-		var createDateField = function(pattern, value){
-			var node = document.createElement("input");
+		const createDateField = function(pattern, value){
+			const node = document.createElement("input");
 			node.setAttribute("type", "text");
 			node.setAttribute("data-lugavalidator-required", "true");
 			node.setAttribute("data-lugavalidator-datepattern", pattern);
@@ -850,7 +850,7 @@ describe("luga.validator.TextValidator", function(){
 
 		it("Ignore unrecognized patterns", function(){
 			// Pattern not available
-			var textValidator = luga.validator.fieldValidatorFactory.getInstance({
+			const textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: createDateField("XXX-XX", "test")
 			});
 			expect(textValidator.isValid()).toEqual(false);
@@ -859,7 +859,7 @@ describe("luga.validator.TextValidator", function(){
 
 		describe("Out of the box, validate dates in the following formats:", function(){
 
-			var textValidator;
+			let textValidator;
 
 			it("YYYY-MM-DD", function(){
 				// Not a date
@@ -1278,8 +1278,8 @@ describe("luga.validator.TextValidator", function(){
 		 * @param {String} value
 		 * @return {HTMLInputElement}
 		 */
-		var createMinDateField = function(mindate, value){
-			var node = document.createElement("input");
+		const createMinDateField = function(mindate, value){
+			const node = document.createElement("input");
 			node.setAttribute("type", "text");
 			node.setAttribute("data-lugavalidator-required", "true");
 			node.setAttribute("data-lugavalidator-mindate", mindate);
@@ -1287,7 +1287,7 @@ describe("luga.validator.TextValidator", function(){
 			return node;
 		};
 
-		var textValidator;
+		let textValidator;
 
 		it("If no data-lugavalidator-datepattern is specified, default pattern (YYYY-MM-DD) will be used to parse and compare dates", function(){
 			// Not a date
@@ -1325,8 +1325,8 @@ describe("luga.validator.TextValidator", function(){
 			 * @param {String} value
 			 * @return {HTMLInputElement}
 			 */
-			var createMinDateWithPatternField = function(value){
-				var node = document.createElement("input");
+			const createMinDateWithPatternField = function(value){
+				const node = document.createElement("input");
 				node.setAttribute("type", "text");
 				node.setAttribute("data-lugavalidator-required", "true");
 				node.setAttribute("data-lugavalidator-mindate", "01/01/2010");
@@ -1372,8 +1372,8 @@ describe("luga.validator.TextValidator", function(){
 		 * @param {String} value
 		 * @return {HTMLInputElement}
 		 */
-		var createMaxDateField = function(value){
-			var node = document.createElement("input");
+		const createMaxDateField = function(value){
+			const node = document.createElement("input");
 			node.setAttribute("type", "text");
 			node.setAttribute("data-lugavalidator-required", "true");
 			node.setAttribute("data-lugavalidator-maxdate", "2010-01-01");
@@ -1381,7 +1381,7 @@ describe("luga.validator.TextValidator", function(){
 			return node;
 		};
 
-		var textValidator;
+		let textValidator;
 
 		it("If no data-lugavalidator-datepattern is specified, default pattern (YYYY-MM-DD) will be used to parse and compare dates", function(){
 
@@ -1420,8 +1420,8 @@ describe("luga.validator.TextValidator", function(){
 			 * @param {String} value
 			 * @return {HTMLInputElement}
 			 */
-			var createMaxDateWithPatternField = function(value){
-				var node = document.createElement("input");
+			const createMaxDateWithPatternField = function(value){
+				const node = document.createElement("input");
 				node.setAttribute("type", "text");
 				node.setAttribute("data-lugavalidator-required", "true");
 				node.setAttribute("data-lugavalidator-maxdate", "01/01/2010");
@@ -1467,8 +1467,8 @@ describe("luga.validator.TextValidator", function(){
 		 * @param {String} value
 		 * @return {HTMLInputElement}
 		 */
-		var createMaxDateField = function(value){
-			var node = document.createElement("input");
+		const createMaxDateField = function(value){
+			const node = document.createElement("input");
 			node.setAttribute("type", "text");
 			node.setAttribute("data-lugavalidator-required", "true");
 			node.setAttribute("data-lugavalidator-maxdate", "01/01/2010");
@@ -1476,7 +1476,7 @@ describe("luga.validator.TextValidator", function(){
 			return node;
 		};
 
-		var textValidator;
+		let textValidator;
 
 		it("By changing the value of luga.validator.CONST.DEFAULT_DATE_PATTERN", function(){
 			// Override const
@@ -1517,7 +1517,7 @@ describe("luga.validator.TextValidator", function(){
 
 		it("Like data-lugavalidator-minlength and data-lugavalidator-maxlength", function(){
 			jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
-			var textValidator;
+			let textValidator;
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: document.getElementById("comments")
 			});
@@ -1546,7 +1546,7 @@ describe("luga.validator.TextValidator", function(){
 	});
 
 	describe("Custom rules can be added", function(){
-		var textValidator;
+		let textValidator;
 
 		it("By adding them to luga.validator.rules", function(){
 
@@ -1554,8 +1554,8 @@ describe("luga.validator.TextValidator", function(){
 			 * @param {String} value
 			 * @return {HTMLInputElement}
 			 */
-			var createLowercaseField = function(value){
-				var node = document.createElement("input");
+			const createLowercaseField = function(value){
+				const node = document.createElement("input");
 				node.setAttribute("type", "text");
 				node.setAttribute("data-lugavalidator-required", "true");
 				node.setAttribute("data-lugavalidator-lowercase", "true");
@@ -1564,7 +1564,7 @@ describe("luga.validator.TextValidator", function(){
 			};
 
 			luga.validator.rules.lowercase = function(fieldNode, validator){
-				var lowerStr = fieldNode.val().toLowerCase();
+				const lowerStr = fieldNode.val().toLowerCase();
 				return (lowerStr === fieldNode.val());
 			};
 
@@ -1582,7 +1582,7 @@ describe("luga.validator.TextValidator", function(){
 	});
 
 	describe("Custom patterns can be added", function(){
-		var textValidator;
+		let textValidator;
 
 		it("By adding them to luga.validator.patterns", function(){
 
@@ -1590,8 +1590,8 @@ describe("luga.validator.TextValidator", function(){
 			 * @param {String} value
 			 * @return {HTMLInputElement}
 			 */
-			var createHttpstartField = function(value){
-				var node = document.createElement("input");
+			const createHttpstartField = function(value){
+				const node = document.createElement("input");
 				node.setAttribute("type", "text");
 				node.setAttribute("data-lugavalidator-required", "true");
 				node.setAttribute("data-lugavalidator-pattern", "httpstart");
@@ -1615,7 +1615,7 @@ describe("luga.validator.TextValidator", function(){
 	});
 
 	describe("Custom date patterns can be added", function(){
-		var textValidator;
+		let textValidator;
 
 		it("By adding them to luga.validator.dateSpecs using the luga.validator.createDateSpecObj() utility", function(){
 
@@ -1623,8 +1623,8 @@ describe("luga.validator.TextValidator", function(){
 			 * @param {String} value
 			 * @return {HTMLInputElement}
 			 */
-			var createDatePatternField = function(value){
-				var node = document.createElement("input");
+			const createDatePatternField = function(value){
+				const node = document.createElement("input");
 				node.setAttribute("type", "text");
 				node.setAttribute("data-lugavalidator-required", "true");
 				node.setAttribute("data-lugavalidator-datepattern", "D M YYYY");

@@ -38,7 +38,7 @@
 		luga.merge(this.config, options);
 
 		/** @type {luga.data.widgets.ShowMore} */
-		var self = this;
+		const self = this;
 
 		if(this.config.dataSet === undefined){
 			throw(this.CONST.ERROR_MESSAGES.INVALID_DATASET_PARAMETER);
@@ -47,11 +47,11 @@
 			throw(this.CONST.ERROR_MESSAGES.INVALID_URL_PARAMETER);
 		}
 
-		var isEnabled = false;
+		let isEnabled = false;
 		this.config.dataSet.addObserver(this);
 
 		this.assembleUrl = function(){
-			var bindingObj = this.config.dataSet.getRawJson();
+			let bindingObj = this.config.dataSet.getRawJson();
 			/* istanbul ignore else */
 			if(this.config.paramPath !== ""){
 				bindingObj = luga.lookupProperty(bindingObj, this.config.paramPath);
@@ -72,7 +72,7 @@
 		};
 
 		this.fetch = function(){
-			var newUrl = this.assembleUrl();
+			const newUrl = this.assembleUrl();
 			if(newUrl !== this.config.url){
 				this.config.dataSet.setUrl(newUrl);
 				this.config.dataSet.loadData();
@@ -139,7 +139,7 @@
 		luga.extend(luga.data.widgets.ShowMore, this, [this.config]);
 
 		/** @type {luga.data.widgets.ShowMoreButton} */
-		var self = this;
+		const self = this;
 
 		// The messages below are specific to this implementation
 		self.CONST.BUTTON_ERROR_MESSAGES = {

@@ -12,7 +12,7 @@
 	luga.data.region.Handlebars = function(options){
 
 		luga.extend(luga.data.region.Base, this, [options]);
-		var self = this;
+		const self = this;
 
 		// The messages below are specific to this implementation
 		self.CONST.HANDLEBARS_ERROR_MESSAGES = {
@@ -26,24 +26,24 @@
 		/**
 		 * @param {HTMLElement} node
 		 */
-		var fetchTemplate = function(node){
+		const fetchTemplate = function(node){
 			// Inline template
 			if(self.config.templateId === null){
 				self.template = Handlebars.compile(node.innerHTML);
 			}
 			else{
-				var templateNode = document.getElementById(self.config.templateId);
+				const templateNode = document.getElementById(self.config.templateId);
 				if(templateNode === null){
 					throw(luga.string.format(self.CONST.HANDLEBARS_ERROR_MESSAGES.MISSING_TEMPLATE_NODE, [self.config.templateId]));
 				}
-				var templateSrc = templateNode.getAttribute("src");
+				const templateSrc = templateNode.getAttribute("src");
 				if(templateSrc === null){
 					// Embed template
 					self.template = Handlebars.compile(templateNode.innerHTML);
 				}
 				else{
 					// External template
-					var xhrOptions = {
+					const xhrOptions = {
 						success: function(response){
 							self.template = Handlebars.compile(response.responseText);
 							self.render();
@@ -52,7 +52,7 @@
 							throw(luga.string.format(self.CONST.HANDLEBARS_ERROR_MESSAGES.MISSING_TEMPLATE_FILE, [templateSrc]));
 						}
 					};
-					var xhr = new luga.xhr.Request(xhrOptions);
+					const xhr = new luga.xhr.Request(xhrOptions);
 					xhr.send(templateSrc);
 				}
 			}
@@ -74,7 +74,7 @@
 			if(this.template !== ""){
 				this.config.node.innerHTML = this.generateHtml();
 				this.applyTraits();
-				var desc = luga.data.region.utils.assembleRegionDescription(this);
+				const desc = luga.data.region.utils.assembleRegionDescription(this);
 				this.notifyObservers(luga.data.region.CONST.EVENTS.REGION_RENDERED, desc);
 			}
 		};
