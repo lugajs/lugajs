@@ -1,7 +1,7 @@
 <script>
 	(function(){
 		"use strict";
-		var testDs = new luga.data.JsonDataSet({
+		const testDs = new luga.data.JsonDataSet({
 			uuid: "peopleDs",
 			url: "../test/fixtures/data/people.json",
 			path: "ladies"
@@ -9,17 +9,21 @@
 		luga.dom.ready(function(){
 			testDs.loadData();
 
-			jQuery("#ladiesPath").on("click", function(event){
-				event.preventDefault();
-				testDs.setPath("ladies");
-				testDs.loadData();
-			});
+			if(document.getElementById("ladiesPath") !== null){
 
-			jQuery("#jazzPlayersPath").on("click", function(event){
-				event.preventDefault();
-				testDs.setPath("others.jazzPlayers");
-				testDs.loadData();
-			});
+				document.getElementById("ladiesPath").addEventListener("click", function(event){
+					event.preventDefault();
+					testDs.setPath("ladies");
+					testDs.loadData();
+				}, false);
+
+				document.getElementById("jazzPlayersPath").addEventListener("click", function(event){
+					event.preventDefault();
+					testDs.setPath("others.jazzPlayers");
+					testDs.loadData();
+				}, false);
+
+			}
 
 		});
 	}());
@@ -64,7 +68,7 @@
 			If we use <strong>ladies</strong> we extract data from that branch of the JSON:
 		</p>
 
-<pre><code class="line-numbers language-javascript">var testDs = new luga.data.JsonDataSet({
+<pre><code class="line-numbers language-javascript">const testDs = new luga.data.JsonDataSet({
 	uuid: "peopleDs",
 	url: "../test/fixtures/data/people.json",
 	path: "ladies"

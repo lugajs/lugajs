@@ -1,11 +1,11 @@
 <script>
 	(function(){
 		"use strict";
-		var ladiesMaster = new luga.data.JsonDataSet({
+		const ladiesMaster = new luga.data.JsonDataSet({
 			uuid: "ladies",
 			url: "../test/fixtures/data/ladies.json"
 		});
-		var ladyDetails = new luga.data.DetailSet({uuid: "lady", parentDataSet: ladiesMaster});
+		const ladyDetails = new luga.data.DetailSet({uuid: "lady", parentDataSet: ladiesMaster});
 		luga.dom.ready(function(){
 			ladiesMaster.loadData();
 		});
@@ -67,12 +67,12 @@
 <pre><code class="line-numbers language-javascript">(function(){
 	"use strict";
 	// Master
-	var ladiesMaster = new luga.data.JsonDataSet({
+	const ladiesMaster = new luga.data.JsonDataSet({
 		uuid: "ladies",
 		url: "../test/fixtures/data/ladies.json"
 	});
 	// Details
-	var ladyDetails = new luga.data.DetailSet({uuid: "lady", parentDataSet: ladiesMaster});
+	const ladyDetails = new luga.data.DetailSet({uuid: "lady", parentDataSet: ladiesMaster});
 	// Fetch data only once the DOM is ready
 	luga.dom.ready(function(){
 		ladiesMaster.loadData();

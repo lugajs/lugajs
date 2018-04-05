@@ -2,7 +2,7 @@
 	(function(){
 		"use strict";
 
-		var ladiesDs = new luga.data.JsonDataSet({
+		const ladiesDs = new luga.data.JsonDataSet({
 			uuid: "ladiesDs",
 			url: "../test/fixtures/data/ladies.json"
 		});
@@ -10,15 +10,19 @@
 		luga.dom.ready(function(){
 			ladiesDs.loadData();
 
-			jQuery("#addButton").on("click", function(event){
-				event.preventDefault();
-				// Assemble the new row:
-				var row = {
-					firstName: jQuery("#ladyFirstName").val(),
-					lastName: jQuery("#ladyLastName").val()
-				};
-				ladiesDs.insert(row);
-			});
+			const addButton = document.getElementById("addButton");
+
+			if(addButton !== null) {
+				addButton.addEventListener("click", function(event){
+					event.preventDefault();
+					// Assemble the new row:
+					const row = {
+						firstName: document.getElementById("ladyFirstName").value,
+						lastName: document.getElementById("ladyLastName").value
+					};
+					ladiesDs.insert(row);
+				}, false);
+			}
 
 		});
 
@@ -64,7 +68,7 @@
 
 <pre><code class="line-numbers language-javascript">(function(){
 	"use strict";
-	var ladiesDs = new luga.data.JsonDataSet({
+	const ladiesDs = new luga.data.JsonDataSet({
 		uuid: "ladiesDs",
 		url: "../test/fixtures/data/ladies.json"
 	});

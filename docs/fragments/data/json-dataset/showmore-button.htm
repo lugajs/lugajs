@@ -2,8 +2,8 @@
 	(function(){
 		"use strict";
 
-		var BASE_URL = "https://heroes.stage.waylon.cloud/v1/search/character";
-		var master = new luga.data.JsonDataSet({
+		const BASE_URL = "https://heroes.stage.waylon.cloud/v1/search/character";
+		const master = new luga.data.JsonDataSet({
 			uuid: "masterDs",
 			url: BASE_URL + "?offset=0&limit=200",
 			path: "result",
@@ -12,12 +12,18 @@
 		});
 
 		luga.dom.ready(function(){
-			new luga.data.widgets.ShowMoreButton({
-				button: document.getElementById("moreButton"),
-				disabledClass: "disabled",
-				dataSet: master,
-				url: BASE_URL + "?offset={lastOffset}&limit=200"
-			});
+
+			if(document.getElementById("moreButton") !== null){
+
+				new luga.data.widgets.ShowMoreButton({
+					button: document.getElementById("moreButton"),
+					disabledClass: "disabled",
+					dataSet: master,
+					url: BASE_URL + "?offset={lastOffset}&limit=200"
+				});
+
+			}
+
 			master.loadData();
 		});
 
@@ -90,8 +96,8 @@
 <pre><code class="line-numbers language-javascript">(function(){
 	"use strict";
 
-	var BASE_URL = "https://heroes.stage.waylon.cloud/v1/search/character";
-	var master = new luga.data.JsonDataSet({
+	const BASE_URL = "https://heroes.stage.waylon.cloud/v1/search/character";
+	const master = new luga.data.JsonDataSet({
 		uuid: "masterDs",
 		url: BASE_URL + "?offset=0&limit=200",
 		path: "result",

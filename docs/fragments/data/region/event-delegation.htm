@@ -11,11 +11,16 @@
 			// Fetch JSON data
 			ladies.loadData();
 
-			$("#ladiesRegion").on("click", "button", function(event){
-				event.preventDefault();
-				const birthDate = this.getAttribute("data-birthdate");
-				this.outerHTML = birthDate;
-			});
+			if(document.getElementById("ladiesRegion") !== null) {
+
+				const container = document.getElementById("ladiesRegion");
+				luga.dom.delegateEvent(container, "click", "button", function(event, currentElement) {
+					event.preventDefault();
+					const birthDate = currentElement.getAttribute("data-birthdate");
+					currentElement.outerHTML = birthDate;
+				});
+
+			}
 
 		});
 	}());
@@ -36,7 +41,7 @@
 </script>
 
 <div class="panel panel-default">
-	<div class="panel-heading">jQuery event delegation on regions</div>
+	<div class="panel-heading">Event delegation on regions</div>
 	<div class="panel-body">
 		<p>
 			HTML inside regions is generated and erased at run-time, this means it can be quite tricky to attach JavaScript events inside them,
@@ -44,19 +49,20 @@
 			We could add inline JavaScript inside the template, yet this solution is not the most elegant and it doesn't scale well.
 		</p>
 		<p>
-			A much better solution is to rely on <a href="https://learn.jquery.com/events/event-delegation/">jQuery event delegation</a>.
-			Event delegation allows us to attach the event to the region root, once the page is loaded and let jQuery filter it out
-			based on the selector, passed as second parameter of the .on() method:
+			A much better solution is to rely on <a href="#common/dom">luga.dom.delegateEvent()</a>.
+			Event delegation allows us to attach the event to the region root, once the page is loaded, then filter it out
+			based on the selector, passed as its third parameter:
 		</p>
 
 <pre><code class="language-javascript">luga.dom.ready(function(){
 	// Fetch JSON data
 	ladies.loadData();
-	// Only clicks over buttons will be captured
-	$("#ladiesRegion").on("click", "button", function(event){
+	// Only clicks on buttons will be captured
+	const container = document.getElementById("ladiesRegion");
+	luga.dom.delegateEvent(container, "click", "button", function(event, currentElement) {
 		event.preventDefault();
-		const birthDate = this.getAttribute("data-birthdate");
-		this.outerHTML = birthDate;
+		const birthDate = currentElement.getAttribute("data-birthdate");
+		currentElement.outerHTML = birthDate;
 	});
 });</code></pre>
 

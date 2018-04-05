@@ -59,7 +59,7 @@
 		<th>Examples</th>
 	</table>
 
-<pre><code class="language-javascript">var testDs = new luga.data.DataSet({uuid: "test"});
+<pre><code class="language-javascript">const testDs = new luga.data.DataSet({uuid: "test"});
 </code></pre>
 
 </div>
@@ -99,7 +99,7 @@
 		<th>Examples</th>
 	</table>
 
-<pre><code class="language-javascript">var testDs = new luga.data.DataSet({uuid: "test", records: myData});
+<pre><code class="language-javascript">const testDs = new luga.data.DataSet({uuid: "test", records: myData});
 	// Delete only records where country = "UK"
 	testDs.delete(function(row, rowIndex, dataSet){
 	if(row.country === "UK"){
@@ -331,7 +331,7 @@ testDs.delete();
 		<th>Examples</th>
 	</table>
 
-<pre><code class="language-javascript">var testDs = new luga.data.DataSet({uuid: "test"});
+<pre><code class="language-javascript">const testDs = new luga.data.DataSet({uuid: "test"});
 // Add one single record
 testDs.insert({
 	"firstName": "Nicole",
@@ -383,7 +383,7 @@ testDs.insert([
 		<th>Examples</th>
 	</table>
 
-<pre><code class="language-javascript">var testDs = new luga.data.DataSet({uuid: "test"});
+<pre><code class="language-javascript">const testDs = new luga.data.DataSet({uuid: "test"});
 // Add records in one single pass
 testDs.insert([
 	{ "firstName": "Kate", "lastName": "Beckinsale" },
@@ -601,14 +601,14 @@ testDs.sort("firstName", "descending");</code></pre>
 	</table>
 
 <pre><code class="language-javascript">// Only ladies from UK
-	var onlyUk = function(row, rowIndex, dataSet){
+	const onlyUk = function(row, rowIndex, dataSet){
 	if(row.country === "UK"){
 		return row;
 	}
 	return null;
 };
 // Use long country name
-var longUk = function(row, rowIndex, dataSet){
+const longUk = function(row, rowIndex, dataSet){
 	row.country = "United Kingdom";
 	return row;
 };

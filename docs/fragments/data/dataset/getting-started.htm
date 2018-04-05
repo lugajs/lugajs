@@ -15,7 +15,7 @@
 			to <a href="#data/region/getting-started">regions</a>.
 		</p>
 
-		<pre><code class="language-javascript">var testDs = new luga.data.DataSet({uuid: "test"});</code></pre>
+		<pre><code class="language-javascript">const testDs = new luga.data.DataSet({uuid: "test"});</code></pre>
 
 		<p>
 			Now you can add one record to it:
@@ -40,13 +40,13 @@
 			Instead of adding data at run-time, you can add all of them upfront, passing them to the constructor:
 		</p>
 
-<pre><code class="line-numbers language-javascript">var ladiesData = [
+<pre><code class="line-numbers language-javascript">const ladiesData = [
 	{ "firstName": "Nicole", "lastName": "Kidman" },
 	{ "firstName": "Kate", "lastName": "Beckinsale" },
 	{ "firstName": "Jennifer", "lastName": "Connelly" },
 	{ "firstName": "Salma", "lastName": "Hayek" }
 ];
-var ladiesDs = new luga.data.DataSet({
+const ladiesDs = new luga.data.DataSet({
 	uuid: "ladies",
 	records: ladiesData
 });</code></pre>
@@ -58,7 +58,7 @@ var ladiesDs = new luga.data.DataSet({
 			but you can also use any JSON object, containing more structured, tree-like data:
 		</p>
 
- <pre><code class="line-numbers language-javascript">var jazzMenData = [
+ <pre><code class="line-numbers language-javascript">const jazzMenData = [
 	 {
 		 "person": {
 			 "firstName": "John",
@@ -88,7 +88,7 @@ var ladiesDs = new luga.data.DataSet({
 		 "country": "USA"
 	 }
 ];
-var jazzDsDs = new luga.data.DataSet({
+const jazzDsDs = new luga.data.DataSet({
 	 uuid: "jazzMen",
 	 records: jazzMenData
 });</code></pre>

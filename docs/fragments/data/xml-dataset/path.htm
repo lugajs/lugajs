@@ -1,7 +1,7 @@
 <script>
 	(function(){
 		"use strict";
-		var testDs = new luga.data.XmlDataSet({
+		const testDs = new luga.data.XmlDataSet({
 			uuid: "peopleDs",
 			url: "../test/fixtures/data/people.xml",
 			path: "//ladies/person"
@@ -9,17 +9,21 @@
 		luga.dom.ready(function(){
 			testDs.loadData();
 
-			jQuery("#ladiesPath").on("click", function(event){
-				event.preventDefault();
-				testDs.setPath("//ladies/person");
-				testDs.loadData();
-			});
+			if(document.getElementById("ladiesPath") !== null){
 
-			jQuery("#jazzPlayersPath").on("click", function(event){
-				event.preventDefault();
-				testDs.setPath("//jazzPlayers/person");
-				testDs.loadData();
-			});
+				document.getElementById("ladiesPath").addEventListener("click", function(event){
+					event.preventDefault();
+					testDs.setPath("//ladies/person");
+					testDs.loadData();
+				}, false);
+
+				document.getElementById("jazzPlayersPath").addEventListener("click", function(event){
+					event.preventDefault();
+					testDs.setPath("//jazzPlayers/person");
+					testDs.loadData();
+				}, false);
+
+			}
 
 		});
 	}());
@@ -116,7 +120,7 @@
 			If we use <strong>//ladies/person</strong> we extract data from that branch of the XML:
 		</p>
 
-<pre><code class="line-numbers language-javascript">var testDs = new luga.data.XmlDataSet({
+<pre><code class="line-numbers language-javascript">const testDs = new luga.data.XmlDataSet({
 	uuid: "peopleDs",
 	url: "../test/fixtures/data/people.xml",
 	path: "//ladies/person"

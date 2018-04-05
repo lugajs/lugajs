@@ -2,17 +2,17 @@
 		(function(){
 			"use strict";
 
-			var dateFormatter = function(row, rowIndex, dataSet){
-				var dateObj = new Date(row.birthDate);
+			const dateFormatter = function(row, rowIndex, dataSet){
+				const dateObj = new Date(row.birthDate);
 				// Turn date into a reasonable string rapresentation
 				// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toUTCString
-				var dateStr = dateObj.toUTCString();
-				var trimmedStr = dateStr.substring(0, dateStr.length -12);
+				const dateStr = dateObj.toUTCString();
+				const trimmedStr = dateStr.substring(0, dateStr.length -12);
 				row.birthDateFormatted = trimmedStr;
 				return row;
 			};
 
-			var ladies = new luga.data.JsonDataSet({
+			const ladies = new luga.data.JsonDataSet({
 				uuid: "ladiesDs",
 				url: "../test/fixtures/data/ladies.json",
 				formatter: dateFormatter
@@ -84,17 +84,17 @@
 					The formatter is called once for each row in the dataSet, with this signature: myFilter(row, rowIndex, dataSet):
 				</p>
 
-<pre><code class="line-numbers language-javascript">var dateFormatter = function(row, rowIndex, dataSet){
-	var dateObj = new Date(row.birthDate);
+<pre><code class="line-numbers language-javascript">const dateFormatter = function(row, rowIndex, dataSet){
+	const dateObj = new Date(row.birthDate);
 	// Turn date into a reasonable string rapresentation
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toUTCString
-	var dateStr = dateObj.toUTCString();
-	var trimmedStr = dateStr.substring(0, dateStr.length -12);
+	const dateStr = dateObj.toUTCString();
+	const trimmedStr = dateStr.substring(0, dateStr.length -12);
 	row.birthDateFormatted = trimmedStr;
 	return row;
 };
 
-var ladies = new luga.data.JsonDataSet({
+const ladies = new luga.data.JsonDataSet({
 	uuid: "ladiesDs",
 	url: "../test/fixtures/data/ladies.json",
 	formatter: dateFormatter
@@ -127,7 +127,7 @@ var ladies = new luga.data.JsonDataSet({
 
 				<p>
 					You may also consider using a dedicated library for date parsing and formatting like: <a href="http://momentjs.com/">Moment.js</a>.
-					For number, money and currency <a href="http://openexchangerates.github.io/accounting.js/">accounting.js</a> is great option
+					For number, money and currency <a href="http://openexchangerates.github.io/accounting.js/">accounting.js</a> is a great option
 				</p>
 
 			</div>

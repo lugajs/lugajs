@@ -127,13 +127,13 @@
 		<th>Examples</th>
 	</table>
 
-<pre><code class="language-javascript">var ladiesDs = new luga.data.XmlDataSet({
+<pre><code class="language-javascript">const ladiesDs = new luga.data.XmlDataSet({
 	uuid: "ladiesDs",
 	url: "../test/fixtures/data/people.xml"
 });
 
 // Using custom HTTP headers
-var testDs = new luga.data.XmlDataSet({
+const testDs = new luga.data.XmlDataSet({
 	uuid: "testDs",
 	headers: {"X-Requested-With": "ciccio"},
 	url: "whatever.xml"
@@ -187,7 +187,7 @@ var testDs = new luga.data.XmlDataSet({
 
 <pre><code class="line-numbers language-javascript">(function(){
 	"use strict";
-	var ladiesDs = new luga.data.XmlDataSet({
+	const ladiesDs = new luga.data.XmlDataSet({
 		uuid: "ladiesDs",
 		url: "../test/fixtures/data/people.xml"
 	});
@@ -245,7 +245,7 @@ var testDs = new luga.data.XmlDataSet({
 		<th>Examples</th>
 	</table>
 
-<pre><code class="line-numbers language-javascript">var testDs = new luga.data.XmlDataSet({
+<pre><code class="line-numbers language-javascript">const testDs = new luga.data.XmlDataSet({
 	uuid: "peopleDs",
 	url: "../test/fixtures/data/people.xml",
 	path: "//ladies/person"
@@ -279,7 +279,7 @@ testDs.loadData();
 		<th>Examples</th>
 	</table>
 
-<pre><code class="line-numbers language-javascript">var testDs = new luga.data.XmlDataSet({
+<pre><code class="line-numbers language-javascript">const testDs = new luga.data.XmlDataSet({
 	uuid: "peopleDs",
 	url: "people.xml"
 });

@@ -42,12 +42,12 @@
 
 <pre><code class="line-numbers language-javascript">(function(){
 	"use strict";
-	var BASE_URL = "../test/fixtures/data";
-	var baseDsObj = new luga.data.JsonDataSet({
+	const BASE_URL = "../test/fixtures/data";
+	const baseDsObj = new luga.data.JsonDataSet({
 		uuid: "baseDs",
 		url: BASE_URL + "/usa-states.json"
 	});
-	var pagedViewObj = new luga.data.PagedView({
+	const pagedViewObj = new luga.data.PagedView({
 		uuid: "pagedView",
 		parentDataSet: baseDsObj
 	});
