@@ -1,9 +1,9 @@
-describe("luga.utils", function(){
+describe("luga.validator.utils", function(){
 
 	"use strict";
 
 	it("Contains generic, static methods and utilities", function(){
-		expect(luga.utils).toBeDefined();
+		expect(luga.validator).toBeDefined();
 	});
 
 	describe(".displayBox()", function(){
@@ -12,11 +12,11 @@ describe("luga.utils", function(){
 			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 			const formNode = jQuery("<input id='myId' name='ciccio'>");
 			expect(formNode.prev().length).toEqual(0);
-			luga.utils.displayBox(formNode, "Error");
+			luga.validator.utils.displayBox(formNode, "Error");
 			const boxNode = formNode.prev();
 			expect(boxNode.length).toEqual(1);
 			expect(boxNode.text()).toEqual("Error");
-			expect(boxNode).toHaveClass(luga.utils.CONST.CSS_CLASSES.MESSAGE);
+			expect(boxNode).toHaveClass(luga.validator.utils.CONST.CSS_CLASSES.MESSAGE);
 		});
 
 	});
@@ -27,11 +27,11 @@ describe("luga.utils", function(){
 			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 			const formNode = jQuery("#basic");
 			expect(formNode.prev().length).toEqual(0);
-			luga.utils.displayMessage(formNode, "Ciao");
+			luga.validator.utils.displayMessage(formNode, "Ciao");
 			const boxNode = formNode.prev();
 			expect(boxNode.length).toEqual(1);
 			expect(boxNode.text()).toEqual("Ciao");
-			expect(boxNode).toHaveClass(luga.utils.CONST.CSS_CLASSES.MESSAGE);
+			expect(boxNode).toHaveClass(luga.validator.utils.CONST.CSS_CLASSES.MESSAGE);
 		});
 
 	});
@@ -42,11 +42,11 @@ describe("luga.utils", function(){
 			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 			const formNode = jQuery("#basic");
 			expect(formNode.prev().length).toEqual(0);
-			luga.utils.displayErrorMessage(formNode, "Error");
+			luga.validator.utils.displayErrorMessage(formNode, "Error");
 			const boxNode = formNode.prev();
 			expect(boxNode.length).toEqual(1);
 			expect(boxNode.text()).toEqual("Error");
-			expect(boxNode).toHaveClass(luga.utils.CONST.CSS_CLASSES.ERROR_MESSAGE);
+			expect(boxNode).toHaveClass(luga.validator.utils.CONST.CSS_CLASSES.ERROR_MESSAGE);
 		});
 
 	});
@@ -57,8 +57,8 @@ describe("luga.utils", function(){
 			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 			const formNode = jQuery("#basic");
 			expect(formNode.prev().length).toEqual(0);
-			luga.utils.displayErrorMessage(formNode, "Error");
-			luga.utils.removeDisplayBox(formNode);
+			luga.validator.utils.displayErrorMessage(formNode, "Error");
+			luga.validator.utils.removeDisplayBox(formNode);
 			expect(formNode.prev().length).toEqual(0);
 		});
 

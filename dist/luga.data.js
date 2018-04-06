@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.9.7 2018-04-06T06:15:29.229Z
+Luga Data 0.9.7 2018-04-06T15:23:53.074Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0

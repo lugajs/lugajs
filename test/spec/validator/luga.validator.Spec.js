@@ -118,17 +118,17 @@ describe("luga.validator.handlers", function(){
 	});
 
 	describe("luga.validator.handlers.errorBox", function(){
-		it("Invokes luga.utils.displayErrorMessage() to display errors inside a box above the form", function(){
-			spyOn(luga.utils, "displayErrorMessage");
-			const formStub = $("<form>");
+		it("Invokes luga.validator.utils.displayErrorMessage() to display errors inside a box above the form", function(){
+			spyOn(luga.validator.utils, "displayErrorMessage");
+			const formStub = jQuery("<form>");
 			luga.validator.handlers.errorBox(formStub, [{name: "stub", message: "test"}]);
-			expect(luga.utils.displayErrorMessage).toHaveBeenCalledWith(formStub, "<ul><li><em>stub: </em> test</li></ul>");
+			expect(luga.validator.utils.displayErrorMessage).toHaveBeenCalledWith(formStub, "<ul><li><em>stub: </em> test</li></ul>");
 		});
-		it("If the given form contains no validation errors, it call luga.utils.removeDisplayBox()", function(){
-			spyOn(luga.utils, "removeDisplayBox");
-			const formStub = $("<form>");
+		it("If the given form contains no validation errors, it call luga.validator.utils.removeDisplayBox()", function(){
+			spyOn(luga.validator.utils, "removeDisplayBox");
+			const formStub = jQuery("<form>");
 			luga.validator.handlers.errorBox(formStub, []);
-			expect(luga.utils.removeDisplayBox).toHaveBeenCalledWith(formStub);
+			expect(luga.validator.utils.removeDisplayBox).toHaveBeenCalledWith(formStub);
 		});
 	});
 
