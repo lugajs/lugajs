@@ -48,8 +48,8 @@
 	 *
 	 * @property {String}                uuid       Unique identifier. Required
 	 * @property {Array.<object>|object} records    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
-	 * @property {function}              formatter  A formatting functions to be called once for each row in the dataSet. Default to null
-	 * @property {function}              filter     A filter functions to be called once for each row in the dataSet. Default to null
+	 * @property const}              formatter  A formatting functions to be called once for each row in the dataSet. Default to null
+	 * @property const}              filter     A filter functions to be called once for each row in the dataSet. Default to null
 	 */
 
 	/**
@@ -179,7 +179,7 @@
 		/**
 		 * Delete records matching the given filter
 		 * If no filter is passed, delete all records
-		 * @param {function} [filter]    A filter function. If specified only records matching the filter will be returned. Optional
+		 * @param const} [filter]    A filter function. If specified only records matching the filter will be returned. Optional
 		 *                               The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @fire currentRowChanged
 		 * @fire stateChanged
@@ -441,7 +441,7 @@
 		/**
 		 * Returns an array of the internal row objects that store the records in the dataSet
 		 * Be aware that modifying any property of a returned object results in a modification of the internal records (since records are passed by reference)
-		 * @param {function} [filter]    An optional filter function. If specified only records matching the filter will be returned. Optional
+		 * @param const} [filter]    An optional filter function. If specified only records matching the filter will be returned. Optional
 		 *                               The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @return {Array.<luga.data.DataSet.row>}
 		 * @throw {Exception}
@@ -542,7 +542,7 @@
 		/**
 		 * Replace current filter with a new filter functions and apply the new filter
 		 * Triggers a "dataChanged" notification
-		 * @param {function} filter   A filter functions to be called once for each row in the data set. Required
+		 * @param const} filter   A filter functions to be called once for each row in the data set. Required
 		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @fire currentRowChanged
 		 * @fire dataChanged
@@ -678,9 +678,9 @@
 
 		/**
 		 * Updates rows inside the dataSet
-		 * @param {function} filter   Filter function to be used as search criteria. Required
+		 * @param const} filter   Filter function to be used as search criteria. Required
 		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
-		 * @param {function} updater  Updater function. Required
+		 * @param const} updater  Updater function. Required
 		 *                            The function is going to be called with this signature: myUpdater(row, rowIndex, dataSet)
 		 * @fire stateChanged
 		 * @fire dataChanged

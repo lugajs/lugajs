@@ -1099,7 +1099,7 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.validator.api.validateForm.options
 	 *
 	 * @property {jQuery} formNode       Either a jQuery object wrapping the form or the naked DOM object. Required
-	 * @property {function} error        Name of the function to be invoked to handle/display validation messages.
+	 * @property const} error        Name of the function to be invoked to handle/display validation messages.
 	 *                                   Default to luga.validator.errorAlert
 	 */
 
@@ -1118,7 +1118,7 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.validator.api.validateField.options
 	 *
 	 * @property {jQuery} fieldNode      Either a jQuery object wrapping the field or the naked DOM object. Required
-	 * @property {function} error        Function to be invoked to handle/display validation messages.
+	 * @property const} error        Function to be invoked to handle/display validation messages.
 	 *                                   Default to luga.validator.errorAlert
 	 */
 
@@ -1151,7 +1151,7 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.validator.api.validateField.options
 	 *
 	 * @property {jQuery} fields      A jQuery object wrapping the collection of fields. Required
-	 * @property {function} error     Function to be invoked to handle/display validation messages.
+	 * @property const} error     Function to be invoked to handle/display validation messages.
 	 *                                Default to luga.validator.errorAlert
 	 */
 
@@ -1201,7 +1201,7 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.validator.api.validateFields.options
 	 *
 	 * @property {jQuery} rootNode    A jQuery object wrapping the root node. Required
-	 * @property {function} error     Function to be invoked to handle/display validation messages.
+	 * @property const} error     Function to be invoked to handle/display validation messages.
 	 *                                Default to luga.validator.errorAlert
 	 */
 
