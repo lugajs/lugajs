@@ -14,10 +14,6 @@
 DOCS:
 -------------
 COMMON:
-
-- Add luga.toQueryString() using private appendQueryString() function
-  http://api.jquery.com/jquery.param/
-
 -------------
 
 DATA:

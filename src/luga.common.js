@@ -38,8 +38,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Offers a simple solution for inheritance among classes
 	 *
-	 * @param {function} baseFunc  Parent constructor function. Required
-	 * @param {function} func      Child constructor function. Required
+	 * @param const} baseFunc  Parent constructor function. Required
+	 * @param const} func      Child constructor function. Required
 	 * @param {Array}    [args]    An array of arguments that will be passed to the parent's constructor. Optional
 	 */
 	luga.extend = function(baseFunc, func, args){
@@ -76,7 +76,7 @@ if(typeof(luga) === "undefined"){
 	 * Returns undefined, if the reference has not been found
 	 * Supports namespaces (if the fully qualified path is passed)
 	 * @param {String} path            Fully qualified name of a function
-	 * @return {function|undefined}   The javascript reference to the function, undefined if nothing is fund or if it's not a function
+	 * @return const|undefined}   The javascript reference to the function, undefined if nothing is fund or if it's not a function
 	 */
 	luga.lookupFunction = function(path){
 		if(!path){
@@ -169,6 +169,37 @@ if(typeof(luga) === "undefined"){
 				object[part] = value;
 			}
 		}
+	};
+
+	luga.TO_QUERY_STRING_CONST = {
+		ERROR_INPUT: "luga.toQueryString: Can serialize only plain objects"
+	};
+
+	/**
+	 * Create a query string out of a plain object containing name/value pairs
+	 * @param {Object} input
+	 * @return {String}
+	 */
+	luga.toQueryString = function(input){
+		if(luga.isPlainObject(input) === false){
+			throw(luga.TO_QUERY_STRING_CONST.ERROR_INPUT);
+		}
+		let str = "";
+		for(let x in input){
+			if(input.hasOwnProperty(x) === true){
+				// Assume is just an array of simple values
+				if(Array.isArray(input[x]) === true){
+					input[x].forEach(function(element){
+						str = appendQueryString(str, x, element);
+					});
+				}
+				else{
+					// Assume it is just name/value pair
+					str = appendQueryString(str, x, input[x]);
+				}
+			}
+		}
+		return str;
 	};
 
 	const class2type = {};
@@ -442,7 +473,7 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param {String}                   type        Either "NodeIterator" or "TreeWalker"
 	 * @param {HTMLElement}              rootNode    Start node. Required
-	 * @param {function} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 * @param const} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
 	 *                                               The function will be invoked with this signature: filterFunc(node). Must return true|false
 	 * @return {NodeIterator|TreeWalker}
 	 */
@@ -480,7 +511,7 @@ if(typeof(luga) === "undefined"){
 	 * https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
 	 *
 	 * @param {HTMLElement}              rootNode    Start node. Required
-	 * @param {function} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 * @param const} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
 	 *                                               The function will be invoked with this signature: filterFunc(node). Must return true|false
 	 * @return {NodeIterator}
 	 */
@@ -495,7 +526,7 @@ if(typeof(luga) === "undefined"){
 	 * https://developer.mozilla.org/en/docs/Web/API/TreeWalker
 	 *
 	 * @param {HTMLElement}              rootNode    Start node. Required
-	 * @param {function} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 * @param const} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
 	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
 	 * @return {TreeWalker}
 	 */

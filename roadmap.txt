@@ -7,7 +7,10 @@ VERSION 1.x
 - Replace for loops with forEach whenever possible
 - Remove self = this. Use .bind() instead?
 
-- Add support for XSLT
+- Extend serializers to handle Map
+
+- Add API for XSLT
+
 - Event bus concept?
 - Server-side validation?
 
@@ -23,9 +26,8 @@ VERSION 2.0
 
 - Document luga.data.xml
 
-- ES6 modules import/export
+- ES6 modules import/export?
 - Webpack?
-
 - Make Common and Data isomorphic?
 
 ***

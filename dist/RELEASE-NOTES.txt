@@ -2,6 +2,7 @@
 Release 0.9.8
 ---------------------------------------------------------------------
 NEW FEATURES:
+* Added luga.toQueryString()
 * Added luga.dom.delegateEvent()
 * Added luga.dom.nodeMatches()
 * Added luga.dom.ready()
@@ -13,7 +14,7 @@ NOTES:
 
 CHANGES:
 * IMPORTANT: IE10 is not supported anymore
-* Changed API for traits, regions and luga.data.widgets, from jQuery to DOM
+* Changed API for traits, regions and luga.data.widgets, from jQuery objects to DOM elements
 * Removed luga.data.widgets.ShowMoreScrolling
 * Removed Ajaxform
 * Removed luga.form.toHash()

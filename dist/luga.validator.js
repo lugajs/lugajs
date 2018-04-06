@@ -1,5 +1,5 @@
 /*! 
-Luga Validator 0.9.7 2018-04-05T21:50:14.197Z
+Luga Validator 0.9.7 2018-04-06T06:15:30.020Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -1105,7 +1105,7 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.validator.api.validateForm.options
 	 *
 	 * @property {jQuery} formNode       Either a jQuery object wrapping the form or the naked DOM object. Required
-	 * @property {function} error        Name of the function to be invoked to handle/display validation messages.
+	 * @property const} error        Name of the function to be invoked to handle/display validation messages.
 	 *                                   Default to luga.validator.errorAlert
 	 */
 
@@ -1124,7 +1124,7 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.validator.api.validateField.options
 	 *
 	 * @property {jQuery} fieldNode      Either a jQuery object wrapping the field or the naked DOM object. Required
-	 * @property {function} error        Function to be invoked to handle/display validation messages.
+	 * @property const} error        Function to be invoked to handle/display validation messages.
 	 *                                   Default to luga.validator.errorAlert
 	 */
 
@@ -1157,7 +1157,7 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.validator.api.validateField.options
 	 *
 	 * @property {jQuery} fields      A jQuery object wrapping the collection of fields. Required
-	 * @property {function} error     Function to be invoked to handle/display validation messages.
+	 * @property const} error     Function to be invoked to handle/display validation messages.
 	 *                                Default to luga.validator.errorAlert
 	 */
 
@@ -1207,7 +1207,7 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.validator.api.validateFields.options
 	 *
 	 * @property {jQuery} rootNode    A jQuery object wrapping the root node. Required
-	 * @property {function} error     Function to be invoked to handle/display validation messages.
+	 * @property const} error     Function to be invoked to handle/display validation messages.
 	 *                                Default to luga.validator.errorAlert
 	 */
 

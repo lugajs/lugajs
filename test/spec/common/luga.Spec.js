@@ -279,6 +279,41 @@ describe("luga", function(){
 
 	});
 
+	describe(".toQueryString()", function(){
+
+		it("Throws an exception if the given input is not a plain object", function(){
+			expect(function(){
+				luga.toQueryString(new Date());
+			}).toThrow();
+			expect(function(){
+				luga.toQueryString("Test");
+			}).toThrow();
+			expect(function(){
+				luga.toQueryString({msg: "test"});
+			}).not.toThrow();
+		});
+
+		it("Create a query string out of a plain object containing name/value pairs", function(){
+			expect(luga.toQueryString({mixedCase: "Test"})).toEqual("mixedCase=Test");
+			const plainObj = {
+				first: "primo",
+				second: "secondo",
+				third: "terzo"
+			};
+			expect(luga.toQueryString(plainObj)).toEqual("first=primo&second=secondo&third=terzo");
+		});
+
+		it("Array properties are serialized as multiple value/pairs", function(){
+			const person = {
+				name: "Massimo",
+				lastName: "Foti",
+				nationalities: ["Italian", "Swiss"]
+			};
+			expect(luga.toQueryString(person)).toEqual("name=Massimo&lastName=Foti&nationalities=Italian&nationalities=Swiss");
+		});
+
+	});
+
 	describe(".type()", function(){
 
 		describe("Determine the internal JavaScript [[Class]] of an object. Delivering the following results", function(){

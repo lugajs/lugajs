@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.9.7 2018-04-05T21:50:13.395Z
+Luga Data 0.9.7 2018-04-06T06:15:29.229Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -116,7 +116,7 @@ if(typeof(luga) === "undefined"){
 	 * Apply the given filter function to each passed row
 	 * Return an array of filtered rows
 	 * @param {Array.<luga.data.DataSet.row>} rows    Required
-	 * @param {function}                      filter  Required
+	 * @param const}                      filter  Required
 	 * @param {luga.data.DataSet}             dataset Required
 	 * @return {Array.<luga.data.DataSet.row>}
 	 * @throw {Exception}
@@ -145,7 +145,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Apply the given updater function to each passed row
 	 * @param {Array.<luga.data.DataSet.row>} rows      Required
-	 * @param {function}                      formatter Required
+	 * @param const}                      formatter Required
 	 * @param {luga.data.DataSet}             dataset   Required
 	 * @throw {Exception}
 	 */
@@ -402,8 +402,8 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @property {String}                uuid       Unique identifier. Required
 	 * @property {Array.<object>|object} records    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
-	 * @property {function}              formatter  A formatting functions to be called once for each row in the dataSet. Default to null
-	 * @property {function}              filter     A filter functions to be called once for each row in the dataSet. Default to null
+	 * @property const}              formatter  A formatting functions to be called once for each row in the dataSet. Default to null
+	 * @property const}              filter     A filter functions to be called once for each row in the dataSet. Default to null
 	 */
 
 	/**
@@ -533,7 +533,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Delete records matching the given filter
 		 * If no filter is passed, delete all records
-		 * @param {function} [filter]    A filter function. If specified only records matching the filter will be returned. Optional
+		 * @param const} [filter]    A filter function. If specified only records matching the filter will be returned. Optional
 		 *                               The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @fire currentRowChanged
 		 * @fire stateChanged
@@ -795,7 +795,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns an array of the internal row objects that store the records in the dataSet
 		 * Be aware that modifying any property of a returned object results in a modification of the internal records (since records are passed by reference)
-		 * @param {function} [filter]    An optional filter function. If specified only records matching the filter will be returned. Optional
+		 * @param const} [filter]    An optional filter function. If specified only records matching the filter will be returned. Optional
 		 *                               The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @return {Array.<luga.data.DataSet.row>}
 		 * @throw {Exception}
@@ -896,7 +896,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Replace current filter with a new filter functions and apply the new filter
 		 * Triggers a "dataChanged" notification
-		 * @param {function} filter   A filter functions to be called once for each row in the data set. Required
+		 * @param const} filter   A filter functions to be called once for each row in the data set. Required
 		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @fire currentRowChanged
 		 * @fire dataChanged
@@ -1032,9 +1032,9 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Updates rows inside the dataSet
-		 * @param {function} filter   Filter function to be used as search criteria. Required
+		 * @param const} filter   Filter function to be used as search criteria. Required
 		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
-		 * @param {function} updater  Updater function. Required
+		 * @param const} updater  Updater function. Required
 		 *                            The function is going to be called with this signature: myUpdater(row, rowIndex, dataSet)
 		 * @fire stateChanged
 		 * @fire dataChanged
@@ -2616,7 +2616,7 @@ if(typeof(luga) === "undefined"){
 	 * Retrieve the relevant sort function matching the given combination of dataType and sortOrder
 	 * @param {String}               dataType
 	 * @param {luga.data.sort.ORDER} sortOrder
-	 * @return {function}
+	 * @return const}
 	 */
 	luga.data.sort.getSortStrategy = function(dataType, sortOrder){
 		if(luga.data.sort[dataType] === undefined){
