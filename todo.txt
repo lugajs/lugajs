@@ -1,13 +1,10 @@
-- Remove jQuery from common
+- Remove jQuery from Common
 - Remove jQuery from Validator
 - Remove jQuery from Validator samples and doc
 
 - Add notes on dist files
-- Add notes on dependencies
 
-- Update readme file
-  Link to luga.router
-
+- Remove jQuery from lib folder
 - Update Bower
 
 -------------

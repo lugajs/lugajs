@@ -16,12 +16,10 @@
 		</p>
 
 		<p>
-			Luga JS currently requires jQuery, this doesn't means we believe jQuery is the best JavaScript framework available.
-			We just feel it’s convenient to use it for things like DOM traversing and manipulation.
-			Future versions will drop support for older browsers and most likely will not require jQuery anymore
+			Luga JS is designed to work in IE11+ and most recent versions of Chrome, FireFox and Safari
 		</p>
 
-		<p>Right now the following production ready libraries are available:</p>
+		<p>The following production ready libraries are available:</p>
 		<ul class="luga-docs-list">
 			<li>
 				<a href="#common/index" title="Shared API and utilities">Common</a>:
@@ -36,6 +34,47 @@
 				client-side form validation
 			</li>
 		</ul>
+
+		<p>Other libraries are available as separated projects:</p>
+		<ul class="luga-docs-list">
+			<li>
+				<a href="https://github.com/lugajs/luga-router" title="Client-side routing">Luga Router</a>:
+				a feature-rich JavaScript library for client-side routing. It's compact, focused and extensible
+			</li>
+		</ul>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Dependencies</div>
+	<div class="panel-body">
+		<p>
+			Until version 0.9.7 used to require jQuery in order to stay compatible with older browsers.
+			At that point we realized it was time for a change, we gave up supporting IE9 and IE10 and managed to get rid of the dependency.
+			Unfortunately this came at a cost, since the signature of various API changed in a way that is not fully backward compatible
+		</p>
+
+		<p>
+			At the moment the documentation is still using Bootstrap and jQuery,
+			but this is only for convenience, the codebase does not require any of these two
+		</p>
+
+		<div class="alert alert-info" role="info">
+			<strong>Handlebars</strong><br>
+			By default Luga Data regions require <a href="#data/region/getting-started">Handlebars</a>,
+			but you can <a href="#data/extensibility/custom-region-type">customize the way regions are rendered</a>, without using Handlebars
+		</div>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Bower</div>
+	<div class="panel-body">
+		<p>
+			You can install Luga JS using bower by running: <strong>bower install lugajs</strong>
+		</p>
 	</div>
 </div>
 
@@ -53,26 +92,8 @@
 		</p>
 
 		<p>
-			Code coverage is usually around 100%. You can check <a href="../test/coverage/lcov-report/src/index.html">coverage
+			Code coverage is usually around 100%. You can check the <a href="../test/coverage/lcov-report/src/index.html">coverage
 			report</a> by yourself
-		</p>
-	</div>
-</div>
-
-<div class="panel panel-default">
-	<div class="panel-heading">Browser and jQuery compatibility</div>
-	<div class="panel-body">
-		<p>
-			Luga JS is designed to work in IE11+ and most recent versions of Chrome, FireFox and Safari
-		</p>
-	</div>
-</div>
-
-<div class="panel panel-default">
-	<div class="panel-heading">Bower</div>
-	<div class="panel-body">
-		<p>
-			You can install Luga JS using bower by running: <strong>bower install lugajs</strong>
 		</p>
 	</div>
 </div>
