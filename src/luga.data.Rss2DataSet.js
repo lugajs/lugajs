@@ -87,7 +87,7 @@
 		function getTextValue(node){
 			const child = node.childNodes[0];
 			/* istanbul ignore else */
-			if((child.nodeType === 3) /* TEXT_NODE */ || (child.nodeType === 4) /* CDATA_SECTION_NODE */){
+			if((child.nodeType === 3) /* TEXT_NODE */){
 				return child.data;
 			}
 		}

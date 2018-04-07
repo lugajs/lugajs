@@ -145,12 +145,12 @@ describe("luga.validator.fieldValidatorFactory.getInstance()", function(){
 		});
 
 		it("null if the passed HTML field has no matching validator", function(){
+			expect(luga.validator.fieldValidatorFactory.getInstance({fieldNode: document.createElement("div")})).toBeNull();
+			expect(luga.validator.fieldValidatorFactory.getInstance({fieldNode: document.createElement("fieldset")})).toBeNull();
+
 			const resetNode = document.createElement("input");
 			resetNode.setAttribute("type", "reset");
-
-			expect(luga.validator.fieldValidatorFactory.getInstance({fieldNode: document.createElement("div")})).toBeNull();
 			expect(luga.validator.fieldValidatorFactory.getInstance({fieldNode: resetNode})).toBeNull();
-			expect(luga.validator.fieldValidatorFactory.getInstance({fieldNode: document.createElement("fieldset")})).toBeNull();
 		});
 
 		it("An instance of luga.validator.TextValidator", function(){

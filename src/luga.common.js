@@ -64,6 +64,9 @@ if(typeof(luga) === "undefined"){
 
 		// Objects with prototype are plain if they were constructed by a global Object function
 		const constructor = Object.prototype.hasOwnProperty.call(proto, "constructor") && proto.constructor;
+		if(constructor === false){
+			return false;
+		}
 		return typeof (constructor === "function") && (Function.toString.call(constructor) === Function.toString.call(Object));
 	};
 
@@ -182,17 +185,15 @@ if(typeof(luga) === "undefined"){
 		}
 		let str = "";
 		for(let x in input){
-			if(input.hasOwnProperty(x) === true){
-				// Assume is just an array of simple values
-				if(Array.isArray(input[x]) === true){
-					input[x].forEach(function(element){
-						str = appendQueryString(str, x, element);
-					});
-				}
-				else{
-					// Assume it is just name/value pair
-					str = appendQueryString(str, x, input[x]);
-				}
+			// Assume is just an array of simple values
+			if(Array.isArray(input[x]) === true){
+				input[x].forEach(function(element){
+					str = appendQueryString(str, x, element);
+				});
+			}
+			else{
+				// Assume it is just name/value pair
+				str = appendQueryString(str, x, input[x]);
 			}
 		}
 		return str;
@@ -746,7 +747,7 @@ if(typeof(luga) === "undefined"){
 	 * @return {Array.<HTMLElement>}
 	 */
 	luga.form.utils.getFieldGroup = function(name, rootNode){
-		if(rootNode === undefined) {
+		if(rootNode === undefined){
 			rootNode = document;
 		}
 		const selector = "input[name='" + name + "']";
@@ -1025,6 +1026,7 @@ if(typeof(luga) === "undefined"){
 				const ret = {
 					header: tokens[0]
 				};
+				/* istanbul ignore else */
 				if(tokens[1] !== undefined){
 					ret.value = tokens[1].substring(1);
 				}

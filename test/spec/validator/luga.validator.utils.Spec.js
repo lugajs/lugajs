@@ -14,7 +14,7 @@ describe("luga.validator.utils", function(){
 
 		it("Display a box with a message associated with a given node", function(){
 			const rootNode = document.querySelector(".container");
-			const formNode = document.getElementById("basic");
+			const formNode = document.querySelector(".noName");
 			expect(rootNode.querySelectorAll(".luga-message").length).toEqual(0);
 
 			luga.validator.utils.displayBox(formNode, "Error");

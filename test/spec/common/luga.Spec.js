@@ -278,12 +278,33 @@ describe("luga", function(){
 	describe(".toQueryString()", function(){
 
 		it("Throws an exception if the given input is not a plain object", function(){
+
 			expect(function(){
 				luga.toQueryString(new Date());
 			}).toThrow();
+
 			expect(function(){
 				luga.toQueryString("Test");
 			}).toThrow();
+
+			const Person = function(name){
+				this.name = name;
+			};
+			Person.prototype.greet = function(){
+				console.log("Hello!");
+			};
+
+			const Tester = function(name){
+				Person.call(this, name);
+			};
+			Tester.prototype = Object.create(Person.prototype);
+			Tester.prototype.tool = "Jasmine";
+			const tester = new Tester("Ciccio");
+			expect(function(){
+				luga.toQueryString(tester);
+			}).toThrow();
+
+
 			expect(function(){
 				luga.toQueryString({msg: "test"});
 			}).not.toThrow();

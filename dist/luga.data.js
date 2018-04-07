@@ -1,5 +1,5 @@
 /*! 
-Luga Data 0.9.7 2018-04-07T16:53:18.341Z
+Luga Data 0.9.7 2018-04-07T19:28:31.082Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -1612,7 +1612,7 @@ if(typeof(luga) === "undefined"){
 		function getTextValue(node){
 			const child = node.childNodes[0];
 			/* istanbul ignore else */
-			if((child.nodeType === 3) /* TEXT_NODE */ || (child.nodeType === 4) /* CDATA_SECTION_NODE */){
+			if((child.nodeType === 3) /* TEXT_NODE */){
 				return child.data;
 			}
 		}

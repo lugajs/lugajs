@@ -1,5 +1,5 @@
 /*! 
-Luga Validator 0.9.7 2018-04-07T16:53:19.042Z
+Luga Validator 0.9.7 2018-04-07T19:28:31.855Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -146,6 +146,11 @@ if(typeof(luga) === "undefined"){
 	 * @throw {Exception}
 	 */
 	luga.validator.FormValidator = function(options){
+
+		if(options.formNode === null){
+			throw(luga.validator.CONST.MESSAGES.MISSING_FORM);
+		}
+
 		/** @type {luga.validator.FormValidator.options} */
 		this.config = {
 			// Either: custom attribute, incoming option or default
@@ -165,10 +170,6 @@ if(typeof(luga) === "undefined"){
 		self.validators = [];
 		/** @type {Array.<luga.validator.BaseFieldValidator>} */
 		self.dirtyValidators = [];
-
-		if(options.formNode === null){
-			throw(luga.validator.CONST.MESSAGES.MISSING_FORM);
-		}
 
 		this.init = function(){
 			self.validators = [];
@@ -198,6 +199,7 @@ if(typeof(luga) === "undefined"){
 			// Keep track of already validated fields (to skip already validated checkboxes or radios)
 			const executedValidators = {};
 			for(let i = 0; i < self.validators.length; i++){
+				/* istanbul ignore else */
 				if((self.validators[i] !== undefined) && (self.validators[i].validate !== undefined)){
 					if(executedValidators[self.validators[i].name] !== undefined){
 						// Already validated checkbox or radio, skip it
@@ -319,20 +321,14 @@ if(typeof(luga) === "undefined"){
 				return new luga.validator.SelectValidator(this.config);
 
 			case "radio":
-				if(this.config.fieldNode.name !== undefined){
-					return new luga.validator.RadioValidator({
-						inputGroup: luga.form.utils.getFieldGroup(this.config.fieldNode.name, this.config.formNode)
-					});
-				}
-				break;
+				return new luga.validator.RadioValidator({
+					inputGroup: luga.form.utils.getFieldGroup(this.config.fieldNode.name, this.config.formNode)
+				});
 
 			case "checkbox":
-				if(this.config.fieldNode.name !== undefined){
-					return new luga.validator.CheckboxValidator({
-						inputGroup: luga.form.utils.getFieldGroup(this.config.fieldNode.name, this.config.formNode)
-					});
-				}
-				break;
+				return new luga.validator.CheckboxValidator({
+					inputGroup: luga.form.utils.getFieldGroup(this.config.fieldNode.name, this.config.formNode)
+				});
 
 			default:
 				return new luga.validator.TextValidator(this.config);
@@ -456,6 +452,10 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.validator.TextValidator = function(options){
 
+		if(options.fieldNode === null){
+			throw(luga.validator.CONST.MESSAGES.MISSING_FIELD);
+		}
+
 		/** @type {luga.validator.TextValidator.options} */
 		this.config = {
 			required: options.fieldNode.getAttribute(luga.validator.CONST.CUSTOM_ATTRIBUTES.REQUIRED),
@@ -473,6 +473,7 @@ if(typeof(luga) === "undefined"){
 		luga.merge(this.config, options);
 		luga.extend(luga.validator.BaseFieldValidator, this, [this.config]);
 
+		/* istanbul ignore else */
 		if(this.config.required !== undefined){
 			try{
 				// Hack to ensure it's a boolean
@@ -487,9 +488,6 @@ if(typeof(luga) === "undefined"){
 		const self = this;
 
 		self.node = options.fieldNode;
-		if(self.node === null){
-			throw(luga.validator.CONST.MESSAGES.MISSING_FIELD);
-		}
 		self.type = "text";
 
 		// Put focus and cursor inside the field
@@ -582,6 +580,10 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.validator.SelectValidator = function(options){
 
+		if(options.fieldNode === null){
+			throw(luga.validator.CONST.MESSAGES.MISSING_FIELD);
+		}
+
 		/** @type {luga.validator.SelectValidator.options} */
 		this.config = {
 			invalidindex: options.fieldNode.getAttribute(luga.validator.CONST.CUSTOM_ATTRIBUTES.INVALID_INDEX),
@@ -595,9 +597,6 @@ if(typeof(luga) === "undefined"){
 		const self = this;
 		self.type = "select";
 		self.node = options.fieldNode;
-		if(self.node === null){
-			throw(luga.validator.CONST.MESSAGES.MISSING_FIELD);
-		}
 
 		// Ensure invalidindex is numeric
 		if((self.config.invalidindex !== null) && (isNumeric(self.config.invalidindex) === false)){
@@ -1100,6 +1099,7 @@ if(typeof(luga) === "undefined"){
 		const nodes = rootNode.querySelectorAll(luga.validator.CONST.FORM_SELECTOR);
 		for(let i = 0; i < nodes.length; i++){
 			const element = nodes[i];
+			/* istanbul ignore else */
 			if(element.getAttribute(luga.validator.CONST.CUSTOM_ATTRIBUTES.VALIDATE) === "true"){
 				element.addEventListener("submit", function(event){
 					const formValidator = new luga.validator.FormValidator({
@@ -1129,6 +1129,7 @@ if(typeof(luga) === "undefined"){
 	 */
 	const generateBoxId = function(node){
 		let boxId = luga.validator.utils.CONST.MSG_BOX_ID;
+		/* istanbul ignore else */
 		if(node !== undefined){
 			if(node.getAttribute("id") === null){
 				boxId += node.getAttribute("id");

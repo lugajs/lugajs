@@ -1,5 +1,5 @@
 /*! 
-Luga Common 0.9.7 2018-04-07T16:53:19.042Z
+Luga Common 0.9.7 2018-04-07T19:28:31.854Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -70,6 +70,9 @@ if(typeof(luga) === "undefined"){
 
 		// Objects with prototype are plain if they were constructed by a global Object function
 		const constructor = Object.prototype.hasOwnProperty.call(proto, "constructor") && proto.constructor;
+		if(constructor === false){
+			return false;
+		}
 		return typeof (constructor === "function") && (Function.toString.call(constructor) === Function.toString.call(Object));
 	};
 
@@ -188,17 +191,15 @@ if(typeof(luga) === "undefined"){
 		}
 		let str = "";
 		for(let x in input){
-			if(input.hasOwnProperty(x) === true){
-				// Assume is just an array of simple values
-				if(Array.isArray(input[x]) === true){
-					input[x].forEach(function(element){
-						str = appendQueryString(str, x, element);
-					});
-				}
-				else{
-					// Assume it is just name/value pair
-					str = appendQueryString(str, x, input[x]);
-				}
+			// Assume is just an array of simple values
+			if(Array.isArray(input[x]) === true){
+				input[x].forEach(function(element){
+					str = appendQueryString(str, x, element);
+				});
+			}
+			else{
+				// Assume it is just name/value pair
+				str = appendQueryString(str, x, input[x]);
 			}
 		}
 		return str;
@@ -752,7 +753,7 @@ if(typeof(luga) === "undefined"){
 	 * @return {Array.<HTMLElement>}
 	 */
 	luga.form.utils.getFieldGroup = function(name, rootNode){
-		if(rootNode === undefined) {
+		if(rootNode === undefined){
 			rootNode = document;
 		}
 		const selector = "input[name='" + name + "']";
@@ -1031,6 +1032,7 @@ if(typeof(luga) === "undefined"){
 				const ret = {
 					header: tokens[0]
 				};
+				/* istanbul ignore else */
 				if(tokens[1] !== undefined){
 					ret.value = tokens[1].substring(1);
 				}
