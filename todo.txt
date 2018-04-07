@@ -4,6 +4,8 @@
 
 - Add notes on dist files
 
+- Release 0.9.8
+
 -------------
 DOCS:
 -------------
