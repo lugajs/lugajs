@@ -1,13 +1,10 @@
 - Remove jQuery from Validator samples and doc
-- Remove jQuery from lib folder
 
 - Restore 100% code coverage
 
 - Use forEach() in traits
 
 - Add notes on dist files
-
-- Update Bower
 
 -------------
 DOCS:

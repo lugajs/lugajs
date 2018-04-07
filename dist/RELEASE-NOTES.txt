@@ -13,6 +13,7 @@ NOTES:
 * Updated documentation
 
 CHANGES:
+* IMPORTANT: jQuery is not required anymore
 * IMPORTANT: IE10 is not supported anymore
 * Changed API for traits, regions and luga.data.widgets, from jQuery objects to DOM elements
 * Removed luga.data.widgets.ShowMoreScrolling

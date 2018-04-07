@@ -12,10 +12,10 @@ module.exports = function(config){
 		frameworks: ["jasmine"],
 		files: [
 			// Libs
-			"lib/jquery/jquery.min.js",
 			"lib/handlebars.min.js",
 
-			// Jasmine libs and configuration
+			// Test libs and configuration
+			"test/lib/jquery/jquery.min.js",
 			"test/lib/jasmine/mock-ajax.js",
 			"test/lib/jasmine/jasmineFixtures.min.js",
 			"test/lib/jasmine/jasmineMatchers.min.js",

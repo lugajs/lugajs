@@ -1,13 +1,9 @@
 /*! 
-Luga Common 0.9.7 2018-04-06T15:23:53.742Z
+Luga Common 0.9.7 2018-04-07T16:53:19.042Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
-/* istanbul ignore if */
-if(typeof(jQuery) === "undefined"){
-	throw("Unable to find jQuery");
-}
 /* istanbul ignore else */
 if(typeof(luga) === "undefined"){
 	window.luga = {};
@@ -44,8 +40,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Offers a simple solution for inheritance among classes
 	 *
-	 * @param const} baseFunc  Parent constructor function. Required
-	 * @param const} func      Child constructor function. Required
+	 * @param {Function} baseFunc  Parent constructor function. Required
+	 * @param {Function} func      Child constructor function. Required
 	 * @param {Array}    [args]    An array of arguments that will be passed to the parent's constructor. Optional
 	 */
 	luga.extend = function(baseFunc, func, args){
@@ -82,7 +78,7 @@ if(typeof(luga) === "undefined"){
 	 * Returns undefined, if the reference has not been found
 	 * Supports namespaces (if the fully qualified path is passed)
 	 * @param {String} path            Fully qualified name of a function
-	 * @return const|undefined}   The javascript reference to the function, undefined if nothing is fund or if it's not a function
+	 * @return {Function|undefined}    The javascript reference to the function, undefined if nothing is fund or if it's not a function
 	 */
 	luga.lookupFunction = function(path){
 		if(!path){
@@ -479,7 +475,7 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param {String}                   type        Either "NodeIterator" or "TreeWalker"
 	 * @param {HTMLElement}              rootNode    Start node. Required
-	 * @param const} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 * @param {Function} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
 	 *                                               The function will be invoked with this signature: filterFunc(node). Must return true|false
 	 * @return {NodeIterator|TreeWalker}
 	 */
@@ -517,7 +513,7 @@ if(typeof(luga) === "undefined"){
 	 * https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
 	 *
 	 * @param {HTMLElement}              rootNode    Start node. Required
-	 * @param const} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 * @param {Function} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
 	 *                                               The function will be invoked with this signature: filterFunc(node). Must return true|false
 	 * @return {NodeIterator}
 	 */
@@ -532,7 +528,7 @@ if(typeof(luga) === "undefined"){
 	 * https://developer.mozilla.org/en/docs/Web/API/TreeWalker
 	 *
 	 * @param {HTMLElement}              rootNode    Start node. Required
-	 * @param const} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 * @param {Function} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
 	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
 	 * @return {TreeWalker}
 	 */
@@ -670,6 +666,7 @@ if(typeof(luga) === "undefined"){
 				const fieldType = element.type;
 				switch(fieldType){
 
+					/* eslint-disable no-case-declarations */
 					case "select-multiple":
 						const multiValues = getMultiSelectValue(element);
 						for(let j = 0; j < multiValues.length; j++){
@@ -732,15 +729,15 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Returns true if the passed node is a form field that we care about
 	 *
-	 * @param {jQuery}  fieldNode
+	 * @param {HTMLElement}  fieldNode
 	 * @return {Boolean}
 	 */
 	luga.form.utils.isInputField = function(fieldNode){
-		if(jQuery(fieldNode).prop("type") === undefined){
+		if(fieldNode.type === undefined){
 			return false;
 		}
 		// It belongs to the kind of nodes that are considered form fields, but we don't care about
-		if(luga.form.CONST.FAKE_INPUT_TYPES[jQuery(fieldNode).prop("type")] === true){
+		if(luga.form.CONST.FAKE_INPUT_TYPES[fieldNode.type] === true){
 			return false;
 		}
 		return true;
@@ -750,13 +747,18 @@ if(typeof(luga) === "undefined"){
 	 * Extracts group of fields that share the same name from a given root node
 	 * Or the whole document if the second argument is not passed
 	 *
-	 * @param {String} name         Name of the field. Mandatory
-	 * @param {jQuery} [rootNode]   Root node, optional, default to document
-	 * @return {jQuery}
+	 * @param {String} name              Name of the field. Mandatory
+	 * @param {HTMLElement} [rootNode]   Root node, optional, default to document
+	 * @return {Array.<HTMLElement>}
 	 */
 	luga.form.utils.getFieldGroup = function(name, rootNode){
+		if(rootNode === undefined) {
+			rootNode = document;
+		}
 		const selector = "input[name='" + name + "']";
-		return jQuery(selector, rootNode);
+		const nodes = rootNode.querySelectorAll(selector);
+		// Turn nodelist into an array to be consistent with .getChildFields()
+		return Array.prototype.slice.call(nodes);
 	};
 
 	/**
@@ -990,6 +992,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.xhr.Request = function(options){
 		const config = {
+			/* eslint-disable no-console */
 			method: "GET",
 			success: function(res){
 				console.debug(res);
