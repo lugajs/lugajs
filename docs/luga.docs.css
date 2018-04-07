@@ -294,6 +294,8 @@ table.luga-docs-attributes td {
 	font-weight: 600;
 }
 
+.table.luga-docs-attributes td,
+.table.luga-docs-attributes td,
 .table.luga-docs-api td,
 .table.luga-docs-api th {
 	padding: .75rem;
