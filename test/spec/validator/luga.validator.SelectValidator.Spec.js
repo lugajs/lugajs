@@ -71,24 +71,30 @@ describe("luga.validator.SelectValidator", function(){
 		});
 
 		describe("options.invalidindex either:", function(){
-			it("Default to 'undefined'", function(){
-				expect(basicSelectValidator.config.invalidindex).toEqual(undefined);
+
+			it("Default to 'null'", function(){
+				expect(basicSelectValidator.config.invalidindex).toEqual(null);
 			});
+
 			it("Retrieves the value from the field's data-lugavalidator-invalidindex custom attribute", function(){
 				expect(attributeSelectValidator.config.invalidindex).toEqual("1");
 			});
+
 			it("Uses the value specified inside the option argument", function(){
 				expect(configSelectValidator.config.invalidindex).toEqual(1);
 			});
 		});
 
 		describe("options.invalidvalue either:", function(){
-			it("Default to 'undefined'", function(){
-				expect(basicSelectValidator.config.invalidvalue).toEqual(undefined);
+
+			it("Default to 'null'", function(){
+				expect(basicSelectValidator.config.invalidvalue).toEqual(null);
 			});
+
 			it("Retrieves the value from the field's data-lugavalidator-invalidvalue custom attribute", function(){
 				expect(attributeSelectValidator.config.invalidvalue).toEqual("Crepes");
 			});
+
 			it("Uses the value specified inside the option argument", function(){
 				expect(configSelectValidator.config.invalidvalue).toEqual("Crepes");
 			});

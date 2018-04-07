@@ -726,7 +726,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Returns true if the passed node is a form field that we care about
 	 *
-	 * @param {jQuery}  fieldNode
+	 * @param {HTMLElement}  fieldNode
 	 * @return {Boolean}
 	 */
 	luga.form.utils.isInputField = function(fieldNode){
@@ -745,7 +745,7 @@ if(typeof(luga) === "undefined"){
 	 * Or the whole document if the second argument is not passed
 	 *
 	 * @param {String} name         Name of the field. Mandatory
-	 * @param {jQuery} [rootNode]   Root node, optional, default to document
+	 * @param {HTMLElement} [rootNode]   Root node, optional, default to document
 	 * @return {jQuery}
 	 */
 	luga.form.utils.getFieldGroup = function(name, rootNode){

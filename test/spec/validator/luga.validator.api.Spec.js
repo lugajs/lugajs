@@ -89,7 +89,7 @@ describe("luga.validator.api", function(){
 		it("Allows to programmatically validate a collection of fields", function(){
 
 			jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
-			const fields = jQuery("#name,#age");
+			const fields = document.querySelectorAll("input[id='name'], input[id='age']");
 
 			expect(luga.validator.api.validateFields({fields: fields})).toBe(false);
 			expect(document.getElementById("name")).toHaveClass("invalid");
@@ -99,7 +99,7 @@ describe("luga.validator.api", function(){
 		it("And return true if all fields are validated", function(){
 
 			jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
-			const fields = jQuery("#name,#age");
+			const fields = document.querySelectorAll("input[id='name'], input[id='age']");
 
 			document.getElementById("age").value = "33";
 			document.getElementById("name").value = "filled";

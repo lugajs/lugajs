@@ -61,75 +61,96 @@ describe("luga.validator.TextValidator", function(){
 		});
 
 		describe("options.required either:", function(){
-			it("Default to 'undefined'", function(){
-				expect(basicTextValidator.config.required).toEqual(undefined);
+
+			it("Default to 'null'", function(){
+				expect(basicTextValidator.config.required).toEqual(null);
 			});
+
 			it("Retrieves the value from the field's data-lugavalidator-required custom attribute", function(){
 				expect(attributeTextValidator.config.required).toEqual(true);
 			});
+
 			it("Uses the value specified inside the option argument", function(){
 				expect(configTextValidator.config.required).toEqual(true);
 			});
 		});
 
 		describe("options.pattern either:", function(){
-			it("Default to 'undefined'", function(){
-				expect(basicTextValidator.config.pattern).toEqual(undefined);
+
+			it("Default to 'null'", function(){
+				expect(basicTextValidator.config.pattern).toEqual(null);
 			});
+
 			it("Retrieves the value from the field's data-lugavalidator-pattern custom attribute", function(){
 				expect(attributeTextValidator.config.pattern).toEqual("lettersonly");
 			});
+
 			it("Uses the value specified inside the option argument", function(){
 				expect(configTextValidator.config.pattern).toEqual("lettersonly");
 			});
 		});
 
 		describe("options.minlength either:", function(){
-			it("Default to 'undefined'", function(){
-				expect(basicTextValidator.config.minlength).toEqual(undefined);
+
+			it("Default to 'null'", function(){
+				expect(basicTextValidator.config.minlength).toEqual(null);
 			});
+
 			it("Retrieves the value from the field's data-lugavalidator-minlength custom attribute", function(){
 				expect(attributeTextValidator.config.minlength).toEqual("4");
 			});
+
 			it("Uses the value specified inside the option argument", function(){
 				expect(configTextValidator.config.minlength).toEqual("4");
 			});
 		});
 
 		describe("options.maxlength either:", function(){
-			it("Default to 'undefined'", function(){
-				expect(basicTextValidator.config.maxlength).toEqual(undefined);
+
+			it("Default to 'null'", function(){
+				expect(basicTextValidator.config.maxlength).toEqual(null);
 			});
+
 			it("Retrieves the value from the field's data-lugavalidator-maxlength custom attribute", function(){
 				expect(attributeTextValidator.config.maxlength).toEqual("10");
 			});
+
 			it("Uses the value specified inside the option argument", function(){
 				expect(configTextValidator.config.maxlength).toEqual("10");
 			});
+
 		});
 
 		describe("options.minnumber either:", function(){
-			it("Default to 'undefined'", function(){
-				expect(basicTextValidator.config.minnumber).toEqual(undefined);
+
+			it("Default to 'null'", function(){
+				expect(basicTextValidator.config.minnumber).toEqual(null);
 			});
+
 			it("Retrieves the value from the field's data-lugavalidator-minnumber custom attribute", function(){
 				expect(attributeTextValidator.config.minnumber).toEqual("5");
 			});
+
 			it("Uses the value specified inside the option argument", function(){
 				expect(configTextValidator.config.minnumber).toEqual("5");
 			});
+
 		});
 
 		describe("options.maxnumber either:", function(){
-			it("Default to 'undefined'", function(){
-				expect(basicTextValidator.config.maxnumber).toEqual(undefined);
+
+			it("Default to 'null'", function(){
+				expect(basicTextValidator.config.maxnumber).toEqual(null);
 			});
+
 			it("Retrieves the value from the field's data-lugavalidator-maxnumber custom attribute", function(){
 				expect(attributeTextValidator.config.maxnumber).toEqual("20");
 			});
+
 			it("Uses the value specified inside the option argument", function(){
 				expect(configTextValidator.config.maxnumber).toEqual("20");
 			});
+
 		});
 
 		describe("options.datepattern either:", function(){
@@ -145,36 +166,45 @@ describe("luga.validator.TextValidator", function(){
 		});
 
 		describe("options.mindate either:", function(){
-			it("Default to 'undefined'", function(){
-				expect(basicTextValidator.config.mindate).toEqual(undefined);
+
+			it("Default to 'null'", function(){
+				expect(basicTextValidator.config.mindate).toEqual(null);
 			});
+
 			it("Retrieves the value from the field's data-lugavalidator-mindate custom attribute", function(){
 				expect(attributeTextValidator.config.mindate).toEqual("2000-01-01");
 			});
+
 			it("Uses the value specified inside the option argument", function(){
 				expect(configTextValidator.config.mindate).toEqual("2000-01-01");
 			});
 		});
 
 		describe("options.maxdate either:", function(){
-			it("Default to 'undefined'", function(){
-				expect(basicTextValidator.config.maxdate).toEqual(undefined);
+
+			it("Default to 'null'", function(){
+				expect(basicTextValidator.config.maxdate).toEqual(null);
 			});
+
 			it("Retrieves the value from the field's data-lugavalidator-maxdate custom attribute", function(){
 				expect(attributeTextValidator.config.maxdate).toEqual("2009-12-31");
 			});
+
 			it("Uses the value specified inside the option argument", function(){
 				expect(configTextValidator.config.maxdate).toEqual("2009-12-31");
 			});
 		});
 
 		describe("options.equalto either:", function(){
-			it("Default to 'undefined'", function(){
-				expect(basicTextValidator.config.equalto).toEqual(undefined);
+
+			it("Default to 'null'", function(){
+				expect(basicTextValidator.config.equalto).toEqual(null);
 			});
+
 			it("Retrieves the value from the field's data-lugavalidator-equalto custom attribute", function(){
 				expect(attributeTextValidator.config.equalto).toEqual("seconField");
 			});
+
 			it("Uses the value specified inside the option argument", function(){
 				expect(configTextValidator.config.equalto).toEqual("seconField");
 			});
@@ -342,6 +372,9 @@ describe("luga.validator.TextValidator", function(){
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: node
 			});
+
+			console.debug(textValidator)
+
 			expect(function(){
 				textValidator.isValid();
 			}).toThrow();
@@ -1564,8 +1597,8 @@ describe("luga.validator.TextValidator", function(){
 			};
 
 			luga.validator.rules.lowercase = function(fieldNode, validator){
-				const lowerStr = fieldNode.val().toLowerCase();
-				return (lowerStr === fieldNode.val());
+				const lowerStr = fieldNode.value.toLowerCase();
+				return (lowerStr === fieldNode.value);
 			};
 
 			textValidator = luga.validator.fieldValidatorFactory.getInstance({

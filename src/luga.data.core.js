@@ -1,6 +1,6 @@
 /* istanbul ignore if */
 if(typeof(luga) === "undefined"){
-	throw("Unable to find Luga JS Core");
+	throw("Unable to find Luga JS Common");
 }
 
 /**

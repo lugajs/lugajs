@@ -231,12 +231,12 @@ describe("luga.validator.FormValidator", function(){
 	describe("Exposes three handlers functions that will be called at different times after the onSubmit event is triggered", function(){
 
 		window.formValidatorHandlers = {};
-		let formValidator, jForm;
+		let formValidator, formNode;
 		beforeEach(function(){
 
 			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 
-			jForm = jQuery("#basic");
+			formNode = document.getElementById("basic");
 			formValidatorHandlers.before = function(formNode){
 			};
 			formValidatorHandlers.error = function(formNode, validators){
@@ -245,7 +245,7 @@ describe("luga.validator.FormValidator", function(){
 			};
 
 			formValidator = new luga.validator.FormValidator({
-				formNode: jForm,
+				formNode: formNode,
 				before: "formValidatorHandlers.before",
 				error: "formValidatorHandlers.error",
 				after: "formValidatorHandlers.after"
@@ -281,9 +281,9 @@ describe("luga.validator.FormValidator", function(){
 			});
 
 			it("Passing the form's DOM node as first argument, the submit event as second", function(){
-				const formEvent = new jQuery.Event();
+				const formEvent = document.createEvent("Event");
 				formValidator.validate(formEvent);
-				expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm, formEvent);
+				expect(formValidatorHandlers.before).toHaveBeenCalledWith(formNode, formEvent);
 			});
 
 			it("An error is throw if the error handler points to a non existing function", function(){
@@ -323,10 +323,11 @@ describe("luga.validator.FormValidator", function(){
 				expect(formValidator.isValid()).toEqual(true);
 				expect(formValidatorHandlers.before).toHaveBeenCalled();
 			});
+
 			it("Passing the form's DOM node as first argument, the submit event as second", function(){
-				const formEvent = new jQuery.Event();
+				const formEvent = document.createEvent("Event");
 				formValidator.validate(formEvent);
-				expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm, formEvent);
+				expect(formValidatorHandlers.before).toHaveBeenCalledWith(formNode, formEvent);
 			});
 
 			it("The error handler is not called", function(){
@@ -370,11 +371,11 @@ describe("luga.validator.FormValidator", function(){
 				expect(formValidatorHandlers.after).toHaveBeenCalled();
 			});
 			it("Passing the form's DOM node as first argument, the submit event as second", function(){
-				const formEvent = new jQuery.Event();
+				const formEvent = document.createEvent("Event");
 				document.getElementById("myName").value = "filled";
 				formValidator.validate(formEvent);
 				expect(formValidator.isValid()).toEqual(true);
-				expect(formValidatorHandlers.after).toHaveBeenCalledWith(jForm, formEvent);
+				expect(formValidatorHandlers.after).toHaveBeenCalledWith(formNode, formEvent);
 			});
 
 		});

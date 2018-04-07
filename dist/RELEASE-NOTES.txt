@@ -21,6 +21,9 @@ CHANGES:
 * Removed luga.isArray()
 * Removed luga.isFunction()
 
+BUG FIXES:
+* Validator: Fixed signature of adter and before handlers
+
 ---------------------------------------------------------------------
 Release 0.9.7
 ---------------------------------------------------------------------
