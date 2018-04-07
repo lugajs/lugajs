@@ -1,7 +1,3 @@
-/* istanbul ignore if */
-if(typeof(jQuery) === "undefined"){
-	throw("Unable to find jQuery");
-}
 /* istanbul ignore else */
 if(typeof(luga) === "undefined"){
 	window.luga = {};
@@ -76,7 +72,7 @@ if(typeof(luga) === "undefined"){
 	 * Returns undefined, if the reference has not been found
 	 * Supports namespaces (if the fully qualified path is passed)
 	 * @param {String} path            Fully qualified name of a function
-	 * @return const|undefined}   The javascript reference to the function, undefined if nothing is fund or if it's not a function
+	 * @return {Function|undefined}    The javascript reference to the function, undefined if nothing is fund or if it's not a function
 	 */
 	luga.lookupFunction = function(path){
 		if(!path){
@@ -664,6 +660,7 @@ if(typeof(luga) === "undefined"){
 				const fieldType = element.type;
 				switch(fieldType){
 
+					/* eslint-disable no-case-declarations */
 					case "select-multiple":
 						const multiValues = getMultiSelectValue(element);
 						for(let j = 0; j < multiValues.length; j++){
@@ -744,13 +741,18 @@ if(typeof(luga) === "undefined"){
 	 * Extracts group of fields that share the same name from a given root node
 	 * Or the whole document if the second argument is not passed
 	 *
-	 * @param {String} name         Name of the field. Mandatory
+	 * @param {String} name              Name of the field. Mandatory
 	 * @param {HTMLElement} [rootNode]   Root node, optional, default to document
-	 * @return {jQuery}
+	 * @return {Array.<HTMLElement>}
 	 */
 	luga.form.utils.getFieldGroup = function(name, rootNode){
+		if(rootNode === undefined) {
+			rootNode = document;
+		}
 		const selector = "input[name='" + name + "']";
-		return jQuery(selector, rootNode);
+		const nodes = rootNode.querySelectorAll(selector);
+		// Turn nodelist into an array to be consistent with .getChildFields()
+		return Array.prototype.slice.call(nodes);
 	};
 
 	/**
@@ -984,6 +986,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.xhr.Request = function(options){
 		const config = {
+			/* eslint-disable no-console */
 			method: "GET",
 			success: function(res){
 				console.debug(res);
