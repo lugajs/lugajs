@@ -38,7 +38,7 @@
 	 * Retrieve the relevant sort function matching the given combination of dataType and sortOrder
 	 * @param {String}               dataType
 	 * @param {luga.data.sort.ORDER} sortOrder
-	 * @return const}
+	 * @return {Function}
 	 */
 	luga.data.sort.getSortStrategy = function(dataType, sortOrder){
 		if(luga.data.sort[dataType] === undefined){

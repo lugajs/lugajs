@@ -38,8 +38,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Offers a simple solution for inheritance among classes
 	 *
-	 * @param const} baseFunc  Parent constructor function. Required
-	 * @param const} func      Child constructor function. Required
+	 * @param {Function} baseFunc  Parent constructor function. Required
+	 * @param {Function} func      Child constructor function. Required
 	 * @param {Array}    [args]    An array of arguments that will be passed to the parent's constructor. Optional
 	 */
 	luga.extend = function(baseFunc, func, args){
@@ -473,7 +473,7 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @param {String}                   type        Either "NodeIterator" or "TreeWalker"
 	 * @param {HTMLElement}              rootNode    Start node. Required
-	 * @param const} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 * @param {Function} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
 	 *                                               The function will be invoked with this signature: filterFunc(node). Must return true|false
 	 * @return {NodeIterator|TreeWalker}
 	 */
@@ -511,7 +511,7 @@ if(typeof(luga) === "undefined"){
 	 * https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
 	 *
 	 * @param {HTMLElement}              rootNode    Start node. Required
-	 * @param const} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 * @param {Function} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
 	 *                                               The function will be invoked with this signature: filterFunc(node). Must return true|false
 	 * @return {NodeIterator}
 	 */
@@ -526,7 +526,7 @@ if(typeof(luga) === "undefined"){
 	 * https://developer.mozilla.org/en/docs/Web/API/TreeWalker
 	 *
 	 * @param {HTMLElement}              rootNode    Start node. Required
-	 * @param const} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 * @param {Function} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
 	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
 	 * @return {TreeWalker}
 	 */
@@ -730,11 +730,11 @@ if(typeof(luga) === "undefined"){
 	 * @return {Boolean}
 	 */
 	luga.form.utils.isInputField = function(fieldNode){
-		if(jQuery(fieldNode).prop("type") === undefined){
+		if(fieldNode.type === undefined){
 			return false;
 		}
 		// It belongs to the kind of nodes that are considered form fields, but we don't care about
-		if(luga.form.CONST.FAKE_INPUT_TYPES[jQuery(fieldNode).prop("type")] === true){
+		if(luga.form.CONST.FAKE_INPUT_TYPES[fieldNode.type] === true){
 			return false;
 		}
 		return true;

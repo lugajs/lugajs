@@ -1192,7 +1192,7 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.validator.api.validateForm.options
 	 *
 	 * @property {HTMLElement} formNode     DOM node. Required
-	 * @property const}        error        Name of the function to be invoked to handle/display validation messages.
+	 * @property {Function}        error        Name of the function to be invoked to handle/display validation messages.
 	 *                                      Default to luga.validator.errorAlert
 	 */
 
