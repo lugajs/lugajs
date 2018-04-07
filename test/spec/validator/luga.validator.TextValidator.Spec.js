@@ -373,8 +373,6 @@ describe("luga.validator.TextValidator", function(){
 				fieldNode: node
 			});
 
-			console.debug(textValidator)
-
 			expect(function(){
 				textValidator.isValid();
 			}).toThrow();

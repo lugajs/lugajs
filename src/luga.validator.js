@@ -8,6 +8,15 @@ if(typeof(luga) === "undefined"){
 (function(){
 	"use strict";
 
+	/**
+	 * Helper function
+	 * @param {*} input
+	 * @returns {Boolean}
+	 */
+	const isNumeric = function(input){
+		return (isNaN(parseFloat(input)) === false) && (isFinite(input) === true);
+	};
+
 	luga.namespace("luga.validator");
 
 	/* Validation handlers */
@@ -377,17 +386,15 @@ if(typeof(luga) === "undefined"){
 		};
 
 		this.flagInvalid = function(){
-			//this.node.classList.add(this.config.errorclass);
-			jQuery(this.node).addClass(this.config.errorclass);
-
+			this.node.classList.add(this.config.errorclass);
 			// Set the title attribute in order to show a tooltip
 			this.node.setAttribute("title", this.message);
 		};
 
 		this.flagValid = function(){
-			//this.node.classList.remove(this.config.errorclass);
-			jQuery(this.node).removeClass(this.config.errorclass);
-
+			if(this.config.errorclass !== ""){
+				this.node.classList.remove(this.config.errorclass);
+			}
 			this.node.removeAttribute("title");
 		};
 
@@ -587,7 +594,7 @@ if(typeof(luga) === "undefined"){
 		}
 
 		// Ensure invalidindex is numeric
-		if((self.config.invalidindex !== null) && (!jQuery.isNumeric(self.config.invalidindex))){
+		if((self.config.invalidindex !== null) && (isNumeric(self.config.invalidindex) === false)){
 			throw(luga.validator.CONST.MESSAGES.INVALID_INDEX_PARAMETER);
 		}
 
@@ -623,9 +630,9 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.validator.BaseGroupValidator.options
 	 *
-	 * @property {jQuery} inputGroup      A jQuery object wrapping input fields that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
-	 * @property {String} message         Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property {String} errorclass      CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property @property {Array.<HTMLElement>} inputGroup      An array of DOM nodes that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
+	 * @property {String} message                                Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property {String} errorclass                             CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 *
 	 * Additional options can be used, but are specific to different kind of input fields.
 	 * Check their implementation for details
@@ -648,18 +655,23 @@ if(typeof(luga) === "undefined"){
 		this.config = {};
 		luga.merge(this.config, options);
 		this.inputGroup = this.config.inputGroup;
-		this.name = jQuery(this.config.inputGroup).attr("name");
+
+		if(this.config.inputGroup.length > 0 && this.config.inputGroup[0].getAttribute("name") !== null){
+			// Get the name of the first node
+			this.name = this.config.inputGroup[0].getAttribute("name");
+		}
+
 		this.message = "";
 		this.errorclass = "";
 
 		// Since fields from the same group can have conflicting attribute values, the last one win
 		for(let i = 0; i < this.inputGroup.length; i++){
-			const field = jQuery(this.inputGroup[i]);
-			if(field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MESSAGE) !== undefined){
-				this.message = field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MESSAGE);
+			const field = this.inputGroup[i];
+			if(field.getAttribute(luga.validator.CONST.CUSTOM_ATTRIBUTES.MESSAGE) !== null){
+				this.message = field.getAttribute(luga.validator.CONST.CUSTOM_ATTRIBUTES.MESSAGE);
 			}
-			if(field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.ERROR_CLASS) !== undefined){
-				this.errorclass = field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.ERROR_CLASS);
+			if(field.getAttribute(luga.validator.CONST.CUSTOM_ATTRIBUTES.ERROR_CLASS) !== null){
+				this.errorclass = field.getAttribute(luga.validator.CONST.CUSTOM_ATTRIBUTES.ERROR_CLASS);
 			}
 		}
 
@@ -676,9 +688,9 @@ if(typeof(luga) === "undefined"){
 			/* istanbul ignore else */
 			if(this.errorclass !== ""){
 				for(let i = 0; i < this.inputGroup.length; i++){
-					const field = jQuery(this.inputGroup[i]);
-					field.addClass(this.errorclass);
-					field.attr("title", this.message);
+					const field = this.inputGroup[i];
+					field.classList.add(this.errorclass);
+					field.setAttribute("title", this.message);
 				}
 			}
 		};
@@ -686,9 +698,9 @@ if(typeof(luga) === "undefined"){
 		this.flagValid = function(){
 			if(this.errorclass !== ""){
 				for(let i = 0; i < this.inputGroup.length; i++){
-					const field = jQuery(this.inputGroup[i]);
-					field.removeClass(this.errorclass);
-					field.removeAttr("title");
+					const field = this.inputGroup[i];
+					field.classList.remove(this.errorclass);
+					field.removeAttribute("title");
 				}
 			}
 		};
@@ -713,9 +725,9 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.validator.RadioValidator.options
 	 *
-	 * @property {jQuery} inputGroup      A jQuery object wrapping input fields that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
-	 * @property {String} message         Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property {String} errorclass      CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property {Array.<HTMLElement>} inputGroup      An array of DOM nodes that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
+	 * @property {String} message                      Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property {String} errorclass                   CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 */
 
 	/**
@@ -742,10 +754,10 @@ if(typeof(luga) === "undefined"){
 			const fieldGroup = this.inputGroup;
 			// Since fields from the same group can have conflicting attribute values, the last one win
 			for(let i = 0; i < fieldGroup.length; i++){
-				const field = jQuery(fieldGroup[i]);
-				if(field.prop("disabled") === false){
-					if(field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.REQUIRED)){
-						requiredFlag = field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.REQUIRED);
+				const field = fieldGroup[i];
+				if(field.disabled === false){
+					if(field.getAttribute(luga.validator.CONST.CUSTOM_ATTRIBUTES.REQUIRED) !== null){
+						requiredFlag = field.getAttribute(luga.validator.CONST.CUSTOM_ATTRIBUTES.REQUIRED);
 					}
 				}
 			}
@@ -762,9 +774,9 @@ if(typeof(luga) === "undefined"){
 			if(this.isRequired() === "true"){
 				const fieldGroup = this.inputGroup;
 				for(let i = 0; i < fieldGroup.length; i++){
-					const field = jQuery(fieldGroup[i]);
+					const field = fieldGroup[i];
 					// As long as only one is checked, we are fine
-					if(field.prop("checked") === true){
+					if(field.checked === true){
 						return true;
 					}
 				}
@@ -777,11 +789,11 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.validator.CheckboxValidator.options
 	 *
-	 * @property {jQuery} inputGroup      A jQuery object wrapping input fields that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
-	 * @property {Number} minchecked      Specify a minimum number of boxes that can be checked in a group. Set it to 1 to allow only one choice. Optional
-	 * @property {Number} maxchecked      Specify a maximum number of boxes that can be checked within a group. Optional
-	 * @property {String} message         Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property {String} errorclass      CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property @property {Array.<HTMLElement>} inputGroup      An array of DOM nodes that share the same name.  Use luga.form.utils.getFieldGroup() to obtain it. Required
+	 * @property {Number} minchecked                             Specify a minimum number of boxes that can be checked in a group. Set it to 1 to allow only one choice. Optional
+	 * @property {Number} maxchecked                             Specify a maximum number of boxes that can be checked within a group. Optional
+	 * @property {String} message                                Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property {String} errorclass                             CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 */
 
 	/**
@@ -803,13 +815,13 @@ if(typeof(luga) === "undefined"){
 
 		// Since checkboxes from the same group can have conflicting attribute values, the last one win
 		for(let i = 0; i < this.inputGroup.length; i++){
-			const field = jQuery(this.inputGroup[i]);
-			if(field.prop("disabled") === false){
-				if(field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MIN_CHECKED) !== undefined){
-					this.minchecked = field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MIN_CHECKED);
+			const field = this.inputGroup[i];
+			if(field.disabled === false){
+				if(field.getAttribute(luga.validator.CONST.CUSTOM_ATTRIBUTES.MIN_CHECKED) !== null){
+					this.minchecked = field.getAttribute(luga.validator.CONST.CUSTOM_ATTRIBUTES.MIN_CHECKED);
 				}
-				if(field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MAX_CHECKED) !== undefined){
-					this.maxchecked = field.attr(luga.validator.CONST.CUSTOM_ATTRIBUTES.MAX_CHECKED);
+				if(field.getAttribute(luga.validator.CONST.CUSTOM_ATTRIBUTES.MAX_CHECKED) !== null){
+					this.maxchecked = field.getAttribute(luga.validator.CONST.CUSTOM_ATTRIBUTES.MAX_CHECKED);
 				}
 			}
 		}
@@ -824,9 +836,9 @@ if(typeof(luga) === "undefined"){
 			const fieldGroup = this.inputGroup;
 			for(let i = 0; i < fieldGroup.length; i++){
 				// For each checked box, increase the counter
-				const field = jQuery(this.inputGroup[i]);
-				if(field.prop("disabled") === false){
-					if(field.prop("checked") === true){
+				const field = this.inputGroup[i];
+				if(field.disabled === false){
+					if(field.checked === true){
 						checkCounter++;
 					}
 				}
@@ -942,7 +954,7 @@ if(typeof(luga) === "undefined"){
 	 * @return {Boolean}
 	 */
 	luga.validator.rules.maxnumber = function(fieldNode, validator){
-		if(jQuery.isNumeric(fieldNode.value) === false){
+		if(isNumeric(fieldNode.value) === false){
 			return false;
 		}
 		if(parseFloat(fieldNode.value) <= parseFloat(validator.config.maxnumber)){
@@ -957,7 +969,7 @@ if(typeof(luga) === "undefined"){
 	 * @return {Boolean}
 	 */
 	luga.validator.rules.minnumber = function(fieldNode, validator){
-		if(jQuery.isNumeric(fieldNode.value) === false){
+		if(isNumeric(fieldNode.value) === false){
 			return false;
 		}
 		if(parseFloat(fieldNode.value) >= parseFloat(validator.config.minnumber)){
@@ -1124,15 +1136,15 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Remove a message box (if any) associated with a given node
-	 * @param {jQuery}  node   Target node
+	 * @param {HTMLElement}  node   Target node
 	 */
 	luga.validator.utils.removeDisplayBox = function(node){
-		const boxId = generateBoxId(jQuery(node)[0]);
-		const oldBox = jQuery("#" + boxId);
+		const boxId = generateBoxId(node);
+		const oldBox = document.getElementById(boxId);
 		// If an error display is already there, get rid of it
 		/* istanbul ignore else */
-		if(oldBox.length > 0){
-			oldBox.remove();
+		if(oldBox !== null){
+			oldBox.outerHTML = "";
 		}
 	};
 
@@ -1159,27 +1171,32 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Display a box with a message associated with a given node
 	 * Overwrite this method if you want to change the way luga.validator.utils.displayMessage and luga.validator.utils.displayErrorMessage behaves
-	 * @param {jQuery}  node                       Target node
+	 * @param {HTMLElement}  node                  Target node
 	 * @param {String}  html                       HTML/Text code to inject
 	 * @param {String}  [cssClass="luga_message"]  CSS class attached to the box. Default to "luga_message"
-	 * @return {jQuery}
+	 * @return {HTMLElement}
 	 */
 	luga.validator.utils.displayBox = function(node, html, cssClass){
+		if(node === undefined){
+			return;
+		}
 		if(cssClass === undefined){
 			cssClass = luga.validator.utils.CONST.CSS_CLASSES.MESSAGE;
 		}
-		const boxId = generateBoxId(jQuery(node)[0]);
-		const box = jQuery("<div></div>");
-		box.attr("id", boxId);
-		box.addClass(cssClass);
-		box.html(html);
-		const oldBox = jQuery("#" + boxId);
+		const boxId = generateBoxId(node);
+		const box = document.createElement("div");
+		box.setAttribute("id", boxId);
+		box.classList.add(cssClass);
+		box.innerHTML = html;
+
+		const oldBox = document.getElementById(boxId);
 		// If a box display is already there, replace it, if not, we create one from scratch
-		if(oldBox.length > 0){
-			oldBox.replaceWith(box);
+		if(oldBox !== null){
+			// A bit brutal, but does the job
+			oldBox.outerHTML = box.outerHTML
 		}
 		else{
-			jQuery(node).before(box);
+			node.insertBefore(box, null);
 		}
 		return box;
 	};

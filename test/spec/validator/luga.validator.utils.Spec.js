@@ -2,6 +2,10 @@ describe("luga.validator.utils", function(){
 
 	"use strict";
 
+	beforeEach(function(){
+		jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
+	});
+
 	it("Contains generic, static methods and utilities", function(){
 		expect(luga.validator).toBeDefined();
 	});
@@ -9,14 +13,15 @@ describe("luga.validator.utils", function(){
 	describe(".displayBox()", function(){
 
 		it("Display a box with a message associated with a given node", function(){
-			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
-			const formNode = jQuery("<input id='myId' name='ciccio'>");
-			expect(formNode.prev().length).toEqual(0);
+			const rootNode = document.querySelector(".container");
+			const formNode = document.getElementById("basic");
+			expect(rootNode.querySelectorAll(".luga-message").length).toEqual(0);
+
 			luga.validator.utils.displayBox(formNode, "Error");
-			const boxNode = formNode.prev();
-			expect(boxNode.length).toEqual(1);
-			expect(boxNode.text()).toEqual("Error");
-			expect(boxNode).toHaveClass(luga.validator.utils.CONST.CSS_CLASSES.MESSAGE);
+			const boxes = rootNode.querySelectorAll(".luga-message");
+			expect(boxes.length).toEqual(1);
+			expect(boxes[0].textContent).toEqual("Error");
+			expect(boxes).toHaveClass(luga.validator.utils.CONST.CSS_CLASSES.MESSAGE);
 		});
 
 	});
@@ -24,14 +29,15 @@ describe("luga.validator.utils", function(){
 	describe(".displayMessage()", function(){
 
 		it("Display a message box above a given node", function(){
-			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
-			const formNode = jQuery("#basic");
-			expect(formNode.prev().length).toEqual(0);
+			const rootNode = document.querySelector(".container");
+			const formNode = document.getElementById("basic");
+			expect(rootNode.querySelectorAll(".luga-message").length).toEqual(0);
+
 			luga.validator.utils.displayMessage(formNode, "Ciao");
-			const boxNode = formNode.prev();
-			expect(boxNode.length).toEqual(1);
-			expect(boxNode.text()).toEqual("Ciao");
-			expect(boxNode).toHaveClass(luga.validator.utils.CONST.CSS_CLASSES.MESSAGE);
+			const boxes = rootNode.querySelectorAll(".luga-message");
+			expect(boxes.length).toEqual(1);
+			expect(boxes[0].textContent).toEqual("Ciao");
+			expect(boxes).toHaveClass(luga.validator.utils.CONST.CSS_CLASSES.MESSAGE);
 		});
 
 	});
@@ -39,14 +45,15 @@ describe("luga.validator.utils", function(){
 	describe(".displayErrorMessage()", function(){
 
 		it("Display an error box above a given node", function(){
-			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
-			const formNode = jQuery("#basic");
-			expect(formNode.prev().length).toEqual(0);
+			const rootNode = document.querySelector(".container");
+			const formNode = document.getElementById("basic");
+			expect(rootNode.querySelectorAll(".luga-message").length).toEqual(0);
+
 			luga.validator.utils.displayErrorMessage(formNode, "Error");
-			const boxNode = formNode.prev();
-			expect(boxNode.length).toEqual(1);
-			expect(boxNode.text()).toEqual("Error");
-			expect(boxNode).toHaveClass(luga.validator.utils.CONST.CSS_CLASSES.ERROR_MESSAGE);
+			const boxes = rootNode.querySelectorAll(".luga-error-message");
+			expect(boxes.length).toEqual(1);
+			expect(boxes[0].textContent).toEqual("Error");
+			expect(boxes).toHaveClass(luga.validator.utils.CONST.CSS_CLASSES.ERROR_MESSAGE);
 		});
 
 	});
@@ -54,12 +61,15 @@ describe("luga.validator.utils", function(){
 	describe(".removeDisplayBox()", function(){
 
 		it("Remove a message box (if any) associated with a given node", function(){
-			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
-			const formNode = jQuery("#basic");
-			expect(formNode.prev().length).toEqual(0);
+			const rootNode = document.querySelector(".container");
+			const formNode = document.getElementById("basic");
+			expect(rootNode.querySelectorAll(".luga-error-message").length).toEqual(0);
+
 			luga.validator.utils.displayErrorMessage(formNode, "Error");
+			expect(rootNode.querySelectorAll(".luga-error-message").length).toEqual(1);
+
 			luga.validator.utils.removeDisplayBox(formNode);
-			expect(formNode.prev().length).toEqual(0);
+			expect(rootNode.querySelectorAll(".luga-error-message").length).toEqual(0);
 		});
 
 	});
