@@ -19,7 +19,7 @@ VERSION 1.x
 VERSION 2.0
 
 - Drop support for IE 11
-  Use forEach on NodeList
+  Use Array.from instead of Array.prototype.slice.call
   Remove usage of Active-X for XML
   Use arrow functions to avoid .bind() and/or self = this
   Remove IE11 plugin for ESLint
