@@ -1,5 +1,5 @@
 /*! 
-Luga Validator 0.9.7 2018-04-08T06:37:17.377Z
+Luga Validator 0.9.7 2018-04-08T06:53:41.440Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -518,7 +518,7 @@ if(typeof(luga) === "undefined"){
 			if(requiredAtt === true){
 				return true;
 			}
-			if(requiredAtt === false){
+			if(requiredAtt === false || requiredAtt === null){
 				return false;
 			}
 			// It's a conditional validation. Invoke the relevant function if available

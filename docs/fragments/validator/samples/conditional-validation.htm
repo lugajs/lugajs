@@ -1,7 +1,7 @@
 <script>
 	function dependonbox(fieldNode){
 		// The field is required only if the box is checked
-		if(jQuery("#specialmeal").prop("checked") === true){
+		if(document.getElementById("specialmeal").checked === true){
 			return true;
 		}
 		return false;
@@ -39,7 +39,7 @@
 
 <pre><code class="line-numbers language-javascript">function dependonbox(fieldNode){
 	// The field is required only if the box is checked
-	if(jQuery("#specialmeal").prop("checked") === true){
+	if(document.getElementById("specialmeal").checked === true){
 		return true;
 	}
 	return false;

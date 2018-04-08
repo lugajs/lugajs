@@ -512,7 +512,7 @@ if(typeof(luga) === "undefined"){
 			if(requiredAtt === true){
 				return true;
 			}
-			if(requiredAtt === false){
+			if(requiredAtt === false || requiredAtt === null){
 				return false;
 			}
 			// It's a conditional validation. Invoke the relevant function if available
