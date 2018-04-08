@@ -46,8 +46,8 @@ describe("luga.data.xml", function(){
 
 				it("Child nodes to properties", function(){
 					// Quite an hack to get the employees Node
-					const employeesDoc = luga.data.xml.parseFromString(employeesStr);
-					const rootNode = luga.data.xml.evaluateXPath(employeesDoc, "//employees");
+					const xmlDoc = luga.data.xml.parseFromString(employeesStr);
+					const rootNode = luga.data.xml.evaluateXPath(xmlDoc, "//employees");
 
 					const obj = luga.data.xml.nodeToHash(rootNode[0]);
 					expect(obj["employee"].length).toEqual(3);

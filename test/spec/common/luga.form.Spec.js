@@ -201,31 +201,31 @@ describe("luga.form", function(){
 			it("Return true if the passed node is a form field that we care about", function(){
 				expect(luga.form.utils.isInputField(document.createElement("textarea"))).toEqual(true);
 
-				const text = document.createElement("input")
+				const text = document.createElement("input");
 				text.setAttribute("type", "text");
 				expect(luga.form.utils.isInputField(text)).toEqual(true);
 
-				const radio = document.createElement("input")
+				const radio = document.createElement("input");
 				radio.setAttribute("type", "radio");
 				expect(luga.form.utils.isInputField(radio)).toEqual(true);
 
-				const checkbox = document.createElement("input")
+				const checkbox = document.createElement("input");
 				checkbox.setAttribute("type", "checkbox");
 				expect(luga.form.utils.isInputField(checkbox)).toEqual(true);
 
-				const email = document.createElement("input")
+				const email = document.createElement("input");
 				email.setAttribute("type", "email");
 				expect(luga.form.utils.isInputField(email)).toEqual(true);
 
-				const date = document.createElement("input")
+				const date = document.createElement("input");
 				date.setAttribute("type", "date");
 				expect(luga.form.utils.isInputField(date)).toEqual(true);
 
-				const submit = document.createElement("input")
+				const submit = document.createElement("input");
 				submit.setAttribute("type", "submit");
 				expect(luga.form.utils.isInputField(submit)).toEqual(true);
 
-				const button = document.createElement("input")
+				const button = document.createElement("input");
 				button.setAttribute("type", "button");
 				expect(luga.form.utils.isInputField(button)).toEqual(true);
 
@@ -237,7 +237,7 @@ describe("luga.form", function(){
 			it("False otherwise", function(){
 				expect(luga.form.utils.isInputField(document.createElement("div"))).toEqual(false);
 				expect(luga.form.utils.isInputField(document.createElement("form"))).toEqual(false);
-				const reset = document.createElement("input")
+				const reset = document.createElement("input");
 				reset.setAttribute("type", "reset");
 				expect(luga.form.utils.isInputField(reset)).toEqual(false);
 				expect(luga.form.utils.isInputField(document.createElement("fieldset"))).toEqual(false);

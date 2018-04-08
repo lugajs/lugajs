@@ -108,7 +108,7 @@ describe("luga.data.TsvDataset", function(){
 						lastName: "Coltrane",
 						country: "USA",
 						lugaRowId: "lugaPk_0"
-					})
+					});
 				});
 
 			});

@@ -1548,8 +1548,7 @@ describe("luga.validator.TextValidator", function(){
 
 		it("Like data-lugavalidator-minlength and data-lugavalidator-maxlength", function(){
 			jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
-			let textValidator;
-			textValidator = luga.validator.fieldValidatorFactory.getInstance({
+			const textValidator = luga.validator.fieldValidatorFactory.getInstance({
 				fieldNode: document.getElementById("comments")
 			});
 

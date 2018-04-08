@@ -45,7 +45,7 @@ describe("luga.data.region", function(){
 
 		describe("Given a DOM node", function(){
 
-			let testDiv
+			let testDiv;
 			beforeEach(function(){
 				testDiv = document.createElement("div");
 				testDiv.setAttribute("data-lugaregion", "true");
@@ -67,7 +67,7 @@ describe("luga.data.region", function(){
 				});
 
 				it("If it fails to lookup a function matching the value of the data-lugaregion-type attribute", function(){
-					testDiv.setAttribute("data-lugaregion-datasource-uuid", "testDs")
+					testDiv.setAttribute("data-lugaregion-datasource-uuid", "testDs");
 					testDiv.setAttribute("data-lugaregion-type", "missing");
 					new luga.data.DataSet({uuid: "testDs"});
 					expect(function(){
