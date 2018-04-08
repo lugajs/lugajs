@@ -101,24 +101,34 @@ describe("luga.validator.SelectValidator", function(){
 		});
 
 		describe("options.errorclass either:", function(){
+
 			it("Default to an empty string", function(){
 				expect(basicSelectValidator.config.errorclass).toEqual("");
 			});
+
 			it("Retrieves the value from the field's data-lugavalidator-errorclass custom attribute", function(){
 				expect(attributeSelectValidator.config.errorclass).toEqual("invalid-select");
 			});
+
 			it("Uses the value specified inside the option argument", function(){
 				expect(configSelectValidator.config.errorclass).toEqual("invalid-select");
 			});
 		});
 
 		describe("options.message either:", function(){
+
 			it("Default to an empty string", function(){
+				basicSelectValidator.flagInvalid();
 				expect(basicSelectValidator.config.message).toEqual("");
+				// We have neither message or error class
+				expect(basicSelectValidator.node.title).toEqual("");
+				expect(basicSelectValidator.node.classList.length).toEqual(0);
 			});
+
 			it("Retrieves the value from the field's data-lugavalidator-message custom attribute", function(){
 				expect(attributeSelectValidator.config.message).toEqual("Invalid select!");
 			});
+
 			it("Uses the value specified inside the option argument", function(){
 				expect(configSelectValidator.config.message).toEqual("Invalid select!");
 			});

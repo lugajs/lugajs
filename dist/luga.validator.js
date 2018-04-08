@@ -1,5 +1,5 @@
 /*! 
-Luga Validator 0.9.7 2018-04-07T19:28:31.855Z
+Luga Validator 0.9.7 2018-04-08T06:37:17.377Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -388,7 +388,9 @@ if(typeof(luga) === "undefined"){
 		};
 
 		this.flagInvalid = function(){
-			this.node.classList.add(this.config.errorclass);
+			if(this.config.errorclass !== ""){
+				this.node.classList.add(this.config.errorclass);
+			}
 			// Set the title attribute in order to show a tooltip
 			this.node.setAttribute("title", this.message);
 		};

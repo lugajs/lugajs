@@ -382,7 +382,9 @@ if(typeof(luga) === "undefined"){
 		};
 
 		this.flagInvalid = function(){
-			this.node.classList.add(this.config.errorclass);
+			if(this.config.errorclass !== ""){
+				this.node.classList.add(this.config.errorclass);
+			}
 			// Set the title attribute in order to show a tooltip
 			this.node.setAttribute("title", this.message);
 		};
