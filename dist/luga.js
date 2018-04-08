@@ -1,5 +1,5 @@
 /*! 
-Luga JS 0.9.7 2018-04-08T06:53:41.440Z
+Luga JS 0.9.7 2018-04-08T09:40:04.747Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -2473,7 +2473,7 @@ if(typeof(luga) === "undefined"){
 
 }());
 /*! 
-Luga Data 0.9.7 2018-04-08T05:44:40.826Z
+Luga Data 0.9.7 2018-04-08T09:40:04.077Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
