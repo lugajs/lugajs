@@ -24,6 +24,8 @@ VERSION 2.0
   Use arrow functions to avoid .bind() and/or self = this
   Remove IE11 plugin for ESLint
 
+- Use setup() method to configure Validator instead of globals
+
 - Document luga.data.xml
 
 - ES6 modules import/export?
