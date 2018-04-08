@@ -1,5 +1,5 @@
 /*! 
-Luga JS 0.9.7 2018-04-08T09:40:04.747Z
+Luga JS 0.9.7 2018-04-08T09:59:28.939Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -111,7 +111,7 @@ if(typeof(luga) === "undefined"){
 		if(object[path] !== undefined){
 			return object[path];
 		}
-		let parts = path.split(".");
+		const parts = path.split(".");
 		while(parts.length > 0){
 			const part = parts.shift();
 			if(object[part] !== undefined){
@@ -155,7 +155,7 @@ if(typeof(luga) === "undefined"){
 			object[path] = value;
 		}
 		while(parts.length > 0){
-			let part = parts.shift();
+			const part = parts.shift();
 			if(object[part] !== undefined){
 				if(parts.length === 0){
 					// Update
@@ -749,12 +749,12 @@ if(typeof(luga) === "undefined"){
 	 * Or the whole document if the second argument is not passed
 	 *
 	 * @param {String} name              Name of the field. Mandatory
-	 * @param {HTMLElement} [rootNode]   Root node, optional, default to document
+	 * @param {HTMLElement} [rootNode]   Root node, optional, default to document.body
 	 * @return {Array.<HTMLElement>}
 	 */
 	luga.form.utils.getFieldGroup = function(name, rootNode){
 		if(rootNode === undefined){
-			rootNode = document;
+			rootNode = document.body;
 		}
 		const selector = "input[name='" + name + "']";
 		const nodes = rootNode.querySelectorAll(selector);
@@ -1146,7 +1146,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Helper function
 	 * @param {*} input
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	const isNumeric = function(input){
 		return (isNaN(parseFloat(input)) === false) && (isFinite(input) === true);
@@ -1629,6 +1629,7 @@ if(typeof(luga) === "undefined"){
 				self.node.select();
 			}
 			catch(e){
+				/* eslint-disable no-empty */
 			}
 		};
 
@@ -2135,6 +2136,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.validator.patterns");
 
+	/* eslint-disable camelcase */
 	luga.validator.patterns.lettersonly = new RegExp("^[a-zA-Z]*$");
 	luga.validator.patterns.alphanumeric = new RegExp("^\\w*$");
 	luga.validator.patterns.integer = new RegExp("^-?[1-9][0-9]*$");
@@ -2331,7 +2333,7 @@ if(typeof(luga) === "undefined"){
 		// If a box display is already there, replace it, if not, we create one from scratch
 		if(oldBox !== null){
 			// A bit brutal, but does the job
-			oldBox.outerHTML = box.outerHTML
+			oldBox.outerHTML = box.outerHTML;
 		}
 		else{
 			node.insertBefore(box, null);

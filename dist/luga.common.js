@@ -1,5 +1,5 @@
 /*! 
-Luga Common 0.9.7 2018-04-08T09:40:04.747Z
+Luga Common 0.9.7 2018-04-08T09:59:28.939Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -111,7 +111,7 @@ if(typeof(luga) === "undefined"){
 		if(object[path] !== undefined){
 			return object[path];
 		}
-		let parts = path.split(".");
+		const parts = path.split(".");
 		while(parts.length > 0){
 			const part = parts.shift();
 			if(object[part] !== undefined){
@@ -155,7 +155,7 @@ if(typeof(luga) === "undefined"){
 			object[path] = value;
 		}
 		while(parts.length > 0){
-			let part = parts.shift();
+			const part = parts.shift();
 			if(object[part] !== undefined){
 				if(parts.length === 0){
 					// Update
@@ -749,12 +749,12 @@ if(typeof(luga) === "undefined"){
 	 * Or the whole document if the second argument is not passed
 	 *
 	 * @param {String} name              Name of the field. Mandatory
-	 * @param {HTMLElement} [rootNode]   Root node, optional, default to document
+	 * @param {HTMLElement} [rootNode]   Root node, optional, default to document.body
 	 * @return {Array.<HTMLElement>}
 	 */
 	luga.form.utils.getFieldGroup = function(name, rootNode){
 		if(rootNode === undefined){
-			rootNode = document;
+			rootNode = document.body;
 		}
 		const selector = "input[name='" + name + "']";
 		const nodes = rootNode.querySelectorAll(selector);

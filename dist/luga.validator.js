@@ -1,5 +1,5 @@
 /*! 
-Luga Validator 0.9.7 2018-04-08T09:40:04.747Z
+Luga Validator 0.9.7 2018-04-08T09:59:28.939Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -17,7 +17,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Helper function
 	 * @param {*} input
-	 * @returns {Boolean}
+	 * @return {Boolean}
 	 */
 	const isNumeric = function(input){
 		return (isNaN(parseFloat(input)) === false) && (isFinite(input) === true);
@@ -500,6 +500,7 @@ if(typeof(luga) === "undefined"){
 				self.node.select();
 			}
 			catch(e){
+				/* eslint-disable no-empty */
 			}
 		};
 
@@ -1006,6 +1007,7 @@ if(typeof(luga) === "undefined"){
 
 	luga.namespace("luga.validator.patterns");
 
+	/* eslint-disable camelcase */
 	luga.validator.patterns.lettersonly = new RegExp("^[a-zA-Z]*$");
 	luga.validator.patterns.alphanumeric = new RegExp("^\\w*$");
 	luga.validator.patterns.integer = new RegExp("^-?[1-9][0-9]*$");
@@ -1202,7 +1204,7 @@ if(typeof(luga) === "undefined"){
 		// If a box display is already there, replace it, if not, we create one from scratch
 		if(oldBox !== null){
 			// A bit brutal, but does the job
-			oldBox.outerHTML = box.outerHTML
+			oldBox.outerHTML = box.outerHTML;
 		}
 		else{
 			node.insertBefore(box, null);

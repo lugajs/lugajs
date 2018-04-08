@@ -105,7 +105,7 @@ if(typeof(luga) === "undefined"){
 		if(object[path] !== undefined){
 			return object[path];
 		}
-		let parts = path.split(".");
+		const parts = path.split(".");
 		while(parts.length > 0){
 			const part = parts.shift();
 			if(object[part] !== undefined){
@@ -149,7 +149,7 @@ if(typeof(luga) === "undefined"){
 			object[path] = value;
 		}
 		while(parts.length > 0){
-			let part = parts.shift();
+			const part = parts.shift();
 			if(object[part] !== undefined){
 				if(parts.length === 0){
 					// Update
@@ -743,12 +743,12 @@ if(typeof(luga) === "undefined"){
 	 * Or the whole document if the second argument is not passed
 	 *
 	 * @param {String} name              Name of the field. Mandatory
-	 * @param {HTMLElement} [rootNode]   Root node, optional, default to document
+	 * @param {HTMLElement} [rootNode]   Root node, optional, default to document.body
 	 * @return {Array.<HTMLElement>}
 	 */
 	luga.form.utils.getFieldGroup = function(name, rootNode){
 		if(rootNode === undefined){
-			rootNode = document;
+			rootNode = document.body;
 		}
 		const selector = "input[name='" + name + "']";
 		const nodes = rootNode.querySelectorAll(selector);
