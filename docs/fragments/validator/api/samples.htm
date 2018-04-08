@@ -49,11 +49,11 @@
 
 			<div class="form-group">
 				<input type="button" value="Validate name field"
-					   onclick="luga.validator.api.validateField({ fieldNode: jQuery('#name') })"/>
+					   onclick="luga.validator.api.validateField({ fieldNode: document.getElementById('name') })"/>
 			</div>
 			<div class="form-group">
 				<input type="button" value="Validate text fields"
-					   onclick="luga.validator.api.validateChildFields({ rootNode: jQuery('#textContainer') })"/>
+					   onclick="luga.validator.api.validateChildFields({ rootNode: document.getElementById('textContainer') })"/>
 			</div>
 
 			<p class="help-block">
@@ -99,11 +99,11 @@
 
 			<div class="form-group">
 				<input type="button" value="Validate whole form (show error inside box)"
-					   onclick="luga.validator.api.validateForm({ formNode: jQuery('#apiForm'), error: 'luga.validator.handlers.errorBox' })"/>
+					   onclick="luga.validator.api.validateForm({ formNode: document.getElementById('apiForm'), error: 'luga.validator.handlers.errorBox' })"/>
 			</div>
 			<div class="form-group">
 				<input type="button" value="Validate radio and checkboxes"
-					   onclick="luga.validator.api.validateChildFields({ rootNode: jQuery('#boxContainer') })"/>
+					   onclick="luga.validator.api.validateChildFields({ rootNode: document.getElementById('boxContainer') })"/>
 			</div>
 		</form>
 
