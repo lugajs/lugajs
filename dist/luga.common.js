@@ -1,5 +1,5 @@
 /*! 
-Luga Common 0.9.7 2018-04-07T19:28:31.854Z
+Luga Common 0.9.7 2018-04-08T05:35:58.606Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0

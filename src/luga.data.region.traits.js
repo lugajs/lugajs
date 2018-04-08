@@ -25,10 +25,10 @@
 		}
 	};
 
-	const removeCssClass = function(nodes, className){
-		for(let i = 0; i < nodes.length; i++){
-			nodes[i].classList.remove(className);
-		}
+	const removeCssClass = function(nodeList, className){
+		nodeList.forEach(function(item){
+			item.classList.remove(className);
+		});
 	};
 
 	/**
@@ -36,11 +36,13 @@
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.select = function(options){
-		const nodes = options.node.querySelectorAll(CONST.SELECTORS.SELECT);
 		if(options.dataSource.getCurrentRowIndex === undefined){
 			// It's a detailSet, abort
 			return;
 		}
+
+		let nodes = options.node.querySelectorAll(CONST.SELECTORS.SELECT);
+		nodes = Array.prototype.slice.call(nodes);
 
 		if(nodes.length > 0){
 			const cssClass = nodes[0].getAttribute(CONST.CUSTOM_ATTRIBUTES.SELECT);
@@ -59,19 +61,15 @@
 			}
 
 			// Attach click event to all nodes
-			for(let i = 0; i < nodes.length; i++){
-				const element = nodes[i];
-				addSelectEvent(element, cssClass, nodes);
-			}
-		}
-	};
+			nodes.forEach(function(item){
+				item.addEventListener("click", function(event){
+					event.preventDefault();
+					removeCssClass(nodes, cssClass);
+					item.classList.add(cssClass);
+				}, false);
+			});
 
-	const addSelectEvent = function(element, cssClass, nodes){
-		element.addEventListener("click", function(event){
-			event.preventDefault();
-			removeCssClass(nodes, cssClass);
-			element.classList.add(cssClass);
-		}, false);
+		}
 	};
 
 	/**
@@ -79,19 +77,17 @@
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.setRowId = function(options){
-		const nodes = options.node.querySelectorAll(CONST.SELECTORS.SET_ROW_ID);
-		for(let i = 0; i < nodes.length; i++){
-			const element = nodes[i];
-			const rowId = element.getAttribute(CONST.CUSTOM_ATTRIBUTES.SET_ROW_ID);
-			addRowIdEvent(element, rowId, options.dataSource);
-		}
-	};
+		let nodes = options.node.querySelectorAll(CONST.SELECTORS.SET_ROW_ID);
+		nodes = Array.prototype.slice.call(nodes);
 
-	const addRowIdEvent = function(element, rowId, dataSource){
-		element.addEventListener("click", function(event){
-			event.preventDefault();
-			dataSource.setCurrentRowId(rowId);
-		}, false);
+		nodes.forEach(function(item){
+			item.addEventListener("click", function(event){
+				event.preventDefault();
+				const rowId = item.getAttribute(CONST.CUSTOM_ATTRIBUTES.SET_ROW_ID);
+				options.dataSource.setCurrentRowId(rowId);
+			}, false);
+		});
+
 	};
 
 	/**
@@ -99,19 +95,16 @@
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.setRowIndex = function(options){
-		const nodes = options.node.querySelectorAll(CONST.SELECTORS.SET_ROW_INDEX);
-		for(let i = 0; i < nodes.length; i++){
-			const element = nodes[i];
-			const rowIndex = parseInt(element.getAttribute(CONST.CUSTOM_ATTRIBUTES.SET_ROW_INDEX), 10);
-			addRowIndexEvent(element, rowIndex, options.dataSource);
-		}
-	};
+		let nodes = options.node.querySelectorAll(CONST.SELECTORS.SET_ROW_INDEX);
+		nodes = Array.prototype.slice.call(nodes);
 
-	const addRowIndexEvent = function(element, rowIndex, dataSource){
-		element.addEventListener("click", function(event){
-			event.preventDefault();
-			dataSource.setCurrentRowIndex(rowIndex);
-		}, false);
+		nodes.forEach(function(item){
+			item.addEventListener("click", function(event){
+				event.preventDefault();
+				const rowIndex = parseInt(item.getAttribute(CONST.CUSTOM_ATTRIBUTES.SET_ROW_INDEX), 10);
+				options.dataSource.setCurrentRowIndex(rowIndex);
+			}, false);
+		});
 	};
 
 	/**
@@ -119,15 +112,17 @@
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.sort = function(options){
-		const nodes = options.node.querySelectorAll(CONST.SELECTORS.SORT);
-		for(let i = 0; i < nodes.length; i++){
-			const element = nodes[i];
-			element.addEventListener("click", function(event){
+		let nodes = options.node.querySelectorAll(CONST.SELECTORS.SORT);
+		nodes = Array.prototype.slice.call(nodes);
+
+		nodes.forEach(function(item){
+			item.addEventListener("click", function(event){
 				event.preventDefault();
-				const sortCol = element.getAttribute(CONST.CUSTOM_ATTRIBUTES.SORT);
+				const sortCol = item.getAttribute(CONST.CUSTOM_ATTRIBUTES.SORT);
 				options.dataSource.sort(sortCol);
 			}, false);
-		}
+		});
+
 	};
 
 }());

@@ -1,7 +1,5 @@
 - Remove jQuery from Validator samples and doc
 
-- Use forEach() in traits
-
 - Add notes on dist files
 
 - Release 0.9.8
