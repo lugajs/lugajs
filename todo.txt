@@ -1,5 +1,3 @@
-- Remove jQuery from Validator samples and doc
-
 - Add notes on dist files
 
 - Release 0.9.8
