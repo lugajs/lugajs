@@ -1,0 +1,291 @@
+<div class="panel panel-default">
+	<div id="constructor" class="panel-heading luga-docs-api-heading">luga.data.PagedView(options)</div>
+	<div class="panel-body">
+		<p>
+			PagedView's constructor.
+		</p>
+	</div>
+	<table class="table  luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>options.uuid</td>
+			<td>
+				{String}
+			</td>
+			<td>
+				Unique identifier. Required
+			</td>
+		</tr>
+		<tr>
+			<td>options.parentDataSet</td>
+			<td>
+				{luga.data.DataSet}
+			</td>
+			<td>
+				Parent dataSet. Required. <br>
+				The pagedView will register itself as <a href="#common/notifier">observer</a> of the dataSet.
+			</td>
+		</tr>
+		<tr>
+			<td>options.pageSize</td>
+			<td>
+				{Number}
+			</td>
+			<td>
+				The max number of rows in a given page. Default to 10.
+			</td>
+		</tr>
+	</table>
+	<table class="table  luga-docs-api">
+		<th>Examples</th>
+	</table>
+
+<pre><code class="line-numbers language-javascript">(function(){
+	"use strict";
+	const BASE_URL = "../test/fixtures/data";
+	const baseDsObj = new luga.data.JsonDataSet({
+		uuid: "baseDs",
+		url: BASE_URL + "/usa-states.json"
+	});
+	const pagedViewObj = new luga.data.PagedView({
+		uuid: "pagedView",
+		parentDataSet: baseDsObj
+	});
+
+}());
+</code></pre>
+</div>
+
+
+<div class="panel panel-default">
+	<div id="getContext" class="panel-heading luga-docs-api-heading">.getContext()</div>
+	<div class="panel-body">
+		<p>
+			Returns the pagedView <a href="#data/pagedview/getting-started">context data.</a>
+			This contains extra information on top of normal <a href="#data/region/context">context data.</a>.
+		</p>
+	</div>
+	<table class="table  luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{luga.data.PagedView.context}</td>
+		</tr>
+	</table>
+
+</div>
+
+<div class="panel panel-default">
+	<div id="getCurrentOffsetStart" class="panel-heading luga-docs-api-heading">.getCurrentOffsetStart()</div>
+	<div class="panel-body">
+		<p>
+			Return the zero-based offset of the first record inside the current page.
+		</p>
+	</div>
+	<table class="table  luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{Number}</td>
+		</tr>
+	</table>
+</div>
+
+<div class="panel panel-default">
+	<div id="getCurrentOffsetEnd" class="panel-heading luga-docs-api-heading">.getCurrentOffsetEnd()</div>
+	<div class="panel-body">
+		<p>
+			Return the zero-based offset of the last record inside the current page.
+		</p>
+	</div>
+	<table class="table  luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{Number}</td>
+		</tr>
+	</table>
+</div>
+
+<div class="panel panel-default">
+	<div id="getCurrentPageIndex" class="panel-heading luga-docs-api-heading">.getCurrentPageIndex()</div>
+	<div class="panel-body">
+		<p>
+			Return the current page index. Starting at 1.
+		</p>
+	</div>
+	<table class="table  luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{Number}</td>
+		</tr>
+	</table>
+</div>
+
+<div class="panel panel-default">
+	<div id="getPagesCount" class="panel-heading luga-docs-api-heading">.getPagesCount()</div>
+	<div class="panel-body">
+		<p>
+			Return the total number of pages required to display all of the data.
+		</p>
+	</div>
+	<table class="table  luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{Number}</td>
+		</tr>
+	</table>
+</div>
+
+<div class="panel panel-default">
+	<div id="getPageSize" class="panel-heading luga-docs-api-heading">.getPageSize()</div>
+	<div class="panel-body">
+		<p>
+			Return the maximum number of items that can be in a page.
+		</p>
+	</div>
+	<table class="table  luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{Number}</td>
+		</tr>
+	</table>
+</div>
+
+<div class="panel panel-default">
+	<div id="goToPage" class="panel-heading luga-docs-api-heading">.goToPage(pageNumber)</div>
+	<div class="panel-body">
+		<p>
+			Navigate to the given page number.
+			Fails silently if the given page number is out of range.
+			It also change the index of the current row to match the first record in the page.
+		</p>
+	</div>
+	<table class="table  luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>pageNumber</td>
+			<td>
+				{Number}
+			</td>
+			<td>
+				Number of the page we want to navigate to (starting at 1). Required.
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div class="panel panel-default">
+	<div id="goToNextPage" class="panel-heading luga-docs-api-heading">.goToNextPage()</div>
+	<div class="panel-body">
+		<p>
+			Navigate to the next page. Fails silently if the current page is the last one.
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div id="goToPrevPage" class="panel-heading luga-docs-api-heading">.goToPrevPage()</div>
+	<div class="panel-body">
+		<p>
+			Navigate to the previous page. Fails silently if the current page is the first one.
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div id="isPageInRange" class="panel-heading luga-docs-api-heading">.isPageInRange(pageNumber)</div>
+	<div class="panel-body">
+		<p>
+			Return true if the given page is within range. False otherwise.
+		</p>
+	</div>
+	<table class="table  luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>pageNumber</td>
+			<td>
+				{Number}
+			</td>
+			<td>
+				Number of the page we want to navigate to. Required.
+			</td>
+		</tr>
+	</table>
+	<table class="table  luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{Boolean}</td>
+		</tr>
+	</table>
+</div>
+
+<div class="panel panel-default">
+	<div id="getCurrentRowIndex" class="panel-heading luga-docs-api-heading">.getCurrentRowIndex()</div>
+	<div class="panel-body">
+		<p>
+			Returns a zero-based index at which the current row can be found, or -1 if the dataSet is empty.
+		</p>
+	</div>
+	<table class="table  luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{Number}</td>
+		</tr>
+	</table>
+</div>
+
+<div class="panel panel-default">
+	<div id="getRecordsCount" class="panel-heading luga-docs-api-heading">.getRecordsCount()</div>
+	<div class="panel-body">
+		<p>
+			Returns the number of records in the parent dataSet. If the dataSet has a filter, returns the number of filtered records.
+		</p>
+	</div>
+	<table class="table  luga-docs-api">
+		<th>Return type</th>
+		<tr>
+			<td>{Number}</td>
+		</tr>
+	</table>
+</div>
+
+<div class="panel panel-default">
+	<div id="loadData" class="panel-heading luga-docs-api-heading">.loadData()</div>
+	<div class="panel-body">
+		<p>
+			Call the parent dataSet .loadData() method, if any.
+			If the parent dataSet is HTTP based you have to call this in order to see data inside the pagedView.
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div id="sort" class="panel-heading luga-docs-api-heading">.sort(columnNames, sortOrder)</div>
+	<div class="panel-body">
+		<p>
+			Call the parent dataSet.sort() method.
+			Be aware this only sort the data, it does not affects pagination.
+			Use it with caution.
+		</p>
+	</div>
+	<table class="table  luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>columnNames</td>
+			<td class="luga-docs-type">
+				{String|Array&lt;String&gt;}
+			</td>
+			<td>
+				Either a single column name or an array of names. Required
+			</td>
+		</tr>
+		<tr>
+			<td>sortOrder</td>
+			<td>
+				{luga.data.sort.ORDER}
+			</td>
+			<td>
+				Either "ascending", "descending" or "toggle". Optional, default to "toggle"
+			</td>
+		</tr>
+	</table>
+
+</div>

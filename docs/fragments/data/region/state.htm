@@ -2,21 +2,21 @@
 	(function(){
 		"use strict";
 
-		var BASE_URL = "https://gxabmxeqzc.execute-api.us-east-1.amazonaws.com/stage/showreel";
+		const BASE_URL = "https://gxabmxeqzc.execute-api.us-east-1.amazonaws.com/stage/showreel";
 
-		var slowCharacters = new luga.data.JsonDataSet({
+		const slowCharacters = new luga.data.JsonDataSet({
 			uuid: "slowCharacters",
 			url: BASE_URL + "/characters?offset=5&delayedResponse=60000",
 			path: "result",
 			timeout: 80000
 		});
 
-		var missingDs = new luga.data.JsonDataSet({
+		const missingDs = new luga.data.JsonDataSet({
 			uuid: "missingDs",
 			url: "missing.json"
 		});
 
-		jQuery(document).ready(function(){
+		luga.dom.ready(function(){
 			slowCharacters.loadData();
 			missingDs.loadData();
 		});

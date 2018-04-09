@@ -96,7 +96,7 @@
 		<tr>
 			<td>options.formatter</td>
 			<td>
-				{function}
+				{Function}
 			</td>
 			<td>
 				A formatter functions to be called once for each row in the dataSet (<a href="#data/dataset/formatter">read
@@ -106,7 +106,7 @@
 		<tr>
 			<td>options.filter</td>
 			<td>
-				{function}
+				{Function}
 			</td>
 			<td>
 				A filter functions to be called once for each row in the dataSet (<a href="#data/dataset/filter">read
@@ -127,13 +127,13 @@
 		<th>Examples</th>
 	</table>
 
-<pre><code class="language-javascript">var ladiesDs = new luga.data.XmlDataSet({
+<pre><code class="language-javascript">const ladiesDs = new luga.data.XmlDataSet({
 	uuid: "ladiesDs",
 	url: "../test/fixtures/data/people.xml"
 });
 
 // Using custom HTTP headers
-var testDs = new luga.data.XmlDataSet({
+const testDs = new luga.data.XmlDataSet({
 	uuid: "testDs",
 	headers: {"X-Requested-With": "ciccio"},
 	url: "whatever.xml"
@@ -173,7 +173,7 @@ var testDs = new luga.data.XmlDataSet({
 </div>
 
 <div id="loadData" class="panel panel-default">
-	<div class="panel-heading luga-docs-api-heading">.loadData(columnNames, sortOrder)</div>
+	<div class="panel-heading luga-docs-api-heading">.loadData()</div>
 	<div class="panel-body">
 		<p>
 			Fires off XHR request to fetch and load the data, then notify observers ("dataLoading" first, "dataChanged"
@@ -187,12 +187,12 @@ var testDs = new luga.data.XmlDataSet({
 
 <pre><code class="line-numbers language-javascript">(function(){
 	"use strict";
-	var ladiesDs = new luga.data.XmlDataSet({
+	const ladiesDs = new luga.data.XmlDataSet({
 		uuid: "ladiesDs",
 		url: "../test/fixtures/data/people.xml"
 	});
 	// Fetch data only once the DOM is ready
-	jQuery(document).ready(function(){
+	luga.dom.ready(function(){
 		ladiesDs.loadData();
 	});
 }());</code></pre>
@@ -200,10 +200,10 @@ var testDs = new luga.data.XmlDataSet({
 </div>
 
 <div id="loadRawXml" class="panel panel-default">
-	<div class="panel-heading luga-docs-api-heading">.loadRawXml(node)</div>
+	<div class="panel-heading luga-docs-api-heading">.loadRawXml(xmlStr)</div>
 	<div class="panel-body">
 		<p>
-			First delete any existing records, then load data from the given XML, without XHR calls.
+			First delete any existing records, then load data from the given string, without XHR calls.
 		</p>
 	</div>
 	<table class="table  luga-docs-api">
@@ -211,10 +211,10 @@ var testDs = new luga.data.XmlDataSet({
 		<tr>
 			<td>node</td>
 			<td class="luga-docs-type">
-				{node}
+				{String}
 			</td>
 			<td>
-				XML node. Required.
+				XML as string. Required.
 			</td>
 		</tr>
 	</table>
@@ -245,7 +245,7 @@ var testDs = new luga.data.XmlDataSet({
 		<th>Examples</th>
 	</table>
 
-<pre><code class="line-numbers language-javascript">var testDs = new luga.data.XmlDataSet({
+<pre><code class="line-numbers language-javascript">const testDs = new luga.data.XmlDataSet({
 	uuid: "peopleDs",
 	url: "../test/fixtures/data/people.xml",
 	path: "//ladies/person"
@@ -279,7 +279,7 @@ testDs.loadData();
 		<th>Examples</th>
 	</table>
 
-<pre><code class="line-numbers language-javascript">var testDs = new luga.data.XmlDataSet({
+<pre><code class="line-numbers language-javascript">const testDs = new luga.data.XmlDataSet({
 	uuid: "peopleDs",
 	url: "people.xml"
 });

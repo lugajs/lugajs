@@ -2,13 +2,13 @@
 	(function(){
 		"use strict";
 
-		var peopleDs = new luga.data.XmlDataSet({
+		const peopleDs = new luga.data.XmlDataSet({
 			uuid: "people",
 			url: "../test/fixtures/data/people.xml",
 			path: "//ladies/person"
 		});
 
-		jQuery(document).ready(function(){
+		luga.dom.ready(function(){
 			// Fetch data only once the DOM is ready
 			peopleDs.loadData();
 		});
@@ -53,17 +53,23 @@
 
 <pre><code class="line-numbers language-javascript">(function(){
 	"use strict";
-	var peopleDs = new luga.data.XmlDataSet({
+	const peopleDs = new luga.data.XmlDataSet({
 		uuid: "people",
 		url: "../test/fixtures/data/people.xml",
 		path: "//ladies/person"
 	});
-	jQuery(document).ready(function(){
+	luga.dom.ready(function(){
 		// Fetch data only once the DOM is ready
 		peopleDs.loadData();
 	});
 }());
 </code></pre>
+
+		<div class="alert alert-warning" role="alert">
+			<strong>Warning!</strong><br>
+			IE11 may fail to use the XML features due to security restrictions on Active-X.
+			If you get a <strong>Automation server can't create object</strong> error, try lowering the security level.
+		</div>
 
 		<p>
 			Another &lt;scrip&gt; tag containing the <a href="#data/region/handlebars">Handlebars</a> template:

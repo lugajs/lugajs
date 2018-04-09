@@ -2,24 +2,24 @@ describe("luga.Notifier", function(){
 
 	"use strict";
 
-	var notifierObj, observerObj, uselessObj, eventObserverObj;
+	let notifierObj, observerObj, uselessObj, eventObserverObj;
 	beforeEach(function(){
 
-		var NotifierClass = function(){
+		const NotifierClass = function(){
 			luga.extend(luga.Notifier, this);
 		};
 
-		var ObserverClass = function(){
+		const ObserverClass = function(){
 			this.onCompleteHandler = function(data){
 			};
 			this.onSomethingHandler = function(){
 			};
 		};
 
-		var UselessObserverClass = function(){
+		const UselessObserverClass = function(){
 		};
 
-		var EventObserverClass = function(){
+		const EventObserverClass = function(){
 			this.firstHandler = function(data){
 			};
 			this.secondHandler = function(){
@@ -33,7 +33,7 @@ describe("luga.Notifier", function(){
 	});
 
 	it("Is an interface class, it can only be used as a base class", function(){
-		expect(jQuery.isFunction(luga.Notifier)).toEqual(true);
+		expect(luga.type(luga.Notifier)).toEqual("function");
 	});
 
 	it("Throw an exception if instantiated directly", function(){
@@ -45,7 +45,7 @@ describe("luga.Notifier", function(){
 	describe(".observers", function(){
 
 		it("Is an array", function(){
-			expect(jQuery.isArray(notifierObj.observers)).toEqual(true);
+			expect(luga.type(notifierObj.observers)).toEqual("array");
 		});
 
 		it("Empty by default", function(){

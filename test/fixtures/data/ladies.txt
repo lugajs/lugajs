@@ -1,0 +1,44 @@
+[
+  {
+    "firstName": "Nicole",
+    "lastName": "Kidman",
+    "country": "Australia",
+    "birthDate": "1967-06-20"
+  },
+  {
+    "firstName": "Kate",
+    "lastName": "Beckinsale",
+    "country": "UK",
+    "birthDate": "1973-07-26"
+  },
+  {
+    "firstName": "Jennifer",
+    "lastName": "Connelly",
+    "country": "USA",
+    "birthDate": "1970-12-12"
+  },
+  {
+    "firstName": "Salma",
+    "lastName": "Hayek",
+    "country": "Mexico",
+    "birthDate": "1966-09-02"
+  },
+  {
+    "firstName": "Gisele",
+    "lastName": "Bundchen",
+    "country": "Brasil",
+    "birthDate": "1980-07-20"
+  },
+  {
+    "firstName": "Elisabeth",
+    "lastName": "Banks",
+    "country": "USA",
+    "birthDate": "1974-02-10"
+  },
+  {
+    "firstName": "Liz",
+    "lastName": "Hurley",
+    "country": "UK",
+    "birthDate": "1965-06-10"
+  }
+]

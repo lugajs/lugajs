@@ -1,10 +1,8 @@
 <script>
-	// <![CDATA[
 	luga.validator.rules.lowercase = function(fieldNode){
-		var lowerStr = fieldNode.val().toLowerCase();
-		return (lowerStr === fieldNode.val());
+		const lowerStr = fieldNode.value.toLowerCase();
+		return (lowerStr === fieldNode.value);
 	};
-	// ]]>
 </script>
 
 <div class="panel panel-default">
@@ -24,8 +22,8 @@
 		</p>
 
 <pre><code class="language-javascript">luga.validator.rules.lowercase = function(fieldNode){
-	var lowerStr = fieldNode.val().toLowerCase();
-	return (lowerStr === fieldNode.val());
+	const lowerStr = fieldNode.value.toLowerCase();
+	return (lowerStr === fieldNode.value);
 };</code></pre>
 
 		<p>

@@ -2,7 +2,7 @@ describe("luga.data.ChildJsonDataSet", function(){
 
 	"use strict";
 
-	var stateRecords, masterDs, remoteDs;
+	let stateRecords, masterDs, remoteDs;
 	beforeEach(function(){
 		stateRecords = jasmineFixtures.read("data/usa-states.json");
 		masterDs = new luga.data.JsonDataSet({uuid: "masterDs"});
@@ -16,6 +16,10 @@ describe("luga.data.ChildJsonDataSet", function(){
 
 	afterEach(function(){
 		luga.data.dataSourceRegistry = {};
+	});
+
+	it("Is the ChildJsonDataSet constructor", function(){
+		expect(luga.type(luga.data.ChildJsonDataSet)).toEqual("function");
 	});
 
 	it("Extends luga.data.JsonDataSet", function(){

@@ -2,62 +2,66 @@
 	(function(){
 		"use strict";
 
-		var marathon = new luga.data.JsonDataSet({
+		const marathon = new luga.data.JsonDataSet({
 			uuid: "nyMarathon2015",
 			url: "../test/fixtures/data/marathon.json"
 		});
 		marathon.setColumnType("place", "number");
 
-		var ladiesMaster = new luga.data.JsonDataSet({
+		const ladiesMaster = new luga.data.JsonDataSet({
 			uuid: "ladies",
 			url: "../test/fixtures/data/people.json",
 			path: "ladies"
 		});
-		var ladyDetails = new luga.data.DetailSet({uuid: "lady", parentDataSet: ladiesMaster});
+		const ladyDetails = new luga.data.DetailSet({uuid: "lady", parentDataSet: ladiesMaster});
 
-		var jazzPlayers = new luga.data.JsonDataSet({
+		const jazzPlayers = new luga.data.JsonDataSet({
 			uuid: "players",
 			url: "../test/fixtures/data/jazzPlayers.json",
 			path: "jazzPlayers"
 		});
 
-		var dateFormatter = function(row, rowIndex, dataSet){
-			var dateObj = new Date(row.birthDate);
+		const dateFormatter = function(row, rowIndex, dataSet){
+			const dateObj = new Date(row.birthDate);
 			// Turn date into a reasonable string rapresentation
 			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toUTCString
-			var dateStr = dateObj.toUTCString();
-			var trimmedStr = dateStr.substring(0, dateStr.length - 12);
+			const dateStr = dateObj.toUTCString();
+			const trimmedStr = dateStr.substring(0, dateStr.length - 12);
 			row.birthDateFormatted = trimmedStr;
 			return row;
 		};
 
-		var ladies = new luga.data.JsonDataSet({
+		const ladies = new luga.data.JsonDataSet({
 			uuid: "ladiesDate",
 			url: "../test/fixtures/data/ladies.json",
 			formatter: dateFormatter
 		});
 
-		jQuery(document).ready(function(){
+		luga.dom.ready(function(){
 
 			marathon.loadData();
 			ladiesMaster.loadData();
 			jazzPlayers.loadData();
 			ladies.loadData();
 
-			jQuery("#sortName").on("click", function(event){
-				event.preventDefault();
-				marathon.sort("name");
-			});
+			if(document.getElementById("sortName") !== null){
 
-			jQuery("#sortPlace").on("click", function(event){
-				event.preventDefault();
-				marathon.sort("place");
-			});
+				document.getElementById("sortName").addEventListener("click", function(event){
+					event.preventDefault();
+					marathon.sort("name");
+				}, false);
 
-			jQuery("#sortBib").on("click", function(event){
-				event.preventDefault();
-				marathon.sort("bib");
-			});
+				document.getElementById("sortPlace").addEventListener("click", function(event){
+					event.preventDefault();
+					marathon.sort("place");
+				}, false);
+
+				document.getElementById("sortBib").addEventListener("click", function(event){
+					event.preventDefault();
+					marathon.sort("bib");
+				}, false);
+
+			}
 
 		});
 	}());
@@ -186,7 +190,7 @@
 			 data-lugaregion-datasource-uuid="nyMarathon2015"
 			 data-lugaregion-template-id="marathonTemplate"></div>
 
-<pre><code class="line-numbers language-javascript">var marathon = new luga.data.JsonDataSet({
+<pre><code class="line-numbers language-javascript">const marathon = new luga.data.JsonDataSet({
 	uuid: "nyMarathon2015",
 	url: "../test/fixtures/data/marathon.json"
 });

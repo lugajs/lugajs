@@ -1,11 +1,11 @@
 <script>
 	(function(){
 		"use strict";
-		var ladiesDs = new luga.data.JsonDataSet({
+		const ladiesDs = new luga.data.JsonDataSet({
 			uuid: "ladiesDs",
 			url: "../test/fixtures/data/ladies.json"
 		});
-		jQuery(document).ready(function(){
+		luga.dom.ready(function(){
 			ladiesDs.loadData();
 		});
 	}());

@@ -17,9 +17,9 @@
 	luga.data.XmlDataSet = function(options){
 		luga.extend(luga.data.HttpDataSet, this, [options]);
 		/** @type {luga.data.XmlDataSet} */
-		var self = this;
+		const self = this;
 		/** @override */
-		this.dataType = "xml";
+		this.contentType = "application/xml";
 
 		this.path = "/";
 		if(options.path !== undefined){
@@ -41,7 +41,7 @@
 
 		/**
 		 * Returns the XPath expression to be used to extract data out of the XML
-		 * @return {null|string}
+		 * @return {null|String}
 		 */
 		this.getPath = function(){
 			return this.path;
@@ -49,29 +49,29 @@
 
 		/**
 		 * First delete any existing records, then load data from the given XML, without XHR calls
-		 * @param {Node} node
+		 * @param {String} xmlStr
 		 */
-		this.loadRawXml = function(node){
+		this.loadRawXml = function(xmlStr){
 			self.delete();
-			self.loadRecords(node);
+			self.loadRecords({
+				responseText: xmlStr
+			});
 		};
 
 		/**
-		 * Retrieves XML data, either from an HTTP response or from a direct call, apply the path, if any, extract and load records out of it
-		 * @param {Node}     xmlDoc       XML data. Either returned from the server or passed directly
-		 * @param {String}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
-		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
+		 * Retrieves XML data from an HTTP response, apply the path, if any, extract and load records out of it
+		 * @param {luga.xhr.response} response
 		 * @override
 		 */
-		this.loadRecords = function(xmlDoc, textStatus, jqXHR){
+		this.loadRecords = function(response){
+			const xmlDoc = luga.data.xml.parseFromString(response.responseText);
 			self.rawXml = xmlDoc;
-			var nodes = luga.xml.evaluateXPath(xmlDoc, self.path);
-			var records = [];
-			for(var i = 0; i < nodes.length; i++){
-				records.push(luga.xml.nodeToHash(nodes[i]));
+			const nodes = luga.data.xml.evaluateXPath(xmlDoc, self.path);
+			const records = [];
+			for(let i = 0; i < nodes.length; i++){
+				records.push(luga.data.xml.nodeToHash(nodes[i]));
 			}
 			self.insert(records);
-
 		};
 
 		/**

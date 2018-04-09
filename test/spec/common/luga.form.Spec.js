@@ -13,36 +13,36 @@ describe("luga.form", function(){
 		});
 
 		it("Return a string of name/value pairs from fields contained inside a given node", function(){
-			expect(luga.form.toQueryString(jQuery("#basicValue"))).toEqual("firstname=ciccio&lastname=pasticcio&radio=yes");
-			expect(luga.form.toQueryString(jQuery("#basicNoValue"))).toEqual("firstname=&lastname=");
+			expect(luga.form.toQueryString(document.getElementById("basicValue"))).toEqual("firstname=ciccio&lastname=pasticcio&radio=yes");
+			expect(luga.form.toQueryString(document.getElementById("basicNoValue"))).toEqual("firstname=&lastname=");
 		});
 
 		it("Throws an exception if the given node does not exists", function(){
 			expect(function(){
-				luga.form.toQueryString(jQuery("#missing"));
+				luga.form.toQueryString(document.getElementById("missing"));
 			}).toThrow();
 		});
 
 		it("Ignores unsuccessful fields", function(){
-			expect(luga.form.toQueryString(jQuery("#unsuccessfulFields"))).toEqual("firstname=ciccio");
+			expect(luga.form.toQueryString(document.getElementById("unsuccessfulFields"))).toEqual("firstname=ciccio");
 		});
 
 		it("Names and values are URI encoded", function(){
-			expect(luga.form.toQueryString(jQuery("#encodedValue"))).toEqual("firstname=ciccio&slash=%2F&ampersand=%26");
+			expect(luga.form.toQueryString(document.getElementById("encodedValue"))).toEqual("firstname=ciccio&slash=%2F&ampersand=%26");
 		});
 
 		it("Values of multiple checked checkboxes are included as multiple value/pairs", function(){
-			expect(luga.form.toQueryString(jQuery("#multiBox"))).toEqual("firstname=ciccio&box=first&box=second&box=fourth");
+			expect(luga.form.toQueryString(document.getElementById("multiBox"))).toEqual("firstname=ciccio&box=first&box=second&box=fourth");
 		});
 
 		it("Values of multiple select are included as multiple value/pairs", function(){
-			expect(luga.form.toQueryString(jQuery("#multiSelect"))).toEqual("firstname=ciccio&select=first&select=second");
+			expect(luga.form.toQueryString(document.getElementById("multiSelect"))).toEqual("firstname=ciccio&select=second&select=second");
 		});
 
 		it("If the second argument is set to true, MS Word's special chars are replaced with plausible substitutes", function(){
-			var moronicStr = String.fromCharCode(8216) + String.fromCharCode(8220);
-			jQuery("#moronicValue").val(moronicStr);
-			expect(luga.form.toQueryString(jQuery("#moronicForm"), true)).toEqual("firstname=ciccio&moronicValue='%22");
+			const moronicStr = String.fromCharCode(8216) + String.fromCharCode(8220);
+			document.getElementById("moronicValue").value = moronicStr;
+			expect(luga.form.toQueryString(document.getElementById("moronicForm"), true)).toEqual("firstname=ciccio&moronicValue='%22");
 		});
 
 	});
@@ -54,49 +54,39 @@ describe("luga.form", function(){
 		});
 
 		it("Return a JavaScript object containing name/value pairs from fields contained inside a given node", function(){
-			expect(luga.form.toMap(jQuery("#basicValue"))).toEqual({firstname: "ciccio", lastname: "pasticcio", radio: "yes"});
-			expect(luga.form.toMap(jQuery("#basicNoValue"))).toEqual({firstname: "", lastname: ""});
+			expect(luga.form.toMap(document.getElementById("basicValue"))).toEqual({
+				firstname: "ciccio",
+				lastname: "pasticcio",
+				radio: "yes"
+			});
+			expect(luga.form.toMap(document.getElementById("basicNoValue"))).toEqual({firstname: "", lastname: ""});
 		});
 
 		it("Throws an exception if the given node does not exists", function(){
 			expect(function(){
-				luga.form.toMap(jQuery("#missing"));
+				luga.form.toMap(document.getElementById("missing"));
 			}).toThrow();
 		});
 
 		it("Ignores unsuccessful fields", function(){
-			expect(luga.form.toMap(jQuery("#unsuccessfulFields"))).toEqual({firstname: "ciccio"});
+			expect(luga.form.toMap(document.getElementById("unsuccessfulFields"))).toEqual({firstname: "ciccio"});
 		});
 
 		it("Values of multiple checked checkboxes are included as a single entry, with array value", function(){
-			expect(luga.form.toMap(jQuery("#multiBox"))).toEqual({firstname: "ciccio", box: ["first", "second", "fourth"]});
+			expect(luga.form.toMap(document.getElementById("multiBox"))).toEqual({
+				firstname: "ciccio",
+				box: ["first", "second", "fourth"]
+			});
 		});
 
 		it("Values of multiple select are included as a single entry, with comma-delimited value", function(){
-			expect(luga.form.toMap(jQuery("#multiSelect"))).toEqual({firstname: "ciccio", select: ["first", "second"]});
+			expect(luga.form.toMap(document.getElementById("multiSelect"))).toEqual({firstname: "ciccio", select: ["first", "second"]});
 		});
 
 		it("If the second argument is set to true, MS Word's special chars are replaced with plausible substitutes", function(){
-			var moronicStr = String.fromCharCode(8230);
-			jQuery("#moronicValue").val(moronicStr);
-			expect(luga.form.toMap(jQuery("#moronicForm"), true)).toEqual({firstname: "ciccio", moronicValue: "..."});
-		});
-
-	});
-
-
-	describe(".toHash()", function(){
-
-		it("Is deprecated. Use .toMap() instead", function(){
-			expect(luga.form.toHash).toBeDefined();
-		});
-
-		it("It's just an alias to .toMap()", function(){
-			jasmineFixtures.loadHTML("form/common.htm");
-			var formNode = jQuery("#multiSelect");
-			spyOn(luga.form, "toMap").and.callThrough();
-			luga.form.toHash(formNode);
-			expect(luga.form.toMap).toHaveBeenCalledWith(formNode, undefined);
+			const moronicStr = String.fromCharCode(8230);
+			document.getElementById("moronicValue").value = moronicStr;
+			expect(luga.form.toMap(document.getElementById("moronicForm"), true)).toEqual({firstname: "ciccio", moronicValue: "..."});
 		});
 
 	});
@@ -108,14 +98,14 @@ describe("luga.form", function(){
 		});
 
 		it("Given a form tag or another element wrapping input fields, serialize them into JSON data", function(){
-			expect(luga.form.toJson(jQuery("#basicValue"))).toEqual({
+			expect(luga.form.toJson(document.getElementById("basicValue"))).toEqual({
 				person: {
 					firstname: "ciccio",
 					lastname: "pasticcio"
 				},
 				radio: "yes"
 			});
-			expect(luga.form.toJson(jQuery("#basicNoValue"))).toEqual({
+			expect(luga.form.toJson(document.getElementById("basicNoValue"))).toEqual({
 				person: {
 					firstname: "",
 					lastname: ""
@@ -125,12 +115,12 @@ describe("luga.form", function(){
 
 		it("Throws an exception if the given node does not exists", function(){
 			expect(function(){
-				luga.form.toJson(jQuery("#missing"));
+				luga.form.toJson(document.getElementById("missing"));
 			}).toThrow();
 		});
 
 		it("Ignores unsuccessful fields", function(){
-			expect(luga.form.toJson(jQuery("#unsuccessfulFields"))).toEqual({
+			expect(luga.form.toJson(document.getElementById("unsuccessfulFields"))).toEqual({
 				person: {
 					firstname: "ciccio"
 				}
@@ -138,7 +128,7 @@ describe("luga.form", function(){
 		});
 
 		it("Values of multiple checked checkboxes are included as a single entry, with array value", function(){
-			expect(luga.form.toJson(jQuery("#multiBox"))).toEqual({
+			expect(luga.form.toJson(document.getElementById("multiBox"))).toEqual({
 				person: {
 					firstname: "ciccio"
 				},
@@ -147,7 +137,7 @@ describe("luga.form", function(){
 		});
 
 		it("Values of multiple select are included as a single entry, with comma-delimited value", function(){
-			expect(luga.form.toJson(jQuery("#multiSelect"))).toEqual({
+			expect(luga.form.toJson(document.getElementById("multiSelect"))).toEqual({
 				person: {
 					firstname: "ciccio"
 				},
@@ -157,8 +147,8 @@ describe("luga.form", function(){
 
 		it("Requires luga.form.toMap() in order to work", function(){
 			spyOn(luga.form, "toMap");
-			luga.form.toJson(jQuery("#basicValue"));
-			expect(luga.form.toMap).toHaveBeenCalledWith($("#basicValue"));
+			luga.form.toJson(document.getElementById("basicValue"));
+			expect(luga.form.toMap).toHaveBeenCalledWith(document.getElementById("basicValue"));
 		});
 
 	});
@@ -175,7 +165,7 @@ describe("luga.form", function(){
 
 				it("A given root node", function(){
 					jasmineFixtures.loadHTML("validator/RadioValidator/required.htm");
-					expect(luga.form.utils.getFieldGroup("lady", jQuery("#single")).length).toEqual(4);
+					expect(luga.form.utils.getFieldGroup("lady", document.getElementById("single")).length).toEqual(4);
 				});
 
 				it("Or the whole document if the second argument is not passed", function(){
@@ -196,12 +186,12 @@ describe("luga.form", function(){
 
 			it("Return an array of input fields contained inside a given root node", function(){
 				jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
-				expect(luga.form.utils.getChildFields(jQuery("#generic")).length).toEqual(15);
+				expect(luga.form.utils.getChildFields(document.getElementById("generic")).length).toEqual(15);
 			});
 
 			it("Return an empty array if there are no suitable input fields", function(){
 				jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
-				expect(luga.form.utils.getChildFields(jQuery("#food")).length).toEqual(0);
+				expect(luga.form.utils.getChildFields(document.getElementById("food")).length).toEqual(0);
 			});
 
 		});
@@ -209,23 +199,48 @@ describe("luga.form", function(){
 		describe(".isInputField()", function(){
 
 			it("Return true if the passed node is a form field that we care about", function(){
-				expect(luga.form.utils.isInputField(jQuery("<textarea>"))).toEqual(true);
-				expect(luga.form.utils.isInputField(jQuery("<input type='text'>"))).toEqual(true);
-				expect(luga.form.utils.isInputField(jQuery("<input type='radio'>"))).toEqual(true);
-				expect(luga.form.utils.isInputField(jQuery("<input type='checkbox'>"))).toEqual(true);
-				expect(luga.form.utils.isInputField(jQuery("<input type='email'>"))).toEqual(true);
-				expect(luga.form.utils.isInputField(jQuery("<input type='date'>"))).toEqual(true);
-				expect(luga.form.utils.isInputField(jQuery("<input type='submit'>"))).toEqual(true);
-				expect(luga.form.utils.isInputField(jQuery("<input type='button'>"))).toEqual(true);
-				expect(luga.form.utils.isInputField(jQuery("<button>"))).toEqual(true);
-				expect(luga.form.utils.isInputField(jQuery("<select>"))).toEqual(true);
+				expect(luga.form.utils.isInputField(document.createElement("textarea"))).toEqual(true);
+
+				const text = document.createElement("input");
+				text.setAttribute("type", "text");
+				expect(luga.form.utils.isInputField(text)).toEqual(true);
+
+				const radio = document.createElement("input");
+				radio.setAttribute("type", "radio");
+				expect(luga.form.utils.isInputField(radio)).toEqual(true);
+
+				const checkbox = document.createElement("input");
+				checkbox.setAttribute("type", "checkbox");
+				expect(luga.form.utils.isInputField(checkbox)).toEqual(true);
+
+				const email = document.createElement("input");
+				email.setAttribute("type", "email");
+				expect(luga.form.utils.isInputField(email)).toEqual(true);
+
+				const date = document.createElement("input");
+				date.setAttribute("type", "date");
+				expect(luga.form.utils.isInputField(date)).toEqual(true);
+
+				const submit = document.createElement("input");
+				submit.setAttribute("type", "submit");
+				expect(luga.form.utils.isInputField(submit)).toEqual(true);
+
+				const button = document.createElement("input");
+				button.setAttribute("type", "button");
+				expect(luga.form.utils.isInputField(button)).toEqual(true);
+
+				expect(luga.form.utils.isInputField(document.createElement("button"))).toEqual(true);
+
+				expect(luga.form.utils.isInputField(document.createElement("select"))).toEqual(true);
 			});
 
 			it("False otherwise", function(){
-				expect(luga.form.utils.isInputField(jQuery("<div>"))).toEqual(false);
-				expect(luga.form.utils.isInputField(jQuery("<form>"))).toEqual(false);
-				expect(luga.form.utils.isInputField(jQuery("<input type='reset'>"))).toEqual(false);
-				expect(luga.form.utils.isInputField(jQuery("<fieldset>"))).toEqual(false);
+				expect(luga.form.utils.isInputField(document.createElement("div"))).toEqual(false);
+				expect(luga.form.utils.isInputField(document.createElement("form"))).toEqual(false);
+				const reset = document.createElement("input");
+				reset.setAttribute("type", "reset");
+				expect(luga.form.utils.isInputField(reset)).toEqual(false);
+				expect(luga.form.utils.isInputField(document.createElement("fieldset"))).toEqual(false);
 			});
 
 		});
@@ -233,33 +248,87 @@ describe("luga.form", function(){
 		describe(".isSuccessfulField()", function(){
 
 			it("Return false if the field is disabled", function(){
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='b' disabled='disabled' type='text' />"))).toEqual(false);
+				const input = document.createElement("input");
+				input.setAttribute("name", "b");
+				input.setAttribute("disabled", "disabled");
+				input.setAttribute("type", "text");
+				expect(luga.form.utils.isSuccessfulField(input)).toEqual(false);
 			});
 
 			it("Return true if the given field is successful", function(){
-				expect(luga.form.utils.isSuccessfulField(jQuery("<textarea name='a'>"))).toEqual(true);
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='b' type='text'>"))).toEqual(true);
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='c' type='radio'>"))).toEqual(true);
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='d' type='checkbox'>"))).toEqual(true);
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='e' type='email'>"))).toEqual(true);
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='f' type='date'>"))).toEqual(true);
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='g' type='submit'>"))).toEqual(true);
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='h' type='button'>"))).toEqual(true);
-				expect(luga.form.utils.isSuccessfulField(jQuery("<button name='i'>"))).toEqual(true);
-				expect(luga.form.utils.isSuccessfulField(jQuery("<select name='l'>"))).toEqual(true);
+				const textarea = document.createElement("textarea");
+				textarea.setAttribute("name", "a");
+				expect(luga.form.utils.isSuccessfulField(textarea)).toEqual(true);
+
+				const text = document.createElement("input");
+				text.setAttribute("name", "b");
+				text.setAttribute("type", "text");
+				expect(luga.form.utils.isSuccessfulField(text)).toEqual(true);
+
+				const radio = document.createElement("input");
+				radio.setAttribute("name", "c");
+				radio.setAttribute("type", "radio");
+				expect(luga.form.utils.isSuccessfulField(radio)).toEqual(true);
+
+				const checkbox = document.createElement("input");
+				checkbox.setAttribute("name", "c");
+				checkbox.setAttribute("type", "checkbox");
+				expect(luga.form.utils.isSuccessfulField(checkbox)).toEqual(true);
+
+				const email = document.createElement("input");
+				email.setAttribute("name", "e");
+				email.setAttribute("type", "email");
+				expect(luga.form.utils.isSuccessfulField(email)).toEqual(true);
+
+				const date = document.createElement("input");
+				date.setAttribute("name", "f");
+				date.setAttribute("type", "date");
+				expect(luga.form.utils.isSuccessfulField(date)).toEqual(true);
+
+				const submit = document.createElement("input");
+				submit.setAttribute("name", "g");
+				submit.setAttribute("type", "submit");
+				expect(luga.form.utils.isSuccessfulField(submit)).toEqual(true);
+
+				const inputButton = document.createElement("input");
+				inputButton.setAttribute("name", "h");
+				inputButton.setAttribute("type", "button");
+				expect(luga.form.utils.isSuccessfulField(inputButton)).toEqual(true);
+
+				const button = document.createElement("button");
+				button.setAttribute("name", "i");
+				expect(luga.form.utils.isSuccessfulField(button)).toEqual(true);
+
+				const select = document.createElement("select");
+				select.setAttribute("name", "l");
+				expect(luga.form.utils.isSuccessfulField(select)).toEqual(true);
 			});
 
 			it("False otherwise", function(){
-				expect(luga.form.utils.isSuccessfulField(jQuery("<div>"))).toEqual(false);
-				expect(luga.form.utils.isSuccessfulField(jQuery("<form>"))).toEqual(false);
-				expect(luga.form.utils.isSuccessfulField(jQuery("<button>"))).toEqual(false);
-				expect(luga.form.utils.isSuccessfulField(jQuery("<select>"))).toEqual(false);
-				expect(luga.form.utils.isSuccessfulField(jQuery("<textarea>"))).toEqual(false);
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input type='submit'>"))).toEqual(false);
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input type='text'>"))).toEqual(false);
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input type='reset'>"))).toEqual(false);
-				expect(luga.form.utils.isSuccessfulField(jQuery("<input name='test' type='reset'>"))).toEqual(false);
-				expect(luga.form.utils.isSuccessfulField(jQuery("<fieldset>"))).toEqual(false);
+				expect(luga.form.utils.isSuccessfulField(document.createElement("div"))).toEqual(false);
+				expect(luga.form.utils.isSuccessfulField(document.createElement("form"))).toEqual(false);
+				expect(luga.form.utils.isSuccessfulField(document.createElement("button"))).toEqual(false);
+				expect(luga.form.utils.isSuccessfulField(document.createElement("select"))).toEqual(false);
+				expect(luga.form.utils.isSuccessfulField(document.createElement("textarea"))).toEqual(false);
+
+				const submit = document.createElement("input");
+				submit.setAttribute("type", "submit");
+				expect(luga.form.utils.isSuccessfulField(submit)).toEqual(false);
+
+				const text = document.createElement("input");
+				text.setAttribute("type", "text");
+				expect(luga.form.utils.isSuccessfulField(text)).toEqual(false);
+
+				const reset = document.createElement("input");
+				reset.setAttribute("type", "reset");
+				expect(luga.form.utils.isSuccessfulField(reset)).toEqual(false);
+
+				const namedReset = document.createElement("input");
+				namedReset.setAttribute("type", "reset");
+				namedReset.setAttribute("name", "test");
+				expect(luga.form.utils.isSuccessfulField(namedReset)).toEqual(false);
+
+				expect(luga.form.utils.isSuccessfulField(document.createElement("fieldset"))).toEqual(false);
 			});
 
 		});

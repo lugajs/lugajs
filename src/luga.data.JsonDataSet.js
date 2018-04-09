@@ -18,9 +18,9 @@
 	luga.data.JsonDataSet = function(options){
 		luga.extend(luga.data.HttpDataSet, this, [options]);
 		/** @type {luga.data.JsonDataSet} */
-		var self = this;
+		const self = this;
 		/** @override */
-		this.dataType = "json";
+		this.contentType = "application/json";
 
 		this.path = null;
 		if(options.path !== undefined){
@@ -42,7 +42,7 @@
 
 		/**
 		 * Returns the path to be used to extract data out of the JSON data structure
-		 * @return {null|string}
+		 * @return {null|String}
 		 */
 		this.getPath = function(){
 			return this.path;
@@ -54,23 +54,25 @@
 		 */
 		this.loadRawJson = function(json){
 			self.delete();
-			self.loadRecords(json);
+			loadFromJson(json);
 		};
 
 		/**
-		 * Retrieves JSON data, either from an HTTP response or from a direct call, apply the path, if any, extract and load records out of it
-		 * @param {json}     json         JSON data. Either returned from the server or passed directly
-		 * @param {String}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
-		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
+		 * Retrieves JSON data from an HTTP response, apply the path, if any, extract and load records out of it
+		 * @param {luga.xhr.response} response
 		 * @override
 		 */
-		this.loadRecords = function(json, textStatus, jqXHR){
+		this.loadRecords = function(response){
+			loadFromJson(JSON.parse(response.responseText));
+		};
+
+		const loadFromJson = function(json){
 			self.rawJson = json;
 			if(self.path === null){
 				self.insert(json);
 			}
 			else{
-				var records = luga.lookupProperty(json, self.path);
+				const records = luga.lookupProperty(json, self.path);
 				if(records !== undefined){
 					self.insert(records);
 				}

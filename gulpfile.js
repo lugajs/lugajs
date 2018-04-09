@@ -4,21 +4,23 @@
 
 "use strict";
 
-var gulp = require("gulp");
-var changed = require("gulp-changed");
-var concat = require("gulp-concat");
-var fs = require("fs");
-var header = require("gulp-header");
-var rename = require("gulp-rename");
-var runSequence = require("run-sequence");
-var sourcemaps = require("gulp-sourcemaps");
-var uglify = require("gulp-uglify");
-var zip = require("gulp-zip");
-var karmaServer = require("karma").Server;
+const gulp = require("gulp");
+const changed = require("gulp-changed");
+const concat = require("gulp-concat");
+const fs = require("fs");
+const header = require("gulp-header");
+const rename = require("gulp-rename");
+const runSequence = require("run-sequence");
+const sourcemaps = require("gulp-sourcemaps");
+const composer = require("gulp-uglify/composer");
+const uglifyes = require("uglify-es");
+const uglify = composer(uglifyes, console);
+const zip = require("gulp-zip");
+const karmaServer = require("karma").Server;
 
-var pkg = require("./package.json");
+const pkg = require("./package.json");
 
-var CONST = {
+const CONST = {
 	SRC_FOLDER: "src",
 	DIST_FOLDER: "dist",
 	PATH_TO_COMMON_SRC: "src/luga.common.js",
@@ -38,10 +40,11 @@ var CONST = {
 /* Utilities */
 
 function assembleBanner(name, version){
-	var now = new Date();
-	var banner = [
+	const now = new Date();
+	const banner = [
 		"/*! ",
 		name + " " + version + " " + now.toISOString(),
+		pkg.homepage,
 		"Copyright 2013-" + now.getFullYear() + " " + pkg.author.name + " (" + pkg.author.email + ")",
 		"Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0",
 		" */",
@@ -50,15 +53,15 @@ function assembleBanner(name, version){
 }
 
 function getVersionNumber(){
-	var buffer = fs.readFileSync(CONST.PATH_TO_COMMON_SRC);
-	var fileStr = buffer.toString("utf8", 0, buffer.length);
-	var version = CONST.VERSION_PATTERN.exec(fileStr)[1];
+	const buffer = fs.readFileSync(CONST.PATH_TO_COMMON_SRC);
+	const fileStr = buffer.toString("utf8", 0, buffer.length);
+	const version = CONST.VERSION_PATTERN.exec(fileStr)[1];
 	return version;
 }
 
 function distributeFile(src, name, version){
 	return gulp.src(src)
-		// The "changed" task needs to know the destination directory upfront
+	// The "changed" task needs to know the destination directory upfront
 		.pipe(changed(CONST.DIST_FOLDER))
 		.pipe(header(assembleBanner(name, version))) // Banner for copy
 		.pipe(gulp.dest(CONST.DIST_FOLDER))
@@ -106,8 +109,8 @@ function getLibSrc(key){
 /* For Luga Libs */
 
 function getAllLibsSrc(){
-	var paths = [];
-	for(var x in pkg.libs){
+	const paths = [];
+	for(let x in pkg.libs){
 		paths.push(getLibSrc(x));
 	}
 	return paths;
@@ -120,9 +123,9 @@ function getDataFragmentSrc(key){
 }
 
 function getAllDataFragmentsSrc(){
-	var paths = [];
-	for(var i = 0; i < pkg.dataLibFragments.length; i++){
-		var path = getDataFragmentSrc(pkg.dataLibFragments[i]);
+	const paths = [];
+	for(let i = 0; i < pkg.dataLibFragments.length; i++){
+		const path = getDataFragmentSrc(pkg.dataLibFragments[i]);
 		paths.push(path);
 	}
 	return paths;
@@ -130,7 +133,7 @@ function getAllDataFragmentsSrc(){
 
 /* Tasks */
 
-gulp.task("coverage", function (done) {
+gulp.task("coverage", function(done){
 	// Use Karma only for the sake of producing a code coverage report
 	new karmaServer({
 		configFile: __dirname + "/test/karma.conf.js"
@@ -138,19 +141,19 @@ gulp.task("coverage", function (done) {
 });
 
 gulp.task("data", function(){
-	var dataVersion = getVersionNumber();
+	const dataVersion = getVersionNumber();
 	return concatAndMinify(getAllDataFragmentsSrc(), CONST.CONCATENATED_DATA_FILE, pkg.dataLibDisplayName, dataVersion);
 });
 
 gulp.task("libs", function(){
 	// All Luga libs
-	for(var x in pkg.libs){
-		var src = getLibSrc(x);
-		var libName = pkg.libs[x].name;
-		var libVersion = getVersionNumber();
+	for(let x in pkg.libs){
+		const src = getLibSrc(x);
+		const libName = pkg.libs[x].name;
+		const libVersion = getVersionNumber();
 		distributeFile(src, libName, libVersion);
 	}
-	var allLibs = getAllLibsSrc();
+	const allLibs = getAllLibsSrc();
 
 	// Add luga.data
 	allLibs.push(CONST.DIST_FOLDER + "/" + CONST.CONCATENATED_DATA_FILE);

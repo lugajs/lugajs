@@ -1,18 +1,38 @@
-- Stop testing on IE9
+***
 
-Version 2.0
+VERSION 1.x
 
-- Drop support for IE 9/10
-- Start using const/let and Map/Set
-- Remove self = this. Use .bind() instead
-- luga.isMap()
-- luga.isSet()
-- Add ESLint module to care for Map/Set in IE11
+- Use Map/Set
+- Use frozen property for public constants
+- Replace for loops with forEach whenever possible
+- Remove self = this. Use .bind() instead?
 
-- Spin off AjaxForm and Validator into dedicated project
+- Extend luga.toQueryString() to handle Map
 
-- Spin off Data into dedicated project. Remove jQuery and use Axios for XHR
-
-- Remove jQuery from Common
+- Add API for XSLT
 
 - Event bus concept?
+- Server-side validation?
+
+***
+
+VERSION 2.0
+
+- Drop support for IE 11
+  Use Array.from instead of Array.prototype.slice.call
+  Remove usage of Active-X for XML
+  Use arrow functions to avoid .bind() and/or self = this
+  Remove IE11 plugin for ESLint
+
+- Use setup() method to configure Validator instead of globals
+
+- Document luga.data.xml
+
+- ES6 modules import/export?
+- Webpack?
+- Make Common and Data isomorphic?
+
+***
+
+- luga.data.widgets.Autosuggest?
+- luga.data.HtmlTableDataSet?

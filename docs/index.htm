@@ -7,27 +7,36 @@
 	<link rel="shortcut icon" type="image/png" href="luga-favicon.png">
 	<title>Luga JS</title>
 
-	<!-- Libs -->
-	<script src="../lib/jquery/jquery.min.js"></script>
-	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	<!-- Handlebars -->
 	<script src="../lib/handlebars.min.js"></script>
+
+	<!-- jQuery -->
+	<script src="lib/jquery/jquery.min.js"></script>
+
+	<!-- Bootstrap -->
 	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css"/>
 	<script src="lib/bootstrap/js/bootstrap.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+
+	<!-- Prism -->
 	<link rel="stylesheet" href="lib/prism/prism.css">
 	<script src="lib/prism/prism.js"></script>
+
+	<!-- Tippy is used for custon trait sample page -->
+	<script src="https://unpkg.com/tippy.js@2.5.0/dist/tippy.all.min.js"></script>
 
 	<!-- Dist file -->
 	<link rel="stylesheet" href="../src/luga.css">
 	<script src="../dist/luga.min.js"></script>
 
+	<!-- Sample for custom dataset -->
+	<script src="../src/luga.data.TsvDataSet.js"></script>
+
 	<!-- Luga Router -->
 	<script src="lib/luga.router.min.js"></script>
 
-	<!-- Docs -->
+	<!-- Docs CSS -->
 	<link rel="stylesheet" href="luga.docs.css">
-	<script src="app.js"></script>
+
 
 </head>
 <body class="luga-docs">
@@ -44,9 +53,6 @@
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">
 					<a class="nav-link" href="#common/index">:: Common ::</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#ajaxform/index">:: Ajaxform ::</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#data/index">:: Luga Data ::</a>
@@ -83,6 +89,8 @@
 	</footer>
 
 </div>
+
+<script src="app.js"></script>
 
 </body>
 </html>

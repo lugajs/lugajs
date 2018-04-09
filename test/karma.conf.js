@@ -12,14 +12,15 @@ module.exports = function(config){
 		frameworks: ["jasmine"],
 		files: [
 			// Libs
-			"lib/jquery/jquery.min.js",
 			"lib/handlebars.min.js",
 
-			// Jasmine libs and configuration
+			// Test libs and configuration
+			"test/lib/jquery/jquery.min.js",
 			"test/lib/jasmine/mock-ajax.js",
 			"test/lib/jasmine/jasmineFixtures.min.js",
 			"test/lib/jasmine/jasmineMatchers.min.js",
 			"test/fixtures.karma.config.js",
+			"test/jasmine.config.js",
 
 			// Source files
 			// Some of these must be loaded in aspecific order
@@ -56,7 +57,7 @@ module.exports = function(config){
 			]
 		},
 
-		reporters: ["progress", "html", "coverage"],
+		reporters: ["progress", "coverage"],
 
 		// web server port
 		port: 9876,

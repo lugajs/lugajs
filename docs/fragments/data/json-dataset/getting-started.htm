@@ -2,13 +2,13 @@
 	(function(){
 		"use strict";
 
-		var peopleDs = new luga.data.JsonDataSet({
+		const peopleDs = new luga.data.JsonDataSet({
 			uuid: "people",
 			url: "../test/fixtures/data/people.json",
 			path: "ladies"
 		});
 
-		jQuery(document).ready(function(){
+		luga.dom.ready(function(){
 			// Fetch data only once the DOM is ready
 			peopleDs.loadData();
 		});
@@ -52,12 +52,12 @@
 
 <pre><code class="line-numbers language-javascript">(function(){
 	"use strict";
-	var peopleDs = new luga.data.JsonDataSet({
+	const peopleDs = new luga.data.JsonDataSet({
 		uuid: "people",
 		url: "../test/fixtures/data/people.json",
 		path: "ladies"
 	});
-	jQuery(document).ready(function(){
+	luga.dom.ready(function(){
 		// Fetch data only once the DOM is ready
 		peopleDs.loadData();
 	});

@@ -1,4 +1,32 @@
 ---------------------------------------------------------------------
+Release 0.9.8
+---------------------------------------------------------------------
+NEW FEATURES:
+* Added luga.toQueryString()
+* Added luga.dom.delegateEvent()
+* Added luga.dom.nodeMatches()
+* Added luga.dom.ready()
+* Added luga.data.PagedView
+* Added luga.data.widgets.PagingBar
+
+NOTES:
+* Updated documentation
+
+CHANGES:
+* IMPORTANT: jQuery is not required anymore
+* IMPORTANT: IE10 is not supported anymore
+* Changed API for traits, regions and luga.data.widgets, from jQuery objects to DOM elements
+* Changed API for validator, from jQuery objects to DOM elements
+* Removed luga.data.widgets.ShowMoreScrolling
+* Removed Ajaxform
+* Removed luga.form.toHash()
+* Removed luga.isArray()
+* Removed luga.isFunction()
+
+BUG FIXES:
+* Validator: Fixed signature of after and before handlers
+
+---------------------------------------------------------------------
 Release 0.9.7
 ---------------------------------------------------------------------
 NEW FEATURES:

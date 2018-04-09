@@ -2,18 +2,18 @@
 	(function(){
 		"use strict";
 
-		var master = new luga.data.JsonDataSet({
+		const master = new luga.data.JsonDataSet({
 			uuid: "masterDs",
 			path: "result",
 			url: "https://heroes.stage.waylon.cloud/v1/search/character?offset=0&limit=10"
 		});
-		var details = new luga.data.ChildJsonDataSet({
+		const details = new luga.data.ChildJsonDataSet({
 			uuid: "detailDs",
 			parentDataSet: master,
 			url: "https://heroes.stage.waylon.cloud/v1/character/{uuid}"
 		});
 
-		jQuery(document).ready(function(){
+		luga.dom.ready(function(){
 			master.loadData();
 		});
 
@@ -87,19 +87,19 @@
 
 <pre><code class="line-numbers language-javascript">(function(){
 	"use strict";
-	var master = new luga.data.JsonDataSet({
+	const master = new luga.data.JsonDataSet({
 		uuid: "masterDs",
 		path: "result",
 		url: "https://heroes.stage.waylon.cloud/v1/search/character?offset=0&limit=10"
 	});
-	var details = new luga.data.ChildJsonDataSet({
+	const details = new luga.data.ChildJsonDataSet({
 		uuid: "detailDs",
 		parentDataSet: master,
 		url: "https://heroes.stage.waylon.cloud/v1/character/{uuid}"
 
 	});
 
-	jQuery(document).ready(function(){
+	luga.dom.ready(function(){
 		master.loadData();
 	});
 }());

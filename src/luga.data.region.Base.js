@@ -4,10 +4,10 @@
 	/**
 	 * @typedef {Object} luga.data.region.options
 	 *
-	 * @property {jQuery} node                                Either a jQuery object wrapping the node or the naked DOM object that will contain the region. Required
+	 * @property {HTMLElement } node                          The DOM node that will contain the region. Required
 	 * @property {luga.data.DataSet|luga.data.DetailSet} ds   DataSource. Required if dsUuid is not specified
 	 * @property {String} dsUuid                              DataSource's uuid. Can be specified inside the data-lugaregion-datasource attribute too. Required if ds is not specified
-	 * @property {Array.<string>} [undefined]  traits         An array of function names that will be called every time the Region is rendered. Optional
+	 * @property {Array.<String>} [undefined]  traits         An array of function names that will be called every time the Region is rendered. Optional
 	 * @property {String} templateId                          Id of HTML element containing the template. Can be specified inside the data-lugaregion-template attribute too.
 	 *                                                        If not available it assumes the node contains the template
 	 */
@@ -35,23 +35,21 @@
 			}
 		};
 
-		// Ensure it's a jQuery object
-		options.node = jQuery(options.node);
-		if(options.node.length === 0){
+		if(options.node === undefined){
 			throw(this.CONST.ERROR_MESSAGES.MISSING_NODE);
 		}
 
 		this.config = {
 			node: null, // Required
 			// Either: custom attribute or incoming option
-			dsUuid: options.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID) || null,
-			templateId: options.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TEMPLATE_ID) || null,
+			dsUuid: options.node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID) || null,
+			templateId: options.node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TEMPLATE_ID) || null,
 			// Either: incoming option or null
 			traits: options.traits || null,
 			ds: null
 		};
 		luga.merge(this.config, options);
-		var self = this;
+		const self = this;
 
 		/** @type {luga.data.DataSet|luga.data.DetailSet} */
 		this.dataSource = null;
@@ -68,11 +66,11 @@
 		}
 		this.dataSource.addObserver(this);
 
-		/** @type {Array.<string>} */
+		/** @type {Array.<String>} */
 		this.traits = luga.data.region.CONST.DEFAULT_TRAITS;
 		// Extract traits from custom attribute, if any
-		var attrTraits = this.config.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TRAITS);
-		if(attrTraits !== undefined){
+		const attrTraits = this.config.node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TRAITS);
+		if(attrTraits !== null){
 			this.traits = this.traits.concat(attrTraits.split(","));
 		}
 		if(this.config.traits !== null){
@@ -80,15 +78,15 @@
 		}
 
 		// Store reference inside node
-		this.config.node.data(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE, this);
+		this.config.node[luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE] = this;
 
 		this.applyTraits = function(){
-			var traitData = {
+			const traitData = {
 				node: this.config.node,
 				dataSource: this.dataSource
 			};
-			for(var i = 0; i < this.traits.length; i++){
-				var func = luga.lookupFunction(this.traits[i]);
+			for(let i = 0; i < this.traits.length; i++){
+				const func = luga.lookupFunction(this.traits[i]);
 				if(func !== undefined){
 					func(traitData);
 				}
@@ -104,7 +102,7 @@
 		 */
 		this.render = function(){
 			// Concrete implementations must overwrite this
-			var desc = luga.data.region.utils.assembleRegionDescription(this);
+			const desc = luga.data.region.utils.assembleRegionDescription(this);
 			this.notifyObservers(luga.data.region.CONST.EVENTS.REGION_RENDERED, desc);
 		};
 

@@ -6,11 +6,11 @@
 	/**
 	 * @typedef {Object} luga.data.region.traits.options
 	 *
-	 * @property {jQuery}                                 node          A jQuery object wrapping the Region's node. Required
+	 * @property {HTMLElement}                            node          A DOM node. Required
 	 * @property {luga.data.DataSet|luga.data.DetailSet}  dataSource    DataSource. Required
 	 */
 
-	var CONST = {
+	const CONST = {
 		CUSTOM_ATTRIBUTES: {
 			SELECT: "data-lugaregion-select",
 			SET_ROW_ID: "data-lugaregion-setrowid",
@@ -25,42 +25,50 @@
 		}
 	};
 
+	const removeCssClass = function(nodeList, className){
+		nodeList.forEach(function(item){
+			item.classList.remove(className);
+		});
+	};
+
 	/**
 	 * Handles data-lugaregion-select
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.select = function(options){
-		var nodes = options.node.find(CONST.SELECTORS.SELECT);
+		if(options.dataSource.getCurrentRowIndex === undefined){
+			// It's a detailSet, abort
+			return;
+		}
+
+		let nodes = options.node.querySelectorAll(CONST.SELECTORS.SELECT);
+		nodes = Array.prototype.slice.call(nodes);
+
 		if(nodes.length > 0){
-			if(options.dataSource.getCurrentRowIndex === undefined){
-				// It's a detailSet, abort
-				return;
-			}
-			var cssClass = nodes.attr(CONST.CUSTOM_ATTRIBUTES.SELECT);
-			// Clean-up
-			nodes.removeClass(cssClass);
-			// Default to zero
-			var index = 0;
+			const cssClass = nodes[0].getAttribute(CONST.CUSTOM_ATTRIBUTES.SELECT);
+			nodes[0].classList.remove(cssClass);
+			// Default to first row
+			let index = 0;
 
 			if(options.dataSource.getCurrentRowIndex() === -1){
 				// Remove class from everyone
-				nodes.removeClass(cssClass);
+				removeCssClass(nodes, cssClass);
 			}
 			else{
 				index = options.dataSource.getCurrentRowIndex();
 				// Apply CSS
-				jQuery(nodes.get(index)).addClass(cssClass);
+				nodes[index].classList.add(cssClass);
 			}
 
-			// Attach click event
-			nodes.each(function(index, item){
-				var jItem = jQuery(item);
-				jItem.click(function(event){
+			// Attach click event to all nodes
+			nodes.forEach(function(item){
+				item.addEventListener("click", function(event){
 					event.preventDefault();
-					nodes.removeClass(cssClass);
-					jItem.addClass(cssClass);
-				});
+					removeCssClass(nodes, cssClass);
+					item.classList.add(cssClass);
+				}, false);
 			});
+
 		}
 	};
 
@@ -69,14 +77,17 @@
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.setRowId = function(options){
-		options.node.find(CONST.SELECTORS.SET_ROW_ID).each(function(index, item){
-			var jItem = jQuery(item);
-			jItem.click(function(event){
+		let nodes = options.node.querySelectorAll(CONST.SELECTORS.SET_ROW_ID);
+		nodes = Array.prototype.slice.call(nodes);
+
+		nodes.forEach(function(item){
+			item.addEventListener("click", function(event){
 				event.preventDefault();
-				var rowId = jItem.attr(CONST.CUSTOM_ATTRIBUTES.SET_ROW_ID);
+				const rowId = item.getAttribute(CONST.CUSTOM_ATTRIBUTES.SET_ROW_ID);
 				options.dataSource.setCurrentRowId(rowId);
-			});
+			}, false);
 		});
+
 	};
 
 	/**
@@ -84,13 +95,15 @@
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.setRowIndex = function(options){
-		options.node.find(CONST.SELECTORS.SET_ROW_INDEX).each(function(index, item){
-			var jItem = jQuery(item);
-			jItem.click(function(event){
+		let nodes = options.node.querySelectorAll(CONST.SELECTORS.SET_ROW_INDEX);
+		nodes = Array.prototype.slice.call(nodes);
+
+		nodes.forEach(function(item){
+			item.addEventListener("click", function(event){
 				event.preventDefault();
-				var rowIndex = parseInt(jItem.attr(CONST.CUSTOM_ATTRIBUTES.SET_ROW_INDEX), 10);
+				const rowIndex = parseInt(item.getAttribute(CONST.CUSTOM_ATTRIBUTES.SET_ROW_INDEX), 10);
 				options.dataSource.setCurrentRowIndex(rowIndex);
-			});
+			}, false);
 		});
 	};
 
@@ -99,14 +112,17 @@
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.sort = function(options){
-		options.node.find(CONST.SELECTORS.SORT).each(function(index, item){
-			var jItem = jQuery(item);
-			jItem.click(function(event){
+		let nodes = options.node.querySelectorAll(CONST.SELECTORS.SORT);
+		nodes = Array.prototype.slice.call(nodes);
+
+		nodes.forEach(function(item){
+			item.addEventListener("click", function(event){
 				event.preventDefault();
-				var sortCol = jItem.attr(CONST.CUSTOM_ATTRIBUTES.SORT);
+				const sortCol = item.getAttribute(CONST.CUSTOM_ATTRIBUTES.SORT);
 				options.dataSource.sort(sortCol);
-			});
+			}, false);
 		});
+
 	};
 
 }());

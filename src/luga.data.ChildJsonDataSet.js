@@ -19,7 +19,7 @@
 	 */
 	luga.data.ChildJsonDataSet = function(options){
 
-		var CONST = {
+		const CONST = {
 			ERROR_MESSAGES: {
 				MISSING_PARENT_DS: "luga.data.ChildJsonDataSet: parentDataSet parameter is required",
 				MISSING_URL: "luga.data.ChildJsonDataSet: url parameter is required",
@@ -38,7 +38,7 @@
 		luga.extend(luga.data.JsonDataSet, this, [options]);
 
 		/** @type {luga.data.ChildJsonDataSet} */
-		var self = this;
+		const self = this;
 
 		/** @type {luga.data.JsonDataSet} */
 		this.parentDataSet = options.parentDataSet;
@@ -50,7 +50,7 @@
 		 * @param {luga.data.DataSet.row} row
 		 */
 		this.fetchData = function(row){
-			var bindUrl = luga.string.populate(self.urlPattern, row);
+			const bindUrl = luga.string.populate(self.urlPattern, row);
 			if(bindUrl === self.urlPattern){
 				throw(luga.string.format(CONST.ERROR_MESSAGES.FAILED_URL_BINDING, [bindUrl]));
 			}

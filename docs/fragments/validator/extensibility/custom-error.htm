@@ -1,11 +1,11 @@
 <script>
 	function errorOnLabels(formNode, validators){
-		var labels = jQuery(formNode).find("label");
+		const labels = formNode.querySelectorAll("label");
 		// Reset all the labels
 		resetLabels(labels);
-		for(var i = 0; i < validators.length; i++){
+		for(let i = 0; i < validators.length; i++){
 			// Find the relevant label for this field validator
-			var fieldLabel = getLinkedLabel(labels, validators[i].name);
+			const fieldLabel = getLinkedLabel(labels, validators[i].name);
 			if(fieldLabel !== null){
 				// Flag the labels
 				flagLabel(fieldLabel, validators[i].message);
@@ -14,24 +14,23 @@
 	}
 
 	function flagLabel(label, message){
-		label.attr("data-orig-html", label.html());
-		label.html("<strong>" + message + "</strong>");
+		label.setAttribute("data-orig-html", label.innerHTML);
+		label.innerHTML = "<strong>" + message + "</strong>";
 	}
 
 	function getLinkedLabel(labels, fieldId){
-		for(var i = 0; i < labels.length; i++){
-			if(jQuery(labels[i]).attr("for") === fieldId){
-				return jQuery(labels[i]);
+		for(let i = 0; i < labels.length; i++){
+			if(labels[i].getAttribute("for") === fieldId){
+				return labels[i];
 			}
 		}
 		return null;
 	}
 
 	function resetLabels(labels){
-		for(var i = 0; i < labels.length; i++){
-			var node = jQuery(labels[i]);
-			if(node.attr("data-orig-html")){
-				node.html(node.attr("data-orig-html"));
+		for(let i = 0; i < labels.length; i++){
+			if(labels[i].getAttribute("data-orig-html") !== null){
+				labels[i].innerHTML = labels[i].getAttribute("data-orig-html");
 			}
 		}
 	}
@@ -73,41 +72,40 @@
 		</p>
 
 <pre><code class="line-numbers language-javascript">function errorOnLabels(formNode, validators){
-	var labels = jQuery(formNode).find("label");
+	const labels = formNode.querySelectorAll("label");
 	// Reset all the labels
 	resetLabels(labels);
-	for(var i = 0; i < validators.length; i++){
+	for(let i = 0; i < validators.length; i++){
 		// Find the relevant label for this field validator
-		var fieldLabel = getLinkedLabel(labels, validators[i].name);
+		const fieldLabel = getLinkedLabel(labels, validators[i].name);
 		if(fieldLabel !== null){
 			// Flag the labels
 			flagLabel(fieldLabel, validators[i].message);
 		}
 	}
-};
+}
 
 function flagLabel(label, message){
-	label.attr("data-orig-html", label.html());
-	label.html("<strong>" + message + "</strong>");
-};
+	label.setAttribute("data-orig-html", label.innerHTML);
+	label.innerHTML = "<strong>" + message + "</strong>";
+}
 
 function getLinkedLabel(labels, fieldId){
-	for(var i = 0; i < labels.length; i++){
-		if(jQuery(labels[i]).attr("for") === fieldId){
-			return jQuery(labels[i]);
+	for(let i = 0; i < labels.length; i++){
+		if(labels[i].getAttribute("for") === fieldId){
+			return labels[i];
 		}
 	}
 	return null;
-};
+}
 
 function resetLabels(labels){
-	for(var i = 0; i < labels.length; i++){
-		var node = jQuery(labels[i]);
-		if(node.attr("data-orig-html")){
-			node.html(node.attr("data-orig-html"));
+	for(let i = 0; i < labels.length; i++){
+		if(labels[i].getAttribute("data-orig-html") !== null){
+			labels[i].innerHTML = labels[i].getAttribute("data-orig-html");
 		}
 	}
-};
+}
 </code></pre>
 
 		<p>

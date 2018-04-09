@@ -7,20 +7,20 @@ describe("luga.validator.FormValidator", function(){
 
 	"use strict";
 
-	var basicFormValidator, attributeFormValidator, configFormValidator;
+	let basicFormValidator, attributeFormValidator, configFormValidator;
 	beforeEach(function(){
 		jasmineFixtures.loadHTML("validator/FormValidator/config.htm");
 
 		basicFormValidator = new luga.validator.FormValidator({
-			formNode: jQuery("<form></form>")
+			formNode: document.createElement("form")
 		});
 
 		attributeFormValidator = new luga.validator.FormValidator({
-			formNode: jQuery("#formValidatorconfig")
+			formNode: document.getElementById("formValidatorconfig")
 		});
 
 		configFormValidator = new luga.validator.FormValidator({
-			formNode: jQuery("<form></form>"),
+			formNode: document.createElement("form"),
 			error: "formValidatorHandlers.customErrorHandler",
 			before: "formValidatorHandlers.customBefore",
 			after: "formValidatorHandlers.customAfter",
@@ -39,14 +39,14 @@ describe("luga.validator.FormValidator", function(){
 	it("Throws an exception if the associated form node does not exists", function(){
 		expect(function(){
 			new luga.validator.FormValidator({
-				formNode: jQuery("#missing")
+				formNode: document.getElementById("missing")
 			});
 		}).toThrow();
 	});
 
 	it("Always positively validates empty forms", function(){
-		var formValidator = new luga.validator.FormValidator({
-			formNode: jQuery("<form></form>")
+		const formValidator = new luga.validator.FormValidator({
+			formNode: document.createElement("form")
 		});
 		expect(formValidator.isValid()).toEqual(true);
 	});
@@ -54,85 +54,85 @@ describe("luga.validator.FormValidator", function(){
 	it("Can validate form with one", function(){
 
 		jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
-		var formValidator = new luga.validator.FormValidator({
-			formNode: jQuery("#basic")
+		const formValidator = new luga.validator.FormValidator({
+			formNode: document.getElementById("basic")
 		});
 
 		expect(formValidator.validate().length).toEqual(1);
 		expect(formValidator.isValid()).toEqual(false);
-		expect(jQuery("#myName")).toHaveClass("invalid");
+		expect(document.getElementById("myName")).toHaveClass("invalid");
 
-		jQuery("#myName").val("filled");
+		document.getElementById("myName").value = "filled";
 		expect(formValidator.validate().length).toEqual(0);
 		expect(formValidator.isValid()).toEqual(true);
-		expect(jQuery("#myName")).not.toHaveClass("invalid");
+		expect(document.getElementById("myName")).not.toHaveClass("invalid");
 	});
 
 	it("Or multiple fields", function(){
 
 		jasmineFixtures.loadHTML("validator/FormValidator/generic.htm");
-		var formValidator = new luga.validator.FormValidator({
-			formNode: jQuery("#generic")
+		const formValidator = new luga.validator.FormValidator({
+			formNode: document.getElementById("generic")
 		});
 		expect(formValidator.validate().length).toEqual(8);
 		expect(formValidator.isValid()).toEqual(false);
-		expect(jQuery("#age")).toHaveClass("invalid");
-		expect(jQuery("#name")).toHaveClass("invalid");
-		expect(jQuery("#email")).toHaveClass("invalid");
-		expect(jQuery("#date")).toHaveClass("invalid");
-		expect(jQuery("#comments")).toHaveClass("invalid");
-		expect(jQuery("#boxNicole")).toHaveClass("invalid");
-		expect(jQuery("#radioNicole")).toHaveClass("invalid");
-		expect(jQuery("#food")).toHaveClass("invalid");
+		expect(document.getElementById("age")).toHaveClass("invalid");
+		expect(document.getElementById("name")).toHaveClass("invalid");
+		expect(document.getElementById("email")).toHaveClass("invalid");
+		expect(document.getElementById("date")).toHaveClass("invalid");
+		expect(document.getElementById("comments")).toHaveClass("invalid");
+		expect(document.getElementById("boxNicole")).toHaveClass("invalid");
+		expect(document.getElementById("radioNicole")).toHaveClass("invalid");
+		expect(document.getElementById("food")).toHaveClass("invalid");
 
-		jQuery("#age").val("20");
+		document.getElementById("age").value = "20";
 		expect(formValidator.validate().length).toEqual(7);
 		expect(formValidator.isValid()).toEqual(false);
-		expect(jQuery("#age")).not.toHaveClass("invalid");
+		expect(document.getElementById("age")).not.toHaveClass("invalid");
 
-		jQuery("#name").val("anything");
+		document.getElementById("name").value = "anything";
 		expect(formValidator.validate().length).toEqual(6);
 		expect(formValidator.isValid()).toEqual(false);
-		expect(jQuery("#name")).not.toHaveClass("invalid");
+		expect(document.getElementById("name")).not.toHaveClass("invalid");
 
-		jQuery("#email").val("test@testing.com");
+		document.getElementById("email").value = "test@testing.com";
 		expect(formValidator.validate().length).toEqual(5);
 		expect(formValidator.isValid()).toEqual(false);
-		expect(jQuery("#email")).not.toHaveClass("invalid");
+		expect(document.getElementById("email")).not.toHaveClass("invalid");
 
-		jQuery("#date").val("2005-05-09");
+		document.getElementById("date").value = "2005-05-09";
 		expect(formValidator.validate().length).toEqual(4);
 		expect(formValidator.isValid()).toEqual(false);
-		expect(jQuery("#date")).not.toHaveClass("invalid");
+		expect(document.getElementById("date")).not.toHaveClass("invalid");
 
-		jQuery("#comments").val("love it");
+		document.getElementById("comments").value = "love it";
 		expect(formValidator.validate().length).toEqual(3);
 		expect(formValidator.isValid()).toEqual(false);
-		expect(jQuery("#comments")).not.toHaveClass("invalid");
+		expect(document.getElementById("comments")).not.toHaveClass("invalid");
 
-		jQuery("#boxNicole").prop("checked", true);
+		document.getElementById("boxNicole").checked = true;
 		expect(formValidator.validate().length).toEqual(2);
 		expect(formValidator.isValid()).toEqual(false);
-		expect(jQuery("#boxNicole")).not.toHaveClass("invalid");
+		expect(document.getElementById("boxNicole")).not.toHaveClass("invalid");
 
-		jQuery("#radioNicole").prop("checked", true);
+		document.getElementById("radioNicole").checked = true;
 		expect(formValidator.validate().length).toEqual(1);
 		expect(formValidator.isValid()).toEqual(false);
-		expect(jQuery("#radioNicole")).not.toHaveClass("invalid");
+		expect(document.getElementById("radioNicole")).not.toHaveClass("invalid");
 
-		jQuery("#food").prop("selectedIndex", 1);
+		document.getElementById("food").selectedIndex = 1;
 		expect(formValidator.validate().length).toEqual(0);
 
 		expect(formValidator.isValid()).toEqual(true);
 
-		expect(jQuery("#age")).not.toHaveClass("invalid");
-		expect(jQuery("#name")).not.toHaveClass("invalid");
-		expect(jQuery("#email")).not.toHaveClass("invalid");
-		expect(jQuery("#date")).not.toHaveClass("invalid");
-		expect(jQuery("#comments")).not.toHaveClass("invalid");
-		expect(jQuery("#boxNicole")).not.toHaveClass("invalid");
-		expect(jQuery("#radioNicole")).not.toHaveClass("invalid");
-		expect(jQuery("#food")).not.toHaveClass("invalid");
+		expect(document.getElementById("age")).not.toHaveClass("invalid");
+		expect(document.getElementById("name")).not.toHaveClass("invalid");
+		expect(document.getElementById("email")).not.toHaveClass("invalid");
+		expect(document.getElementById("date")).not.toHaveClass("invalid");
+		expect(document.getElementById("comments")).not.toHaveClass("invalid");
+		expect(document.getElementById("boxNicole")).not.toHaveClass("invalid");
+		expect(document.getElementById("radioNicole")).not.toHaveClass("invalid");
+		expect(document.getElementById("food")).not.toHaveClass("invalid");
 
 	});
 
@@ -211,18 +211,18 @@ describe("luga.validator.FormValidator", function(){
 		it("It overrides the value of the disabled button once the form is validated", function(){
 
 			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
-			var formValidator = new luga.validator.FormValidator({
-				formNode: jQuery("#basic")
+			const formValidator = new luga.validator.FormValidator({
+				formNode: document.getElementById("basic")
 			});
 
 			formValidator.validate();
 			expect(formValidator.isValid()).toEqual(false);
-			expect(jQuery("#submit").val()).toEqual("Submit");
+			expect(document.getElementById("submit").value).toEqual("Submit");
 
-			jQuery("#myName").val("str");
+			document.getElementById("myName").value = "str";
 			formValidator.validate();
 			expect(formValidator.isValid()).toEqual(true);
-			expect(jQuery("#submit").val()).toEqual("I am disabled");
+			expect(document.getElementById("submit").value).toEqual("I am disabled");
 
 		});
 
@@ -231,12 +231,12 @@ describe("luga.validator.FormValidator", function(){
 	describe("Exposes three handlers functions that will be called at different times after the onSubmit event is triggered", function(){
 
 		window.formValidatorHandlers = {};
-		var formValidator, jForm;
+		let formValidator, testFormNode;
 		beforeEach(function(){
 
 			jasmineFixtures.loadHTML("validator/FormValidator/basic.htm");
 
-			jForm = jQuery("#basic");
+			testFormNode = document.getElementById("basic");
 			formValidatorHandlers.before = function(formNode){
 			};
 			formValidatorHandlers.error = function(formNode, validators){
@@ -245,7 +245,7 @@ describe("luga.validator.FormValidator", function(){
 			};
 
 			formValidator = new luga.validator.FormValidator({
-				formNode: jForm,
+				formNode: testFormNode,
 				before: "formValidatorHandlers.before",
 				error: "formValidatorHandlers.error",
 				after: "formValidatorHandlers.after"
@@ -281,9 +281,9 @@ describe("luga.validator.FormValidator", function(){
 			});
 
 			it("Passing the form's DOM node as first argument, the submit event as second", function(){
-				var formEvent = new jQuery.Event();
+				const formEvent = document.createEvent("Event");
 				formValidator.validate(formEvent);
-				expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm, formEvent);
+				expect(formValidatorHandlers.before).toHaveBeenCalledWith(testFormNode, formEvent);
 			});
 
 			it("An error is throw if the error handler points to a non existing function", function(){
@@ -310,7 +310,7 @@ describe("luga.validator.FormValidator", function(){
 		describe("In case the form is valid", function(){
 
 			it("An error is throw if the before handler points to a non existing function", function(){
-				jQuery("#myName").val("filled");
+				document.getElementById("myName").value = "filled";
 				formValidator.config.before = "missingFunction";
 				expect(function(){
 					formValidator.validate();
@@ -318,26 +318,27 @@ describe("luga.validator.FormValidator", function(){
 			});
 
 			it("First: before handler is called (if any)", function(){
-				jQuery("#myName").val("filled");
+				document.getElementById("myName").value = "filled";
 				formValidator.validate();
 				expect(formValidator.isValid()).toEqual(true);
 				expect(formValidatorHandlers.before).toHaveBeenCalled();
 			});
+
 			it("Passing the form's DOM node as first argument, the submit event as second", function(){
-				var formEvent = new jQuery.Event();
+				const formEvent = document.createEvent("Event");
 				formValidator.validate(formEvent);
-				expect(formValidatorHandlers.before).toHaveBeenCalledWith(jForm, formEvent);
+				expect(formValidatorHandlers.before).toHaveBeenCalledWith(testFormNode, formEvent);
 			});
 
 			it("The error handler is not called", function(){
-				jQuery("#myName").val("filled");
+				document.getElementById("myName").value = "filled";
 				formValidator.validate();
 				expect(formValidator.isValid()).toEqual(true);
 				expect(formValidatorHandlers.error).not.toHaveBeenCalled();
 			});
 
 			it("If blocksubmit equal true, form submission is disabled", function(){
-				jQuery("#myName").val("filled");
+				document.getElementById("myName").value = "filled";
 				spyOn(formValidator, "disableSubmit");
 
 				// blocksubmit is on by default
@@ -346,7 +347,7 @@ describe("luga.validator.FormValidator", function(){
 			});
 
 			it("If blocksubmit equal false, form submission stay enabled", function(){
-				jQuery("#myName").val("filled");
+				document.getElementById("myName").value = "filled";
 				spyOn(formValidator, "disableSubmit");
 
 				// Switch blocksubmit off
@@ -356,7 +357,7 @@ describe("luga.validator.FormValidator", function(){
 			});
 
 			it("An error is throw if the after handler points to a non existing function", function(){
-				jQuery("#myName").val("filled");
+				document.getElementById("myName").value = "filled";
 				formValidator.config.after = "missingFunction";
 				expect(function(){
 					formValidator.validate();
@@ -364,17 +365,17 @@ describe("luga.validator.FormValidator", function(){
 			});
 
 			it("Finally: after handler is called (if any)", function(){
-				jQuery("#myName").val("filled");
+				document.getElementById("myName").value = "filled";
 				formValidator.validate();
 				expect(formValidator.isValid()).toEqual(true);
 				expect(formValidatorHandlers.after).toHaveBeenCalled();
 			});
 			it("Passing the form's DOM node as first argument, the submit event as second", function(){
-				var formEvent = new jQuery.Event();
-				jQuery("#myName").val("filled");
+				const formEvent = document.createEvent("Event");
+				document.getElementById("myName").value = "filled";
 				formValidator.validate(formEvent);
 				expect(formValidator.isValid()).toEqual(true);
-				expect(formValidatorHandlers.after).toHaveBeenCalledWith(jForm, formEvent);
+				expect(formValidatorHandlers.after).toHaveBeenCalledWith(testFormNode, formEvent);
 			});
 
 		});

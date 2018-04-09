@@ -1,0 +1,214 @@
+<script>
+	(function(){
+		"use strict";
+
+		const BASE_URL = "../test/fixtures/data";
+		const baseDsObj = new luga.data.JsonDataSet({
+			uuid: "baseDs",
+			url: BASE_URL + "/usa-states.json"
+		});
+		const pagedViewObj = new luga.data.PagedView({
+			uuid: "pagedView",
+			parentDataSet: baseDsObj
+		});
+
+		luga.dom.ready(function(){
+
+			if(document.getElementById("navBarLinks") !== null){
+
+				new luga.data.widgets.PagingBar({
+					pagedView: pagedViewObj,
+					node: document.getElementById("navBarLinks")
+				});
+
+				new luga.data.widgets.PagingBar({
+					pagedView: pagedViewObj,
+					node: document.getElementById("navBarPages"),
+					style: luga.data.PAGING_STYLE.PAGES
+				});
+
+			}
+
+			pagedViewObj.loadData();
+		});
+
+	}());
+</script>
+
+<script id="masterTemplate" type="text/x-handlebars-template">
+	{{#if isStateLoading}}
+	Loading data...
+	{{/if}}
+	<h5>Records</h5>
+	<ul class="luga-docs-list">
+		{{#each entities}}
+		<li>{{name}}</li>
+		{{/each}}
+	</ul>
+</script>
+
+<div class="panel panel-default">
+	<div class="panel-heading">PagingBar</div>
+	<div class="panel-body">
+
+		<p>
+			The pagingBar is a widget that must be associated to a <a href="#data/pagedview/getting-started">pagedView</a> in order to automatically generate a UI to navigate across pages.
+		</p>
+		<p>
+			PagingBar also offers plenty of optional configurations to customize it (see below).
+		</p>
+
+	</div>
+
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">In action</div>
+	<div class="panel-body">
+
+		<p>
+			Here you can see a region followed by two paginBars, the first uses "links" style (the default), the second uses "page" style.
+		</p>
+
+		<div class="col-xs-6 col-sm-6" data-lugaregion="true"
+			 data-lugaregion-datasource-uuid="pagedView"
+			 data-lugaregion-template-id="masterTemplate">
+		</div>
+		<nav id="navBarLinks"></nav>
+		<nav id="navBarPages"></nav>
+
+	</div>
+
+</div>
+
+<div class="panel panel-default">
+	<div id="master" class="panel-heading">Sample code</div>
+	<div class="panel-body">
+
+		<p>JavaScript</p>
+
+<pre><code class="line-numbers language-javascript">(function(){
+	"use strict";
+
+	const BASE_URL = "../test/fixtures/data";
+	const baseDsObj = new luga.data.JsonDataSet({
+		uuid: "baseDs",
+		url: BASE_URL + "/usa-states.json"
+	});
+	const pagedViewObj = new luga.data.PagedView({
+		uuid: "pagedView",
+		parentDataSet: baseDsObj
+	});
+
+	luga.dom.ready(function(){
+		new luga.data.widgets.PagingBar({
+			pagedView: pagedViewObj,
+			node: document.getElementById("navBarLinks")
+		});
+
+		new luga.data.widgets.PagingBar({
+			pagedView: pagedViewObj,
+			node: document.getElementById("navBarPages"),
+			style: luga.data.PAGING_STYLE.PAGES
+		});
+
+		pagedViewObj.loadData();
+	});
+
+}());
+</code></pre>
+
+		<p>HTML</p>
+
+<pre><code class="line-numbers language-markup">&lt;div class="col-xs-6 col-sm-6" data-lugaregion="true"
+	data-lugaregion-datasource-uuid="pagedView"
+	data-lugaregion-template-id="masterTemplate"&gt;
+&lt;/div&gt;
+&lt;nav id="navBarLinks"&gt;&lt;/nav&gt;
+&lt;nav id="navBarPages"&gt;&lt;/nav&gt;
+</code></pre>		
+		
+		<div class="alert alert-warning" role="alert">
+			<strong>Warning!</strong><br>
+			Ensure the DOM element containing the pagingBar widget is located outside the region.
+		</div>
+
+	</div>
+
+</div>
+
+<div class="panel panel-default">
+	<div id="constructor" class="panel-heading luga-docs-api-heading">luga.data.widgets.PagingBar(options)</div>
+	<div class="panel-body">
+		<p>
+			PagingBar's constructor.
+		</p>
+	</div>
+	<table class="table  luga-docs-api">
+		<th colspan="3">Arguments</th>
+		<tr>
+			<td>options.pagedView</td>
+			<td>
+				{luga.data.PagedView}
+			</td>
+			<td>
+				Instance of a pagedView that will be controlled by the widget. Required
+			</td>
+		</tr>
+		<tr>
+			<td>options.node</td>
+			<td>
+				{Element}
+			</td>
+			<td>
+				DOM element that will contain the widget. Required
+			</td>
+		</tr>
+		<tr>
+			<td>options.style</td>
+			<td>
+				{luga.data.PAGING_STYLE}
+			</td>
+			<td>
+				Style to be used for the widget, either "luga-pagingBarLinks" or "luga-pagingBarPages". Default to "luga-pagingBarLinks"
+			</td>
+		</tr>
+		<tr>
+			<td>options.nextText</td>
+			<td>
+				{String}
+			</td>
+			<td>
+				Text to be used for "next" links. Default to ">"
+			</td>
+		</tr>
+		<tr>
+			<td>options.prevText</td>
+			<td>
+				{String}
+			</td>
+			<td>
+				Text to be used for "previous" links. Default to "<"
+			</td>
+		</tr>
+		<tr>
+			<td>options.separator</td>
+			<td>
+				{String}
+			</td>
+			<td>
+				Text to be used to separate links. Default to " | "
+			</td>
+		</tr>
+		<tr>
+			<td>options.maxLinks</td>
+			<td>
+				{Number}
+			</td>
+			<td>
+				Maximum number of links to show. Default to 10
+			</td>
+		</tr>
+	</table>
+
+</div>

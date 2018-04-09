@@ -16,25 +16,25 @@ describe("luga.data.utils", function(){
 
 		describe("Given a state string, returns an object containing the following fields:", function(){
 			it("state", function(){
-				var desc = luga.data.utils.assembleStateDescription("loading");
+				const desc = luga.data.utils.assembleStateDescription("loading");
 				expect(desc.state).toEqual("loading");
 			});
 			it("isStateLoading", function(){
-				var pos = luga.data.utils.assembleStateDescription("loading");
+				const pos = luga.data.utils.assembleStateDescription("loading");
 				expect(pos.isStateLoading).toEqual(true);
-				var neg = luga.data.utils.assembleStateDescription("ready");
+				const neg = luga.data.utils.assembleStateDescription("ready");
 				expect(neg.isStateLoading).toEqual(false);
 			});
 			it("isStateError", function(){
-				var pos = luga.data.utils.assembleStateDescription("error");
+				const pos = luga.data.utils.assembleStateDescription("error");
 				expect(pos.isStateError).toEqual(true);
-				var neg = luga.data.utils.assembleStateDescription("ready");
+				const neg = luga.data.utils.assembleStateDescription("ready");
 				expect(neg.isStateError).toEqual(false);
 			});
 			it("isStateReady", function(){
-				var pos = luga.data.utils.assembleStateDescription("ready");
+				const pos = luga.data.utils.assembleStateDescription("ready");
 				expect(pos.isStateReady).toEqual(true);
-				var neg = luga.data.utils.assembleStateDescription("error");
+				const neg = luga.data.utils.assembleStateDescription("error");
 				expect(neg.isStateReady).toEqual(false);
 			});
 		});
@@ -43,7 +43,7 @@ describe("luga.data.utils", function(){
 
 	describe(".filter()", function(){
 
-		var ladiesRecords, dummyDs, addTestCol, longUk, removeUsa, mock;
+		let ladiesRecords, dummyDs, addTestCol, longUk, removeUsa, mock;
 		beforeEach(function(){
 			ladiesRecords = jasmineFixtures.read("data/ladies.json?_luga.data.utils.filter");
 			dummyDs = new luga.data.DataSet({uuid: "testDs"});
@@ -121,7 +121,7 @@ describe("luga.data.utils", function(){
 
 				it("Removes one or more row (returning null)", function(){
 					expect(ladiesRecords.length).toEqual(7);
-					var filteredRecords = luga.data.utils.filter(ladiesRecords, removeUsa, dummyDs);
+					const filteredRecords = luga.data.utils.filter(ladiesRecords, removeUsa, dummyDs);
 					expect(filteredRecords.length).toEqual(5);
 				});
 
@@ -130,7 +130,7 @@ describe("luga.data.utils", function(){
 			describe("Throws an exception if the function returns:", function(){
 
 				it("an array", function(){
-					var evilFunc = function(row, rowIndex, dataSet){
+					const evilFunc = function(row, rowIndex, dataSet){
 						return ["ciccio", "pasticcio"];
 					};
 					expect(function(){
@@ -138,7 +138,7 @@ describe("luga.data.utils", function(){
 					}).toThrow();
 				});
 				it("a string", function(){
-					var evilFunc = function(row, rowIndex, dataSet){
+					const evilFunc = function(row, rowIndex, dataSet){
 						return "test";
 					};
 					expect(function(){
@@ -146,7 +146,7 @@ describe("luga.data.utils", function(){
 					}).toThrow();
 				});
 				it("undefined", function(){
-					var evilFunc = function(row, rowIndex, dataSet){
+					const evilFunc = function(row, rowIndex, dataSet){
 						return undefined;
 					};
 					expect(function(){
@@ -159,7 +159,7 @@ describe("luga.data.utils", function(){
 			describe("Do not throws an exception if the function returns:", function(){
 
 				it("null", function(){
-					var evilFunc = function(row, rowIndex, dataSet){
+					const evilFunc = function(row, rowIndex, dataSet){
 						return null;
 					};
 					expect(function(){
@@ -198,7 +198,7 @@ describe("luga.data.utils", function(){
 
 	describe(".update()", function(){
 
-		var ladiesRecords, dummyDs, addTestCol, longUk, mock;
+		let ladiesRecords, dummyDs, addTestCol, longUk, mock;
 		beforeEach(function(){
 			ladiesRecords = jasmineFixtures.read("data/ladies.json?_luga.data.utils.update");
 			dummyDs = new luga.data.DataSet({uuid: "testDs"});
@@ -273,7 +273,7 @@ describe("luga.data.utils", function(){
 			describe("Throws an exception if the function returns:", function(){
 
 				it("an array", function(){
-					var evilFunc = function(row, rowIndex, dataSet){
+					const evilFunc = function(row, rowIndex, dataSet){
 						return ["ciccio", "pasticcio"];
 					};
 					expect(function(){
@@ -281,7 +281,7 @@ describe("luga.data.utils", function(){
 					}).toThrow();
 				});
 				it("a string", function(){
-					var evilFunc = function(row, rowIndex, dataSet){
+					const evilFunc = function(row, rowIndex, dataSet){
 						return "test";
 					};
 					expect(function(){
@@ -289,7 +289,7 @@ describe("luga.data.utils", function(){
 					}).toThrow();
 				});
 				it("null", function(){
-					var evilFunc = function(row, rowIndex, dataSet){
+					const evilFunc = function(row, rowIndex, dataSet){
 						return null;
 					};
 					expect(function(){
@@ -297,7 +297,7 @@ describe("luga.data.utils", function(){
 					}).toThrow();
 				});
 				it("undefined", function(){
-					var evilFunc = function(row, rowIndex, dataSet){
+					const evilFunc = function(row, rowIndex, dataSet){
 						return undefined;
 					};
 					expect(function(){

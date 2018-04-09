@@ -7,7 +7,7 @@
 		path: "ladies"
 	});
 	test.ladyDetails = new luga.data.DetailSet({uuid: "lady", parentDataSet: test.ladiesMaster});
-	jQuery(document).ready(function(){
+	luga.dom.ready(function(){
 		test.ladiesMaster.loadData();
 	});
 
@@ -16,42 +16,39 @@
 
 		/** @override */
 		this.render = function(){
-			var records = this.dataSource.getContext().entities;
-			var htmlStr = "<ul class='luga-docs-list'>";
-			for(var i = 0; i < records.length; i++){
-				var item = records[i];
+			const records = this.dataSource.getContext().entities;
+			let htmlStr = "<ul class='luga-docs-list'>";
+			records.forEach(function(element){
 				htmlStr += "<li>";
-				htmlStr += "<a href='javascript:;' onclick='test.ladiesMaster.setCurrentRowId(\"" + item.lugaRowId + "\")'>";
-				htmlStr += item.lastName;
+				htmlStr += "<a href='javascript:;' onclick='test.ladiesMaster.setCurrentRowId(\"" + element.lugaRowId + "\")'>";
+				htmlStr += element.lastName;
 				htmlStr += "</a></li>";
-			}
+			});
 			htmlStr += "</ul>";
-			this.config.node.html(htmlStr);
+			this.config.node.innerHTML = htmlStr;
 		};
 	};
 
 	/**
-	 * This simplified implementation of a custom region handler should not be considered production-ready
+	 * This simple implementation of a custom region handler is totally ad-hoc
+	 * It also uses template literals and as such will not work in IE11
 	 * @extends luga.data.region.Base
 	 */
-	var underscoreTemplate = function(options){
+	var templateLiteral = function(options){
 		luga.extend(luga.data.region.Base, this, [options]);
-
-		// Underscore specific part
-		var templateId = this.config.templateId;
-		var templateStr = jQuery("#" + templateId).html();
-		var compiledTemplate = _.template(templateStr);
 
 		/** @override */
 		this.render = function(){
-			var context = this.dataSource.getContext();
-			// DetailSet
+			const context = this.dataSource.getContext();
+			// It's a DetailSet
 			if((context.entity !== undefined) && (context.entity !== null)){
-				this.config.node.html(compiledTemplate(context.entity));
-			}
-			// DataSet
-			if(context.entities !== undefined){
-				this.config.node.html(compiledTemplate(context.entities));
+				this.config.node.innerHTML = `
+				  <ul>
+					<li>Firstname: ${context.entity.firstName}</li>
+					<li>Lastname: ${context.entity.lastName}</li>
+					<li>Country: ${context.entity.country}</li>
+				  </ul>
+				`
 			}
 		};
 
@@ -75,6 +72,12 @@
 			using templating at all.
 		</p>
 
+		<div class="alert alert-warning" role="alert">
+			<strong>Warning!</strong><br>
+			This example leverages <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">template literals</a>
+			a feature not supported in IE11.
+		</div>
+
 		<p>
 			Add the data-lugaregion-type attribute with a value that matches an existing JavaScript
 			constructor function:
@@ -82,45 +85,43 @@
 
 <pre><code class="language-markup">&lt;div data-lugaregion="true"
 	data-lugaregion-datasource-uuid="lady"
-	data-lugaregion-template-id="detailsTemplate"
-	data-lugaregion-type="underscoreTemplate"&gt;&lt/div&gt;</code></pre>
+	data-lugaregion-type="templateLiteral"&gt;&lt/div&gt;</code></pre>
 
 		<p>
 			The constructor should extend the luga.data.region.Base class and override its render() method:
 		</p>
 
 <pre><code class="line-numbers language-javascript">/**
-	* This simplified implementation of a custom region handler should not be considered production-ready
-	* @extends luga.data.region.Base
-*/
-var underscoreTemplate = function(options){
-
+ * This simple implementation of a custom region handler is totally ad-hoc
+ * It also uses template literals and as such will not work in IE11
+ * @extends luga.data.region.Base
+ */
+var templateLiteral = function(options){
 	luga.extend(luga.data.region.Base, this, [options]);
-
-	// Underscore specific part
-	var templateId = this.config.templateId;
-	var templateStr = jQuery("#" + templateId).html();
-	var compiledTemplate = _.template(templateStr);
 
 	/** @override */
 	this.render = function(){
-		var context = this.dataSource.getContext();
-		// DetailSet
+		const context = this.dataSource.getContext();
+		// It's a DetailSet
 		if((context.entity !== undefined) && (context.entity !== null)){
-			this.config.node.html(compiledTemplate(context.entity));
-		}
-		// DataSet
-		if(context.entities !== undefined){
-			this.config.node.html(compiledTemplate(context.entities));
+			this.config.node.innerHTML = `
+			  &lt;ul&gt;
+				&lt;li&gt;Firstname: ${context.entity.firstName}&lt;/li&gt;
+				&lt;li&gt;Lastname: ${context.entity.lastName}&lt;/li&gt;
+				&lt;li&gt;Country: ${context.entity.country}&lt;/li&gt;
+			  &lt;/ul&gt;
+			`
 		}
 	};
 
 };</code></pre>
 
-		<p>
+		<div class="alert alert-info" role="alert">
+			<strong>Reminder</strong><br>
 			For default rendering, using Handlebars as template engine, there is no need to specify the
 			data-lugaregion-type attribute, since luga.data.Region is used by default.
-		</p>
+		</div>
+
 	</div>
 </div>
 
@@ -130,21 +131,20 @@ var underscoreTemplate = function(options){
 
 	<p>This oversimplified code sample show how you could create a custom region that does not use any template engine</p>
 
-<pre><code class="line-numbers language-javascript">var customRegion = function(options){
-
+<pre><code class="line-numbers language-javascript">// We use var since it must be visible in the global scope
+var customRegion = function(options){
 	luga.extend(luga.data.region.Base, this, [options]);
 
 	/** @override */
 	this.render = function(){
-		var records = this.dataSource.getContext().entities;
-		var htmlStr = "&lt;ul class='luga-docs-list'&gt;";
-		for(var i = 0; i &lt; records.length; i++){
-			var item = records[i];
-			htmlStr += "&lt;li&gt;";
-			htmlStr += "&lt;a href='javascript:;' onclick='test.ladiesMaster.setCurrentRowId(\"" + item.lugaRowId + "\")'&gt;";
-			htmlStr += item.lastName;
-			htmlStr += "&lt;/a&gt;&lt;/li&gt;";
-		}
+		const records = this.dataSource.getContext().entities;
+		let htmlStr = "&lt;ul class='luga-docs-list'&gt;";
+		records.forEach(function(element){
+			htmlStr += "<li>";
+			htmlStr += "<a href='javascript:;' onclick='test.ladiesMaster.setCurrentRowId(\"" + element.lugaRowId + "\")'>";
+			htmlStr += element.lastName;
+			htmlStr += "</a></li>";
+		});
 		htmlStr += "&lt;/ul&gt;";
 		this.config.node.html(htmlStr);
 	};
@@ -162,10 +162,11 @@ var underscoreTemplate = function(options){
 </div>
 
 <div class="panel panel-default">
-	<div class="panel-heading">Details (with Underscore JS template)</div>
+	<div class="panel-heading">Details (using template literals)</div>
 	<div class="panel-body">
+
 		<div data-lugaregion="true" data-lugaregion-datasource-uuid="lady"
-			 data-lugaregion-template-id="detailsTemplate"
-			 data-lugaregion-type="underscoreTemplate"></div>
+			 data-lugaregion-type="templateLiteral"></div>
+
 	</div>
 </div>

@@ -2,10 +2,6 @@ describe("luga", function(){
 
 	"use strict";
 
-	it("Requires jQuery in order to work", function(){
-		expect(jQuery).toBeDefined();
-	});
-
 	it("Lives inside its own namespace", function(){
 		expect(luga).toBeDefined();
 	});
@@ -24,7 +20,7 @@ describe("luga", function(){
 		});
 
 		it("Does not override existing namespaces", function(){
-			var testRoot = {};
+			const testRoot = {};
 			testRoot.child = {};
 			testRoot.child.grandChild = {};
 			luga.namespace("child", testRoot);
@@ -37,7 +33,7 @@ describe("luga", function(){
 		});
 
 		it("Accept a second argument to be used as root object", function(){
-			var testRoot = {};
+			const testRoot = {};
 			luga.namespace("child", testRoot);
 			expect(testRoot.child).toBeDefined();
 		});
@@ -66,44 +62,10 @@ describe("luga", function(){
 				};
 			}
 
-			var nicole = new Superstar("female", "Nicole Kidman");
+			const nicole = new Superstar("female", "Nicole Kidman");
 
 			expect(nicole.getGender()).toEqual("female");
 			expect(nicole.getName()).toEqual("Nicole Kidman");
-		});
-
-	});
-
-	describe(".isArray()", function(){
-
-		it("Return true if an object is an array", function(){
-			expect(luga.isArray([])).toEqual(true);
-			expect(luga.isArray(new Array())).toEqual(true);
-		});
-
-		it("Return false otherwise", function(){
-			expect(luga.isArray()).toEqual(false);
-			expect(luga.isArray("test")).toEqual(false);
-			expect(luga.isArray(3)).toEqual(false);
-			expect(luga.isArray({})).toEqual(false);
-		});
-
-	});
-
-	describe(".isFunction()", function(){
-
-		it("Return true if an object is a function", function(){
-			//expect(luga.isFunction([])).toEqual(true);
-			expect(luga.isFunction(function(){
-			})).toEqual(true);
-		});
-
-		it("Return false otherwise", function(){
-			expect(luga.isFunction()).toEqual(false);
-			expect(luga.isFunction("test")).toEqual(false);
-			expect(luga.isFunction(3)).toEqual(false);
-			expect(luga.isFunction({})).toEqual(false);
-			expect(luga.isFunction([])).toEqual(false);
 		});
 
 	});
@@ -132,18 +94,18 @@ describe("luga", function(){
 			it("Returns the relevant function if it is available inside the window/global scope", function(){
 				window.MyLookup = function(){
 				};
-				var result = luga.lookupFunction("MyLookup");
+				const result = luga.lookupFunction("MyLookup");
 				expect(result).not.toBeUndefined();
-				expect(jQuery.isFunction(result)).toEqual(true);
+				expect(luga.type(result)).toEqual("function");
 			});
 
 			it("Or any given namespace (if the fully qualified name is passed)", function(){
 				window.myLookUpSpace = {};
 				myLookUpSpace.myFunction = function(){
 				};
-				var result = luga.lookupFunction("myLookUpSpace.myFunction");
+				const result = luga.lookupFunction("myLookUpSpace.myFunction");
 				expect(result).not.toBeUndefined();
-				expect(jQuery.isFunction(result)).toEqual(true);
+				expect(luga.type(result)).toEqual("function");
 			});
 
 			describe("Returns undefined if:", function(){
@@ -178,7 +140,7 @@ describe("luga", function(){
 			});
 
 			it("Supports unlimited nesting levels (if the fully qualified path is passed)", function(){
-				var target = {
+				const target = {
 					firstLevel: {
 						secondLevel: {
 							message: "Ciao Mamma!"
@@ -215,29 +177,29 @@ describe("luga", function(){
 	describe(".merge()", function(){
 
 		it("Shallow-merges the contents of two objects together into the first object", function(){
-			var config = {letter: "a", number: 1};
-			var params = {number: 2, symbol: "@"};
+			const config = {letter: "a", number: 1};
+			const params = {number: 2, symbol: "@"};
 			luga.merge(config, params);
 			expect(config).toEqual({letter: "a", number: 2, symbol: "@"});
 		});
 
 		it("Does not copy properties inherited through the prototype chain", function(){
-			var config = {};
+			const config = {};
 
-			var Person = function(name){
+			const Person = function(name){
 				this.name = name;
 			};
 			Person.prototype.greet = function(){
 				console.log("Hello!");
 			};
 
-			var Tester = function(name){
+			const Tester = function(name){
 				Person.call(this, name);
 			};
 			Tester.prototype = Object.create(Person.prototype);
 			Tester.prototype.tool = "Jasmine";
 
-			var params = new Tester("Ciccio");
+			const params = new Tester("Ciccio");
 
 			luga.merge(config, params);
 			expect(config.greet).toBeUndefined();
@@ -247,8 +209,8 @@ describe("luga", function(){
 		describe("Works if the target object is", function(){
 
 			it("A complex object", function(){
-				var target = {name: "Ciccio", friends: [{name: "Franco"}, {name: "Federico"}]};
-				var params = {number: 2, symbol: "@"};
+				const target = {name: "Ciccio", friends: [{name: "Franco"}, {name: "Federico"}]};
+				const params = {number: 2, symbol: "@"};
 				luga.merge(target, params);
 				expect(target).toEqual({
 					name: "Ciccio",
@@ -259,8 +221,8 @@ describe("luga", function(){
 			});
 
 			it("An Array", function(){
-				var target = [];
-				var params = {number: 2, symbol: "@"};
+				const target = [];
+				const params = {number: 2, symbol: "@"};
 				luga.merge(target, params);
 				expect(target.number).toEqual(2);
 				expect(target.symbol).toEqual("@");
@@ -274,7 +236,7 @@ describe("luga", function(){
 
 		describe("Given an object, a path and a value", function(){
 
-			var targetObj;
+			let targetObj;
 			beforeEach(function(){
 
 				targetObj = {
@@ -304,11 +266,67 @@ describe("luga", function(){
 				expect(targetObj.first.second.third).toEqual(1);
 			});
 			it("Works on empty objects too", function(){
-				var storage = {};
+				const storage = {};
 				luga.setProperty(storage, "first.second.third", 3);
 				expect(storage.first.second.third).toEqual(3);
 			});
 
+		});
+
+	});
+
+	describe(".toQueryString()", function(){
+
+		it("Throws an exception if the given input is not a plain object", function(){
+
+			expect(function(){
+				luga.toQueryString(new Date());
+			}).toThrow();
+
+			expect(function(){
+				luga.toQueryString("Test");
+			}).toThrow();
+
+			const Person = function(name){
+				this.name = name;
+			};
+			Person.prototype.greet = function(){
+				console.log("Hello!");
+			};
+
+			const Tester = function(name){
+				Person.call(this, name);
+			};
+			Tester.prototype = Object.create(Person.prototype);
+			Tester.prototype.tool = "Jasmine";
+			const tester = new Tester("Ciccio");
+			expect(function(){
+				luga.toQueryString(tester);
+			}).toThrow();
+
+
+			expect(function(){
+				luga.toQueryString({msg: "test"});
+			}).not.toThrow();
+		});
+
+		it("Create a query string out of a plain object containing name/value pairs", function(){
+			expect(luga.toQueryString({mixedCase: "Test"})).toEqual("mixedCase=Test");
+			const plainObj = {
+				first: "primo",
+				second: "secondo",
+				third: "terzo"
+			};
+			expect(luga.toQueryString(plainObj)).toEqual("first=primo&second=secondo&third=terzo");
+		});
+
+		it("Array properties are serialized as multiple value/pairs", function(){
+			const person = {
+				name: "Massimo",
+				lastName: "Foti",
+				nationalities: ["Italian", "Swiss"]
+			};
+			expect(luga.toQueryString(person)).toEqual("name=Massimo&lastName=Foti&nationalities=Italian&nationalities=Swiss");
 		});
 
 	});
@@ -330,7 +348,7 @@ describe("luga", function(){
 			});
 
 			it("luga.type(obj.notDefined) === 'undefined'", function(){
-				var test = {};
+				const test = {};
 				expect(luga.type(test.notDefined)).toEqual("undefined");
 			});
 

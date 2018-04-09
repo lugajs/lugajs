@@ -12,37 +12,39 @@
 	(function(){
 		"use strict";
 
-		var states = new luga.data.JsonDataSet({
+		const states = new luga.data.JsonDataSet({
 			uuid: "statesDs",
 			url: "../test/fixtures/data/usa-states.json"
 		});
 
-		jQuery(document).ready(function(){
+		luga.dom.ready(function(){
 
 			// Fetch JSON data
 			states.loadData();
 
-			jQuery("#searchButton").on("click", function(event){
-				event.preventDefault();
-				var criteria = jQuery("#searchCriteria").val().toLowerCase();
-				// Assemble a filter function on the fly
-				states.setFilter(function(row, rowIndex, dataSet){
-					if(row.name.toLowerCase().search(criteria) === -1){
-						// Filter out non matching row by returning null
-						return null;
-					}
-					// Return matching row
-					return row;
-				});
-			});
+			if(document.getElementById("searchButton") !== null){
 
-			jQuery("#clearButton").on("click", function(event){
-				event.preventDefault();
-				// Clear the filter, full data will be visible again
-				states. clearFilter();
-				jQuery("#searchCriteria").val("");
-			});
+				document.getElementById("searchButton").addEventListener("click", function(event){
+					event.preventDefault();
+					const criteria = document.getElementById("searchCriteria").value.toLowerCase();
+					// Assemble a filter function on the fly
+					states.setFilter(function(row, rowIndex, dataSet){
+						if(row.name.toLowerCase().search(criteria) === -1){
+							// Filter out non matching row by returning null
+							return null;
+						}
+						// Return matching row
+						return row;
+					});
+				}, false);
 
+				document.getElementById("clearButton").addEventListener("click", function(event){
+					event.preventDefault();
+					// Clear the filter, full data will be visible again
+					states. clearFilter();
+					document.getElementById("searchCriteria").value = "";
+				}, false);
+			}
 		});
 	}());
 </script>
@@ -104,26 +106,26 @@
 			Here you have to assemble the filter function on the fly. A closure will do the job:
 		</p>
 
-<pre><code class="line-numbers language-javascript">jQuery("#searchButton").on("click", function(event){
+<pre><code class="line-numbers language-javascript">document.getElementById("searchButton").addEventListener("click", function(event){
 	event.preventDefault();
-	var criteria = jQuery("#searchCriteria").val().toLowerCase();
+	const criteria = document.getElementById("searchCriteria").value.toLowerCase();
 	// Assemble a filter function on the fly
 	states.setFilter(function(row, rowIndex, dataSet){
-	if(row.name.toLowerCase().search(criteria) === -1){
-		// Filter out non matching row by returning null
-		return null;
-	}
-	// Return matching row
-	return row;
+		if(row.name.toLowerCase().search(criteria) === -1){
+			// Filter out non matching row by returning null
+			return null;
+		}
+		// Return matching row
+		return row;
 	});
-});
+}, false);
 
-jQuery("#clearButton").on("click", function(event){
+document.getElementById("clearButton").addEventListener("click", function(event){
 	event.preventDefault();
 	// Clear the filter, full data will be visible again
 	states. clearFilter();
-	jQuery("#searchCriteria").val("");
-});
+	document.getElementById("searchCriteria").value = "";
+}, false);
 </code></pre>
 
 		<p>

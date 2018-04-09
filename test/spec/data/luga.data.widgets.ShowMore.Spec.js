@@ -2,11 +2,13 @@ describe("luga.data.widgets", function(){
 
 	"use strict";
 
-	var mockButton, mockDiv, mockDs, mockJson, showMoreBase, showMoreButton, showMoreScrollBody, showMoreScrollDiv;
+	let mockButton, mockDiv, mockDs, mockJson, baseWidget, showMoreWidget;
 	beforeEach(function(){
 
-		mockButton = jQuery("<button>");
-		mockDiv = jQuery("<div style='overflow-y: auto; height: 100px'>");
+		mockButton = document.createElement("button");
+
+		mockDiv = document.createElement("div");
+		mockDiv.setAttribute("style", "overflow-y: auto; height: 100px");
 
 		mockDs = new luga.data.JsonDataSet({
 			uuid: "masterDs",
@@ -22,28 +24,17 @@ describe("luga.data.widgets", function(){
 
 		spyOn(mockDs, "getRawJson").and.returnValue(mockJson);
 
-		showMoreBase = new luga.data.widgets.ShowMore({
+		baseWidget = new luga.data.widgets.ShowMore({
 			dataSet: mockDs,
 			url: "/fake/?key={nextKey}",
 			paramPath: "params"
 		});
 
-		showMoreButton = new luga.data.widgets.ShowMoreButton({
+		showMoreWidget = new luga.data.widgets.ShowMoreButton({
 			button: mockButton,
 			dataSet: mockDs,
 			url: "",
 			paramPath: "params"
-		});
-
-		showMoreScrollBody = new luga.data.widgets.ShowMoreScrolling({
-			dataSet: mockDs,
-			url: ""
-		});
-
-		showMoreScrollDiv = new luga.data.widgets.ShowMoreScrolling({
-			dataSet: mockDs,
-			url: "",
-			node: mockDiv
 		});
 
 	});
@@ -56,18 +47,18 @@ describe("luga.data.widgets", function(){
 
 		it("Is an abstract widget", function(){
 			expect(luga.data.widgets.ShowMore).toBeDefined();
-			expect(jQuery.isFunction(luga.data.widgets.ShowMore)).toEqual(true);
+			expect(luga.type(luga.data.widgets.ShowMore)).toEqual("function");
 		});
 
 		it("Register itself as observer of the associated dataSource", function(){
-			expect(mockDs.observers[0]).toEqual(showMoreBase);
+			expect(mockDs.observers[0]).toEqual(baseWidget);
 		});
 
 		describe("Accepts an Options object as single argument", function(){
 
 			describe("options.dataSet", function(){
 				it("Is the dataSet to which the widget will be associated", function(){
-					expect(showMoreBase.config.dataSet).toEqual(mockDs);
+					expect(baseWidget.config.dataSet).toEqual(mockDs);
 				});
 				it("Throws an exception if not specified", function(){
 					expect(function(){
@@ -78,7 +69,7 @@ describe("luga.data.widgets", function(){
 
 			describe("options.url", function(){
 				it("Is a string template that will be used to assemble the url for next XHR call", function(){
-					var widget = new luga.data.widgets.ShowMore({
+					const widget = new luga.data.widgets.ShowMore({
 						dataSet: mockDs,
 						url: "/test/{placeHolder}"
 					});
@@ -93,10 +84,10 @@ describe("luga.data.widgets", function(){
 
 			describe("options.paramPath", function(){
 				it("Is a JSON path that will be used to retrieve params from the HTTP response", function(){
-					expect(showMoreBase.config.paramPath).toEqual("params");
+					expect(baseWidget.config.paramPath).toEqual("params");
 				});
 				it("Default to an empty string", function(){
-					var widget = new luga.data.widgets.ShowMore({
+					const widget = new luga.data.widgets.ShowMore({
 						dataSet: mockDs,
 						url: "/test/{placeHolder}"
 					});
@@ -110,7 +101,7 @@ describe("luga.data.widgets", function(){
 
 			describe("First:", function(){
 				it("Call dataSet's .getRawJson()", function(){
-					showMoreBase.assembleUrl();
+					baseWidget.assembleUrl();
 					expect(mockDs.getRawJson).toHaveBeenCalled();
 				});
 			});
@@ -121,8 +112,8 @@ describe("luga.data.widgets", function(){
 					it("Call luga.lookupProperty()", function(){
 						spyOn(luga, "lookupProperty").and.callFake(function(){
 						});
-						showMoreBase.assembleUrl();
-						expect(luga.lookupProperty).toHaveBeenCalledWith(mockJson, showMoreBase.config.paramPath);
+						baseWidget.assembleUrl();
+						expect(luga.lookupProperty).toHaveBeenCalledWith(mockJson, baseWidget.config.paramPath);
 					});
 
 				});
@@ -130,7 +121,7 @@ describe("luga.data.widgets", function(){
 			});
 			describe("Finally:", function(){
 				it("Returns the generated URL to be used for next XHR call", function(){
-					expect(showMoreBase.assembleUrl()).toEqual("/fake/?key=testId");
+					expect(baseWidget.assembleUrl()).toEqual("/fake/?key=testId");
 				});
 			});
 
@@ -138,13 +129,13 @@ describe("luga.data.widgets", function(){
 
 		describe(".disable()", function(){
 			it("Is an abstract method", function(){
-				expect(jQuery.isFunction(showMoreBase.disable)).toEqual(true);
+				expect(luga.type(baseWidget.disable)).toEqual("function");
 			});
 		});
 
 		describe(".enable()", function(){
 			it("Is an abstract method", function(){
-				expect(jQuery.isFunction(showMoreBase.disable)).toEqual(true);
+				expect(luga.type(baseWidget.disable)).toEqual("function");
 			});
 		});
 
@@ -153,10 +144,11 @@ describe("luga.data.widgets", function(){
 			describe("First:", function(){
 
 				it("Call .assembleUrl()", function(){
-					spyOn(showMoreBase, "assembleUrl").and.callFake(function(){
+					spyOn(baseWidget, "assembleUrl").and.callFake(function(){
 					});
-					showMoreBase.fetch();
-					expect(showMoreBase.assembleUrl).toHaveBeenCalled();
+					spyOn(mockDs, "loadData");
+					baseWidget.fetch();
+					expect(baseWidget.assembleUrl).toHaveBeenCalled();
 				});
 
 			});
@@ -167,8 +159,8 @@ describe("luga.data.widgets", function(){
 					it("Call dataSet.setUrl(), then dataSet.loadData()", function(){
 						spyOn(mockDs, "setUrl");
 						spyOn(mockDs, "loadData");
-						var newUrl = showMoreBase.assembleUrl();
-						showMoreBase.fetch();
+						const newUrl = baseWidget.assembleUrl();
+						baseWidget.fetch();
 						expect(mockDs.setUrl).toHaveBeenCalledWith(newUrl);
 						expect(mockDs.loadData).toHaveBeenCalled();
 					});
@@ -178,10 +170,10 @@ describe("luga.data.widgets", function(){
 				describe("Else:", function(){
 
 					it("Call .disable()", function(){
-						spyOn(showMoreBase, "assembleUrl").and.returnValue(showMoreBase.config.url);
-						spyOn(showMoreBase, "disable");
-						showMoreBase.fetch();
-						expect(showMoreBase.disable).toHaveBeenCalled();
+						spyOn(baseWidget, "assembleUrl").and.returnValue(baseWidget.config.url);
+						spyOn(baseWidget, "disable");
+						baseWidget.fetch();
+						expect(baseWidget.disable).toHaveBeenCalled();
 					});
 
 				});
@@ -192,11 +184,11 @@ describe("luga.data.widgets", function(){
 
 		describe(".isEnabled()", function(){
 			it("Return false by default", function(){
-				expect(showMoreBase.isEnabled()).toEqual(false);
+				expect(baseWidget.isEnabled()).toEqual(false);
 			});
 			it("Return true if the dataSet is ready", function(){
 				mockDs.setState(luga.data.STATE.READY);
-				expect(showMoreBase.isEnabled()).toEqual(true);
+				expect(baseWidget.isEnabled()).toEqual(true);
 			});
 		});
 
@@ -204,18 +196,18 @@ describe("luga.data.widgets", function(){
 
 			describe("If the dataSet is ready:", function(){
 				it("Call .enable()", function(){
-					spyOn(showMoreBase, "enable");
+					spyOn(baseWidget, "enable");
 					mockDs.setState(luga.data.STATE.READY);
-					showMoreBase.updateState();
-					expect(showMoreBase.enable).toHaveBeenCalled();
+					baseWidget.updateState();
+					expect(baseWidget.enable).toHaveBeenCalled();
 				});
 			});
 
 			describe("Else:", function(){
 				it("Call .disable()", function(){
-					spyOn(showMoreBase, "disable");
-					showMoreBase.updateState();
-					expect(showMoreBase.disable).toHaveBeenCalled();
+					spyOn(baseWidget, "disable");
+					baseWidget.updateState();
+					expect(baseWidget.disable).toHaveBeenCalled();
 				});
 			});
 
@@ -223,14 +215,14 @@ describe("luga.data.widgets", function(){
 
 		describe(".onStateChangedHandler()", function(){
 			it("Listen to the dataSet notification", function(){
-				spyOn(showMoreBase, "onStateChangedHandler");
+				spyOn(baseWidget, "onStateChangedHandler");
 				mockDs.setState(luga.data.STATE.READY);
-				expect(showMoreBase.onStateChangedHandler).toHaveBeenCalled();
+				expect(baseWidget.onStateChangedHandler).toHaveBeenCalled();
 			});
 			it("Call .updateState()", function(){
-				spyOn(showMoreBase, "updateState");
+				spyOn(baseWidget, "updateState");
 				mockDs.setState(luga.data.STATE.READY);
-				expect(showMoreBase.updateState).toHaveBeenCalled();
+				expect(baseWidget.updateState).toHaveBeenCalled();
 			});
 		});
 
@@ -239,7 +231,7 @@ describe("luga.data.widgets", function(){
 	describe(".ShowMoreButton", function(){
 
 		it("Implements the luga.data.widgets.ShowMore abstract class", function(){
-			expect(showMoreButton).toMatchDuckType(showMoreBase);
+			expect(showMoreWidget).toMatchDuckType(baseWidget);
 		});
 
 		describe("Accepts an Options object as single argument", function(){
@@ -257,7 +249,7 @@ describe("luga.data.widgets", function(){
 						new luga.data.widgets.ShowMoreButton({
 							dataSet: mockDs,
 							url: "",
-							button: jQuery("#missing")
+							button: document.getElementById("missing")
 						});
 					}).toThrow();
 				});
@@ -265,7 +257,7 @@ describe("luga.data.widgets", function(){
 
 			describe("options.disabledClass", function(){
 				it("Is a CSS class that will be associated to the button while it's disabled", function(){
-					var widget = new luga.data.widgets.ShowMore({
+					const widget = new luga.data.widgets.ShowMore({
 						dataSet: mockDs,
 						url: "/test/{placeHolder}",
 						disabledClass: "myCss"
@@ -273,7 +265,7 @@ describe("luga.data.widgets", function(){
 					expect(widget.config.disabledClass).toEqual("myCss");
 				});
 				it("Default to 'disabled'", function(){
-					expect(showMoreButton.config.disabledClass).toEqual("disabled");
+					expect(showMoreWidget.config.disabledClass).toEqual("disabled");
 				});
 			});
 
@@ -284,80 +276,38 @@ describe("luga.data.widgets", function(){
 			describe("Attach a click event on the button", function(){
 
 				it("If the widget is enabled. It call .fetch()", function(){
-					spyOn(showMoreButton, "fetch");
+					spyOn(showMoreWidget, "fetch");
 					mockDs.setState(luga.data.STATE.READY);
 					mockButton.click();
-					expect(showMoreButton.fetch).toHaveBeenCalled();
+					expect(showMoreWidget.fetch).toHaveBeenCalled();
 				});
 				it("If the widget is disabled. Nothing happens", function(){
-					spyOn(showMoreButton, "fetch");
+					spyOn(showMoreWidget, "fetch");
 					mockButton.click();
-					expect(showMoreButton.fetch).not.toHaveBeenCalled();
+					expect(showMoreWidget.fetch).not.toHaveBeenCalled();
 				});
 
 			});
 
 		});
 
-	});
+		describe(".disable()", function(){
 
-	describe(".ShowMoreScrolling", function(){
-
-		it("Implements the luga.data.widgets.ShowMore abstract class", function(){
-			expect(showMoreScrollBody).toMatchDuckType(showMoreBase);
-		});
-
-		describe("Accepts an Options object as single argument", function(){
-
-			describe("options.node", function(){
-				it("Is a jQuery element containing the records", function(){
-					expect(showMoreScrollDiv.config.node).toEqual(mockDiv);
-				});
-				it("Default to the current document to handle infinite scrolling for the current window", function(){
-					expect(showMoreScrollBody.config.node.body).toEqual(jQuery(document).body);
-				});
+			it("Attach options.disabledClass to the button", function(){
+				expect(mockButton).not.toHaveClass("disabled");
+				showMoreWidget.disable();
+				expect(mockButton).toHaveClass("disabled");
 			});
 
 		});
 
-		describe(".attachEvents()", function(){
+		describe(".enable()", function(){
 
-			describe("Attach a scroll event either:", function(){
-
-				describe("To the document:", function(){
-
-					it("If the widget is enabled and the document scrolls. It call .fetch()", function(){
-						spyOn(showMoreScrollBody, "fetch");
-						mockDs.setState(luga.data.STATE.READY);
-						jQuery(document).scroll();
-						expect(showMoreScrollBody.fetch).toHaveBeenCalled();
-					});
-
-					it("If the widget is disabled. Nothing happens", function(){
-						spyOn(showMoreScrollBody, "fetch");
-						jQuery(document).scroll();
-						expect(showMoreScrollBody.fetch).not.toHaveBeenCalled();
-					});
-
-				});
-
-				describe("To the node:", function(){
-
-					it("If the widget is enabled and the node scrolls. It call .fetch()", function(){
-						spyOn(showMoreScrollDiv, "fetch");
-						mockDs.setState(luga.data.STATE.READY);
-						mockDiv.scroll();
-						expect(showMoreScrollDiv.fetch).toHaveBeenCalled();
-					});
-
-					it("If the widget is disabled. Nothing happens", function(){
-						spyOn(showMoreScrollDiv, "fetch");
-						mockDiv.scroll();
-						expect(showMoreScrollDiv.fetch).not.toHaveBeenCalled();
-					});
-
-				});
-
+			it("Remove options.disabledClass from the button", function(){
+				showMoreWidget.disable();
+				expect(mockButton).toHaveClass("disabled");
+				showMoreWidget.enable();
+				expect(mockButton).not.toHaveClass("disabled");
 			});
 
 		});

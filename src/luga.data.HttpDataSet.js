@@ -8,15 +8,6 @@
 	 */
 
 	/**
-	 * @typedef {Object} luga.data.HttpDataSet.xhrError
-	 *
-	 * @property {String} message
-	 * @property {Object} jqXHR        jQuery wrapper around XMLHttpRequest
-	 * @property {String} textStatus
-	 * @property {String} errorThrown
-	 */
-
-	/**
 	 * @typedef {Object} luga.data.HttpDataSet.options
 	 *
 	 * @extend luga.data.DataSet.options
@@ -42,9 +33,9 @@
 	luga.data.HttpDataSet = function(options){
 		luga.extend(luga.data.DataSet, this, [options]);
 		/** @type {luga.data.HttpDataSet} */
-		var self = this;
+		const self = this;
 
-		var CONST = {
+		const CONST = {
 			ERROR_MESSAGES: {
 				HTTP_DATA_SET_ABSTRACT: "luga.data.HttpDataSet is an abstract class",
 				XHR_FAILURE: "Failed to retrieve: {0}. HTTP status: {1}. Error: {2}",
@@ -71,7 +62,7 @@
 			this.cache = options.cache;
 		}
 
-		this.headers = {};
+		this.headers = [];
 		if(options.headers !== undefined){
 			this.headers = options.headers;
 		}
@@ -82,34 +73,28 @@
 		}
 
 		// Concrete implementations can override this
-		this.dataType = null;
+		this.contentType = "text/plain";
 		this.xhrRequest = null;
 
 		/* Private methods */
 
-		var loadUrl = function(){
-			var xhrOptions = {
+		const loadUrl = function(){
+			const xhrOptions = {
 				url: self.url,
-				success: function(response, textStatus, jqXHR){
+				success: function(response){
 					if(self.incrementalLoad === false){
 						self.delete();
 					}
-					self.loadRecords(response, textStatus, jqXHR);
+					self.loadRecords(response);
 				},
+				contentType: self.contentType,
 				timeout: self.timeout,
 				cache: self.cache,
 				headers: self.headers,
-				error: self.xhrError,
-				// Need to override jQuery's XML converter
-				converters: {
-					"text xml": luga.xml.parseFromString
-				}
+				error: self.xhrError
 			};
-			/* istanbul ignore else */
-			if(self.dataType !== null){
-				xhrOptions.dataType = self.dataType;
-			}
-			self.xhrRequest = jQuery.ajax(xhrOptions);
+			self.xhrRequest = new luga.xhr.Request(xhrOptions);
+			self.xhrRequest.send(self.url);
 		};
 
 		/* Public methods */
@@ -150,13 +135,11 @@
 
 		/**
 		 * Abstract method, concrete classes must implement it to extract records from XHR response
-		 * @param {*}        response     Data returned from the server
-		 * @param {String}   textStatus   HTTP status
-		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest
+		 * @param {luga.xhr.response} response
 		 * @abstract
 		 */
 		/* istanbul ignore next */
-		this.loadRecords = function(response, textStatus, jqXHR){
+		this.loadRecords = function(response){
 		};
 
 		/**
@@ -171,19 +154,15 @@
 
 		/**
 		 * Is called whenever an XHR request fails, set state to error, notify observers ("xhrError")
-		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest
-		 * @param {String}   textStatus   HTTP status
-		 * @param {String}   errorThrown  Error message from jQuery
+		 * @param {luga.xhr.response} response
 		 * @fire xhrError
 		 */
-		this.xhrError = function(jqXHR, textStatus, errorThrown){
+		this.xhrError = function(response){
 			self.setState(luga.data.STATE.ERROR);
 			self.notifyObservers(luga.data.CONST.EVENTS.XHR_ERROR, {
 				dataSet: self,
-				message: luga.string.format(CONST.ERROR_MESSAGES.XHR_FAILURE, [self.url, jqXHR.status, errorThrown]),
-				jqXHR: jqXHR,
-				textStatus: textStatus,
-				errorThrown: errorThrown
+				message: luga.string.format(CONST.ERROR_MESSAGES.XHR_FAILURE, [self.url, response.status]),
+				response: response
 			});
 		};
 

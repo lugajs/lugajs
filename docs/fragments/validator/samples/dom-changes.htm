@@ -1,32 +1,30 @@
 <script>
-	// <![CDATA[
 	function checkMeal(){
-		var checkbox = jQuery("#specialmeal");
-		var textField = jQuery("#newmeal");
-		if(checkbox.prop("checked") === true){
-			textField.attr("data-lugavalidator-required", "true");
-			textField.addClass("required");
+		const checkbox = document.getElementById("specialmeal");
+		const textField = document.getElementById("newmeal");
+		if(checkbox.checked === true){
+			textField.setAttribute("data-lugavalidator-required", "true");
+			textField.classList.add("required");
 		}
 		else{
 			textField.attr("data-lugavalidator-required", "false");
-			textField.removeClass("required");
+			textField.classList.remove("required");
 		}
 	}
 
 	function addMeal(){
-		var checkbox = jQuery("#specialmealAdd");
-		var tableCell = jQuery("#mealCell");
-		if(checkbox.prop("checked") === true){
-			var htmlStr = 'Specify the special meal\'s name:';
+		const checkbox = document.getElementById("specialmealAdd");
+		const tableCell = document.getElementById("mealCell");
+		if(checkbox.checked === true){
+			let htmlStr = 'Specify the special meal\'s name:';
 			htmlStr += '<label for="dynamicMeal" class="control-label">Specify the special meal\'s name</label>';
 			htmlStr += '<input type="text" name="dynamicMeal" id="dynamicMeal" class="form-control" data-lugavalidator-required="true" data-lugavalidator-message="Meal\'s name?" />';
-			tableCell.html(htmlStr);
+			tableCell.innerHTML = htmlStr;
 		}
 		else{
-			tableCell.html("");
+			tableCell.innerHTML = "";
 		}
 	}
-	// ]]>
 </script>
 
 <div class="panel panel-default">

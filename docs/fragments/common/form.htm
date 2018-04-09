@@ -12,10 +12,10 @@
 		<tr>
 			<td>rootNode</td>
 			<td>
-				{jQuery}
+				{HTMLElement}
 			</td>
 			<td>
-				jQuery object wrapping the root node
+				DOM node wrapping the form fields. Required
 			</td>
 		</tr>
 		<tr>
@@ -46,7 +46,7 @@
 	&lt;input type="submit"/&gt;
 &lt;/form&gt;</code></pre>
 
-<pre><code class="language-javascript">luga.form.toMap(jQuery("#basicValue"));
+<pre><code class="language-javascript">luga.form.toMap(document.getElementById("basicValue"));
 // => { firstname: "ciccio", lastname: "pasticcio", radio: "yes" }</code></pre>
 
 </div>
@@ -63,10 +63,10 @@
 		<tr>
 			<td>rootNode</td>
 			<td>
-				{jQuery}
+				{HTMLElement}
 			</td>
 			<td>
-				jQuery object wrapping the root node
+				DOM node wrapping the form fields. Required
 			</td>
 		</tr>
 		<tr>
@@ -97,7 +97,7 @@
 	&lt;input type="submit"/&gt;
 &lt;/form&gt;</code></pre>
 
-<pre><code class="language-javascript">luga.form.toQueryString(jQuery("#basicValue"));
+<pre><code class="language-javascript">luga.form.toQueryString(document.getElementById("basicValue"));
 // => "firstname=ciccio&lastname=pasticcio&radio=yes"</code></pre>
 
 </div>
@@ -115,10 +115,10 @@
 		<tr>
 			<td>rootNode</td>
 			<td>
-				{jQuery}
+				{HTMLElement}
 			</td>
 			<td>
-				jQuery object wrapping the root node
+				DOM node wrapping the form fields. Required
 			</td>
 		</tr>
 		<tr>
@@ -149,7 +149,7 @@
 	&lt;input type="submit"/&gt;
 &lt;/form&gt;</code></pre>
 
-<pre><code class="language-javascript">luga.form.toJson(jQuery("#basicValue"));
+<pre><code class="language-javascript">luga.form.toJson(document.getElementById("basicValue"));
 // => { person: { firstname: "ciccio", lastname: "pasticcio", }, radio: "yes" }</code></pre>
 
 </div>

@@ -8,8 +8,7 @@
 	<div class="panel-heading">luga.data.region.getReferenceFromNode(node)</div>
 	<div class="panel-body">
 		<p>
-			This static method requires a jQuery object wrapping an HTML node, returns the region object associated to
-			it
+			This static method requires a DOM node, returns the region object associated to it.
 			Returns undefined if the node is not associated to region.
 		</p>
 
@@ -31,8 +30,8 @@
 				href="../src/luga.data.region.Handlebars.js">luga.data.region.Handlebars</a> constructor like:
 		</p>
 
-<pre><code class="language-javascript">var myRegion = new luga.data.region.Handlebars({
-	node: jQuery("#myDiv"),
+<pre><code class="language-javascript">const myRegion = new luga.data.region.Handlebars({
+	node: document.getElementById("myDiv"),
 	dsUuid: "myDatasetUuid"
 });
 </code></pre>
@@ -64,10 +63,10 @@
 		<tr>
 			<td>options.node</td>
 			<td>
-				{jQuery}
+				{HTMLElement}
 			</td>
 			<td>
-				A jQuery object wrapping the node or the naked DOM object that will contain the region. Required.
+				A DOM node that will contain the region. Required.
 			</td>
 		</tr>
 		<tr>
@@ -114,8 +113,8 @@
 		<th>Examples</th>
 	</table>
 
-<pre><code class="language-javascript">var myRegion = new luga.data.region.Handlebars({
-	node: jQuery("#myDiv"),
+<pre><code class="language-javascript">const myRegion = new luga.data.region.Handlebars({
+	node: document.getElementById("myDiv"),
 	dsUuid: "myDatasetUuid",
 	traits: ["myFirstTrait", "anotherTrait"]
 });
@@ -136,10 +135,10 @@
 		<tr>
 			<td>rootNode</td>
 			<td>
-				{jQuery}
+				{HTMLElement}
 			</td>
 			<td>
-				A jQuery object. Optional. If not specified it will default to jQuery("body")
+				A DOM node. Optional. If not specified it will default to the body of the current document
 			</td>
 		</tr>
 
@@ -158,10 +157,10 @@
 		<tr>
 			<td>node</td>
 			<td>
-				{jQuery}
+				{HTMLElement}
 			</td>
 			<td>
-				A jQuery object. Required
+				A DOM node. Required
 			</td>
 		</tr>
 
@@ -184,7 +183,7 @@
 				{Boolean}
 			</td>
 			<td>
-				By default the library calls luga.data.region.init() on jQuery(document).ready()
+				By default the library calls luga.data.region.init() on luga.dom.ready()
 				to automatically bootstrap all the regions contained inside the current document.
 				Set this to false if you prefer to have more flexibility and bootstrap the regions programmatically
 			</td>

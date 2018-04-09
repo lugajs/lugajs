@@ -2,7 +2,7 @@ describe("luga.data.region.Base", function(){
 
 	"use strict";
 
-	var testRecords, loadedDs, testDiv, attributesDiv, configRegion, attributesRegion,testObserver;
+	let testRecords, loadedDs, testDiv, attributesDiv, configRegion, attributesRegion, testObserver;
 	window.regionBaseMockTraitOne = function(){
 	};
 	window.regionBaseMockTraitTwo = function(){
@@ -12,8 +12,15 @@ describe("luga.data.region.Base", function(){
 
 		testRecords = jasmineFixtures.read("data/ladies.json");
 		loadedDs = new luga.data.DataSet({uuid: "testDs", records: testRecords});
-		testDiv = jQuery("<div>Ciao Mamma</div>");
-		attributesDiv = jQuery("<div data-lugaregion='true' data-lugaregion-datasource-uuid='testDs' data-lugaregion-template='ladiesTemplate' >Test</div>");
+
+		testDiv = document.createElement("div");
+		testDiv.textContent = "Ciao Mamma";
+
+		attributesDiv = document.createElement("div");
+		attributesDiv.setAttribute("data-lugaregion", "true");
+		attributesDiv.setAttribute("data-lugaregion-datasource-uuid", "testDs");
+		attributesDiv.setAttribute("data-lugaregion-template-id", "ladiesTemplate");
+		attributesDiv.textContent = "Test";
 
 		configRegion = new luga.data.region.Base({
 			node: testDiv,
@@ -31,17 +38,17 @@ describe("luga.data.region.Base", function(){
 
 	});
 
-	afterEach(function() {
+	afterEach(function(){
 		luga.data.dataSourceRegistry = {};
 	});
 
-	it("Is the base, astract class for regions", function(){
+	it("Is the base, abstract class for regions", function(){
 		expect(luga.data.region.Base).toBeDefined();
-		expect(jQuery.isFunction(luga.data.region.Base)).toEqual(true);
+		expect(luga.type(luga.data.region.Base)).toEqual("function");
 	});
 
 	it("Implements the luga.Notifier interface", function(){
-		var MockNotifier = function(){
+		const MockNotifier = function(){
 			luga.extend(luga.Notifier, this);
 		};
 		expect(configRegion).toMatchDuckType(new MockNotifier());
@@ -51,8 +58,8 @@ describe("luga.data.region.Base", function(){
 		expect(loadedDs.observers[0]).toEqual(configRegion);
 	});
 
-	it("Attach a reference inside the given node, storing it as the luga-region-reference key", function(){
-		expect(testDiv.data(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE)).toEqual(configRegion);
+	it("Attach a reference inside the given node, storing it as the luga-region-reference attribute", function(){
+		expect(testDiv[luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE]).toEqual(configRegion);
 	});
 
 	describe("Accepts an Options object as single argument", function(){
@@ -67,17 +74,17 @@ describe("luga.data.region.Base", function(){
 			it("Throws an exception if the associated node does not exists", function(){
 				expect(function(){
 					new luga.data.region.Base({
-						node: jQuery("#missing")
+						node: document.getElementById("missing")
 					});
 				}).toThrow();
 			});
 
 			describe("either:", function(){
 				it("Points to the HTML node using the data-lugaregion custom attribute", function(){
-					expect(attributesRegion.config.node.text()).toEqual(attributesDiv.text());
+					expect(attributesRegion.config.node.textContent).toEqual(attributesDiv.textContent);
 				});
 				it("Uses the value specified inside the option argument", function(){
-					expect(configRegion.config.node.text()).toEqual(testDiv.text());
+					expect(configRegion.config.node.textContent).toEqual(testDiv.textContent);
 				});
 			});
 		});
@@ -118,7 +125,7 @@ describe("luga.data.region.Base", function(){
 					expect(attributesRegion.config.dsUuid).toEqual("testDs");
 				});
 				it("Uses the value specified inside the option argument", function(){
-					var testRegion = new luga.data.region.Base({
+					const testRegion = new luga.data.region.Base({
 						node: testDiv,
 						dsUuid: "testDs",
 						templateId: "ladiesTemplate"
@@ -136,13 +143,22 @@ describe("luga.data.region.Base", function(){
 				describe("Retrieves the value from the node's data-lugaregion-traits custom attribute:", function(){
 
 					it("Containing a single function's name", function(){
-						var regionNode = jQuery("<div data-lugaregion='true' data-lugaregion-datasource-uuid='testDs' data-lugaregion-traits='window.regionBaseMockTraitOne'></div>");
-						var region = new luga.data.region.Base({node: regionNode});
+						const regionNode = document.createElement("div");
+						regionNode.setAttribute("data-lugaregion", "true");
+						regionNode.setAttribute("data-lugaregion-datasource-uuid", "testDs");
+						regionNode.setAttribute("data-lugaregion-traits", "window.regionBaseMockTraitOne");
+
+						const region = new luga.data.region.Base({node: regionNode});
 						expect(region.traits.indexOf("window.regionBaseMockTraitOne")).not.toEqual(-1);
 					});
+
 					it("Or a comma-delimited list of function's names", function(){
-						var regionNode = jQuery("<div data-lugaregion='true' data-lugaregion-datasource-uuid='testDs' data-lugaregion-traits='window.regionBaseMockTraitOne,window.regionBaseMockTraitTwo'></div>");
-						var region = new luga.data.region.Base({node: regionNode});
+						const regionNode = document.createElement("div");
+						regionNode.setAttribute("data-lugaregion", "true");
+						regionNode.setAttribute("data-lugaregion-datasource-uuid", "testDs");
+						regionNode.setAttribute("data-lugaregion-traits", "window.regionBaseMockTraitOne,window.regionBaseMockTraitTwo");
+
+						const region = new luga.data.region.Base({node: regionNode});
 						expect(region.traits.indexOf("window.regionBaseMockTraitOne")).not.toEqual(-1);
 						expect(region.traits.indexOf("window.regionBaseMockTraitTwo")).not.toEqual(-1);
 					});
@@ -152,7 +168,7 @@ describe("luga.data.region.Base", function(){
 				describe("Uses the value specified inside the option argument:", function(){
 
 					it("Containing a single function's name", function(){
-						var region = new luga.data.region.Base({
+						const region = new luga.data.region.Base({
 							node: testDiv,
 							dsUuid: "testDs",
 							templateId: "ladiesTemplate",
@@ -161,7 +177,7 @@ describe("luga.data.region.Base", function(){
 						expect(region.traits.indexOf("window.regionBaseMockTraitOne")).not.toEqual(-1);
 					});
 					it("Or a comma-delimited list of function's names", function(){
-						var region = new luga.data.region.Base({
+						const region = new luga.data.region.Base({
 							node: testDiv,
 							dsUuid: "testDs",
 							templateId: "ladiesTemplate",
@@ -212,7 +228,7 @@ describe("luga.data.region.Base", function(){
 		describe("Throws an exception if:", function(){
 
 			it("options.traits contains an invalid function name", function(){
-				var region = new luga.data.region.Base({
+				const region = new luga.data.region.Base({
 					node: testDiv,
 					dsUuid: "testDs",
 					templateId: "ladiesTemplate",
@@ -224,8 +240,12 @@ describe("luga.data.region.Base", function(){
 			});
 
 			it("data-lugaregion-traits contains an invalid function name", function(){
-				var regionNode = jQuery("<div data-lugaregion='true' data-lugaregion-datasource-uuid='testDs' data-lugaregion-traits='window.missingFunction'></div>");
-				var region = new luga.data.region.Base({node: regionNode});
+				const regionNode = document.createElement("div");
+				regionNode.setAttribute("data-lugaregion", "true");
+				regionNode.setAttribute("data-lugaregion-datasource-uuid", "testDs");
+				regionNode.setAttribute("data-lugaregion-traits", "window.missingFunction");
+
+				const region = new luga.data.region.Base({node: regionNode});
 				expect(function(){
 					region.applyTraits();
 				}).toThrow();
@@ -238,11 +258,11 @@ describe("luga.data.region.Base", function(){
 	describe(".render()", function(){
 		it("Is an abstract method that concrete implementations must implement", function(){
 			expect(configRegion.render).toBeDefined();
-			expect(jQuery.isFunction(configRegion.render)).toEqual(true);
+			expect(luga.type(configRegion.render)).toEqual("function");
 		});
 		it("Triggers a 'regionRendered' notification. Passing along the region's description", function(){
 			configRegion.render();
-			var desc = luga.data.region.utils.assembleRegionDescription(configRegion);
+			const desc = luga.data.region.utils.assembleRegionDescription(configRegion);
 			expect(testObserver.onRegionRenderedHandler).toHaveBeenCalledWith(desc);
 		});
 	});

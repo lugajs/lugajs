@@ -1,6 +1,6 @@
 <blockquote>
-	<p>Simple things must be simple, hard things must be possible, and you must be able to use part of it without
-		understanding all of it.</p>
+	<cite>Simple things must be simple, hard things must be possible, and you must be able to use part of it without
+		understanding all of it.</cite>
 	<footer>Rob Pike</footer>
 </blockquote>
 
@@ -16,16 +16,14 @@
 		</p>
 
 		<p>
-			Luga JS requires jQuery, this doesn't means we believe jQuery is the best JavaScript framework available.
-			We just feel it’s better to use a generic framework for things like XHR, DOM traversing and
-			manipulation, jQuery is very popular, lightweight and well-know.
+			Luga JS is designed to work in IE11+ and most recent versions of Chrome, FireFox, Edge and Safari
 		</p>
 
-		<p>Right now the following production ready libraries are available:</p>
+		<p>The following production ready libraries are available:</p>
 		<ul class="luga-docs-list">
 			<li>
-				<a href="#ajaxform/index" title="Submit forms without page reloads">Ajaxform</a>:
-				turn any HTML &lt;form&gt; into a form that get submitted by XHR, without the need to reload the page
+				<a href="#common/index" title="Shared API and utilities">Common</a>:
+				a minimal set of shared API and utilities
 			</li>
 			<li>
 				<a href="#data/index" title="Dataset and binding">Luga Data</a>:
@@ -36,6 +34,100 @@
 				client-side form validation
 			</li>
 		</ul>
+
+		<p>Other libraries are available as separated projects:</p>
+		<ul class="luga-docs-list">
+			<li>
+				<a href="https://github.com/lugajs/luga-router" title="Client-side routing">Luga Router</a>:
+				a feature-rich JavaScript library for client-side routing. It's compact, focused and extensible
+			</li>
+		</ul>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Dependencies</div>
+	<div class="panel-body">
+		<p>
+			Until version 0.9.7 used to require jQuery in order to stay compatible with older browsers.
+			At that point we realized it was time for a change, we gave up supporting IE9 and IE10 and managed to get rid of the dependency.
+			Unfortunately this came at a cost, since the signature of various API changed in a way that is not fully backward compatible
+		</p>
+
+		<p>
+			At the moment the documentation is using Bootstrap and jQuery,
+			but this is only for convenience, the codebase does not require any of these two
+		</p>
+
+		<div class="alert alert-info" role="info">
+			<strong>Handlebars</strong><br>
+			By default Luga Data regions require <a href="#data/region/getting-started">Handlebars</a>,
+			but you can <a href="#data/extensibility/custom-region-type">customize the way regions are rendered</a>, without using Handlebars
+		</div>
+
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Distribution files</div>
+	<div class="panel-body">
+		<p>
+			The libraries are available in multiple combinations, concatenated and/or minified.
+			You can pick the ones that better fit your needs.
+		</p>
+	</div>
+	<table class="table  luga-docs-api">
+		<tr>
+			<td>
+				<a href="../dist/luga.common.js">luga.common.js</a>
+				<br>
+				<a href="../dist/luga.common.min.js">luga.common.min.js</a>
+			</td>
+			<td>
+				The base library, with basic, <a href="#common/index">shared API</a>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<a href="../dist/luga.data.js">luga.data.js</a>
+				<br>
+				<a href="../dist/luga.data.min.js">luga.data.min.js</a>
+			</td>
+			<td>
+				<a href="#data/index">Luga Data</a> as standalone, requires luga.common.js in order to work
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<a href="../dist/luga.validator.js">luga.validator.js</a>
+				<br>
+				<a href="../dist/luga.validator.min.js">luga.validator.min.js</a>
+			</td>
+			<td>
+				<a href="#validator/index">Luga Validator</a> as standalone, requires luga.common.js in order to work
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<a href="../dist/luga.js">luga.js</a>
+				<br>
+				<a href="../dist/luga.min.js">luga.min.js</a>
+			</td>
+			<td>
+				All the files above concatenated inside a single bundle
+			</td>
+		</tr>
+	</table>
+
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Bower</div>
+	<div class="panel-body">
+		<p>
+			You can install Luga JS using bower by running: <strong>bower install lugajs</strong>
+		</p>
 	</div>
 </div>
 
@@ -53,37 +145,8 @@
 		</p>
 
 		<p>
-			Code coverage is usually around 100%. You can check <a href="../test/coverage/lcov-report/src/index.html">coverage
+			Code coverage is usually around 100%. You can check the <a href="../test/coverage/lcov-report/src/index.html">coverage
 			report</a> by yourself
-		</p>
-	</div>
-</div>
-
-<div class="panel panel-default">
-	<div class="panel-heading">Browser and jQuery compatibility</div>
-	<div class="panel-body">
-		<p>
-			Luga JS is designed to work in IE9+ and most recent versions of Chrome and FireFox
-		</p>
-
-		<p>
-			The codebase is developed and tested alongside <a href="https://jquery.com/browser-support/">jQuery 2.x</a>.
-			We occasionally test it alongside version 3.x to ensure it's fully forward compatible and it should work
-			just fine on that version too
-		</p>
-
-		<p>
-			If you use jQuery version 1.x instead, you might run without major issues in older browser versions,
-			but please be aware we do not actively test or support this configuration
-		</p>
-	</div>
-</div>
-
-<div class="panel panel-default">
-	<div class="panel-heading">Bower</div>
-	<div class="panel-body">
-		<p>
-			You can install Luga JS using bower by running: <strong>bower install lugajs</strong>
 		</p>
 	</div>
 </div>

@@ -37,7 +37,7 @@
 		<tr>
 			<td>options.formatter</td>
 			<td>
-				{function}
+				{Function}
 			</td>
 			<td>
 				A formatter functions to be called once for each row in the dataSet (<a href="#data/dataset/formatter">read
@@ -47,7 +47,7 @@
 		<tr>
 			<td>options.filter</td>
 			<td>
-				{function}
+				{Function}
 			</td>
 			<td>
 				A filter functions to be called once for each row in the dataSet (<a href="#data/dataset/filter">read more</a>).
@@ -59,7 +59,7 @@
 		<th>Examples</th>
 	</table>
 
-<pre><code class="language-javascript">var testDs = new luga.data.DataSet({uuid: "test"});
+<pre><code class="language-javascript">const testDs = new luga.data.DataSet({uuid: "test"});
 </code></pre>
 
 </div>
@@ -86,7 +86,7 @@
 		<tr>
 			<td>filter</td>
 			<td class="luga-docs-type">
-				{function}
+				{Function}
 			</td>
 			<td>
 				A <a href="#data/dataset/filter">filter function</a>. If specified only records matching the filter will be
@@ -99,7 +99,7 @@
 		<th>Examples</th>
 	</table>
 
-<pre><code class="language-javascript">var testDs = new luga.data.DataSet({uuid: "test", records: myData});
+<pre><code class="language-javascript">const testDs = new luga.data.DataSet({uuid: "test", records: myData});
 	// Delete only records where country = "UK"
 	testDs.delete(function(row, rowIndex, dataSet){
 	if(row.country === "UK"){
@@ -331,7 +331,7 @@ testDs.delete();
 		<th>Examples</th>
 	</table>
 
-<pre><code class="language-javascript">var testDs = new luga.data.DataSet({uuid: "test"});
+<pre><code class="language-javascript">const testDs = new luga.data.DataSet({uuid: "test"});
 // Add one single record
 testDs.insert({
 	"firstName": "Nicole",
@@ -365,7 +365,7 @@ testDs.insert([
 		<tr>
 			<td>filter</td>
 			<td class="luga-docs-type">
-				{function}
+				{Function}
 			</td>
 			<td>
 				An optional filter function. If specified only records matching the filter will be returned. Optional.
@@ -383,7 +383,7 @@ testDs.insert([
 		<th>Examples</th>
 	</table>
 
-<pre><code class="language-javascript">var testDs = new luga.data.DataSet({uuid: "test"});
+<pre><code class="language-javascript">const testDs = new luga.data.DataSet({uuid: "test"});
 // Add records in one single pass
 testDs.insert([
 	{ "firstName": "Kate", "lastName": "Beckinsale" },
@@ -514,7 +514,7 @@ testDs.setColumnType(["numberCol", "moreNumber"], "number");
 		<tr>
 			<td>filter</td>
 			<td>
-				{function}
+				{Function}
 			</td>
 			<td>
 				A filter functions to be called once for each row in the data set. Required.<br>
@@ -578,7 +578,7 @@ testDs.sort("firstName", "descending");</code></pre>
 		<tr>
 			<td>filter</td>
 			<td class="luga-docs-type">
-				{function}
+				{Function}
 			</td>
 			<td>
 				Filter function to be used as search criteria. Required.
@@ -588,7 +588,7 @@ testDs.sort("firstName", "descending");</code></pre>
 		<tr>
 			<td>updater</td>
 			<td class="luga-docs-type">
-				{function}
+				{Function}
 			</td>
 			<td>
 				Updater function. Required.
@@ -601,14 +601,14 @@ testDs.sort("firstName", "descending");</code></pre>
 	</table>
 
 <pre><code class="language-javascript">// Only ladies from UK
-	var onlyUk = function(row, rowIndex, dataSet){
+	const onlyUk = function(row, rowIndex, dataSet){
 	if(row.country === "UK"){
 		return row;
 	}
 	return null;
 };
 // Use long country name
-var longUk = function(row, rowIndex, dataSet){
+const longUk = function(row, rowIndex, dataSet){
 	row.country = "United Kingdom";
 	return row;
 };

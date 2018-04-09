@@ -12,7 +12,7 @@
 	luga.data.region.Handlebars = function(options){
 
 		luga.extend(luga.data.region.Base, this, [options]);
-		var self = this;
+		const self = this;
 
 		// The messages below are specific to this implementation
 		self.CONST.HANDLEBARS_ERROR_MESSAGES = {
@@ -24,37 +24,36 @@
 		this.template = "";
 
 		/**
-		 * @param {jQuery} node
+		 * @param {HTMLElement} node
 		 */
-		var fetchTemplate = function(node){
+		const fetchTemplate = function(node){
 			// Inline template
 			if(self.config.templateId === null){
-				self.template = Handlebars.compile(node.html());
+				self.template = Handlebars.compile(node.innerHTML);
 			}
 			else{
-				var templateNode = jQuery("#" + self.config.templateId);
-				if(templateNode.length !== 1){
+				const templateNode = document.getElementById(self.config.templateId);
+				if(templateNode === null){
 					throw(luga.string.format(self.CONST.HANDLEBARS_ERROR_MESSAGES.MISSING_TEMPLATE_NODE, [self.config.templateId]));
 				}
-				var templateSrc = templateNode.attr("src");
-				if(templateSrc === undefined){
+				const templateSrc = templateNode.getAttribute("src");
+				if(templateSrc === null){
 					// Embed template
-					self.template = Handlebars.compile(templateNode.html());
+					self.template = Handlebars.compile(templateNode.innerHTML);
 				}
 				else{
 					// External template
-					var xhrOptions = {
-						url: templateSrc,
-						dataType: "text",
-						success: function(response, textStatus, jqXHR){
-							self.template = Handlebars.compile(response);
+					const xhrOptions = {
+						success: function(response){
+							self.template = Handlebars.compile(response.responseText);
 							self.render();
 						},
-						error: function(jqXHR, textStatus, errorThrown){
+						error: function(response){
 							throw(luga.string.format(self.CONST.HANDLEBARS_ERROR_MESSAGES.MISSING_TEMPLATE_FILE, [templateSrc]));
 						}
 					};
-					jQuery.ajax(xhrOptions);
+					const xhr = new luga.xhr.Request(xhrOptions);
+					xhr.send(templateSrc);
 				}
 			}
 		};
@@ -73,9 +72,9 @@
 		this.render = function(){
 			/* istanbul ignore else */
 			if(this.template !== ""){
-				this.config.node.html(this.generateHtml());
+				this.config.node.innerHTML = this.generateHtml();
 				this.applyTraits();
-				var desc = luga.data.region.utils.assembleRegionDescription(this);
+				const desc = luga.data.region.utils.assembleRegionDescription(this);
 				this.notifyObservers(luga.data.region.CONST.EVENTS.REGION_RENDERED, desc);
 			}
 		};

@@ -1,56 +1,43 @@
-<!-- Page-specific -->
-<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-
 <script>
 
+	/* global tippy */
+
 	/**
-	 * Turn an <input> field into a jQuery UI Datepicker
+	 * Attach a tooltip to any node that has attribute: data-trait-tooltip='true']
 	 * @param {luga.data.region.traits.options} options
 	 */
-	function datePickerTrait(options){
-		var SELECTOR = "input[data-trait-datepicker='true']";
-		// Use .find() to only select elements contained inside the region, not outside
-		options.node.find(SELECTOR).each(function(index, item){
-			var $item = jQuery(item);
-			var dateObj = new Date($item.val());
-			$item.datepicker();
-			$item.datepicker("setDate", dateObj);
-		});
-	};
+	function tooltipTrait(options){
+		const SELECTOR = "*[data-trait-tooltip='true']";
+		const nodes = options.node.querySelectorAll(SELECTOR);
+		// Add a tooltip to all nodes
+		// https://atomiks.github.io/tippyjs/
+		tippy(nodes);
+	}
 
 	(function(){
 		"use strict";
 
-		var ladies = new luga.data.JsonDataSet({
+		const ladies = new luga.data.JsonDataSet({
 			uuid: "ladiesDs",
 			url: "../test/fixtures/data/ladies.json"
 		});
 
-		jQuery(document).ready(function(){
+		luga.dom.ready(function(){
 			// Fetch JSON data
 			ladies.loadData();
 		});
 	}());
+
 </script>
 
 <script id="ladiesTemplate" type="text/x-handlebars-template">
-	<table class="table  table-striped">
-		<th>
-			Name
-		</th>
-		<th>
-			Birth date
-		</th>
+	<ul class="luga-docs-list">
 		{{#each entities}}
-		<tr>
-			<td>{{firstName}} {{lastName}}</td>
-			<td>
-				<input type="text" value="{{birthDate}}" data-trait-datepicker="true">
-			</td>
-		</tr>
+		<li title="{{birthDate}}" data-trait-tooltip="true">
+			{{firstName}} {{lastName}}
+		</li>
 		{{/each}}
-	</table>
+	</ul>
 </script>
 
 <div class="panel panel-default">
@@ -62,7 +49,7 @@
 			It gets invoked with a single options arguments, containing two keys:
 		<ul class="luga-docs-list">
 			<li>
-				<strong>node</strong>: a jQuery object wrapping the Region's node.
+				<strong>node</strong>: an HTMLElement.
 			</li>
 			<li>
 				<strong>dataSource</strong>: either a dataSet or a detailSet.
@@ -77,36 +64,26 @@
 	<div class="panel-heading">The JavaScript code</div>
 	<div class="panel-body">
 		<p>
-			For this example we are going to write a custom trait to turn an &lt;input&gt; tag
-			into a <a href="http://api.jqueryui.com/datepicker/">jQuery Datepicker</a>.
+			For this example we are going to write a custom trait that add tooltips using
+			<a href="https://atomiks.github.io/tippyjs/">Tippy</a>.
 		</p>
 
 <pre><code class="language-javascript">/**
-	* @typedef {Object} luga.data.region.traits.options
-	* @property {jQuery}                                 node          A jQuery object wrapping the Region's node. Required
-	* @property {luga.data.DataSet|luga.data.DetailSet}  dataSource    DataSource. Required
-*/
-
-/**
-	* Turn an &lt;input&gt; field into a jQuery UI Datepicker
-	* @param {luga.data.region.traits.options} options
-*/
-function datePickerTrait(options){
-	var SELECTOR = "input[data-trait-datepicker='true']";
-	// Use .find() to only select elements contained inside the region, not outside
-	options.node.find(SELECTOR).each(function(index, item){
-		var $item = jQuery(item);
-		var dateObj = new Date($item.val());
-		$item.datepicker();
-		$item.datepicker("setDate", dateObj);
-	});
-};
+ * Attach a tooltip to any node that has attribute: data-trait-tooltip='true']
+ * @param {luga.data.region.traits.options} options
+ */
+function tooltipTrait(options){
+	const SELECTOR = "*[data-trait-tooltip='true']";
+	const nodes = options.node.querySelectorAll(SELECTOR);
+	// Add a tooltip to all nodes
+	// https://atomiks.github.io/tippyjs/
+	tippy(nodes);
+}
 </code></pre>
 
 		<p>
-			The code looks inside the region, for elements that match the "input[data-trait-datepicker='true']"
-			selector.
-			For each of them, if any, initialize the a datepicker.
+			The code looks inside the region, for elements that match the "*[data-trait-tooltip='true']" selector.
+			For each of them, if any, initialize the tooltip.
 		</p>
 
 	</div>
@@ -120,19 +97,19 @@ function datePickerTrait(options){
 			with the <strong> data-lugaregion-traits</strong> attribute containing a comma-delimited list of function
 			names:
 		</p>
-				
-<pre><code class="language-markup">&lt;div id="ladiesRegion"
+
+		<pre><code class="language-markup">&lt;div id="ladiesRegion"
 	data-lugaregion="true"
 	data-lugaregion-datasource-uuid="ladiesDs"
 	data-lugaregion-template-id="ladiesTemplate"
-	data-lugaregion-traits="datePickerTrait"&gt;&lt;/div&gt;
+	data-lugaregion-traits="tooltipTrait"&gt;&lt;/div&gt;
 </code></pre>
 
 		<div id="ladiesRegion"
 			 data-lugaregion="true"
 			 data-lugaregion-datasource-uuid="ladiesDs"
 			 data-lugaregion-template-id="ladiesTemplate"
-			 data-lugaregion-traits="datePickerTrait"></div>
+			 data-lugaregion-traits="tooltipTrait"></div>
 
 	</div>
 

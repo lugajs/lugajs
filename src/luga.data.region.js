@@ -35,13 +35,13 @@
 	/**
 	 * @typedef {Object} luga.data.region.options
 	 *
-	 * @property {Boolean} autoregister  Determine if we call luga.data.region.init() on jQuery(document).ready()
+	 * @property {Boolean} autoregister  Determine if we call luga.data.region.init() on luga.dom.ready()
 	 */
 
 	/**
 	 * @type {luga.data.region.options}
 	 */
-	var config = {
+	const config = {
 		autoregister: true
 	};
 
@@ -56,34 +56,34 @@
 	};
 
 	/**
-	 * Given a jQuery object wrapping an HTML node, returns the region object associated to it
+	 * Given a DOM node, returns the region object associated to it
 	 * Returns undefined if the node is not associated to a region
-	 * @param {jQuery} node
+	 * @param {HTMLElement} node
 	 * @return {undefined|luga.data.region.Base}
 	 */
 	luga.data.region.getReferenceFromNode = function(node){
-		return node.data(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE);
+		return node[luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE];
 	};
 
 	/**
-	 * Given a jQuery object wrapping an HTML node, initialize the relevant Region handler
-	 * @param {jQuery} node
+	 * Given a DOM node, initialize the relevant Region handler
+	 * @param {HTMLElement} node
 	 * @throw {Exception}
 	 */
 	luga.data.region.init = function(node){
-		var dataSourceId = node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID);
-		if(dataSourceId === undefined){
+		const dataSourceId = node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID);
+		if(dataSourceId === null){
 			throw(luga.data.region.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE_ATTRIBUTE);
 		}
-		var dataSource = luga.data.getDataSource(dataSourceId);
+		const dataSource = luga.data.getDataSource(dataSourceId);
 		if(dataSource === null){
 			throw(luga.string.format(luga.data.region.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE, [dataSourceId]));
 		}
-		var regionType = node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_TYPE);
-		if(regionType === undefined){
+		let regionType = node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_TYPE);
+		if(regionType === null){
 			regionType = luga.data.region.CONST.DEFAULT_REGION_TYPE;
 		}
-		var RegionClass = luga.lookupFunction(regionType);
+		const RegionClass = luga.lookupFunction(regionType);
 		if(RegionClass === undefined){
 			throw(luga.string.format(luga.data.region.CONST.ERROR_MESSAGES.MISSING_REGION_TYPE_FUNCTION, [regionType]));
 		}
@@ -92,15 +92,19 @@
 
 	/**
 	 * Bootstrap any region contained within the given node
-	 * @param {jquery|undefined} [rootNode=jQuery("body"]   Optional, default to jQuery("body")
+	 * @param {HTMLElement|undefined} [rootNode]   Optional, default to <body>
 	 */
 	luga.data.region.initRegions = function(rootNode){
 		if(rootNode === undefined){
-			rootNode = jQuery("body");
+			rootNode = document.querySelector("body");
 		}
-		rootNode.find(luga.data.region.CONST.SELECTORS.REGION).each(function(index, item){
-			luga.data.region.init(jQuery(item));
-		});
+		/* istanbul ignore else */
+		if(rootNode !== null){
+			const nodes = rootNode.querySelectorAll(luga.data.region.CONST.SELECTORS.REGION);
+			for(let i = 0; i < nodes.length; i++){
+				luga.data.region.init(nodes[i]);
+			}
+		}
 	};
 
 	luga.namespace("luga.data.region.utils");
@@ -108,7 +112,7 @@
 	/**
 	 * @typedef {Object} luga.data.region.description
 	 *
-	 * @property {jQuery}                                node   A jQuery object wrapping the node containing the region.
+	 * @property {HTMLElement}                                node   A DOM node containing the region.
 	 * @property {luga.data.DataSet|luga.data.DetailSet} ds     DataSource
 	 */
 
@@ -124,7 +128,7 @@
 		};
 	};
 
-	jQuery(document).ready(function(){
+	luga.dom.ready(function(){
 		/* istanbul ignore else */
 		if(config.autoregister === true){
 			luga.data.region.initRegions();

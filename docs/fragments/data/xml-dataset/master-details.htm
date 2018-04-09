@@ -2,20 +2,20 @@
 	(function(){
 		"use strict";
 
-		var BASE_URL = "../test/fixtures/data";
-		var master = new luga.data.XmlDataSet({
+		const BASE_URL = "../test/fixtures/data";
+		const master = new luga.data.XmlDataSet({
 			uuid: "masterDs",
 			path: "//states/state",
 			url: BASE_URL + "/usa-states.xml"
 		});
-		var details = new luga.data.ChildXmlDataSet({
+		const details = new luga.data.ChildXmlDataSet({
 			uuid: "detailDs",
 			path: "//state/cities/city",
 			parentDataSet: master,
 			url: BASE_URL + "/states/{name}.xml"
 		});
 
-		jQuery(document).ready(function(){
+		luga.dom.ready(function(){
 			master.loadData();
 		});
 
@@ -84,20 +84,20 @@
 
 <pre><code class="line-numbers language-javascript">(function(){
 	"use strict";
-	var BASE_URL = "../test/fixtures/data";
-	var master = new luga.data.XmlDataSet({
+	const BASE_URL = "../test/fixtures/data";
+	const master = new luga.data.XmlDataSet({
 		uuid: "masterDs",
 		path: "//states/state",
 		url: BASE_URL + "/usa-states.xml"
 	});
-	var details = new luga.data.ChildXmlDataSet({
+	const details = new luga.data.ChildXmlDataSet({
 		uuid: "detailDs",
 		path: "//state/cities/city",
 		parentDataSet: master,
 		url: BASE_URL + "/states/{name}.xml"
 	});
 
-	jQuery(document).ready(function(){
+	luga.dom.ready(function(){
 		master.loadData();
 	});
 }());

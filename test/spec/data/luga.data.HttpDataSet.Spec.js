@@ -2,7 +2,7 @@ describe("luga.data.HttpDataSet", function(){
 
 	"use strict";
 
-	var testDs;
+	let testDs;
 	beforeEach(function(){
 		testDs = new luga.data.JsonDataSet({uuid: "jsonDs"});
 	});
@@ -24,42 +24,53 @@ describe("luga.data.HttpDataSet", function(){
 	describe("Its constructor options are the same as luga.data.DataSet and may also contains:", function(){
 
 		it("options.url", function(){
-			var ds = new luga.data.JsonDataSet({uuid: "myDs", url: "test.json"});
+			const ds = new luga.data.JsonDataSet({uuid: "myDs", url: "test.json"});
 			expect(ds.url).toEqual("test.json");
 		});
 
 		it("options.cache (a flag to turn on XHR caching)", function(){
-			var ds = new luga.data.JsonDataSet({uuid: "myDs"});
+			const ds = new luga.data.JsonDataSet({uuid: "myDs"});
 			expect(ds.cache).toBe(true);
-			var fastDs = new luga.data.JsonDataSet({uuid: "fastDs", cache: false});
+			const fastDs = new luga.data.JsonDataSet({uuid: "fastDs", cache: false});
 			expect(fastDs.cache).toBe(false);
 		});
 
-		it("options.headers (name/value pairs to be used as custom HTTP headers)", function(){
-			var ds = new luga.data.JsonDataSet({uuid: "myDs", headers: {"X-Requested-With": "ciccio"}});
-			expect(ds.headers).toEqual({"X-Requested-With": "ciccio"});
+		it("options.headers (array of name/value pairs to be used as custom HTTP headers)", function(){
+			const ds = new luga.data.JsonDataSet({
+				uuid: "myDs"
+				, headers: [{name: "X-Requested-With", value: "ciccio"}]
+			});
+			expect(ds.headers).toEqual([{name: "X-Requested-With", value: "ciccio"}]);
 		});
 
 		it("options.incrementalLoad ", function(){
-			var ds = new luga.data.JsonDataSet({uuid: "myDs", incrementalLoad: true});
+			const ds = new luga.data.JsonDataSet({uuid: "myDs", incrementalLoad: true});
 			expect(ds.incrementalLoad).toEqual(true);
 		});
 
 		it("options.timeout (timeout for XHR requests))", function(){
-			var ds = new luga.data.JsonDataSet({uuid: "myDs"});
+			const ds = new luga.data.JsonDataSet({uuid: "myDs"});
 			expect(ds.timeout).toEqual(luga.data.CONST.XHR_TIMEOUT);
-			var fastDs = new luga.data.JsonDataSet({uuid: "fastDs", timeout: 200});
+			const fastDs = new luga.data.JsonDataSet({uuid: "fastDs", timeout: 200});
 			expect(fastDs.timeout).toEqual(200);
 		});
 
 	});
 
+	describe(".contentType", function(){
+		it("Can ve overridden by child classes", function(){
+			const jsonDs = new luga.data.JsonDataSet({uuid: "myJsonDs"});
+			expect(jsonDs.contentType).toEqual("application/json");
+			const xmlDs = new luga.data.XmlDataSet({uuid: "myXmlDs"});
+			expect(xmlDs.contentType).toEqual("application/xml");
+		});
+	});
+
 	describe(".cancelRequest()", function(){
 		it("Abort any pending XHR request", function(){
-			var ds = new luga.data.JsonDataSet({uuid: "myDs"});
+			const ds = new luga.data.JsonDataSet({uuid: "myDs"});
 			ds.setUrl("test.json");
 			ds.loadData();
-			expect(ds.xhrRequest).not.toBeNull();
 			ds.cancelRequest();
 			expect(ds.xhrRequest).toBeNull();
 		});
@@ -67,7 +78,7 @@ describe("luga.data.HttpDataSet", function(){
 
 	describe(".getUrl()", function(){
 		it("Returns the URL that will be used to fetch the data", function(){
-			var ds = new luga.data.JsonDataSet({uuid: "myDs", url: "test.json"});
+			const ds = new luga.data.JsonDataSet({uuid: "myDs", url: "test.json"});
 			expect(ds.getUrl()).toEqual("test.json");
 		});
 		it("Returns null if URL is not set", function(){
@@ -77,7 +88,7 @@ describe("luga.data.HttpDataSet", function(){
 
 	describe(".loadData()", function(){
 
-		var mockJson, testDs, testObserver;
+		let mockJson, testJsonDs, testObserver;
 		beforeEach(function(){
 
 			mockJson = jasmineFixtures.read("data/ladies.json");
@@ -92,7 +103,7 @@ describe("luga.data.HttpDataSet", function(){
 				status: 200
 			});
 
-			testDs = new luga.data.JsonDataSet({uuid: "uniqueDs", url: "mock/ladies.json"});
+			testJsonDs = new luga.data.JsonDataSet({uuid: "uniqueDs", url: "mock/ladies.json"});
 			testObserver = {
 				onDataChangedHandler: function(){
 				},
@@ -101,7 +112,7 @@ describe("luga.data.HttpDataSet", function(){
 				onXhrErrorHandler: function(){
 				}
 			};
-			testDs.addObserver(testObserver);
+			testJsonDs.addObserver(testObserver);
 			spyOn(testObserver, "onDataChangedHandler");
 			spyOn(testObserver, "onDataLoadingHandler");
 			spyOn(testObserver, "onXhrErrorHandler");
@@ -112,7 +123,7 @@ describe("luga.data.HttpDataSet", function(){
 		});
 
 		it("Throws an exception if the dataSet's URL is null", function(){
-			var ds = new luga.data.JsonDataSet({uuid: "myDs"});
+			const ds = new luga.data.JsonDataSet({uuid: "myDs"});
 			expect(function(){
 				ds.loadData();
 			}).toThrow();
@@ -120,72 +131,72 @@ describe("luga.data.HttpDataSet", function(){
 
 		describe("First:", function(){
 			it("Calls .setState('loading')", function(){
-				spyOn(testDs, "setState");
-				testDs.loadData();
-				expect(testDs.setState).toHaveBeenCalledWith(luga.data.STATE.LOADING);
+				spyOn(testJsonDs, "setState");
+				testJsonDs.loadData();
+				expect(testJsonDs.setState).toHaveBeenCalledWith(luga.data.STATE.LOADING);
 			});
 		});
 
 		describe("Then:", function(){
 			it("Triggers a 'loading' notification", function(){
-				testDs.loadData();
-				expect(testObserver.onDataLoadingHandler).toHaveBeenCalledWith({dataSet: testDs});
+				testJsonDs.loadData();
+				expect(testObserver.onDataLoadingHandler).toHaveBeenCalledWith({dataSet: testJsonDs});
 			});
 		});
 
 		describe("Then:", function(){
 			it("Call .cancelRequest() to abort any pending request", function(){
-				spyOn(testDs, "cancelRequest").and.callFake(function(){
+				spyOn(testJsonDs, "cancelRequest").and.callFake(function(){
 				});
-				testDs.loadData();
-				expect(testDs.cancelRequest).toHaveBeenCalled();
+				testJsonDs.loadData();
+				expect(testJsonDs.cancelRequest).toHaveBeenCalled();
 			});
 		});
 
 		describe("Then:", function(){
 			it("Fires an XHR request to fetch and load the data", function(){
-				testDs.loadData();
-				expect(testDs.getRecordsCount()).toEqual(7);
+				testJsonDs.loadData();
+				expect(testJsonDs.getRecordsCount()).toEqual(7);
 			});
 		});
 
 		describe("Then:", function(){
 			it("If options.incrementalLoad is false. Call .delete() to empty the dataSet", function(){
-				spyOn(testDs, "delete").and.callFake(function(){
+				spyOn(testJsonDs, "delete").and.callFake(function(){
 				});
-				testDs.loadData();
-				expect(testDs.delete).toHaveBeenCalled();
+				testJsonDs.loadData();
+				expect(testJsonDs.delete).toHaveBeenCalled();
 			});
 			it("Else doesn't call .delete()", function(){
-				testDs.incrementalLoad = true;
-				spyOn(testDs, "delete").and.callFake(function(){
+				testJsonDs.incrementalLoad = true;
+				spyOn(testJsonDs, "delete").and.callFake(function(){
 				});
-				testDs.loadData();
-				expect(testDs.delete).not.toHaveBeenCalled();
+				testJsonDs.loadData();
+				expect(testJsonDs.delete).not.toHaveBeenCalled();
 			});
 		});
 
 		describe("Finally:", function(){
 
 			it("Call .loadRecords()", function(){
-				spyOn(testDs, "loadRecords").and.callFake(function(){
+				spyOn(testJsonDs, "loadRecords").and.callFake(function(){
 				});
-				testDs.loadData();
-				expect(testDs.loadRecords).toHaveBeenCalled();
+				testJsonDs.loadData();
+				expect(testJsonDs.loadRecords).toHaveBeenCalled();
 			});
 
 			it("Uses custom headers if specified", function(){
-				testDs.headers = {"x-msg": "Ciao Mamma"};
-				testDs.loadData();
-				var request = jasmine.Ajax.requests.mostRecent();
+				testJsonDs.headers = [{name: "x-msg", value:"Ciao Mamma"}];
+				testJsonDs.loadData();
+				const request = jasmine.Ajax.requests.mostRecent();
 				expect(request.requestHeaders["x-msg"]).toEqual("Ciao Mamma");
 			});
 
 			it("Headers are preserved across multiple calls", function(){
-				var oldHeaders = testDs.headers;
-				testDs.loadData();
-				testDs.loadData();
-				expect(oldHeaders).toEqual(testDs.headers);
+				const oldHeaders = testJsonDs.headers;
+				testJsonDs.loadData();
+				testJsonDs.loadData();
+				expect(oldHeaders).toEqual(testJsonDs.headers);
 			});
 		});
 
@@ -193,16 +204,16 @@ describe("luga.data.HttpDataSet", function(){
 
 			describe("First:", function(){
 				it("Invokes .xhrError()", function(){
-					spyOn(testDs, "xhrError");
-					testDs.setUrl("mock/missing.json");
-					testDs.loadData();
-					expect(testDs.xhrError).toHaveBeenCalled();
+					spyOn(testJsonDs, "xhrError");
+					testJsonDs.setUrl("mock/missing.json");
+					testJsonDs.loadData();
+					expect(testJsonDs.xhrError).toHaveBeenCalled();
 				});
 			});
 			describe("Then:", function(){
 				it("Triggers an 'xhrError' notification in case of an HTTP error", function(){
-					testDs.setUrl("mock/missing.json");
-					testDs.loadData();
+					testJsonDs.setUrl("mock/missing.json");
+					testJsonDs.loadData();
 					expect(testObserver.onXhrErrorHandler).toHaveBeenCalled();
 				});
 			});
@@ -213,7 +224,7 @@ describe("luga.data.HttpDataSet", function(){
 
 	describe(".loadRecords()", function(){
 		it("Is an abstract method, child classes must implement it to extract records from XHR response", function(){
-			expect(jQuery.isFunction(testDs.loadRecords)).toEqual(true);
+			expect(luga.type(testDs.loadRecords)).toEqual("function");
 		});
 	});
 
@@ -240,7 +251,7 @@ describe("luga.data.HttpDataSet", function(){
 
 		describe("Then:", function(){
 			it("Triggers an 'error' notification", function(){
-				var testObserver = {
+				const testObserver = {
 					onXhrErrorHandler: function(){
 					}
 				};

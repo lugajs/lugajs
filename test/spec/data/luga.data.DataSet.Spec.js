@@ -2,7 +2,7 @@ describe("luga.data.Dataset", function(){
 
 	"use strict";
 
-	var baseDs, loadedDs, testRecords, addTestCol, removeUk, removeAus, removeBrasil, removeAll, testObserver;
+	let baseDs, loadedDs, testRecords, addTestCol, removeUk, removeAus, removeBrasil, removeAll, testObserver;
 	beforeEach(function(){
 
 		baseDs = new luga.data.DataSet({uuid: "test"});
@@ -60,12 +60,12 @@ describe("luga.data.Dataset", function(){
 		luga.data.dataSourceRegistry = {};
 	});
 
-	it("Is the base dataSet class", function(){
-		expect(jQuery.isFunction(luga.data.DataSet)).toEqual(true);
+	it("Is the base dataSet constructor", function(){
+		expect(luga.type(luga.data.DataSet)).toEqual("function");
 	});
 
 	it("Implements the luga.Notifier interface", function(){
-		var MockNotifier = function(){
+		const MockNotifier = function(){
 			luga.extend(luga.Notifier, this);
 		};
 		expect(baseDs).toMatchDuckType(new MockNotifier());
@@ -75,7 +75,7 @@ describe("luga.data.Dataset", function(){
 
 		describe("options.uuid", function(){
 			it("Acts as unique identifier that will be stored inside a global registry", function(){
-				var ds = new luga.data.DataSet({uuid: "uniqueDs"});
+				const ds = new luga.data.DataSet({uuid: "uniqueDs"});
 				expect(luga.data.dataSourceRegistry.uniqueDs).toEqual(ds);
 			});
 			it("Throws an exception if not specified", function(){
@@ -91,7 +91,7 @@ describe("luga.data.Dataset", function(){
 			});
 
 			it("Will cause the filter to be applied as soon as any record is loaded", function(){
-				var filteredDs = new luga.data.DataSet({uuid: "uniqueDs", filter: removeAus});
+				const filteredDs = new luga.data.DataSet({uuid: "uniqueDs", filter: removeAus});
 				filteredDs.insert(testRecords);
 				expect(testRecords.length).toEqual(7);
 				// Minus one, since Aussies get filtered out
@@ -111,7 +111,7 @@ describe("luga.data.Dataset", function(){
 			});
 
 			it("Will cause the formatter to be applied as soon as any record is loaded", function(){
-				var formattedDs = new luga.data.DataSet({uuid: "uniqueDs", formatter: addTestCol});
+				const formattedDs = new luga.data.DataSet({uuid: "uniqueDs", formatter: addTestCol});
 				formattedDs.insert(testRecords);
 				// Check to see if the test column was added
 				expect(formattedDs.getCurrentRow().testCol).toEqual("test");
@@ -126,7 +126,7 @@ describe("luga.data.Dataset", function(){
 
 		describe("options.records", function(){
 			it("Pre-load data inside the dataSet", function(){
-				var ds = new luga.data.DataSet({uuid: "uniqueDs", records: testRecords});
+				const ds = new luga.data.DataSet({uuid: "uniqueDs", records: testRecords});
 				expect(ds.select()).toEqual(testRecords);
 			});
 			it("If not specified the dataSet is empty", function(){
@@ -135,23 +135,23 @@ describe("luga.data.Dataset", function(){
 			});
 			describe("Can be either:", function(){
 				it("An array of name/value pairs", function(){
-					var arrayRecords = [];
+					const arrayRecords = [];
 					arrayRecords.push({name: "Nicole"});
 					arrayRecords.push({name: "Kate"});
-					var ds = new luga.data.DataSet({uuid: "uniqueDs", records: arrayRecords});
+					const ds = new luga.data.DataSet({uuid: "uniqueDs", records: arrayRecords});
 					expect(ds.records).toEqual(arrayRecords);
 					expect(ds.getRecordsCount()).toEqual(2);
 				});
 				it("Or a single object containing value/name pairs", function(){
-					var recObj = {name: "Ciccio", lastname: "Pasticcio"};
-					var ds = new luga.data.DataSet({uuid: "uniqueDs", records: recObj});
+					const recObj = {name: "Ciccio", lastname: "Pasticcio"};
+					const ds = new luga.data.DataSet({uuid: "uniqueDs", records: recObj});
 					expect(ds.select().length).toEqual(1);
 				});
 			});
 
 			describe("Throws an exception if:", function(){
 				it("The given array contains one primitive value", function(){
-					var arrayRecords = [];
+					const arrayRecords = [];
 					arrayRecords.push({name: "Nicole"});
 					// Simple value!
 					arrayRecords.push("Kate");
@@ -173,7 +173,7 @@ describe("luga.data.Dataset", function(){
 		it("Calls luga.data.setDataSource()", function(){
 			spyOn(luga.data, "setDataSource").and.callFake(function(){
 			});
-			var ds = new luga.data.DataSet({uuid: "uniqueDs"});
+			const ds = new luga.data.DataSet({uuid: "uniqueDs"});
 			expect(luga.data.setDataSource).toHaveBeenCalledWith("uniqueDs", ds);
 		});
 	});
@@ -218,7 +218,7 @@ describe("luga.data.Dataset", function(){
 
 		describe("Accepts an optional filter function as an argument", function(){
 			it("If specified only records matching the filter will be deleted", function(){
-				var ds = new luga.data.DataSet({uuid: "uniqueDs", records: testRecords});
+				const ds = new luga.data.DataSet({uuid: "uniqueDs", records: testRecords});
 				ds.delete(removeUk);
 				expect(ds.getRecordsCount()).toEqual(5);
 			});
@@ -271,10 +271,10 @@ describe("luga.data.Dataset", function(){
 
 	});
 
-	describe(".getContext()", function(){
+	describe(".getContext() (of type luga.data.DataSet.context)", function(){
 
 		it("Returns the dataSet's context", function(){
-			var context = loadedDs.getContext();
+			const context = loadedDs.getContext();
 			expect(context.entities).toEqual(loadedDs.select());
 			expect(context.recordCount).toEqual(loadedDs.getRecordsCount());
 		});
@@ -295,7 +295,7 @@ describe("luga.data.Dataset", function(){
 
 		describe("Returns the first row among filtered records if:", function(){
 			it("The dataSet has a filter associated with it", function(){
-				var noAussieDs = new luga.data.DataSet({uuid: "uniqueDs", filter: removeAus});
+				const noAussieDs = new luga.data.DataSet({uuid: "uniqueDs", filter: removeAus});
 				noAussieDs.insert(testRecords);
 				expect(noAussieDs.getCurrentRow()).toEqual(noAussieDs.filteredRecords[0]);
 			});
@@ -407,12 +407,12 @@ describe("luga.data.Dataset", function(){
 	describe(".getRowById()", function(){
 		it("Returns the row object associated with the given rowId", function(){
 			baseDs.insert(testRecords);
-			var row = baseDs.getRowById("lugaPk_2");
+			const row = baseDs.getRowById("lugaPk_2");
 			expect(row).toEqual(testRecords[2]);
 		});
 		describe("Returns null if:", function(){
 			it("The dataSet is empty", function(){
-				var row = baseDs.getRowById("lugaPk_0");
+				const row = baseDs.getRowById("lugaPk_0");
 				expect(row).toBeNull();
 			});
 			it("No available record matches the given rowId", function(){
@@ -466,28 +466,28 @@ describe("luga.data.Dataset", function(){
 
 			describe("Returns a zero-based index at which a row can be found:", function(){
 				it("Among records", function(){
-					var row = loadedDs.getRowById("lugaPk_2"); // Jennifer
+					const row = loadedDs.getRowById("lugaPk_2"); // Jennifer
 					expect(loadedDs.getRowIndex(row)).toEqual(2);
 				});
 				it("Or filtered records", function(){
 					baseDs.insert(testRecords);
 					baseDs.setFilter(removeUk);
-					var row = baseDs.getRowById("lugaPk_2");
+					const row = baseDs.getRowById("lugaPk_2");
 					expect(loadedDs.getRowIndex(row)).toEqual(2);
 				});
 			});
 
 			describe("Returns -1 if:", function(){
 				it("The dataSet is empty", function(){
-					var row = loadedDs.getRowById(2);
+					const row = loadedDs.getRowById(2);
 					expect(baseDs.getRowIndex(row)).toEqual(-1);
 				});
 				it("No available record matches the given row", function(){
-					var arrayRecords = [];
+					const arrayRecords = [];
 					arrayRecords.push({name: "Nicole"});
 					arrayRecords.push({name: "Kate"});
-					var ds = new luga.data.DataSet({uuid: "uniqueDs", records: arrayRecords});
-					var row = loadedDs.getRowById(2);
+					const ds = new luga.data.DataSet({uuid: "uniqueDs", records: arrayRecords});
+					const row = loadedDs.getRowById(2);
 					expect(ds.getRowIndex(row)).toEqual(-1);
 				});
 			});
@@ -562,11 +562,11 @@ describe("luga.data.Dataset", function(){
 
 			describe("Then:", function(){
 				it("Apply the formatter (if any)", function(){
-					var mock = {
+					const mock = {
 						formatter: addTestCol
 					};
 					spyOn(mock, "formatter").and.callThrough();
-					var formattedDs = new luga.data.DataSet({uuid: "uniqueDs", formatter: mock.formatter});
+					const formattedDs = new luga.data.DataSet({uuid: "uniqueDs", formatter: mock.formatter});
 					formattedDs.insert(testRecords);
 					expect(mock.formatter).toHaveBeenCalled();
 				});
@@ -574,11 +574,11 @@ describe("luga.data.Dataset", function(){
 
 			describe("Then:", function(){
 				it("Apply the filter (if any)", function(){
-					var mock = {
+					const mock = {
 						filter: removeAus
 					};
 					spyOn(mock, "filter").and.callThrough();
-					var filteredDs = new luga.data.DataSet({uuid: "uniqueDs", filter: mock.filter});
+					const filteredDs = new luga.data.DataSet({uuid: "uniqueDs", filter: mock.filter});
 					filteredDs.insert(testRecords);
 					expect(mock.filter).toHaveBeenCalled();
 				});
@@ -625,7 +625,7 @@ describe("luga.data.Dataset", function(){
 
 		describe("Throws an exception if:", function(){
 			it("The given array contains one primitive value", function(){
-				var arrayRecords = [];
+				const arrayRecords = [];
 				arrayRecords.push({name: "Nicole"});
 				// Simple value!
 				arrayRecords.push("Kate");
@@ -696,7 +696,7 @@ describe("luga.data.Dataset", function(){
 		});
 
 		it("Set currentRow to the first filtered record if the dataSet is associated with a filter", function(){
-			var noAussieDs = new luga.data.DataSet({uuid: "uniqueDs", filter: removeAus});
+			const noAussieDs = new luga.data.DataSet({uuid: "uniqueDs", filter: removeAus});
 			noAussieDs.insert(testRecords);
 			noAussieDs.resetCurrentRowToFirst();
 			expect(noAussieDs.getCurrentRowId()).toEqual("lugaPk_1");
@@ -719,17 +719,17 @@ describe("luga.data.Dataset", function(){
 
 	describe(".select()", function(){
 		it("Returns an array of the internal row objects stored inside the dataSet", function(){
-			var ds = new luga.data.DataSet({uuid: "uniqueDs", records: testRecords});
+			const ds = new luga.data.DataSet({uuid: "uniqueDs", records: testRecords});
 			expect(ds.select()).toEqual(testRecords);
 			expect(ds.select().length).toEqual(7);
 		});
 		it("If the dataSet contains a filter function, returns the row objects matching the filter", function(){
-			var ds = new luga.data.DataSet({uuid: "uniqueDs", records: testRecords, filter: removeUk});
+			const ds = new luga.data.DataSet({uuid: "uniqueDs", records: testRecords, filter: removeUk});
 			expect(ds.select().length).toEqual(5);
 		});
 		describe("Accepts an optional filter function as an argument", function(){
 			it("In this case, only records matching the filter will be returned", function(){
-				var ds = new luga.data.DataSet({uuid: "uniqueDs", records: testRecords});
+				const ds = new luga.data.DataSet({uuid: "uniqueDs", records: testRecords});
 				expect(ds.select(removeUk).length).toEqual(5);
 			});
 			it("Throws an exception if the given filter is not a function", function(){
@@ -768,7 +768,7 @@ describe("luga.data.Dataset", function(){
 			describe("First:", function(){
 				it("Sets the current row of the dataSet to the one matching the given row", function(){
 					baseDs.insert(testRecords);
-					var row3 = baseDs.getRowById("lugaPk_3");
+					const row3 = baseDs.getRowById("lugaPk_3");
 					baseDs.setCurrentRow(row3);
 					expect(baseDs.getCurrentRowId()).toEqual("lugaPk_3");
 				});
@@ -777,7 +777,7 @@ describe("luga.data.Dataset", function(){
 			describe("Then:", function(){
 				it("Triggers a 'currentRowChanged' notification", function(){
 					baseDs.insert(testRecords);
-					var row3 = baseDs.getRowById("lugaPk_3");
+					const row3 = baseDs.getRowById("lugaPk_3");
 					baseDs.setCurrentRow(row3);
 					expect(testObserver.onCurrentRowChangedHandler).toHaveBeenCalled();
 				});
@@ -785,17 +785,17 @@ describe("luga.data.Dataset", function(){
 
 			describe("Throws an exception if:", function(){
 				it("The dataSet is empty", function(){
-					var row = loadedDs.getRowById("lugaPk_2");
+					const row = loadedDs.getRowById("lugaPk_2");
 					expect(function(){
 						baseDs.setCurrentRow(row);
 					}).toThrow();
 				});
 				it("No available record matches the given row", function(){
-					var arrayRecords = [];
+					const arrayRecords = [];
 					arrayRecords.push({name: "Nicole"});
 					arrayRecords.push({name: "Kate"});
-					var ds = new luga.data.DataSet({uuid: "uniqueDs", records: arrayRecords});
-					var row = loadedDs.getRowById("lugaPk_2");
+					const ds = new luga.data.DataSet({uuid: "uniqueDs", records: arrayRecords});
+					const row = loadedDs.getRowById("lugaPk_2");
 					expect(function(){
 						ds.setCurrentRow(row);
 					}).toThrow();
@@ -847,7 +847,7 @@ describe("luga.data.Dataset", function(){
 			describe("Then:", function(){
 				it("Triggers a 'currentRowChanged' notification", function(){
 					baseDs.insert(testRecords);
-					var row3 = baseDs.getRowById("lugaPk_3");
+					const row3 = baseDs.getRowById("lugaPk_3");
 					baseDs.setCurrentRow(row3);
 					expect(testObserver.onCurrentRowChangedHandler).toHaveBeenCalled();
 				});
@@ -1093,7 +1093,7 @@ describe("luga.data.Dataset", function(){
 		describe("Compare:", function(){
 
 			it("Upper/lower case", function(){
-				var records = [
+				const records = [
 					{name: "Ciccio"},
 					{name: "ciccio"},
 					{name: "Franco"},
@@ -1108,7 +1108,7 @@ describe("luga.data.Dataset", function(){
 			});
 
 			it("Strings that start the same. Ascending", function(){
-				var records = [
+				const records = [
 					{name: "ciccio"},
 					{name: "ciccione"}
 				];
@@ -1121,7 +1121,7 @@ describe("luga.data.Dataset", function(){
 			});
 
 			it("Strings that start the same. Descending", function(){
-				var records = [
+				const records = [
 					{name: "ciccione"},
 					{name: "ciccio"}
 				];
@@ -1134,7 +1134,7 @@ describe("luga.data.Dataset", function(){
 			});
 
 			it("Strings that are the same", function(){
-				var records = [
+				const records = [
 					{name: "ciccio"},
 					{name: "ciccio"}
 				];
@@ -1147,7 +1147,7 @@ describe("luga.data.Dataset", function(){
 			});
 
 			it("One character at time. Ascending", function(){
-				var records = [
+				const records = [
 					{name: "ciccio"},
 					{name: "cicCio"}
 				];
@@ -1158,7 +1158,7 @@ describe("luga.data.Dataset", function(){
 			});
 
 			it("One character at time. Descending", function(){
-				var records = [
+				const records = [
 					{name: "ciccio"},
 					{name: "cicCio"}
 				];
@@ -1169,7 +1169,7 @@ describe("luga.data.Dataset", function(){
 			});
 
 			it("Strings to undefined values. Ascending", function(){
-				var records = [
+				const records = [
 					{},
 					{name: "test"},
 					{}
@@ -1183,7 +1183,7 @@ describe("luga.data.Dataset", function(){
 			});
 
 			it("Strings to undefined values. Descending", function(){
-				var records = [
+				const records = [
 					{},
 					{name: "test"},
 					{}
@@ -1197,7 +1197,7 @@ describe("luga.data.Dataset", function(){
 			});
 
 			it("Numbers to undefined values. Ascending", function(){
-				var records = [
+				const records = [
 					{},
 					{num: 1},
 					{}
@@ -1212,7 +1212,7 @@ describe("luga.data.Dataset", function(){
 			});
 
 			it("Numbers to undefined values. Descending", function(){
-				var records = [
+				const records = [
 					{num: 1},
 					{}
 				];
@@ -1244,7 +1244,7 @@ describe("luga.data.Dataset", function(){
 
 	describe(".update()", function(){
 
-		var onlyUk, mock;
+		let onlyUk, mock;
 		beforeEach(function(){
 
 			onlyUk = function(row, rowIndex, dataSet){
@@ -1302,7 +1302,7 @@ describe("luga.data.Dataset", function(){
 
 			describe("Finally::", function(){
 				it("Fires a 'dataChanged' notification. Sending the whole dataSet along the way", function(){
-					var mockObserver = {
+					const mockObserver = {
 						onDataChangedHandler: function(){
 						}
 					};

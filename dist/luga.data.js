@@ -1,11 +1,12 @@
 /*! 
-Luga Data 0.9.7 2018-02-10T14:54:15.653Z
+Luga Data 0.9.7 2018-04-08T09:40:04.077Z
+http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
  */
 /* istanbul ignore if */
 if(typeof(luga) === "undefined"){
-	throw("Unable to find Luga JS Core");
+	throw("Unable to find Luga JS Common");
 }
 
 /**
@@ -115,18 +116,18 @@ if(typeof(luga) === "undefined"){
 	 * Apply the given filter function to each passed row
 	 * Return an array of filtered rows
 	 * @param {Array.<luga.data.DataSet.row>} rows    Required
-	 * @param {function}                      filter  Required
+	 * @param {Function}                      filter  Required
 	 * @param {luga.data.DataSet}             dataset Required
 	 * @return {Array.<luga.data.DataSet.row>}
 	 * @throw {Exception}
 	 */
 	luga.data.utils.filter = function(rows, filter, dataset){
-		if(luga.isFunction(filter) === false){
+		if(luga.type(filter) !== "function"){
 			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 		}
-		var retRows = [];
-		for(var i = 0; i < rows.length; i++){
-			var filteredRow = filter(rows[i], i, dataset);
+		const retRows = [];
+		for(let i = 0; i < rows.length; i++){
+			const filteredRow = filter(rows[i], i, dataset);
 			// Row to be removed
 			if(filteredRow === null){
 				continue;
@@ -144,16 +145,16 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Apply the given updater function to each passed row
 	 * @param {Array.<luga.data.DataSet.row>} rows      Required
-	 * @param {function}                      formatter Required
+	 * @param {Function}                      formatter Required
 	 * @param {luga.data.DataSet}             dataset   Required
 	 * @throw {Exception}
 	 */
 	luga.data.utils.update = function(rows, formatter, dataset){
-		if(luga.isFunction(formatter) === false){
+		if(luga.type(formatter) !== "function"){
 			throw(luga.data.CONST.ERROR_MESSAGES.INVALID_UPDATER_ACTION);
 		}
-		for(var i = 0; i < rows.length; i++){
-			var formattedRow = formatter(rows[i], i, dataset);
+		for(let i = 0; i < rows.length; i++){
+			const formattedRow = formatter(rows[i], i, dataset);
 			if(luga.isPlainObject(formattedRow) === false){
 				throw(luga.data.CONST.ERROR_MESSAGES.INVALID_UPDATER_ACTION);
 			}
@@ -166,12 +167,188 @@ if(typeof(luga) === "undefined"){
 	 * @return {Boolean}
 	 */
 	luga.data.utils.isValidState = function(state){
-		for(var key in luga.data.STATE){
+		for(let key in luga.data.STATE){
 			if(luga.data.STATE[key] === state){
 				return true;
 			}
 		}
 		return false;
+	};
+
+}());
+/* global ActiveXObject */
+
+(function(){
+	"use strict";
+
+	luga.namespace("luga.data.xml");
+
+	luga.data.xml.MIME_TYPE = "application/xml";
+	luga.data.xml.ATTRIBUTE_PREFIX = "_";
+	luga.data.xml.DOM_ACTIVEX_NAME = "MSXML2.DOMDocument.6.0";
+
+	/**
+	 * Given a DOM node, evaluate an XPath expression against it
+	 * Results are returned as an array of nodes. An empty array is returned in case there is no match
+	 * @param {Node} node
+	 * @param {String} path
+	 * @return {Array<Node>}
+	 */
+	luga.data.xml.evaluateXPath = function(node, path){
+		const retArray = [];
+		/* istanbul ignore else IE-only */
+		if(window.XPathEvaluator !== undefined){
+			const evaluator = new XPathEvaluator();
+			const result = evaluator.evaluate(path, node, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
+			let currentNode = result.iterateNext();
+			// Iterate and populate the array
+			while(currentNode !== null){
+				retArray.push(currentNode);
+				currentNode = result.iterateNext();
+			}
+		}
+		else if(window.ActiveXObject !== undefined){
+			const selectedNodes = node.selectNodes(path);
+			// Extract the nodes out of the nodeList returned by selectNodes and put them into an array
+			// We could directly use the nodeList returned by selectNodes, but this would cause inconsistencies across browsers
+			for(let i = 0; i < selectedNodes.length; i++){
+				retArray.push(selectedNodes[i]);
+			}
+		}
+		return retArray;
+	};
+
+	/**
+	 * Convert an XML node into a JavaScript object
+	 * @param {Node} node
+	 * @return {Object}
+	 */
+	luga.data.xml.nodeToHash = function(node){
+		const obj = {};
+		attributesToProperties(node, obj);
+		childrenToProperties(node, obj);
+		return obj;
+	};
+
+	/**
+	 * Map attributes to properties
+	 * @param {Node}   node
+	 * @param {Object} obj
+	 */
+	function attributesToProperties(node, obj){
+		if((node.attributes === null) || (node.attributes === undefined)){
+			return;
+		}
+		for(let i = 0; i < node.attributes.length; i++){
+			const attr = node.attributes[i];
+			obj[luga.data.xml.ATTRIBUTE_PREFIX + attr.name] = attr.value;
+		}
+	}
+
+	/**
+	 * Map child nodes to properties
+	 * @param {Node}   node
+	 * @param {Object} obj
+	 */
+	function childrenToProperties(node, obj){
+		for(let i = 0; i < node.childNodes.length; i++){
+			const child = node.childNodes[i];
+
+			if(child.nodeType === 1 /* Node.ELEMENT_NODE */){
+				let isArray = false;
+				const tagName = child.nodeName;
+
+				if(obj[tagName] !== undefined){
+					// If the property exists already, turn it into an array
+					if(obj[tagName].constructor !== Array){
+						const curValue = obj[tagName];
+						obj[tagName] = [];
+						obj[tagName].push(curValue);
+					}
+					isArray = true;
+				}
+
+				if(nodeHasText(child) === true){
+					// This may potentially override an existing property
+					obj[child.nodeName] = getTextValue(child);
+				}
+				else{
+					const childObj = luga.data.xml.nodeToHash(child);
+					if(isArray === true){
+						obj[tagName].push(childObj);
+					}
+					else{
+						obj[tagName] = childObj;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Extract text out of a TEXT or CDATA node
+	 * @param {Node} node
+	 * @return {String}
+	 */
+	function getTextValue(node){
+		const child = node.childNodes[0];
+		/* istanbul ignore else */
+		if((child.nodeType === 3) /* TEXT_NODE */ || (child.nodeType === 4) /* CDATA_SECTION_NODE */){
+			return child.data;
+		}
+	}
+
+	/**
+	 * Return true if a node contains value, false otherwise
+	 * @param {Node}   node
+	 * @return {Boolean}
+	 */
+	function nodeHasText(node){
+		const child = node.childNodes[0];
+		if((child !== null) && (child.nextSibling === null) && (child.nodeType === 3 /* Node.TEXT_NODE */ || child.nodeType === 4 /* CDATA_SECTION_NODE */)){
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Serialize a DOM node into a string
+	 * @param {Node}   node
+	 * @return {String}
+	 */
+	luga.data.xml.nodeToString = function(node){
+		/* istanbul ignore if IE-only */
+		if(window.ActiveXObject !== undefined){
+			// IE11 supports XMLSerializer but fails on serializeToString()
+			return node.xml;
+		}
+		else{
+			const serializer = new XMLSerializer();
+			return serializer.serializeToString(node, luga.data.xml.MIME_TYPE);
+		}
+	};
+
+	/**
+	 * Create a DOM Document out of a string
+	 * @param {String} xmlStr
+	 * @return {Document}
+	 */
+	luga.data.xml.parseFromString = function(xmlStr){
+		let xmlParser;
+		/* istanbul ignore if IE-only */
+		if(window.ActiveXObject !== undefined){
+			// IE11 supports DOMParser but fails on parseFromString()
+			const xmlDOMObj = new ActiveXObject(luga.data.xml.DOM_ACTIVEX_NAME);
+			xmlDOMObj.async = false;
+			xmlDOMObj.setProperty("SelectionLanguage", "XPath");
+			xmlDOMObj.loadXML(xmlStr);
+			return xmlDOMObj;
+		}
+		else{
+			xmlParser = new DOMParser();
+			const domDoc = xmlParser.parseFromString(xmlStr, luga.data.xml.MIME_TYPE);
+			return domDoc;
+		}
 	};
 
 }());
@@ -198,9 +375,9 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.data.DataSet.dataSorted
 	 *
 	 * @property {luga.data.DataSet}    dataSet
-	 * @property {Array<string>}        oldSortColumns
+	 * @property {Array<String>}        oldSortColumns
 	 * @property {luga.data.sort.ORDER} oldSortOrder
-	 * @property {Array<string>}        newSortColumns
+	 * @property {Array<String>}        newSortColumns
 	 * @property {luga.data.sort.ORDER} newSortOrder
 	 */
 
@@ -225,8 +402,8 @@ if(typeof(luga) === "undefined"){
 	 *
 	 * @property {String}                uuid       Unique identifier. Required
 	 * @property {Array.<object>|object} records    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
-	 * @property {function}              formatter  A formatting functions to be called once for each row in the dataSet. Default to null
-	 * @property {function}              filter     A filter functions to be called once for each row in the dataSet. Default to null
+	 * @property {Function}              formatter  A formatting functions to be called once for each row in the dataSet. Default to null
+	 * @property {Function}              filter     A filter functions to be called once for each row in the dataSet. Default to null
 	 */
 
 	/**
@@ -243,7 +420,7 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.data.DataSet = function(options){
 
-		var CONST = {
+		const CONST = {
 			ERROR_MESSAGES: {
 				INVALID_COL_TYPE: "luga.DataSet.setColumnType(): Invalid type passed {0}",
 				INVALID_UUID_PARAMETER: "luga.DataSet: uuid parameter is required",
@@ -263,16 +440,16 @@ if(typeof(luga) === "undefined"){
 		if(options.uuid === undefined){
 			throw(CONST.ERROR_MESSAGES.INVALID_UUID_PARAMETER);
 		}
-		if((options.formatter !== undefined) && (luga.isFunction(options.formatter) === false)){
+		if((options.formatter !== undefined) && (luga.type(options.formatter) !== "function")){
 			throw(CONST.ERROR_MESSAGES.INVALID_FORMATTER_PARAMETER);
 		}
-		if((options.filter !== undefined) && (luga.isFunction(options.filter) === false)){
+		if((options.filter !== undefined) && (luga.type(options.filter) !== "function")){
 			throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 		}
 		luga.extend(luga.Notifier, this);
 
 		/** @type {luga.data.DataSet} */
-		var self = this;
+		const self = this;
 
 		this.uuid = options.uuid;
 
@@ -306,34 +483,34 @@ if(typeof(luga) === "undefined"){
 
 		/* Private methods */
 
-		var deleteAll = function(){
+		const deleteAll = function(){
 			self.filteredRecords = null;
 			self.records = [];
 			self.recordsHash = {};
 		};
 
-		var applyFilter = function(){
+		const applyFilter = function(){
 			if(hasFilter() === true){
 				self.filteredRecords = luga.data.utils.filter(self.records, self.filter, self);
 				self.resetCurrentRow();
 			}
 		};
 
-		var applyFormatter = function(){
+		const applyFormatter = function(){
 			if(hasFormatter() === true){
 				luga.data.utils.update(self.records, self.formatter, self);
 			}
 		};
 
-		var hasFilter = function(){
+		const hasFilter = function(){
 			return (self.filter !== null);
 		};
 
-		var hasFormatter = function(){
+		const hasFormatter = function(){
 			return (self.formatter !== null);
 		};
 
-		var selectAll = function(){
+		const selectAll = function(){
 			if(hasFilter() === true){
 				return self.filteredRecords;
 			}
@@ -356,7 +533,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Delete records matching the given filter
 		 * If no filter is passed, delete all records
-		 * @param {function} [filter]    A filter function. If specified only records matching the filter will be returned. Optional
+		 * @param {Function} [filter]    A filter function. If specified only records matching the filter will be returned. Optional
 		 *                               The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @fire currentRowChanged
 		 * @fire stateChanged
@@ -368,14 +545,14 @@ if(typeof(luga) === "undefined"){
 				deleteAll();
 			}
 			else{
-				if(luga.isFunction(filter) === false){
+				if(luga.type(filter) !== "function"){
 					throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 				}
-				var orig = this.records;
-				for(var i = 0; i < orig.length; i++){
+				const orig = this.records;
+				for(let i = 0; i < orig.length; i++){
 					if(filter(orig[i], i, this) === null){
 						// If matches, delete from array and hash
-						var rowToDelete = orig[i];
+						const rowToDelete = orig[i];
 						this.records.splice(i, 1);
 						delete this.recordsHash[rowToDelete[luga.data.CONST.PK_KEY]];
 					}
@@ -403,11 +580,11 @@ if(typeof(luga) === "undefined"){
 		 * @return {luga.data.DataSet.context}
 		 */
 		this.getContext = function(){
-			var context = {
+			const context = {
 				entities: self.select(),
 				recordCount: self.getRecordsCount()
 			};
-			var stateDesc = luga.data.utils.assembleStateDescription(self.getState());
+			const stateDesc = luga.data.utils.assembleStateDescription(self.getState());
 			luga.merge(context, stateDesc);
 			return context;
 		};
@@ -437,7 +614,7 @@ if(typeof(luga) === "undefined"){
 		 * @return {Number}
 		 */
 		this.getCurrentRowIndex = function(){
-			var row = this.getCurrentRow();
+			const row = this.getCurrentRow();
 			return this.getRowIndex(row);
 		};
 
@@ -456,7 +633,7 @@ if(typeof(luga) === "undefined"){
 		 * @return {null|luga.data.DataSet.row}
 		 */
 		this.getRowById = function(rowId){
-			var targetRow = this.recordsHash[rowId];
+			const targetRow = this.recordsHash[rowId];
 			if(targetRow === undefined){
 				// Nothing matches
 				return null;
@@ -479,7 +656,7 @@ if(typeof(luga) === "undefined"){
 		 * @throw {Exception}
 		 */
 		this.getRowByIndex = function(index){
-			var fetchedRow;
+			let fetchedRow;
 			if(hasFilter() === true){
 				fetchedRow = this.filteredRecords[index];
 			}
@@ -541,8 +718,8 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.insert = function(records){
 			// If we only get one record, we put it inside an array anyway,
-			var recordsHolder = [];
-			if(luga.isArray(records) === true){
+			let recordsHolder = [];
+			if(Array.isArray(records) === true){
 				recordsHolder = records;
 			}
 			else{
@@ -552,13 +729,13 @@ if(typeof(luga) === "undefined"){
 				}
 				recordsHolder.push(records);
 			}
-			for(var i = 0; i < recordsHolder.length; i++){
+			for(let i = 0; i < recordsHolder.length; i++){
 				// Ensure we don't have primitive values
 				if(luga.isPlainObject(recordsHolder[i]) === false){
 					throw(CONST.ERROR_MESSAGES.INVALID_PRIMITIVE_ARRAY);
 				}
 				// Create new PK
-				var recordID = luga.data.CONST.PK_KEY_PREFIX + this.records.length;
+				const recordID = luga.data.CONST.PK_KEY_PREFIX + this.records.length;
 				recordsHolder[i][luga.data.CONST.PK_KEY] = recordID;
 				this.recordsHash[recordID] = recordsHolder[i];
 				this.records.push(recordsHolder[i]);
@@ -578,7 +755,7 @@ if(typeof(luga) === "undefined"){
 			// If we have previous selection
 			if(this.currentRowId !== null){
 				// Try to persist
-				var targetRow = this.getRowById(this.currentRowId);
+				const targetRow = this.getRowById(this.currentRowId);
 				if(targetRow !== null){
 					this.setCurrentRowId(this.currentRowId);
 					return;
@@ -618,7 +795,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns an array of the internal row objects that store the records in the dataSet
 		 * Be aware that modifying any property of a returned object results in a modification of the internal records (since records are passed by reference)
-		 * @param {function} [filter]    An optional filter function. If specified only records matching the filter will be returned. Optional
+		 * @param {Function} [filter]    An optional filter function. If specified only records matching the filter will be returned. Optional
 		 *                               The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @return {Array.<luga.data.DataSet.row>}
 		 * @throw {Exception}
@@ -627,7 +804,7 @@ if(typeof(luga) === "undefined"){
 			if(filter === undefined){
 				return selectAll();
 			}
-			if(luga.isFunction(filter) === false){
+			if(luga.type(filter) !== "function"){
 				throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			return luga.data.utils.filter(selectAll(), filter, self);
@@ -636,15 +813,15 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Set a column type for a column. Required for proper sorting of numeric or date data.
 		 * By default data is sorted alpha-numerically, if you want it sorted numerically or by date, set the proper columnType
-		 * @param {String|Array<string>} columnNames
+		 * @param {String|Array<String>} columnNames
 		 * @param {String}               columnType   Either "date", "number" or "string"
 		 */
 		this.setColumnType = function(columnNames, columnType){
-			if(luga.isArray(columnNames) === false){
+			if(Array.isArray(columnNames) === false){
 				columnNames = [columnNames];
 			}
-			for(var i = 0; i < columnNames.length; i++){
-				var colName = columnNames[i];
+			for(let i = 0; i < columnNames.length; i++){
+				const colName = columnNames[i];
 				if(luga.data.CONST.COL_TYPES.indexOf(columnType) === -1){
 					throw(luga.string.format(CONST.ERROR_MESSAGES.INVALID_COL_TYPE, [colName]));
 				}
@@ -669,7 +846,7 @@ if(typeof(luga) === "undefined"){
 			/**
 			 * @type {luga.data.DataSet.currentRowChanged}
 			 */
-			var notificationData = {
+			const notificationData = {
 				oldRowId: this.getCurrentRowId(),
 				oldRow: this.getRowById(this.currentRowId),
 				currentRowId: rowId,
@@ -698,7 +875,7 @@ if(typeof(luga) === "undefined"){
 		 * @throw {Exception}
 		 */
 		this.setCurrentRow = function(row){
-			var fetchedRowId = this.getRowIndex(row);
+			const fetchedRowId = this.getRowIndex(row);
 			if(fetchedRowId === -1){
 				throw(CONST.ERROR_MESSAGES.INVALID_ROW_PARAMETER);
 			}
@@ -719,14 +896,14 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Replace current filter with a new filter functions and apply the new filter
 		 * Triggers a "dataChanged" notification
-		 * @param {function} filter   A filter functions to be called once for each row in the data set. Required
+		 * @param {Function} filter   A filter functions to be called once for each row in the data set. Required
 		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
 		 * @fire currentRowChanged
 		 * @fire dataChanged
 		 * @throw {Exception}
 		 */
 		this.setFilter = function(filter){
-			if(luga.isFunction(filter) === false){
+			if(luga.type(filter) !== "function"){
 				throw(CONST.ERROR_MESSAGES.INVALID_FILTER_PARAMETER);
 			}
 			this.filter = filter;
@@ -745,11 +922,11 @@ if(typeof(luga) === "undefined"){
 			if(luga.data.utils.isValidState(newState) === false){
 				throw(luga.string.format(CONST.ERROR_MESSAGES.INVALID_STATE, [newState]));
 			}
-			var oldState = this.state;
+			const oldState = this.state;
 			this.state = newState;
 
 			/** @type {luga.data.DataSet.stateChanged} */
-			var notificationData = {
+			const notificationData = {
 				oldState: oldState,
 				currentState: this.state,
 				dataSet: this
@@ -760,7 +937,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Sorts the dataSet using the given column(s) and sort order
-		 * @param {String|Array<string>}  columnNames             Required, either a single column name or an array of names
+		 * @param {String|Array<String>}  columnNames             Required, either a single column name or an array of names
 		 * @param {luga.data.sort.ORDER} [sortOrder="toggle"]     Either "ascending", "descending" or "toggle". Optional, default to "toggle"
 		 * @fire preDataSorted
 		 * @fire dataSorted
@@ -780,14 +957,14 @@ if(typeof(luga) === "undefined"){
 				throw(luga.string.format(CONST.ERROR_MESSAGES.INVALID_SORT_ORDER, [sortOrder]));
 			}
 
-			var sortColumns = assembleSortColumns(columnNames);
+			const sortColumns = assembleSortColumns(columnNames);
 
 			if(sortOrder === luga.data.sort.ORDER.TOG){
 				sortOrder = defineToggleSortOrder(sortColumns);
 			}
 
 			/** @type {luga.data.DataSet.dataSorted} */
-			var notificationData = {
+			const notificationData = {
 				dataSet: this,
 				oldSortColumns: this.lastSortColumns,
 				oldSortOrder: this.lastSortOrder,
@@ -797,14 +974,14 @@ if(typeof(luga) === "undefined"){
 
 			this.notifyObservers(luga.data.CONST.EVENTS.PRE_DATA_SORTED, notificationData);
 
-			var sortColumnName = sortColumns[sortColumns.length - 1];
-			var sortColumnType = this.getColumnType(sortColumnName);
-			var sortFunction = luga.data.sort.getSortStrategy(sortColumnType, sortOrder);
+			const sortColumnName = sortColumns[sortColumns.length - 1];
+			const sortColumnType = this.getColumnType(sortColumnName);
+			let sortFunction = luga.data.sort.getSortStrategy(sortColumnType, sortOrder);
 
-			for(var i = sortColumns.length - 2; i >= 0; i--){
-				var columnToSortName = sortColumns[i];
-				var columnToSortType = this.getColumnType(columnToSortName);
-				var sortStrategy = luga.data.sort.getSortStrategy(columnToSortType, sortOrder);
+			for(let i = sortColumns.length - 2; i >= 0; i--){
+				const columnToSortName = sortColumns[i];
+				const columnToSortType = this.getColumnType(columnToSortName);
+				const sortStrategy = luga.data.sort.getSortStrategy(columnToSortType, sortOrder);
 				sortFunction = buildSecondarySortFunction(sortStrategy(columnToSortName), sortFunction);
 			}
 
@@ -821,9 +998,9 @@ if(typeof(luga) === "undefined"){
 
 		};
 
-		var buildSecondarySortFunction = function(funcA, funcB){
+		const buildSecondarySortFunction = function(funcA, funcB){
 			return function(a, b){
-				var ret = funcA(a, b);
+				let ret = funcA(a, b);
 				if(ret === 0){
 					ret = funcB(a, b);
 				}
@@ -831,10 +1008,10 @@ if(typeof(luga) === "undefined"){
 			};
 		};
 
-		var assembleSortColumns = function(columnNames){
+		const assembleSortColumns = function(columnNames){
 			// If only one column name was specified for sorting
 			// Do a secondary sort on PK so we get a stable sort order
-			if(luga.isArray(columnNames) === false){
+			if(Array.isArray(columnNames) === false){
 				return [columnNames, luga.data.CONST.PK_KEY];
 			}
 			else if(columnNames.length < 2 && columnNames[0] !== luga.data.CONST.PK_KEY){
@@ -844,7 +1021,7 @@ if(typeof(luga) === "undefined"){
 			return columnNames;
 		};
 
-		var defineToggleSortOrder = function(sortColumns){
+		const defineToggleSortOrder = function(sortColumns){
 			if((self.lastSortColumns.length > 0) && (self.lastSortColumns[0] === sortColumns[0]) && (self.lastSortOrder === luga.data.sort.ORDER.ASC)){
 				return luga.data.sort.ORDER.DESC;
 			}
@@ -855,9 +1032,9 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Updates rows inside the dataSet
-		 * @param {function} filter   Filter function to be used as search criteria. Required
+		 * @param {Function} filter   Filter function to be used as search criteria. Required
 		 *                            The function is going to be called with this signature: myFilter(row, rowIndex, dataSet)
-		 * @param {function} updater  Updater function. Required
+		 * @param {Function} updater  Updater function. Required
 		 *                            The function is going to be called with this signature: myUpdater(row, rowIndex, dataSet)
 		 * @fire stateChanged
 		 * @fire dataChanged
@@ -865,7 +1042,7 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.update = function(filter, updater){
 			/** @type {Array.<luga.data.DataSet.row>} */
-			var filteredRecords = luga.data.utils.filter(this.records, filter, this);
+			const filteredRecords = luga.data.utils.filter(this.records, filter, this);
 			luga.data.utils.update(filteredRecords, updater, this);
 			this.resetCurrentRow();
 			this.setState(luga.data.STATE.READY);
@@ -914,10 +1091,10 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.data.DetailSet = function(options){
 
-		var CONST = {
+		const CONST = {
 			ERROR_MESSAGES: {
-				INVALID_UUID_PARAMETER: "luga.DetailSet: id parameter is required",
-				INVALID_DS_PARAMETER: "luga.DetailSet: dataSet parameter is required"
+				INVALID_UUID_PARAMETER: "luga.data.DetailSet: id parameter is required",
+				INVALID_DS_PARAMETER: "luga.data.DetailSet: parentDataSet parameter is required"
 			}
 		};
 
@@ -931,7 +1108,7 @@ if(typeof(luga) === "undefined"){
 		luga.extend(luga.Notifier, this);
 
 		/** @type {luga.data.DetailSet} */
-		var self = this;
+		const self = this;
 
 		this.uuid = options.uuid;
 		this.parentDataSet = options.parentDataSet;
@@ -946,10 +1123,10 @@ if(typeof(luga) === "undefined"){
 		 * @return {luga.data.DetailSet.context}
 		 */
 		this.getContext = function(){
-			var context = {
+			const context = {
 				entity: self.row
 			};
-			var stateDesc = luga.data.utils.assembleStateDescription(self.getState());
+			const stateDesc = luga.data.utils.assembleStateDescription(self.getState());
 			luga.merge(context, stateDesc);
 			return context;
 		};
@@ -1006,15 +1183,6 @@ if(typeof(luga) === "undefined"){
 	 */
 
 	/**
-	 * @typedef {Object} luga.data.HttpDataSet.xhrError
-	 *
-	 * @property {String} message
-	 * @property {Object} jqXHR        jQuery wrapper around XMLHttpRequest
-	 * @property {String} textStatus
-	 * @property {String} errorThrown
-	 */
-
-	/**
 	 * @typedef {Object} luga.data.HttpDataSet.options
 	 *
 	 * @extend luga.data.DataSet.options
@@ -1040,9 +1208,9 @@ if(typeof(luga) === "undefined"){
 	luga.data.HttpDataSet = function(options){
 		luga.extend(luga.data.DataSet, this, [options]);
 		/** @type {luga.data.HttpDataSet} */
-		var self = this;
+		const self = this;
 
-		var CONST = {
+		const CONST = {
 			ERROR_MESSAGES: {
 				HTTP_DATA_SET_ABSTRACT: "luga.data.HttpDataSet is an abstract class",
 				XHR_FAILURE: "Failed to retrieve: {0}. HTTP status: {1}. Error: {2}",
@@ -1069,7 +1237,7 @@ if(typeof(luga) === "undefined"){
 			this.cache = options.cache;
 		}
 
-		this.headers = {};
+		this.headers = [];
 		if(options.headers !== undefined){
 			this.headers = options.headers;
 		}
@@ -1080,34 +1248,28 @@ if(typeof(luga) === "undefined"){
 		}
 
 		// Concrete implementations can override this
-		this.dataType = null;
+		this.contentType = "text/plain";
 		this.xhrRequest = null;
 
 		/* Private methods */
 
-		var loadUrl = function(){
-			var xhrOptions = {
+		const loadUrl = function(){
+			const xhrOptions = {
 				url: self.url,
-				success: function(response, textStatus, jqXHR){
+				success: function(response){
 					if(self.incrementalLoad === false){
 						self.delete();
 					}
-					self.loadRecords(response, textStatus, jqXHR);
+					self.loadRecords(response);
 				},
+				contentType: self.contentType,
 				timeout: self.timeout,
 				cache: self.cache,
 				headers: self.headers,
-				error: self.xhrError,
-				// Need to override jQuery's XML converter
-				converters: {
-					"text xml": luga.xml.parseFromString
-				}
+				error: self.xhrError
 			};
-			/* istanbul ignore else */
-			if(self.dataType !== null){
-				xhrOptions.dataType = self.dataType;
-			}
-			self.xhrRequest = jQuery.ajax(xhrOptions);
+			self.xhrRequest = new luga.xhr.Request(xhrOptions);
+			self.xhrRequest.send(self.url);
 		};
 
 		/* Public methods */
@@ -1148,13 +1310,11 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Abstract method, concrete classes must implement it to extract records from XHR response
-		 * @param {*}        response     Data returned from the server
-		 * @param {String}   textStatus   HTTP status
-		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest
+		 * @param {luga.xhr.response} response
 		 * @abstract
 		 */
 		/* istanbul ignore next */
-		this.loadRecords = function(response, textStatus, jqXHR){
+		this.loadRecords = function(response){
 		};
 
 		/**
@@ -1169,19 +1329,15 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Is called whenever an XHR request fails, set state to error, notify observers ("xhrError")
-		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest
-		 * @param {String}   textStatus   HTTP status
-		 * @param {String}   errorThrown  Error message from jQuery
+		 * @param {luga.xhr.response} response
 		 * @fire xhrError
 		 */
-		this.xhrError = function(jqXHR, textStatus, errorThrown){
+		this.xhrError = function(response){
 			self.setState(luga.data.STATE.ERROR);
 			self.notifyObservers(luga.data.CONST.EVENTS.XHR_ERROR, {
 				dataSet: self,
-				message: luga.string.format(CONST.ERROR_MESSAGES.XHR_FAILURE, [self.url, jqXHR.status, errorThrown]),
-				jqXHR: jqXHR,
-				textStatus: textStatus,
-				errorThrown: errorThrown
+				message: luga.string.format(CONST.ERROR_MESSAGES.XHR_FAILURE, [self.url, response.status]),
+				response: response
 			});
 		};
 
@@ -1208,9 +1364,9 @@ if(typeof(luga) === "undefined"){
 	luga.data.JsonDataSet = function(options){
 		luga.extend(luga.data.HttpDataSet, this, [options]);
 		/** @type {luga.data.JsonDataSet} */
-		var self = this;
+		const self = this;
 		/** @override */
-		this.dataType = "json";
+		this.contentType = "application/json";
 
 		this.path = null;
 		if(options.path !== undefined){
@@ -1232,7 +1388,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Returns the path to be used to extract data out of the JSON data structure
-		 * @return {null|string}
+		 * @return {null|String}
 		 */
 		this.getPath = function(){
 			return this.path;
@@ -1244,23 +1400,25 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.loadRawJson = function(json){
 			self.delete();
-			self.loadRecords(json);
+			loadFromJson(json);
 		};
 
 		/**
-		 * Retrieves JSON data, either from an HTTP response or from a direct call, apply the path, if any, extract and load records out of it
-		 * @param {json}     json         JSON data. Either returned from the server or passed directly
-		 * @param {String}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
-		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
+		 * Retrieves JSON data from an HTTP response, apply the path, if any, extract and load records out of it
+		 * @param {luga.xhr.response} response
 		 * @override
 		 */
-		this.loadRecords = function(json, textStatus, jqXHR){
+		this.loadRecords = function(response){
+			loadFromJson(JSON.parse(response.responseText));
+		};
+
+		const loadFromJson = function(json){
 			self.rawJson = json;
 			if(self.path === null){
 				self.insert(json);
 			}
 			else{
-				var records = luga.lookupProperty(json, self.path);
+				const records = luga.lookupProperty(json, self.path);
 				if(records !== undefined){
 					self.insert(records);
 				}
@@ -1297,9 +1455,9 @@ if(typeof(luga) === "undefined"){
 	luga.data.XmlDataSet = function(options){
 		luga.extend(luga.data.HttpDataSet, this, [options]);
 		/** @type {luga.data.XmlDataSet} */
-		var self = this;
+		const self = this;
 		/** @override */
-		this.dataType = "xml";
+		this.contentType = "application/xml";
 
 		this.path = "/";
 		if(options.path !== undefined){
@@ -1321,7 +1479,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Returns the XPath expression to be used to extract data out of the XML
-		 * @return {null|string}
+		 * @return {null|String}
 		 */
 		this.getPath = function(){
 			return this.path;
@@ -1329,29 +1487,29 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * First delete any existing records, then load data from the given XML, without XHR calls
-		 * @param {Node} node
+		 * @param {String} xmlStr
 		 */
-		this.loadRawXml = function(node){
+		this.loadRawXml = function(xmlStr){
 			self.delete();
-			self.loadRecords(node);
+			self.loadRecords({
+				responseText: xmlStr
+			});
 		};
 
 		/**
-		 * Retrieves XML data, either from an HTTP response or from a direct call, apply the path, if any, extract and load records out of it
-		 * @param {Node}     xmlDoc       XML data. Either returned from the server or passed directly
-		 * @param {String}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
-		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
+		 * Retrieves XML data from an HTTP response, apply the path, if any, extract and load records out of it
+		 * @param {luga.xhr.response} response
 		 * @override
 		 */
-		this.loadRecords = function(xmlDoc, textStatus, jqXHR){
+		this.loadRecords = function(response){
+			const xmlDoc = luga.data.xml.parseFromString(response.responseText);
 			self.rawXml = xmlDoc;
-			var nodes = luga.xml.evaluateXPath(xmlDoc, self.path);
-			var records = [];
-			for(var i = 0; i < nodes.length; i++){
-				records.push(luga.xml.nodeToHash(nodes[i]));
+			const nodes = luga.data.xml.evaluateXPath(xmlDoc, self.path);
+			const records = [];
+			for(let i = 0; i < nodes.length; i++){
+				records.push(luga.data.xml.nodeToHash(nodes[i]));
 			}
 			self.insert(records);
-
 		};
 
 		/**
@@ -1383,46 +1541,81 @@ if(typeof(luga) === "undefined"){
 	 * @extend luga.data.HttpDataSet
 	 */
 	luga.data.Rss2Dataset = function(options){
-		luga.extend(luga.data.HttpDataSet, this, [options]);
+		luga.extend(luga.data.XmlDataSet, this, [options]);
 		/** @type {luga.data.Rss2Dataset} */
-		var self = this;
-		/** @override */
-		this.dataType = "text";
+		const self = this;
 
 		/** @type {null|string} */
 		this.rawXml = null;
 
-		/** @type {Array.<string>} */
+		/** @type {Array.<String>} */
 		this.channelElements = ["title", "link", "description", "language", "copyright", "managingEditor", "webMaster", "pubDate", "lastBuildDate", "category", "generator", "docs", "cloud", "ttl", "image", "textInput", "skipHours", "skipDays"];
 
-		/** @type {Array.<string>} */
+		/** @type {Array.<String>} */
 		this.itemElements = ["title", "link", "description", "author", "category", "comments", "enclosure", "guid", "pubDate", "source"];
 
 		// Store metadata extracted from <channel>
 		this.channelMeta = {};
 
 		/**
-		 * Given
-		 * @param {jQuery} item  A jQuery wrapper around an <item>
+		 * Given an <item> node, extract its content inside a JavaScript object
+		 * @param {Node} item
 		 * @return {Object}
 		 */
-		var itemToHash = function(item){
-			var rec = {};
-			for(var i = 0; i < self.itemElements.length; i++){
-				rec[self.itemElements[i]] = jQuery(item).find(self.itemElements[i]).text();
+		const itemToHash = function(item){
+			const rec = {};
+			for(let i = 0; i < self.itemElements.length; i++){
+				const element = self.itemElements[i];
+				const nodes = luga.data.xml.evaluateXPath(item, element);
+				if(nodes.length > 0){
+					rec[element] = getTextValue(nodes[0]);
+				}
+
 			}
 			return rec;
 		};
 
 		/**
 		 * Extract metadata from <channel>
-		 * @param {jQuery} $channel A jQuery wrapper around the <channel> tag
+		 * @param {Node} channel
 		 */
-		var setChannelMeta = function($channel){
-			for(var i = 0; i < self.channelElements.length; i++){
-				self.channelMeta[self.channelElements[i]] = $channel.find(">" + self.channelElements[i]).text();
+		const setChannelMeta = function(channel){
+			for(let i = 0; i < self.channelElements.length; i++){
+				const element = self.channelElements[i];
+				const nodes = luga.data.xml.evaluateXPath(channel, element);
+				if(nodes.length > 0){
+					self.channelMeta[element] = getTextValue(nodes[0]);
+				}
 			}
 		};
+
+		/**
+		 * Turn an array of <items> nodes into an array of records
+		 * @param {Array.<Node>} nodes
+		 * @return {Array.<Object>}
+		 */
+		const extractRecords = function(nodes){
+			const records = [];
+			nodes.forEach(function(element){
+				records.push(itemToHash(element));
+			});
+			return records;
+		};
+
+		/* Utilities */
+
+		/**
+		 * Extract text out of a TEXT or CDATA node
+		 * @param {Node} node
+		 * @return {String}
+		 */
+		function getTextValue(node){
+			const child = node.childNodes[0];
+			/* istanbul ignore else */
+			if((child.nodeType === 3) /* TEXT_NODE */){
+				return child.data;
+			}
+		}
 
 		/* Public methods */
 
@@ -1431,56 +1624,34 @@ if(typeof(luga) === "undefined"){
 		 * @override
 		 */
 		this.getContext = function(){
-			var context = {
+			const context = {
 				items: self.select(),
 				recordCount: self.getRecordsCount()
 			};
-			var stateDesc = luga.data.utils.assembleStateDescription(self.getState());
+			const stateDesc = luga.data.utils.assembleStateDescription(self.getState());
 			luga.merge(context, stateDesc);
 			luga.merge(context, self.channelMeta);
 			return context;
 		};
 
 		/**
-		 * Returns the raw XML document
-		 * @return {null|string}
-		 */
-		this.getRawXml = function(){
-			return this.rawXml;
-		};
-
-		/**
-		 * First delete any existing records, then load data from the given XML, without XHR calls
-		 * @param {String} xmlStr  XML document as string
-		 */
-		this.loadRawXml = function(xmlStr){
-			self.delete();
-			self.loadRecords(xmlStr);
-		};
-
-		/**
-		 * Retrieves XML data, either from an HTTP response or from a direct call
-		 * @param {String}   xmlStr       XML document as string. Either returned from the server or passed directly
-		 * @param {String}   textStatus   HTTP status. Automatically passed by jQuery for XHR calls
-		 * @param {Object}   jqXHR        jQuery wrapper around XMLHttpRequest. Automatically passed by jQuery for XHR calls
+		 * Retrieves XML data from an HTTP response
+		 * @param {luga.xhr.response} response
 		 * @override
 		 */
-		this.loadRecords = function(xmlStr, textStatus, jqXHR){
-			self.rawXml = xmlStr;
-			var $xml = jQuery(jQuery.parseXML(xmlStr));
-			var items = [];
-			// Collect data from each <item>
-			$xml.find("item").each(function(index, element){
-				items.push(itemToHash(jQuery(this)));
-			});
-			setChannelMeta($xml.find("channel"));
+		this.loadRecords = function(response){
+			const xmlDoc = luga.data.xml.parseFromString(response.responseText);
+			self.rawXml = xmlDoc;
+			// Extract metadata
+			const channelNodes = luga.data.xml.evaluateXPath(xmlDoc, "//channel");
+			setChannelMeta(channelNodes[0]);
 			// Insert all records
-			self.insert(items);
+			const items = luga.data.xml.evaluateXPath(xmlDoc, "//item");
+			const records = extractRecords(items);
+			self.insert(records);
 		};
 
 	};
-
-	luga.data.Rss2Dataset.version = "0.6.0";
 
 }());
 (function(){
@@ -1504,7 +1675,7 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.data.ChildJsonDataSet = function(options){
 
-		var CONST = {
+		const CONST = {
 			ERROR_MESSAGES: {
 				MISSING_PARENT_DS: "luga.data.ChildJsonDataSet: parentDataSet parameter is required",
 				MISSING_URL: "luga.data.ChildJsonDataSet: url parameter is required",
@@ -1523,7 +1694,7 @@ if(typeof(luga) === "undefined"){
 		luga.extend(luga.data.JsonDataSet, this, [options]);
 
 		/** @type {luga.data.ChildJsonDataSet} */
-		var self = this;
+		const self = this;
 
 		/** @type {luga.data.JsonDataSet} */
 		this.parentDataSet = options.parentDataSet;
@@ -1535,7 +1706,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {luga.data.DataSet.row} row
 		 */
 		this.fetchData = function(row){
-			var bindUrl = luga.string.populate(self.urlPattern, row);
+			const bindUrl = luga.string.populate(self.urlPattern, row);
 			if(bindUrl === self.urlPattern){
 				throw(luga.string.format(CONST.ERROR_MESSAGES.FAILED_URL_BINDING, [bindUrl]));
 			}
@@ -1582,7 +1753,7 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.data.ChildXmlDataSet = function(options){
 
-		var CONST = {
+		const CONST = {
 			ERROR_MESSAGES: {
 				MISSING_PARENT_DS: "luga.data.ChildXmlDataSet: parentDataSet parameter is required",
 				MISSING_URL: "luga.data.ChildXmlDataSet: url parameter is required",
@@ -1601,7 +1772,7 @@ if(typeof(luga) === "undefined"){
 		luga.extend(luga.data.XmlDataSet, this, [options]);
 
 		/** @type {luga.data.ChildXmlDataSet} */
-		var self = this;
+		const self = this;
 
 		/** @type {luga.data.XmlDataSet} */
 		this.parentDataSet = options.parentDataSet;
@@ -1613,7 +1784,7 @@ if(typeof(luga) === "undefined"){
 		 * @param {luga.data.DataSet.row} row
 		 */
 		this.fetchData = function(row){
-			var bindUrl = luga.string.populate(self.urlPattern, row);
+			const bindUrl = luga.string.populate(self.urlPattern, row);
 			if(bindUrl === self.urlPattern){
 				throw(luga.string.format(CONST.ERROR_MESSAGES.FAILED_URL_BINDING, [bindUrl]));
 			}
@@ -1634,6 +1805,280 @@ if(typeof(luga) === "undefined"){
 				self.delete();
 			}
 
+		};
+
+	};
+
+}());
+(function(){
+	"use strict";
+
+	/**
+	 * @typedef {Object} luga.data.PagedView.context
+	 *
+	 * @extend luga.data.DataSet.context
+	 * @property {Number} currentPageNumber        The current page index. Starting at 1
+	 * @property {Number} currentPageRecordCount   The total number of records in the current page
+	 * @property {Number} pageCount                The total number of pages required to display all of the data
+	 * @property {Number} pageSize                 The maximum number of items that can be in a page
+	 * @property {Number} currentOffsetStart       Zero-based offset of the first record inside the current page
+	 * @property {Number} currentOffsetEnd         Zero-based offset of the last record inside the current page
+	 */
+
+	/**
+	 * @typedef {Object} luga.data.PagedView.options
+	 *
+	 * @property {String}            uuid           Unique identifier. Required
+	 * @property {luga.data.DataSet} parentDataSet  Instance of a dataSet. Required
+	 * @property {Number}            pageSize       The max number of rows in a given page. Default to 10
+	 */
+
+	/*
+	 *  PagedView class
+	 *  Works by reading a dataSet and extracting information out of it in order to generate additional information that can be used for paging
+	 *
+	 * @param {luga.data.PagedView.options} options
+	 * @constructor
+	 * @extend luga.Notifier
+	 */
+	luga.data.PagedView = function(options){
+
+		const CONST = {
+			ERROR_MESSAGES: {
+				INVALID_UUID_PARAMETER: "luga.data.PagedView: id parameter is required",
+				INVALID_DS_PARAMETER: "luga.data.PagedView: parentDataSet parameter is required"
+			}
+		};
+
+		if(options.uuid === undefined){
+			throw(CONST.ERROR_MESSAGES.INVALID_UUID_PARAMETER);
+		}
+		if(options.parentDataSet === undefined){
+			throw(CONST.ERROR_MESSAGES.INVALID_DS_PARAMETER);
+		}
+
+		luga.extend(luga.Notifier, this);
+
+		/** @type {luga.data.PagedView} */
+		const self = this;
+
+		this.uuid = options.uuid;
+		this.parentDataSet = options.parentDataSet;
+		this.parentDataSet.addObserver(this);
+
+		luga.data.setDataSource(this.uuid, this);
+
+		let pageSize = 10;
+		if(options.pageSize !== undefined){
+			pageSize = options.pageSize;
+		}
+
+		let currentPage = 1;
+		let currentOffsetStart = 0;
+
+		/**
+		 * @return {luga.data.PagedView.context}
+		 */
+		this.getContext = function(){
+			const context = self.parentDataSet.getContext();
+			context.entities = context.entities.slice(self.getCurrentOffsetStart(), self.getCurrentOffsetEnd() + 1);
+			// Additional fields
+			context.currentPageNumber = self.getCurrentPageIndex();
+			context.currentPageRecordCount = context.entities.length;
+			context.currentOffsetEnd = self.getCurrentOffsetEnd();
+			context.currentOffsetStart = self.getCurrentOffsetStart();
+			context.pageSize = self.getPageSize();
+			context.pageCount = self.getPagesCount();
+			return context;
+		};
+
+		/**
+		 * Return the zero-based offset of the last record inside the current page
+		 * @return {Number}
+		 */
+		this.getCurrentOffsetEnd = function(){
+			let offSet = self.getCurrentOffsetStart() + self.getPageSize() - 1;
+			if(offSet > self.getRecordsCount()){
+				offSet = self.getRecordsCount();
+			}
+			return offSet;
+		};
+
+		/**
+		 * Return the zero-based offset of the first record inside the current page
+		 * @return {Number}
+		 */
+		this.getCurrentOffsetStart = function(){
+			return currentOffsetStart;
+		};
+
+		/**
+		 * Return the current page index. Starting at 1
+		 * @return {Number}
+		 */
+		this.getCurrentPageIndex = function(){
+			return currentPage;
+		};
+
+		/**
+		 * Return the total number of pages required to display all of the data
+		 * @return {Number}
+		 */
+		this.getPagesCount = function(){
+			return parseInt((self.parentDataSet.getRecordsCount() + self.getPageSize() - 1) / self.getPageSize());
+		};
+
+		/**
+		 * Return the maximum number of items that can be in a page
+		 * @return {Number}
+		 */
+		this.getPageSize = function(){
+			return pageSize;
+		};
+
+		/**
+		 * Navigate to the given page number
+		 * Fails silently if the given page number is out of range
+		 * It also change the index of the current row to match the first record in the page
+		 * @param {Number} pageNumber
+		 * @fire dataChanged
+		 */
+		this.goToPage = function(pageNumber){
+			if(self.isPageInRange(pageNumber) === false){
+				return;
+			}
+			if(pageNumber === self.getCurrentPageIndex()){
+				return;
+			}
+			currentPage = pageNumber;
+			currentOffsetStart = ((pageNumber - 1) * self.getPageSize());
+
+			self.setCurrentRowIndex(self.getCurrentOffsetStart());
+			self.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
+		};
+
+		/**
+		 * Navigate to the next page
+		 * Fails silently if the current page is the last one
+		 */
+		this.goToNextPage = function(){
+			self.goToPage(self.getCurrentPageIndex() + 1);
+		};
+
+		/**
+		 * Navigate to the previous page
+		 * Fails silently if the current page is the first one
+		 */
+		this.goToPrevPage = function(){
+			self.goToPage(self.getCurrentPageIndex() - 1);
+		};
+
+		/**
+		 * Return true if the given page is within range. False otherwise
+		 * @param {Number} pageNumber
+		 * @return {Boolean}
+		 */
+		this.isPageInRange = function(pageNumber){
+			if(pageNumber < 1 || pageNumber > self.getPagesCount()){
+				return false;
+			}
+			return true;
+		};
+
+		/**
+		 * To be used for type checking
+		 * @return {Boolean}
+		 */
+		this.isPagedView = function(){
+			return true;
+		};
+
+		/* Proxy methods */
+
+		/**
+		 * Call the parent dataSet
+		 * @return {Number}
+		 */
+		this.getCurrentRowIndex = function(){
+			return self.parentDataSet.getCurrentRowIndex();
+		};
+
+		/**
+		 * Call the parent dataSet
+		 * @return {Number}
+		 */
+		this.getRecordsCount = function(){
+			return self.parentDataSet.getRecordsCount();
+		};
+
+		/**
+		 * Call the parent dataSet .loadData() method, if any
+		 * @fire dataLoading
+		 * @throw {Exception}
+		 */
+		this.loadData = function(){
+			if(self.parentDataSet.loadData !== undefined){
+				self.parentDataSet.loadData();
+			}
+		};
+
+		/**
+		 * Call the parent dataSet
+		 * @param {String|null} rowId  Required
+		 * @fire currentRowChanged
+		 * @throw {Exception}
+		 */
+		this.setCurrentRowId = function(rowId){
+			self.parentDataSet.setCurrentRowId(rowId);
+		};
+
+		/**
+		 * Call the parent dataSet
+		 * @param {Number} index  New index. Required
+		 * @fire currentRowChanged
+		 * @throw {Exception}
+		 */
+		this.setCurrentRowIndex = function(index){
+			self.parentDataSet.setCurrentRowIndex(index);
+		};
+
+		/**
+		 * Call the parent dataSet
+		 * @param {null|luga.data.STATE} newState
+		 * @fire stateChanged
+		 */
+		this.setState = function(newState){
+			self.parentDataSet.setState(newState);
+		};
+
+		/**
+		 * Call the parent dataSet
+		 * Be aware this only sort the data, it does not affects pagination
+		 * @param {String|Array<String>}  columnNames             Required, either a single column name or an array of names
+		 * @param {luga.data.sort.ORDER} [sortOrder="toggle"]     Either "ascending", "descending" or "toggle". Optional, default to "toggle"
+		 * @fire preDataSorted
+		 * @fire dataSorted
+		 * @fire dataChanged
+		 */
+		this.sort = function(columnNames, sortOrder){
+			self.parentDataSet.sort(columnNames, sortOrder);
+			self.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
+		};
+
+		/* Events Handlers */
+
+		/**
+		 * @param {luga.data.dataSourceChanged} data
+		 */
+		this.onDataChangedHandler = function(data){
+			self.notifyObservers(luga.data.CONST.EVENTS.DATA_CHANGED, {dataSource: this});
+		};
+
+		/**
+		 * @param {luga.data.stateChanged} data
+		 */
+		this.onStateChangedHandler = function(data){
+			self.notifyObservers(luga.data.CONST.EVENTS.STATE_CHANGED, {dataSource: this});
 		};
 
 	};
@@ -1676,13 +2121,13 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.data.region.options
 	 *
-	 * @property {Boolean} autoregister  Determine if we call luga.data.region.init() on jQuery(document).ready()
+	 * @property {Boolean} autoregister  Determine if we call luga.data.region.init() on luga.dom.ready()
 	 */
 
 	/**
 	 * @type {luga.data.region.options}
 	 */
-	var config = {
+	const config = {
 		autoregister: true
 	};
 
@@ -1697,34 +2142,34 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Given a jQuery object wrapping an HTML node, returns the region object associated to it
+	 * Given a DOM node, returns the region object associated to it
 	 * Returns undefined if the node is not associated to a region
-	 * @param {jQuery} node
+	 * @param {HTMLElement} node
 	 * @return {undefined|luga.data.region.Base}
 	 */
 	luga.data.region.getReferenceFromNode = function(node){
-		return node.data(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE);
+		return node[luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE];
 	};
 
 	/**
-	 * Given a jQuery object wrapping an HTML node, initialize the relevant Region handler
-	 * @param {jQuery} node
+	 * Given a DOM node, initialize the relevant Region handler
+	 * @param {HTMLElement} node
 	 * @throw {Exception}
 	 */
 	luga.data.region.init = function(node){
-		var dataSourceId = node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID);
-		if(dataSourceId === undefined){
+		const dataSourceId = node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID);
+		if(dataSourceId === null){
 			throw(luga.data.region.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE_ATTRIBUTE);
 		}
-		var dataSource = luga.data.getDataSource(dataSourceId);
+		const dataSource = luga.data.getDataSource(dataSourceId);
 		if(dataSource === null){
 			throw(luga.string.format(luga.data.region.CONST.ERROR_MESSAGES.MISSING_DATA_SOURCE, [dataSourceId]));
 		}
-		var regionType = node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_TYPE);
-		if(regionType === undefined){
+		let regionType = node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_TYPE);
+		if(regionType === null){
 			regionType = luga.data.region.CONST.DEFAULT_REGION_TYPE;
 		}
-		var RegionClass = luga.lookupFunction(regionType);
+		const RegionClass = luga.lookupFunction(regionType);
 		if(RegionClass === undefined){
 			throw(luga.string.format(luga.data.region.CONST.ERROR_MESSAGES.MISSING_REGION_TYPE_FUNCTION, [regionType]));
 		}
@@ -1733,15 +2178,19 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Bootstrap any region contained within the given node
-	 * @param {jquery|undefined} [rootNode=jQuery("body"]   Optional, default to jQuery("body")
+	 * @param {HTMLElement|undefined} [rootNode]   Optional, default to <body>
 	 */
 	luga.data.region.initRegions = function(rootNode){
 		if(rootNode === undefined){
-			rootNode = jQuery("body");
+			rootNode = document.querySelector("body");
 		}
-		rootNode.find(luga.data.region.CONST.SELECTORS.REGION).each(function(index, item){
-			luga.data.region.init(jQuery(item));
-		});
+		/* istanbul ignore else */
+		if(rootNode !== null){
+			const nodes = rootNode.querySelectorAll(luga.data.region.CONST.SELECTORS.REGION);
+			for(let i = 0; i < nodes.length; i++){
+				luga.data.region.init(nodes[i]);
+			}
+		}
 	};
 
 	luga.namespace("luga.data.region.utils");
@@ -1749,7 +2198,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.data.region.description
 	 *
-	 * @property {jQuery}                                node   A jQuery object wrapping the node containing the region.
+	 * @property {HTMLElement}                                node   A DOM node containing the region.
 	 * @property {luga.data.DataSet|luga.data.DetailSet} ds     DataSource
 	 */
 
@@ -1765,7 +2214,7 @@ if(typeof(luga) === "undefined"){
 		};
 	};
 
-	jQuery(document).ready(function(){
+	luga.dom.ready(function(){
 		/* istanbul ignore else */
 		if(config.autoregister === true){
 			luga.data.region.initRegions();
@@ -1779,10 +2228,10 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.data.region.options
 	 *
-	 * @property {jQuery} node                                Either a jQuery object wrapping the node or the naked DOM object that will contain the region. Required
+	 * @property {HTMLElement } node                          The DOM node that will contain the region. Required
 	 * @property {luga.data.DataSet|luga.data.DetailSet} ds   DataSource. Required if dsUuid is not specified
 	 * @property {String} dsUuid                              DataSource's uuid. Can be specified inside the data-lugaregion-datasource attribute too. Required if ds is not specified
-	 * @property {Array.<string>} [undefined]  traits         An array of function names that will be called every time the Region is rendered. Optional
+	 * @property {Array.<String>} [undefined]  traits         An array of function names that will be called every time the Region is rendered. Optional
 	 * @property {String} templateId                          Id of HTML element containing the template. Can be specified inside the data-lugaregion-template attribute too.
 	 *                                                        If not available it assumes the node contains the template
 	 */
@@ -1810,23 +2259,21 @@ if(typeof(luga) === "undefined"){
 			}
 		};
 
-		// Ensure it's a jQuery object
-		options.node = jQuery(options.node);
-		if(options.node.length === 0){
+		if(options.node === undefined){
 			throw(this.CONST.ERROR_MESSAGES.MISSING_NODE);
 		}
 
 		this.config = {
 			node: null, // Required
 			// Either: custom attribute or incoming option
-			dsUuid: options.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID) || null,
-			templateId: options.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TEMPLATE_ID) || null,
+			dsUuid: options.node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.DATA_SOURCE_UUID) || null,
+			templateId: options.node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TEMPLATE_ID) || null,
 			// Either: incoming option or null
 			traits: options.traits || null,
 			ds: null
 		};
 		luga.merge(this.config, options);
-		var self = this;
+		const self = this;
 
 		/** @type {luga.data.DataSet|luga.data.DetailSet} */
 		this.dataSource = null;
@@ -1843,11 +2290,11 @@ if(typeof(luga) === "undefined"){
 		}
 		this.dataSource.addObserver(this);
 
-		/** @type {Array.<string>} */
+		/** @type {Array.<String>} */
 		this.traits = luga.data.region.CONST.DEFAULT_TRAITS;
 		// Extract traits from custom attribute, if any
-		var attrTraits = this.config.node.attr(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TRAITS);
-		if(attrTraits !== undefined){
+		const attrTraits = this.config.node.getAttribute(luga.data.region.CONST.CUSTOM_ATTRIBUTES.TRAITS);
+		if(attrTraits !== null){
 			this.traits = this.traits.concat(attrTraits.split(","));
 		}
 		if(this.config.traits !== null){
@@ -1855,15 +2302,15 @@ if(typeof(luga) === "undefined"){
 		}
 
 		// Store reference inside node
-		this.config.node.data(luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE, this);
+		this.config.node[luga.data.region.CONST.CUSTOM_ATTRIBUTES.REGION_REFERENCE] = this;
 
 		this.applyTraits = function(){
-			var traitData = {
+			const traitData = {
 				node: this.config.node,
 				dataSource: this.dataSource
 			};
-			for(var i = 0; i < this.traits.length; i++){
-				var func = luga.lookupFunction(this.traits[i]);
+			for(let i = 0; i < this.traits.length; i++){
+				const func = luga.lookupFunction(this.traits[i]);
 				if(func !== undefined){
 					func(traitData);
 				}
@@ -1879,7 +2326,7 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.render = function(){
 			// Concrete implementations must overwrite this
-			var desc = luga.data.region.utils.assembleRegionDescription(this);
+			const desc = luga.data.region.utils.assembleRegionDescription(this);
 			this.notifyObservers(luga.data.region.CONST.EVENTS.REGION_RENDERED, desc);
 		};
 
@@ -1923,7 +2370,7 @@ if(typeof(luga) === "undefined"){
 	luga.data.region.Handlebars = function(options){
 
 		luga.extend(luga.data.region.Base, this, [options]);
-		var self = this;
+		const self = this;
 
 		// The messages below are specific to this implementation
 		self.CONST.HANDLEBARS_ERROR_MESSAGES = {
@@ -1935,37 +2382,36 @@ if(typeof(luga) === "undefined"){
 		this.template = "";
 
 		/**
-		 * @param {jQuery} node
+		 * @param {HTMLElement} node
 		 */
-		var fetchTemplate = function(node){
+		const fetchTemplate = function(node){
 			// Inline template
 			if(self.config.templateId === null){
-				self.template = Handlebars.compile(node.html());
+				self.template = Handlebars.compile(node.innerHTML);
 			}
 			else{
-				var templateNode = jQuery("#" + self.config.templateId);
-				if(templateNode.length !== 1){
+				const templateNode = document.getElementById(self.config.templateId);
+				if(templateNode === null){
 					throw(luga.string.format(self.CONST.HANDLEBARS_ERROR_MESSAGES.MISSING_TEMPLATE_NODE, [self.config.templateId]));
 				}
-				var templateSrc = templateNode.attr("src");
-				if(templateSrc === undefined){
+				const templateSrc = templateNode.getAttribute("src");
+				if(templateSrc === null){
 					// Embed template
-					self.template = Handlebars.compile(templateNode.html());
+					self.template = Handlebars.compile(templateNode.innerHTML);
 				}
 				else{
 					// External template
-					var xhrOptions = {
-						url: templateSrc,
-						dataType: "text",
-						success: function(response, textStatus, jqXHR){
-							self.template = Handlebars.compile(response);
+					const xhrOptions = {
+						success: function(response){
+							self.template = Handlebars.compile(response.responseText);
 							self.render();
 						},
-						error: function(jqXHR, textStatus, errorThrown){
+						error: function(response){
 							throw(luga.string.format(self.CONST.HANDLEBARS_ERROR_MESSAGES.MISSING_TEMPLATE_FILE, [templateSrc]));
 						}
 					};
-					jQuery.ajax(xhrOptions);
+					const xhr = new luga.xhr.Request(xhrOptions);
+					xhr.send(templateSrc);
 				}
 			}
 		};
@@ -1984,9 +2430,9 @@ if(typeof(luga) === "undefined"){
 		this.render = function(){
 			/* istanbul ignore else */
 			if(this.template !== ""){
-				this.config.node.html(this.generateHtml());
+				this.config.node.innerHTML = this.generateHtml();
 				this.applyTraits();
-				var desc = luga.data.region.utils.assembleRegionDescription(this);
+				const desc = luga.data.region.utils.assembleRegionDescription(this);
 				this.notifyObservers(luga.data.region.CONST.EVENTS.REGION_RENDERED, desc);
 			}
 		};
@@ -2005,11 +2451,11 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.data.region.traits.options
 	 *
-	 * @property {jQuery}                                 node          A jQuery object wrapping the Region's node. Required
+	 * @property {HTMLElement}                            node          A DOM node. Required
 	 * @property {luga.data.DataSet|luga.data.DetailSet}  dataSource    DataSource. Required
 	 */
 
-	var CONST = {
+	const CONST = {
 		CUSTOM_ATTRIBUTES: {
 			SELECT: "data-lugaregion-select",
 			SET_ROW_ID: "data-lugaregion-setrowid",
@@ -2024,42 +2470,50 @@ if(typeof(luga) === "undefined"){
 		}
 	};
 
+	const removeCssClass = function(nodeList, className){
+		nodeList.forEach(function(item){
+			item.classList.remove(className);
+		});
+	};
+
 	/**
 	 * Handles data-lugaregion-select
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.select = function(options){
-		var nodes = options.node.find(CONST.SELECTORS.SELECT);
+		if(options.dataSource.getCurrentRowIndex === undefined){
+			// It's a detailSet, abort
+			return;
+		}
+
+		let nodes = options.node.querySelectorAll(CONST.SELECTORS.SELECT);
+		nodes = Array.prototype.slice.call(nodes);
+
 		if(nodes.length > 0){
-			if(options.dataSource.getCurrentRowIndex === undefined){
-				// It's a detailSet, abort
-				return;
-			}
-			var cssClass = nodes.attr(CONST.CUSTOM_ATTRIBUTES.SELECT);
-			// Clean-up
-			nodes.removeClass(cssClass);
-			// Default to zero
-			var index = 0;
+			const cssClass = nodes[0].getAttribute(CONST.CUSTOM_ATTRIBUTES.SELECT);
+			nodes[0].classList.remove(cssClass);
+			// Default to first row
+			let index = 0;
 
 			if(options.dataSource.getCurrentRowIndex() === -1){
 				// Remove class from everyone
-				nodes.removeClass(cssClass);
+				removeCssClass(nodes, cssClass);
 			}
 			else{
 				index = options.dataSource.getCurrentRowIndex();
 				// Apply CSS
-				jQuery(nodes.get(index)).addClass(cssClass);
+				nodes[index].classList.add(cssClass);
 			}
 
-			// Attach click event
-			nodes.each(function(index, item){
-				var jItem = jQuery(item);
-				jItem.click(function(event){
+			// Attach click event to all nodes
+			nodes.forEach(function(item){
+				item.addEventListener("click", function(event){
 					event.preventDefault();
-					nodes.removeClass(cssClass);
-					jItem.addClass(cssClass);
-				});
+					removeCssClass(nodes, cssClass);
+					item.classList.add(cssClass);
+				}, false);
 			});
+
 		}
 	};
 
@@ -2068,14 +2522,17 @@ if(typeof(luga) === "undefined"){
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.setRowId = function(options){
-		options.node.find(CONST.SELECTORS.SET_ROW_ID).each(function(index, item){
-			var jItem = jQuery(item);
-			jItem.click(function(event){
+		let nodes = options.node.querySelectorAll(CONST.SELECTORS.SET_ROW_ID);
+		nodes = Array.prototype.slice.call(nodes);
+
+		nodes.forEach(function(item){
+			item.addEventListener("click", function(event){
 				event.preventDefault();
-				var rowId = jItem.attr(CONST.CUSTOM_ATTRIBUTES.SET_ROW_ID);
+				const rowId = item.getAttribute(CONST.CUSTOM_ATTRIBUTES.SET_ROW_ID);
 				options.dataSource.setCurrentRowId(rowId);
-			});
+			}, false);
 		});
+
 	};
 
 	/**
@@ -2083,13 +2540,15 @@ if(typeof(luga) === "undefined"){
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.setRowIndex = function(options){
-		options.node.find(CONST.SELECTORS.SET_ROW_INDEX).each(function(index, item){
-			var jItem = jQuery(item);
-			jItem.click(function(event){
+		let nodes = options.node.querySelectorAll(CONST.SELECTORS.SET_ROW_INDEX);
+		nodes = Array.prototype.slice.call(nodes);
+
+		nodes.forEach(function(item){
+			item.addEventListener("click", function(event){
 				event.preventDefault();
-				var rowIndex = parseInt(jItem.attr(CONST.CUSTOM_ATTRIBUTES.SET_ROW_INDEX), 10);
+				const rowIndex = parseInt(item.getAttribute(CONST.CUSTOM_ATTRIBUTES.SET_ROW_INDEX), 10);
 				options.dataSource.setCurrentRowIndex(rowIndex);
-			});
+			}, false);
 		});
 	};
 
@@ -2098,14 +2557,17 @@ if(typeof(luga) === "undefined"){
 	 * @param {luga.data.region.traits.options} options
 	 */
 	luga.data.region.traits.sort = function(options){
-		options.node.find(CONST.SELECTORS.SORT).each(function(index, item){
-			var jItem = jQuery(item);
-			jItem.click(function(event){
+		let nodes = options.node.querySelectorAll(CONST.SELECTORS.SORT);
+		nodes = Array.prototype.slice.call(nodes);
+
+		nodes.forEach(function(item){
+			item.addEventListener("click", function(event){
 				event.preventDefault();
-				var sortCol = jItem.attr(CONST.CUSTOM_ATTRIBUTES.SORT);
+				const sortCol = item.getAttribute(CONST.CUSTOM_ATTRIBUTES.SORT);
 				options.dataSource.sort(sortCol);
-			});
+			}, false);
 		});
+
 	};
 
 }());
@@ -2124,7 +2586,7 @@ if(typeof(luga) === "undefined"){
 		TOG: "toggle"
 	};
 
-	var CONST = {
+	const CONST = {
 		ERROR_MESSAGES: {
 			UNSUPPORTED_DATA_TYPE: "luga.data.sort. Unsupported dataType: {0",
 			UNSUPPORTED_SORT_ORDER: "luga.data.sort. Unsupported sortOrder: {0}"
@@ -2137,7 +2599,7 @@ if(typeof(luga) === "undefined"){
 	 * @return {Boolean}
 	 */
 	luga.data.sort.isValidSortOrder = function(sortOrder){
-		for(var key in luga.data.sort.ORDER){
+		for(let key in luga.data.sort.ORDER){
 			if(luga.data.sort.ORDER[key] === sortOrder){
 				return true;
 			}
@@ -2149,7 +2611,7 @@ if(typeof(luga) === "undefined"){
 	 * Retrieve the relevant sort function matching the given combination of dataType and sortOrder
 	 * @param {String}               dataType
 	 * @param {luga.data.sort.ORDER} sortOrder
-	 * @return {function}
+	 * @return {Function}
 	 */
 	luga.data.sort.getSortStrategy = function(dataType, sortOrder){
 		if(luga.data.sort[dataType] === undefined){
@@ -2170,8 +2632,8 @@ if(typeof(luga) === "undefined"){
 
 	luga.data.sort.date.ascending = function(prop){
 		return function(a, b){
-			var dA = luga.lookupProperty(a, prop);
-			var dB = luga.lookupProperty(b, prop);
+			let dA = luga.lookupProperty(a, prop);
+			let dB = luga.lookupProperty(b, prop);
 			dA = dA ? (new Date(dA)) : 0;
 			dB = dB ? (new Date(dB)) : 0;
 			return dA - dB;
@@ -2180,8 +2642,8 @@ if(typeof(luga) === "undefined"){
 
 	luga.data.sort.date.descending = function(prop){
 		return function(a, b){
-			var dA = luga.lookupProperty(a, prop);
-			var dB = luga.lookupProperty(b, prop);
+			let dA = luga.lookupProperty(a, prop);
+			let dB = luga.lookupProperty(b, prop);
 			dA = dA ? (new Date(dA)) : 0;
 			dB = dB ? (new Date(dB)) : 0;
 			return dB - dA;
@@ -2221,17 +2683,17 @@ if(typeof(luga) === "undefined"){
 			if(a === undefined || b === undefined){
 				return (a === b) ? 0 : (a ? 1 : -1);
 			}
-			var tA = a.toString();
-			var tB = b.toString();
-			var tAlower = tA.toLowerCase();
-			var tBlower = tB.toLowerCase();
-			var minLen = tA.length > tB.length ? tB.length : tA.length;
+			const tA = a.toString();
+			const tB = b.toString();
+			const tAlower = tA.toLowerCase();
+			const tBlower = tB.toLowerCase();
+			const minLen = tA.length > tB.length ? tB.length : tA.length;
 
-			for(var i = 0; i < minLen; i++){
-				var aLowerChar = tAlower.charAt(i);
-				var bLowerChar = tBlower.charAt(i);
-				var aChar = tA.charAt(i);
-				var bChar = tB.charAt(i);
+			for(let i = 0; i < minLen; i++){
+				const aLowerChar = tAlower.charAt(i);
+				const bLowerChar = tBlower.charAt(i);
+				const aChar = tA.charAt(i);
+				const bChar = tB.charAt(i);
 				if(aLowerChar > bLowerChar){
 					return 1;
 				}
@@ -2262,16 +2724,16 @@ if(typeof(luga) === "undefined"){
 			if(a === undefined || b === undefined){
 				return (a === b) ? 0 : (a ? -1 : 1);
 			}
-			var tA = a.toString();
-			var tB = b.toString();
-			var tAlower = tA.toLowerCase();
-			var tBlower = tB.toLowerCase();
-			var minLen = tA.length > tB.length ? tB.length : tA.length;
-			for(var i = 0; i < minLen; i++){
-				var aLowerChar = tAlower.charAt(i);
-				var bLowerChar = tBlower.charAt(i);
-				var aChar = tA.charAt(i);
-				var bChar = tB.charAt(i);
+			const tA = a.toString();
+			const tB = b.toString();
+			const tAlower = tA.toLowerCase();
+			const tBlower = tB.toLowerCase();
+			const minLen = tA.length > tB.length ? tB.length : tA.length;
+			for(let i = 0; i < minLen; i++){
+				const aLowerChar = tAlower.charAt(i);
+				const bLowerChar = tBlower.charAt(i);
+				const aChar = tA.charAt(i);
+				const bChar = tB.charAt(i);
 				if(aLowerChar > bLowerChar){
 					return -1;
 				}
@@ -2293,6 +2755,262 @@ if(typeof(luga) === "undefined"){
 			}
 			return 1;
 		};
+	};
+
+}());
+(function(){
+	"use strict";
+
+	/**
+	 * @typedef {Object} luga.data.widgets.PagingBar.options
+	 *
+	 * @property {luga.data.PagedView}     pagedView  Instance of a pagedView that will be controlled by the widget. Required
+	 * @property {Element}                 node       DOM element that will contain the widget. Required
+	 * @property {luga.data.PAGING_STYLE}  style      Style to be used for the widget, either "luga-pagingBarLinks" or "luga-pagingBarPages". Default to "luga-pagingBarLinks"
+	 * @property {String}                  nextText   Text to be used for "next" links. Default to ">"
+	 * @property {String}                  prevText   Text to be used for "previous" links. Default to "<"
+	 * @property {String}                  separator  Text to be used to separate links. Default to " | "
+	 * @property {Number}                  maxLinks   Maximum number of links to show. Default to 10
+	 */
+
+	luga.namespace("luga.data.widgets");
+
+	/**
+	 * @typedef {String} luga.data.PAGING_STYLE
+	 * @enum {String}
+	 */
+	luga.data.PAGING_STYLE = {
+		LINKS: "luga-pagingBarLinks",
+		PAGES: "luga-pagingBarPages"
+	};
+
+	/**
+	 * Return true if the passed style is supported
+	 * @param {String}  style
+	 * @return {Boolean}
+	 */
+	const isValidStyle = function(style){
+		for(let key in luga.data.PAGING_STYLE){
+			if(luga.data.PAGING_STYLE[key] === style){
+				return true;
+			}
+		}
+		return false;
+	};
+
+	/**
+	 * PagingBar widget
+	 * Given a pagedView, create a fully fledged pagination bar
+	 *
+	 * @param {luga.data.widgets.PagingBar.options} options
+	 * @constructor
+	 */
+	luga.data.widgets.PagingBar = function(options){
+
+		const CONST = {
+			CSS_BASE_CLASS: "luga-pagingBar",
+			SAFE_HREF: "javascript:;",
+			LINKS_SEPARATOR: " - ",
+			ERROR_MESSAGES: {
+				INVALID_PAGED_VIEW_PARAMETER: "luga.data.widgets.PagingBar: pagedView parameter is required. Must be an instance of luga.data.PagedView",
+				INVALID_NODE_PARAMETER: "luga.data.widgets.PagingBar: node parameter is required. Must be a DOM Element",
+				INVALID_STYLE_PARAMETER: "luga.data.widgets.PagingBar: style parameter must be of type luga.data.PAGING_STYLE"
+			}
+		};
+
+		if(options.pagedView === undefined || (options.pagedView.isPagedView === undefined || options.pagedView.isPagedView() === false)){
+			throw(CONST.ERROR_MESSAGES.INVALID_PAGED_VIEW_PARAMETER);
+		}
+
+		if(options.node === undefined || options.node instanceof Element === false){
+			throw(CONST.ERROR_MESSAGES.INVALID_NODE_PARAMETER);
+		}
+
+		if(options.style !== undefined && isValidStyle(options.style) === false){
+			throw(CONST.ERROR_MESSAGES.INVALID_STYLE_PARAMETER);
+		}
+
+		this.config = {
+			/** @type {luga.data.PagedView} */
+			pagedView: undefined,
+			/** @type {Element} */
+			node: undefined,
+			style: luga.data.PAGING_STYLE.LINKS,
+			nextText: ">",
+			prevText: "<",
+			separator: " | ",
+			maxLinks: 10
+		};
+		luga.merge(this.config, options);
+
+		/**
+		 * @type {luga.data.widgets.PagingBar}
+		 */
+		const self = this;
+		// Alias/shortcuts
+		const pagedView = self.config.pagedView;
+		const node = self.config.node;
+
+		pagedView.addObserver(this);
+
+		// Add CSS
+		node.classList.add(CONST.CSS_BASE_CLASS);
+		node.classList.add(self.config.style);
+
+		const render = function(){
+			// Reset UI
+			node.innerHTML = "";
+			const currentPageIndex = pagedView.getCurrentPageIndex();
+
+			if(pagedView.getPagesCount() > 1){
+				renderPrevLink(self.config.prevText, currentPageIndex);
+				renderMainLinks(self.config.maxLinks, self.config.style);
+				renderNextLink(self.config.nextText, currentPageIndex);
+			}
+		};
+
+		const renderPrevLink = function(text, pageIndex){
+
+			const textNode = document.createTextNode(text);
+			const linkNode = document.createElement("a");
+			linkNode.setAttribute("href", CONST.SAFE_HREF);
+			linkNode.appendChild(textNode);
+			addGoToPageEvent(linkNode, pageIndex - 1);
+
+			if(pageIndex !== 1){
+				node.appendChild(linkNode);
+			}
+			else{
+				node.appendChild(textNode);
+			}
+
+			node.appendChild(document.createTextNode(" "));
+		};
+
+		const renderNextLink = function(text, pageIndex){
+			node.appendChild(document.createTextNode(" "));
+			const textNode = document.createTextNode(text);
+			const linkNode = document.createElement("a");
+			linkNode.setAttribute("href", CONST.SAFE_HREF);
+			linkNode.appendChild(textNode);
+			addGoToPageEvent(linkNode, pageIndex + 1);
+
+			if(pageIndex !== pagedView.getPagesCount()){
+				node.appendChild(linkNode);
+			}
+			else{
+				node.appendChild(textNode);
+			}
+		};
+
+		const renderMainLinks = function(maxLinks, style){
+			const pageSize = pagedView.getPageSize();
+			const recordsCount = pagedView.getRecordsCount();
+			const pagesCount = pagedView.getPagesCount();
+			const currentPageIndex = pagedView.getCurrentPageIndex();
+			const endIndex = getEndIndex(currentPageIndex, maxLinks, pagesCount);
+
+			// Page numbers are between 1 and n. So the loop start from 1
+			for(let i = 1; i < (endIndex + 1); i++){
+
+				const labelText = getLabelText(i, style, pageSize, pagesCount, recordsCount);
+				if(i !== currentPageIndex){
+					renderCurrentLink(i, labelText);
+				}
+				else{
+					// No link on current page
+					renderCurrentText(labelText);
+				}
+				// No separator on last entry
+				if(i < endIndex){
+					renderSeparator();
+				}
+			}
+
+		};
+
+		const renderCurrentLink = function(i, linkText){
+			const textNode = document.createTextNode(linkText);
+			const linkNode = document.createElement("a");
+			linkNode.appendChild(textNode);
+			linkNode.setAttribute("href", CONST.SAFE_HREF);
+			addGoToPageEvent(linkNode, i);
+			node.appendChild(linkNode);
+		};
+
+		const renderCurrentText = function(labelText){
+			const textNode = document.createTextNode(labelText);
+			const strongNode = document.createElement("strong");
+			strongNode.appendChild(textNode);
+			node.appendChild(strongNode);
+		};
+
+		const renderSeparator = function(){
+			const separatorNode = document.createTextNode(self.config.separator);
+			node.appendChild(separatorNode);
+		};
+
+		const addGoToPageEvent = function(linkNode, pageNumber){
+			linkNode.addEventListener("click", function(event){
+				event.preventDefault();
+				pagedView.goToPage(pageNumber);
+			});
+		};
+
+		const getEndIndex = function(currentPageIndex, maxLinks, pagesCount){
+			let startIndex = parseInt(currentPageIndex - parseInt(maxLinks / 2));
+			/* istanbul ignore else */
+			if(startIndex < 1){
+				startIndex = 1;
+			}
+			const tempPos = startIndex + maxLinks - 1;
+			let endIndex = pagesCount;
+			if(tempPos < pagesCount){
+				endIndex = tempPos;
+			}
+			return endIndex;
+		};
+
+		const getLabelText = function(i, style, pageSize, pagesCount, recordsCount){
+			let labelText = "";
+
+			if(style === luga.data.PAGING_STYLE.PAGES){
+				labelText = i;
+			}
+
+			/* istanbul ignore else */
+			if(style === luga.data.PAGING_STYLE.LINKS){
+				let startText = "";
+				let endText = "";
+				if(i !== 1){
+					startText = (pageSize * (i - 1)) + 1;
+				}
+				else{
+					// First link
+					startText = 1;
+				}
+				if(i < pagesCount){
+					endText = startText + pageSize - 1;
+				}
+				else{
+					// Last link
+					endText = recordsCount;
+				}
+				labelText = startText + CONST.LINKS_SEPARATOR + endText;
+			}
+
+			return labelText;
+		};
+
+		/* Events Handlers */
+
+		/**
+		 * @param {luga.data.dataSourceChanged} data
+		 */
+		this.onDataChangedHandler = function(data){
+			render();
+		};
+
 	};
 
 }());
@@ -2336,7 +3054,7 @@ if(typeof(luga) === "undefined"){
 		luga.merge(this.config, options);
 
 		/** @type {luga.data.widgets.ShowMore} */
-		var self = this;
+		const self = this;
 
 		if(this.config.dataSet === undefined){
 			throw(this.CONST.ERROR_MESSAGES.INVALID_DATASET_PARAMETER);
@@ -2345,11 +3063,11 @@ if(typeof(luga) === "undefined"){
 			throw(this.CONST.ERROR_MESSAGES.INVALID_URL_PARAMETER);
 		}
 
-		var isEnabled = false;
+		let isEnabled = false;
 		this.config.dataSet.addObserver(this);
 
 		this.assembleUrl = function(){
-			var bindingObj = this.config.dataSet.getRawJson();
+			let bindingObj = this.config.dataSet.getRawJson();
 			/* istanbul ignore else */
 			if(this.config.paramPath !== ""){
 				bindingObj = luga.lookupProperty(bindingObj, this.config.paramPath);
@@ -2370,7 +3088,7 @@ if(typeof(luga) === "undefined"){
 		};
 
 		this.fetch = function(){
-			var newUrl = this.assembleUrl();
+			const newUrl = this.assembleUrl();
 			if(newUrl !== this.config.url){
 				this.config.dataSet.setUrl(newUrl);
 				this.config.dataSet.loadData();
@@ -2411,7 +3129,7 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.data.ShowMoreButton.options
 	 *
 	 * @extend luga.data.widgets.ShowMore.options
-	 * @property {jQuery}  button          Button that will trigger the showMore. Required
+	 * @property {HTMLElement}  button     Button that will trigger the showMore. Required
 	 * @property {String}  disabledClass   Name of CSS class that will be applied to the button while it's disabled. Optional, default to "disabled"
 	 */
 
@@ -2429,7 +3147,7 @@ if(typeof(luga) === "undefined"){
 			dataSet: undefined,
 			paramPath: "",
 			url: undefined,
-			/** @type {jQuery} */
+			/** @type {HTMLElement} */
 			button: undefined,
 			disabledClass: "disabled"
 		};
@@ -2437,99 +3155,34 @@ if(typeof(luga) === "undefined"){
 		luga.extend(luga.data.widgets.ShowMore, this, [this.config]);
 
 		/** @type {luga.data.widgets.ShowMoreButton} */
-		var self = this;
+		const self = this;
 
 		// The messages below are specific to this implementation
 		self.CONST.BUTTON_ERROR_MESSAGES = {
 			MISSING_BUTTON: "luga.data.widgets.ShowMoreButton was unable find the button node"
 		};
 
-		// Ensure it's a jQuery object
-		this.config.button = jQuery(this.config.button);
-		if(this.config.button.length === 0){
+		if(self.config.button === null){
 			throw(this.CONST.BUTTON_ERROR_MESSAGES.MISSING_BUTTON);
 		}
 
 		this.attachEvents = function(){
-			jQuery(self.config.button).on("click", function(event){
+
+			self.config.button.addEventListener("click", function(event){
 				event.preventDefault();
 				if(self.isEnabled() === true){
 					self.fetch();
 				}
-			});
+			}, false);
+
 		};
 
 		this.disable = function(){
-			this.config.button.addClass(this.config.disabledClass);
+			self.config.button.classList.add(this.config.disabledClass);
 		};
 
 		this.enable = function(){
-			this.config.button.removeClass(this.config.disabledClass);
-		};
-
-		/* Constructor */
-		this.attachEvents();
-
-	};
-
-	/**
-	 * @typedef {Object} luga.data.ShowMoreScrolling.options
-	 *
-	 * @extend luga.data.widgets.ShowMore.options
-	 * @property {jQuery|undefined}  node  A jQuery object wrapping the node containing the records. It must have a scrollbar. Optional. If not specified, the whole document is assumed.
-	 */
-
-	/**
-	 * ShowMore infinite scrolling class
-	 * @param {luga.data.widgets.ShowMoreScrolling.options} options
-	 * @constructor
-	 * @extend luga.data.widgets.ShowMore
-	 * @listen stateChanged
-	 * @throw {Exception}
-	 */
-	luga.data.widgets.ShowMoreScrolling = function(options){
-
-		this.config = {
-			/** @type {luga.data.dataSet} */
-			dataSet: undefined,
-			paramPath: "",
-			url: undefined,
-			/** @type {jQuery} */
-			node: undefined
-		};
-		luga.merge(this.config, options);
-		luga.extend(luga.data.widgets.ShowMore, this, [this.config]);
-		/** @type {luga.data.widgets.ShowMoreScrolling} */
-		var self = this;
-
-		var scrollBody = false;
-		if(this.config.node === undefined){
-			scrollBody = true;
-			this.config.node = jQuery(document);
-		}
-
-		this.attachEvents = function(){
-			var targetNode = self.config.node;
-
-			jQuery(targetNode).scroll(function(){
-				var scrolledToBottom = false;
-				if(scrollBody === true){
-					/* istanbul ignore else */
-					if(jQuery(targetNode).scrollTop() === (jQuery(targetNode).height() - jQuery(window).height())){
-						scrolledToBottom = true;
-					}
-				}
-				else{
-					/* istanbul ignore else */
-					if(jQuery(targetNode).scrollTop() >= (targetNode[0].scrollHeight - targetNode.height())){
-						scrolledToBottom = true;
-					}
-				}
-				if((scrolledToBottom === true) && (self.isEnabled() === true)){
-					self.fetch();
-				}
-			});
-
+			self.config.button.classList.remove(this.config.disabledClass);
 		};
 
 		/* Constructor */

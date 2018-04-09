@@ -13,7 +13,7 @@
 		TOG: "toggle"
 	};
 
-	var CONST = {
+	const CONST = {
 		ERROR_MESSAGES: {
 			UNSUPPORTED_DATA_TYPE: "luga.data.sort. Unsupported dataType: {0",
 			UNSUPPORTED_SORT_ORDER: "luga.data.sort. Unsupported sortOrder: {0}"
@@ -26,7 +26,7 @@
 	 * @return {Boolean}
 	 */
 	luga.data.sort.isValidSortOrder = function(sortOrder){
-		for(var key in luga.data.sort.ORDER){
+		for(let key in luga.data.sort.ORDER){
 			if(luga.data.sort.ORDER[key] === sortOrder){
 				return true;
 			}
@@ -38,7 +38,7 @@
 	 * Retrieve the relevant sort function matching the given combination of dataType and sortOrder
 	 * @param {String}               dataType
 	 * @param {luga.data.sort.ORDER} sortOrder
-	 * @return {function}
+	 * @return {Function}
 	 */
 	luga.data.sort.getSortStrategy = function(dataType, sortOrder){
 		if(luga.data.sort[dataType] === undefined){
@@ -59,8 +59,8 @@
 
 	luga.data.sort.date.ascending = function(prop){
 		return function(a, b){
-			var dA = luga.lookupProperty(a, prop);
-			var dB = luga.lookupProperty(b, prop);
+			let dA = luga.lookupProperty(a, prop);
+			let dB = luga.lookupProperty(b, prop);
 			dA = dA ? (new Date(dA)) : 0;
 			dB = dB ? (new Date(dB)) : 0;
 			return dA - dB;
@@ -69,8 +69,8 @@
 
 	luga.data.sort.date.descending = function(prop){
 		return function(a, b){
-			var dA = luga.lookupProperty(a, prop);
-			var dB = luga.lookupProperty(b, prop);
+			let dA = luga.lookupProperty(a, prop);
+			let dB = luga.lookupProperty(b, prop);
 			dA = dA ? (new Date(dA)) : 0;
 			dB = dB ? (new Date(dB)) : 0;
 			return dB - dA;
@@ -110,17 +110,17 @@
 			if(a === undefined || b === undefined){
 				return (a === b) ? 0 : (a ? 1 : -1);
 			}
-			var tA = a.toString();
-			var tB = b.toString();
-			var tAlower = tA.toLowerCase();
-			var tBlower = tB.toLowerCase();
-			var minLen = tA.length > tB.length ? tB.length : tA.length;
+			const tA = a.toString();
+			const tB = b.toString();
+			const tAlower = tA.toLowerCase();
+			const tBlower = tB.toLowerCase();
+			const minLen = tA.length > tB.length ? tB.length : tA.length;
 
-			for(var i = 0; i < minLen; i++){
-				var aLowerChar = tAlower.charAt(i);
-				var bLowerChar = tBlower.charAt(i);
-				var aChar = tA.charAt(i);
-				var bChar = tB.charAt(i);
+			for(let i = 0; i < minLen; i++){
+				const aLowerChar = tAlower.charAt(i);
+				const bLowerChar = tBlower.charAt(i);
+				const aChar = tA.charAt(i);
+				const bChar = tB.charAt(i);
 				if(aLowerChar > bLowerChar){
 					return 1;
 				}
@@ -151,16 +151,16 @@
 			if(a === undefined || b === undefined){
 				return (a === b) ? 0 : (a ? -1 : 1);
 			}
-			var tA = a.toString();
-			var tB = b.toString();
-			var tAlower = tA.toLowerCase();
-			var tBlower = tB.toLowerCase();
-			var minLen = tA.length > tB.length ? tB.length : tA.length;
-			for(var i = 0; i < minLen; i++){
-				var aLowerChar = tAlower.charAt(i);
-				var bLowerChar = tBlower.charAt(i);
-				var aChar = tA.charAt(i);
-				var bChar = tB.charAt(i);
+			const tA = a.toString();
+			const tB = b.toString();
+			const tAlower = tA.toLowerCase();
+			const tBlower = tB.toLowerCase();
+			const minLen = tA.length > tB.length ? tB.length : tA.length;
+			for(let i = 0; i < minLen; i++){
+				const aLowerChar = tAlower.charAt(i);
+				const bLowerChar = tBlower.charAt(i);
+				const aChar = tA.charAt(i);
+				const bChar = tB.charAt(i);
 				if(aLowerChar > bLowerChar){
 					return -1;
 				}

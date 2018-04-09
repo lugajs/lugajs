@@ -17,7 +17,6 @@
     "globals"
   ],
   "dependencies": {
-    "jquery": ">=2",
     "handlebars": ">=4"
   },
   "keywords": [
@@ -28,6 +27,7 @@
     "gulpfile.js",
     "Root.iml",
     "todo.txt",
+    "roadmap.txt",
     ".idea",
     "archive",
     "docs",

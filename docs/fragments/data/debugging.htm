@@ -8,12 +8,12 @@
 
 <pre><code class="line-numbers language-javascript">(function(){
 	"use strict";
-	var peopleDs = new luga.data.JsonDataSet({
+	const peopleDs = new luga.data.JsonDataSet({
 		uuid: "peopleDs",
 		url: "../test/fixtures/data/ladies.json"
 	});
 	// Fetch data only once the DOM is ready
-	jQuery(document).ready(function(){
+	luga.dom.ready(function(){
 		peopleDs.loadData();
 		peopleDs.getRecordsCount(); // => Returns 0, since data isn't loaded yet
 	});
@@ -26,22 +26,22 @@
 <pre><code class="line-numbers language-javascript">(function(){
 	"use strict";
 
-	var peopleDs = new luga.data.JsonDataSet({
+	const peopleDs = new luga.data.JsonDataSet({
 		uuid: "people",
 		url: "../../../test/fixtures/data/people.json",
 		path: "ladies"
 	});
 
-	var ObserverClass = function(){
+	const ObserverClass = function(){
 		this.onDataChangedHandler = function(data){
 			console.log(data.dataSource.getRecordsCount());
 		};
 	};
 
-	var observerObj = new ObserverClass();
+	const observerObj = new ObserverClass();
 	peopleDs.addObserver(observerObj);
 
-	jQuery(document).ready(function(){
+	luga.dom.ready(function(){
 		// Fetch data only once the DOM is ready
 		peopleDs.loadData();
 	});

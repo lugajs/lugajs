@@ -16,15 +16,13 @@
 		"common": {
 			"name": "Luga Common"
 		},
-		"ajaxform": {
-			"name": "Luga Ajaxform"
-		},
 		"validator": {
 			"name": "Luga Validator"
 		}
 	},
 	"dataLibFragments": [
 		"core",
+		"xml",
 		"Dataset",
 		"DetailSet",
 		"HttpDataset",
@@ -33,11 +31,13 @@
 		"Rss2DataSet",
 		"ChildJsonDataSet",
 		"ChildXmlDataSet",
+		"PagedView",
 		"region",
 		"region.Base",
 		"region.Handlebars",
 		"region.traits",
 		"sort",
+		"widgets.PagingBar",
 		"widgets.ShowMore"
 	],
 	"dataLibDisplayName": "Luga Data",
@@ -51,12 +51,12 @@
 		"gulp-sourcemaps": "~2.6.1",
 		"gulp-uglify": "~3.0.0",
 		"gulp-zip": "~4.0.0",
-		"jasmine-core": "~2.9.1",
+		"jasmine-core": "~3.1.0",
 		"karma": "~2.0.0",
 		"karma-chrome-launcher": "~2.2.0",
 		"karma-coverage": "~1.1.1",
-		"karma-html-reporter": "~0.2.7",
-		"karma-jasmine": "~1.1.0",
-		"run-sequence": "~2.1.0"
+		"karma-jasmine": "~1.1.1",
+		"run-sequence": "~2.1.0",
+		"uglify-es": "~3.3.9"
 	}
 }

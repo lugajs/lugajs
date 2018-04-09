@@ -2,22 +2,26 @@
 	(function(){
 		"use strict";
 
-		var BASE_URL = "https://heroes.stage.waylon.cloud/v1/search/character?offset=0&limit=10&";
-		var results = new luga.data.JsonDataSet({
+		const BASE_URL = "https://heroes.stage.waylon.cloud/v1/search/character?offset=0&limit=10&";
+		const results = new luga.data.JsonDataSet({
 			uuid: "resultsDs",
 			path: "result",
 			url: BASE_URL
 		});
 
-		jQuery(document).ready(function(){
+		luga.dom.ready(function(){
 			results.loadData();
 
-			jQuery("#searchForm").on("submit", function(event){
-				event.preventDefault();
-				var searchQuery = luga.form.toQueryString(this);
-				results.setUrl(BASE_URL + searchQuery);
-				results.loadData();
-			});
+			if(document.getElementById("searchForm") !== null){
+
+				document.getElementById("searchForm").addEventListener("submit", function(event){
+					event.preventDefault();
+					const searchQuery = luga.form.toQueryString(this);
+					results.setUrl(BASE_URL + searchQuery);
+					results.loadData();
+				}, false);
+
+			}
 
 		});
 
@@ -68,25 +72,22 @@
 <pre><code class="line-numbers language-javascript">(function(){
 	"use strict";
 
-	var BASE_URL = "https://heroes.stage.waylon.cloud/v1/search/character?offset=0&limit=10&";
-	var results = new luga.data.JsonDataSet({
+	const BASE_URL = "https://heroes.stage.waylon.cloud/v1/search/character?offset=0&limit=10&";
+	const results = new luga.data.JsonDataSet({
 		uuid: "resultsDs",
 		path: "result",
 		url: BASE_URL
 	});
 
-	jQuery(document).ready(function(){
+	luga.dom.ready(function(){
 		results.loadData();
 
-		jQuery("#searchForm").on("submit", function(event){
+		document.getElementById("searchForm").addEventListener("submit", function(event){
 			event.preventDefault();
-			// Serialize the form into a querysTring
-			var searchQuery = luga.form.toQueryString(this);
-			// Point to the search url
+			const searchQuery = luga.form.toQueryString(this);
 			results.setUrl(BASE_URL + searchQuery);
-			// Reload data
 			results.loadData();
-		});
+		}, false);
 
 	});
 

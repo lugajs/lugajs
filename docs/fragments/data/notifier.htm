@@ -36,11 +36,11 @@
 			Let's dig straight into some samples, using uber-simplified code:
 		</p>
 
-<pre><code class="line-numbers language-javascript">var NotifierClass = function(){
+<pre><code class="line-numbers language-javascript">const NotifierClass = function(){
 	luga.extend(luga.Notifier, this); // Inherit from luga.Notifier
 	};
 
-	var ObserverClass = function(){
+	const ObserverClass = function(){
 	// Just two placeholders, empty methods
 	this.onCompleteHandler = function(data){
 	alert(data.message);

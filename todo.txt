@@ -1,45 +1,24 @@
--------------
+- Release 0.9.8
 
+-------------
 DOCS:
-
-- Unveil luga.dom and luga.xml?
-
--------------
-
-AJAXFORM:
-
-- Make JSON serializer configurable
-- Parse and handle error messages from server
-- Use live service for samples and docs
-- Standardize JSON schema for error messages
-
 -------------
 COMMON:
--------------
-VALIDATOR:
 -------------
 
 DATA:
 
-luga.data.PagedData:
-- Mixed client/server (options.threshold)
+luga.data.widgets.ShowMore
+- Complete rework. Use PagedView instead of DataSet
+
+luga.data.PagedViewServer:
 - Use string templating to customize url/endpoint
-- Request: offsetStart, offsetEnd
-- Response: recordCount, pageSize, currentPage
+- Request: offsetStart, offsetEnd and/or pageSize and/or pageNumber
+- Response: recordCount
 
 luga.data.DataSet:
 - Ability to persist data inside localStorage
 
 -------------
-
-DATA WIDGETS:
-
-luga.data.widgets.PagingBar (needs PagedData)
-- Different GUI styles: Bootstrap, PageList, LinkList
-
-luga.data.widgets.Autosuggest
-  https://heroes.dev.waylon.cloud/v1/search/character?offset=0&limit=10&name=byss
-
-luga.data.widgets.Tags
-
+VALIDATOR:
 -------------

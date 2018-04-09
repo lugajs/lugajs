@@ -156,7 +156,7 @@ luga.string.queryToMap("name=Ciccio&box=first&box=second&box=third");
 // => "My name is Ciccio Pasticcio"
 
 // With nested properties:
-var nestedObj = { type: "people", person: { firstName: "Ciccio", lastName: "Pasticcio" } };
+const nestedObj = { type: "people", person: { firstName: "Ciccio", lastName: "Pasticcio" } };
 luga.string.populate("My name is {person.firstName} {person.lastName}", nestedObj);
 // => "My name is Ciccio Pasticcio"</code></pre>
 

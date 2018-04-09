@@ -1,9 +1,3 @@
-/* globals ActiveXObject */
-
-/* istanbul ignore if */
-if(typeof(jQuery) === "undefined"){
-	throw("Unable to find jQuery");
-}
 /* istanbul ignore else */
 if(typeof(luga) === "undefined"){
 	window.luga = {};
@@ -21,11 +15,11 @@ if(typeof(luga) === "undefined"){
 	 * @return {Object}
 	 */
 	luga.namespace = function(ns, rootObject){
-		var parts = ns.split(".");
+		const parts = ns.split(".");
 		if(rootObject === undefined){
 			rootObject = window;
 		}
-		for(var i = 0; i < parts.length; i++){
+		for(let i = 0; i < parts.length; i++){
 			if(rootObject[parts[i]] === undefined){
 				rootObject[parts[i]] = {};
 			}
@@ -35,35 +29,17 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.namespace("luga.common");
-	luga.common.version = "0.9.7";
+	luga.common.version = "0.9.8";
 
 	/**
 	 * Offers a simple solution for inheritance among classes
 	 *
-	 * @param {function} baseFunc  Parent constructor function. Required
-	 * @param {function} func      Child constructor function. Required
+	 * @param {Function} baseFunc  Parent constructor function. Required
+	 * @param {Function} func      Child constructor function. Required
 	 * @param {Array}    [args]    An array of arguments that will be passed to the parent's constructor. Optional
 	 */
 	luga.extend = function(baseFunc, func, args){
 		baseFunc.apply(func, args);
-	};
-
-	/**
-	 * Return true if an object is an array. False otherwise
-	 * @param {*} obj
-	 * @return {Boolean}
-	 */
-	luga.isArray = function(obj){
-		return Array.isArray(obj);
-	};
-
-	/**
-	 * Return true if an object is a function. False otherwise
-	 * @param {*} obj
-	 * @return {Boolean}
-	 */
-	luga.isFunction = function(obj){
-		return luga.type(obj) === "function";
 	};
 
 	/**
@@ -79,7 +55,7 @@ if(typeof(luga) === "undefined"){
 			return false;
 		}
 
-		var proto = Object.getPrototypeOf(obj);
+		const proto = Object.getPrototypeOf(obj);
 
 		// Objects with no prototype (e.g., Object.create(null)) are plain
 		if(proto === null){
@@ -87,7 +63,10 @@ if(typeof(luga) === "undefined"){
 		}
 
 		// Objects with prototype are plain if they were constructed by a global Object function
-		var constructor = Object.prototype.hasOwnProperty.call(proto, "constructor") && proto.constructor;
+		const constructor = Object.prototype.hasOwnProperty.call(proto, "constructor") && proto.constructor;
+		if(constructor === false){
+			return false;
+		}
 		return typeof (constructor === "function") && (Function.toString.call(constructor) === Function.toString.call(Object));
 	};
 
@@ -96,14 +75,14 @@ if(typeof(luga) === "undefined"){
 	 * Returns undefined, if the reference has not been found
 	 * Supports namespaces (if the fully qualified path is passed)
 	 * @param {String} path            Fully qualified name of a function
-	 * @return {function|undefined}   The javascript reference to the function, undefined if nothing is fund or if it's not a function
+	 * @return {Function|undefined}    The javascript reference to the function, undefined if nothing is fund or if it's not a function
 	 */
 	luga.lookupFunction = function(path){
 		if(!path){
 			return undefined;
 		}
-		var reference = luga.lookupProperty(window, path);
-		if(luga.isFunction(reference) === true){
+		const reference = luga.lookupProperty(window, path);
+		if(luga.type(reference) === "function"){
 			return reference;
 		}
 		return undefined;
@@ -126,9 +105,9 @@ if(typeof(luga) === "undefined"){
 		if(object[path] !== undefined){
 			return object[path];
 		}
-		var parts = path.split(".");
+		const parts = path.split(".");
 		while(parts.length > 0){
-			var part = parts.shift();
+			const part = parts.shift();
 			if(object[part] !== undefined){
 				if(parts.length === 0){
 					// We got it
@@ -150,7 +129,7 @@ if(typeof(luga) === "undefined"){
 	 * @param {Object} source     An object containing additional properties to merge in
 	 */
 	luga.merge = function(target, source){
-		for(var x in source){
+		for(let x in source){
 			if(source.hasOwnProperty(x) === true){
 				target[x] = source[x];
 			}
@@ -165,12 +144,12 @@ if(typeof(luga) === "undefined"){
 	 * @param {*}      value
 	 */
 	luga.setProperty = function(object, path, value){
-		var parts = path.split(".");
+		const parts = path.split(".");
 		if(parts.length === 1){
 			object[path] = value;
 		}
 		while(parts.length > 0){
-			var part = parts.shift();
+			const part = parts.shift();
 			if(object[part] !== undefined){
 				if(parts.length === 0){
 					// Update
@@ -191,8 +170,37 @@ if(typeof(luga) === "undefined"){
 		}
 	};
 
-	var class2type = {};
-	["Array", "Boolean", "Date", "Error", "Function", "Number", "Object", "RegExp", "String", "Symbol"].forEach(function(element, i, collection){
+	luga.TO_QUERY_STRING_CONST = {
+		ERROR_INPUT: "luga.toQueryString: Can serialize only plain objects"
+	};
+
+	/**
+	 * Create a query string out of a plain object containing name/value pairs
+	 * @param {Object} input
+	 * @return {String}
+	 */
+	luga.toQueryString = function(input){
+		if(luga.isPlainObject(input) === false){
+			throw(luga.TO_QUERY_STRING_CONST.ERROR_INPUT);
+		}
+		let str = "";
+		for(let x in input){
+			// Assume is just an array of simple values
+			if(Array.isArray(input[x]) === true){
+				input[x].forEach(function(element){
+					str = appendQueryString(str, x, element);
+				});
+			}
+			else{
+				// Assume it is just name/value pair
+				str = appendQueryString(str, x, input[x]);
+			}
+		}
+		return str;
+	};
+
+	const class2type = {};
+	["Array", "Boolean", "Date", "Error", "Function", "Number", "Object", "RegExp", "String", "Symbol"].forEach(function(element){
 		class2type["[object " + element + "]"] = element.toLowerCase();
 	});
 
@@ -206,10 +214,10 @@ if(typeof(luga) === "undefined"){
 		if(obj === null){
 			return "null";
 		}
-		var rawType = typeof obj;
+		const rawType = typeof obj;
 		if((rawType === "object") || (rawType === "function")){
 			/* http://perfectionkills.com/instanceof-considered-harmful-or-how-to-write-a-robust-isarray/ */
-			var stringType = Object.prototype.toString.call(obj);
+			const stringType = Object.prototype.toString.call(obj);
 			return class2type[stringType];
 		}
 		return rawType;
@@ -252,12 +260,12 @@ if(typeof(luga) === "undefined"){
 		 */
 		this.eventObservers = {};
 
-		var prefix = "on";
-		var suffix = "Handler";
+		const prefix = "on";
+		const suffix = "Handler";
 
 		// Turns "complete" into "onComplete"
-		var generateGenericMethodName = function(eventName){
-			var str = prefix;
+		const generateGenericMethodName = function(eventName){
+			let str = prefix;
 			str += eventName.charAt(0).toUpperCase();
 			str += eventName.substring(1);
 			str += suffix;
@@ -282,8 +290,8 @@ if(typeof(luga) === "undefined"){
 		 * observer[methodName] = function(data){};
 		 *
 		 * @param  {Object} observer  Observer object
-		 * @param {string} [eventName]
-		 * @param {string} [methodName]
+		 * @param {String} [eventName]
+		 * @param {String} [methodName]
 		 * @throw {Exception}
 		 */
 		this.addObserver = function(observer, eventName, methodName){
@@ -300,7 +308,7 @@ if(typeof(luga) === "undefined"){
 				/**
 				 * @type {luga.eventObserverMap}
 				 */
-				var eventMap = {
+				const eventMap = {
 					observer: observer,
 					methodName: methodName
 				};
@@ -321,12 +329,12 @@ if(typeof(luga) === "undefined"){
 		 * @param {luga.eventObserverMap} eventMap
 		 * @return {Number}
 		 */
-		var findObserverIndex = function(eventArray, eventMap){
-			for(var i = 0; i < eventArray.length; i++){
+		const findObserverIndex = function(eventArray, eventMap){
+			for(let i = 0; i < eventArray.length; i++){
 				/**
 				 * @type {luga.eventObserverMap}
 				 */
-				var currentMap = eventArray[i];
+				const currentMap = eventArray[i];
 				if(currentMap.observer === eventMap.observer && currentMap.methodName === eventMap.methodName){
 					return i;
 				}
@@ -348,16 +356,16 @@ if(typeof(luga) === "undefined"){
 				throw(luga.NOTIFIER_CONST.ERROR_MESSAGES.INVALID_DATA_PARAMETER);
 			}
 			// "Generic" observers
-			var genericMethod = generateGenericMethodName(eventName);
-			this.observers.forEach(function(element, i, collection){
-				if(element[genericMethod] && luga.isFunction(element[genericMethod])){
+			const genericMethod = generateGenericMethodName(eventName);
+			this.observers.forEach(function(element){
+				if((element[genericMethod] !== undefined) && (luga.type(element[genericMethod]) === "function")){
 					element[genericMethod](payload);
 				}
 			});
 			// "Event" observers
-			var eventObservers = this.eventObservers[eventName];
+			const eventObservers = this.eventObservers[eventName];
 			if(eventObservers !== undefined){
-				eventObservers.forEach(function(element, i, collection){
+				eventObservers.forEach(function(element){
 					if(luga.type(element.observer[element.methodName]) === "function"){
 						element.observer[element.methodName](payload);
 					}
@@ -375,12 +383,12 @@ if(typeof(luga) === "undefined"){
 		 *
 		 * @method
 		 * @param {Object} observer
-		 * @param {string} [eventName]
-		 * @param {string} [methodName]
+		 * @param {String} [eventName]
+		 * @param {String} [methodName]
 		 */
 		this.removeObserver = function(observer, eventName, methodName){
 			if(arguments.length === 1){
-				for(var i = 0; i < this.observers.length; i++){
+				for(let i = 0; i < this.observers.length; i++){
 					if(this.observers[i] === observer){
 						this.observers.splice(i, 1);
 						break;
@@ -392,11 +400,11 @@ if(typeof(luga) === "undefined"){
 					/**
 					 * @type {luga.eventObserverMap}
 					 */
-					var eventMap = {
+					const eventMap = {
 						observer: observer,
 						methodName: methodName
 					};
-					var index = findObserverIndex(this.eventObservers[eventName], eventMap);
+					const index = findObserverIndex(this.eventObservers[eventName], eventMap);
 					// We have a matching entry
 					/* istanbul ignore else */
 					if(index !== -1){
@@ -413,20 +421,62 @@ if(typeof(luga) === "undefined"){
 
 	/* DOM */
 
-	luga.namespace("luga.dom.nodeIterator");
+	luga.namespace("luga.dom");
 
 	/**
-	 * Static factory to create a cross-browser DOM NodeIterator
-	 * https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
-	 *
-	 * @param {HTMLElement}              rootNode    Start node. Required
-	 * @param {function} [filterFunc]    Optional filter function. If specified only nodes matching the filter will be accepted
-	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
-	 * @return {NodeIterator}
+	 * Attach a single event listener, to a parent element, that will fire for all descendants matching a selector
+	 * No matter whether those descendants exist now or are added in the future
+	 * @param {HTMLElement} node
+	 * @param {String} eventType
+	 * @param {String} selector
+	 * @param {Function} callback
 	 */
-	luga.dom.nodeIterator.getInstance = function(rootNode, filterFunc){
+	luga.dom.delegateEvent = function(node, eventType, selector, callback){
+		node.addEventListener(eventType, function(/** @type {Event} */ event){
+			/** @type {Element} */
+			const currentElement = event.target;
+			if(luga.dom.nodeMatches(currentElement, selector) === true){
+				callback(event, currentElement);
+			}
+		});
+	};
 
-		var filter = {
+	/**
+	 * Equalize element.matches across browsers
+	 * @param {HTMLElement} node
+	 * @param {String} selector
+	 * @return {Boolean}
+	 */
+	luga.dom.nodeMatches = function(node, selector){
+		let methodName = "matches";
+		// Deal with IE11 without polyfills
+		/* istanbul ignore next IE-only */
+		if(node.matches === undefined && node.msMatchesSelector !== undefined){
+			methodName = "msMatchesSelector";
+		}
+		return node[methodName](selector);
+	};
+
+	/**
+	 * Invoke a function as soon as the DOM is loaded
+	 * @param {Function} fn
+	 */
+	luga.dom.ready = function(fn){
+		document.addEventListener("DOMContentLoaded", fn);
+	};
+
+	/**
+	 * Static factory to create a cross-browser either DOM NodeIterator or TreeWalker
+	 *
+	 * @param {String}                   type        Either "NodeIterator" or "TreeWalker"
+	 * @param {HTMLElement}              rootNode    Start node. Required
+	 * @param {Function} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 *                                               The function will be invoked with this signature: filterFunc(node). Must return true|false
+	 * @return {NodeIterator|TreeWalker}
+	 */
+	const getIteratorInstance = function(type, rootNode, filterFunc){
+
+		const filter = {
 			acceptNode: function(node){
 				/* istanbul ignore else */
 				if(filterFunc !== undefined){
@@ -440,9 +490,30 @@ if(typeof(luga) === "undefined"){
 
 		// http://stackoverflow.com/questions/5982648/recommendations-for-working-around-ie9-treewalker-filter-bug
 		// A true W3C-compliant nodeFilter object isn't passed, and instead a "safe" one _based_ off of the real one.
-		var safeFilter = filter.acceptNode;
+		const safeFilter = filter.acceptNode;
 		safeFilter.acceptNode = filter.acceptNode;
-		return document.createNodeIterator(rootNode, NodeFilter.SHOW_ELEMENT, safeFilter, false);
+		if(type === "TreeWalker"){
+			return document.createTreeWalker(rootNode, NodeFilter.SHOW_ELEMENT, safeFilter, false);
+		}
+		else{
+			return document.createNodeIterator(rootNode, NodeFilter.SHOW_ELEMENT, safeFilter, false);
+		}
+
+	};
+
+	luga.namespace("luga.dom.nodeIterator");
+
+	/**
+	 * Static factory to create a cross-browser DOM NodeIterator
+	 * https://developer.mozilla.org/en-US/docs/Web/API/NodeIterator
+	 *
+	 * @param {HTMLElement}              rootNode    Start node. Required
+	 * @param {Function} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 *                                               The function will be invoked with this signature: filterFunc(node). Must return true|false
+	 * @return {NodeIterator}
+	 */
+	luga.dom.nodeIterator.getInstance = function(rootNode, filterFunc){
+		return getIteratorInstance("NodeIterator", rootNode, filterFunc);
 	};
 
 	luga.namespace("luga.dom.treeWalker");
@@ -452,29 +523,12 @@ if(typeof(luga) === "undefined"){
 	 * https://developer.mozilla.org/en/docs/Web/API/TreeWalker
 	 *
 	 * @param {HTMLElement}              rootNode    Start node. Required
-	 * @param {function} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
+	 * @param {Function} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
 	 *                                   The function will be invoked with this signature: filterFunc(node). Must return true|false
 	 * @return {TreeWalker}
 	 */
 	luga.dom.treeWalker.getInstance = function(rootNode, filterFunc){
-
-		var filter = {
-			acceptNode: function(node){
-				/* istanbul ignore else */
-				if(filterFunc !== undefined){
-					if(filterFunc(node) === false){
-						return NodeFilter.FILTER_SKIP;
-					}
-				}
-				return NodeFilter.FILTER_ACCEPT;
-			}
-		};
-
-		// http://stackoverflow.com/questions/5982648/recommendations-for-working-around-ie9-treewalker-filter-bug
-		// A true W3C-compliant nodeFilter object isn't passed, and instead a "safe" one _based_ off of the real one.
-		var safeFilter = filter.acceptNode;
-		safeFilter.acceptNode = filter.acceptNode;
-		return document.createTreeWalker(rootNode, NodeFilter.SHOW_ELEMENT, safeFilter, false);
+		return getIteratorInstance("TreeWalker", rootNode, filterFunc);
 	};
 
 	/* Form */
@@ -498,39 +552,39 @@ if(typeof(luga) === "undefined"){
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 * Values of multiple checked checkboxes and multiple select are included as a single entry, with array value
 	 *
-	 * @param {jQuery}   rootNode     jQuery object wrapping the root node
-	 * @param {Boolean}  demoronize   MS Word's special chars are replaced with plausible substitutes. Default to false
-	 * @return {Object}              A JavaScript object containing name/value pairs
+	 * @param {HTMLElement} rootNode     DOM node wrapping the form fields. Required
+	 * @param {Boolean}     demoronize   If true, MS Word's special chars are replaced with plausible substitutes. Default to false
+	 * @return {Object}                  A JavaScript object containing name/value pairs
 	 * @throw {Exception}
 	 */
 	luga.form.toMap = function(rootNode, demoronize){
-
-		if(rootNode.length === 0){
+		if(rootNode === null){
 			throw(luga.form.CONST.MESSAGES.MISSING_FORM);
 		}
+		const map = {};
+		const fields = luga.form.utils.getChildFields(rootNode);
 
-		var map = {};
-		var fields = luga.form.utils.getChildFields(rootNode);
-		for(var i = 0; i < fields.length; i++){
-			if(luga.form.utils.isSuccessfulField(fields[i]) === true){
-				var fieldName = jQuery(fields[i]).attr("name");
-				var fieldValue = null;
-				var fieldType = jQuery(fields[i]).prop("type");
+		for(let i = 0; i < fields.length; i++){
+			const element = fields[i];
+			if(luga.form.utils.isSuccessfulField(element) === true){
+				const fieldName = element.getAttribute("name");
+				let fieldValue = null;
+				const fieldType = element.type;
 				switch(fieldType){
 
 					case "select-multiple":
-						fieldValue = jQuery(fields[i]).val();
+						fieldValue = getMultiSelectValue(element);
 						break;
 
 					case "checkbox":
 					case "radio":
-						if(jQuery(fields[i]).prop("checked") === true){
-							fieldValue = jQuery(fields[i]).val();
+						if(element.checked === true){
+							fieldValue = element.value;
 						}
 						break;
 
 					default:
-						fieldValue = jQuery(fields[i]).val();
+						fieldValue = element.value;
 				}
 
 				if(fieldValue !== null){
@@ -540,7 +594,7 @@ if(typeof(luga) === "undefined"){
 					if(map[fieldName] === undefined){
 						map[fieldName] = fieldValue;
 					}
-					else if(luga.isArray(map[fieldName]) === true){
+					else if(Array.isArray(map[fieldName]) === true){
 						map[fieldName].push(fieldValue);
 					}
 					else{
@@ -554,25 +608,30 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * Deprecated. Use luga.form.toMap() instead
-	 * @deprecated
+	 * @param {HTMLElement} node
+	 * @return {Array.<String>}
 	 */
-	luga.form.toHash = function(rootNode, demoronize){
-		return luga.form.toMap(rootNode, demoronize);
+	const getMultiSelectValue = function(node){
+		const fieldValue = [];
+		const options = node.querySelectorAll("option:checked");
+		for(let i = 0; i < options.length; i++){
+			fieldValue.push(options[i].value);
+		}
+		return fieldValue;
 	};
 
 	/**
-	 * Given a form tag or another element wrapping input fields, serialize their value into JSON data
+	 * Given a form node or another element wrapping input fields, serialize their value into JSON data
 	 * If fields names contains dots, their are handled as nested properties
 	 * Only fields considered successful are returned:
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
-	 * @param {jQuery} rootNode  jQuery object wrapping the form fields
+	 * @param {HTMLElement} rootNode  DOM node wrapping the form fields
 	 * @return {json}
 	 */
 	luga.form.toJson = function(rootNode){
-		var flatData = luga.form.toMap(rootNode);
-		var jsonData = {};
-		for(var x in flatData){
+		const flatData = luga.form.toMap(rootNode);
+		const jsonData = {};
+		for(let x in flatData){
 			luga.setProperty(jsonData, x, flatData[x]);
 		}
 		return jsonData;
@@ -583,48 +642,49 @@ if(typeof(luga) === "undefined"){
 	 * Only fields considered successful are returned:
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 *
-	 * @param {jQuery}   rootNode     jQuery object wrapping the root node
-	 * @param {Boolean}  demoronize   If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
-	 * @return {String}               A URI encoded string
+	 * @param {HTMLElement} rootNode    DOM node wrapping the form fields. Required
+	 * @param {Boolean}     demoronize  If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
+	 * @return {String}                 A URI encoded string
 	 * @throw {Exception}
 	 */
 	luga.form.toQueryString = function(rootNode, demoronize){
-
-		if(rootNode.length === 0){
+		if(rootNode === null){
 			throw(luga.form.CONST.MESSAGES.MISSING_FORM);
 		}
+		let str = "";
+		const fields = luga.form.utils.getChildFields(rootNode);
 
-		var str = "";
-		var fields = luga.form.utils.getChildFields(rootNode);
-		for(var i = 0; i < fields.length; i++){
-			if(luga.form.utils.isSuccessfulField(fields[i]) === true){
-				var fieldName = jQuery(fields[i]).attr("name");
-				var fieldValue = jQuery(fields[i]).val();
-				var fieldType = jQuery(fields[i]).prop("type");
+		for(let i = 0; i < fields.length; i++){
+			const element = fields[i];
+			if(luga.form.utils.isSuccessfulField(element) === true){
+				const fieldName = element.getAttribute("name");
+				const fieldType = element.type;
 				switch(fieldType){
 
+					/* eslint-disable no-case-declarations */
 					case "select-multiple":
-						for(var j = 0; j < fieldValue.length; j++){
-							str = appendQueryString(str, fieldName, fieldValue[j], demoronize);
+						const multiValues = getMultiSelectValue(element);
+						for(let j = 0; j < multiValues.length; j++){
+							str = appendQueryString(str, fieldName, multiValues[i], demoronize);
 						}
 						break;
 
 					case "checkbox":
 					case "radio":
-						if(jQuery(fields[i]).prop("checked") === true){
-							str = appendQueryString(str, fieldName, fieldValue, demoronize);
+						if(element.checked === true){
+							str = appendQueryString(str, fieldName, element.value, demoronize);
 						}
 						break;
 
 					default:
-						str = appendQueryString(str, fieldName, fieldValue, demoronize);
+						str = appendQueryString(str, fieldName, element.value, demoronize);
 				}
 			}
 		}
 		return str;
 	};
 
-	var appendQueryString = function(str, fieldName, fieldValue, demoronize){
+	const appendQueryString = function(str, fieldName, fieldValue, demoronize){
 		if(str !== ""){
 			str += "&";
 		}
@@ -642,20 +702,20 @@ if(typeof(luga) === "undefined"){
 	luga.namespace("luga.form.utils");
 
 	/**
-	 * Returns true if the given field is successful, false otherwise
+	 * Returns true if the given DOM field is successful, false otherwise
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 *
-	 * @param {jQuery}  fieldNode
+	 * @param {HTMLElement}  fieldNode
 	 * @return {Boolean}
 	 */
 	luga.form.utils.isSuccessfulField = function(fieldNode){
 		if(luga.form.utils.isInputField(fieldNode) === false){
 			return false;
 		}
-		if(jQuery(fieldNode).prop("disabled") === true){
+		if(fieldNode.disabled === true){
 			return false;
 		}
-		if(jQuery(fieldNode).attr("name") === undefined){
+		if(fieldNode.getAttribute("name") === null){
 			return false;
 		}
 		return true;
@@ -664,15 +724,15 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Returns true if the passed node is a form field that we care about
 	 *
-	 * @param {jQuery}  fieldNode
+	 * @param {HTMLElement}  fieldNode
 	 * @return {Boolean}
 	 */
 	luga.form.utils.isInputField = function(fieldNode){
-		if(jQuery(fieldNode).prop("type") === undefined){
+		if(fieldNode.type === undefined){
 			return false;
 		}
 		// It belongs to the kind of nodes that are considered form fields, but we don't care about
-		if(luga.form.CONST.FAKE_INPUT_TYPES[jQuery(fieldNode).prop("type")] === true){
+		if(luga.form.CONST.FAKE_INPUT_TYPES[fieldNode.type] === true){
 			return false;
 		}
 		return true;
@@ -682,29 +742,35 @@ if(typeof(luga) === "undefined"){
 	 * Extracts group of fields that share the same name from a given root node
 	 * Or the whole document if the second argument is not passed
 	 *
-	 * @param {String} name         Name of the field. Mandatory
-	 * @param {jQuery} [rootNode]   Root node, optional, default to document
-	 * @return {jQuery}
+	 * @param {String} name              Name of the field. Mandatory
+	 * @param {HTMLElement} [rootNode]   Root node, optional, default to document.body
+	 * @return {Array.<HTMLElement>}
 	 */
 	luga.form.utils.getFieldGroup = function(name, rootNode){
-		var selector = "input[name='" + name + "']";
-		return jQuery(selector, rootNode);
+		if(rootNode === undefined){
+			rootNode = document.body;
+		}
+		const selector = "input[name='" + name + "']";
+		const nodes = rootNode.querySelectorAll(selector);
+		// Turn nodelist into an array to be consistent with .getChildFields()
+		return Array.prototype.slice.call(nodes);
 	};
 
 	/**
 	 * Returns an array of input fields contained inside a given root node
 	 *
-	 * @param {jQuery}  rootNode   Root node
-	 * @return {Array.<jquery>}
+	 * @param {HTMLElement}  rootNode   Root node
+	 * @return {Array.<HTMLElement>}
 	 */
 	luga.form.utils.getChildFields = function(rootNode){
-		var fields = [];
-		jQuery(rootNode).find(luga.form.CONST.FIELD_SELECTOR).each(function(index, item){
-			if(luga.form.utils.isInputField(item)){
-				fields.push(item);
+		const fields = [];
+		const nodes = rootNode.querySelectorAll(luga.form.CONST.FIELD_SELECTOR);
+		for(let i = 0; i < nodes.length; i++){
+			const element = nodes[i];
+			if(luga.form.utils.isInputField(element) === true){
+				fields.push(element);
 			}
-		});
-
+		}
 		return fields;
 	};
 
@@ -729,17 +795,17 @@ if(typeof(luga) === "undefined"){
 	 * @param {String} value   String to be persisted
 	 */
 	luga.localStorage.persist = function(root, path, value){
-		var json = getRootState(root);
+		const json = getRootState(root);
 		luga.setProperty(json, path.toString(), value);
 		setRootState(root, json);
 	};
 
-	var setRootState = function(root, json){
+	const setRootState = function(root, json){
 		localStorage.setItem(root, JSON.stringify(json));
 	};
 
-	var getRootState = function(root){
-		var rootJson = localStorage.getItem(root);
+	const getRootState = function(root){
+		const rootJson = localStorage.getItem(root);
 		if(rootJson === null){
 			return {};
 		}
@@ -786,19 +852,19 @@ if(typeof(luga) === "undefined"){
 	 * => "My name is Ciccio Pasticcio"
 	 *
 	 * @param  {String}  str                   String containing placeholders
-	 * @param  {Object|Array.<string>} args    Either an array of strings or an objects containing name/value pairs in string format
+	 * @param  {Object|Array.<String>} args    Either an array of strings or an objects containing name/value pairs in string format
 	 * @return {String} The newly assembled string
 	 */
 	luga.string.format = function(str, args){
-		var pattern = null;
-		if(luga.isArray(args) === true){
-			for(var i = 0; i < args.length; i++){
+		let pattern = null;
+		if(Array.isArray(args) === true){
+			for(let i = 0; i < args.length; i++){
 				pattern = new RegExp("\\{" + i + "\\}", "g");
 				str = str.replace(pattern, args[i]);
 			}
 		}
 		if(luga.isPlainObject(args) === true){
-			for(var x in args){
+			for(let x in args){
 				pattern = new RegExp("\\{" + x + "\\}", "g");
 				str = str.replace(pattern, args[x]);
 			}
@@ -812,26 +878,26 @@ if(typeof(luga) === "undefined"){
 	 * @return {Object}
 	 */
 	luga.string.queryToMap = function(str){
-		var map = {};
+		const map = {};
 		if(str.charAt(0) === "?"){
 			str = str.substring(1);
 		}
 		if(str.length === 0){
 			return map;
 		}
-		var parts = str.split("&");
+		const parts = str.split("&");
 
-		for(var i = 0; i < parts.length; i++){
-			var tokens = parts[i].split("=");
-			var fieldName = decodeURIComponent(tokens[0]);
-			var fieldValue = "";
+		for(let i = 0; i < parts.length; i++){
+			const tokens = parts[i].split("=");
+			const fieldName = decodeURIComponent(tokens[0]);
+			let fieldValue = "";
 			if(tokens.length === 2){
 				fieldValue = decodeURIComponent(tokens[1]);
 			}
 			if(map[fieldName] === undefined){
 				map[fieldName] = fieldValue;
 			}
-			else if(luga.isArray(map[fieldName]) === true){
+			else if(Array.isArray(map[fieldName]) === true){
 				map[fieldName].push(fieldValue);
 			}
 			else{
@@ -841,7 +907,7 @@ if(typeof(luga) === "undefined"){
 		return map;
 	};
 
-	var propertyPattern = new RegExp("\\{([^}]*)}", "g");
+	const propertyPattern = new RegExp("\\{([^}]*)}", "g");
 
 	/**
 	 * Given a string containing placeholders in {key} format, it assembles a new string
@@ -853,7 +919,7 @@ if(typeof(luga) === "undefined"){
 	 * => "My name is Ciccio Pasticcio"
 	 *
 	 * Example with nested properties:
-	 * var nestedObj = { type: "people", person: { firstName: "Ciccio", lastName: "Pasticcio" } };
+	 * const nestedObj = { type: "people", person: { firstName: "Ciccio", lastName: "Pasticcio" } };
 	 * luga.string.populate("My name is {person.firstName} {person.lastName}", nestedObj)
 	 * => "My name is Ciccio Pasticcio"
 	 *
@@ -863,11 +929,11 @@ if(typeof(luga) === "undefined"){
 	 */
 	luga.string.populate = function(str, obj){
 		if(luga.isPlainObject(obj) === true){
-			var results;
+			let results;
 			while((results = propertyPattern.exec(str)) !== null){
-				var property = luga.lookupProperty(obj, results[1]);
+				const property = luga.lookupProperty(obj, results[1]);
 				if(property !== undefined){
-					var pattern = new RegExp(results[0], "g");
+					const pattern = new RegExp(results[0], "g");
 					str = str.replace(pattern, property);
 					// Keep searching
 					propertyPattern.test(str);
@@ -877,263 +943,187 @@ if(typeof(luga) === "undefined"){
 		return str;
 	};
 
-	luga.namespace("luga.utils");
+	/* XHR */
 
-	luga.utils.CONST = {
-		CSS_CLASSES: {
-			MESSAGE: "luga-message",
-			ERROR_MESSAGE: "luga-error-message"
-		},
-		MSG_BOX_ID: "lugaMessageBox"
+	luga.namespace("luga.xhr");
+
+	/**
+	 * @typedef {Object} luga.xhr.header
+	 *
+	 * @property {String}  name       Name of the HTTP header
+	 * @property {String}  value      Value to be used
+	 */
+
+	/**
+	 * @typedef {Object} luga.xhr.options
+	 *
+	 * @property {String}   method                   HTTP method. Default to GET
+	 * @property {Function} success                  Function to be invoked if the request succeeds. It will receive a single argument of type luga.xhr.response
+	 * @property {Function} error                    Function to be invoked if the request fails. It will receive a single argument of type luga.xhr.response
+	 * @property {Number}   timeout                  The number of milliseconds a request can take before automatically being terminated
+	 * @property {Boolean}  async                    Indicate that the request should be handled asynchronously. Default to true
+	 * @property {Boolean}  cache                    If set to false, it will force requested pages not to be cached by the browser. Will only work correctly with HEAD and GET requests
+	 *                                               It works by appending "_={timestamp}" to the GET parameters. Default to true
+	 * @property {Array.<luga.xhr.header>} headers   An array of name/value pairs to be used for custom HTTP headers. Default to an empty array
+	 * @property {String}   requestedWith            Value to be used for the "X-Requested-With" request header. Default to "XMLHttpRequest"
+	 * @property {String}   contentType              MIME type to use instead of the one specified by the server. Default to "text/plain"
+	 *                                               See also: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/overrideMimeType
+	 */
+
+	/**
+	 * @typedef {Object} luga.xhr.response
+	 *
+	 * @property {Number}       status              Status code returned by the HTTP server
+	 * @property {String}       statusText          The response string returned by the HTTP server
+	 * @property {String|null}  responseText        The response as text, null if the request was unsuccessful
+	 * @property {String}       responseType        A string which specifies what type of data the response contains. See: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseType
+	 * @property {String|null}  responseXML         The response as text, null if the request was unsuccessful or cannot be parsed as XML or HTML
+	 * @property {Array.<luga.xhr.header>} headers  An array of header/value pairs returned by the server
+	 */
+
+	luga.XHR_CONST = {
+		POST_CONTENT_TYPE: "application/x-www-form-urlencoded"
 	};
 
-	/**
-	 * Private helper function
-	 * Generate node's id
-	 * @param {jQuery} node
-	 * @return {String}
-	 */
-	var generateBoxId = function(node){
-		var boxId = luga.utils.CONST.MSG_BOX_ID;
-		if(node.attr("id") === undefined){
-			boxId += node.attr("id");
+	luga.xhr.Request = function(options){
+		const config = {
+			/* eslint-disable no-console */
+			method: "GET",
+			success: function(res){
+				console.debug(res);
+			},
+			error: function(res){
+				console.debug(res);
+			},
+			timeout: 5000,
+			async: true,
+			cache: true,
+			headers: [],
+			requestedWith: "XMLHttpRequest",
+			contentType: "text/plain"
+		};
+		if(options !== undefined){
+			luga.merge(config, options);
 		}
-		else if(node.attr("name") !== undefined){
-			boxId += node.attr("name");
+		if(config.method.toUpperCase() === "POST"){
+			config.contentType = luga.XHR_CONST.POST_CONTENT_TYPE;
 		}
-		return boxId;
-	};
 
-	/**
-	 * Remove a message box (if any) associated with a given node
-	 * @param {jQuery}  node   Target node
-	 */
-	luga.utils.removeDisplayBox = function(node){
-		var boxId = generateBoxId(jQuery(node));
-		var oldBox = jQuery("#" + boxId);
-		// If an error display is already there, get rid of it
-		/* istanbul ignore else */
-		if(oldBox.length > 0){
-			oldBox.remove();
-		}
-	};
+		const self = this;
+		self.xhr = new XMLHttpRequest();
 
-	/**
-	 * Display a message box above a given node
-	 * @param {jQuery}  node   Target node
-	 * @param {String}  html   HTML/Text code to inject
-	 * @return {jQuery}
-	 */
-	luga.utils.displayMessage = function(node, html){
-		return luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.MESSAGE);
-	};
-
-	/**
-	 * Display an error box above a given node
-	 * @param {jQuery}  node   Target node
-	 * @param {String}  html   HTML/Text code to inject
-	 * @return {jQuery}
-	 */
-	luga.utils.displayErrorMessage = function(node, html){
-		return luga.utils.displayBox(node, html, luga.utils.CONST.CSS_CLASSES.ERROR_MESSAGE);
-	};
-
-	/**
-	 * Display a box with a message associated with a given node
-	 * Overwrite this method if you want to change the way luga.utils.displayMessage and luga.utils.displayErrorMessage behaves
-	 * @param {jQuery}  node                       Target node
-	 * @param {String}  html                       HTML/Text code to inject
-	 * @param {String}  [cssClass="luga_message"]  CSS class attached to the box. Default to "luga_message"
-	 * @return {jQuery}
-	 */
-	luga.utils.displayBox = function(node, html, cssClass){
-		if(cssClass === undefined){
-			cssClass = luga.utils.CONST.CSS_CLASSES.MESSAGE;
-		}
-		var boxId = generateBoxId(jQuery(node));
-		var box = jQuery("<div></div>");
-		box.attr("id", boxId);
-		box.addClass(cssClass);
-		box.html(html);
-		var oldBox = jQuery("#" + boxId);
-		// If a box display is already there, replace it, if not, we create one from scratch
-		if(oldBox.length > 0){
-			oldBox.replaceWith(box);
-		}
-		else{
-			jQuery(node).before(box);
-		}
-		return box;
-	};
-
-	/* XML */
-
-	luga.namespace("luga.xml");
-
-	luga.xml.MIME_TYPE = "application/xml";
-	luga.xml.ATTRIBUTE_PREFIX = "_";
-	luga.xml.DOM_ACTIVEX_NAME = "MSXML2.DOMDocument.4.0";
-
-	/**
-	 * Given a DOM node, evaluate an XPath expression against it
-	 * Results are returned as an array of nodes. An empty array is returned in case there is no match
-	 * @param {Node} node
-	 * @param {String} path
-	 * @return {Array<Node>}
-	 */
-	luga.xml.evaluateXPath = function(node, path){
-		var retArray = [];
-		/* istanbul ignore if IE-only */
-		if(window.ActiveXObject !== undefined){
-			var selectedNodes = node.selectNodes(path);
-			// Extract the nodes out of the nodeList returned by selectNodes and put them into an array
-			// We could directly use the nodeList returned by selectNodes, but this would cause inconsistencies across browsers
-			for(var i = 0; i < selectedNodes.length; i++){
-				retArray.push(selectedNodes[i]);
-			}
-			return retArray;
-		}
-		else{
-			var evaluator = new XPathEvaluator();
-			var result = evaluator.evaluate(path, node, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
-			var currentNode = result.iterateNext();
-			// Iterate and populate the array
-			while(currentNode !== null){
-				retArray.push(currentNode);
-				currentNode = result.iterateNext();
-			}
-			return retArray;
-		}
-	};
-
-	/**
-	 * Convert an XML node into a JavaScript object
-	 * @param {Node} node
-	 * @return {Object}
-	 */
-	luga.xml.nodeToHash = function(node){
-		var obj = {};
-		attributesToProperties(node, obj);
-		childrenToProperties(node, obj);
-		return obj;
-	};
-
-	/**
-	 * Map attributes to properties
-	 * @param {Node}   node
-	 * @param {Object} obj
-	 */
-	function attributesToProperties(node, obj){
-		if((node.attributes === null) || (node.attributes === undefined)){
-			return;
-		}
-		for(var i = 0; i < node.attributes.length; i++){
-			var attr = node.attributes[i];
-			obj[luga.xml.ATTRIBUTE_PREFIX + attr.name] = attr.value;
-		}
-	}
-
-	/**
-	 * Map child nodes to properties
-	 * @param {Node}   node
-	 * @param {Object} obj
-	 */
-	function childrenToProperties(node, obj){
-		for(var i = 0; i < node.childNodes.length; i++){
-			var child = node.childNodes[i];
-
-			if(child.nodeType === 1 /* Node.ELEMENT_NODE */){
-				var isArray = false;
-				var tagName = child.nodeName;
-
-				if(obj[tagName] !== undefined){
-					// If the property exists already, turn it into an array
-					if(obj[tagName].constructor !== Array){
-						var curValue = obj[tagName];
-						obj[tagName] = [];
-						obj[tagName].push(curValue);
-					}
-					isArray = true;
+		/**
+		 * Turn the string containing HTTP headers into an array of objects
+		 * @param {String} str
+		 * @return {Array.<luga.xhr.header>}
+		 */
+		const headersToArray = function(str){
+			const headers = str.split("\r\n");
+			// Remove the last element since it's empty
+			headers.pop();
+			return headers.map(function(item){
+				const tokens = item.split(":");
+				const ret = {
+					header: tokens[0]
+				};
+				/* istanbul ignore else */
+				if(tokens[1] !== undefined){
+					ret.value = tokens[1].substring(1);
 				}
+				return ret;
+			});
+		};
 
-				if(nodeHasText(child) === true){
-					// This may potentially override an existing property
-					obj[child.nodeName] = getTextValue(child);
+		/**
+		 * @return {luga.xhr.response}
+		 */
+		const assembleResponse = function(){
+			return {
+				status: self.xhr.status,
+				statusText: self.xhr.statusText,
+				responseText: self.xhr.responseText,
+				responseType: self.xhr.responseType,
+				responseXML: self.xhr.responseXML,
+				headers: headersToArray(self.xhr.getAllResponseHeaders())
+			};
+		};
+
+		const checkReadyState = function(){
+			if(self.xhr.readyState === 4){
+				const httpStatus = self.xhr.status;
+				if((httpStatus >= 200 && httpStatus <= 300) || (httpStatus === 304)){
+					config.success(assembleResponse());
 				}
 				else{
-					var childObj = luga.xml.nodeToHash(child);
-					if(isArray === true){
-						obj[tagName].push(childObj);
-					}
-					else{
-						obj[tagName] = childObj;
-					}
+					config.error(assembleResponse());
 				}
 			}
-		}
-	}
+		};
 
-	/**
-	 * Extract text out of a TEXT or CDATA node
-	 * @param {Node} node
-	 * @return {String}
-	 */
-	function getTextValue(node){
-		var child = node.childNodes[0];
-		/* istanbul ignore else */
-		if((child.nodeType === 3) /* TEXT_NODE */ || (child.nodeType === 4) /* CDATA_SECTION_NODE */){
-			return child.data;
-		}
-	}
+		const finalizeRequest = function(url){
+			self.xhr.onreadystatechange = checkReadyState;
+			self.xhr.timeout = config.timeout;
+			self.xhr.setRequestHeader("Content-Type", config.contentType);
+			/* istanbul ignore else */
+			if(url.substring(0, 4) !== "http"){
+				// This may cause issue with CORS so better to avoid on cross-site requests
+				self.xhr.setRequestHeader("X-Requested-With", config.requestedWith);
+			}
+			config.headers.forEach(function(element){
+				self.xhr.setRequestHeader(element.name, element.value);
+			});
+		};
 
-	/**
-	 * Return true if a node contains value, false otherwise
-	 * @param {Node}   node
-	 * @return {Boolean}
-	 */
-	function nodeHasText(node){
-		var child = node.childNodes[0];
-		if((child !== null) && (child.nextSibling === null) && (child.nodeType === 3 /* Node.TEXT_NODE */ || child.nodeType === 4 /* CDATA_SECTION_NODE */)){
-			return true;
-		}
-		return false;
-	}
+		const finalizeUrl = function(url, params){
+			let suffix = "";
+			if(config.cache === false){
+				suffix += "_anti-cache=" + Date.now() + "&";
+			}
+			if(params !== null && config.method.toUpperCase() === "GET"){
+				suffix += params;
+			}
+			if(suffix !== ""){
+				if(url.indexOf("?") !== -1){
+					url += "&";
+				}
+				else{
+					url += "?";
+				}
+			}
+			return url + suffix;
+		};
 
-	/**
-	 * Serialize a DOM node into a string
-	 * @param {Node}   node
-	 * @return {String}
-	 */
-	luga.xml.nodeToString = function(node){
-		/* istanbul ignore if IE-only */
-		if(window.ActiveXObject !== undefined){
-			return node.xml;
-		}
-		else{
-			var serializer = new XMLSerializer();
-			return serializer.serializeToString(node, luga.xml.MIME_TYPE);
-		}
-	};
+		/**
+		 * Aborts the request if it has already been sent
+		 */
+		this.abort = function(){
+			self.xhr.abort();
+		};
 
-	/**
-	 * Create a DOM Document out of a string
-	 * @param {String} xmlStr
-	 * @return {Document}
-	 */
-	luga.xml.parseFromString = function(xmlStr){
-		var xmlParser;
-		/* istanbul ignore if IE-only */
-		if(window.ActiveXObject !== undefined){
-			var xmlDOMObj = new ActiveXObject(luga.xml.DOM_ACTIVEX_NAME);
-			xmlDOMObj.async = false;
-			xmlDOMObj.loadXML(xmlStr);
-			return xmlDOMObj;
-		}
-		else{
-			xmlParser = new DOMParser();
-			var domDoc = xmlParser.parseFromString(xmlStr, luga.xml.MIME_TYPE);
-			return domDoc;
-		}
+		/**
+		 * Return true if the request is pending. False otherwise
+		 * @return {Boolean}
+		 */
+		this.isRequestPending = function(){
+			return self.xhr.readyState !== 4;
+		};
+
+		/**
+		 * @param {String} url
+		 * @param {String} [params] Optional parameter which lets you specify the request's body
+		 *                          See: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/send
+		 */
+		this.send = function(url, params){
+			/* istanbul ignore else */
+			if(params === undefined){
+				params = null;
+			}
+			url = finalizeUrl(url, params);
+			self.xhr.open(config.method, url, config.async);
+			finalizeRequest(url);
+			self.xhr.send(params);
+		};
+
 	};
 
 }());
