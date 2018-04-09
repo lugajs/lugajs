@@ -1,5 +1,5 @@
 /*! 
-Luga JS 0.9.7 2018-04-08T09:59:28.939Z
+Luga JS 0.9.8 2018-04-09T01:00:35.180Z
 http://www.lugajs.org
 Copyright 2013-2018 Massimo Foti (massimo@massimocorner.com)
 Licensed under the Apache License, Version 2.0 | http://www.apache.org/licenses/LICENSE-2.0
@@ -35,7 +35,7 @@ if(typeof(luga) === "undefined"){
 	};
 
 	luga.namespace("luga.common");
-	luga.common.version = "0.9.7";
+	luga.common.version = "0.9.8";
 
 	/**
 	 * Offers a simple solution for inheritance among classes
