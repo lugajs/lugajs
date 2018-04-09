@@ -39,6 +39,10 @@ describe("luga.data.region.Handlebars", function(){
 		luga.data.dataSourceRegistry = {};
 	});
 
+	it("Requires Handlebars in order to work", function(){
+		expect(Handlebars).toBeDefined();
+	});
+
 	it("Is the default region type", function(){
 		expect(luga.data.region.Handlebars).toBeDefined();
 		expect(luga.type(luga.data.region.Handlebars)).toEqual("function");
