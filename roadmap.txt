@@ -7,7 +7,7 @@ VERSION 1.x
 - Replace for loops with forEach whenever possible
 - Remove self = this. Use .bind() instead?
 
-- Extend luga.toQueryString() to handle Map
+- Extend luga.toQueryString() and luga.merge() to handle Map?
 
 - Add API for XSLT
 

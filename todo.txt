@@ -1,3 +1,5 @@
+- Add .setUp() to Validator
+
 -------------
 DOCS:
 -------------
