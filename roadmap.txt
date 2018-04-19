@@ -8,6 +8,7 @@ VERSION 1.x
 - Remove self = this. Use .bind() instead?
 
 - Extend luga.toQueryString() and luga.merge() to handle Map?
+- luga.data.HtmlTableDataSet?
 
 - Add API for XSLT
 
@@ -24,15 +25,11 @@ VERSION 2.0
   Use arrow functions to avoid .bind() and/or self = this
   Remove IE11 plugin for ESLint
 
-- Use setup() method to configure Validator instead of globals
-
 - Document luga.data.xml
 
 - ES6 modules import/export?
 - Webpack?
-- Make Common and Data isomorphic?
 
 ***
 
 - luga.data.widgets.Autosuggest?
-- luga.data.HtmlTableDataSet?
