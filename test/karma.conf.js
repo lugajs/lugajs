@@ -15,9 +15,9 @@ module.exports = function(config){
 			"lib/handlebars.min.js",
 
 			// Test libs and configuration
-			"test/lib/jquery/jquery.min.js",
 			"test/lib/jasmine/mock-ajax.js",
 			"test/lib/jasmine/jasmineFixtures.min.js",
+			"test/lib/jquery/jquery.min.js",
 			"test/lib/jasmine/jasmineMatchers.min.js",
 			"test/fixtures.karma.config.js",
 			"test/jasmine.config.js",

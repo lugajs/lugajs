@@ -5,7 +5,7 @@ describe("luga.data.JsonDataset", function(){
 	let testRecords, testRecordsStr, noUrlDs, testDs;
 	beforeEach(function(){
 		testRecords = jasmineFixtures.read("data/ladies.json");
-		testRecordsStr = jasmineFixtures.read("data/ladies.txt");
+		testRecordsStr = JSON.stringify(testRecords);
 		noUrlDs = new luga.data.JsonDataSet({uuid: "noUrlDs"});
 		testDs = new luga.data.JsonDataSet({uuid: "jsonDs", url: "fixtures/data/ladies.json"});
 	});
