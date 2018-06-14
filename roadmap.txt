@@ -32,4 +32,6 @@ VERSION 2.0
 
 ***
 
+- Use https://editorconfig.org/
+
 - luga.data.widgets.Autosuggest?
