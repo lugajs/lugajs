@@ -16,7 +16,7 @@
 	/**
 	 * @typedef {Object} luga.data.PagedView.options
 	 *
-	 * @property {String}            uuid           Unique identifier. Required
+	 * @property {string}            uuid           Unique identifier. Required
 	 * @property {luga.data.DataSet} parentDataSet  Instance of a dataSet. Required
 	 * @property {Number}            pageSize       The max number of rows in a given page. Default to 10
 	 */
@@ -82,7 +82,7 @@
 
 		/**
 		 * Return the zero-based offset of the last record inside the current page
-		 * @return {Number}
+		 * @return {number}
 		 */
 		this.getCurrentOffsetEnd = function(){
 			let offSet = self.getCurrentOffsetStart() + self.getPageSize() - 1;
@@ -94,7 +94,7 @@
 
 		/**
 		 * Return the zero-based offset of the first record inside the current page
-		 * @return {Number}
+		 * @return {number}
 		 */
 		this.getCurrentOffsetStart = function(){
 			return currentOffsetStart;
@@ -102,7 +102,7 @@
 
 		/**
 		 * Return the current page index. Starting at 1
-		 * @return {Number}
+		 * @return {number}
 		 */
 		this.getCurrentPageIndex = function(){
 			return currentPage;
@@ -110,7 +110,7 @@
 
 		/**
 		 * Return the total number of pages required to display all of the data
-		 * @return {Number}
+		 * @return {number}
 		 */
 		this.getPagesCount = function(){
 			return parseInt((self.parentDataSet.getRecordsCount() + self.getPageSize() - 1) / self.getPageSize());
@@ -118,7 +118,7 @@
 
 		/**
 		 * Return the maximum number of items that can be in a page
-		 * @return {Number}
+		 * @return {number}
 		 */
 		this.getPageSize = function(){
 			return pageSize;
@@ -128,7 +128,7 @@
 		 * Navigate to the given page number
 		 * Fails silently if the given page number is out of range
 		 * It also change the index of the current row to match the first record in the page
-		 * @param {Number} pageNumber
+		 * @param {number} pageNumber
 		 * @fire dataChanged
 		 */
 		this.goToPage = function(pageNumber){
@@ -163,8 +163,8 @@
 
 		/**
 		 * Return true if the given page is within range. False otherwise
-		 * @param {Number} pageNumber
-		 * @return {Boolean}
+		 * @param {number} pageNumber
+		 * @return {boolean}
 		 */
 		this.isPageInRange = function(pageNumber){
 			if(pageNumber < 1 || pageNumber > self.getPagesCount()){
@@ -175,7 +175,7 @@
 
 		/**
 		 * To be used for type checking
-		 * @return {Boolean}
+		 * @return {boolean}
 		 */
 		this.isPagedView = function(){
 			return true;
@@ -185,7 +185,7 @@
 
 		/**
 		 * Call the parent dataSet
-		 * @return {Number}
+		 * @return {number}
 		 */
 		this.getCurrentRowIndex = function(){
 			return self.parentDataSet.getCurrentRowIndex();
@@ -193,7 +193,7 @@
 
 		/**
 		 * Call the parent dataSet
-		 * @return {Number}
+		 * @return {number}
 		 */
 		this.getRecordsCount = function(){
 			return self.parentDataSet.getRecordsCount();
@@ -212,7 +212,7 @@
 
 		/**
 		 * Call the parent dataSet
-		 * @param {String|null} rowId  Required
+		 * @param {string|null} rowId  Required
 		 * @fire currentRowChanged
 		 * @throw {Exception}
 		 */
@@ -222,7 +222,7 @@
 
 		/**
 		 * Call the parent dataSet
-		 * @param {Number} index  New index. Required
+		 * @param {number} index  New index. Required
 		 * @fire currentRowChanged
 		 * @throw {Exception}
 		 */
@@ -242,7 +242,7 @@
 		/**
 		 * Call the parent dataSet
 		 * Be aware this only sort the data, it does not affects pagination
-		 * @param {String|Array<String>}  columnNames             Required, either a single column name or an array of names
+		 * @param {string|Array<string>}  columnNames             Required, either a single column name or an array of names
 		 * @param {luga.data.sort.ORDER} [sortOrder="toggle"]     Either "ascending", "descending" or "toggle". Optional, default to "toggle"
 		 * @fire preDataSorted
 		 * @fire dataSorted

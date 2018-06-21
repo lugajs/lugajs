@@ -44,7 +44,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Returns a dataSource from the registry
 	 * Returns null if no source matches the given id
-	 * @param {String} uuid
+	 * @param {string} uuid
 	 * @return {luga.data.DataSet|luga.data.DetailSet}
 	 */
 	luga.data.getDataSource = function(uuid){
@@ -56,7 +56,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Adds a dataSource inside the registry
-	 * @param {String}                                uuid
+	 * @param {string}                                uuid
 	 * @param {luga.data.DataSet|luga.data.DetailSet} dataSource
 	 * @throw {Exception}
 	 */
@@ -157,8 +157,8 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Return true if the passed state is supported
-	 * @param {String}  state
-	 * @return {Boolean}
+	 * @param {string}  state
+	 * @return {boolean}
 	 */
 	luga.data.utils.isValidState = function(state){
 		for(let key in luga.data.STATE){

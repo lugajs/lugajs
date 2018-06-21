@@ -10,7 +10,7 @@ if(typeof(luga) === "undefined"){
 	 * Creates namespaces to be used for scoping variables and classes so that they are not global.
 	 * Specifying the last node of a namespace implicitly creates all other nodes.
 	 * Based on Nicholas C. Zakas's code
-	 * @param {String} ns                   Namespace as dot-delimited string
+	 * @param {string} ns                   Namespace as dot-delimited string
 	 * @param {Object} [rootObject=window]  Optional root object. Default to window
 	 * @return {Object}
 	 */
@@ -46,7 +46,7 @@ if(typeof(luga) === "undefined"){
 	 * Return true if an object is a plain object (created using "{}" or "new Object"). False otherwise
 	 * Based on jQuery.isPlainObject()
 	 * @param {*} obj
-	 * @return {Boolean}
+	 * @return {boolean}
 	 */
 	luga.isPlainObject = function(obj){
 		// Detect obvious negatives
@@ -74,7 +74,7 @@ if(typeof(luga) === "undefined"){
 	 * Given the name of a function as a string, return the relevant function, if any
 	 * Returns undefined, if the reference has not been found
 	 * Supports namespaces (if the fully qualified path is passed)
-	 * @param {String} path            Fully qualified name of a function
+	 * @param {string} path            Fully qualified name of a function
 	 * @return {Function|undefined}    The javascript reference to the function, undefined if nothing is fund or if it's not a function
 	 */
 	luga.lookupFunction = function(path){
@@ -93,7 +93,7 @@ if(typeof(luga) === "undefined"){
 	 * If nothing exists at that location, returns undefined
 	 * Supports unlimited nesting levels (if the fully qualified path is passed)
 	 * @param {Object} object  Target object
-	 * @param {String} path    Dot-delimited string
+	 * @param {string} path    Dot-delimited string
 	 * @return {*|undefined}
 	 */
 	luga.lookupProperty = function(object, path){
@@ -140,7 +140,7 @@ if(typeof(luga) === "undefined"){
 	 * Given an object, a path and a value, set the property located at the given path to the given value
 	 * If the path does not exists, it creates it
 	 * @param {Object} object  Target object
-	 * @param {String} path    Fully qualified property name
+	 * @param {string} path    Fully qualified property name
 	 * @param {*}      value
 	 */
 	luga.setProperty = function(object, path, value){
@@ -177,7 +177,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Create a query string out of a plain object containing name/value pairs
 	 * @param {Object} input
-	 * @return {String}
+	 * @return {string}
 	 */
 	luga.toQueryString = function(input){
 		if(luga.isPlainObject(input) === false){
@@ -208,7 +208,7 @@ if(typeof(luga) === "undefined"){
 	 * Determine the internal JavaScript [[Class]] of an object
 	 * Based on jQuery.type()
 	 * @param {*} obj
-	 * @return {String}
+	 * @return {string}
 	 */
 	luga.type = function(obj){
 		if(obj === null){
@@ -227,7 +227,7 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.eventObserverMap
 	 *
 	 * @property {Object} observer
-	 * @property {String} methodName
+	 * @property {string} methodName
 	 */
 
 	luga.NOTIFIER_CONST = {
@@ -256,7 +256,7 @@ if(typeof(luga) === "undefined"){
 		this.observers = [];
 
 		/**
-		 * @type {Object.<String, Array.<luga.eventObserverMap>>}
+		 * @type {Object.<string, Array.<luga.eventObserverMap>>}
 		 */
 		this.eventObservers = {};
 
@@ -290,8 +290,8 @@ if(typeof(luga) === "undefined"){
 		 * observer[methodName] = function(data){};
 		 *
 		 * @param  {Object} observer  Observer object
-		 * @param {String} [eventName]
-		 * @param {String} [methodName]
+		 * @param {string} [eventName]
+		 * @param {string} [methodName]
 		 * @throw {Exception}
 		 */
 		this.addObserver = function(observer, eventName, methodName){
@@ -327,7 +327,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * @param {Array.<luga.eventObserverMap>} eventArray
 		 * @param {luga.eventObserverMap} eventMap
-		 * @return {Number}
+		 * @return {number}
 		 */
 		const findObserverIndex = function(eventArray, eventMap){
 			for(let i = 0; i < eventArray.length; i++){
@@ -346,7 +346,7 @@ if(typeof(luga) === "undefined"){
 		 * Sends a notification to all relevant observers
 		 *
 		 * @method
-		 * @param {String}  eventName  Name of the event
+		 * @param {string}  eventName  Name of the event
 		 * @param {Object}  payload    Object containing data to be passed from the point of notification to all interested observers.
 		 *                             If there is no relevant data to pass, use an empty object.
 		 * @throw {Exception}
@@ -383,8 +383,8 @@ if(typeof(luga) === "undefined"){
 		 *
 		 * @method
 		 * @param {Object} observer
-		 * @param {String} [eventName]
-		 * @param {String} [methodName]
+		 * @param {string} [eventName]
+		 * @param {string} [methodName]
 		 */
 		this.removeObserver = function(observer, eventName, methodName){
 			if(arguments.length === 1){
@@ -427,8 +427,8 @@ if(typeof(luga) === "undefined"){
 	 * Attach a single event listener, to a parent element, that will fire for all descendants matching a selector
 	 * No matter whether those descendants exist now or are added in the future
 	 * @param {HTMLElement} node
-	 * @param {String} eventType
-	 * @param {String} selector
+	 * @param {string} eventType
+	 * @param {string} selector
 	 * @param {Function} callback
 	 */
 	luga.dom.delegateEvent = function(node, eventType, selector, callback){
@@ -444,8 +444,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Equalize element.matches across browsers
 	 * @param {HTMLElement} node
-	 * @param {String} selector
-	 * @return {Boolean}
+	 * @param {string} selector
+	 * @return {boolean}
 	 */
 	luga.dom.nodeMatches = function(node, selector){
 		let methodName = "matches";
@@ -468,7 +468,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Static factory to create a cross-browser either DOM NodeIterator or TreeWalker
 	 *
-	 * @param {String}                   type        Either "NodeIterator" or "TreeWalker"
+	 * @param {string}                   type        Either "NodeIterator" or "TreeWalker"
 	 * @param {HTMLElement}              rootNode    Start node. Required
 	 * @param {Function} [filterFunc]    filterFunc  Optional filter function. If specified only nodes matching the filter will be accepted
 	 *                                               The function will be invoked with this signature: filterFunc(node). Must return true|false
@@ -553,7 +553,7 @@ if(typeof(luga) === "undefined"){
 	 * Values of multiple checked checkboxes and multiple select are included as a single entry, with array value
 	 *
 	 * @param {HTMLElement} rootNode     DOM node wrapping the form fields. Required
-	 * @param {Boolean}     demoronize   If true, MS Word's special chars are replaced with plausible substitutes. Default to false
+	 * @param {boolean}     demoronize   If true, MS Word's special chars are replaced with plausible substitutes. Default to false
 	 * @return {Object}                  A JavaScript object containing name/value pairs
 	 * @throw {Exception}
 	 */
@@ -609,7 +609,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * @param {HTMLElement} node
-	 * @return {Array.<String>}
+	 * @return {Array.<string>}
 	 */
 	const getMultiSelectValue = function(node){
 		const fieldValue = [];
@@ -643,8 +643,8 @@ if(typeof(luga) === "undefined"){
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 *
 	 * @param {HTMLElement} rootNode    DOM node wrapping the form fields. Required
-	 * @param {Boolean}     demoronize  If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
-	 * @return {String}                 A URI encoded string
+	 * @param {boolean}     demoronize  If set to true, MS Word's special chars are replaced with plausible substitutes. Default to false
+	 * @return {string}                 A URI encoded string
 	 * @throw {Exception}
 	 */
 	luga.form.toQueryString = function(rootNode, demoronize){
@@ -706,7 +706,7 @@ if(typeof(luga) === "undefined"){
 	 * http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.13.2
 	 *
 	 * @param {HTMLElement}  fieldNode
-	 * @return {Boolean}
+	 * @return {boolean}
 	 */
 	luga.form.utils.isSuccessfulField = function(fieldNode){
 		if(luga.form.utils.isInputField(fieldNode) === false){
@@ -725,7 +725,7 @@ if(typeof(luga) === "undefined"){
 	 * Returns true if the passed node is a form field that we care about
 	 *
 	 * @param {HTMLElement}  fieldNode
-	 * @return {Boolean}
+	 * @return {boolean}
 	 */
 	luga.form.utils.isInputField = function(fieldNode){
 		if(fieldNode.type === undefined){
@@ -742,7 +742,7 @@ if(typeof(luga) === "undefined"){
 	 * Extracts group of fields that share the same name from a given root node
 	 * Or the whole document if the second argument is not passed
 	 *
-	 * @param {String} name              Name of the field. Mandatory
+	 * @param {string} name              Name of the field. Mandatory
 	 * @param {HTMLElement} [rootNode]   Root node, optional, default to document.body
 	 * @return {Array.<HTMLElement>}
 	 */
@@ -779,8 +779,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Retrieve from localStorage the string corresponding to the given combination of root and path
 	 * Returns undefined if nothing matches the given root/path
-	 * @param {String} root    Top-level key inside localStorage
-	 * @param {String} path    Dot-delimited string
+	 * @param {string} root    Top-level key inside localStorage
+	 * @param {string} path    Dot-delimited string
 	 * @return {*|undefined}
 	 */
 	luga.localStorage.retrieve = function(root, path){
@@ -790,9 +790,9 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Persist the given string inside localStorage, under the given combination of root and path
 	 * The ability to pass a dot-delimited path allow to protect the information from name clashes
-	 * @param {String} root    Top-level key inside localStorage
-	 * @param {String} path    Dot-delimited string
-	 * @param {String} value   String to be persisted
+	 * @param {string} root    Top-level key inside localStorage
+	 * @param {string} path    Dot-delimited string
+	 * @param {string} value   String to be persisted
 	 */
 	luga.localStorage.persist = function(root, path, value){
 		const json = getRootState(root);
@@ -817,8 +817,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Replace MS Word's non-ISO characters with plausible substitutes
 	 *
-	 * @param {String} str   String containing MS Word's garbage
-	 * @return {String}      The de-moronized string
+	 * @param {string} str   String containing MS Word's garbage
+	 * @return {string}      The de-moronized string
 	 */
 	luga.string.demoronize = function(str){
 		str = str.replace(new RegExp(String.fromCharCode(710), "g"), "^");
@@ -851,9 +851,9 @@ if(typeof(luga) === "undefined"){
 	 * luga.string.format("My name is {firstName} {lastName}", {firstName: "Ciccio", lastName: "Pasticcio"});
 	 * => "My name is Ciccio Pasticcio"
 	 *
-	 * @param  {String}  str                   String containing placeholders
-	 * @param  {Object|Array.<String>} args    Either an array of strings or an objects containing name/value pairs in string format
-	 * @return {String} The newly assembled string
+	 * @param  {string}  str                   String containing placeholders
+	 * @param  {Object|Array.<string>} args    Either an array of strings or an objects containing name/value pairs in string format
+	 * @return {string} The newly assembled string
 	 */
 	luga.string.format = function(str, args){
 		let pattern = null;
@@ -874,7 +874,7 @@ if(typeof(luga) === "undefined"){
 
 	/**
 	 * Given a string in querystring format, return a JavaScript object containing name/value pairs
-	 * @param {String} str  The querystring
+	 * @param {string} str  The querystring
 	 * @return {Object}
 	 */
 	luga.string.queryToMap = function(str){
@@ -923,9 +923,9 @@ if(typeof(luga) === "undefined"){
 	 * luga.string.populate("My name is {person.firstName} {person.lastName}", nestedObj)
 	 * => "My name is Ciccio Pasticcio"
 	 *
-	 * @param  {String} str   String containing placeholders
+	 * @param  {string} str   String containing placeholders
 	 * @param  {Object} obj   An objects containing name/value pairs in string format
-	 * @return {String} The newly assembled string
+	 * @return {string} The newly assembled string
 	 */
 	luga.string.populate = function(str, obj){
 		if(luga.isPlainObject(obj) === true){
@@ -950,34 +950,34 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @typedef {Object} luga.xhr.header
 	 *
-	 * @property {String}  name       Name of the HTTP header
-	 * @property {String}  value      Value to be used
+	 * @property {string}  name       Name of the HTTP header
+	 * @property {string}  value      Value to be used
 	 */
 
 	/**
 	 * @typedef {Object} luga.xhr.options
 	 *
-	 * @property {String}   method                   HTTP method. Default to GET
+	 * @property {string}   method                   HTTP method. Default to GET
 	 * @property {Function} success                  Function to be invoked if the request succeeds. It will receive a single argument of type luga.xhr.response
 	 * @property {Function} error                    Function to be invoked if the request fails. It will receive a single argument of type luga.xhr.response
-	 * @property {Number}   timeout                  The number of milliseconds a request can take before automatically being terminated
-	 * @property {Boolean}  async                    Indicate that the request should be handled asynchronously. Default to true
-	 * @property {Boolean}  cache                    If set to false, it will force requested pages not to be cached by the browser. Will only work correctly with HEAD and GET requests
+	 * @property {number}   timeout                  The number of milliseconds a request can take before automatically being terminated
+	 * @property {boolean}  async                    Indicate that the request should be handled asynchronously. Default to true
+	 * @property {boolean}  cache                    If set to false, it will force requested pages not to be cached by the browser. Will only work correctly with HEAD and GET requests
 	 *                                               It works by appending "_={timestamp}" to the GET parameters. Default to true
 	 * @property {Array.<luga.xhr.header>} headers   An array of name/value pairs to be used for custom HTTP headers. Default to an empty array
-	 * @property {String}   requestedWith            Value to be used for the "X-Requested-With" request header. Default to "XMLHttpRequest"
-	 * @property {String}   contentType              MIME type to use instead of the one specified by the server. Default to "text/plain"
+	 * @property {string}   requestedWith            Value to be used for the "X-Requested-With" request header. Default to "XMLHttpRequest"
+	 * @property {string}   contentType              MIME type to use instead of the one specified by the server. Default to "text/plain"
 	 *                                               See also: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/overrideMimeType
 	 */
 
 	/**
 	 * @typedef {Object} luga.xhr.response
 	 *
-	 * @property {Number}       status              Status code returned by the HTTP server
-	 * @property {String}       statusText          The response string returned by the HTTP server
-	 * @property {String|null}  responseText        The response as text, null if the request was unsuccessful
-	 * @property {String}       responseType        A string which specifies what type of data the response contains. See: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseType
-	 * @property {String|null}  responseXML         The response as text, null if the request was unsuccessful or cannot be parsed as XML or HTML
+	 * @property {number}       status              Status code returned by the HTTP server
+	 * @property {string}       statusText          The response string returned by the HTTP server
+	 * @property {string|null}  responseText        The response as text, null if the request was unsuccessful
+	 * @property {string}       responseType        A string which specifies what type of data the response contains. See: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseType
+	 * @property {string|null}  responseXML         The response as text, null if the request was unsuccessful or cannot be parsed as XML or HTML
 	 * @property {Array.<luga.xhr.header>} headers  An array of header/value pairs returned by the server
 	 */
 
@@ -1014,7 +1014,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Turn the string containing HTTP headers into an array of objects
-		 * @param {String} str
+		 * @param {string} str
 		 * @return {Array.<luga.xhr.header>}
 		 */
 		const headersToArray = function(str){
@@ -1102,15 +1102,15 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Return true if the request is pending. False otherwise
-		 * @return {Boolean}
+		 * @return {boolean}
 		 */
 		this.isRequestPending = function(){
 			return self.xhr.readyState !== 4;
 		};
 
 		/**
-		 * @param {String} url
-		 * @param {String} [params] Optional parameter which lets you specify the request's body
+		 * @param {string} url
+		 * @param {string} [params] Optional parameter which lets you specify the request's body
 		 *                          See: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/send
 		 */
 		this.send = function(url, params){

@@ -35,7 +35,7 @@
 	/**
 	 * @typedef {Object} luga.data.region.options
 	 *
-	 * @property {Boolean} autoregister  Determine if we call luga.data.region.init() on luga.dom.ready()
+	 * @property {boolean} autoregister  Determine if we call luga.data.region.init() on luga.dom.ready()
 	 */
 
 	/**
@@ -112,7 +112,7 @@
 	/**
 	 * @typedef {Object} luga.data.region.description
 	 *
-	 * @property {HTMLElement}                                node   A DOM node containing the region.
+	 * @property {HTMLElement}                           node   A DOM node containing the region.
 	 * @property {luga.data.DataSet|luga.data.DetailSet} ds     DataSource
 	 */
 

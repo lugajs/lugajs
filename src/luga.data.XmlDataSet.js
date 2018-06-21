@@ -5,7 +5,7 @@
 	 * @typedef {Object} luga.data.XmlDataSet.options
 	 *
 	 * @extend luga.data.HttpDataSet.options
-	 * @property {String} path  Specifies the XPath expression to be used to extract nodes from the XML document. Default to: "/"
+	 * @property {string} path  Specifies the XPath expression to be used to extract nodes from the XML document. Default to: "/"
 	 */
 
 	/**
@@ -41,7 +41,7 @@
 
 		/**
 		 * Returns the XPath expression to be used to extract data out of the XML
-		 * @return {null|String}
+		 * @return {null|string}
 		 */
 		this.getPath = function(){
 			return this.path;
@@ -49,7 +49,7 @@
 
 		/**
 		 * First delete any existing records, then load data from the given XML, without XHR calls
-		 * @param {String} xmlStr
+		 * @param {string} xmlStr
 		 */
 		this.loadRawXml = function(xmlStr){
 			self.delete();
@@ -76,7 +76,7 @@
 
 		/**
 		 * Set the the XPath expression to be used to extract data out of the XML
-		 * @param {String} path   XPath expression. Required
+		 * @param {string} path   XPath expression. Required
 		 */
 		this.setPath = function(path){
 			this.path = path;

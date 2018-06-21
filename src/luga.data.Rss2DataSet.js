@@ -81,8 +81,8 @@
 
 		/**
 		 * Extract text out of a TEXT or CDATA node
-		 * @param {Node} node
-		 * @return {String}
+		 * @param {HTMLElement} node
+		 * @return {string}
 		 */
 		function getTextValue(node){
 			const child = node.childNodes[0];

@@ -11,8 +11,8 @@
 	 * @typedef {Object} luga.data.HttpDataSet.options
 	 *
 	 * @extend luga.data.DataSet.options
-	 * @property {String}    url              URL to be fetched. Default to null
-	 * @property {Number}    timeout          Timeout (in milliseconds) for the HTTP request. Default to 10 seconds
+	 * @property {string}    url              URL to be fetched. Default to null
+	 * @property {number}    timeout          Timeout (in milliseconds) for the HTTP request. Default to 10 seconds
 	 * @property {Object}    headers          A set of name/value pairs to be used as custom HTTP headers
 	 * @property {Boolean}   incrementalLoad  By default calling once .loadData() is called the dataSet discard all the previous records.
 	 *                                        Set this to true to keep the old records. Default to false
@@ -111,7 +111,7 @@
 
 		/**
 		 * Returns the URL that will be used to fetch the data. Returns null if URL is not set
-		 * @return {String|null}
+		 * @return {string|null}
 		 */
 		this.getUrl = function(){
 			return this.url;
@@ -146,7 +146,7 @@
 		 * Set the URL that will be used to fetch the data.
 		 * This method does not load the data into the data set, it merely sets the internal URL.
 		 * The developer must call loadData() to actually trigger the data loading
-		 * @param {String} newUrl
+		 * @param {string} newUrl
 		 */
 		this.setUrl = function(newUrl){
 			this.url = newUrl;

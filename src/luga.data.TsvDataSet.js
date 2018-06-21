@@ -15,12 +15,12 @@
 		const delimiter = "\t";
 		this.columnNames = [];
 
-		/** @type {null|String} */
+		/** @type {null|string} */
 		this.rawTsv = null;
 
 		/**
 		 * Returns the raw TSV data
-		 * @return {null|String}
+		 * @return {null|string}
 		 */
 		this.getRawTsv = function(){
 			return self.rawTsv;
@@ -28,7 +28,7 @@
 
 		/**
 		 * First delete any existing records, then load data from the given TSV, without XHR calls
-		 * @param {String} rawTsv
+		 * @param {string} rawTsv
 		 */
 		this.loadRawTsv = function(rawTsv){
 			self.delete();
@@ -39,7 +39,7 @@
 
 		/**
 		 * Get TSV as string and turn it into an array of records
-		 * @param {String} rawTsv
+		 * @param {string} rawTsv
 		 * @return {Array}
 		 */
 		const extractRecords = function(rawTsv){

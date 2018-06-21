@@ -212,8 +212,8 @@
 
 		/**
 		 * Returns the column type of the specified column. Either "date", "number" or "string"
-		 * @param {String} columnName
-		 * @return {String}
+		 * @param {string} columnName
+		 * @return {string}
 		 */
 		this.getColumnType = function(columnName){
 			if(this.columnTypes[columnName] !== undefined){
@@ -249,7 +249,7 @@
 		 * Do not confuse the rowId of a row with the index of the row
 		 * RowId is a column that contains a unique identifier for the row
 		 * This identifier does not change if the rows of the dataSet are sorted
-		 * @return {String}
+		 * @return {string}
 		 */
 		this.getCurrentRowId = function(){
 			return this.currentRowId;
@@ -257,7 +257,7 @@
 
 		/**
 		 * Returns a zero-based index at which the current row can be found, or -1 if the dataSet is empty
-		 * @return {Number}
+		 * @return {number}
 		 */
 		this.getCurrentRowIndex = function(){
 			const row = this.getCurrentRow();
@@ -267,7 +267,7 @@
 		/**
 		 * Returns the number of records in the dataSet
 		 * If the dataSet has a filter, returns the number of filtered records
-		 * @return {Number}
+		 * @return {number}
 		 */
 		this.getRecordsCount = function(){
 			return selectAll().length;
@@ -275,7 +275,7 @@
 
 		/**
 		 * Returns the row object associated with the given unique identifier
-		 * @param {String} rowId  Required
+		 * @param {string} rowId  Required
 		 * @return {null|luga.data.DataSet.row}
 		 */
 		this.getRowById = function(rowId){
@@ -297,7 +297,7 @@
 		/**
 		 * Returns the row object associated with the given index
 		 * Throws an exception if the index is out of range
-		 * @param {Number} index  Required
+		 * @param {number} index  Required
 		 * @return {luga.data.DataSet.row}
 		 * @throw {Exception}
 		 */
@@ -318,7 +318,7 @@
 		/**
 		 * Returns the index at which a row can be found in the dataSet, or -1 if no available record matches the given row
 		 * @param {luga.data.DataSet.row} row
-		 * @return {Number}
+		 * @return {number}
 		 */
 		this.getRowIndex = function(row){
 			if(hasFilter() === true){
@@ -330,7 +330,7 @@
 		/**
 		 * Returns the name of the column used for the most recent sort
 		 * Returns an empty string if no sort has been performed yet
-		 * @return {String}
+		 * @return {string}
 		 */
 		this.getSortColumn = function(){
 			return (this.lastSortColumns && this.lastSortColumns.length > 0) ? this.lastSortColumns[0] : "";
@@ -339,7 +339,7 @@
 		/**
 		 * Returns the order used for the most recent sort
 		 * Returns an empty string if no sort has been performed yet
-		 * @return {String}
+		 * @return {string}
 		 */
 		this.getSortOrder = function(){
 			return this.lastSortOrder ? this.lastSortOrder : "";
@@ -459,8 +459,8 @@
 		/**
 		 * Set a column type for a column. Required for proper sorting of numeric or date data.
 		 * By default data is sorted alpha-numerically, if you want it sorted numerically or by date, set the proper columnType
-		 * @param {String|Array<String>} columnNames
-		 * @param {String}               columnType   Either "date", "number" or "string"
+		 * @param {string|Array<string>} columnNames
+		 * @param {string}               columnType   Either "date", "number" or "string"
 		 */
 		this.setColumnType = function(columnNames, columnType){
 			if(Array.isArray(columnNames) === false){
@@ -480,7 +480,7 @@
 		 * Throws an exception if the given rowId is invalid
 		 * If null is passed, no row is selected
 		 * Triggers a "currentRowChanged" notification
-		 * @param {String|null} rowId  Required
+		 * @param {string|null} rowId  Required
 		 * @fire currentRowChanged
 		 * @throw {Exception}
 		 */
@@ -531,7 +531,7 @@
 		/**
 		 * Sets the current row of the dataSet to the one matching the given index
 		 * Throws an exception if the index is out of range
-		 * @param {Number} index  New index. Required
+		 * @param {number} index  New index. Required
 		 * @fire currentRowChanged
 		 * @throw {Exception}
 		 */
@@ -583,7 +583,7 @@
 
 		/**
 		 * Sorts the dataSet using the given column(s) and sort order
-		 * @param {String|Array<String>}  columnNames             Required, either a single column name or an array of names
+		 * @param {string|Array<string>}  columnNames             Required, either a single column name or an array of names
 		 * @param {luga.data.sort.ORDER} [sortOrder="toggle"]     Either "ascending", "descending" or "toggle". Optional, default to "toggle"
 		 * @fire preDataSorted
 		 * @fire dataSorted

@@ -13,7 +13,7 @@
 	 * Given a DOM node, evaluate an XPath expression against it
 	 * Results are returned as an array of nodes. An empty array is returned in case there is no match
 	 * @param {Node} node
-	 * @param {String} path
+	 * @param {string} path
 	 * @return {Array<Node>}
 	 */
 	luga.data.xml.evaluateXPath = function(node, path){
@@ -110,7 +110,7 @@
 	/**
 	 * Extract text out of a TEXT or CDATA node
 	 * @param {Node} node
-	 * @return {String}
+	 * @return {string}
 	 */
 	function getTextValue(node){
 		const child = node.childNodes[0];
@@ -123,7 +123,7 @@
 	/**
 	 * Return true if a node contains value, false otherwise
 	 * @param {Node}   node
-	 * @return {Boolean}
+	 * @return {boolean}
 	 */
 	function nodeHasText(node){
 		const child = node.childNodes[0];
@@ -136,7 +136,7 @@
 	/**
 	 * Serialize a DOM node into a string
 	 * @param {Node}   node
-	 * @return {String}
+	 * @return {string}
 	 */
 	luga.data.xml.nodeToString = function(node){
 		/* istanbul ignore if IE-only */
@@ -152,7 +152,7 @@
 
 	/**
 	 * Create a DOM Document out of a string
-	 * @param {String} xmlStr
+	 * @param {string} xmlStr
 	 * @return {Document}
 	 */
 	luga.data.xml.parseFromString = function(xmlStr){

@@ -59,7 +59,7 @@
 		};
 
 		/**
-		 * @return {String}
+		 * @return {string}
 		 */
 		this.generateHtml = function(){
 			return this.template(this.dataSource.getContext());

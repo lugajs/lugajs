@@ -22,8 +22,8 @@
 
 	/**
 	 * Return true if the passed order is supported
-	 * @param {String}  sortOrder
-	 * @return {Boolean}
+	 * @param {string}  sortOrder
+	 * @return {boolean}
 	 */
 	luga.data.sort.isValidSortOrder = function(sortOrder){
 		for(let key in luga.data.sort.ORDER){
@@ -36,7 +36,7 @@
 
 	/**
 	 * Retrieve the relevant sort function matching the given combination of dataType and sortOrder
-	 * @param {String}               dataType
+	 * @param {string}               dataType
 	 * @param {luga.data.sort.ORDER} sortOrder
 	 * @return {Function}
 	 */

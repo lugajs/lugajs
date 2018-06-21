@@ -16,8 +16,8 @@
 	luga.namespace("luga.data.widgets");
 
 	/**
-	 * @typedef {String} luga.data.PAGING_STYLE
-	 * @enum {String}
+	 * @typedef {string} luga.data.PAGING_STYLE
+	 * @enum {string}
 	 */
 	luga.data.PAGING_STYLE = {
 		LINKS: "luga-pagingBarLinks",
@@ -26,8 +26,8 @@
 
 	/**
 	 * Return true if the passed style is supported
-	 * @param {String}  style
-	 * @return {Boolean}
+	 * @param {string}  style
+	 * @return {boolean}
 	 */
 	const isValidStyle = function(style){
 		for(let key in luga.data.PAGING_STYLE){

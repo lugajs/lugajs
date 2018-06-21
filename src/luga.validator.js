@@ -11,7 +11,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Helper function
 	 * @param {*} input
-	 * @return {Boolean}
+	 * @return {boolean}
 	 */
 	const isNumeric = function(input){
 		return (isNaN(parseFloat(input)) === false) && (isFinite(input) === true);
@@ -123,11 +123,11 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.validator.FormValidator.options
 	 *
 	 * @property {HTMLElement}  formNode      DOM node. Required
-	 * @property {String}  error         Name of the function to be invoked to handle/display validation messages.
+	 * @property {string}  error         Name of the function to be invoked to handle/display validation messages.
 	 *                                   Default to luga.validator.errorAlert
-	 * @property {String}  before        Name of the function to be invoked before validation is performed. Default to null
-	 * @property {String}  after         Name of the function to be invoked after validation is performed. Default to null
-	 * @property {Boolean} blocksubmit   Disable submit buttons if the form isn't valid
+	 * @property {string}  before        Name of the function to be invoked before validation is performed. Default to null
+	 * @property {string}  after         Name of the function to be invoked after validation is performed. Default to null
+	 * @property {boolean} blocksubmit   Disable submit buttons if the form isn't valid
 	 *                                   This prevents multiple submits but also prevents the value of the submit buttons from being passed as part of the HTTP request
 	 *                                   Set this options to false to keep the submit buttons enabled
 	 */
@@ -233,7 +233,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Returns truue if the form is valid, false otherwise
-		 * @return {Boolean}
+		 * @return {boolean}
 		 */
 		this.isValid = function(){
 			return self.dirtyValidators.length === 0;
@@ -333,8 +333,8 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.validator.BaseFieldValidator.options
 	 *
 	 * @property {HTMLElement} fieldNode    Field DOM object. Required
-	 * @property {String} message           Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property {String} errorclass        CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property {string} message           Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property {string} errorclass        CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 *
 	 * Additional options can be used, but are specific to different kind of input fields.
 	 * Check their implementation for details
@@ -375,7 +375,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Return true if the field is valid. False otherwise
 		 * @abstract
-		 * @return {Boolean}
+		 * @return {boolean}
 		 */
 		/* istanbul ignore next */
 		this.isValid = function(){
@@ -398,7 +398,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Be careful, this method returns a boolean but also has side-effects
-		 * @return {Boolean}
+		 * @return {boolean}
 		 */
 		this.validate = function(){
 			// Disabled fields are always valid
@@ -424,18 +424,18 @@ if(typeof(luga) === "undefined"){
 	 * @property {boolean|function} required      Set it to true to flag the field as required.
 	 *                                            In case you need conditional validation, set it to the name of a custom function that will handle the condition.
 	 *                                            Can also be set using the "data-lugavalidator-required" attribute. Optional
-	 * @property {String} pattern                 Validation pattern to be applied, either built-in or custom.
+	 * @property {string} pattern                 Validation pattern to be applied, either built-in or custom.
 	 *                                            Can also be set using the "data-lugavalidator-pattern" attribute. Optional
-	 * @property {String} minlength               Enforce a minimum text length. Can also be set using the "data-lugavalidator-minlength" attribute. Optional
-	 * @property {String} maxlength               Enforce a maximum text length. Can also be set using the "data-lugavalidator-maxlength" attribute. Optional
-	 * @property {String} minnumber               Enforce a minimum numeric value. Can also be set using the "data-lugavalidator-minnumber" attribute. Optional
-	 * @property {String} maxnumber               Enforce a maximum numeric value. Can also be set using the "data-lugavalidator-maxnumber" attribute. Optional
-	 * @property {String} datepattern             Date format pattern to be applied, either built-in or custom. Can also be set using the "data-lugavalidator-datepattern" attribute. Optional
-	 * @property {String} mindate                 Enforce a minimum date. Can also be set using the "data-lugavalidator-mindate" attribute. Optional
-	 * @property {String} maxdate                 Enforce a maximum date. Can also be set using the "data-lugavalidator-maxdate" attribute. Optional
-	 * @property {String} equalto                 Id of another field who's values will be compared for equality. Can also be set using the "data-lugavalidator-equalto" attribute. Optional
-	 * @property {String} message                 Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property {String} errorclass              CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property {string} minlength               Enforce a minimum text length. Can also be set using the "data-lugavalidator-minlength" attribute. Optional
+	 * @property {string} maxlength               Enforce a maximum text length. Can also be set using the "data-lugavalidator-maxlength" attribute. Optional
+	 * @property {string} minnumber               Enforce a minimum numeric value. Can also be set using the "data-lugavalidator-minnumber" attribute. Optional
+	 * @property {string} maxnumber               Enforce a maximum numeric value. Can also be set using the "data-lugavalidator-maxnumber" attribute. Optional
+	 * @property {string} datepattern             Date format pattern to be applied, either built-in or custom. Can also be set using the "data-lugavalidator-datepattern" attribute. Optional
+	 * @property {string} mindate                 Enforce a minimum date. Can also be set using the "data-lugavalidator-mindate" attribute. Optional
+	 * @property {string} maxdate                 Enforce a maximum date. Can also be set using the "data-lugavalidator-maxdate" attribute. Optional
+	 * @property {string} equalto                 Id of another field who's values will be compared for equality. Can also be set using the "data-lugavalidator-equalto" attribute. Optional
+	 * @property {string} message                 Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property {string} errorclass              CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 */
 
 	/**
@@ -499,14 +499,14 @@ if(typeof(luga) === "undefined"){
 		};
 
 		/**
-		 * @return {Boolean}
+		 * @return {boolean}
 		 */
 		this.isEmpty = function(){
 			return self.node.value === "";
 		};
 
 		/**
-		 * @return {Boolean}
+		 * @return {boolean}
 		 */
 		this.isRequired = function(){
 			const requiredAtt = this.config.required;
@@ -530,7 +530,7 @@ if(typeof(luga) === "undefined"){
 		 * Returns true if the field satisfy the rules associated with it. False otherwise
 		 * Be careful, this method contains multiple exit points!!!
 		 * @override
-		 * @return {Boolean}
+		 * @return {boolean}
 		 */
 		this.isValid = function(){
 			if(self.isEmpty()){
@@ -561,10 +561,10 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.validator.SelectValidator.options
 	 *
 	 * @property {HTMLElement} fieldNode         DOM object. Required
-	 * @property {String|number} invalidindex    Prevents selection of an entry on a given position (zero based). Can also be set using the "data-lugavalidator-invalidindex" attribute. Optional
-	 * @property {String} invalidvalue           Prevents selection of an entry with a given value. Can also be set using the "data-lugavalidator-invalidvalue" attribute. Optional
-	 * @property {String} message                Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property {String} errorclass             CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property {string|number} invalidindex    Prevents selection of an entry on a given position (zero based). Can also be set using the "data-lugavalidator-invalidindex" attribute. Optional
+	 * @property {string} invalidvalue           Prevents selection of an entry with a given value. Can also be set using the "data-lugavalidator-invalidvalue" attribute. Optional
+	 * @property {string} message                Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property {string} errorclass             CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 */
 
 	/**
@@ -612,7 +612,7 @@ if(typeof(luga) === "undefined"){
 		 * Returns true if the field satisfy the rules associated with it. False otherwise
 		 * Be careful, this method contains multiple exit points!!!
 		 * @override
-		 * @return {Boolean}
+		 * @return {boolean}
 		 */
 		this.isValid = function(){
 			// Check for index
@@ -633,8 +633,8 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.validator.BaseGroupValidator.options
 	 *
 	 * @property @property {Array.<HTMLElement>} inputGroup      An array of DOM nodes that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
-	 * @property {String} message                                Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property {String} errorclass                             CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property {string} message                                Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property {string} errorclass                             CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 *
 	 * Additional options can be used, but are specific to different kind of input fields.
 	 * Check their implementation for details
@@ -680,7 +680,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns true if the field group is valid. False otherwise
 		 * @abstract
-		 * @return {Boolean}
+		 * @return {boolean}
 		 */
 		/* istanbul ignore next */
 		this.isValid = function(){
@@ -709,7 +709,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Be careful, this method returns a boolean but also has side-effects
-		 * @return {Boolean}
+		 * @return {boolean}
 		 */
 		this.validate = function(){
 			if(this.isValid() === true){
@@ -728,8 +728,8 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.validator.RadioValidator.options
 	 *
 	 * @property {Array.<HTMLElement>} inputGroup      An array of DOM nodes that share the same name. Use luga.form.utils.getFieldGroup() to obtain it. Required
-	 * @property {String} message                      Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property {String} errorclass                   CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property {string} message                      Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property {string} errorclass                   CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 */
 
 	/**
@@ -749,7 +749,7 @@ if(typeof(luga) === "undefined"){
 
 		/**
 		 * Return true if the field group is required
-		 * @return {Boolean}
+		 * @return {boolean}
 		 */
 		this.isRequired = function(){
 			let requiredFlag = false;
@@ -770,7 +770,7 @@ if(typeof(luga) === "undefined"){
 		 * Returns true if the field satisfy the rules associated with it. False otherwise
 		 * Be careful, this method contains multiple exit points!!!
 		 * @override
-		 * @return {Boolean}
+		 * @return {boolean}
 		 */
 		this.isValid = function(){
 			if(this.isRequired() === "true"){
@@ -792,10 +792,10 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.validator.CheckboxValidator.options
 	 *
 	 * @property @property {Array.<HTMLElement>} inputGroup      An array of DOM nodes that share the same name.  Use luga.form.utils.getFieldGroup() to obtain it. Required
-	 * @property {Number} minchecked                             Specify a minimum number of boxes that can be checked in a group. Set it to 1 to allow only one choice. Optional
-	 * @property {Number} maxchecked                             Specify a maximum number of boxes that can be checked within a group. Optional
-	 * @property {String} message                                Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
-	 * @property {String} errorclass                             CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
+	 * @property {number} minchecked                             Specify a minimum number of boxes that can be checked in a group. Set it to 1 to allow only one choice. Optional
+	 * @property {number} maxchecked                             Specify a maximum number of boxes that can be checked within a group. Optional
+	 * @property {string} message                                Error message. Can also be set using the "data-lugavalidator-message" attribute. Optional
+	 * @property {string} errorclass                             CSS class to apply for invalid state. Can also be set using the "data-lugavalidator-errorclass" attribute. Optional
 	 */
 
 	/**
@@ -831,7 +831,7 @@ if(typeof(luga) === "undefined"){
 		/**
 		 * Returns true if the field satisfy the rules associated with it. False otherwise
 		 * @override
-		 * @return {Boolean}
+		 * @return {boolean}
 		 */
 		this.isValid = function(){
 			let checkCounter = 0;
@@ -857,7 +857,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @param {HTMLElement} fieldNode
 	 * @param {luga.validator.FormValidator} validator
-	 * @return {Boolean}
+	 * @return {boolean}
 	 */
 	luga.validator.rules.email = function(fieldNode, validator){
 		const fieldValue = fieldNode.value;
@@ -872,7 +872,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @param {HTMLElement} fieldNode
 	 * @param {luga.validator.FormValidator} validator
-	 * @return {Boolean}
+	 * @return {boolean}
 	 * @throw {Exception}
 	 */
 	luga.validator.rules.equalto = function(fieldNode, validator){
@@ -886,7 +886,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @param {HTMLElement} fieldNode
 	 * @param {luga.validator.FormValidator} validator
-	 * @return {Boolean}
+	 * @return {boolean}
 	 */
 	luga.validator.rules.datepattern = function(fieldNode, validator){
 		const datObj = luga.validator.dateStrToObj(fieldNode.value, validator.config.datepattern);
@@ -899,7 +899,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @param {HTMLElement} fieldNode
 	 * @param {luga.validator.FormValidator} validator
-	 * @return {Boolean}
+	 * @return {boolean}
 	 */
 	luga.validator.rules.maxdate = function(fieldNode, validator){
 		const pattern = validator.config.datepattern;
@@ -914,7 +914,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @param {HTMLElement} fieldNode
 	 * @param {luga.validator.FormValidator} validator
-	 * @return {Boolean}
+	 * @return {boolean}
 	 */
 	luga.validator.rules.mindate = function(fieldNode, validator){
 		const pattern = validator.config.datepattern;
@@ -929,7 +929,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @param {HTMLElement} fieldNode
 	 * @param {luga.validator.FormValidator} validator
-	 * @return {Boolean}
+	 * @return {boolean}
 	 */
 	luga.validator.rules.maxlength = function(fieldNode, validator){
 		if(fieldNode.value.length > validator.config.maxlength){
@@ -941,7 +941,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @param {HTMLElement} fieldNode
 	 * @param {luga.validator.FormValidator} validator
-	 * @return {Boolean}
+	 * @return {boolean}
 	 */
 	luga.validator.rules.minlength = function(fieldNode, validator){
 		if(fieldNode.value.length < validator.config.minlength){
@@ -953,7 +953,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @param {HTMLElement} fieldNode
 	 * @param {luga.validator.FormValidator} validator
-	 * @return {Boolean}
+	 * @return {boolean}
 	 */
 	luga.validator.rules.maxnumber = function(fieldNode, validator){
 		if(isNumeric(fieldNode.value) === false){
@@ -968,7 +968,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @param {HTMLElement} fieldNode
 	 * @param {luga.validator.FormValidator} validator
-	 * @return {Boolean}
+	 * @return {boolean}
 	 */
 	luga.validator.rules.minnumber = function(fieldNode, validator){
 		if(isNumeric(fieldNode.value) === false){
@@ -983,7 +983,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * @param {HTMLElement} fieldNode
 	 * @param {luga.validator.FormValidator} validator
-	 * @return {Boolean}
+	 * @return {boolean}
 	 * @throw {Exception}
 	 */
 	luga.validator.rules.pattern = function(fieldNode, validator){
@@ -1020,11 +1020,11 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Create an object that stores date validation's info
 	 *
-	 * @param {regexp} rex
-	 * @param {Number} year
-	 * @param {Number} month
-	 * @param {Number} day
-	 * @param {String} separator
+	 * @param {Regexp} rex
+	 * @param {number} year
+	 * @param {number} month
+	 * @param {number} day
+	 * @param {string} separator
 	 *
 	 * @return {Object}
 	 */
@@ -1041,8 +1041,8 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Create a Date object out of a string, based on a given date spec key
 	 *
-	 * @param {String}   dateStr
-	 * @param {String}   dateSpecKey
+	 * @param {string}   dateStr
+	 * @param {string}   dateSpecKey
 	 * @return {date|*}
 	 */
 	luga.validator.dateStrToObj = function(dateStr, dateSpecKey){
@@ -1123,7 +1123,7 @@ if(typeof(luga) === "undefined"){
 	 * Private helper function
 	 * Generate node's id
 	 * @param {HTMLElement} node
-	 * @return {String}
+	 * @return {string}
 	 */
 	const generateBoxId = function(node){
 		let boxId = luga.validator.utils.CONST.MSG_BOX_ID;
@@ -1156,7 +1156,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Display a message box above a given node
 	 * @param {HTMLElement}  node   Target node
-	 * @param {String}       html   HTML/Text code to inject
+	 * @param {string}       html   HTML/Text code to inject
 	 * @return {HTMLElement}
 	 */
 	luga.validator.utils.displayMessage = function(node, html){
@@ -1166,7 +1166,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Display an error box above a given node
 	 * @param {HTMLElement}  node   Target node
-	 * @param {String}       html   HTML/Text code to inject
+	 * @param {string}       html   HTML/Text code to inject
 	 * @return {HTMLElement}
 	 */
 	luga.validator.utils.displayErrorMessage = function(node, html){
@@ -1177,8 +1177,8 @@ if(typeof(luga) === "undefined"){
 	 * Display a box with a message associated with a given node
 	 * Overwrite this method if you want to change the way luga.validator.utils.displayMessage and luga.validator.utils.displayErrorMessage behaves
 	 * @param {HTMLElement}  node                  Target node
-	 * @param {String}  html                       HTML/Text code to inject
-	 * @param {String}  [cssClass="luga_message"]  CSS class attached to the box. Default to "luga_message"
+	 * @param {string}  html                       HTML/Text code to inject
+	 * @param {string}  [cssClass="luga_message"]  CSS class attached to the box. Default to "luga_message"
 	 * @return {HTMLElement}
 	 */
 	luga.validator.utils.displayBox = function(node, html, cssClass){
@@ -1221,7 +1221,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Programmatically validate a form
 	 * @param {luga.validator.api.validateForm.options} options
-	 * @return {Boolean}
+	 * @return {boolean}
 	 */
 	luga.validator.api.validateForm = function(options){
 		const formValidator = new luga.validator.FormValidator(options);
@@ -1240,7 +1240,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Programmatically validate a field
 	 * @param {luga.validator.api.validateField.options} options
-	 * @return {Boolean}
+	 * @return {boolean}
 	 * @throw {Exception}
 	 */
 	luga.validator.api.validateField = function(options){
@@ -1273,7 +1273,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Programmatically validate a collection of fields
 	 * @param {luga.validator.api.validateFields.options} options
-	 * @return {Boolean}
+	 * @return {boolean}
 	 */
 	luga.validator.api.validateFields = function(options){
 		/* istanbul ignore else */
@@ -1324,7 +1324,7 @@ if(typeof(luga) === "undefined"){
 	/**
 	 * Programmatically validate all fields contained inside a given node
 	 * @param {luga.validator.api.validateFields.options} options
-	 * @return {Boolean}
+	 * @return {boolean}
 	 */
 	luga.validator.api.validateChildFields = function(options){
 		const fields = luga.form.utils.getChildFields(options.rootNode);

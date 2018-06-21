@@ -42,7 +42,7 @@
 
 		/**
 		 * Returns the path to be used to extract data out of the JSON data structure
-		 * @return {null|String}
+		 * @return {null|string}
 		 */
 		this.getPath = function(){
 			return this.path;
@@ -81,7 +81,7 @@
 
 		/**
 		 * Set the path to be used to extract data out of the JSON data structure
-		 * @param {String} path   Data path, expressed as a set of property names on the objects, separated by dots. Required
+		 * @param {string} path   Data path, expressed as a set of property names on the objects, separated by dots. Required
 		 */
 		this.setPath = function(path){
 			this.path = path;

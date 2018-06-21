@@ -7,8 +7,8 @@
 	 * @typedef {Object} luga.data.widgets.ShowMore.options
 	 *
 	 * @property {luga.data.DataSet} dataSet   DataSet. Required
-	 * @property {String|undefined} paramPath  Path to retrieve url template params from the JSON. Optional. If not specified the whole returned JSON will be used
-	 * @property {String} url                  Url to be used by the dataSet to fetch more data. It can contain template placeholders. Required
+	 * @property {string|undefined} paramPath  Path to retrieve url template params from the JSON. Optional. If not specified the whole returned JSON will be used
+	 * @property {string} url                  Url to be used by the dataSet to fetch more data. It can contain template placeholders. Required
 	 */
 
 	/**
@@ -114,7 +114,7 @@
 	 *
 	 * @extend luga.data.widgets.ShowMore.options
 	 * @property {HTMLElement}  button     Button that will trigger the showMore. Required
-	 * @property {String}  disabledClass   Name of CSS class that will be applied to the button while it's disabled. Optional, default to "disabled"
+	 * @property {string}  disabledClass   Name of CSS class that will be applied to the button while it's disabled. Optional, default to "disabled"
 	 */
 
 	/**
