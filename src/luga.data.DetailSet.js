@@ -11,7 +11,7 @@
 	/**
 	 * @typedef {Object} luga.data.DetailSet.options
 	 *
-	 * @property {String}            uuid           Unique identifier. Required
+	 * @property {string}            uuid           Unique identifier. Required
 	 * @property {luga.data.DataSet} parentDataSet  Master dataSet. Required
 	 */
 

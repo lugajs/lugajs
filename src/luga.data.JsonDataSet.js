@@ -5,7 +5,7 @@
 	 * @typedef {Object} luga.data.JsonDataSet.options
 	 *
 	 * @extend luga.data.HttpDataSet.options
-	 * @property {String|null}   path      Specifies the path to the data within the JSON structure.
+	 * @property {string|null}   path      Specifies the path to the data within the JSON structure.
 	 *                                     The path is expressed as a set of property names on the objects, separated by dots. Default to null
 	 */
 

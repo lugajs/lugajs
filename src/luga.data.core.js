@@ -68,8 +68,8 @@ if(typeof(luga) === "undefined"){
 	};
 
 	/**
-	 * @typedef {String} luga.data.STATE
-	 * @enum {String}
+	 * @typedef {string} luga.data.STATE
+	 * @enum {string}
 	 */
 	luga.data.STATE = {
 		ERROR: "error",
@@ -83,9 +83,9 @@ if(typeof(luga) === "undefined"){
 	 * @typedef {Object} luga.data.stateDescription
 	 *
 	 * @property {null|luga.data.STATE}  state
-	 * @property {Boolean}          isStateLoading
-	 * @property {Boolean}          isStateError
-	 * @property {Boolean}          isStateReady
+	 * @property {boolean}          isStateLoading
+	 * @property {boolean}          isStateError
+	 * @property {boolean}          isStateReady
 	 */
 
 	/**

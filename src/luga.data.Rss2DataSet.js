@@ -2,7 +2,7 @@
  * @typedef {Object} luga.data.DataSet.context
  * @extend luga.data.stateDescription
  *
- * @property {Number}                         recordCount
+ * @property {number}                         recordCount
  * @property {Array.<luga.data.DataSet.row>}  items
  */
 

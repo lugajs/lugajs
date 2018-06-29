@@ -14,9 +14,9 @@
 	 * @property {string}    url              URL to be fetched. Default to null
 	 * @property {number}    timeout          Timeout (in milliseconds) for the HTTP request. Default to 10 seconds
 	 * @property {Object}    headers          A set of name/value pairs to be used as custom HTTP headers
-	 * @property {Boolean}   incrementalLoad  By default calling once .loadData() is called the dataSet discard all the previous records.
+	 * @property {boolean}   incrementalLoad  By default calling once .loadData() is called the dataSet discard all the previous records.
 	 *                                        Set this to true to keep the old records. Default to false
-	 * @property {Boolean}   cache            If set to false, it will force requested pages not to be cached by the browser.
+	 * @property {boolean}   cache            If set to false, it will force requested pages not to be cached by the browser.
 	 *                                        It works by appending "_={timestamp}" to the querystring. Default to true
 	 */
 

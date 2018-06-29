@@ -30,7 +30,7 @@
 		<tr>
 			<td>options.uuid</td>
 			<td>
-				{String}
+				{string}
 			</td>
 			<td>
 				Unique identifier. Required.
@@ -39,7 +39,7 @@
 		<tr>
 			<td>options.url</td>
 			<td>
-				{String}
+				{string}
 			</td>
 			<td>
 				Url to be fetched to extract JSON data. Default to null.
@@ -48,7 +48,7 @@
 		<tr>
 			<td>options.timeout</td>
 			<td>
-				{Number}
+				{number}
 			</td>
 			<td>
 				Timeout (in milliseconds) for the HTTP request. Default to 10.000
@@ -66,7 +66,7 @@
 		<tr>
 			<td>options.incrementalLoad</td>
 			<td>
-				{Boolean}
+				{boolean}
 			</td>
 			<td>
 				By default calling once .loadData() is called the dataSet discard all the previous records.
@@ -76,7 +76,7 @@
 		<tr>
 			<td>options.cache</td>
 			<td>
-				{Boolean}
+				{boolean}
 			</td>
 			<td>
 				If set to false, it will force requested pages not to be cached by the browser.
@@ -116,7 +116,7 @@
 		<tr>
 			<td>options.path</td>
 			<td>
-				{String}
+				{string}
 			</td>
 			<td>
 				Specifies the path to the data within the JSON structure.
@@ -236,7 +236,7 @@ const testDs = new luga.data.JsonDataSet({
 		<tr>
 			<td>path</td>
 			<td class="luga-docs-type">
-				{String}
+				{string}
 			</td>
 			<td>
 				Data path, expressed as a set of property names on the objects, separated by dots. Required.
@@ -270,7 +270,7 @@ testDs.loadData();
 		<tr>
 			<td>url</td>
 			<td class="luga-docs-type">
-				{String}
+				{string}
 			</td>
 			<td>
 				New URL. Required.

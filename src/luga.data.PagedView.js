@@ -5,12 +5,12 @@
 	 * @typedef {Object} luga.data.PagedView.context
 	 *
 	 * @extend luga.data.DataSet.context
-	 * @property {Number} currentPageNumber        The current page index. Starting at 1
-	 * @property {Number} currentPageRecordCount   The total number of records in the current page
-	 * @property {Number} pageCount                The total number of pages required to display all of the data
-	 * @property {Number} pageSize                 The maximum number of items that can be in a page
-	 * @property {Number} currentOffsetStart       Zero-based offset of the first record inside the current page
-	 * @property {Number} currentOffsetEnd         Zero-based offset of the last record inside the current page
+	 * @property {number} currentPageNumber        The current page index. Starting at 1
+	 * @property {number} currentPageRecordCount   The total number of records in the current page
+	 * @property {number} pageCount                The total number of pages required to display all of the data
+	 * @property {number} pageSize                 The maximum number of items that can be in a page
+	 * @property {number} currentOffsetStart       Zero-based offset of the first record inside the current page
+	 * @property {number} currentOffsetEnd         Zero-based offset of the last record inside the current page
 	 */
 
 	/**
@@ -18,7 +18,7 @@
 	 *
 	 * @property {string}            uuid           Unique identifier. Required
 	 * @property {luga.data.DataSet} parentDataSet  Instance of a dataSet. Required
-	 * @property {Number}            pageSize       The max number of rows in a given page. Default to 10
+	 * @property {number}            pageSize       The max number of rows in a given page. Default to 10
 	 */
 
 	/*

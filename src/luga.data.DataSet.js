@@ -4,15 +4,15 @@
 	/**
 	 * @typedef {Object} luga.data.DataSet.row
 	 *
-	 * @property {String} rowID  Artificial PK
+	 * @property {string} rowID  Artificial PK
 	 */
 
 	/**
 	 * @typedef {Object} luga.data.DataSet.currentRowChanged
 	 *
-	 * @property {String}                oldRowId
+	 * @property {string}                oldRowId
 	 * @property {luga.data.DataSet.row} oldRow
-	 * @property {String}                currentRowId
+	 * @property {string}                currentRowId
 	 * @property {luga.data.DataSet.row} currentRow
 	 * @property {luga.data.DataSet}     dataSet
 	 */
@@ -39,14 +39,14 @@
 	 * @typedef {Object} luga.data.DataSet.context
 	 * @extend luga.data.stateDescription
 	 *
-	 * @property {Number}                         recordCount
+	 * @property {number}                         recordCount
 	 * @property {Array.<luga.data.DataSet.row>}  entities
 	 */
 
 	/**
 	 * @typedef {Object} luga.data.DataSet.options
 	 *
-	 * @property {String}                uuid       Unique identifier. Required
+	 * @property {string}                uuid       Unique identifier. Required
 	 * @property {Array.<object>|object} records    Records to be loaded, either one single object containing value/name pairs, or an array of name/value pairs
 	 * @property {Function}              formatter  A formatting functions to be called once for each row in the dataSet. Default to null
 	 * @property {Function}              filter     A filter functions to be called once for each row in the dataSet. Default to null

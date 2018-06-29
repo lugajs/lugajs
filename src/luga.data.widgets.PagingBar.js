@@ -7,10 +7,10 @@
 	 * @property {luga.data.PagedView}     pagedView  Instance of a pagedView that will be controlled by the widget. Required
 	 * @property {Element}                 node       DOM element that will contain the widget. Required
 	 * @property {luga.data.PAGING_STYLE}  style      Style to be used for the widget, either "luga-pagingBarLinks" or "luga-pagingBarPages". Default to "luga-pagingBarLinks"
-	 * @property {String}                  nextText   Text to be used for "next" links. Default to ">"
-	 * @property {String}                  prevText   Text to be used for "previous" links. Default to "<"
-	 * @property {String}                  separator  Text to be used to separate links. Default to " | "
-	 * @property {Number}                  maxLinks   Maximum number of links to show. Default to 10
+	 * @property {string}                  nextText   Text to be used for "next" links. Default to ">"
+	 * @property {string}                  prevText   Text to be used for "previous" links. Default to "<"
+	 * @property {string}                  separator  Text to be used to separate links. Default to " | "
+	 * @property {number}                  maxLinks   Maximum number of links to show. Default to 10
 	 */
 
 	luga.namespace("luga.data.widgets");

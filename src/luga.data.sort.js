@@ -4,8 +4,8 @@
 	luga.namespace("luga.data.sort");
 
 	/**
-	 * @typedef {String} luga.data.sort.ORDER
-	 * @enum {String}
+	 * @typedef {string} luga.data.sort.ORDER
+	 * @enum {string}
 	 */
 	luga.data.sort.ORDER = {
 		ASC: "ascending",

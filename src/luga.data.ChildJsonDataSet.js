@@ -6,7 +6,7 @@
 	 *
 	 * @extend luga.data.JsonDataSet.options
 	 * @property {luga.data.DataSet}  parentDataSet   Parent dataSet to be used in a master-detail scenario
-	 * @property {String}             url             Unlike JsonDataSet the url here is required and is expected to be a string template like:
+	 * @property {string}             url             Unlike JsonDataSet the url here is required and is expected to be a string template like:
 	 *                                                http://www.ciccio.com/api/products/{uuid}
 	 *
 	 */
