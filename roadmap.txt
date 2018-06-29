@@ -12,9 +12,6 @@ VERSION 1.x
 
 - Add API for XSLT
 
-- Event bus concept?
-- Server-side validation?
-
 ***
 
 VERSION 2.0
@@ -28,10 +25,14 @@ VERSION 2.0
 - Document luga.data.xml
 
 - ES6 modules import/export?
-- Webpack?
+- Webpack or Rollout?
+
+- luga.data.widgets.Autosuggest?
 
 ***
 
-- Use https://editorconfig.org/
+SPIN OFF:
 
-- luga.data.widgets.Autosuggest?
+- Event bus concept
+- Action queue
+- Server-side validation?
