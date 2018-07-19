@@ -1,5 +1,11 @@
 ***
 
+INVESTIGATION
+
+- Hyperapp/Region
+
+***
+
 VERSION 1.x
 
 - Use Map/Set
