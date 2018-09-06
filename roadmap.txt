@@ -33,7 +33,7 @@ VERSION 2.0
 - ES6 modules import/export?
 - Webpack or Rollout?
 
-- luga.data.widgets.Autosuggest?
+- Investigate usage of virtual DOM library for rendering
 
 ***
 
