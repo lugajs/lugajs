@@ -30,10 +30,9 @@ VERSION 2.0
 
 - Document luga.data.xml
 
-- ES6 modules import/export?
-- Webpack or Rollout?
+- ES6 modules import/export
+- Use Rollout?
 
-- Investigate usage of virtual DOM library for rendering
 
 ***
 
@@ -41,4 +40,5 @@ SPIN OFF:
 
 - Event bus concept
 - Action queue
+- Form serializer
 - Server-side validation?
