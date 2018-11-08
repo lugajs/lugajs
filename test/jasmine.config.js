@@ -1,1 +1,3 @@
-jasmine.getEnv().randomizeTests(false);
+jasmine.getEnv().configure({
+	random: false
+});
