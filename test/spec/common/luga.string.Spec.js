@@ -38,6 +38,7 @@ describe("luga.string", function(){
 			});
 			it("If no matching placeholder is find, return the original string", function(){
 				expect(luga.string.format("This {str}", {another: "test"})).toEqual("This {str}");
+				expect(luga.string.format("My name is {1}", ["Ciccio"])).toEqual("My name is {1}");
 			});
 
 		});
