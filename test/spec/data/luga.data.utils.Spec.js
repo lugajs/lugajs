@@ -47,8 +47,6 @@ describe("luga.data.utils", function(){
 		beforeEach(function(){
 			ladiesRecords = jasmineFixtures.read("data/ladies.json?_luga.data.utils.filter");
 
-			console.debug(typeof ladiesRecords)
-
 			dummyDs = new luga.data.DataSet({uuid: "testDs"});
 
 			addTestCol = function(row, rowIndex, dataSet){
