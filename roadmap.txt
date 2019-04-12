@@ -16,6 +16,9 @@ VERSION 1.x
 - Extend luga.toQueryString() and luga.merge() to handle Map?
 - luga.data.HtmlTableDataSet?
 
+- luga.data.widgets.infiniteScrolling
+  https://medium.com/walmartlabs/infinite-scrolling-the-right-way-11b098a08815
+
 - Add API for XSLT
 
 ***
@@ -41,4 +44,5 @@ SPIN OFF:
 - Event bus concept
 - Action queue
 - Form serializer
+- XML/XSLT?
 - Server-side validation?
