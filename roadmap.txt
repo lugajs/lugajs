@@ -21,6 +21,8 @@ VERSION 1.x
 
 - Add API for XSLT
 
+- Use Prettier
+
 ***
 
 VERSION 2.0
