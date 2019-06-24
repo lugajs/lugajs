@@ -21,7 +21,6 @@ VERSION 1.x
 
 - Add API for XSLT
 
-- Use Prettier
 
 ***
 
@@ -37,6 +36,10 @@ VERSION 2.0
 
 - ES6 modules import/export
 - Use Rollout?
+
+- Publish on NPM
+- Use Prettier
+- Use Travis
 
 
 ***
